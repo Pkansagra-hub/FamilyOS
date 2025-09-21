@@ -1,0 +1,1497 @@
+asyncapi: 3.0.0
+info:
+  title: Family AI - Connector Events
+  version: 1.0.0
+  description: |
+    Memory-Centric Family AI Connector Infrastructure Event Architecture
+
+    This AsyncAPI specification defines connector infrastructure events for
+    third-party service integration within the Memory-Centric Family AI platform.
+    Events support comprehensive connector lifecycle management, authentication flows,
+    data synchronization, capability registration, and family-aware external service coordination.
+
+    ## Connector Infrastructure Overview
+
+    ### Connector Lifecycle Events
+    - **Registration**: New connector onboarding and capability announcement
+    - **Authentication**: OAuth, API key, and family-scoped authentication flows
+    - **Authorization**: Family permission integration and access scoping
+    - **Data Sync**: Bidirectional data synchronization with external services
+    - **Capability Updates**: Dynamic capability discovery and feature announcements
+    - **Health Monitoring**: Connector health, performance, and availability tracking
+
+    ### Family-Aware Connector Operations
+    - **Family Context**: Family member authentication and authorization to external services
+    - **Data Classification**: Automatic data sensitivity classification and family routing
+    - **Permission Inheritance**: Family relationship-based external service access
+    - **Privacy Enforcement**: Family privacy policies applied to external integrations
+    - **Shared Accounts**: Multi-family member access to shared external services
+
+    ## Event Architecture
+
+    All connector events integrate with Memory-Centric Family AI:
+    - `connector_id`: Unique connector instance identification
+    - `family_context`: Family-scoped authentication and authorization
+    - `data_classification`: Memory space routing and sensitivity classification
+    - `capability_matrix`: Family-aware capability and feature availability
+    - `sync_coordination`: Multi-device family synchronization with external services
+
+  contact:
+    name: Family AI - Connector Infrastructure Team
+    email: connectors@familyai.dev
+
+servers:
+  connector-backbone:
+    host: connector-backbone.familyai.local
+    protocol: kafka
+    description: Connector Infrastructure Event Bus
+  family-integration:
+    host: family-integration.familyai.local
+    protocol: kafka
+    description: Family-Aware External Service Integration Bus
+
+channels:
+  # Connector Lifecycle Events
+  connector/lifecycle/registered:
+    address: connector.lifecycle.registered
+    description: New connector registration and capability announcement
+    messages:
+      ConnectorRegistered:
+        $ref: '#/components/messages/ConnectorRegistered'
+
+  connector/lifecycle/deregistered:
+    address: connector.lifecycle.deregistered
+    description: Connector deregistration and cleanup
+    messages:
+      ConnectorDeregistered:
+        $ref: '#/components/messages/ConnectorDeregistered'
+
+  connector/lifecycle/updated:
+    address: connector.lifecycle.updated
+    description: Connector capability and configuration updates
+    messages:
+      ConnectorUpdated:
+        $ref: '#/components/messages/ConnectorUpdated'
+
+  # Authentication and Authorization Events
+  connector/auth/flow-initiated:
+    address: connector.auth.flow_initiated
+    description: External service authentication flow initiation
+    messages:
+      AuthFlowInitiated:
+        $ref: '#/components/messages/AuthFlowInitiated'
+
+  connector/auth/flow-completed:
+    address: connector.auth.flow_completed
+    description: External service authentication flow completion
+    messages:
+      AuthFlowCompleted:
+        $ref: '#/components/messages/AuthFlowCompleted'
+
+  connector/auth/token-refreshed:
+    address: connector.auth.token_refreshed
+    description: Authentication token refresh and renewal
+    messages:
+      TokenRefreshed:
+        $ref: '#/components/messages/TokenRefreshed'
+
+  connector/auth/revoked:
+    address: connector.auth.revoked
+    description: Authentication revocation and access termination
+    messages:
+      AuthRevoked:
+        $ref: '#/components/messages/AuthRevoked'
+
+  # Data Synchronization Events
+  connector/sync/initiated:
+    address: connector.sync.initiated
+    description: Data synchronization process initiation
+    messages:
+      SyncInitiated:
+        $ref: '#/components/messages/SyncInitiated'
+
+  connector/sync/completed:
+    address: connector.sync.completed
+    description: Data synchronization completion and results
+    messages:
+      SyncCompleted:
+        $ref: '#/components/messages/SyncCompleted'
+
+  connector/sync/conflict-detected:
+    address: connector.sync.conflict_detected
+    description: Data synchronization conflict detection and resolution
+    messages:
+      SyncConflictDetected:
+        $ref: '#/components/messages/SyncConflictDetected'
+
+  connector/sync/family-coordination:
+    address: connector.sync.family_coordination
+    description: Family-coordinated synchronization events
+    messages:
+      FamilySyncCoordination:
+        $ref: '#/components/messages/FamilySyncCoordination'
+
+  # Data Flow Events
+  connector/data/received:
+    address: connector.data.received
+    description: External data received from connector
+    messages:
+      DataReceived:
+        $ref: '#/components/messages/DataReceived'
+
+  connector/data/sent:
+    address: connector.data.sent
+    description: Data sent to external service via connector
+    messages:
+      DataSent:
+        $ref: '#/components/messages/DataSent'
+
+  connector/data/transformed:
+    address: connector.data.transformed
+    description: Data transformation and format conversion
+    messages:
+      DataTransformed:
+        $ref: '#/components/messages/DataTransformed'
+
+  # Capability and Configuration Events
+  connector/capability/announced:
+    address: connector.capability.announced
+    description: New connector capability announcement
+    messages:
+      CapabilityAnnounced:
+        $ref: '#/components/messages/CapabilityAnnounced'
+
+  connector/capability/deprecated:
+    address: connector.capability.deprecated
+    description: Connector capability deprecation notice
+    messages:
+      CapabilityDeprecated:
+        $ref: '#/components/messages/CapabilityDeprecated'
+
+  connector/config/updated:
+    address: connector.config.updated
+    description: Connector configuration changes
+    messages:
+      ConfigUpdated:
+        $ref: '#/components/messages/ConfigUpdated'
+
+  # Health and Monitoring Events
+  connector/health/status-changed:
+    address: connector.health.status_changed
+    description: Connector health status changes
+    messages:
+      HealthStatusChanged:
+        $ref: '#/components/messages/HealthStatusChanged'
+
+  connector/health/performance-alert:
+    address: connector.health.performance_alert
+    description: Connector performance alerts and degradation
+    messages:
+      PerformanceAlert:
+        $ref: '#/components/messages/PerformanceAlert'
+
+  # Family Integration Events
+  connector/family/access-granted:
+    address: connector.family.access_granted
+    description: Family member access granted to external service
+    messages:
+      FamilyAccessGranted:
+        $ref: '#/components/messages/FamilyAccessGranted'
+
+  connector/family/permission-updated:
+    address: connector.family.permission_updated
+    description: Family permission updates for external services
+    messages:
+      FamilyPermissionUpdated:
+        $ref: '#/components/messages/FamilyPermissionUpdated'
+
+operations:
+  # Connector Lifecycle Operations
+  handleConnectorRegistration:
+    action: receive
+    channel:
+      $ref: '#/channels/connector~1lifecycle~1registered'
+    summary: Handle new connector registration
+    description: |
+      Processes new connector registration including capability validation,
+      family integration setup, and security policy application.
+
+  handleAuthFlow:
+    action: receive
+    channel:
+      $ref: '#/channels/connector~1auth~1flow-initiated'
+    summary: Handle authentication flow initiation
+    description: |
+      Processes external service authentication flows with family-aware
+      authorization and permission inheritance.
+
+  handleDataSync:
+    action: receive
+    channel:
+      $ref: '#/channels/connector~1sync~1initiated'
+    summary: Handle data synchronization
+    description: |
+      Processes bidirectional data synchronization with family coordination,
+      conflict resolution, and privacy enforcement.
+
+  publishFamilyIntegration:
+    action: send
+    channel:
+      $ref: '#/channels/connector~1family~1access-granted'
+    summary: Publish family integration events
+    description: |
+      Publishes family member access and permission updates for
+      external service integration coordination.
+
+  handleHealthMonitoring:
+    action: receive
+    channel:
+      $ref: '#/channels/connector~1health~1status-changed'
+    summary: Handle connector health monitoring
+    description: |
+      Processes connector health status changes and performance alerts
+      for family service availability and reliability.
+
+components:
+  messages:
+    ConnectorRegistered:
+      name: ConnectorRegistered
+      title: Connector Registered Event
+      summary: New connector registration and capability announcement
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/ConnectorRegisteredPayload'
+
+    ConnectorDeregistered:
+      name: ConnectorDeregistered
+      title: Connector Deregistered Event
+      summary: Connector deregistration and cleanup
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/ConnectorDeregisteredPayload'
+
+    ConnectorUpdated:
+      name: ConnectorUpdated
+      title: Connector Updated Event
+      summary: Connector capability and configuration updates
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/ConnectorUpdatedPayload'
+
+    AuthFlowInitiated:
+      name: AuthFlowInitiated
+      title: Auth Flow Initiated Event
+      summary: External service authentication flow initiation
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/AuthFlowInitiatedPayload'
+
+    AuthFlowCompleted:
+      name: AuthFlowCompleted
+      title: Auth Flow Completed Event
+      summary: External service authentication flow completion
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/AuthFlowCompletedPayload'
+
+    TokenRefreshed:
+      name: TokenRefreshed
+      title: Token Refreshed Event
+      summary: Authentication token refresh and renewal
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/TokenRefreshedPayload'
+
+    AuthRevoked:
+      name: AuthRevoked
+      title: Auth Revoked Event
+      summary: Authentication revocation and access termination
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/AuthRevokedPayload'
+
+    SyncInitiated:
+      name: SyncInitiated
+      title: Sync Initiated Event
+      summary: Data synchronization process initiation
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/SyncInitiatedPayload'
+
+    SyncCompleted:
+      name: SyncCompleted
+      title: Sync Completed Event
+      summary: Data synchronization completion and results
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/SyncCompletedPayload'
+
+    SyncConflictDetected:
+      name: SyncConflictDetected
+      title: Sync Conflict Detected Event
+      summary: Data synchronization conflict detection and resolution
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/SyncConflictDetectedPayload'
+
+    FamilySyncCoordination:
+      name: FamilySyncCoordination
+      title: Family Sync Coordination Event
+      summary: Family-coordinated synchronization events
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/FamilySyncCoordinationPayload'
+
+    DataReceived:
+      name: DataReceived
+      title: Data Received Event
+      summary: External data received from connector
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/DataReceivedPayload'
+
+    DataSent:
+      name: DataSent
+      title: Data Sent Event
+      summary: Data sent to external service via connector
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/DataSentPayload'
+
+    DataTransformed:
+      name: DataTransformed
+      title: Data Transformed Event
+      summary: Data transformation and format conversion
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/DataTransformedPayload'
+
+    CapabilityAnnounced:
+      name: CapabilityAnnounced
+      title: Capability Announced Event
+      summary: New connector capability announcement
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/CapabilityAnnouncedPayload'
+
+    CapabilityDeprecated:
+      name: CapabilityDeprecated
+      title: Capability Deprecated Event
+      summary: Connector capability deprecation notice
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/CapabilityDeprecatedPayload'
+
+    ConfigUpdated:
+      name: ConfigUpdated
+      title: Config Updated Event
+      summary: Connector configuration changes
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/ConfigUpdatedPayload'
+
+    HealthStatusChanged:
+      name: HealthStatusChanged
+      title: Health Status Changed Event
+      summary: Connector health status changes
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/HealthStatusChangedPayload'
+
+    PerformanceAlert:
+      name: PerformanceAlert
+      title: Performance Alert Event
+      summary: Connector performance alerts and degradation
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/PerformanceAlertPayload'
+
+    FamilyAccessGranted:
+      name: FamilyAccessGranted
+      title: Family Access Granted Event
+      summary: Family member access granted to external service
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/FamilyAccessGrantedPayload'
+
+    FamilyPermissionUpdated:
+      name: FamilyPermissionUpdated
+      title: Family Permission Updated Event
+      summary: Family permission updates for external services
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/FamilyPermissionUpdatedPayload'
+
+  schemas:
+    # Connector Lifecycle Schemas
+    ConnectorRegisteredPayload:
+      type: object
+      description: New connector registration with family integration setup
+      required:
+        - connector_id
+        - connector_info
+        - capabilities
+        - family_integration
+        - security_requirements
+      properties:
+        connector_id:
+          type: string
+          format: uuid
+          description: Unique connector identifier
+        connector_info:
+          type: object
+          description: Connector metadata and information
+          properties:
+            name:
+              type: string
+              maxLength: 100
+            description:
+              type: string
+              maxLength: 500
+            version:
+              type: string
+              pattern: "^\\d+\\.\\d+\\.\\d+$"
+            provider:
+              type: string
+              maxLength: 100
+            external_service:
+              type: string
+              maxLength: 100
+            service_category:
+              type: string
+              enum: [calendar, email, social_media, productivity, health, education, entertainment, smart_home, finance, communication]
+        capabilities:
+          type: array
+          description: Connector capabilities and supported operations
+          items:
+            type: object
+            properties:
+              capability_id:
+                type: string
+              capability_name:
+                type: string
+              capability_type:
+                type: string
+                enum: [data_sync, webhook, api_query, real_time_updates, batch_processing]
+              data_types:
+                type: array
+                items:
+                  type: string
+                  enum: [calendar_events, emails, messages, documents, photos, contacts, tasks, health_data, location_data]
+              family_support:
+                type: object
+                properties:
+                  multi_user_support:
+                    type: boolean
+                  shared_account_support:
+                    type: boolean
+                  family_permission_aware:
+                    type: boolean
+        family_integration:
+          type: object
+          description: Family-specific integration configuration
+          properties:
+            family_aware:
+              type: boolean
+            multi_family_member_support:
+              type: boolean
+            family_permission_inheritance:
+              type: boolean
+            privacy_compliance:
+              type: array
+              items:
+                type: string
+                enum: [coppa, gdpr, ccpa, family_privacy_rules]
+        security_requirements:
+          type: object
+          description: Security and authentication requirements
+          properties:
+            authentication_type:
+              type: string
+              enum: [oauth2, api_key, basic_auth, custom_token]
+            encryption_required:
+              type: boolean
+            data_residency_requirements:
+              type: array
+              items:
+                type: string
+            audit_logging_required:
+              type: boolean
+
+    ConnectorDeregisteredPayload:
+      type: object
+      description: Connector deregistration and cleanup operations
+      required:
+        - connector_id
+        - deregistration_reason
+        - cleanup_operations
+        - family_impact
+      properties:
+        connector_id:
+          type: string
+          format: uuid
+        deregistration_reason:
+          type: string
+          enum: [user_request, service_discontinued, security_breach, policy_violation, technical_failure]
+        cleanup_operations:
+          type: object
+          description: Cleanup operations for connector removal
+          properties:
+            data_cleanup_required:
+              type: boolean
+            family_notification_required:
+              type: boolean
+            authentication_revocation:
+              type: boolean
+            sync_data_preservation:
+              type: boolean
+        family_impact:
+          type: object
+          description: Impact on family operations
+          properties:
+            affected_family_members:
+              type: array
+              items:
+                type: string
+                format: uuid
+            alternative_connectors:
+              type: array
+              items:
+                type: string
+            data_migration_required:
+              type: boolean
+
+    ConnectorUpdatedPayload:
+      type: object
+      description: Connector capability and configuration updates
+      required:
+        - connector_id
+        - update_type
+        - updated_capabilities
+        - family_impact_assessment
+      properties:
+        connector_id:
+          type: string
+          format: uuid
+        update_type:
+          type: string
+          enum: [capability_addition, capability_removal, configuration_change, security_update, version_upgrade]
+        updated_capabilities:
+          type: array
+          items:
+            type: object
+            properties:
+              capability_id:
+                type: string
+              change_type:
+                type: string
+                enum: [added, removed, modified, deprecated]
+              previous_version:
+                type: string
+              new_version:
+                type: string
+        family_impact_assessment:
+          type: object
+          description: Assessment of update impact on family
+          properties:
+            breaking_changes:
+              type: boolean
+            family_notification_required:
+              type: boolean
+            reauthorization_required:
+              type: boolean
+            data_migration_needed:
+              type: boolean
+
+    # Authentication and Authorization Schemas
+    AuthFlowInitiatedPayload:
+      type: object
+      description: External service authentication flow initiation
+      required:
+        - auth_flow_id
+        - connector_id
+        - family_member_id
+        - authentication_type
+        - flow_context
+      properties:
+        auth_flow_id:
+          type: string
+          format: uuid
+        connector_id:
+          type: string
+          format: uuid
+        family_member_id:
+          type: string
+          format: uuid
+        authentication_type:
+          type: string
+          enum: [oauth2_authorization_code, oauth2_device_flow, api_key_setup, custom_token_flow]
+        flow_context:
+          type: object
+          description: Authentication flow context and parameters
+          properties:
+            initiating_device_id:
+              type: string
+            redirect_uri:
+              type: string
+              format: uri
+            scope_requested:
+              type: array
+              items:
+                type: string
+            family_permissions_requested:
+              type: array
+              items:
+                type: string
+        family_coordination:
+          type: object
+          description: Family coordination for authentication
+          properties:
+            requires_family_approval:
+              type: boolean
+            approving_family_members:
+              type: array
+              items:
+                type: string
+                format: uuid
+            family_permission_inheritance:
+              type: boolean
+
+    AuthFlowCompletedPayload:
+      type: object
+      description: External service authentication flow completion
+      required:
+        - auth_flow_id
+        - connector_id
+        - family_member_id
+        - completion_status
+        - granted_permissions
+      properties:
+        auth_flow_id:
+          type: string
+          format: uuid
+        connector_id:
+          type: string
+          format: uuid
+        family_member_id:
+          type: string
+          format: uuid
+        completion_status:
+          type: string
+          enum: [success, failure, cancelled, expired]
+        granted_permissions:
+          type: array
+          items:
+            type: string
+        authentication_details:
+          type: object
+          description: Authentication details and token information
+          properties:
+            token_type:
+              type: string
+              enum: [bearer, api_key, custom]
+            expires_at:
+              type: string
+              format: date-time
+            refresh_token_available:
+              type: boolean
+            scope_granted:
+              type: array
+              items:
+                type: string
+        family_integration:
+          type: object
+          description: Family integration setup
+          properties:
+            family_access_enabled:
+              type: boolean
+            shared_account_access:
+              type: boolean
+            family_members_with_access:
+              type: array
+              items:
+                type: string
+                format: uuid
+
+    TokenRefreshedPayload:
+      type: object
+      description: Authentication token refresh and renewal
+      required:
+        - connector_id
+        - family_member_id
+        - refresh_status
+        - new_expiration
+      properties:
+        connector_id:
+          type: string
+          format: uuid
+        family_member_id:
+          type: string
+          format: uuid
+        refresh_status:
+          type: string
+          enum: [success, failure, refresh_token_expired, reauthorization_required]
+        new_expiration:
+          type: string
+          format: date-time
+        refresh_context:
+          type: object
+          description: Context for token refresh
+          properties:
+            automatic_refresh:
+              type: boolean
+            refresh_trigger:
+              type: string
+              enum: [scheduled, on_demand, pre_expiry, error_recovery]
+            family_notification_sent:
+              type: boolean
+
+    AuthRevokedPayload:
+      type: object
+      description: Authentication revocation and access termination
+      required:
+        - connector_id
+        - family_member_id
+        - revocation_reason
+        - revocation_scope
+      properties:
+        connector_id:
+          type: string
+          format: uuid
+        family_member_id:
+          type: string
+          format: uuid
+        revocation_reason:
+          type: string
+          enum: [user_request, security_breach, policy_violation, service_termination, family_admin_action]
+        revocation_scope:
+          type: string
+          enum: [individual_member, entire_family, specific_permissions]
+        cleanup_actions:
+          type: object
+          description: Cleanup actions for revocation
+          properties:
+            cached_data_removal:
+              type: boolean
+            sync_termination:
+              type: boolean
+            family_notification:
+              type: boolean
+            alternative_auth_suggested:
+              type: boolean
+
+    # Data Synchronization Schemas
+    SyncInitiatedPayload:
+      type: object
+      description: Data synchronization process initiation
+      required:
+        - sync_id
+        - connector_id
+        - sync_type
+        - data_classification
+        - family_coordination
+      properties:
+        sync_id:
+          type: string
+          format: uuid
+        connector_id:
+          type: string
+          format: uuid
+        sync_type:
+          type: string
+          enum: [full_sync, incremental_sync, real_time_update, conflict_resolution]
+        data_classification:
+          type: object
+          description: Data classification for family routing
+          properties:
+            data_types:
+              type: array
+              items:
+                type: string
+                enum: [calendar_events, emails, messages, documents, photos, contacts, tasks, health_data, location_data]
+            sensitivity_level:
+              type: string
+              enum: [public, family_shared, family_private, individual_private]
+            memory_space_routing:
+              type: array
+              items:
+                type: string
+                enum: [personal, selective, shared, extended]
+        family_coordination:
+          type: object
+          description: Family coordination for synchronization
+          properties:
+            multi_member_sync:
+              type: boolean
+            affected_family_members:
+              type: array
+              items:
+                type: string
+                format: uuid
+            conflict_resolution_strategy:
+              type: string
+              enum: [latest_wins, family_admin_resolves, manual_resolution, automatic_merge]
+
+    SyncCompletedPayload:
+      type: object
+      description: Data synchronization completion and results
+      required:
+        - sync_id
+        - connector_id
+        - completion_status
+        - sync_results
+        - family_impact
+      properties:
+        sync_id:
+          type: string
+          format: uuid
+        connector_id:
+          type: string
+          format: uuid
+        completion_status:
+          type: string
+          enum: [success, partial_success, failure, cancelled]
+        sync_results:
+          type: object
+          description: Synchronization results and statistics
+          properties:
+            records_processed:
+              type: integer
+              minimum: 0
+            records_created:
+              type: integer
+              minimum: 0
+            records_updated:
+              type: integer
+              minimum: 0
+            records_deleted:
+              type: integer
+              minimum: 0
+            conflicts_detected:
+              type: integer
+              minimum: 0
+            conflicts_resolved:
+              type: integer
+              minimum: 0
+        family_impact:
+          type: object
+          description: Impact on family data and coordination
+          properties:
+            family_members_affected:
+              type: array
+              items:
+                type: string
+                format: uuid
+            shared_data_updated:
+              type: boolean
+            notification_sent:
+              type: boolean
+            memory_space_updates:
+              type: array
+              items:
+                type: string
+
+    SyncConflictDetectedPayload:
+      type: object
+      description: Data synchronization conflict detection and resolution
+      required:
+        - sync_id
+        - connector_id
+        - conflict_details
+        - resolution_required
+        - family_involvement
+      properties:
+        sync_id:
+          type: string
+          format: uuid
+        connector_id:
+          type: string
+          format: uuid
+        conflict_details:
+          type: object
+          description: Details of synchronization conflict
+          properties:
+            conflict_type:
+              type: string
+              enum: [data_version_conflict, permission_conflict, family_access_conflict, external_service_conflict]
+            conflicting_records:
+              type: array
+              items:
+                type: object
+                properties:
+                  record_id:
+                    type: string
+                  source:
+                    type: string
+                    enum: [family_ai, external_service, family_member_device]
+                  last_modified:
+                    type: string
+                    format: date-time
+        resolution_required:
+          type: object
+          description: Resolution requirements and options
+          properties:
+            automatic_resolution_possible:
+              type: boolean
+            manual_intervention_required:
+              type: boolean
+            family_admin_approval_needed:
+              type: boolean
+            resolution_options:
+              type: array
+              items:
+                type: string
+        family_involvement:
+          type: object
+          description: Family member involvement in conflict resolution
+          properties:
+            affected_family_members:
+              type: array
+              items:
+                type: string
+                format: uuid
+            requires_family_consensus:
+              type: boolean
+            escalation_to_family_admin:
+              type: boolean
+
+    FamilySyncCoordinationPayload:
+      type: object
+      description: Family-coordinated synchronization events
+      required:
+        - coordination_id
+        - connector_id
+        - coordination_type
+        - participating_members
+        - coordination_strategy
+      properties:
+        coordination_id:
+          type: string
+          format: uuid
+        connector_id:
+          type: string
+          format: uuid
+        coordination_type:
+          type: string
+          enum: [multi_device_sync, family_account_sync, shared_data_coordination, conflict_resolution_coordination]
+        participating_members:
+          type: array
+          items:
+            type: object
+            properties:
+              family_member_id:
+                type: string
+                format: uuid
+              devices:
+                type: array
+                items:
+                  type: string
+              sync_role:
+                type: string
+                enum: [primary, secondary, observer, conflict_resolver]
+        coordination_strategy:
+          type: object
+          description: Strategy for family coordination
+          properties:
+            sync_order:
+              type: string
+              enum: [sequential, parallel, priority_based]
+            conflict_resolution:
+              type: string
+              enum: [automatic, family_vote, admin_decision, manual_resolution]
+            notification_strategy:
+              type: string
+              enum: [immediate, batched, digest, silent]
+
+    # Data Flow Schemas
+    DataReceivedPayload:
+      type: object
+      description: External data received from connector
+      required:
+        - connector_id
+        - data_classification
+        - data_summary
+        - family_routing
+      properties:
+        connector_id:
+          type: string
+          format: uuid
+        data_classification:
+          type: object
+          description: Classification of received data
+          properties:
+            data_type:
+              type: string
+              enum: [calendar_events, emails, messages, documents, photos, contacts, tasks, health_data, location_data]
+            sensitivity_level:
+              type: string
+              enum: [public, family_shared, family_private, individual_private]
+            data_size:
+              type: integer
+              minimum: 0
+            record_count:
+              type: integer
+              minimum: 0
+        data_summary:
+          type: object
+          description: Summary of received data
+          properties:
+            source_service:
+              type: string
+            time_range:
+              type: object
+              properties:
+                start_date:
+                  type: string
+                  format: date-time
+                end_date:
+                  type: string
+                  format: date-time
+            key_metadata:
+              type: object
+              additionalProperties: true
+        family_routing:
+          type: object
+          description: Family-aware data routing
+          properties:
+            target_family_members:
+              type: array
+              items:
+                type: string
+                format: uuid
+            memory_space_targets:
+              type: array
+              items:
+                type: string
+                enum: [personal, selective, shared, extended]
+            privacy_enforcement:
+              type: boolean
+            access_restrictions:
+              type: array
+              items:
+                type: string
+
+    DataSentPayload:
+      type: object
+      description: Data sent to external service via connector
+      required:
+        - connector_id
+        - data_classification
+        - transmission_details
+        - family_authorization
+      properties:
+        connector_id:
+          type: string
+          format: uuid
+        data_classification:
+          type: object
+          description: Classification of sent data
+          properties:
+            data_type:
+              type: string
+              enum: [calendar_events, emails, messages, documents, photos, contacts, tasks, health_data, location_data]
+            sensitivity_level:
+              type: string
+              enum: [public, family_shared, family_private, individual_private]
+            data_size:
+              type: integer
+              minimum: 0
+            record_count:
+              type: integer
+              minimum: 0
+        transmission_details:
+          type: object
+          description: Details of data transmission
+          properties:
+            destination_service:
+              type: string
+            transmission_method:
+              type: string
+              enum: [api_call, webhook, batch_upload, real_time_sync]
+            encryption_used:
+              type: boolean
+            compression_applied:
+              type: boolean
+        family_authorization:
+          type: object
+          description: Family authorization for data transmission
+          properties:
+            authorized_by:
+              type: string
+              format: uuid
+            family_consent_verified:
+              type: boolean
+            privacy_policy_compliance:
+              type: boolean
+            data_retention_agreed:
+              type: boolean
+
+    DataTransformedPayload:
+      type: object
+      description: Data transformation and format conversion
+      required:
+        - connector_id
+        - transformation_type
+        - transformation_details
+        - quality_metrics
+      properties:
+        connector_id:
+          type: string
+          format: uuid
+        transformation_type:
+          type: string
+          enum: [format_conversion, data_enrichment, privacy_redaction, family_contextualization]
+        transformation_details:
+          type: object
+          description: Details of transformation process
+          properties:
+            source_format:
+              type: string
+            target_format:
+              type: string
+            transformation_rules:
+              type: array
+              items:
+                type: string
+            family_context_added:
+              type: boolean
+        quality_metrics:
+          type: object
+          description: Quality metrics for transformation
+          properties:
+            transformation_success_rate:
+              type: number
+              minimum: 0
+              maximum: 1
+            data_integrity_maintained:
+              type: boolean
+            family_privacy_preserved:
+              type: boolean
+            performance_impact:
+              type: string
+              enum: [low, medium, high]
+
+    # Capability and Configuration Schemas
+    CapabilityAnnouncedPayload:
+      type: object
+      description: New connector capability announcement
+      required:
+        - connector_id
+        - capability_details
+        - family_support
+        - availability_timeline
+      properties:
+        connector_id:
+          type: string
+          format: uuid
+        capability_details:
+          type: object
+          description: Details of new capability
+          properties:
+            capability_id:
+              type: string
+            capability_name:
+              type: string
+            capability_description:
+              type: string
+            capability_version:
+              type: string
+            capability_type:
+              type: string
+              enum: [data_sync, webhook, api_query, real_time_updates, batch_processing]
+        family_support:
+          type: object
+          description: Family-specific support for capability
+          properties:
+            multi_user_capability:
+              type: boolean
+            family_permission_aware:
+              type: boolean
+            shared_account_support:
+              type: boolean
+            age_appropriate_controls:
+              type: boolean
+        availability_timeline:
+          type: object
+          description: Availability timeline and rollout
+          properties:
+            beta_available:
+              type: string
+              format: date-time
+            general_availability:
+              type: string
+              format: date-time
+            deprecation_notice:
+              type: string
+              format: date-time
+
+    CapabilityDeprecatedPayload:
+      type: object
+      description: Connector capability deprecation notice
+      required:
+        - connector_id
+        - deprecated_capability
+        - deprecation_timeline
+        - migration_guidance
+      properties:
+        connector_id:
+          type: string
+          format: uuid
+        deprecated_capability:
+          type: object
+          description: Details of deprecated capability
+          properties:
+            capability_id:
+              type: string
+            capability_name:
+              type: string
+            deprecation_reason:
+              type: string
+              enum: [security_concern, performance_issue, service_discontinued, better_alternative_available]
+        deprecation_timeline:
+          type: object
+          description: Timeline for capability deprecation
+          properties:
+            deprecation_announcement:
+              type: string
+              format: date-time
+            end_of_support:
+              type: string
+              format: date-time
+            removal_date:
+              type: string
+              format: date-time
+        migration_guidance:
+          type: object
+          description: Guidance for capability migration
+          properties:
+            alternative_capabilities:
+              type: array
+              items:
+                type: string
+            migration_assistance_available:
+              type: boolean
+            family_impact_assessment:
+              type: string
+
+    ConfigUpdatedPayload:
+      type: object
+      description: Connector configuration changes
+      required:
+        - connector_id
+        - config_change_type
+        - updated_configurations
+        - family_impact
+      properties:
+        connector_id:
+          type: string
+          format: uuid
+        config_change_type:
+          type: string
+          enum: [security_update, performance_optimization, feature_enhancement, family_support_improvement]
+        updated_configurations:
+          type: array
+          items:
+            type: object
+            properties:
+              config_key:
+                type: string
+              old_value:
+                type: string
+              new_value:
+                type: string
+              change_reason:
+                type: string
+        family_impact:
+          type: object
+          description: Impact on family operations
+          properties:
+            requires_reauthorization:
+              type: boolean
+            affects_family_sharing:
+              type: boolean
+            notification_required:
+              type: boolean
+            configuration_migration_needed:
+              type: boolean
+
+    # Health and Monitoring Schemas
+    HealthStatusChangedPayload:
+      type: object
+      description: Connector health status changes
+      required:
+        - connector_id
+        - health_status
+        - status_details
+        - family_service_impact
+      properties:
+        connector_id:
+          type: string
+          format: uuid
+        health_status:
+          type: string
+          enum: [healthy, degraded, unhealthy, offline, maintenance]
+        status_details:
+          type: object
+          description: Details of health status
+          properties:
+            previous_status:
+              type: string
+            status_change_reason:
+              type: string
+            affected_capabilities:
+              type: array
+              items:
+                type: string
+            estimated_recovery_time:
+              type: string
+              format: duration
+        family_service_impact:
+          type: object
+          description: Impact on family services
+          properties:
+            service_availability:
+              type: string
+              enum: [full, partial, unavailable]
+            affected_family_members:
+              type: array
+              items:
+                type: string
+                format: uuid
+            fallback_services_available:
+              type: boolean
+            user_notification_sent:
+              type: boolean
+
+    PerformanceAlertPayload:
+      type: object
+      description: Connector performance alerts and degradation
+      required:
+        - connector_id
+        - alert_type
+        - performance_metrics
+        - recommended_actions
+      properties:
+        connector_id:
+          type: string
+          format: uuid
+        alert_type:
+          type: string
+          enum: [latency_high, throughput_low, error_rate_high, resource_exhaustion, timeout_exceeded]
+        performance_metrics:
+          type: object
+          description: Performance metrics and thresholds
+          properties:
+            metric_name:
+              type: string
+            current_value:
+              type: number
+            threshold_value:
+              type: number
+            measurement_window:
+              type: string
+              format: duration
+            trend:
+              type: string
+              enum: [improving, stable, degrading, critical]
+        recommended_actions:
+          type: object
+          description: Recommended actions for performance improvement
+          properties:
+            immediate_actions:
+              type: array
+              items:
+                type: string
+            configuration_changes:
+              type: array
+              items:
+                type: string
+            family_notification_required:
+              type: boolean
+            escalation_required:
+              type: boolean
+
+    # Family Integration Schemas
+    FamilyAccessGrantedPayload:
+      type: object
+      description: Family member access granted to external service
+      required:
+        - connector_id
+        - family_member_id
+        - access_level
+        - granted_permissions
+        - access_context
+      properties:
+        connector_id:
+          type: string
+          format: uuid
+        family_member_id:
+          type: string
+          format: uuid
+        access_level:
+          type: string
+          enum: [read_only, read_write, admin, owner]
+        granted_permissions:
+          type: array
+          items:
+            type: string
+        access_context:
+          type: object
+          description: Context for access granting
+          properties:
+            granted_by:
+              type: string
+              format: uuid
+            access_reason:
+              type: string
+              enum: [family_role, explicit_grant, inheritance, emergency_access]
+            access_duration:
+              type: string
+              enum: [permanent, temporary, session_based]
+            expiration_date:
+              type: string
+              format: date-time
+
+    FamilyPermissionUpdatedPayload:
+      type: object
+      description: Family permission updates for external services
+      required:
+        - connector_id
+        - family_member_id
+        - permission_changes
+        - update_context
+      properties:
+        connector_id:
+          type: string
+          format: uuid
+        family_member_id:
+          type: string
+          format: uuid
+        permission_changes:
+          type: array
+          items:
+            type: object
+            properties:
+              permission:
+                type: string
+              change_type:
+                type: string
+                enum: [granted, revoked, modified]
+              previous_value:
+                type: string
+              new_value:
+                type: string
+        update_context:
+          type: object
+          description: Context for permission update
+          properties:
+            updated_by:
+              type: string
+              format: uuid
+            update_reason:
+              type: string
+              enum: [family_role_change, policy_update, security_incident, user_request]
+            effective_immediately:
+              type: boolean
+            requires_reauthentication:
+              type: boolean

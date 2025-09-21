@@ -1,0 +1,554 @@
+---
+config:
+  flowchart:
+    htmlLabels: false
+    curve: linear
+  theme: base
+  layout: elk
+  look: neo
+---
+flowchart TB
+
+%% =====================
+%% 🧠 Enhanced Hippocampus — Memory Backbone Formation Servant
+%% =====================
+subgraph HIPPO_FORM["🧠 Enhanced Hippocampus — Memory Backbone Formation Servant"]
+  direction TB
+
+  subgraph MEMORY_FORMATION_SERVICE["🧠 Memory Formation Service for Memory Backbone"]
+    MEMORY_FORMATION_NOTE["🎯 SERVING MEMORY BACKBONE:<br/>🧠 All hippocampal processes form memories FOR Memory Backbone<br/>📝 Pattern separation → Memory encoding<br/>🔗 Pattern completion → Memory retrieval<br/>📤 Cortical integration → Memory consolidation<br/>➡️ OUTPUT: Consolidated memories TO Memory Backbone"]:::brain
+  end
+
+  %% (IDs made unique with _F suffix to avoid global collisions)
+  subgraph DENTATE_GYRUS_F["🔄 Dentate Gyrus (Pattern Separation FOR Memory)"]
+    DG_SEPARATOR_F["hippocampus/dentate_gyrus/separator.py<br/>🧠 PATTERN SEPARATION FOR MEMORY BACKBONE:<br/>• Orthogonalization of inputs → Memory encoding<br/>• Sparse coding → Memory formation<br/>• Novelty detection → Memory prioritization<br/>➡️ SERVES: Memory Backbone formation"]:::smart
+    DG_NEUROGENESIS_F["hippocampus/dentate_gyrus/neurogenesis.py<br/>🧠 Neurogenesis FOR Memory capacity<br/>➡️ SERVES: Memory Backbone plasticity"]:::brain
+    DG_GATING_F["hippocampus/dentate_gyrus/gating.py<br/>🧠 Information gating FOR Memory selection<br/>➡️ SERVES: Memory Backbone quality"]:::gate
+  end
+end
+
+%% CLASS STYLES
+%% =========================
+classDef plane fill:#eef7ff,stroke:#2a6ebb,stroke-width:1px,rx:8,ry:8
+classDef mid fill:#f8fff0,stroke:#6b8e23,stroke-width:1px,rx:8,ry:8
+classDef gate fill:#fff7e6,stroke:#d48806,stroke-width:1px,rx:8,ry:8
+classDef bus fill:#f0f0f0,stroke:#666,stroke-width:2px,rx:8,ry:8
+classDef storage fill:#f3f8ff,stroke:#1f4aa1,stroke-width:1px,rx:8,ry:8
+classDef brain fill:#fffdf0,stroke:#b38b00,stroke-width:1px,rx:10,ry:10
+classDef fast stroke:#00897b,stroke-width:2px
+classDef smart stroke:#d46b08,stroke-width:2px,stroke-dasharray:4 3
+classDef card fill:#fff,stroke:#999,stroke-width:1px,rx:8,ry:8
+
+%% =====================
+%% 🧠 Enhanced Family Attention Gate — Memory Focus Management Servant
+%% =====================
+subgraph THAL["👁️ Enhanced Family Attention Gate — Memory Focus Management"]
+  direction TB
+
+  subgraph FAMILY_THALAMUS_CORE["🧠 Memory-Focused Attention Control"]
+    GATE["attention_gate/family_gate_service.py<br/>🧠 MEMORY FOCUS MANAGEMENT:<br/>• ADMIT (high Memory relevance + family importance)<br/>• DEFER (queue for Memory processing)<br/>• BOOST (Memory priority elevation)<br/>• DROP (Memory resource protection)<br/>👨‍👩‍👧‍👦 Family Memory awareness<br/>➡️ SERVES: Memory Backbone focus control"]:::gate
+    SALIENCE_EVAL["attention_gate/family_salience_evaluator.py<br/>🧠 Memory importance & family relevance evaluation<br/>Memory operation prioritization<br/>➡️ SERVES: Memory Backbone salience"]:::smart
+    ADMISSION_CTRL["attention_gate/family_admission_controller.py<br/>🧠 Memory cognitive load management<br/>📱 Device Memory capability consideration<br/>➡️ SERVES: Memory Backbone admission"]:::smart
+    INTENT_ANALYZER["attention_gate/family_intent_analyzer.py<br/>🧠 Memory processing intent derivation<br/>🎯 Memory operation context awareness<br/>➡️ SERVES: Memory Backbone intent routing"]:::smart
+  end
+
+  subgraph FAMILY_THALAMIC_CIRCUITS["🧠 Memory Operation Relay Circuits"]
+    RELAY_MEMORY["attention_gate/family_memory_relay.py<br/>🧠 Memory formation relay FOR Memory Backbone<br/>🔄 Memory operation coordination<br/>➡️ RELAYS TO: Memory Backbone formation"]:::mid
+    RELAY_RECALL["attention_gate/family_recall_relay.py<br/>🧠 Memory retrieval relay FROM Memory Backbone<br/>Memory access coordination<br/>➡️ RELAYS FROM: Memory Backbone retrieval"]:::mid
+    RELAY_EXECUTIVE["attention_gate/family_executive_relay.py<br/>🧠 Memory decision-making relay THROUGH Memory Backbone<br/>🎯 Memory-driven decision coordination<br/>➡️ RELAYS THROUGH: Memory Backbone decisions"]:::mid
+    RELAY_LEARNING["attention_gate/family_learning_relay.py<br/>🧠 Memory adaptation signal relay TO Memory Backbone<br/>📈 Memory learning coordination<br/>➡️ RELAYS TO: Memory Backbone learning"]:::mid
+  end
+
+  subgraph FAMILY_ATTENTION_MECHANISMS["👁️ Memory-Focused Attention Mechanisms"]
+    SPATIAL_ATT["attention_gate/family_spatial_attention.py<br/>🧠 Memory space-based attention<br/>📱 Device Memory location awareness<br/>➡️ SERVES: Memory Backbone spatial focus"]:::smart
+    TEMPORAL_ATT["attention_gate/family_temporal_attention.py<br/>🧠 Memory time-based attention<br/>⏰ Memory milestone awareness<br/>➡️ SERVES: Memory Backbone temporal focus"]:::smart
+    FEATURE_ATT["attention_gate/family_feature_attention.py<br/>🧠 Memory content-based attention<br/>Memory feature awareness<br/>➡️ SERVES: Memory Backbone feature focus"]:::smart
+    OBJECT_ATT["attention_gate/family_object_attention.py<br/>🧠 Memory entity-based attention<br/>👨‍👩‍👧‍👦 Family Memory entity recognition<br/>➡️ SERVES: Memory Backbone object focus"]:::smart
+  end
+end
+class THAL brain
+class GATE smart
+
+%% =====================
+%% 🧠 Enhanced Core + Workspace (Global Workspace Theory)
+%% =====================
+subgraph CORE["🧠 Enhanced Core + Workspace — Cognitive Architecture"]
+  direction TB
+
+  subgraph WORKING_MEMORY["🧮 Working Memory — Memory Backbone Active Buffer"]
+    WM_MGR["core/family_working_memory_manager.py<br/>🧠 MEMORY BACKBONE BUFFER MANAGEMENT:<br/>• Active memory context FOR Memory Backbone<br/>• Memory operation workspace<br/>• Priority-aware Memory access<br/>👨‍👩‍👧‍👦 Family Memory context awareness<br/>➡️ SERVES: Memory Backbone active operations"]:::mid
+    WM_BUFFER["core/family_working_memory_buffer.py<br/>🧠 Active Memory context maintenance FOR Memory Backbone<br/>📱 Cross-device Memory sync coordination<br/>➡️ BUFFERS: Memory Backbone operations"]:::fast
+    WM_ATTENTION["core/family_working_memory_attention.py<br/>🧠 Attentional control FOR Memory operations<br/>🎯 Memory-focused attention coordination<br/>➡️ SERVES: Memory Backbone attention"]:::smart
+    WM_EXECUTIVE["core/family_working_memory_executive.py<br/>🧠 Executive function FOR Memory coordination<br/>👑 Memory operation authority management<br/>➡️ SERVES: Memory Backbone executive control"]:::smart
+  end
+
+  subgraph GLOBAL_WORKSPACE["🌐 Global Workspace — Memory-Mediated Consciousness"]
+    GW_BROADCAST["workspace/family_global_broadcaster.py<br/>🧠 MEMORY-MEDIATED CONSCIOUSNESS:<br/>• Conscious access THROUGH Memory Backbone<br/>• Cross-module communication VIA Memory<br/>• Coalition formation FROM Memory experiences<br/>👨‍👩‍👧‍👦 Family consciousness sharing THROUGH Memory sync<br/>➡️ SERVES: Memory Backbone consciousness"]:::mid
+    GW_COALITION["workspace/family_coalition_manager.py<br/>🧠 Memory-driven process arbitration<br/>📚 Experience-based priority balancing<br/>➡️ SERVES: Memory Backbone arbitration"]:::smart
+    GW_ATTENTION["workspace/attention_router.py<br/>🧠 Memory-aware attentional routing<br/>➡️ SERVES: Memory Backbone attention routing"]:::smart
+    GW_CONSCIOUSNESS["workspace/consciousness_gateway.py<br/>🧠 Memory-mediated conscious access control<br/>➡️ SERVES: Memory Backbone consciousness gateway"]:::brain
+  end
+
+  subgraph COGNITIVE_CONTROL["⚙️ Cognitive Control (Anterior Cingulate)"]
+    CC_MONITOR["core/cognitive_monitor.py<br/>🧠 CONFLICT MONITORING:<br/>• Performance monitoring<br/>• Error detection<br/>• Control adjustment"]:::smart
+    CC_CONTROL["core/cognitive_controller.py<br/>Control signal generation"]:::smart
+    CC_ADAPTATION["core/adaptive_controller.py<br/>Learning-based adaptation"]:::smart
+  end
+
+  subgraph CORE_SYSTEMS["🔧 Core Processing Systems"]
+    core_writer["core/writer.py<br/>Enhanced with WM integration"]:::mid
+    core_curator["core/curator.py<br/>Content curation & filtering"]:::mid
+    core_salience["core/salience_processor.py<br/>Importance computation"]:::smart
+    core_goals["core/goal_manager.py<br/>Goal tracking & prioritization"]:::mid
+  end
+end
+class CORE brain
+
+INTENT_RT["intent/router.py ← From Diagram 1"]:::mid
+
+%% =====================
+%% 🧩 Enhanced Cognitive Services — Memory Backbone Operation Coordinators
+%% =====================
+subgraph SVC["🧩 Enhanced Cognitive Services — Memory Operation Coordinators"]
+  direction TB
+
+  subgraph COGNITIVE_ORCHESTRATION["🧠 Memory Operation Coordination Services"]
+    svc_memory_adapter["services/memory_adapter_service.py<br/>🔗 MEMORY BACKBONE ADAPTER:<br/>• Routes TO Memory Backbone (D1)<br/>• Memory operation coordination<br/>• Memory policy integration<br/>➡️ COORDINATES: Memory Backbone operations"]:::mid
+    svc_context_adapter["services/context_adapter_service.py<br/>🔗 MEMORY CONTEXT ADAPTER:<br/>• Routes TO Memory context systems (D1)<br/>• Memory context coordination<br/>• Memory operation optimization<br/>➡️ COORDINATES: Memory Backbone context"]:::mid
+    svc_attention["services/attention_service.py<br/>🧠 MEMORY ATTENTION COORDINATION:<br/>• Memory salience evaluation<br/>• Memory resource allocation<br/>• Memory priority management<br/>➡️ COORDINATES: Memory Backbone attention"]:::smart
+    svc_affect_integration["services/affect_integration_service.py<br/>🧠 MEMORY-EMOTION COORDINATION:<br/>• Affect-Memory integration<br/>• Emotional Memory state management<br/>• Memory bias detection & correction<br/>➡️ COORDINATES: Memory Backbone emotions"]:::smart
+  end
+
+  subgraph TRADITIONAL_SERVICES["⚙️ Memory Supporting Services"]
+    svc_mgr["services/service_manager.py<br/>🧠 Enhanced with Memory awareness<br/>➡️ SERVES: Memory Backbone coordination"]:::mid
+    svc_cogarch["services/cognitive_architecture.py<br/>🧠 Memory-inspired coordination<br/>➡️ SERVES: Memory Backbone architecture"]:::brain
+    svc_write["services/write_service.py<br/>🧠 Memory formation coordination FOR Memory Backbone<br/>➡️ SERVES: Memory Backbone writing"]:::fast
+    svc_recall["services/retrieval_service.py<br/>🧠 Context assembly FROM Memory Backbone<br/>➡️ SERVES: Memory Backbone retrieval"]:::fast
+    svc_consol["services/consolidation_service.py<br/>🧠 Memory processing FOR Memory Backbone<br/>➡️ SERVES: Memory Backbone consolidation"]:::mid
+    svc_index["services/indexing_service.py<br/>🧠 Memory organization FOR Memory Backbone<br/>➡️ SERVES: Memory Backbone indexing"]:::fast
+    svc_identity["services/personal_identity_service.py<br/>🧠 Self-model maintenance IN Memory Backbone<br/>➡️ SERVES: Memory Backbone identity"]:::mid
+  end
+
+  subgraph SERVICE_INTEGRATION["🔗 Memory Operation Integration Layer"]
+    svc_event_coordinator["services/event_coordinator.py<br/>🧠 Memory event orchestration<br/>➡️ COORDINATES: Memory Backbone events"]:::bus
+    svc_workflow_manager["services/workflow_manager.py<br/>🧠 Memory service workflows<br/>➡️ COORDINATES: Memory Backbone workflows"]:::mid
+    svc_performance_monitor["services/performance_monitor.py<br/>🧠 Memory cognitive load monitoring<br/>➡️ MONITORS: Memory Backbone performance"]:::smart
+  end
+end
+class SVC brain
+
+%% Fast-path visual accents
+class svc_write fast
+class svc_recall fast
+class svc_consol fast
+class svc_index fast
+class svc_identity fast
+
+%% =====================
+%% 👀 Perception
+%% =====================
+subgraph PER["👀 Perception"]
+  per_api["perception/api.py"]
+  per_sensors["perception/sensors.py"]
+  per_fusion["perception/fusion.py"]
+  per_preatt["perception/preattentive.py"]
+end
+class PER card
+
+%% =====================
+%% 🧠 Enhanced Hippocampus (Memory Formation System)
+%% =====================
+subgraph HIPPO_SYS["🧠 Enhanced Hippocampus — Memory Formation & Retrieval"]
+  direction TB
+
+  subgraph DENTATE_GYRUS["🔄 Dentate Gyrus (Pattern Separation)"]
+    DG_SEPARATOR["hippocampus/dentate_gyrus/separator.py<br/>🧠 PATTERN SEPARATION:<br/>• Orthogonalization of inputs<br/>• Sparse coding<br/>• Novelty detection"]:::smart
+    DG_NEUROGENESIS["hippocampus/dentate_gyrus/neurogenesis.py<br/>Adult neurogenesis simulation"]:::brain
+    DG_GATING["hippocampus/dentate_gyrus/gating.py<br/>Information gating control"]:::gate
+  end
+
+  subgraph CA3_REGION["🔗 CA3 (Pattern Completion FOR Memory Backbone)"]
+    CA3_COMPLETER["hippocampus/ca3/pattern_completer.py<br/>🧠 PATTERN COMPLETION FOR MEMORY BACKBONE:<br/>• Autoassociative memory → Memory retrieval<br/>• Partial cue retrieval → Memory access<br/>• Sequence completion → Memory navigation<br/>➡️ SERVES: Memory Backbone retrieval"]:::smart
+    CA3_RECURRENT["hippocampus/ca3/recurrent_network.py<br/>🧠 Recurrent connectivity FOR Memory associations<br/>➡️ SERVES: Memory Backbone relationships"]:::brain
+    CA3_CONSOLIDATION["hippocampus/ca3/consolidation_coordinator.py<br/>🧠 Memory consolidation initiation FOR Memory Backbone<br/>➡️ SERVES: Memory Backbone strengthening"]:::mid
+  end
+
+  subgraph CA1_REGION["📤 CA1 (Memory Output TO Memory Backbone)"]
+    CA1_BRIDGE["hippocampus/ca1/cortical_bridge.py<br/>🧠 MEMORY BACKBONE INTEGRATION:<br/>• Hippocampal-Memory Backbone binding<br/>• Memory formatting FOR Memory Backbone<br/>• Context integration INTO Memory Backbone<br/>➡️ OUTPUT: Formatted memories TO Memory Backbone"]:::mid
+    CA1_COMPARATOR["hippocampus/ca1/novelty_comparator.py<br/>🧠 Novelty detection FOR Memory prioritization<br/>➡️ SERVES: Memory Backbone importance"]:::smart
+    CA1_THETA["hippocampus/ca1/theta_rhythm.py<br/>🧠 Theta rhythm FOR Memory coordination<br/>➡️ SERVES: Memory Backbone timing"]:::brain
+  end
+
+  subgraph HIPPOCAMPAL_SERVICES["🧩 Hippocampal Services FOR Memory Backbone"]
+    hipp_orchestrator["hippocampus/memory_orchestrator.py<br/>🧠 Memory formation workflow FOR Memory Backbone<br/>➡️ COORDINATES: Memory Backbone formation"]:::mid
+    hipp_encoder["hippocampus/episodic_encoder.py<br/>🧠 Episode encoding FOR Memory Backbone<br/>➡️ SERVES: Memory Backbone episodes"]:::mid
+    hipp_retrieval["hippocampus/retrieval_coordinator.py<br/>🧠 Memory retrieval coordination FROM Memory Backbone<br/>➡️ SERVES: Memory Backbone access"]:::fast
+    hipp_consolidation["hippocampus/consolidation_scheduler.py<br/>🧠 Consolidation scheduling FOR Memory Backbone<br/>➡️ SERVES: Memory Backbone optimization"]:::mid
+  end
+end
+class HIPPO_FORM brain
+class HIPPO_SYS brain
+
+%% =====================
+%% 💝 Affect-Aware Processing (Limbic Integration)
+%% =====================
+subgraph AFFECT["💝 Affect-Aware Processing — Emotional Intelligence"]
+  direction TB
+
+  subgraph AMYGDALA_ANALOG["⚡ Amygdala Analog (Threat & Salience)"]
+    affect_threat["affect/threat_detector.py<br/>🧠 THREAT DETECTION:<br/>• Safety signal generation<br/>• Arousal modulation<br/>• Priority interrupts"]:::smart
+    affect_salience["affect/emotional_salience.py<br/>Emotional importance scoring"]:::smart
+    affect_memory_mod["affect/memory_modulation.py<br/>Emotion-memory interaction"]:::brain
+  end
+
+  subgraph AFFECT_PROCESSING["🎭 Affective Processing"]
+    affect_classifier["affect/realtime_classifier.py<br/>🧠 EMOTION RECOGNITION:<br/>• Real-time emotion detection<br/>• Valence & arousal computation<br/>• Context-aware calibration"]:::smart
+    affect_state["affect/affect_state.py<br/>Emotional state tracking"]:::mid
+    affect_regulation["affect/emotion_regulation.py<br/>Emotional regulation strategies"]:::smart
+    affect_contagion["affect/emotional_contagion.py<br/>Social emotion processing"]:::mid
+  end
+
+  subgraph AFFECT_INTEGRATION["🔗 Cognitive-Affective Integration"]
+    affect_attention["affect/attention_bias.py<br/>Emotion-attention interaction"]:::smart
+    affect_memory["affect/memory_bias.py<br/>Emotion-memory interaction"]:::smart
+    affect_decision["affect/decision_bias.py<br/>Emotion-decision interaction"]:::smart
+    affect_learning["affect/affective_learning.py<br/>Emotion-based learning"]:::smart
+  end
+end
+class AFFECT brain
+
+%% =====================
+%% 📦 Episodic
+%% =====================
+subgraph EPI["📦 Episodic"]
+  epi_service["episodic/service.py"]
+  epi_store["episodic/store.py"]
+  epi_seq["episodic/sequences.py"]
+  epi_types["episodic/types.py"]
+  epi_utils["episodic/utils.py"]
+end
+class EPI card
+
+%% =====================
+%% 🧠 Cortex / Prediction
+%% =====================
+subgraph CORTEX["🧠 Cortex / Prediction"]
+  cortex_pred["cortex/predictive_model.py"]
+  cortex_bandit["cortex/bandit.py"]
+  cortex_calib["cortex/calibration.py"]
+  cortex_feats["cortex/features.py"]
+end
+class CORTEX card
+
+%% =====================
+%% 🔎 Enhanced Retrieval (Context Assembly)
+%% =====================
+subgraph RET["🔎 Enhanced Retrieval — Context Assembly & Fusion"]
+  direction TB
+
+  subgraph RETRIEVAL_ORCHESTRATION["🧠 Retrieval Orchestration"]
+    ret_context_adapter["retrieval/context_adapter.py<br/>🔗 CONTEXT ADAPTER:<br/>• Delegates to context_bundle/* (D1)<br/>• Working memory integration<br/>• Local affect-aware ranking only"]:::mid
+    ret_broker_enhanced["retrieval/enhanced_broker.py<br/>Store orchestration & fanout"]:::mid
+    ret_fusion_engine["retrieval/fusion_engine.py<br/>Cross-store result fusion"]:::smart
+    ret_mmr_engine["retrieval/mmr_engine.py<br/>Maximal Marginal Relevance"]:::smart
+  end
+
+  subgraph COGNITIVE_RETRIEVAL["🧠 Cognitive Retrieval Features"]
+    ret_working_memory["retrieval/working_memory_boost.py<br/>Active context amplification"]:::fast
+    ret_affect_bias["retrieval/affective_bias.py<br/>Emotion-aware retrieval"]:::smart
+    ret_temporal_bias["retrieval/temporal_bias.py<br/>Recency & frequency bias"]:::smart
+    ret_social_bias["retrieval/social_bias.py<br/>Social context awareness"]:::smart
+  end
+
+  subgraph TRADITIONAL_RETRIEVAL["⚙️ Traditional Retrieval"]
+    ret_qos["retrieval/qos_gate.py<br/>Performance & budget control"]:::fast
+    ret_features["retrieval/features.py<br/>Feature extraction"]:::mid
+    ret_ranker["retrieval/ranker.py<br/>Relevance ranking"]:::smart
+    ret_calibration["retrieval/calibration.py<br/>Confidence calibration"]:::smart
+    ret_trace_builder["retrieval/trace_builder.py<br/>Provenance tracking"]:::mid
+  end
+
+  subgraph STORE_ADAPTERS["🗄️ Store Adapters"]
+    ret_fts_adapter["retrieval/stores/fts_adapter.py<br/>Full-text search"]:::fast
+    ret_vec_adapter["retrieval/stores/vector_adapter.py<br/>Semantic similarity"]:::fast
+    ret_kg_adapter["retrieval/stores/kg_adapter.py<br/>Knowledge graph"]:::smart
+    ret_episodic_adapter["retrieval/stores/episodic_adapter.py<br/>Episodic memory"]:::mid
+  end
+end
+class RET brain
+
+%% =====================
+%% 🧾 Cognitive Events (types)
+%% =====================
+subgraph EVT_TYPES["🧾 Cognitive Events"]
+  ev_sens["SENSORY_FRAME"]
+  ev_ws_b["WORKSPACE_BROADCAST"]
+  ev_mcg["METACOG_REPORT"]
+  ev_drv["DRIVE_TICK"]
+  ev_bel["BELIEF_UPDATE"]
+  ev_sim_req["SIMULATION_REQUEST"]
+  ev_sim_res["SIMULATION_RESULT"]
+  ev_act_dec["ACTION_DECISION"]
+  ev_act_exe["ACTION_EXECUTED"]
+  ev_hipp_enc["HIPPO_ENCODE"]
+  ev_sleep["NREM/REM START/END"]
+  ev_neurom["NEUROM_TICK"]
+  ev_dsar["DSAR_EXPORT"]
+  ev_reindex["REINDEX_REQUEST"]
+  ev_ml["ML_RUN_EVENT"]
+  ev_defn["events/cognitive_events.py"]
+end
+class EVT_TYPES card
+
+%% =====================
+%% 🪩 Workflows & Events (Core)
+%% =====================
+subgraph WF_EVT["🪩 Workflows & Events (Core)"]
+  wf_base["workflows/workflow_base.py"]
+  wf_store["workflows/store.py"]
+  wf_recall["workflows/recall_workflow.py"]
+  wf_seq["workflows/sequence_flow_workflow.py"]
+  evt_bus["events/bus.py"]:::bus
+  evt_handlers["events/handlers.py"]
+  evt_types["events/types.py"]
+  evt_write_h["events/write_handler.py"]
+end
+class WF_EVT card
+
+%% =====================
+%% 💾 Storage (Edge SQLite + Files)
+%% =====================
+subgraph ST["💾 Storage (Edge SQLite + Files)"]
+  st_uow["storage/unit_of_work.py"]
+  st_epi["storage/episodic_store.py"]
+  st_fts["storage/fts_store.py"]
+  st_vec["storage/vector_store.py"]
+  st_emb["storage/embeddings_store.py"]
+  st_sem["storage/semantic_store.py"]
+  st_seq["episodic/sequences.py"]
+  st_blob["storage/blob_store.py"]
+  st_receipts["storage/receipts_store.py"]
+  st_secure["storage/secure_store.py"]
+  st_kg_dom["storage/kg_store.py"]
+  st_pattern["storage/pattern_detector.py"]
+  st_ifaces["storage/interfaces.py"]
+  st_ws["storage/workspace_store.py"]
+  st_hipp_store["storage/hippocampus_store.py"]
+  st_sqlite["storage/sqlite_util.py"]
+  st_base["storage/base_store.py"]
+end
+class ST card
+
+%% ==========================================
+%% External Connections (to other diagrams)
+%% ==========================================
+subgraph EXTERNAL_CONNECTIONS["🔗 Connections to Other Diagrams"]
+  FROM_API["← Diagram 1: API & Pipeline"]:::mid
+  TO_INTELLIGENCE["→ Diagram 3: Intelligence Systems"]:::mid
+  TO_INFRASTRUCTURE["→ Diagram 4: Infrastructure"]:::mid
+end
+class EXTERNAL_CONNECTIONS card
+
+%% =====================
+%% Embeddings (subset for core memory)
+%% =====================
+subgraph EMB_CORE["🔤 Embeddings (Core Memory)"]
+  emb_svc["embeddings/service.py"]
+  emb_impl["embeddings/embedding_service.py"]
+  emb_index["embeddings/index.py"]
+  emb_store["embeddings/store.py"]
+  emb_types["embeddings/types.py"]
+end
+class EMB_CORE card
+
+%% =====================
+%% 🧠 ENHANCED COGNITIVE WIRING & INTEGRATION
+%% =====================
+
+%% ====== EXTERNAL INTEGRATION ======
+FROM_API --> INTENT_RT
+
+%% ====== ATTENTION GATE (THALAMUS) PROCESSING ======
+INTENT_RT--"cognitive processing required"-->GATE
+GATE-->SALIENCE_EVAL-->ADMISSION_CTRL-->INTENT_ANALYZER
+
+%% ====== THALAMIC RELAY CIRCUITS ======
+GATE-->RELAY_MEMORY & RELAY_RECALL & RELAY_EXECUTIVE & RELAY_LEARNING
+
+%% ====== ATTENTION MECHANISMS INTEGRATION ======
+INTENT_ANALYZER-->SPATIAL_ATT & TEMPORAL_ATT & FEATURE_ATT & OBJECT_ATT
+
+%% ====== WORKING MEMORY SYSTEM ======
+RELAY_MEMORY-->WM_MGR
+WM_MGR-->WM_BUFFER & WM_ATTENTION & WM_EXECUTIVE
+WM_ATTENTION<-->GATE
+WM_EXECUTIVE<-->CC_CONTROL
+
+%% ====== GLOBAL WORKSPACE INTEGRATION ======
+WM_BUFFER-->GW_BROADCAST
+GW_BROADCAST<-->GW_COALITION & GW_ATTENTION & GW_CONSCIOUSNESS
+GW_ATTENTION<-->GATE
+
+%% ====== COGNITIVE CONTROL SYSTEM ======
+CC_MONITOR-->CC_CONTROL-->CC_ADAPTATION
+CC_MONITOR<-->WM_EXECUTIVE
+CC_CONTROL<-->GW_BROADCAST
+
+%% ====== HIPPOCAMPAL MEMORY FORMATION ======
+RELAY_MEMORY-->hipp_orchestrator
+hipp_orchestrator-->DG_SEPARATOR_F-->CA3_COMPLETER-->CA1_BRIDGE
+DG_SEPARATOR_F<-->DG_NEUROGENESIS_F & DG_GATING_F
+CA3_COMPLETER<-->CA3_RECURRENT & CA3_CONSOLIDATION
+CA1_BRIDGE<-->CA1_COMPARATOR & CA1_THETA
+
+%% ====== AFFECT-AWARE PROCESSING ======
+affect_threat<-->GATE & SALIENCE_EVAL
+affect_classifier-->affect_state-->affect_regulation
+affect_memory_mod<-->hipp_orchestrator
+affect_attention<-->WM_ATTENTION
+affect_decision<-->CC_CONTROL
+
+%% ====== COGNITIVE SERVICE ORCHESTRATION ======
+svc_memory_adapter<-->hipp_orchestrator & WM_MGR
+svc_context_adapter<-->ret_context_adapter & WM_BUFFER
+svc_attention<-->GATE & SALIENCE_EVAL
+svc_affect_integration<-->affect_state & affect_classifier
+
+%% ====== ENHANCED RETRIEVAL INTEGRATION ======
+RELAY_RECALL-->ret_context_adapter
+ret_context_adapter-->ret_broker_enhanced-->ret_fusion_engine
+ret_working_memory<-->WM_BUFFER
+ret_affect_bias<-->affect_state
+ret_fusion_engine-->ret_mmr_engine
+
+%% ====== COGNITIVE EVENT COORDINATION ======
+svc_event_coordinator<-->GATE & hipp_orchestrator & ret_context_adapter
+svc_workflow_manager<-->WM_MGR & GW_BROADCAST
+svc_performance_monitor<-->CC_MONITOR
+
+%% ====== STORAGE & INFRASTRUCTURE INTEGRATION ======
+hipp_encoder-->st_hipp_store & st_epi & st_sem
+CA1_BRIDGE-->st_sem & st_kg_dom
+ret_fusion_engine-->st_fts & st_vec & st_sem & st_epi
+ret_fts_adapter-->st_fts
+ret_vec_adapter-->st_vec
+ret_kg_adapter-->st_kg_dom
+ret_episodic_adapter-->st_epi
+
+%% ====== EMBEDDINGS & INDEXING INTEGRATION ======
+emb_svc<-->hipp_encoder & ret_context_adapter
+emb_impl-->emb_index & emb_store & emb_types
+emb_index<-->st_emb & st_vec
+svc_index<-->emb_svc & hipp_consolidation
+
+%% ====== PERCEPTION & WORKING MEMORY INTEGRATION ======
+per_api-->per_sensors-->per_fusion-->per_preatt
+per_preatt-->WM_BUFFER & affect_classifier
+WM_BUFFER<-->GW_BROADCAST
+
+%% ====== CROSS-DIAGRAM CONNECTIONS ======
+affect_learning-->TO_INTELLIGENCE
+CC_ADAPTATION-->TO_INTELLIGENCE
+hipp_consolidation-->TO_INFRASTRUCTURE
+ret_context_adapter-->TO_INTELLIGENCE
+GW_CONSCIOUSNESS-->TO_INTELLIGENCE
+svc_event_coordinator-->TO_INFRASTRUCTURE
+
+%% ====== ENHANCED COGNITIVE STYLES ======
+classDef thalamus fill:#fff7e6,stroke:#d48806,stroke-width:2px,rx:8,ry:8
+classDef hippocampus fill:#e6f7ff,stroke:#1890ff,stroke-width:2px,rx:8,ry:8
+classDef working_memory fill:#fff1f0,stroke:#ff4d4f,stroke-width:2px,rx:8,ry:8
+classDef global_workspace fill:#f6ffed,stroke:#52c41a,stroke-width:2px,rx:8,ry:8
+classDef affect_system fill:#f9f0ff,stroke:#722ed1,stroke-width:2px,rx:8,ry:8
+classDef cognitive_control fill:#fff2e6,stroke:#fa8c16,stroke-width:2px,rx:8,ry:8
+
+%% ====== APPLY COGNITIVE STYLES ======
+class GATE,SALIENCE_EVAL,ADMISSION_CTRL,INTENT_ANALYZER,RELAY_MEMORY,RELAY_RECALL,RELAY_EXECUTIVE,RELAY_LEARNING thalamus
+class SPATIAL_ATT,TEMPORAL_ATT,FEATURE_ATT,OBJECT_ATT thalamus
+
+class DG_SEPARATOR,DG_NEUROGENESIS,DG_GATING,CA3_COMPLETER,CA3_RECURRENT,CA3_CONSOLIDATION,CA1_BRIDGE,CA1_COMPARATOR,CA1_THETA hippocampus
+class DG_SEPARATOR_F,DG_NEUROGENESIS_F,DG_GATING_F hippocampus
+class hipp_orchestrator,hipp_encoder,hipp_retrieval,hipp_consolidation hippocampus
+
+class WM_MGR,WM_BUFFER,WM_ATTENTION,WM_EXECUTIVE working_memory
+class ret_working_memory working_memory
+
+class GW_BROADCAST,GW_COALITION,GW_ATTENTION,GW_CONSCIOUSNESS global_workspace
+
+class affect_threat,affect_salience,affect_memory_mod,affect_classifier,affect_state,affect_regulation,affect_contagion affect_system
+class affect_attention,affect_memory,affect_decision,affect_learning,ret_affect_bias affect_system
+
+class CC_MONITOR,CC_CONTROL,CC_ADAPTATION cognitive_control
+class svc_attention,svc_performance_monitor cognitive_control
+
+%% ====== ADDITIONAL FLOW CONNECTIONS ======
+ret_fts_adapter --> st_fts
+ret_vec_adapter --> st_vec
+ret_fusion_engine --> ret_ranker
+ret_ranker --> cortex_pred
+ret_calibration --> ret_trace_builder
+
+%% Fast/Smart entry intent router
+INTENT_RT--"valid & confident agent_intent"-->svc_write
+INTENT_RT--"valid & confident agent_intent"-->svc_recall
+INTENT_RT--"admin/ops"-->svc_index
+INTENT_RT--"admin/ops"-->svc_consol
+
+INTENT_RT--"unset/low-confidence agent_intent · high-risk · obligations"-->GATE
+GATE-->GW_ATTENTION
+GATE-->GW_CONSCIOUSNESS
+GATE-->WM_MGR
+
+%% Event flows
+evt_bus --> ev_sens & ev_ws_b & ev_mcg & ev_hipp_enc
+GW_CONSCIOUSNESS --> ev_ws_b
+evt_write_h --> st_receipts
+
+%% Workflow connections
+wf_recall --> ret_broker_enhanced
+wf_seq --> epi_seq
+wf_store --> st_ws
+
+%% ====== MEMORY BACKBONE CONNECTIONS ======
+subgraph MEMORY_BACKBONE_CONNECTIONS["🧠 Memory Backbone Connections"]
+  TO_MEMORY_BACKBONE["→ TO Memory Backbone (D1)<br/>🧠 All cognitive systems serve Memory"]:::brain
+  FROM_MEMORY_BACKBONE["← FROM Memory Backbone (D1)<br/>🧠 Memory-driven intelligence"]:::brain
+end
+class MEMORY_BACKBONE_CONNECTIONS card
+
+%% Hippocampus serves Memory Backbone formation
+hipp_orchestrator -- "Memory Formation" --> TO_MEMORY_BACKBONE
+hipp_encoder -- "Episodic Memories" --> TO_MEMORY_BACKBONE
+hipp_consolidation -- "Consolidated Memories" --> TO_MEMORY_BACKBONE
+CA1_BRIDGE -- "Formatted Memories" --> TO_MEMORY_BACKBONE
+
+%% Working Memory serves Memory Backbone buffering
+WM_MGR -- "Active Memory Context" --> TO_MEMORY_BACKBONE
+WM_BUFFER -- "Memory Operations" --> TO_MEMORY_BACKBONE
+WM_EXECUTIVE -- "Memory Control" --> TO_MEMORY_BACKBONE
+
+%% Attention Gate serves Memory Backbone focus
+GATE -- "Filtered for Memory" --> TO_MEMORY_BACKBONE
+RELAY_MEMORY -- "Memory Formation Relay" --> TO_MEMORY_BACKBONE
+RELAY_RECALL -- "Memory Retrieval" --> FROM_MEMORY_BACKBONE
+
+%% Global Workspace serves Memory-mediated consciousness
+GW_BROADCAST -- "Memory-Mediated Consciousness" --> TO_MEMORY_BACKBONE
+GW_CONSCIOUSNESS -- "Conscious Memory Access" --> FROM_MEMORY_BACKBONE
+
+%% Cognitive Services coordinate Memory operations
+svc_memory_adapter -- "Memory Operations" --> TO_MEMORY_BACKBONE
+svc_write -- "Memory Formation" --> TO_MEMORY_BACKBONE
+svc_recall -- "Memory Retrieval" --> FROM_MEMORY_BACKBONE
+svc_consol -- "Memory Consolidation" --> TO_MEMORY_BACKBONE
+
+%% Storage connections
+st_epi --> epi_store
+st_receipts --> TO_INFRASTRUCTURE
+
+%% Connections to other diagrams
+WM_MGR --> TO_INTELLIGENCE
+GW_CONSCIOUSNESS --> TO_INTELLIGENCE
+GW_CONSCIOUSNESS --> TO_INFRASTRUCTURE
+svc_consol --> TO_INFRASTRUCTURE
+ev_mcg --> TO_INTELLIGENCE

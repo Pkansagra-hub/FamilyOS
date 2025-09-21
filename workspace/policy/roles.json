@@ -1,0 +1,102 @@
+{
+  "schema_version": 2,
+  "roles": {
+    "admin": {
+      "caps": [
+        "memory.detach",
+        "memory.project",
+        "memory.read",
+        "memory.refer",
+        "memory.write",
+        "privacy.delete",
+        "privacy.redact",
+        "privacy.undo",
+        "prospective.manage",
+        "tools.run"
+      ],
+      "inherits": [],
+      "description": "",
+      "created_at": "2025-09-20T06:56:33.262061+00:00"
+    },
+    "guardian": {
+      "caps": [
+        "memory.detach",
+        "memory.project",
+        "memory.read",
+        "memory.refer",
+        "memory.write",
+        "privacy.delete",
+        "privacy.redact",
+        "privacy.undo",
+        "prospective.manage"
+      ],
+      "inherits": [],
+      "description": "",
+      "created_at": "2025-09-20T06:56:33.273621+00:00"
+    },
+    "member": {
+      "caps": [
+        "memory.read",
+        "memory.write",
+        "prospective.manage"
+      ],
+      "inherits": [],
+      "description": "",
+      "created_at": "2025-09-20T06:56:33.289175+00:00"
+    },
+    "viewer": {
+      "caps": [
+        "memory.read"
+      ],
+      "inherits": [],
+      "description": "",
+      "created_at": "2025-09-20T06:56:33.300863+00:00"
+    },
+    "guest": {
+      "caps": [
+        "memory.read"
+      ],
+      "inherits": [],
+      "description": "",
+      "created_at": "2025-09-20T06:56:33.312806+00:00"
+    }
+  },
+  "bindings": [
+    {
+      "principal_id": "system_admin",
+      "role": "admin",
+      "space_id": "shared:household",
+      "created_at": "2025-09-20T06:56:33+00:00"
+    },
+    {
+      "principal_id": "testuser",
+      "role": "member",
+      "space_id": "shared:household",
+      "created_at": "2025-09-20T06:56:33+00:00"
+    },
+    {
+      "principal_id": "integration_user",
+      "role": "admin",
+      "space_id": "shared:household",
+      "created_at": "2025-09-20T06:56:33+00:00"
+    },
+    {
+      "principal_id": "dad12345-1234-4567-8901-123456789012",
+      "role": "admin",
+      "space_id": "shared:household",
+      "created_at": "2025-09-20T06:56:33+00:00"
+    },
+    {
+      "principal_id": "mom12345-1234-4567-8901-123456789012",
+      "role": "guardian",
+      "space_id": "shared:household",
+      "created_at": "2025-09-20T06:56:33+00:00"
+    },
+    {
+      "principal_id": "teen1234-1234-4567-8901-123456789012",
+      "role": "member",
+      "space_id": "shared:household",
+      "created_at": "2025-09-20T06:56:33+00:00"
+    }
+  ]
+}

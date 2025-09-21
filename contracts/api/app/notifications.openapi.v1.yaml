@@ -1,0 +1,1316 @@
+openapi: 3.1.0
+info:
+  title: MemoryOS App Plane - Notifications API
+  description: |
+    **Memory-Centric Family AI Notification Management**
+
+    This API manages family-aware notifications and communication that integrate with the Memory-Centric Family AI system:
+    - **Family-Aware Notifications**: Context-aware notifications that respect family relationships and boundaries
+    - **Memory-Triggered Alerts**: Notifications triggered by memory formation, recall, and family events
+    - **Device Coordination**: Cross-device notification delivery with family sync and handoff
+    - **Age-Appropriate Filtering**: Notifications filtered based on family roles and age appropriateness
+    - **Presence-Aware Delivery**: Smart delivery based on family member presence and availability
+
+    **Memory-Centric Design**: All notifications integrate with the Memory Backbone to:
+    - Trigger notifications based on memory events and family context
+    - Preserve notification context in family memory for coordination
+    - Enable intelligent notification timing based on family patterns
+    - Support cross-device notification sync and family coordination
+
+    **Architecture Integration**:
+    - Integrates with Memory Backbone for context-aware notification triggers
+    - Coordinates with Family Intelligence for relationship-appropriate notifications
+    - Leverages Device Ecosystem for optimal delivery and handoff
+    - Respects family policies through Policy Engine integration
+  version: "1.0.0"
+  contact:
+    name: MemoryOS API Team
+    url: https://familyos.local/support
+    email: api-support@familyos.local
+  license:
+    name: Family OS Private License
+    url: https://familyos.local/licenses/family-os
+
+servers:
+  - url: https://api.familyos.local/app/v1
+    description: Production App Plane
+  - url: https://staging-api.familyos.local/app/v1
+    description: Staging Environment
+  - url: http://localhost:8080/app/v1
+    description: Local Development
+
+security:
+  - FamilyOSAuth: []
+  - DeviceAuth: []
+
+paths:
+  /notifications:
+    get:
+      summary: List Family Notifications
+      description: |
+        Retrieve notifications for the authenticated user with family context and memory integration.
+
+        **Memory Integration**: Returns notifications with memory context and family relationship awareness.
+        **Family Intelligence**: Filters notifications based on family hierarchy and relationship appropriateness.
+      operationId: listNotifications
+      parameters:
+        - name: status
+          in: query
+          description: Filter notifications by status
+          required: false
+          schema:
+            type: string
+            enum: [unread, read, archived, dismissed]
+        - name: category
+          in: query
+          description: Filter by notification category
+          required: false
+          schema:
+            type: string
+            enum: [memory, family, device, system, emergency, social]
+        - name: priority
+          in: query
+          description: Filter by notification priority
+          required: false
+          schema:
+            type: string
+            enum: [low, normal, high, urgent, emergency]
+        - name: source_type
+          in: query
+          description: Filter by notification source
+          required: false
+          schema:
+            type: string
+            enum: [memory_system, family_member, device, connector, system]
+        - name: family_context
+          in: query
+          description: Include family context in notifications
+          required: false
+          schema:
+            type: boolean
+            default: true
+        - name: limit
+          in: query
+          description: Maximum number of notifications to return
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 50
+        - name: offset
+          in: query
+          description: Pagination offset
+          required: false
+          schema:
+            type: integer
+            minimum: 0
+            default: 0
+      responses:
+        '200':
+          description: Notifications retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  notifications:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/FamilyNotification'
+                  total_count:
+                    type: integer
+                  unread_count:
+                    type: integer
+                  family_summary:
+                    $ref: '#/components/schemas/FamilyNotificationSummary'
+                  memory_context:
+                    $ref: '#/components/schemas/NotificationMemoryContext'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Notification Management
+
+    post:
+      summary: Send Family Notification
+      description: |
+        Send a notification to family members with appropriate filtering and memory integration.
+
+        **Memory Integration**: Preserves notification context in family memory for coordination.
+        **Family Intelligence**: Applies family-aware delivery and relationship-appropriate content.
+      operationId: sendNotification
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SendNotificationRequest'
+      responses:
+        '201':
+          description: Notification sent successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  notification:
+                    $ref: '#/components/schemas/FamilyNotification'
+                  delivery_summary:
+                    $ref: '#/components/schemas/NotificationDeliverySummary'
+                  family_coordination:
+                    $ref: '#/components/schemas/FamilyCoordinationResult'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Notification Management
+
+  /notifications/{notification_id}:
+    get:
+      summary: Get Notification Details
+      description: |
+        Retrieve detailed information about a specific notification including family context and memory integration.
+
+        **Memory Integration**: Returns notification with full memory context and family relationship data.
+        **Family Intelligence**: Provides relationship-aware notification details and coordination information.
+      operationId: getNotificationDetails
+      parameters:
+        - name: notification_id
+          in: path
+          description: Notification identifier
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Notification details retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  notification:
+                    $ref: '#/components/schemas/FamilyNotificationDetailed'
+                  family_context:
+                    $ref: '#/components/schemas/FamilyNotificationContext'
+                  delivery_history:
+                    $ref: '#/components/schemas/NotificationDeliveryHistory'
+                  related_memories:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/RelatedMemory'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Notification Management
+
+    put:
+      summary: Update Notification Status
+      description: |
+        Update notification status with family coordination and memory preservation.
+
+        **Memory Integration**: Updates notification context in family memory and coordination records.
+        **Family Intelligence**: Coordinates status updates across family members when appropriate.
+      operationId: updateNotificationStatus
+      parameters:
+        - name: notification_id
+          in: path
+          description: Notification identifier
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateNotificationStatusRequest'
+      responses:
+        '200':
+          description: Notification status updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  notification:
+                    $ref: '#/components/schemas/FamilyNotification'
+                  family_coordination_updates:
+                    type: array
+                    items:
+                      type: string
+                      format: uuid
+                  memory_context_updated:
+                    type: boolean
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Notification Management
+
+    delete:
+      summary: Delete Notification
+      description: |
+        Delete a notification while preserving family coordination context in memory.
+
+        **Memory Integration**: Maintains family coordination context while removing notification.
+        **Family Intelligence**: Coordinates deletion across family members when appropriate.
+      operationId: deleteNotification
+      parameters:
+        - name: notification_id
+          in: path
+          description: Notification identifier
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: preserve_family_context
+          in: query
+          description: Whether to preserve family coordination context
+          required: false
+          schema:
+            type: boolean
+            default: true
+      responses:
+        '200':
+          description: Notification deleted successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  notification_id:
+                    type: string
+                    format: uuid
+                  family_context_preserved:
+                    type: boolean
+                  coordination_updates:
+                    type: array
+                    items:
+                      type: string
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Notification Management
+
+  /notifications/bulk:
+    post:
+      summary: Bulk Notification Operations
+      description: |
+        Perform bulk operations on notifications with family coordination and memory integration.
+
+        **Memory Integration**: Efficiently handles bulk operations while maintaining family memory coordination.
+        **Family Intelligence**: Applies family-aware bulk processing with relationship considerations.
+      operationId: bulkNotificationOperations
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BulkNotificationOperationsRequest'
+      responses:
+        '200':
+          description: Bulk operations completed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  operation_results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/BulkOperationResult'
+                  family_coordination_updates:
+                    $ref: '#/components/schemas/FamilyCoordinationUpdates'
+                  memory_context_changes:
+                    $ref: '#/components/schemas/MemoryContextChanges'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Notification Management
+
+  /notifications/preferences:
+    get:
+      summary: Get Notification Preferences
+      description: |
+        Retrieve notification preferences with family coordination and device-specific settings.
+
+        **Memory Integration**: Returns preferences with memory-triggered notification settings.
+        **Family Intelligence**: Provides family-aware preference configuration and coordination rules.
+      operationId: getNotificationPreferences
+      responses:
+        '200':
+          description: Notification preferences retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  preferences:
+                    $ref: '#/components/schemas/NotificationPreferences'
+                  family_coordination_rules:
+                    $ref: '#/components/schemas/FamilyCoordinationRules'
+                  device_preferences:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/DeviceNotificationPreferences'
+                  memory_trigger_settings:
+                    $ref: '#/components/schemas/MemoryTriggerSettings'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Notification Preferences
+
+    put:
+      summary: Update Notification Preferences
+      description: |
+        Update notification preferences with family coordination and memory integration settings.
+
+        **Memory Integration**: Configures memory-triggered notifications and family context preservation.
+        **Family Intelligence**: Updates family-aware notification rules and coordination preferences.
+      operationId: updateNotificationPreferences
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateNotificationPreferencesRequest'
+      responses:
+        '200':
+          description: Notification preferences updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  preferences:
+                    $ref: '#/components/schemas/NotificationPreferences'
+                  family_coordination_changes:
+                    type: array
+                    items:
+                      type: string
+                  device_sync_required:
+                    type: boolean
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Notification Preferences
+
+  /devices/{device_id}/tokens:
+    get:
+      summary: Get Device Notification Tokens
+      description: |
+        Retrieve notification tokens for a specific device with family coordination status.
+
+        **Device Ecosystem**: Returns device-specific tokens with cross-device coordination information.
+        **Family Intelligence**: Provides family device coordination and notification routing information.
+      operationId: getDeviceNotificationTokens
+      parameters:
+        - name: device_id
+          in: path
+          description: Device identifier
+          required: true
+          schema:
+            type: string
+            pattern: '^[A-Za-z0-9._:-]{3,64}$'
+      responses:
+        '200':
+          description: Device notification tokens retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  device_tokens:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/DeviceNotificationToken'
+                  family_coordination_status:
+                    $ref: '#/components/schemas/DeviceFamilyCoordinationStatus'
+                  cross_device_routing:
+                    $ref: '#/components/schemas/CrossDeviceRouting'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Device Tokens
+
+    post:
+      summary: Register Device Notification Token
+      description: |
+        Register a new notification token for a device with family coordination setup.
+
+        **Device Ecosystem**: Registers device in family notification network with cross-device coordination.
+        **Family Intelligence**: Configures family-aware notification routing and delivery preferences.
+      operationId: registerDeviceNotificationToken
+      parameters:
+        - name: device_id
+          in: path
+          description: Device identifier
+          required: true
+          schema:
+            type: string
+            pattern: '^[A-Za-z0-9._:-]{3,64}$'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterDeviceTokenRequest'
+      responses:
+        '201':
+          description: Device notification token registered successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  device_token:
+                    $ref: '#/components/schemas/DeviceNotificationToken'
+                  family_coordination_setup:
+                    $ref: '#/components/schemas/FamilyCoordinationSetup'
+                  cross_device_sync_status:
+                    $ref: '#/components/schemas/CrossDeviceSyncStatus'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '409':
+          description: Device token already registered
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConflictError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Device Tokens
+
+  /devices/{device_id}/tokens/{token_id}:
+    put:
+      summary: Update Device Notification Token
+      description: |
+        Update device notification token configuration with family coordination settings.
+
+        **Device Ecosystem**: Updates device notification capabilities and family routing configuration.
+        **Family Intelligence**: Modifies family-aware notification delivery and coordination rules.
+      operationId: updateDeviceNotificationToken
+      parameters:
+        - name: device_id
+          in: path
+          description: Device identifier
+          required: true
+          schema:
+            type: string
+            pattern: '^[A-Za-z0-9._:-]{3,64}$'
+        - name: token_id
+          in: path
+          description: Notification token identifier
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateDeviceTokenRequest'
+      responses:
+        '200':
+          description: Device notification token updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  device_token:
+                    $ref: '#/components/schemas/DeviceNotificationToken'
+                  configuration_changes:
+                    type: array
+                    items:
+                      type: string
+                  family_coordination_impact:
+                    $ref: '#/components/schemas/FamilyCoordinationImpact'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Device Tokens
+
+    delete:
+      summary: Unregister Device Notification Token
+      description: |
+        Unregister a device notification token and update family coordination.
+
+        **Device Ecosystem**: Removes device from family notification network and updates routing.
+        **Family Intelligence**: Maintains family notification coordination while removing device.
+      operationId: unregisterDeviceNotificationToken
+      parameters:
+        - name: device_id
+          in: path
+          description: Device identifier
+          required: true
+          schema:
+            type: string
+            pattern: '^[A-Za-z0-9._:-]{3,64}$'
+        - name: token_id
+          in: path
+          description: Notification token identifier
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Device notification token unregistered successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  token_id:
+                    type: string
+                    format: uuid
+                  family_coordination_updates:
+                    $ref: '#/components/schemas/FamilyCoordinationUpdates'
+                  routing_adjustments:
+                    type: array
+                    items:
+                      type: string
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Device Tokens
+
+  /channels:
+    get:
+      summary: List Notification Channels
+      description: |
+        Retrieve notification channels with family coordination and delivery capabilities.
+
+        **Family Intelligence**: Returns channels with family-appropriate filtering and coordination rules.
+        **Memory Integration**: Shows channels that support memory-triggered notifications.
+      operationId: listNotificationChannels
+      parameters:
+        - name: channel_type
+          in: query
+          description: Filter by channel type
+          required: false
+          schema:
+            type: string
+            enum: [push, email, sms, in_app, family_coordination, emergency]
+        - name: family_enabled
+          in: query
+          description: Filter by family coordination capability
+          required: false
+          schema:
+            type: boolean
+      responses:
+        '200':
+          description: Notification channels retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  channels:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/NotificationChannel'
+                  family_coordination_capabilities:
+                    $ref: '#/components/schemas/FamilyCoordinationCapabilities'
+                  memory_integration_support:
+                    $ref: '#/components/schemas/MemoryIntegrationSupport'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Notification Channels
+
+    post:
+      summary: Create Notification Channel
+      description: |
+        Create a custom notification channel with family coordination and memory integration.
+
+        **Family Intelligence**: Configures channel with family-appropriate delivery and filtering rules.
+        **Memory Integration**: Sets up memory-triggered notification capabilities for the channel.
+      operationId: createNotificationChannel
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateNotificationChannelRequest'
+      responses:
+        '201':
+          description: Notification channel created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  channel:
+                    $ref: '#/components/schemas/NotificationChannel'
+                  family_coordination_setup:
+                    $ref: '#/components/schemas/FamilyCoordinationSetup'
+                  memory_integration_configuration:
+                    $ref: '#/components/schemas/MemoryIntegrationConfiguration'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Notification Channels
+
+  /test:
+    post:
+      summary: Send Test Notification
+      description: |
+        Send a test notification to verify delivery and family coordination functionality.
+
+        **Family Intelligence**: Tests family-aware delivery with appropriate filtering and coordination.
+        **Memory Integration**: Validates memory-triggered notification functionality and context preservation.
+      operationId: sendTestNotification
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SendTestNotificationRequest'
+      responses:
+        '200':
+          description: Test notification sent successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  test_result:
+                    $ref: '#/components/schemas/TestNotificationResult'
+                  delivery_validation:
+                    $ref: '#/components/schemas/DeliveryValidation'
+                  family_coordination_test:
+                    $ref: '#/components/schemas/FamilyCoordinationTest'
+                  memory_integration_test:
+                    $ref: '#/components/schemas/MemoryIntegrationTest'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Testing
+
+components:
+  securitySchemes:
+    FamilyOSAuth:
+      type: oauth2
+      description: FamilyOS OAuth2 authentication with notification-specific scopes
+      flows:
+        authorizationCode:
+          authorizationUrl: https://auth.familyos.local/oauth/authorize
+          tokenUrl: https://auth.familyos.local/oauth/token
+          scopes:
+            notifications:read: Read notifications and preferences
+            notifications:write: Send and manage notifications
+            notifications:family: Access family notification coordination
+            devices:tokens: Manage device notification tokens
+            channels:manage: Create and manage notification channels
+
+    DeviceAuth:
+      type: apiKey
+      description: Device-specific authentication for notification operations
+      name: X-Device-Token
+      in: header
+
+  schemas:
+    FamilyNotification:
+      type: object
+      description: Family-aware notification with memory and relationship context
+      properties:
+        notification_id:
+          type: string
+          format: uuid
+          description: Unique notification identifier
+        title:
+          type: string
+          description: Notification title
+        message:
+          type: string
+          description: Notification message content
+        category:
+          type: string
+          enum: [memory, family, device, system, emergency, social]
+          description: Notification category
+        priority:
+          type: string
+          enum: [low, normal, high, urgent, emergency]
+          description: Notification priority level
+        status:
+          type: string
+          enum: [unread, read, archived, dismissed]
+          description: Current notification status
+        source_type:
+          type: string
+          enum: [memory_system, family_member, device, connector, system]
+          description: Notification source type
+        source_id:
+          type: string
+          description: Source identifier (user_id, device_id, etc.)
+        created_at:
+          type: string
+          format: date-time
+          description: Notification creation timestamp
+        expires_at:
+          type: string
+          format: date-time
+          description: Notification expiration timestamp
+        family_context:
+          $ref: '#/components/schemas/NotificationFamilyContext'
+        memory_context:
+          $ref: '#/components/schemas/NotificationMemoryContext'
+        actions:
+          type: array
+          items:
+            $ref: '#/components/schemas/NotificationAction'
+          description: Available actions for this notification
+        delivery_status:
+          $ref: '#/components/schemas/NotificationDeliveryStatus'
+      required:
+        - notification_id
+        - title
+        - message
+        - category
+        - priority
+        - status
+        - source_type
+        - created_at
+
+    FamilyNotificationDetailed:
+      allOf:
+        - $ref: '#/components/schemas/FamilyNotification'
+        - type: object
+          properties:
+            extended_message:
+              type: string
+              description: Extended notification content
+            rich_content:
+              $ref: '#/components/schemas/NotificationRichContent'
+            coordination_history:
+              type: array
+              items:
+                $ref: '#/components/schemas/CoordinationHistoryEntry'
+            related_notifications:
+              type: array
+              items:
+                type: string
+                format: uuid
+            privacy_settings:
+              $ref: '#/components/schemas/NotificationPrivacySettings'
+
+    SendNotificationRequest:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Notification title
+        message:
+          type: string
+          description: Notification message
+        category:
+          type: string
+          enum: [memory, family, device, system, emergency, social]
+          description: Notification category
+        priority:
+          type: string
+          enum: [low, normal, high, urgent, emergency]
+          description: Notification priority
+        recipients:
+          $ref: '#/components/schemas/NotificationRecipients'
+        family_coordination:
+          $ref: '#/components/schemas/FamilyCoordinationSettings'
+        memory_context:
+          $ref: '#/components/schemas/MemoryContextSettings'
+        delivery_preferences:
+          $ref: '#/components/schemas/DeliveryPreferences'
+        actions:
+          type: array
+          items:
+            $ref: '#/components/schemas/NotificationAction'
+        expires_at:
+          type: string
+          format: date-time
+          description: Notification expiration timestamp
+      required:
+        - title
+        - message
+        - category
+        - recipients
+
+    UpdateNotificationStatusRequest:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [read, archived, dismissed]
+          description: New notification status
+        family_coordination:
+          type: boolean
+          default: false
+          description: Whether to coordinate status across family
+        preserve_memory_context:
+          type: boolean
+          default: true
+          description: Whether to preserve memory context
+      required:
+        - status
+
+    BulkNotificationOperationsRequest:
+      type: object
+      properties:
+        operation:
+          type: string
+          enum: [mark_read, mark_archived, dismiss, delete]
+          description: Bulk operation to perform
+        notification_ids:
+          type: array
+          items:
+            type: string
+            format: uuid
+          description: Notification IDs to operate on
+          minItems: 1
+          maxItems: 100
+        family_coordination:
+          type: boolean
+          default: false
+          description: Whether to coordinate across family
+        preserve_memory_context:
+          type: boolean
+          default: true
+          description: Whether to preserve memory context
+      required:
+        - operation
+        - notification_ids
+
+    NotificationPreferences:
+      type: object
+      description: User notification preferences with family coordination
+      properties:
+        global_enabled:
+          type: boolean
+          default: true
+          description: Global notification toggle
+        category_preferences:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/CategoryPreference'
+          description: Per-category notification preferences
+        priority_thresholds:
+          $ref: '#/components/schemas/PriorityThresholds'
+        family_coordination_preferences:
+          $ref: '#/components/schemas/FamilyCoordinationPreferences'
+        memory_trigger_preferences:
+          $ref: '#/components/schemas/MemoryTriggerPreferences'
+        device_preferences:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/DeviceSpecificPreferences'
+        quiet_hours:
+          $ref: '#/components/schemas/QuietHours'
+        emergency_override:
+          type: boolean
+          default: true
+          description: Allow emergency notifications during quiet hours
+
+    UpdateNotificationPreferencesRequest:
+      type: object
+      properties:
+        global_enabled:
+          type: boolean
+          description: Global notification toggle
+        category_preferences:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/CategoryPreference'
+        family_coordination_preferences:
+          $ref: '#/components/schemas/FamilyCoordinationPreferences'
+        memory_trigger_preferences:
+          $ref: '#/components/schemas/MemoryTriggerPreferences'
+        quiet_hours:
+          $ref: '#/components/schemas/QuietHours'
+        emergency_override:
+          type: boolean
+
+    DeviceNotificationToken:
+      type: object
+      description: Device notification token with family coordination
+      properties:
+        token_id:
+          type: string
+          format: uuid
+          description: Token identifier
+        device_id:
+          type: string
+          pattern: '^[A-Za-z0-9._:-]{3,64}$'
+          description: Associated device identifier
+        platform:
+          type: string
+          enum: [ios, android, web, windows, macos]
+          description: Device platform
+        token_value:
+          type: string
+          description: Platform-specific notification token (masked)
+        active:
+          type: boolean
+          description: Whether token is active
+        registered_at:
+          type: string
+          format: date-time
+          description: Token registration timestamp
+        last_used:
+          type: string
+          format: date-time
+          description: Last successful delivery timestamp
+        family_coordination_enabled:
+          type: boolean
+          description: Family coordination capability
+        delivery_capabilities:
+          $ref: '#/components/schemas/TokenDeliveryCapabilities'
+      required:
+        - token_id
+        - device_id
+        - platform
+        - active
+        - registered_at
+
+    RegisterDeviceTokenRequest:
+      type: object
+      properties:
+        platform:
+          type: string
+          enum: [ios, android, web, windows, macos]
+          description: Device platform
+        token_value:
+          type: string
+          description: Platform-specific notification token
+        capabilities:
+          $ref: '#/components/schemas/TokenCapabilities'
+        family_coordination_enabled:
+          type: boolean
+          default: true
+          description: Enable family coordination
+        delivery_preferences:
+          $ref: '#/components/schemas/DeviceDeliveryPreferences'
+      required:
+        - platform
+        - token_value
+
+    UpdateDeviceTokenRequest:
+      type: object
+      properties:
+        token_value:
+          type: string
+          description: Updated platform-specific token
+        active:
+          type: boolean
+          description: Updated active status
+        family_coordination_enabled:
+          type: boolean
+          description: Updated family coordination setting
+        delivery_preferences:
+          $ref: '#/components/schemas/DeviceDeliveryPreferences'
+
+    NotificationChannel:
+      type: object
+      description: Notification delivery channel with family coordination
+      properties:
+        channel_id:
+          type: string
+          format: uuid
+          description: Channel identifier
+        channel_name:
+          type: string
+          description: Human-readable channel name
+        channel_type:
+          type: string
+          enum: [push, email, sms, in_app, family_coordination, emergency]
+          description: Channel delivery type
+        enabled:
+          type: boolean
+          description: Whether channel is enabled
+        family_coordination_support:
+          type: boolean
+          description: Supports family coordination
+        memory_integration_support:
+          type: boolean
+          description: Supports memory-triggered notifications
+        delivery_configuration:
+          $ref: '#/components/schemas/ChannelDeliveryConfiguration'
+        rate_limits:
+          $ref: '#/components/schemas/ChannelRateLimits'
+        created_at:
+          type: string
+          format: date-time
+          description: Channel creation timestamp
+      required:
+        - channel_id
+        - channel_name
+        - channel_type
+        - enabled
+
+    CreateNotificationChannelRequest:
+      type: object
+      properties:
+        channel_name:
+          type: string
+          description: Channel name
+        channel_type:
+          type: string
+          enum: [push, email, sms, in_app, family_coordination, emergency]
+          description: Channel type
+        family_coordination_support:
+          type: boolean
+          default: false
+          description: Enable family coordination
+        memory_integration_support:
+          type: boolean
+          default: false
+          description: Enable memory integration
+        delivery_configuration:
+          $ref: '#/components/schemas/ChannelDeliveryConfiguration'
+        rate_limits:
+          $ref: '#/components/schemas/ChannelRateLimits'
+      required:
+        - channel_name
+        - channel_type
+
+    SendTestNotificationRequest:
+      type: object
+      properties:
+        test_type:
+          type: string
+          enum: [basic_delivery, family_coordination, memory_integration, cross_device]
+          description: Type of test to perform
+        target_devices:
+          type: array
+          items:
+            type: string
+          description: Specific devices to test (optional)
+        test_message:
+          type: string
+          default: "Test notification from Family AI"
+          description: Test message content
+        include_family_coordination:
+          type: boolean
+          default: false
+          description: Test family coordination features
+        include_memory_context:
+          type: boolean
+          default: false
+          description: Test memory integration features
+      required:
+        - test_type
+
+    # Supporting schemas for notification context and coordination
+    NotificationFamilyContext:
+      type: object
+      properties:
+        family_id:
+          type: string
+          format: uuid
+        relationship_context:
+          type: string
+        emotional_context:
+          type: object
+        coordination_required:
+          type: boolean
+        age_appropriate:
+          type: boolean
+
+    NotificationMemoryContext:
+      type: object
+      properties:
+        memory_id:
+          type: string
+          format: uuid
+        memory_type:
+          type: string
+          enum: [episodic, semantic, procedural, working]
+        trigger_type:
+          type: string
+          enum: [formation, recall, consolidation, reminder]
+        memory_importance:
+          type: number
+          minimum: 0
+          maximum: 1
+
+    NotificationAction:
+      type: object
+      properties:
+        action_id:
+          type: string
+        action_type:
+          type: string
+          enum: [view, respond, dismiss, coordinate, remember]
+        action_label:
+          type: string
+        action_url:
+          type: string
+          format: uri
+        family_coordination_required:
+          type: boolean
+
+    NotificationRecipients:
+      type: object
+      properties:
+        recipient_type:
+          type: string
+          enum: [user, family, device, role]
+        recipient_ids:
+          type: array
+          items:
+            type: string
+        family_filtering:
+          $ref: '#/components/schemas/FamilyFiltering'
+        age_appropriate_only:
+          type: boolean
+          default: true
+
+    # Error schemas
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+            message:
+              type: string
+            details:
+              type: object
+            trace_id:
+              type: string
+          required:
+            - code
+            - message
+      required:
+        - error
+
+    ConflictError:
+      allOf:
+        - $ref: '#/components/schemas/ErrorResponse'
+        - type: object
+          properties:
+            conflict_type:
+              type: string
+              enum: [token_exists, channel_exists, preference_conflict]
+            existing_resource:
+              type: object
+
+  responses:
+    BadRequestError:
+      description: Invalid request parameters or payload
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    ForbiddenError:
+      description: Insufficient permissions or family policy violation
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    NotFoundError:
+      description: Requested notification or configuration not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    InternalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+tags:
+  - name: Notification Management
+    description: |
+      Manage family-aware notifications with memory integration and relationship context.
+
+      **Memory Integration**: Notifications can be triggered by memory events and preserve family context.
+
+  - name: Notification Preferences
+    description: |
+      Configure notification preferences with family coordination and memory trigger settings.
+
+      **Family Intelligence**: Preferences respect family policies and relationship-appropriate delivery.
+
+  - name: Device Tokens
+    description: |
+      Manage device notification tokens with family coordination and cross-device delivery.
+
+      **Device Ecosystem**: Cross-device notification routing with family coordination capabilities.
+
+  - name: Notification Channels
+    description: |
+      Create and manage notification delivery channels with family-aware configuration.
+
+      **Delivery Management**: Family-appropriate delivery with memory integration support.
+
+  - name: Testing
+    description: |
+      Test notification delivery with family coordination and memory integration validation.
+
+      **Quality Assurance**: Validate family-aware delivery and memory context preservation.

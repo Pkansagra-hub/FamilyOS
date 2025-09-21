@@ -1,0 +1,486 @@
+---
+config:
+  flowchart:
+    htmlLabels: f     TO_PRODUCTION_DEPLOYMENT["→ TO Production Systems / Runtime<br/>• Memory-powered Family AI deployment<br/>🧠 Cross-device Memory sync • 👨‍👩‍👧‍👦 Family Memory coordination"]:::infrastructure_coreTO_MEMORY_BACKBONE["→ TO Memory Backbone (D1)<br/>🧠 Infrastructure support FOR Memory operations<br/>• Consolidated memories • 🔍 Knowledge graphs • 📊 Performance insights"]:::brainROM_COGNITIVE_CORE["← FROM Cognitive Core (D2)<br/>🧠 Cognitive processes requiring infrastructure<br/>• Working memory consolidation • 🧠 Attention state persistence"]:::brainlse
+    curve: linear
+  theme: neo
+  layout: elk
+  look: neo
+---
+
+flowchart TB
+
+%% ====== CORE CLASS STYLES (match Diagram 1) ======
+classDef plane fill:#eef7ff,stroke:#2a6ebb,stroke-width:1px,rx:8,ry:8
+classDef mid fill:#f8fff0,stroke:#6b8e23,stroke-width:1px,rx:8,ry:8
+classDef gate fill:#fff7e6,stroke:#d48806,stroke-width:1px,rx:8,ry:8
+classDef bus fill:#f0f0f0,stroke:#666,stroke-width:2px,rx:8,ry:8
+classDef storage fill:#f3f8ff,stroke:#1f4aa1,stroke-width:1px,rx:8,ry:8
+classDef brain fill:#fffdf0,stroke:#b38b00,stroke-width:1px,rx:10,ry:10
+classDef fast stroke:#00897b,stroke-width:2px
+classDef smart stroke:#d46b08,stroke-width:2px,stroke-dasharray:4 3
+classDef card fill:#fff,stroke:#999,stroke-width:1px,rx:8,ry:8
+
+%% Category tints (kept)
+classDef infrastructure_core fill:#fff9c4,stroke:#faad14,stroke-width:2px,rx:10,ry:10
+classDef consolidation fill:#f6ffed,stroke:#52c41a,stroke-width:2px,rx:8,ry:8
+classDef prospective_memory fill:#e6f7ff,stroke:#1890ff,stroke-width:2px,rx:8,ry:8
+classDef knowledge_graph fill:#f9f0ff,stroke:#722ed1,stroke-width:2px,rx:8,ry:8
+classDef security_safety fill:#fff1f0,stroke:#ff4d4f,stroke-width:2px,rx:8,ry:8
+classDef observability fill:#fff7e6,stroke:#d48806,stroke-width:2px,rx:8,ry:8
+classDef sync_edge fill:#f0f5ff,stroke:#2f54eb,stroke-width:2px,rx:8,ry:8
+
+%% ====== FAMILY INFRASTRUCTURE LEGEND ======
+subgraph FAMILY_LEGEND["🎨 Family Infrastructure Diagram Guide"]
+  L1["Unified classes/colors as Diagram 1"]:::card
+  L2["family.infra.* & family.privacy.* topics carry cognitive_trace_id"]:::card
+  L3["👨‍👩‍👧‍👦 Family-aware hand-offs: P03/P05/P07/P08/P10/P11–P15/P16/P17–P20"]:::card
+  L4["📱 Cross-device receipts/outbox/WAL/offsets/DLQ coordination"]:::card
+  L5["💰 Subscription enforcement at infrastructure level"]:::card
+  L6["🚨 Family emergency protocols and failsafes"]:::card
+end
+
+%% ====== MEMORY BACKBONE INFRASTRUCTURE CONNECTIONS ======
+subgraph MEMORY_BACKBONE_INFRASTRUCTURE_CONNECTIONS["🧠 Memory Backbone Infrastructure Connections"]
+  FROM_MEMORY_BACKBONE["← FROM Memory Backbone (D1)<br/>🧠 Memory operations requiring infrastructure support<br/>📊 Memory metrics & traces • 🔐 Memory security policies"]:::brain
+  FROM_COGNITIVE_CORE["← FROM Cognitive Core (D2)<br/>🧠 Cognitive processes requiring infrastructure<br/>� Working memory consolidation • 🧠 Attention state persistence"]:::brain
+  FROM_INTELLIGENCE_SYSTEMS["← FROM Intelligence Systems (D3)<br/>🧠 Intelligence insights requiring storage<br/>📈 Learning traces • 🤝 Social analytics • 🧠 Decision records"]:::brain
+  TO_MEMORY_BACKBONE["→ TO Memory Backbone (D1)<br/>🧠 Infrastructure support FOR Memory operations<br/>� Consolidated memories • 🔍 Knowledge graphs • 📊 Performance insights"]:::brain
+  TO_PRODUCTION_DEPLOYMENT["→ TO Production Systems / Runtime<br/>� Memory-powered Family AI deployment<br/>🧠 Cross-device Memory sync • 👨‍👩‍👧‍👦 Family Memory coordination"]:::infrastructure_core
+end
+class MEMORY_BACKBONE_INFRASTRUCTURE_CONNECTIONS card
+
+%% ====== PIPELINE & SSE ANCHORS ======
+subgraph PIPELINE_ANCHORS["🔗 Pipeline & SSE Anchors"]
+  TO_P03["→ P03 Consolidation/Forgetting"]:::bus
+  TO_P05["→ P05 Prospective/Triggers"]:::bus
+  TO_P07["→ P07 Sync/CRDT"]:::bus
+  TO_P08["→ P08 Embedding Lifecycle"]:::bus
+  TO_P10["→ P10 PII/Minimization"]:::bus
+  TO_P11["→ P11 DSAR/GDPR"]:::bus
+  TO_P12["→ P12 Device/E2EE"]:::bus
+  TO_P13["→ P13 Index Rebuild"]:::bus
+  TO_P14["→ P14 Near-Duplicate/Canon"]:::bus
+  TO_P15["→ P15 Rollups/Summaries"]:::bus
+  TO_P16["→ P16 Feature Flags/A-B"]:::bus
+  TO_P17["→ P17 QoS/Cost Governance"]:::bus
+  TO_P18["→ P18 Safety/Abuse"]:::bus
+  TO_P19["→ P19 Personalization/Reco"]:::bus
+  TO_P20["→ P20 Procedures/Habits"]:::bus
+  TO_SSE_INFRA["→ SSE ACL: infra.* & privacy.* (sanitized)"]:::plane
+end
+class PIPELINE_ANCHORS card
+
+%% ====== BUS BRIDGE & INTERNALS ======
+subgraph BUS_BRIDGE["📡 Events Bus & Internals (cognitive_trace_id)"]
+  EVT_BUS_ANCHOR["events.bus"]:::bus
+  EVT_SCHEMA_VALID["events/validation.py (schema)"]:::gate
+  EVT_PERSIST["events/persistence.py (WAL/offsets)"]:::mid
+  EVT_DISPATCH["events/dispatcher.py"]:::mid
+  EVT_SUBS["events/subscription.py"]:::mid
+  EVT_MW["events/middleware.py"]:::mid
+  OUTBOX_DRAINER["events/outbox_drainer.py"]:::bus
+  DLQ_REPLAYER["events/dlq_replayer.py"]:::bus
+
+  %% Topics
+  INFRA_TOPICS["infra.*"]:::bus
+  PRIVACY_TOPICS["privacy.*"]:::bus
+  INFRA_CONS_T["infra.consolidation.*"]:::bus
+  INFRA_KG_T["infra.kg.*"]:::bus
+  INFRA_PROS_T["infra.prospective.*"]:::bus
+  INFRA_SYNC_T["infra.sync.*"]:::bus
+  INFRA_SEC_T["infra.security.*"]:::bus
+  INFRA_OBS_T["infra.observability.*"]:::bus
+  INFRA_ML_T["infra.ml.*"]:::bus
+
+  %% Helpers referenced in flows
+  EV_SEMANTIC_FILTERS["events.semantic_filters"]:::bus
+  EV_CAUSAL_INDEXING["events.causal_indexing"]:::bus
+  EV_PATTERN_STORAGE["events.pattern_storage"]:::bus
+end
+class BUS_BRIDGE card
+
+%% ====== STORAGE PRIMITIVES & DURABILITY ======
+subgraph STORAGE_PRIMITIVES["💾 Core Storage & Durability"]
+  ST_EPISODIC["📘 st_episodic"]:::storage
+  ST_SEMANTIC["📙 st_semantic"]:::storage
+  ST_VECTOR["🧭 st_vector"]:::storage
+  ST_FTS["🔎 st_fts"]:::storage
+  ST_BLOB["🗂️ st_blob"]:::storage
+  ST_KG_STORE["🕸️ st_kg"]:::storage
+  ST_RECEIPTS["🧾 st_receipts"]:::storage
+  ST_OUTBOX["📮 st_outbox"]:::storage
+  ST_WAL["📜 st_wal"]:::storage
+  ST_OFFSETS["🧭 st_offsets"]:::storage
+  ST_DLQ["🧰 st_dlq"]:::storage
+  ST_SNAPSHOTS["📸 st_snapshots"]:::storage
+  ST_PII_MAP["🗺️ st_pii_map"]:::storage
+  ST_REDACTION_LOG["📝 st_redaction_log"]:::storage
+  ST_REGS["📚 st_regs (registries)"]:::storage
+  ST_ML_ART["🧪 st_ml_artifacts"]:::storage
+end
+class STORAGE_PRIMITIVES card
+
+%% ====== REGISTRIES ======
+subgraph REGISTRIES["📇 Registries"]
+  REG_TOOLS["registry/tools"]:::mid
+  REG_PROMPTS["registry/prompts"]:::mid
+  REG_AGENTS["registry/agents"]:::mid
+end
+class REGISTRIES card
+
+%% ====== MEMORY BACKBONE CONSOLIDATION & REPLAY ======
+subgraph MEMORY_BACKBONE_CONSOLIDATION["🌙 Memory Backbone Consolidation & Replay"]
+  direction TB
+  subgraph MEMORY_SLEEP_COORDINATION["🧠 Memory-Driven Sleep Coordination"]
+    SLEEP_SCHEDULER["⏰ Memory Sleep Scheduler<br/>🧠 MEMORY BACKBONE SLEEP COORDINATION:<br/>• Memory-driven consolidation scheduling<br/>• Memory load-based sleep triggers<br/>• Memory optimization timing<br/>➡️ SERVES: Memory Backbone consolidation timing"]:::consolidation
+    SLEEP_STATE_MACHINE["🔄 Memory Sleep State Machine<br/>🧠 Memory consolidation state management<br/>➡️ SERVES: Memory Backbone sleep cycles"]:::consolidation
+    SLEEP_TRIGGER["🎯 Memory Sleep Triggers<br/>🧠 Memory-based consolidation initiation<br/>➡️ SERVES: Memory Backbone optimization triggers"]:::consolidation
+  end
+
+  subgraph MEMORY_CONSOLIDATION_PROCESSES["🧠 Memory Backbone Consolidation Processes"]
+    CONS_HIPPOCAMPAL["🧠 Memory Hippocampal Replay<br/>🧠 MEMORY BACKBONE HIPPOCAMPAL REPLAY:<br/>• Memory pattern replay FOR Memory strengthening<br/>• Memory sequence consolidation<br/>• Memory importance weighting<br/>➡️ SERVES: Memory Backbone strengthening"]:::consolidation
+    CONS_NEOCORTICAL["🗂️ Memory Neocortical Integration<br/>🧠 Memory integration INTO long-term knowledge<br/>➡️ SERVES: Memory Backbone knowledge integration"]:::consolidation
+    CONS_SYNAPTIC["⚡ Memory Synaptic Homeostasis<br/>🧠 Memory connection optimization<br/>➡️ SERVES: Memory Backbone connection health"]:::consolidation
+  end
+
+  subgraph MEMORY_CONSOLIDATION_TYPES["🧠 Memory Backbone Consolidation Types"]
+    CONS_EPISODIC["📅 Memory Episodic Consolidation<br/>🧠 Episode consolidation FOR Memory Backbone<br/>➡️ SERVES: Memory Backbone episodes"]:::consolidation
+    CONS_SEMANTIC["📚 Memory Semantic Consolidation<br/>🧠 Knowledge consolidation INTO Memory Backbone<br/>➡️ SERVES: Memory Backbone knowledge"]:::consolidation
+    CONS_PROCEDURAL["⚙️ Memory Procedural Consolidation<br/>🧠 Skill consolidation THROUGH Memory Backbone<br/>➡️ SERVES: Memory Backbone skills"]:::consolidation
+    CONS_EMOTIONAL["💗 Memory Emotional Consolidation<br/>🧠 Emotional memory strengthening IN Memory Backbone<br/>👨‍👩‍👧‍👦 Family emotional memories<br/>➡️ SERVES: Memory Backbone emotional intelligence"]:::consolidation
+  end
+
+  subgraph MEMORY_LEGACY_CONSOLIDATION["⚙️ Memory-Enhanced Legacy Consolidation"]
+    LEG_COMPACTOR["📦 Memory Consolidation Compactor<br/>🧠 Memory-driven compaction FOR Memory Backbone<br/>➡️ SERVES: Memory Backbone optimization"]:::consolidation
+    LEG_ROLLUPS["📊 Memory Consolidation Rollups<br/>🧠 Memory summary generation FOR Memory Backbone<br/>➡️ SERVES: Memory Backbone summaries"]:::consolidation
+    LEG_REPLAY["🔄 Memory Consolidation Replay<br/>🧠 Memory replay coordination FOR Memory Backbone<br/>➡️ SERVES: Memory Backbone replay"]:::consolidation
+  end
+end
+class MEMORY_BACKBONE_CONSOLIDATION card
+
+%% ====== KNOWLEDGE GRAPH ======
+subgraph KNOWLEDGE_GRAPH["🕸️ Temporal Knowledge Graph & Reasoning"]
+  KG_TEMPORAL_ENGINE["🔄 Temporal Reasoning Engine"]:::knowledge_graph
+  KG_VERSION_CONTROL["🗃️ Knowledge Versioning"]:::knowledge_graph
+  KG_CAUSAL_GRAPH["🔗 Causal Graph"]:::knowledge_graph
+  KG_CONCEPT_EVOLUTION["🌱 Concept Evolution"]:::knowledge_graph
+  KG_RELATION_DISCOVERY["🔍 Relation Discovery"]:::knowledge_graph
+  KG_INCONSISTENCY_RESOLUTION["⚖️ Inconsistency Resolution"]:::knowledge_graph
+  KG_SENSORY_GROUNDING["👁️ Sensory Grounding"]:::knowledge_graph
+  KG_LINGUISTIC_MAPPING["🗣️ Linguistic Mapping"]:::knowledge_graph
+  KG_PROCEDURAL_LINKING["⚙️ Procedural Linking"]:::knowledge_graph
+  LEG_KG_TEMPORAL["⏰ kg/temporal.py"]:::knowledge_graph
+  LEG_KG_JOBS["🔄 consolidation/kg_jobs.py"]:::knowledge_graph
+end
+class KNOWLEDGE_GRAPH card
+
+%% ====== PROSPECTIVE MEMORY ======
+subgraph PROSPECTIVE_MEMORY["🔮 Prospective Memory State Machine"]
+  PROS_INTENTION_FORMATION["💭 Intention Formation"]:::prospective_memory
+  PROS_CUE_MONITORING["👁️ Cue Monitoring"]:::prospective_memory
+  PROS_RETRIEVAL_ENGINE["🔍 Retrieval Engine"]:::prospective_memory
+  PROS_EXECUTION_CONTROL["⚡ Execution Control"]:::prospective_memory
+  PROS_TIME_BASED["⏰ Time-Based"]:::prospective_memory
+  PROS_EVENT_BASED["🎯 Event-Based"]:::prospective_memory
+  PROS_ACTIVITY_BASED["🏃 Activity-Based"]:::prospective_memory
+  PROS_PRIORITY_MANAGER["📊 Priority Manager"]:::prospective_memory
+  PROS_INTERFERENCE_CONTROL["🛡️ Interference Control"]:::prospective_memory
+  PROS_FORGETTING_PREVENTION["🔒 Forgetting Prevention"]:::prospective_memory
+  LEG_PROS_ENGINE["🔄 prospective/engine.py"]:::prospective_memory
+  LEG_PROS_SCHEDULER["📅 prospective/scheduler.py"]:::prospective_memory
+  LEG_PROS_STATE_MACHINE["🎛️ prospective/state_machine.py"]:::prospective_memory
+end
+class PROSPECTIVE_MEMORY card
+
+%% ====== EDGE & SYNC ======
+subgraph EDGE_SYNC["🌐 Edge Computing & P2P Sync"]
+  SYNC_COGNITIVE_ROUTER["🎯 Cognitive Sync Router"]:::sync_edge
+  SYNC_CONFLICT_RESOLUTION["⚖️ Conflict Resolution"]:::sync_edge
+  SYNC_ADAPTIVE_STRATEGY["🔄 Adaptive Strategy"]:::sync_edge
+  EDGE_COGNITIVE_CACHE["💾 Cognitive Cache"]:::sync_edge
+  EDGE_FEDERATED_LEARNING["🤝 Federated Learning"]:::sync_edge
+  EDGE_OFFLINE_INTELLIGENCE["📱 Offline Intelligence"]:::sync_edge
+  LEG_SYNC_MANAGER["🔄 sync/sync_manager.py"]:::sync_edge
+  LEG_REPLICATOR["📋 sync/replicator.py"]:::sync_edge
+  LEG_CRDT["🌿 sync/crdt.py"]:::sync_edge
+end
+class EDGE_SYNC card
+
+%% ====== ML & ADAPTATION ======
+subgraph ML_ADAPTATION["🤖 Machine Learning & Adaptation"]
+  ML_CONTINUAL_LEARNING["🔄 Continual Learning"]:::sync_edge
+  ML_META_LEARNING["🎭 Meta-Learning"]:::sync_edge
+  ML_SELF_SUPERVISED["🔍 Self-Supervised"]:::sync_edge
+  ML_USER_MODELING["👤 User Modeling"]:::sync_edge
+  ML_CONTEXTUAL_ADAPTATION["🎯 Contextual Adaptation"]:::sync_edge
+  ML_FEEDBACK_LEARNING["📊 Feedback Learning"]:::sync_edge
+  LEG_ML_RUNNER["🏃 ml_capsule/runs/runner.py"]:::sync_edge
+  LEG_STRESS_HARNESS["🧪 ml_capsule/stress/harness.py"]:::sync_edge
+  LEG_MODEL_REGISTRY["📚 ml_capsule/models/registry.py"]:::sync_edge
+end
+class ML_ADAPTATION card
+
+%% ====== SECURITY & SAFETY ======
+subgraph SECURITY_SAFETY["🛡️ Security & Safety"]
+  SEC_THREAT_DETECTION["🚨 Threat Detection"]:::security_safety
+  SEC_ADAPTIVE_DEFENSE["🛡️ Adaptive Defense"]:::security_safety
+  SEC_ZERO_TRUST["🎯 Zero Trust"]:::security_safety
+  MLS_CLASSIFICATION["📋 Classification"]:::security_safety
+  MLS_ENFORCEMENT["⚡ Enforcement"]:::security_safety
+  MLS_BAND_CONTROL["🎨 Band Control"]:::security_safety
+  E2EE_KEY_MANAGEMENT["🔑 Key Management"]:::security_safety
+  E2EE_MLS_GROUPS["👥 MLS Groups"]:::security_safety
+  E2EE_SELECTIVE_SHARING["🎯 Selective Sharing"]:::security_safety
+  HSM_SERVICE["🧰 HSM/TEE Attestation"]:::security_safety
+  RATCHET_SVC["🔁 Ratchet Service"]:::security_safety
+  LEG_KEY_MANAGER["🔑 security/key_manager.py"]:::security_safety
+  LEG_ENCRYPTOR["🔒 security/encryptor.py"]:::security_safety
+  LEG_MLS_GROUP["👥 security/mls_group.py"]:::security_safety
+end
+class SECURITY_SAFETY card
+
+%% ====== POLICY, P10 & GOVERNANCE ======
+subgraph POLICY_GOVERNANCE["⚖️ Policy, PII Minimization & Governance"]
+  POL_RULES_ENGINE["📋 Policy Rules Engine"]:::security_safety
+  POL_COMPLIANCE_TRACKER["🧾 Compliance Tracking"]:::security_safety
+  POL_DECISION_CACHE["🗄️ Policy Decision Cache"]:::security_safety
+  POL_DYNAMIC_CONSENT["✅ Dynamic Consent"]:::security_safety
+  POL_PRIVACY_BUDGET["📊 Privacy Budget"]:::security_safety
+  POL_DATA_MINIMIZATION["🎯 Data Minimization"]:::security_safety
+
+  %% P10 concrete
+  PII_MINIMIZER["🔐 pii_minimizer_service (P10)"]:::gate
+  PII_SCHEMA_REG["pii_schema_registry"]:::gate
+  REDACTION_COORD["redaction_coordinator"]:::smart
+end
+class POLICY_GOVERNANCE card
+
+%% ====== MEMORY BACKBONE OBSERVABILITY & MONITORING ======
+subgraph MEMORY_BACKBONE_OBSERVABILITY["🔭 Memory Backbone Observability & Intelligence Monitoring"]
+  subgraph MEMORY_COGNITIVE_METRICS["📈 Memory Backbone Cognitive Metrics"]
+    OBS_COGNITIVE_METRICS["📈 Memory Cognitive Metrics<br/>🧠 MEMORY BACKBONE COGNITIVE MONITORING:<br/>• Memory operation performance tracking<br/>• Memory formation & retrieval metrics<br/>• Memory quality & accuracy measurements<br/>➡️ MONITORS: Memory Backbone cognitive health"]:::observability
+    OBS_MEMORY_ANALYTICS["💾 Memory Backbone Analytics<br/>🧠 Memory analytics FOR Memory optimization<br/>➡️ MONITORS: Memory Backbone performance"]:::observability
+    OBS_INTELLIGENCE_DASHBOARD["📊 Memory Intelligence Dashboard<br/>🧠 Intelligence metrics FROM Memory operations<br/>➡️ MONITORS: Memory Backbone intelligence"]:::observability
+  end
+
+  subgraph MEMORY_DISTRIBUTED_MONITORING["🔍 Memory Backbone Distributed Monitoring"]
+    OBS_DISTRIBUTED_TRACING["🔍 Memory Distributed Tracing<br/>🧠 Memory operation tracing ACROSS Memory Backbone<br/>📱 Cross-device Memory coordination tracking<br/>➡️ MONITORS: Memory Backbone distribution"]:::observability
+    OBS_ADAPTIVE_SAMPLING["🎯 Memory Adaptive Sampling<br/>🧠 Memory-aware sampling FOR Memory insights<br/>➡️ MONITORS: Memory Backbone sampling"]:::observability
+    OBS_ANOMALY_DETECTION["🚨 Memory Anomaly Detection<br/>🧠 Memory operation anomaly detection<br/>➡️ MONITORS: Memory Backbone health"]:::observability
+  end
+
+  subgraph MEMORY_BEHAVIORAL_ANALYTICS["🎭 Memory Backbone Behavioral Analytics"]
+    OBS_BEHAVIORAL_ANALYTICS["🎭 Memory Behavioral Analytics<br/>🧠 Memory usage pattern analysis<br/>👨‍👩‍👧‍👦 Family Memory behavior insights<br/>➡️ MONITORS: Memory Backbone usage patterns"]:::observability
+    OBS_CAUSAL_ANALYSIS["🔗 Memory Causal Analysis<br/>🧠 Memory relationship causality analysis<br/>➡️ MONITORS: Memory Backbone relationships"]:::observability
+    OBS_PREDICTIVE_INSIGHTS["🔮 Memory Predictive Insights<br/>🧠 Memory-driven predictive analytics<br/>➡️ MONITORS: Memory Backbone predictions"]:::observability
+  end
+
+  subgraph MEMORY_OBSERVABILITY_INFRASTRUCTURE["🔧 Memory Observability Infrastructure"]
+    OBS_METRIC_SINK["🧠 Memory Metric Sink<br/>🧠 Memory metrics aggregation FOR Memory Backbone<br/>➡️ SERVES: Memory Backbone metrics"]:::observability
+  end
+end
+class MEMORY_BACKBONE_OBSERVABILITY card
+
+%% ====== CONNECTOR INFRA (P09) ======
+subgraph CONNECTORS_INFRA["🔌 Connector Infrastructure (P09)"]
+  CONNECTOR_REGISTRY["st_connectors"]:::storage
+  OAUTH_VAULT["st_oauth_vault"]:::storage
+  WEBHOOK_INGEST["webhook_ingest"]:::mid
+  TOKEN_ROTATOR["token_rotator"]:::mid
+end
+class CONNECTORS_INFRA card
+
+%% ====== EMBEDDING & INDEX LIFECYCLE (P08/P13) ======
+subgraph EMBEDDING_LIFECYCLE["🧠 Embeddings & Indexes (P08/P13)"]
+  EMB_ORCH["embedding_orchestrator"]:::mid
+  EMB_BUILDER["embedding_builder"]:::mid
+  VEC_INDEX_BUILDER["vector_index_builder"]:::mid
+  FTS_INDEXER_SVC["fts_indexer"]:::mid
+  REINDEX_SCHED["reindex_scheduler"]:::mid
+  REINDEX_WORKER["reindex_worker"]:::mid
+end
+class EMBEDDING_LIFECYCLE card
+
+%% ====== WORKFLOWS & BACKUP/RESTORE ======
+subgraph WORKFLOWS_BACKUP["🗓️ Workflows & Backup/Restore"]
+  WF_ENGINE["workflows/engine"]:::mid
+  WF_SCHED["workflows/scheduler"]:::mid
+  BACKUP_SCHED["backup/scheduler"]:::mid
+  SNAPSHOT_MGR["backup/snapshot_manager"]:::mid
+  RESTORE_MGR["backup/restore_manager"]:::mid
+end
+class WORKFLOWS_BACKUP card
+
+%% ====== SAFETY PIPE (P18 complement) ======
+subgraph SAFETY_PIPE["🧯 Safety & Abuse Ops"]
+  SAFETY_QUEUE["safety_queue"]:::bus
+  SAFETY_WORKER["safety_worker"]:::mid
+  FLAGGED_STORE["st_flagged_content"]:::storage
+end
+class SAFETY_PIPE card
+
+%% ====== WIRING: External inputs ======
+FROM_COGNITIVE_CORE-->SLEEP_SCHEDULER & KG_TEMPORAL_ENGINE & PROS_INTENTION_FORMATION
+FROM_INTELLIGENCE_SYSTEMS-->ML_CONTINUAL_LEARNING & OBS_COGNITIVE_METRICS & POL_RULES_ENGINE
+FROM_MEMORY_BACKBONE-->REG_TOOLS & REG_PROMPTS & REG_AGENTS
+
+%% ====== WIRING: Bus internals ======
+EVT_SCHEMA_VALID-->EVT_PERSIST
+EVT_PERSIST<-->EVT_DISPATCH
+EVT_DISPATCH<-->EVT_SUBS
+EVT_MW<-->EVT_DISPATCH
+OUTBOX_DRAINER-->EVT_BUS_ANCHOR
+DLQ_REPLAYER-->EVT_BUS_ANCHOR
+
+%% ====== WIRING: Consolidation ======
+SLEEP_SCHEDULER-->SLEEP_STATE_MACHINE-->SLEEP_TRIGGER-->SLEEP_SCHEDULER
+SLEEP_STATE_MACHINE-->CONS_HIPPOCAMPAL & CONS_NEOCORTICAL & CONS_SYNAPTIC
+CONS_HIPPOCAMPAL-->CONS_EPISODIC & KG_TEMPORAL_ENGINE
+CONS_NEOCORTICAL-->CONS_SEMANTIC & KG_CONCEPT_EVOLUTION
+CONS_SYNAPTIC-->CONS_PROCEDURAL & CONS_EMOTIONAL
+CONS_EPISODIC-->ST_EPISODIC & EV_CAUSAL_INDEXING
+CONS_SEMANTIC-->ST_SEMANTIC & KG_RELATION_DISCOVERY
+CONS_PROCEDURAL-->ST_SEMANTIC & ML_CONTINUAL_LEARNING
+CONS_EMOTIONAL-->POL_DYNAMIC_CONSENT
+
+%% ====== WIRING: Knowledge Graph ======
+KG_TEMPORAL_ENGINE<-->KG_VERSION_CONTROL<-->KG_CAUSAL_GRAPH
+KG_CONCEPT_EVOLUTION-->KG_RELATION_DISCOVERY-->KG_INCONSISTENCY_RESOLUTION
+KG_SENSORY_GROUNDING<-->KG_LINGUISTIC_MAPPING<-->KG_PROCEDURAL_LINKING
+KG_CAUSAL_GRAPH-->PROS_CUE_MONITORING & OBS_CAUSAL_ANALYSIS
+LEG_KG_TEMPORAL<-->ST_KG_STORE
+
+%% ====== WIRING: Prospective ======
+PROS_INTENTION_FORMATION-->PROS_CUE_MONITORING-->PROS_RETRIEVAL_ENGINE-->PROS_EXECUTION_CONTROL
+PROS_TIME_BASED & PROS_EVENT_BASED & PROS_ACTIVITY_BASED-->PROS_PRIORITY_MANAGER
+PROS_PRIORITY_MANAGER-->PROS_INTERFERENCE_CONTROL-->PROS_FORGETTING_PREVENTION
+PROS_EXECUTION_CONTROL-->EV_PATTERN_STORAGE & OBS_BEHAVIORAL_ANALYTICS
+
+%% ====== WIRING: Edge/Sync ======
+SYNC_COGNITIVE_ROUTER<-->SYNC_CONFLICT_RESOLUTION<-->SYNC_ADAPTIVE_STRATEGY
+EDGE_COGNITIVE_CACHE-->EDGE_FEDERATED_LEARNING-->EDGE_OFFLINE_INTELLIGENCE
+
+%% ====== WIRING: ML & Artifacts ======
+EMB_BUILDER-->ST_VECTOR
+FTS_INDEXER_SVC-->ST_FTS
+REINDEX_WORKER-->ST_VECTOR & ST_FTS
+LEG_MODEL_REGISTRY-->ST_ML_ART
+ML_USER_MODELING-->ST_ML_ART
+
+%% ====== WIRING: Policy, P10, Security ======
+PII_MINIMIZER-->PII_SCHEMA_REG
+PII_MINIMIZER-->ST_PII_MAP
+REDACTION_COORD-->ST_REDACTION_LOG
+SEC_ADAPTIVE_DEFENSE-->OBS_ANOMALY_DETECTION
+MLS_BAND_CONTROL-->SYNC_CONFLICT_RESOLUTION
+HSM_SERVICE-->E2EE_KEY_MANAGEMENT
+RATCHET_SVC-->E2EE_KEY_MANAGEMENT
+
+%% ====== WIRING: Registries ======
+REG_TOOLS & REG_PROMPTS & REG_AGENTS-->ST_REGS
+
+%% ====== WIRING: Workflows & Backup ======
+WF_SCHED-->WF_ENGINE
+BACKUP_SCHED-->SNAPSHOT_MGR-->ST_SNAPSHOTS
+RESTORE_MGR-->ST_SNAPSHOTS
+
+%% ====== WIRING: Durability path ======
+ST_OUTBOX-->OUTBOX_DRAINER
+EVT_PERSIST-->ST_WAL & ST_OFFSETS
+EVT_BUS_ANCHOR-.nack/errors.->ST_DLQ
+DLQ_REPLAYER-->ST_DLQ
+ST_RECEIPTS-->OBS_INTELLIGENCE_DASHBOARD
+
+%% ====== WIRING: Connector Infra ======
+WEBHOOK_INGEST-->CONNECTOR_REGISTRY
+TOKEN_ROTATOR-->OAUTH_VAULT
+
+%% ====== BUS & SSE BRIDGING ======
+CONS_HIPPOCAMPAL & CONS_NEOCORTICAL & CONS_SYNAPTIC-->INFRA_CONS_T
+KG_TEMPORAL_ENGINE & KG_CAUSAL_GRAPH & KG_RELATION_DISCOVERY-->INFRA_KG_T
+PROS_EXECUTION_CONTROL & PROS_PRIORITY_MANAGER-->INFRA_PROS_T
+SYNC_COGNITIVE_ROUTER & SYNC_CONFLICT_RESOLUTION-->INFRA_SYNC_T
+SEC_ADAPTIVE_DEFENSE & MLS_ENFORCEMENT-->INFRA_SEC_T
+OBS_INTELLIGENCE_DASHBOARD & OBS_ANOMALY_DETECTION-->INFRA_OBS_T
+EMB_ORCH & REINDEX_SCHED-->INFRA_ML_T
+PII_MINIMIZER & REDACTION_COORD-->PRIVACY_TOPICS
+
+INFRA_CONS_T & INFRA_KG_T & INFRA_PROS_T & INFRA_SYNC_T & INFRA_SEC_T & INFRA_OBS_T & INFRA_ML_T & PRIVACY_TOPICS-->EVT_BUS_ANCHOR
+INFRA_CONS_T & INFRA_KG_T & INFRA_PROS_T & INFRA_SYNC_T & INFRA_SEC_T & INFRA_OBS_T & INFRA_ML_T & PRIVACY_TOPICS-->TO_SSE_INFRA
+
+%% ====== MEMORY BACKBONE INFRASTRUCTURE WIRING ======
+
+%% Memory Backbone core infrastructure inputs
+FROM_MEMORY_BACKBONE-->SLEEP_SCHEDULER
+FROM_MEMORY_BACKBONE-->CONS_HIPPOCAMPAL
+FROM_MEMORY_BACKBONE-->CONS_SEMANTIC
+FROM_MEMORY_BACKBONE-->OBS_MEMORY_ANALYTICS
+FROM_MEMORY_BACKBONE-->OBS_COGNITIVE_METRICS
+FROM_MEMORY_BACKBONE-->OBS_BEHAVIORAL_ANALYTICS
+FROM_MEMORY_BACKBONE-->SYNC_COGNITIVE_ROUTER
+FROM_MEMORY_BACKBONE-->ML_CONTINUAL_LEARNING
+FROM_MEMORY_BACKBONE-->KG_TEMPORAL_ENGINE
+FROM_MEMORY_BACKBONE-->PROS_INTENTION_FORMATION
+
+%% Cognitive Core infrastructure coordination FOR Memory Backbone
+FROM_COGNITIVE_CORE-->OBS_COGNITIVE_METRICS
+FROM_COGNITIVE_CORE-->SYNC_COGNITIVE_ROUTER
+FROM_COGNITIVE_CORE-->CONS_NEOCORTICAL
+FROM_COGNITIVE_CORE-->KG_CONCEPT_EVOLUTION
+FROM_COGNITIVE_CORE-->ML_META_LEARNING
+
+%% Intelligence Systems infrastructure requirements FOR Memory Backbone
+FROM_INTELLIGENCE_SYSTEMS-->OBS_INTELLIGENCE_DASHBOARD
+FROM_INTELLIGENCE_SYSTEMS-->OBS_PREDICTIVE_INSIGHTS
+FROM_INTELLIGENCE_SYSTEMS-->ML_CONTINUAL_LEARNING
+FROM_INTELLIGENCE_SYSTEMS-->KG_RELATION_DISCOVERY
+FROM_INTELLIGENCE_SYSTEMS-->PROS_CUE_MONITORING
+
+%% Infrastructure consolidation outputs TO Memory Backbone
+CONS_SEMANTIC-->TO_MEMORY_BACKBONE
+CONS_EPISODIC-->TO_MEMORY_BACKBONE
+CONS_PROCEDURAL-->TO_MEMORY_BACKBONE
+CONS_EMOTIONAL-->TO_MEMORY_BACKBONE
+
+%% Infrastructure observability outputs TO Memory Backbone
+OBS_PREDICTIVE_INSIGHTS-->TO_MEMORY_BACKBONE
+OBS_BEHAVIORAL_ANALYTICS-->TO_MEMORY_BACKBONE
+OBS_DISTRIBUTED_TRACING-->TO_MEMORY_BACKBONE
+OBS_METRIC_SINK-->TO_MEMORY_BACKBONE
+
+%% Infrastructure intelligence outputs TO Memory Backbone
+ML_USER_MODELING-->TO_MEMORY_BACKBONE
+ML_CONTEXTUAL_ADAPTATION-->TO_MEMORY_BACKBONE
+KG_CAUSAL_GRAPH-->TO_MEMORY_BACKBONE
+PROS_EXECUTION_CONTROL-->TO_MEMORY_BACKBONE
+
+%% Memory Backbone cross-infrastructure coordination
+SLEEP_SCHEDULER-->CONS_HIPPOCAMPAL
+SLEEP_SCHEDULER-->CONS_NEOCORTICAL
+SLEEP_SCHEDULER-->CONS_SYNAPTIC
+OBS_MEMORY_ANALYTICS-->ML_CONTINUAL_LEARNING
+OBS_COGNITIVE_METRICS-->SYNC_ADAPTIVE_STRATEGY
+SYNC_COGNITIVE_ROUTER-->EDGE_COGNITIVE_CACHE
+ML_USER_MODELING-->POL_DYNAMIC_CONSENT
+KG_TEMPORAL_ENGINE-->PROS_TIME_BASED
+
+%% ====== PIPELINE HAND-OFFS ======
+MEMORY_BACKBONE_CONSOLIDATION-->TO_P03 & TO_P15
+PROSPECTIVE_MEMORY-->TO_P05
+EDGE_SYNC & LEG_CRDT-->TO_P07
+EMBEDDING_LIFECYCLE-->TO_P08 & TO_P13
+POLICY_GOVERNANCE-->TO_P10 & TO_P11
+SECURITY_SAFETY-->TO_P12 & TO_P18
+REGISTRIES-->TO_P16
+MEMORY_BACKBONE_OBSERVABILITY-->TO_P17
+ML_ADAPTATION-->TO_P19
+WORKFLOWS_BACKUP-->TO_P13
+CONNECTORS_INFRA-->TO_P09
+PROSPECTIVE_MEMORY-->TO_P20
+
+%% ====== MEMORY BACKBONE CROSS-DIAGRAM OUTPUTS ======
+SLEEP_STATE_MACHINE-->TO_PRODUCTION_DEPLOYMENT
+OBS_INTELLIGENCE_DASHBOARD-->TO_PRODUCTION_DEPLOYMENT
+CONS_HIPPOCAMPAL-->TO_MEMORY_BACKBONE
+OBS_MEMORY_ANALYTICS-->TO_MEMORY_BACKBONE

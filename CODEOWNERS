@@ -1,0 +1,58 @@
+# MemoryOS Code Owners
+# This file defines who should review PRs for different parts of the codebase
+
+# Global owners - require review for any change
+* @pkansagra99
+
+# API Layer & Core
+/api/ @api-team @pkansagra99
+/core/ @api-team @policy-team
+/memory/ @api-team @infra-team
+/storage/ @infra-team @pkansagra99
+
+# Policy Engine
+/policy/ @policy-team @security-team
+/arbitration/ @policy-team @security-team
+/affect/ @policy-team
+
+# Services & Tools
+/services/ @api-team @infra-team
+/retrieval/ @api-team @infra-team
+/tools/ @api-team
+/workspace/ @api-team @infra-team
+/prospective/ @policy-team @api-team
+
+# Infrastructure & Security
+/storage/ @infra-team @security-team
+/embeddings/ @infra-team
+/sync/ @infra-team @security-team
+/security/ @security-team @pkansagra99
+/consolidation/ @infra-team
+/episodic/ @infra-team
+
+# Deployment & CI/CD
+/deployments/ @infra-team @security-team
+/.github/workflows/ @infra-team @pkansagra99
+/contracts/ @api-team @policy-team @security-team
+
+# Documentation & Planning
+/docs/ @quality-team
+/docs/plans/team_A_* @api-team
+/docs/plans/team_B_* @infra-team
+/learning/ @team-c
+/affect/ @team-c
+/drives/ @team-c
+/imagination/ @team-c
+/social_cognition/ @team-c
+/action/ @team-c
+/kg/ @team-c
+/docs/plans/team_C_* @team-c
+
+/pipelines/ @team-d
+/events/ @team-d
+/workflows/ @team-d
+/observability/ @team-d
+/policy/config/ @team-d
+/contracts/ @team-d
+/.github/ @team-d
+/docs/ @team-d

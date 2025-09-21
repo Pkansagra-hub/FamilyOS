@@ -1,0 +1,787 @@
+# AsyncAPI Cognitive Processing Contract v1.0.0
+# Memory-Centric Family AI - Cognitive Event Processing
+# Defines event-driven cognitive architecture for family intelligence
+
+asyncapi: 3.0.0
+
+info:
+  title: Memory-Centric Family AI - Cognitive Processing
+  version: 1.0.0
+  description: |
+    Event-driven cognitive architecture supporting Memory-Centric Family AI operations.
+    Implements brain-inspired cognitive processing with attention gating, working memory,
+    hippocampal memory formation, and global workspace broadcasting for family intelligence.
+
+    **Key Cognitive Components:**
+    - Thalamus: Attention gating and salience evaluation
+    - Working Memory: Active context and cognitive load management
+    - Hippocampus: Memory formation, consolidation, and retrieval
+    - Global Workspace: Consciousness broadcasting and integration
+    - Affect System: Emotional processing and regulation
+
+    **Family AI Integration:**
+    - Family-aware attention prioritization
+    - Relationship-contextualized memory formation
+    - Emotional intelligence for family interactions
+    - Cross-device cognitive coordination
+
+  contact:
+    name: Memory-Centric Family AI Team
+    url: https://familyos.local
+
+  license:
+    name: Proprietary
+    url: https://familyos.local/license
+
+servers:
+  cognitive-bus:
+    host: cognitive.familyos.local
+    protocol: mqtt
+    description: Cognitive event processing bus for family AI operations
+    bindings:
+      mqtt:
+        clientId: cognitive-processor-{device_id}
+        cleanSession: true
+        keepAlive: 60
+    security:
+      - $ref: '#/components/securitySchemes/familyAuth'
+
+defaultContentType: application/json
+
+channels:
+  # === ATTENTION GATING CHANNELS ===
+  cognitive/attention/gate/decision:
+    address: cognitive/attention/gate/decision
+    messages:
+      attentionGateDecision:
+        $ref: '#/components/messages/AttentionGateDecision'
+    description: |
+      Attention gate decisions for incoming stimuli and family events.
+      Implements thalamic attention gating with family-aware salience evaluation.
+    bindings:
+      mqtt:
+        qos: 1
+        retain: false
+
+  cognitive/attention/gate/backpressure:
+    address: cognitive/attention/gate/backpressure
+    messages:
+      attentionBackpressure:
+        $ref: '#/components/messages/AttentionBackpressure'
+    description: |
+      Attention system backpressure signals for cognitive load management.
+      Enables family-aware cognitive resource allocation.
+
+  # === WORKING MEMORY CHANNELS ===
+  cognitive/working-memory/update:
+    address: cognitive/working-memory/update
+    messages:
+      workingMemoryUpdate:
+        $ref: '#/components/messages/WorkingMemoryUpdate'
+    description: |
+      Working memory state updates and context management.
+      Maintains active family conversation and task contexts.
+
+  cognitive/working-memory/eviction:
+    address: cognitive/working-memory/eviction
+    messages:
+      workingMemoryEviction:
+        $ref: '#/components/messages/WorkingMemoryEviction'
+    description: |
+      Working memory eviction events for cache management.
+      Implements family-aware context prioritization.
+
+  # === HIPPOCAMPAL MEMORY CHANNELS ===
+  cognitive/hippocampus/encoding:
+    address: cognitive/hippocampus/encoding
+    messages:
+      hippocampalEncoding:
+        $ref: '#/components/messages/HippocampalEncoding'
+    description: |
+      Hippocampal memory encoding for long-term memory formation.
+      Processes family memories with emotional and relationship context.
+
+  cognitive/hippocampus/consolidation:
+    address: cognitive/hippocampus/consolidation
+    messages:
+      hippocampalConsolidation:
+        $ref: '#/components/messages/HippocampalConsolidation'
+    description: |
+      Memory consolidation from hippocampus to cortical storage.
+      Implements family memory consolidation with relationship preservation.
+
+  cognitive/hippocampus/retrieval:
+    address: cognitive/hippocampus/retrieval
+    messages:
+      hippocampalRetrieval:
+        $ref: '#/components/messages/HippocampalRetrieval'
+    description: |
+      Hippocampal memory retrieval and pattern completion.
+      Provides family-contextualized memory recall.
+
+  # === GLOBAL WORKSPACE CHANNELS ===
+  cognitive/global-workspace/broadcast:
+    address: cognitive/global-workspace/broadcast
+    messages:
+      globalWorkspaceBroadcast:
+        $ref: '#/components/messages/GlobalWorkspaceBroadcast'
+    description: |
+      Global workspace broadcasting for consciousness coordination.
+      Enables family-wide cognitive state sharing and coordination.
+
+  cognitive/global-workspace/integration:
+    address: cognitive/global-workspace/integration
+    messages:
+      globalWorkspaceIntegration:
+        $ref: '#/components/messages/GlobalWorkspaceIntegration'
+    description: |
+      Cross-modal integration in global workspace.
+      Integrates family member inputs and device contexts.
+
+  # === AFFECTIVE PROCESSING CHANNELS ===
+  cognitive/affect/state-change:
+    address: cognitive/affect/state-change
+    messages:
+      affectStateChange:
+        $ref: '#/components/messages/AffectStateChange'
+    description: |
+      Emotional state changes and affect processing.
+      Manages family emotional dynamics and individual affect states.
+
+  cognitive/affect/regulation:
+    address: cognitive/affect/regulation
+    messages:
+      affectRegulation:
+        $ref: '#/components/messages/AffectRegulation'
+    description: |
+      Emotional regulation and affect modulation.
+      Provides family-aware emotional support and regulation.
+
+  # === METACOGNITIVE CHANNELS ===
+  cognitive/metacognition/monitoring:
+    address: cognitive/metacognition/monitoring
+    messages:
+      metacognitionMonitoring:
+        $ref: '#/components/messages/MetacognitionMonitoring'
+    description: |
+      Metacognitive monitoring and self-awareness.
+      Tracks family AI system self-awareness and confidence.
+
+  cognitive/metacognition/control:
+    address: cognitive/metacognition/control
+    messages:
+      metacognitionControl:
+        $ref: '#/components/messages/MetacognitionControl'
+    description: |
+      Metacognitive control and strategy adjustment.
+      Enables family AI self-optimization and learning.
+
+operations:
+  # === PUBLISH OPERATIONS ===
+  publishAttentionGateDecision:
+    action: send
+    channel:
+      $ref: '#/channels/cognitive~1attention~1gate~1decision'
+    summary: Publish attention gate decision
+    description: Emits attention gating decisions for cognitive processing pipeline
+
+  publishWorkingMemoryUpdate:
+    action: send
+    channel:
+      $ref: '#/channels/cognitive~1working-memory~1update'
+    summary: Publish working memory update
+    description: Emits working memory state changes for family context management
+
+  publishHippocampalEncoding:
+    action: send
+    channel:
+      $ref: '#/channels/cognitive~1hippocampus~1encoding'
+    summary: Publish hippocampal encoding
+    description: Emits memory encoding events for family memory formation
+
+  publishGlobalWorkspaceBroadcast:
+    action: send
+    channel:
+      $ref: '#/channels/cognitive~1global-workspace~1broadcast'
+    summary: Publish global workspace broadcast
+    description: Emits consciousness broadcasting for family coordination
+
+  publishAffectStateChange:
+    action: send
+    channel:
+      $ref: '#/channels/cognitive~1affect~1state-change'
+    summary: Publish affect state change
+    description: Emits emotional state changes for family emotional intelligence
+
+  # === SUBSCRIBE OPERATIONS ===
+  subscribeAttentionGateDecision:
+    action: receive
+    channel:
+      $ref: '#/channels/cognitive~1attention~1gate~1decision'
+    summary: Subscribe to attention gate decisions
+    description: Receives attention gating decisions for downstream processing
+
+  subscribeWorkingMemoryUpdate:
+    action: receive
+    channel:
+      $ref: '#/channels/cognitive~1working-memory~1update'
+    summary: Subscribe to working memory updates
+    description: Receives working memory changes for context coordination
+
+  subscribeHippocampalEncoding:
+    action: receive
+    channel:
+      $ref: '#/channels/cognitive~1hippocampus~1encoding'
+    summary: Subscribe to hippocampal encoding
+    description: Receives memory encoding for storage coordination
+
+components:
+  securitySchemes:
+    familyAuth:
+      type: apiKey
+      in: user
+      description: Family AI authentication with device attestation
+
+  schemas:
+    # === ATTENTION SCHEMAS ===
+    AttentionGateDecisionData:
+      type: object
+      required:
+        - gate_decision
+        - salience_score
+        - processing_priority
+        - family_context
+      properties:
+        gate_decision:
+          type: string
+          enum: [ADMIT, DEFER, BOOST, DROP]
+          description: Attention gate decision for stimulus
+        salience_score:
+          type: number
+          minimum: 0
+          maximum: 1
+          description: Computed salience score for family relevance
+        processing_priority:
+          type: integer
+          minimum: 1
+          maximum: 10
+          description: Processing priority (1=highest, 10=lowest)
+        intent_classification:
+          type: string
+          description: Classified intent from family member input
+        backpressure_level:
+          type: string
+          enum: [low, medium, high, critical]
+          description: Current cognitive system backpressure
+        family_context:
+          $ref: '#/components/schemas/FamilyAttentionContext'
+        resource_budget:
+          type: object
+          properties:
+            cognitive_budget_ms:
+              type: integer
+              description: Allocated cognitive processing budget
+            memory_budget_kb:
+              type: integer
+              description: Allocated working memory budget
+        timestamp:
+          type: string
+          format: date-time
+          description: Decision timestamp
+
+    FamilyAttentionContext:
+      type: object
+      properties:
+        active_family_members:
+          type: array
+          items:
+            type: string
+            format: uuid
+          description: Currently active family member IDs
+        family_priority_context:
+          type: string
+          enum: [emergency, urgent, normal, background]
+          description: Family-level priority context
+        relationship_salience:
+          type: object
+          additionalProperties:
+            type: number
+            minimum: 0
+            maximum: 1
+          description: Salience scores per family relationship
+        emotional_context:
+          type: string
+          enum: [positive, neutral, negative, mixed, emergency]
+          description: Current family emotional context
+        conversation_thread_active:
+          type: boolean
+          description: Whether active family conversation is ongoing
+
+    # === WORKING MEMORY SCHEMAS ===
+    WorkingMemoryUpdateData:
+      type: object
+      required:
+        - cache_tier
+        - operation_type
+        - context_data
+        - family_context
+      properties:
+        cache_tier:
+          type: string
+          enum: [L1, L2, L3]
+          description: Working memory cache tier
+        operation_type:
+          type: string
+          enum: [load, update, evict, refresh]
+          description: Working memory operation type
+        context_data:
+          type: object
+          description: Context being loaded/updated in working memory
+        cognitive_load:
+          type: number
+          minimum: 0
+          maximum: 1
+          description: Current cognitive load percentage
+        context_window_size:
+          type: integer
+          description: Current context window size in tokens
+        active_chunks:
+          type: integer
+          description: Number of active memory chunks
+        family_context:
+          $ref: '#/components/schemas/FamilyWorkingMemoryContext'
+        retention_priority:
+          type: string
+          enum: [critical, high, normal, low]
+          description: Context retention priority
+        timestamp:
+          type: string
+          format: date-time
+
+    FamilyWorkingMemoryContext:
+      type: object
+      properties:
+        active_conversation_context:
+          type: object
+          description: Current family conversation context
+        task_coordination_context:
+          type: object
+          description: Family task coordination context
+        emotional_working_memory:
+          type: object
+          description: Emotional context in working memory
+        relationship_context:
+          type: object
+          description: Active relationship dynamics context
+        shared_attention_objects:
+          type: array
+          items:
+            type: string
+          description: Objects of shared family attention
+
+    # === HIPPOCAMPAL SCHEMAS ===
+    HippocampalEncodingData:
+      type: object
+      required:
+        - encoding_type
+        - memory_content
+        - family_context
+        - consolidation_priority
+      properties:
+        encoding_type:
+          type: string
+          enum: [pattern_separation, pattern_completion, cortical_binding]
+          description: Hippocampal encoding type
+        hippocampal_region:
+          type: string
+          enum: [DG, CA3, CA1]
+          description: Hippocampal region processing the encoding
+        memory_content:
+          type: object
+          description: Memory content being encoded
+        emotional_salience:
+          type: number
+          minimum: 0
+          maximum: 1
+          description: Emotional salience for memory formation
+        consolidation_priority:
+          type: string
+          enum: [immediate, delayed, slow, very_slow]
+          description: Memory consolidation priority
+        family_context:
+          $ref: '#/components/schemas/FamilyMemoryContext'
+        theta_rhythm_active:
+          type: boolean
+          description: Whether theta rhythm is active during encoding
+        timestamp:
+          type: string
+          format: date-time
+
+    FamilyMemoryContext:
+      type: object
+      properties:
+        participants:
+          type: array
+          items:
+            type: string
+            format: uuid
+          description: Family members involved in memory
+        memory_type:
+          type: string
+          enum: [shared_experience, individual_reflection, family_milestone, routine_interaction]
+          description: Type of family memory being formed
+        emotional_context:
+          type: object
+          properties:
+            dominant_emotion:
+              type: string
+            emotional_intensity:
+              type: number
+              minimum: 0
+              maximum: 1
+            emotional_valence:
+              type: number
+              minimum: -1
+              maximum: 1
+        relationship_dynamics:
+          type: object
+          description: Relationship dynamics during memory formation
+        significance_markers:
+          type: array
+          items:
+            type: string
+          description: Markers indicating memory significance
+
+    # === GLOBAL WORKSPACE SCHEMAS ===
+    GlobalWorkspaceBroadcastData:
+      type: object
+      required:
+        - broadcast_content
+        - consciousness_level
+        - family_coordination
+      properties:
+        broadcast_content:
+          type: string
+          description: Content being globally broadcast
+        consciousness_level:
+          type: number
+          minimum: 0
+          maximum: 1
+          description: Level of consciousness/awareness
+        integration_modules:
+          type: array
+          items:
+            type: string
+          description: Cognitive modules participating in integration
+        family_coordination:
+          $ref: '#/components/schemas/FamilyCoordinationContext'
+        temporal_window:
+          type: object
+          properties:
+            window_start:
+              type: string
+              format: date-time
+            window_duration_ms:
+              type: integer
+        competition_resolved:
+          type: boolean
+          description: Whether consciousness competition is resolved
+        timestamp:
+          type: string
+          format: date-time
+
+    FamilyCoordinationContext:
+      type: object
+      properties:
+        coordination_type:
+          type: string
+          enum: [information_sharing, decision_making, emotional_support, emergency_coordination]
+        active_coordination_session:
+          type: boolean
+        coordination_participants:
+          type: array
+          items:
+            type: string
+            format: uuid
+        consensus_required:
+          type: boolean
+        coordination_urgency:
+          type: string
+          enum: [low, normal, high, emergency]
+
+    # === AFFECTIVE SCHEMAS ===
+    AffectStateChangeData:
+      type: object
+      required:
+        - emotional_state
+        - emotional_intensity
+        - family_affect_context
+      properties:
+        emotional_state:
+          type: string
+          enum: [joy, sadness, anger, fear, surprise, disgust, neutral, mixed]
+          description: Primary emotional state
+        emotional_intensity:
+          type: number
+          minimum: 0
+          maximum: 1
+          description: Intensity of emotional state
+        emotional_valence:
+          type: number
+          minimum: -1
+          maximum: 1
+          description: Emotional valence (positive/negative)
+        arousal_level:
+          type: number
+          minimum: 0
+          maximum: 1
+          description: Emotional arousal level
+        threat_assessment:
+          type: string
+          enum: [none, low, medium, high, critical]
+          description: Threat level assessment
+        family_affect_context:
+          $ref: '#/components/schemas/FamilyAffectContext'
+        regulation_needed:
+          type: boolean
+          description: Whether emotional regulation is needed
+        contagion_risk:
+          type: number
+          minimum: 0
+          maximum: 1
+          description: Risk of emotional contagion spread
+        timestamp:
+          type: string
+          format: date-time
+
+    FamilyAffectContext:
+      type: object
+      properties:
+        family_emotional_climate:
+          type: string
+          enum: [harmonious, tense, excited, calm, chaotic, supportive]
+        emotional_contagion_active:
+          type: boolean
+        primary_emotion_source:
+          type: string
+          format: uuid
+          description: Family member who is primary emotion source
+        emotional_support_needed:
+          type: array
+          items:
+            type: string
+            format: uuid
+          description: Family members needing emotional support
+        regulation_strategies_active:
+          type: array
+          items:
+            type: string
+          description: Active emotional regulation strategies
+
+  messages:
+    AttentionGateDecision:
+      name: AttentionGateDecision
+      title: Attention Gate Decision
+      summary: Attention gating decision for cognitive processing
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/AttentionGateDecisionData'
+
+    AttentionBackpressure:
+      name: AttentionBackpressure
+      title: Attention System Backpressure
+      summary: Cognitive system backpressure signal
+      contentType: application/json
+      payload:
+        type: object
+        properties:
+          backpressure_level:
+            type: string
+            enum: [low, medium, high, critical]
+          resource_utilization:
+            type: object
+          recommendations:
+            type: array
+            items:
+              type: string
+
+    WorkingMemoryUpdate:
+      name: WorkingMemoryUpdate
+      title: Working Memory Update
+      summary: Working memory state update for family context
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/WorkingMemoryUpdateData'
+
+    WorkingMemoryEviction:
+      name: WorkingMemoryEviction
+      title: Working Memory Eviction
+      summary: Working memory eviction event
+      contentType: application/json
+      payload:
+        type: object
+        properties:
+          evicted_context_id:
+            type: string
+          eviction_reason:
+            type: string
+            enum: [capacity_limit, timeout, priority_override, family_context_change]
+          cache_tier:
+            type: string
+            enum: [L1, L2, L3]
+
+    HippocampalEncoding:
+      name: HippocampalEncoding
+      title: Hippocampal Memory Encoding
+      summary: Hippocampal memory encoding for family memories
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/HippocampalEncodingData'
+
+    HippocampalConsolidation:
+      name: HippocampalConsolidation
+      title: Hippocampal Memory Consolidation
+      summary: Memory consolidation from hippocampus to cortical storage
+      contentType: application/json
+      payload:
+        type: object
+        properties:
+          memory_id:
+            type: string
+            format: uuid
+          consolidation_type:
+            type: string
+            enum: [systems_consolidation, synaptic_consolidation]
+          source_region:
+            type: string
+            enum: [hippocampus, working_memory]
+          target_region:
+            type: string
+            enum: [episodic_store, semantic_store, procedural_store]
+          consolidation_strength:
+            type: number
+            minimum: 0
+            maximum: 1
+
+    HippocampalRetrieval:
+      name: HippocampalRetrieval
+      title: Hippocampal Memory Retrieval
+      summary: Hippocampal memory retrieval and pattern completion
+      contentType: application/json
+      payload:
+        type: object
+        properties:
+          retrieval_cue:
+            type: object
+          pattern_completion_active:
+            type: boolean
+          retrieved_memories:
+            type: array
+            items:
+              type: object
+          confidence_score:
+            type: number
+            minimum: 0
+            maximum: 1
+
+    GlobalWorkspaceBroadcast:
+      name: GlobalWorkspaceBroadcast
+      title: Global Workspace Broadcast
+      summary: Global workspace consciousness broadcasting
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/GlobalWorkspaceBroadcastData'
+
+    GlobalWorkspaceIntegration:
+      name: GlobalWorkspaceIntegration
+      title: Global Workspace Integration
+      summary: Cross-modal integration in global workspace
+      contentType: application/json
+      payload:
+        type: object
+        properties:
+          integration_sources:
+            type: array
+            items:
+              type: string
+          integration_result:
+            type: object
+          coherence_score:
+            type: number
+            minimum: 0
+            maximum: 1
+          binding_strength:
+            type: number
+            minimum: 0
+            maximum: 1
+
+    AffectStateChange:
+      name: AffectStateChange
+      title: Affective State Change
+      summary: Emotional state change for family affect processing
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/AffectStateChangeData'
+
+    AffectRegulation:
+      name: AffectRegulation
+      title: Affective Regulation
+      summary: Emotional regulation and affect modulation
+      contentType: application/json
+      payload:
+        type: object
+        properties:
+          regulation_strategy:
+            type: string
+            enum: [cognitive_reappraisal, attention_deployment, emotional_suppression, family_support]
+          regulation_target:
+            type: string
+            format: uuid
+          regulation_effectiveness:
+            type: number
+            minimum: 0
+            maximum: 1
+          family_support_activated:
+            type: boolean
+
+    MetacognitionMonitoring:
+      name: MetacognitionMonitoring
+      title: Metacognitive Monitoring
+      summary: Metacognitive self-monitoring and awareness
+      contentType: application/json
+      payload:
+        type: object
+        properties:
+          monitoring_target:
+            type: string
+            enum: [attention, memory, reasoning, social_cognition, emotional_processing]
+          confidence_level:
+            type: number
+            minimum: 0
+            maximum: 1
+          uncertainty_estimate:
+            type: number
+            minimum: 0
+            maximum: 1
+          self_assessment:
+            type: object
+
+    MetacognitionControl:
+      name: MetacognitionControl
+      title: Metacognitive Control
+      summary: Metacognitive control and strategy adjustment
+      contentType: application/json
+      payload:
+        type: object
+        properties:
+          control_action:
+            type: string
+            enum: [strategy_adjustment, resource_allocation, attention_redirection, learning_adaptation]
+          control_target:
+            type: string
+          adjustment_parameters:
+            type: object
+          expected_improvement:
+            type: number
+            minimum: 0
+            maximum: 1

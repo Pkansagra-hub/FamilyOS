@@ -1,0 +1,1557 @@
+openapi: 3.1.0
+info:
+  title: MemoryOS App Plane - Spaces API
+  description: |
+    **Memory-Centric Family AI Memory Spaces Management**
+
+    This API manages family memory spaces that serve as the foundational units of the Memory-Centric Family AI system:
+    - **Family Memory Spaces**: Isolated memory domains for different family contexts and relationships
+    - **Memory Namespace Management**: Hierarchical organization of family memories with E2EE boundaries
+    - **Cross-Space Memory Coordination**: Intelligent memory sharing and coordination across family spaces
+    - **Relationship-Aware Memory Access**: Memory space access based on family roles and relationships
+    - **Memory Space Intelligence**: AI-powered memory organization and relationship insights
+
+    **Memory-Centric Design**: Memory spaces are the core organizing principle for:
+    - Isolating family memories by context, relationship, and privacy needs
+    - Enabling secure memory sharing with E2EE boundaries and family policies
+    - Providing memory-driven intelligence through cross-space analysis and insights
+    - Supporting family coordination through shared memory spaces and context preservation
+
+    **Architecture Integration**:
+    - Central to Memory Backbone serving as the primary memory organization unit
+    - Integrates with Family Intelligence for relationship-appropriate memory space access
+    - Coordinates with Device Ecosystem for seamless cross-device memory space sync
+    - Enforces family policies through Policy Engine integration with memory boundaries
+  version: "1.0.0"
+  contact:
+    name: MemoryOS API Team
+    url: https://familyos.local/support
+    email: api-support@familyos.local
+  license:
+    name: Family OS Private License
+    url: https://familyos.local/licenses/family-os
+
+servers:
+  - url: https://api.familyos.local/app/v1
+    description: Production App Plane
+  - url: https://staging-api.familyos.local/app/v1
+    description: Staging Environment
+  - url: http://localhost:8080/app/v1
+    description: Local Development
+
+security:
+  - FamilyOSAuth: []
+  - DeviceAuth: []
+
+paths:
+  /spaces:
+    get:
+      summary: List Family Memory Spaces
+      description: |
+        Retrieve memory spaces accessible to the authenticated user with family context and memory organization.
+
+        **Memory Integration**: Returns spaces with memory organization insights and relationship-aware filtering.
+        **Family Intelligence**: Filters spaces based on family hierarchy and relationship appropriateness.
+      operationId: listMemorySpaces
+      parameters:
+        - name: space_type
+          in: query
+          description: Filter spaces by type
+          required: false
+          schema:
+            type: string
+            enum: [personal, family, shared, private, emergency, archive]
+        - name: access_level
+          in: query
+          description: Filter by user's access level
+          required: false
+          schema:
+            type: string
+            enum: [owner, admin, editor, viewer, guest, observer]
+        - name: family_context
+          in: query
+          description: Include family context in space data
+          required: false
+          schema:
+            type: boolean
+            default: true
+        - name: memory_insights
+          in: query
+          description: Include memory organization insights
+          required: false
+          schema:
+            type: boolean
+            default: true
+        - name: include_archived
+          in: query
+          description: Include archived spaces
+          required: false
+          schema:
+            type: boolean
+            default: false
+        - name: relationship_filter
+          in: query
+          description: Filter by family relationship context
+          required: false
+          schema:
+            type: string
+            enum: [direct_family, extended_family, close_friends, all]
+            default: all
+        - name: limit
+          in: query
+          description: Maximum number of spaces to return
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+        - name: offset
+          in: query
+          description: Pagination offset
+          required: false
+          schema:
+            type: integer
+            minimum: 0
+            default: 0
+      responses:
+        '200':
+          description: Memory spaces retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  spaces:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/FamilyMemorySpace'
+                  total_count:
+                    type: integer
+                  family_summary:
+                    $ref: '#/components/schemas/SpaceFamilySummary'
+                  memory_organization:
+                    $ref: '#/components/schemas/MemoryOrganizationInsights'
+                  cross_space_connections:
+                    $ref: '#/components/schemas/CrossSpaceConnections'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Memory Space Management
+
+    post:
+      summary: Create Family Memory Space
+      description: |
+        Create a new family memory space with relationship-aware configuration and E2EE setup.
+
+        **Memory Integration**: Establishes new memory namespace with family context and intelligence features.
+        **Family Intelligence**: Configures space with family-appropriate access and memory coordination rules.
+      operationId: createMemorySpace
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateMemorySpaceRequest'
+      responses:
+        '201':
+          description: Memory space created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  space:
+                    $ref: '#/components/schemas/FamilyMemorySpace'
+                  family_setup:
+                    $ref: '#/components/schemas/SpaceFamilySetup'
+                  memory_configuration:
+                    $ref: '#/components/schemas/MemoryConfiguration'
+                  e2ee_setup:
+                    $ref: '#/components/schemas/E2EESetup'
+                  intelligence_features:
+                    $ref: '#/components/schemas/IntelligenceFeatures'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Memory Space Management
+
+  /spaces/{space_id}:
+    get:
+      summary: Get Memory Space Details
+      description: |
+        Retrieve detailed information about a memory space including family context and memory analytics.
+
+        **Memory Integration**: Returns space with full memory organization insights and relationship analytics.
+        **Family Intelligence**: Provides relationship-aware space details and access information.
+      operationId: getMemorySpaceDetails
+      parameters:
+        - name: space_id
+          in: path
+          description: Memory space identifier
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: include_family_context
+          in: query
+          description: Include detailed family context
+          required: false
+          schema:
+            type: boolean
+            default: true
+        - name: include_memory_analytics
+          in: query
+          description: Include memory analytics and insights
+          required: false
+          schema:
+            type: boolean
+            default: true
+        - name: include_cross_space_connections
+          in: query
+          description: Include connections to other memory spaces
+          required: false
+          schema:
+            type: boolean
+            default: true
+      responses:
+        '200':
+          description: Memory space details retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  space:
+                    $ref: '#/components/schemas/FamilyMemorySpaceDetailed'
+                  family_context:
+                    $ref: '#/components/schemas/SpaceFamilyContext'
+                  memory_analytics:
+                    $ref: '#/components/schemas/SpaceMemoryAnalytics'
+                  cross_space_connections:
+                    $ref: '#/components/schemas/CrossSpaceConnections'
+                  access_permissions:
+                    $ref: '#/components/schemas/SpaceAccessPermissions'
+                  intelligence_insights:
+                    $ref: '#/components/schemas/SpaceIntelligenceInsights'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Memory Space Management
+
+    put:
+      summary: Update Memory Space
+      description: |
+        Update memory space configuration with family coordination and memory reorganization.
+
+        **Memory Integration**: Updates space configuration while preserving memory organization and relationships.
+        **Family Intelligence**: Coordinates updates across family members with appropriate notifications.
+      operationId: updateMemorySpace
+      parameters:
+        - name: space_id
+          in: path
+          description: Memory space identifier
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateMemorySpaceRequest'
+      responses:
+        '200':
+          description: Memory space updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  space:
+                    $ref: '#/components/schemas/FamilyMemorySpace'
+                  family_coordination_updates:
+                    type: array
+                    items:
+                      type: string
+                      format: uuid
+                  memory_reorganization:
+                    $ref: '#/components/schemas/MemoryReorganizationResult'
+                  intelligence_impact:
+                    $ref: '#/components/schemas/IntelligenceImpact'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Memory Space Management
+
+    delete:
+      summary: Archive Memory Space
+      description: |
+        Archive a memory space while preserving family memory context and cross-space connections.
+
+        **Memory Integration**: Archives space content while maintaining cross-space memory connections.
+        **Family Intelligence**: Coordinates archival across family members with memory preservation.
+      operationId: archiveMemorySpace
+      parameters:
+        - name: space_id
+          in: path
+          description: Memory space identifier
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: preserve_memories
+          in: query
+          description: Whether to preserve memories in family archive
+          required: false
+          schema:
+            type: boolean
+            default: true
+        - name: maintain_cross_space_connections
+          in: query
+          description: Whether to maintain connections to other spaces
+          required: false
+          schema:
+            type: boolean
+            default: true
+      responses:
+        '200':
+          description: Memory space archived successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  space_id:
+                    type: string
+                    format: uuid
+                  memories_preserved:
+                    type: boolean
+                  cross_space_connections_maintained:
+                    type: boolean
+                  archive_location:
+                    type: string
+                  coordination_updates:
+                    type: array
+                    items:
+                      type: string
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Memory Space Management
+
+  /spaces/{space_id}/members:
+    get:
+      summary: List Memory Space Members
+      description: |
+        Retrieve memory space members with family relationship context and memory access patterns.
+
+        **Family Intelligence**: Returns members with family relationship data and memory interaction patterns.
+        **Memory Integration**: Provides insights about member memory contributions and access patterns.
+      operationId: listMemorySpaceMembers
+      parameters:
+        - name: space_id
+          in: path
+          description: Memory space identifier
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: include_family_context
+          in: query
+          description: Include family relationship context
+          required: false
+          schema:
+            type: boolean
+            default: true
+        - name: include_memory_insights
+          in: query
+          description: Include memory access and contribution insights
+          required: false
+          schema:
+            type: boolean
+            default: true
+      responses:
+        '200':
+          description: Memory space members retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  members:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/MemorySpaceMember'
+                  family_relationships:
+                    $ref: '#/components/schemas/SpaceFamilyRelationships'
+                  memory_collaboration_patterns:
+                    $ref: '#/components/schemas/MemoryCollaborationPatterns'
+                  member_insights:
+                    $ref: '#/components/schemas/MemberMemoryInsights'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Memory Space Members
+
+    post:
+      summary: Add Memory Space Member
+      description: |
+        Add a family member to the memory space with relationship-appropriate permissions and memory access.
+
+        **Family Intelligence**: Configures member access based on family relationships and memory appropriateness.
+        **Memory Integration**: Establishes member context in space memory for collaboration intelligence.
+      operationId: addMemorySpaceMember
+      parameters:
+        - name: space_id
+          in: path
+          description: Memory space identifier
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AddMemorySpaceMemberRequest'
+      responses:
+        '201':
+          description: Memory space member added successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  member:
+                    $ref: '#/components/schemas/MemorySpaceMember'
+                  family_relationship_context:
+                    $ref: '#/components/schemas/FamilyRelationshipContext'
+                  memory_access_configuration:
+                    $ref: '#/components/schemas/MemoryAccessConfiguration'
+                  e2ee_setup:
+                    $ref: '#/components/schemas/MemberE2EESetup'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '409':
+          description: Member already exists in memory space
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConflictError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Memory Space Members
+
+  /spaces/{space_id}/memories:
+    get:
+      summary: List Space Memories
+      description: |
+        Retrieve memories from the space with family context and relationship-aware filtering.
+
+        **Memory Integration**: Returns memories with rich context and cross-space connections.
+        **Family Intelligence**: Filters memories based on family member access rights and appropriateness.
+      operationId: listSpaceMemories
+      parameters:
+        - name: space_id
+          in: path
+          description: Memory space identifier
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: memory_type
+          in: query
+          description: Filter by memory type
+          required: false
+          schema:
+            type: string
+            enum: [episodic, semantic, procedural, working, emotional, social]
+        - name: time_range
+          in: query
+          description: Filter by time range
+          required: false
+          schema:
+            type: string
+            enum: [hour, day, week, month, year, all]
+            default: all
+        - name: family_context
+          in: query
+          description: Include family context in memory data
+          required: false
+          schema:
+            type: boolean
+            default: true
+        - name: cross_space_connections
+          in: query
+          description: Include connections to other spaces
+          required: false
+          schema:
+            type: boolean
+            default: true
+        - name: sort_by
+          in: query
+          description: Sort memories by criteria
+          required: false
+          schema:
+            type: string
+            enum: [created_at, importance, relevance, family_significance, emotional_weight]
+            default: created_at
+        - name: limit
+          in: query
+          description: Maximum number of memories to return
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 200
+            default: 50
+        - name: offset
+          in: query
+          description: Pagination offset
+          required: false
+          schema:
+            type: integer
+            minimum: 0
+            default: 0
+      responses:
+        '200':
+          description: Space memories retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  memories:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/FamilyMemory'
+                  total_count:
+                    type: integer
+                  memory_organization:
+                    $ref: '#/components/schemas/MemoryOrganization'
+                  family_significance:
+                    $ref: '#/components/schemas/FamilyMemorySignificance'
+                  cross_space_connections:
+                    $ref: '#/components/schemas/CrossSpaceMemoryConnections'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Space Memories
+
+    post:
+      summary: Create Memory in Space
+      description: |
+        Create a new memory in the space with family context and cross-space intelligence.
+
+        **Memory Integration**: Creates memory with rich family context and intelligent organization.
+        **Family Intelligence**: Applies family-appropriate tagging and cross-space connection analysis.
+      operationId: createSpaceMemory
+      parameters:
+        - name: space_id
+          in: path
+          description: Memory space identifier
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateSpaceMemoryRequest'
+      responses:
+        '201':
+          description: Memory created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  memory:
+                    $ref: '#/components/schemas/FamilyMemory'
+                  family_context_analysis:
+                    $ref: '#/components/schemas/FamilyContextAnalysis'
+                  cross_space_connections:
+                    $ref: '#/components/schemas/CrossSpaceConnectionsCreated'
+                  intelligence_insights:
+                    $ref: '#/components/schemas/MemoryIntelligenceInsights'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Space Memories
+
+  /spaces/{space_id}/insights:
+    get:
+      summary: Get Memory Space Insights
+      description: |
+        Retrieve AI-powered insights about the memory space using family intelligence and cross-space analysis.
+
+        **Memory Integration**: Provides insights based on memory patterns and family collaboration.
+        **Family Intelligence**: Analyzes family dynamics and relationship patterns within the space.
+      operationId: getMemorySpaceInsights
+      parameters:
+        - name: space_id
+          in: path
+          description: Memory space identifier
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: insight_type
+          in: query
+          description: Type of insights to generate
+          required: false
+          schema:
+            type: string
+            enum: [memory_patterns, family_dynamics, emotional_insights, collaboration_patterns, cross_space_analysis]
+        - name: time_range
+          in: query
+          description: Time range for insight analysis
+          required: false
+          schema:
+            type: string
+            enum: [day, week, month, quarter, year]
+            default: month
+        - name: include_family_analysis
+          in: query
+          description: Include family relationship analysis
+          required: false
+          schema:
+            type: boolean
+            default: true
+      responses:
+        '200':
+          description: Memory space insights retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  memory_pattern_insights:
+                    $ref: '#/components/schemas/MemoryPatternInsights'
+                  family_dynamics_insights:
+                    $ref: '#/components/schemas/FamilyDynamicsInsights'
+                  emotional_insights:
+                    $ref: '#/components/schemas/EmotionalInsights'
+                  collaboration_insights:
+                    $ref: '#/components/schemas/CollaborationInsights'
+                  cross_space_analysis:
+                    $ref: '#/components/schemas/CrossSpaceAnalysis'
+                  recommendations:
+                    $ref: '#/components/schemas/SpaceRecommendations'
+                  insight_metadata:
+                    $ref: '#/components/schemas/InsightMetadata'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Memory Space Intelligence
+
+  /spaces/{space_id}/sync:
+    get:
+      summary: Get Space Sync Status
+      description: |
+        Retrieve synchronization status of the memory space across family devices with E2EE information.
+
+        **Device Ecosystem**: Shows sync status across all family devices with encryption verification.
+        **Memory Integration**: Provides memory-specific sync status and conflict resolution information.
+      operationId: getSpaceSyncStatus
+      parameters:
+        - name: space_id
+          in: path
+          description: Memory space identifier
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: include_device_details
+          in: query
+          description: Include detailed device sync information
+          required: false
+          schema:
+            type: boolean
+            default: true
+        - name: include_conflict_analysis
+          in: query
+          description: Include memory conflict analysis
+          required: false
+          schema:
+            type: boolean
+            default: true
+      responses:
+        '200':
+          description: Space sync status retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  overall_sync_status:
+                    type: string
+                    enum: [synced, syncing, conflicts, offline, error]
+                  device_sync_status:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/DeviceSyncStatus'
+                  memory_sync_details:
+                    $ref: '#/components/schemas/MemorySyncDetails'
+                  conflict_analysis:
+                    $ref: '#/components/schemas/SyncConflictAnalysis'
+                  e2ee_verification:
+                    $ref: '#/components/schemas/E2EEVerification'
+                  last_sync_timestamp:
+                    type: string
+                    format: date-time
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Memory Space Sync
+
+    post:
+      summary: Trigger Space Sync
+      description: |
+        Manually trigger synchronization of the memory space across family devices with conflict resolution.
+
+        **Device Ecosystem**: Initiates sync across all authorized family devices with E2EE validation.
+        **Memory Integration**: Handles memory-specific sync operations and family coordination.
+      operationId: triggerSpaceSync
+      parameters:
+        - name: space_id
+          in: path
+          description: Memory space identifier
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TriggerSyncRequest'
+      responses:
+        '200':
+          description: Space sync triggered successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  sync_id:
+                    type: string
+                    format: uuid
+                  sync_status:
+                    type: string
+                    enum: [initiated, in_progress, completed, failed]
+                  device_coordination:
+                    $ref: '#/components/schemas/DeviceCoordination'
+                  memory_sync_plan:
+                    $ref: '#/components/schemas/MemorySyncPlan'
+                  estimated_completion:
+                    type: string
+                    format: date-time
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Memory Space Sync
+
+  /spaces/search:
+    get:
+      summary: Search Across Memory Spaces
+      description: |
+        Search for memories and content across accessible memory spaces with family-aware filtering.
+
+        **Memory Integration**: Performs intelligent search across memory spaces with relationship context.
+        **Family Intelligence**: Filters search results based on family access rights and appropriateness.
+      operationId: searchMemorySpaces
+      parameters:
+        - name: query
+          in: query
+          description: Search query
+          required: true
+          schema:
+            type: string
+            minLength: 1
+            maxLength: 500
+        - name: search_type
+          in: query
+          description: Type of search to perform
+          required: false
+          schema:
+            type: string
+            enum: [memories, content, family_context, emotional_context, all]
+            default: all
+        - name: space_types
+          in: query
+          description: Types of spaces to search
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+              enum: [personal, family, shared, private, emergency, archive]
+        - name: time_range
+          in: query
+          description: Time range for search
+          required: false
+          schema:
+            type: string
+            enum: [hour, day, week, month, year, all]
+            default: all
+        - name: family_context_filter
+          in: query
+          description: Filter by family context
+          required: false
+          schema:
+            type: boolean
+            default: true
+        - name: limit
+          in: query
+          description: Maximum number of results to return
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+      responses:
+        '200':
+          description: Search completed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/MemorySearchResult'
+                  total_count:
+                    type: integer
+                  search_insights:
+                    $ref: '#/components/schemas/SearchInsights'
+                  family_context_relevance:
+                    $ref: '#/components/schemas/FamilyContextRelevance'
+                  cross_space_connections:
+                    $ref: '#/components/schemas/CrossSpaceConnections'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Memory Space Search
+
+  /spaces/analytics:
+    get:
+      summary: Get Cross-Space Analytics
+      description: |
+        Retrieve analytics and insights across all accessible memory spaces with family intelligence.
+
+        **Memory Integration**: Provides comprehensive analytics across memory spaces with family patterns.
+        **Family Intelligence**: Analyzes family dynamics and relationship patterns across all spaces.
+      operationId: getCrossSpaceAnalytics
+      parameters:
+        - name: analytics_type
+          in: query
+          description: Type of analytics to generate
+          required: false
+          schema:
+            type: string
+            enum: [memory_distribution, family_interaction, emotional_patterns, collaboration_effectiveness, privacy_analysis]
+        - name: time_range
+          in: query
+          description: Time range for analytics
+          required: false
+          schema:
+            type: string
+            enum: [week, month, quarter, year]
+            default: month
+        - name: include_family_insights
+          in: query
+          description: Include family relationship insights
+          required: false
+          schema:
+            type: boolean
+            default: true
+      responses:
+        '200':
+          description: Cross-space analytics retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  memory_distribution_analytics:
+                    $ref: '#/components/schemas/MemoryDistributionAnalytics'
+                  family_interaction_analytics:
+                    $ref: '#/components/schemas/FamilyInteractionAnalytics'
+                  emotional_pattern_analytics:
+                    $ref: '#/components/schemas/EmotionalPatternAnalytics'
+                  collaboration_effectiveness:
+                    $ref: '#/components/schemas/CollaborationEffectivenessAnalytics'
+                  privacy_analysis:
+                    $ref: '#/components/schemas/PrivacyAnalytics'
+                  recommendations:
+                    $ref: '#/components/schemas/CrossSpaceRecommendations'
+                  analytics_metadata:
+                    $ref: '#/components/schemas/AnalyticsMetadata'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Cross-Space Analytics
+
+components:
+  securitySchemes:
+    FamilyOSAuth:
+      type: oauth2
+      description: FamilyOS OAuth2 authentication with memory space-specific scopes
+      flows:
+        authorizationCode:
+          authorizationUrl: https://auth.familyos.local/oauth/authorize
+          tokenUrl: https://auth.familyos.local/oauth/token
+          scopes:
+            spaces:read: Read memory space information and memories
+            spaces:write: Create and modify memory spaces and memories
+            spaces:admin: Full memory space administration
+            spaces:family: Access family memory coordination
+            spaces:insights: Access AI-powered memory space insights
+            spaces:sync: Access memory space synchronization
+
+    DeviceAuth:
+      type: apiKey
+      description: Device-specific authentication for memory space operations
+      name: X-Device-Token
+      in: header
+
+  schemas:
+    FamilyMemorySpace:
+      type: object
+      description: Family-aware memory space with intelligent organization
+      properties:
+        space_id:
+          type: string
+          format: uuid
+          description: Unique memory space identifier
+        name:
+          type: string
+          description: Memory space name
+        description:
+          type: string
+          description: Memory space description
+        space_type:
+          type: string
+          enum: [personal, family, shared, private, emergency, archive]
+          description: Memory space type
+        owner_id:
+          type: string
+          format: uuid
+          description: Space owner (family member)
+        family_id:
+          type: string
+          format: uuid
+          description: Associated family identifier
+        privacy_level:
+          type: string
+          enum: [public, family, private, restricted, encrypted]
+          description: Memory space privacy level
+        created_at:
+          type: string
+          format: date-time
+          description: Space creation timestamp
+        updated_at:
+          type: string
+          format: date-time
+          description: Last update timestamp
+        last_memory_added:
+          type: string
+          format: date-time
+          description: Last memory addition timestamp
+        status:
+          type: string
+          enum: [active, archived, suspended, readonly]
+          description: Memory space status
+        member_count:
+          type: integer
+          description: Number of space members
+        memory_count:
+          type: integer
+          description: Number of memories in space
+        total_memory_size:
+          type: integer
+          description: Total memory size in bytes
+        family_context:
+          $ref: '#/components/schemas/SpaceFamilyContext'
+        memory_organization:
+          $ref: '#/components/schemas/MemoryOrganization'
+        intelligence_features:
+          $ref: '#/components/schemas/IntelligenceFeatures'
+        e2ee_status:
+          $ref: '#/components/schemas/E2EEStatus'
+        sync_status:
+          $ref: '#/components/schemas/SyncStatus'
+      required:
+        - space_id
+        - name
+        - space_type
+        - owner_id
+        - family_id
+        - privacy_level
+        - created_at
+        - status
+
+    FamilyMemorySpaceDetailed:
+      allOf:
+        - $ref: '#/components/schemas/FamilyMemorySpace'
+        - type: object
+          properties:
+            detailed_description:
+              type: string
+              description: Extended space description
+            space_configuration:
+              $ref: '#/components/schemas/SpaceConfiguration'
+            family_policies:
+              $ref: '#/components/schemas/SpaceFamilyPolicies'
+            memory_analytics:
+              $ref: '#/components/schemas/SpaceMemoryAnalytics'
+            cross_space_connections:
+              $ref: '#/components/schemas/CrossSpaceConnections'
+            recent_activity:
+              type: array
+              items:
+                $ref: '#/components/schemas/SpaceActivity'
+
+    CreateMemorySpaceRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Memory space name
+          minLength: 1
+          maxLength: 255
+        description:
+          type: string
+          description: Memory space description
+          maxLength: 1000
+        space_type:
+          type: string
+          enum: [personal, family, shared, private, emergency, archive]
+          description: Memory space type
+        privacy_level:
+          type: string
+          enum: [public, family, private, restricted, encrypted]
+          description: Memory space privacy level
+        family_coordination:
+          $ref: '#/components/schemas/FamilyCoordinationSettings'
+        memory_organization:
+          $ref: '#/components/schemas/MemoryOrganizationSettings'
+        intelligence_features:
+          $ref: '#/components/schemas/IntelligenceFeatureSettings'
+        e2ee_configuration:
+          $ref: '#/components/schemas/E2EEConfiguration'
+        initial_members:
+          type: array
+          items:
+            $ref: '#/components/schemas/InitialSpaceMember'
+          description: Initial space members
+        space_configuration:
+          $ref: '#/components/schemas/SpaceConfiguration'
+      required:
+        - name
+        - space_type
+        - privacy_level
+
+    UpdateMemorySpaceRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Updated space name
+          minLength: 1
+          maxLength: 255
+        description:
+          type: string
+          description: Updated space description
+          maxLength: 1000
+        privacy_level:
+          type: string
+          enum: [public, family, private, restricted, encrypted]
+          description: Updated privacy level
+        family_coordination:
+          $ref: '#/components/schemas/FamilyCoordinationSettings'
+        memory_organization:
+          $ref: '#/components/schemas/MemoryOrganizationSettings'
+        intelligence_features:
+          $ref: '#/components/schemas/IntelligenceFeatureSettings'
+        space_configuration:
+          $ref: '#/components/schemas/SpaceConfiguration'
+        status:
+          type: string
+          enum: [active, archived, readonly]
+          description: Updated space status
+
+    MemorySpaceMember:
+      type: object
+      description: Memory space member with family relationship context
+      properties:
+        user_id:
+          type: string
+          format: uuid
+          description: User identifier
+        display_name:
+          type: string
+          description: Member display name
+        role:
+          type: string
+          enum: [owner, admin, editor, viewer, guest, observer]
+          description: Memory space role
+        permissions:
+          type: array
+          items:
+            type: string
+          description: Specific memory permissions granted
+        family_relationship:
+          type: string
+          description: Relationship to space owner
+        joined_at:
+          type: string
+          format: date-time
+          description: Member join timestamp
+        last_activity:
+          type: string
+          format: date-time
+          description: Last memory activity timestamp
+        memory_contribution_score:
+          type: number
+          minimum: 0
+          maximum: 1
+          description: AI-computed memory contribution score
+        family_context:
+          $ref: '#/components/schemas/MemberFamilyContext'
+        memory_access_patterns:
+          $ref: '#/components/schemas/MemoryAccessPatterns'
+        e2ee_key_status:
+          $ref: '#/components/schemas/E2EEKeyStatus'
+      required:
+        - user_id
+        - display_name
+        - role
+        - joined_at
+
+    AddMemorySpaceMemberRequest:
+      type: object
+      properties:
+        user_id:
+          type: string
+          format: uuid
+          description: User to add as member
+        role:
+          type: string
+          enum: [admin, editor, viewer, guest, observer]
+          description: Initial space role
+        custom_permissions:
+          type: array
+          items:
+            type: string
+          description: Custom memory permissions to grant
+        family_relationship_context:
+          type: string
+          description: Family relationship context for permission determination
+        memory_access_preferences:
+          $ref: '#/components/schemas/MemoryAccessPreferences'
+        e2ee_key_sharing:
+          type: boolean
+          default: true
+          description: Whether to share E2EE keys for memory access
+      required:
+        - user_id
+        - role
+
+    FamilyMemory:
+      type: object
+      description: Family memory with rich context and cross-space connections
+      properties:
+        memory_id:
+          type: string
+          format: uuid
+          description: Memory identifier
+        title:
+          type: string
+          description: Memory title
+        content:
+          type: string
+          description: Memory content
+        memory_type:
+          type: string
+          enum: [episodic, semantic, procedural, working, emotional, social]
+          description: Memory type
+        importance_score:
+          type: number
+          minimum: 0
+          maximum: 1
+          description: AI-computed importance score
+        emotional_weight:
+          type: number
+          minimum: -1
+          maximum: 1
+          description: Emotional significance score
+        created_by:
+          type: string
+          format: uuid
+          description: Memory creator user ID
+        created_at:
+          type: string
+          format: date-time
+          description: Memory creation timestamp
+        updated_at:
+          type: string
+          format: date-time
+          description: Last update timestamp
+        family_context:
+          $ref: '#/components/schemas/MemoryFamilyContext'
+        cross_space_connections:
+          type: array
+          items:
+            $ref: '#/components/schemas/CrossSpaceConnection'
+        tags:
+          type: array
+          items:
+            type: string
+          description: Memory tags for organization
+        access_permissions:
+          $ref: '#/components/schemas/MemoryAccessPermissions'
+        e2ee_encrypted:
+          type: boolean
+          description: Whether memory is E2EE encrypted
+      required:
+        - memory_id
+        - title
+        - memory_type
+        - created_by
+        - created_at
+
+    CreateSpaceMemoryRequest:
+      type: object
+      properties:
+        title:
+          type: string
+          description: Memory title
+          minLength: 1
+          maxLength: 500
+        content:
+          type: string
+          description: Memory content
+          maxLength: 10000
+        memory_type:
+          type: string
+          enum: [episodic, semantic, procedural, working, emotional, social]
+          description: Memory type
+        importance_score:
+          type: number
+          minimum: 0
+          maximum: 1
+          description: Initial importance score
+        emotional_weight:
+          type: number
+          minimum: -1
+          maximum: 1
+          description: Emotional significance
+        family_context:
+          $ref: '#/components/schemas/MemoryFamilyContextInput'
+        tags:
+          type: array
+          items:
+            type: string
+          description: Memory tags
+        cross_space_connections:
+          type: array
+          items:
+            type: string
+            format: uuid
+          description: Connections to other spaces
+        access_permissions:
+          $ref: '#/components/schemas/MemoryAccessPermissions'
+        e2ee_encrypt:
+          type: boolean
+          default: true
+          description: Whether to E2EE encrypt memory
+      required:
+        - title
+        - content
+        - memory_type
+
+    TriggerSyncRequest:
+      type: object
+      properties:
+        sync_type:
+          type: string
+          enum: [full, incremental, conflict_resolution, force]
+          default: incremental
+          description: Type of sync to perform
+        target_devices:
+          type: array
+          items:
+            type: string
+          description: Specific devices to sync (optional)
+        resolve_conflicts:
+          type: boolean
+          default: true
+          description: Whether to attempt conflict resolution
+        priority:
+          type: string
+          enum: [normal, high, urgent]
+          default: normal
+          description: Sync priority level
+
+    MemorySearchResult:
+      type: object
+      properties:
+        memory:
+          $ref: '#/components/schemas/FamilyMemory'
+        space_context:
+          $ref: '#/components/schemas/SpaceContext'
+        relevance_score:
+          type: number
+          minimum: 0
+          maximum: 1
+        family_relevance:
+          $ref: '#/components/schemas/FamilyRelevance'
+        highlight_matches:
+          type: array
+          items:
+            type: string
+
+    # Supporting schemas for memory space family and intelligence context
+    SpaceFamilyContext:
+      type: object
+      properties:
+        family_id:
+          type: string
+          format: uuid
+        family_members_with_access:
+          type: integer
+        relationship_dynamics:
+          type: object
+        emotional_climate:
+          type: object
+        privacy_boundaries:
+          type: array
+          items:
+            type: string
+
+    MemoryOrganization:
+      type: object
+      properties:
+        organization_strategy:
+          type: string
+          enum: [chronological, thematic, relational, importance, emotional]
+        intelligent_clustering:
+          type: boolean
+        cross_space_indexing:
+          type: boolean
+        family_context_organization:
+          type: boolean
+
+    IntelligenceFeatures:
+      type: object
+      properties:
+        memory_insights:
+          type: boolean
+        family_pattern_analysis:
+          type: boolean
+        emotional_intelligence:
+          type: boolean
+        cross_space_connections:
+          type: boolean
+        predictive_organization:
+          type: boolean
+
+    E2EEStatus:
+      type: object
+      properties:
+        enabled:
+          type: boolean
+        key_rotation_status:
+          type: string
+          enum: [current, rotating, expired]
+        member_key_sync:
+          type: boolean
+        encryption_strength:
+          type: string
+
+    SyncStatus:
+      type: object
+      properties:
+        overall_status:
+          type: string
+          enum: [synced, syncing, conflicts, offline, error]
+        last_sync:
+          type: string
+          format: date-time
+        pending_operations:
+          type: integer
+        conflict_count:
+          type: integer
+
+    # Error schemas
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+            message:
+              type: string
+            details:
+              type: object
+            trace_id:
+              type: string
+          required:
+            - code
+            - message
+      required:
+        - error
+
+    ConflictError:
+      allOf:
+        - $ref: '#/components/schemas/ErrorResponse'
+        - type: object
+          properties:
+            conflict_type:
+              type: string
+              enum: [member_exists, space_exists, memory_conflict, permission_conflict]
+            existing_resource:
+              type: object
+
+  responses:
+    BadRequestError:
+      description: Invalid request parameters or payload
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    ForbiddenError:
+      description: Insufficient permissions or family policy violation
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    NotFoundError:
+      description: Requested memory space or resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    InternalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+tags:
+  - name: Memory Space Management
+    description: |
+      Manage family memory spaces with intelligent organization and relationship-aware access.
+
+      **Memory Integration**: Memory spaces serve as the foundation for family memory organization.
+
+  - name: Memory Space Members
+    description: |
+      Manage memory space members with family relationship awareness and memory access optimization.
+
+      **Family Intelligence**: Member management respects family hierarchy and memory appropriateness.
+
+  - name: Space Memories
+    description: |
+      Manage memories within spaces with cross-space intelligence and family context.
+
+      **Memory Intelligence**: Memories are organized with rich family context and cross-space connections.
+
+  - name: Memory Space Intelligence
+    description: |
+      AI-powered memory space insights using family intelligence and cross-space analysis.
+
+      **Intelligence Layer**: Advanced analytics provide family-aware memory organization insights.
+
+  - name: Memory Space Sync
+    description: |
+      Synchronize memory spaces across family devices with E2EE and conflict resolution.
+
+      **Device Ecosystem**: Cross-device sync maintains memory consistency and family coordination.
+
+  - name: Memory Space Search
+    description: |
+      Search across memory spaces with family-aware filtering and intelligent organization.
+
+      **Search Intelligence**: Family-aware search with relationship context and memory connections.
+
+  - name: Cross-Space Analytics
+    description: |
+      Analytics and insights across all memory spaces with family intelligence integration.
+
+      **Analytics Engine**: Comprehensive family memory analytics with relationship insights.

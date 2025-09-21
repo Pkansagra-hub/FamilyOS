@@ -1,0 +1,11 @@
+{
+  "title": "FamilyOS \u2014 Observability (Fallback)",
+  "timezone": "browser",
+  "schemaVersion": 38,
+  "version": 1,
+  "time": {
+    "from": "now-6h",
+    "to": "now"
+  },
+  "panels": []
+}

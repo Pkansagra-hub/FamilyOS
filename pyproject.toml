@@ -1,0 +1,153 @@
+[tool.poetry]
+name = "memoryos"
+version = "0.1.0"
+description = "MemoryOS – policy-enforced memory infrastructure"
+authors = ["MemoryOS Team <dev@memoryos.local>"]
+packages = [
+    {include = "action"},
+    {include = "affect"},
+    {include = "api"},
+    {include = "arbitration"},
+    {include = "consolidation"},
+    {include = "core"},
+    {include = "cortex"},
+    {include = "drives"},
+    {include = "embeddings"},
+    {include = "episodic"},
+    {include = "events"},
+    {include = "hippocampus"},
+    {include = "imagination"},
+    {include = "intent"},
+    {include = "kg"},
+    {include = "learning"},
+    {include = "memory"},
+    {include = "metacognition"},
+    {include = "ml_capsule"},
+    {include = "observability"},
+    {include = "perception"},
+    {include = "pipelines"},
+    {include = "policy"},
+    {include = "prospective"},
+    {include = "registry"},
+    {include = "retrieval"},
+    {include = "security"},
+    {include = "services"},
+    {include = "social_cognition"},
+    {include = "storage"},
+    {include = "supervisor"},
+    {include = "sync"},
+    {include = "temporal"},
+    {include = "tools"},
+    {include = "workflows"},
+    {include = "workspace"}
+]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+fastapi = "^0.111.0"
+uvicorn = {extras = ["standard"], version = "^0.30.0"}
+pydantic = "^2.8.0"
+pydantic-settings = "^2.0.3"
+typing-extensions = "*"
+# Database and storage
+alembic = "^1.12.0"
+asyncpg = "^0.28.0"
+redis = {extras = ["hiredis"], version = "^5.0.0"}
+boto3 = "^1.28.47"
+minio = "^7.1.16"
+# Monitoring and observability
+prometheus-client = "^0.17.1"
+opentelemetry-api = "^1.19.0"
+opentelemetry-sdk = "^1.19.0"
+opentelemetry-instrumentation-fastapi = "^0.40b0"
+opentelemetry-instrumentation-redis = "^0.40b0"
+# Utilities
+python-dotenv = "^1.0.0"
+rich = "^13.5.2"
+typer = "^0.12.3"
+aiofiles = "^23.2.1"
+# AI/ML for content safety
+torch = "^2.0.0"
+transformers = "^4.30.0"
+# torch-audio = {version = "^2.0.0", optional = true}  # Temporarily disabled
+numpy = "^1.24.0"
+scikit-learn = "^1.3.0"
+
+[tool.poetry.group.dev.dependencies]
+# Modern Testing Framework
+ward = "^0.68.0b0"
+# ward-coverage = "^3.3.0"  # Temporarily disabled - using coverage directly
+coverage = "^7.3.0"
+# Performance and Benchmarking
+py-spy = "^0.3.14"
+# memray = "^1.9.0"  # Disabled - doesn't support Windows
+# asv = "^0.6.1"  # Temporarily disabled due to compatibility issues
+# Code quality tools
+black = "^23.7.0"
+ruff = "^0.0.287"
+mypy = "^1.5.1"
+pre-commit = "^3.3.3"
+# Development tools
+watchdog = "^3.0.0"
+debugpy = "^1.8.0"
+ipython = "^8.15.0"
+# Documentation
+mkdocs = "^1.5.2"
+mkdocs-material = "^9.2.3"
+mkdocs-mermaid2-plugin = "^1.1.1"
+# Security testing
+bandit = "^1.7.5"
+safety = "^2.3.4"
+# Contract validation
+openapi-spec-validator = "^0.7.1"
+jsonschema = "^4.19.0"
+# Performance profiling - removed duplicate
+memory-profiler = "^0.61.0"
+
+[tool.mypy]
+python_version = "3.11"
+strict = true
+warn_unused_ignores = true
+warn_return_any = true
+
+[tool.ward]
+# Ward Configuration
+path = ["tests"]
+exclude = [
+    "**/conftest.py",
+]
+order = "standard"
+fail-limit = 10
+test-output-style = "dots-module"
+
+[tool.ward.plugins]
+coverage = true
+benchmark = true
+
+[tool.coverage.run]
+source = ["api", "core", "memory", "storage", "policy", "observability"]
+omit = ["tests/*", "*/conftest.py", "**/__pycache__/*"]
+
+[tool.coverage.report]
+exclude_lines = [
+    "pragma: no cover",
+    "def __repr__",
+    "raise AssertionError",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+# ASV (Benchmarking) Configuration - Disabled
+# [tool.asv]
+# project = "MemoryOS"
+# repo = "."
+# environment_type = "virtualenv"
+# matrix = {}
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

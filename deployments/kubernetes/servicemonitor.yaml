@@ -1,0 +1,20 @@
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: familyos-api
+  namespace: monitoring
+  labels:
+    release: prometheus  # match your Prometheus Operator release selector
+spec:
+  selector:
+    matchLabels:
+      app: familyos-api
+  namespaceSelector:
+    matchNames:
+      - familyos
+  endpoints:
+    - port: http-metrics
+      interval: 15s
+      path: /v1/metrics
+      scheme: http
+      honorLabels: true

@@ -1,0 +1,1227 @@
+openapi: 3.1.0
+info:
+  title: MemoryOS Hippocampus Memory Formation Contract
+  version: "1.0.0"
+  description: |
+    **Memory-Centric Family AI - Hippocampal Memory Processing Contract**
+
+    This contract defines hippocampal memory formation protocols for the Memory-Centric Family AI system,
+    implementing neuroscience-based memory processing with pattern separation, pattern completion, and cortical binding
+    for family memory formation, consolidation, and retrieval operations.
+
+    **Neuroscience Foundation:**
+    - **Dentate Gyrus (DG)**: Pattern separation for distinct memory encoding with family context distinctiveness
+    - **CA3 Region**: Pattern completion and associative recall with family relationship-based completion
+    - **CA1 Region**: Cortical binding and memory consolidation with family memory transfer to long-term stores
+    - **Theta Rhythms**: Coordinated neural oscillations for memory formation with family synchronization
+
+    **Memory-Driven Hippocampal Architecture:**
+    - **Memory Backbone Hippocampal Processing**: Hippocampal operations coordinated through memory experiences
+    - **Memory-Enhanced Pattern Separation**: Pattern separation informed by family memory context
+    - **Memory-Driven Pattern Completion**: Pattern completion guided by family relationship patterns
+    - **Family Memory Consolidation**: Memory consolidation coordinated across family memory stores
+    - **Memory-Based Retrieval**: Memory retrieval enhanced by family context and relationship patterns
+
+    **Family Intelligence Integration:**
+    - Hippocampal processing coordinated through family memory backbone
+    - Memory formation enhanced by family relationship context and emotional salience
+    - Memory consolidation optimized for family knowledge integration and cross-device synchronization
+    - Memory retrieval guided by family context and relationship-aware associative networks
+
+  contact:
+    name: MemoryOS Cognitive Architecture Team
+    url: https://familyos.local/support/cognitive
+    email: cognitive-support@familyos.local
+  license:
+    name: Family OS Private License
+    url: https://familyos.local/licenses/family-os
+
+servers:
+  - url: https://api.memoryos.family/v1
+    description: MemoryOS Family AI Hippocampus Memory Formation API
+
+paths:
+  /hippocampus/memory-formation:
+    post:
+      summary: Initiate Memory-Enhanced Hippocampal Memory Formation
+      description: |
+        Initiate hippocampal memory formation with memory enhancement,
+        family context integration, and neuroscience-based encoding protocols.
+      operationId: initiateMemoryEnhancedHippocampalMemoryFormation
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MemoryFormationRequest'
+      responses:
+        '202':
+          description: Memory formation initiated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MemoryFormationResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /hippocampus/memory-formation/{formationId}:
+    get:
+      summary: Get Family Memory-Driven Formation Status
+      description: |
+        Retrieve memory formation status with family memory coordination,
+        hippocampal processing progress, and consolidation scheduling.
+      operationId: getFamilyMemoryDrivenFormationStatus
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: formationId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Unique memory formation identifier
+      responses:
+        '200':
+          description: Memory formation status retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MemoryFormationStatusResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /hippocampus/pattern-separation:
+    post:
+      summary: Perform Memory-Coordinated Pattern Separation
+      description: |
+        Perform dentate gyrus pattern separation with memory coordination,
+        family context distinctiveness, and neural pattern orthogonalization.
+      operationId: performMemoryCoordinatedPatternSeparation
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatternSeparationRequest'
+      responses:
+        '200':
+          description: Pattern separation completed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PatternSeparationResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /hippocampus/pattern-completion:
+    post:
+      summary: Execute Family Memory-Enhanced Pattern Completion
+      description: |
+        Execute CA3 region pattern completion with family memory enhancement,
+        relationship-based completion, and associative memory reconstruction.
+      operationId: executeFamilyMemoryEnhancedPatternCompletion
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatternCompletionRequest'
+      responses:
+        '200':
+          description: Pattern completion executed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PatternCompletionResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /hippocampus/consolidation:
+    post:
+      summary: Initiate Family Memory Consolidation Process
+      description: |
+        Initiate memory consolidation process with family coordination,
+        cortical binding preparation, and cross-device synchronization.
+      operationId: initiateFamilyMemoryConsolidationProcess
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MemoryConsolidationRequest'
+      responses:
+        '202':
+          description: Memory consolidation initiated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MemoryConsolidationResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+    get:
+      summary: Get Memory-Driven Consolidation Status
+      description: |
+        Retrieve consolidation status with memory-driven analysis,
+        family consolidation coordination, and cortical transfer progress.
+      operationId: getMemoryDrivenConsolidationStatus
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: consolidation_type
+          in: query
+          schema:
+            type: string
+            enum: [systems, synaptic, both]
+            default: both
+          description: Type of consolidation to check
+        - name: family_scope
+          in: query
+          schema:
+            type: string
+            enum: [individual, family, comprehensive]
+            default: family
+          description: Scope of consolidation status
+      responses:
+        '200':
+          description: Consolidation status retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConsolidationStatusResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /hippocampus/retrieval:
+    post:
+      summary: Execute Family Context Memory Retrieval
+      description: |
+        Execute memory retrieval with family context enhancement,
+        relationship-guided search, and pattern completion reconstruction.
+      operationId: executeFamilyContextMemoryRetrieval
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MemoryRetrievalRequest'
+      responses:
+        '200':
+          description: Memory retrieval executed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MemoryRetrievalResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /hippocampus/regions/status:
+    get:
+      summary: Get Family Memory-Coordinated Hippocampal Regions Status
+      description: |
+        Retrieve hippocampal regions status with family memory coordination,
+        neural processing efficiency, and family integration metrics.
+      operationId: getFamilyMemoryCoordinatedHippocampalRegionsStatus
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: regions
+          in: query
+          schema:
+            type: array
+            items:
+              type: string
+              enum: [dentate_gyrus, ca3_region, ca1_region, all]
+            default: [all]
+          description: Hippocampal regions to include
+        - name: detail_level
+          in: query
+          schema:
+            type: string
+            enum: [summary, detailed, comprehensive, neuroscience]
+            default: detailed
+          description: Level of status detail
+      responses:
+        '200':
+          description: Hippocampal regions status retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HippocampalRegionsStatusResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    MemoryFormationRequest:
+      type: object
+      required:
+        - memory_type
+        - content
+        - family_context
+        - emotional_salience
+      properties:
+        memory_type:
+          type: string
+          enum: [episodic, semantic, procedural]
+          description: Type of memory formation process
+        content:
+          type: object
+          description: Memory content to be encoded
+          properties:
+            sensory_data:
+              type: object
+              description: Multi-modal sensory input data
+            family_interaction:
+              type: object
+              description: Family interaction context and dynamics
+            emotional_signals:
+              type: object
+              description: Emotional state and significance markers
+        family_context:
+          $ref: '#/components/schemas/FamilyContext'
+        emotional_salience:
+          type: number
+          minimum: 0.0
+          maximum: 1.0
+          description: Emotional importance score for family
+        encoding_protocol:
+          type: string
+          enum: [standard, enhanced, neuroscience_detailed]
+          default: enhanced
+          description: Encoding protocol complexity level
+
+    MemoryFormationResponse:
+      type: object
+      required:
+        - formation_id
+        - status
+        - hippocampal_regions
+        - family_integration
+      properties:
+        formation_id:
+          type: string
+          format: uuid
+          description: Unique memory formation identifier
+        status:
+          type: string
+          enum: [initiated, encoding, consolidating, completed, failed]
+          description: Current formation status
+        hippocampal_regions:
+          $ref: '#/components/schemas/HippocampalRegionsStatus'
+        family_integration:
+          $ref: '#/components/schemas/FamilyMemoryIntegration'
+        estimated_completion:
+          type: string
+          format: date-time
+          description: Estimated completion timestamp
+
+    PatternSeparationRequest:
+      type: object
+      required:
+        - input_patterns
+        - family_context
+        - separation_criteria
+      properties:
+        input_patterns:
+          type: array
+          items:
+            type: object
+            description: Neural patterns requiring separation
+        family_context:
+          $ref: '#/components/schemas/FamilyContext'
+        separation_criteria:
+          type: object
+          description: Criteria for pattern orthogonalization
+          properties:
+            distinctiveness_threshold:
+              type: number
+              minimum: 0.0
+              maximum: 1.0
+            relationship_context_weight:
+              type: number
+              minimum: 0.0
+              maximum: 1.0
+            emotional_context_weight:
+              type: number
+              minimum: 0.0
+              maximum: 1.0
+
+    PatternSeparationResponse:
+      type: object
+      required:
+        - separated_patterns
+        - distinctiveness_scores
+        - family_context_preservation
+      properties:
+        separated_patterns:
+          type: array
+          items:
+            type: object
+            description: Orthogonalized neural patterns
+        distinctiveness_scores:
+          type: array
+          items:
+            type: number
+            minimum: 0.0
+            maximum: 1.0
+          description: Pattern distinctiveness measurements
+        family_context_preservation:
+          type: number
+          minimum: 0.0
+          maximum: 1.0
+          description: Family context fidelity score
+
+    PatternCompletionRequest:
+      type: object
+      required:
+        - partial_cue
+        - family_context
+        - completion_criteria
+      properties:
+        partial_cue:
+          type: object
+          description: Partial memory cue for completion
+        family_context:
+          $ref: '#/components/schemas/FamilyContext'
+        completion_criteria:
+          type: object
+          description: Pattern completion parameters
+          properties:
+            confidence_threshold:
+              type: number
+              minimum: 0.0
+              maximum: 1.0
+            max_completion_attempts:
+              type: integer
+              minimum: 1
+              maximum: 10
+            family_relationship_weight:
+              type: number
+              minimum: 0.0
+              maximum: 1.0
+
+    PatternCompletionResponse:
+      type: object
+      required:
+        - completed_pattern
+        - completion_confidence
+        - family_context_reconstruction
+      properties:
+        completed_pattern:
+          type: object
+          description: Reconstructed memory pattern
+        completion_confidence:
+          type: number
+          minimum: 0.0
+          maximum: 1.0
+          description: Confidence in pattern completion
+        family_context_reconstruction:
+          $ref: '#/components/schemas/FamilyContextReconstruction'
+        associative_chains:
+          type: array
+          items:
+            type: object
+            description: Related family memory associations
+
+    MemoryConsolidationRequest:
+      type: object
+      required:
+        - consolidation_type
+        - memory_targets
+        - family_priority
+      properties:
+        consolidation_type:
+          type: string
+          enum: [synaptic, systems, comprehensive]
+          description: Type of consolidation process
+        memory_targets:
+          type: array
+          items:
+            type: string
+            format: uuid
+          description: Memory formation IDs to consolidate
+        family_priority:
+          type: string
+          enum: [low, medium, high, critical]
+          description: Family importance priority level
+        scheduling:
+          type: object
+          description: Consolidation scheduling preferences
+          properties:
+            immediate:
+              type: boolean
+              default: false
+            preferred_time:
+              type: string
+              format: date-time
+            background_processing:
+              type: boolean
+              default: true
+
+    MemoryConsolidationResponse:
+      type: object
+      required:
+        - consolidation_id
+        - status
+        - affected_memories
+        - family_integration_status
+      properties:
+        consolidation_id:
+          type: string
+          format: uuid
+          description: Unique consolidation process identifier
+        status:
+          type: string
+          enum: [scheduled, processing, transferring, completed, failed]
+          description: Current consolidation status
+        affected_memories:
+          type: array
+          items:
+            type: string
+            format: uuid
+          description: Memory IDs being consolidated
+        family_integration_status:
+          $ref: '#/components/schemas/FamilyIntegrationStatus'
+        estimated_completion:
+          type: string
+          format: date-time
+          description: Estimated consolidation completion
+
+    MemoryRetrievalRequest:
+      type: object
+      required:
+        - retrieval_cue
+        - family_context
+        - retrieval_type
+      properties:
+        retrieval_cue:
+          type: object
+          description: Memory retrieval cue or trigger
+          properties:
+            content_cue:
+              type: object
+              description: Content-based retrieval cue
+            family_relationship_cue:
+              type: object
+              description: Family relationship-based cue
+            emotional_cue:
+              type: object
+              description: Emotional state-based cue
+            temporal_cue:
+              type: object
+              description: Time-based retrieval cue
+        family_context:
+          $ref: '#/components/schemas/FamilyContext'
+        retrieval_type:
+          type: string
+          enum: [pattern_completion, associative_recall, comprehensive]
+          description: Type of retrieval mechanism
+        quality_criteria:
+          type: object
+          description: Retrieval quality requirements
+          properties:
+            minimum_confidence:
+              type: number
+              minimum: 0.0
+              maximum: 1.0
+            family_context_requirement:
+              type: boolean
+              default: true
+            emotional_context_requirement:
+              type: boolean
+              default: true
+
+    MemoryRetrievalResponse:
+      type: object
+      required:
+        - retrieved_memories
+        - retrieval_confidence
+        - family_context_reconstruction
+      properties:
+        retrieved_memories:
+          type: array
+          items:
+            $ref: '#/components/schemas/RetrievedMemory'
+          description: Successfully retrieved memory patterns
+        retrieval_confidence:
+          type: number
+          minimum: 0.0
+          maximum: 1.0
+          description: Overall retrieval confidence score
+        family_context_reconstruction:
+          $ref: '#/components/schemas/FamilyContextReconstruction'
+        associative_chains:
+          type: array
+          items:
+            $ref: '#/components/schemas/AssociativeChain'
+          description: Related memory association networks
+
+    HippocampalRegionsStatusResponse:
+      type: object
+      required:
+        - regions_status
+        - overall_health
+        - family_memory_coordination
+      properties:
+        regions_status:
+          type: object
+          properties:
+            dentate_gyrus:
+              $ref: '#/components/schemas/DentateGyrusStatus'
+            ca3_region:
+              $ref: '#/components/schemas/CA3RegionStatus'
+            ca1_region:
+              $ref: '#/components/schemas/CA1RegionStatus'
+        overall_health:
+          type: object
+          properties:
+            processing_efficiency:
+              type: number
+              minimum: 0.0
+              maximum: 1.0
+            memory_formation_rate:
+              type: number
+              description: Memories formed per hour
+            consolidation_backlog:
+              type: integer
+              description: Number of memories awaiting consolidation
+        family_memory_coordination:
+          $ref: '#/components/schemas/FamilyMemoryCoordination'
+
+    FamilyContext:
+      type: object
+      required:
+        - family_members
+        - relationship_dynamics
+        - emotional_context
+      properties:
+        family_members:
+          type: array
+          items:
+            $ref: '#/components/schemas/FamilyMember'
+          description: Active family members in context
+        relationship_dynamics:
+          type: object
+          description: Current family relationship state
+          properties:
+            interaction_patterns:
+              type: array
+              items:
+                type: object
+            emotional_resonance:
+              type: object
+            communication_styles:
+              type: object
+        emotional_context:
+          type: object
+          description: Family emotional environment
+          properties:
+            overall_mood:
+              type: string
+              enum: [positive, neutral, negative, mixed]
+            stress_levels:
+              type: object
+            bonding_strength:
+              type: number
+              minimum: 0.0
+              maximum: 1.0
+        temporal_context:
+          type: object
+          description: Time-based family context
+          properties:
+            family_routine_phase:
+              type: string
+            special_occasions:
+              type: array
+              items:
+                type: string
+            life_stage_context:
+              type: object
+
+    FamilyMember:
+      type: object
+      required:
+        - member_id
+        - role
+        - age_group
+        - emotional_state
+      properties:
+        member_id:
+          type: string
+          format: uuid
+          description: Unique family member identifier
+        role:
+          type: string
+          enum: [parent, child, guardian, extended_family, other]
+          description: Family role designation
+        age_group:
+          type: string
+          enum: [infant, toddler, child, teen, adult, senior]
+          description: Age-appropriate processing category
+        emotional_state:
+          type: object
+          description: Current emotional state
+          properties:
+            primary_emotion:
+              type: string
+            intensity:
+              type: number
+              minimum: 0.0
+              maximum: 1.0
+            stability:
+              type: number
+              minimum: 0.0
+              maximum: 1.0
+        cognitive_profile:
+          type: object
+          description: Cognitive processing characteristics
+          properties:
+            attention_patterns:
+              type: object
+            memory_preferences:
+              type: object
+            learning_style:
+              type: object
+
+    HippocampalRegionsStatus:
+      type: object
+      required:
+        - dentate_gyrus
+        - ca3_region
+        - ca1_region
+      properties:
+        dentate_gyrus:
+          $ref: '#/components/schemas/DentateGyrusStatus'
+        ca3_region:
+          $ref: '#/components/schemas/CA3RegionStatus'
+        ca1_region:
+          $ref: '#/components/schemas/CA1RegionStatus'
+
+    DentateGyrusStatus:
+      type: object
+      required:
+        - pattern_separation_efficiency
+        - neurogenesis_rate
+        - sparse_coding_performance
+      properties:
+        pattern_separation_efficiency:
+          type: number
+          minimum: 0.0
+          maximum: 1.0
+          description: Efficiency of pattern separation process
+        neurogenesis_rate:
+          type: number
+          description: Rate of new neuron generation simulation
+        sparse_coding_performance:
+          type: number
+          minimum: 0.0
+          maximum: 1.0
+          description: Sparse coding effectiveness
+        family_distinctiveness_scores:
+          type: object
+          description: Family context distinctiveness metrics
+          properties:
+            relationship_separation:
+              type: number
+              minimum: 0.0
+              maximum: 1.0
+            emotional_separation:
+              type: number
+              minimum: 0.0
+              maximum: 1.0
+            temporal_separation:
+              type: number
+              minimum: 0.0
+              maximum: 1.0
+
+    CA3RegionStatus:
+      type: object
+      required:
+        - pattern_completion_accuracy
+        - associative_recall_performance
+        - sequence_prediction_capability
+      properties:
+        pattern_completion_accuracy:
+          type: number
+          minimum: 0.0
+          maximum: 1.0
+          description: Accuracy of pattern completion process
+        associative_recall_performance:
+          type: number
+          minimum: 0.0
+          maximum: 1.0
+          description: Performance of associative memory recall
+        sequence_prediction_capability:
+          type: number
+          minimum: 0.0
+          maximum: 1.0
+          description: Ability to predict memory sequences
+        family_completion_metrics:
+          type: object
+          description: Family-specific completion metrics
+          properties:
+            relationship_completion_accuracy:
+              type: number
+              minimum: 0.0
+              maximum: 1.0
+            emotional_completion_accuracy:
+              type: number
+              minimum: 0.0
+              maximum: 1.0
+            context_reconstruction_fidelity:
+              type: number
+              minimum: 0.0
+              maximum: 1.0
+
+    CA1RegionStatus:
+      type: object
+      required:
+        - cortical_binding_efficiency
+        - consolidation_throughput
+        - temporal_sequence_binding_performance
+      properties:
+        cortical_binding_efficiency:
+          type: number
+          minimum: 0.0
+          maximum: 1.0
+          description: Efficiency of hippocampal-cortical binding
+        consolidation_throughput:
+          type: number
+          description: Rate of memory consolidation processing
+        temporal_sequence_binding_performance:
+          type: number
+          minimum: 0.0
+          maximum: 1.0
+          description: Performance of temporal sequence binding
+        family_consolidation_metrics:
+          type: object
+          description: Family memory consolidation metrics
+          properties:
+            family_memory_transfer_rate:
+              type: number
+              description: Rate of family memory transfer to cortex
+            relationship_binding_strength:
+              type: number
+              minimum: 0.0
+              maximum: 1.0
+            emotional_binding_preservation:
+              type: number
+              minimum: 0.0
+              maximum: 1.0
+
+    FamilyMemoryIntegration:
+      type: object
+      required:
+        - integration_status
+        - family_coherence_score
+        - cross_device_synchronization
+      properties:
+        integration_status:
+          type: string
+          enum: [pending, integrating, synchronized, completed, failed]
+          description: Current family memory integration status
+        family_coherence_score:
+          type: number
+          minimum: 0.0
+          maximum: 1.0
+          description: Coherence of memory across family context
+        cross_device_synchronization:
+          type: object
+          description: Cross-device memory synchronization status
+          properties:
+            synchronized_devices:
+              type: array
+              items:
+                type: string
+            pending_synchronization:
+              type: array
+              items:
+                type: string
+            synchronization_conflicts:
+              type: array
+              items:
+                type: object
+
+    FamilyContextReconstruction:
+      type: object
+      required:
+        - reconstruction_fidelity
+        - family_relationships
+        - emotional_context
+      properties:
+        reconstruction_fidelity:
+          type: number
+          minimum: 0.0
+          maximum: 1.0
+          description: Overall reconstruction accuracy
+        family_relationships:
+          type: object
+          description: Reconstructed family relationship context
+          properties:
+            relationship_accuracy:
+              type: number
+              minimum: 0.0
+              maximum: 1.0
+            interaction_patterns:
+              type: object
+            dynamics_preservation:
+              type: number
+              minimum: 0.0
+              maximum: 1.0
+        emotional_context:
+          type: object
+          description: Reconstructed emotional context
+          properties:
+            emotional_accuracy:
+              type: number
+              minimum: 0.0
+              maximum: 1.0
+            mood_reconstruction:
+              type: object
+            emotional_resonance:
+              type: number
+              minimum: 0.0
+              maximum: 1.0
+
+    RetrievedMemory:
+      type: object
+      required:
+        - memory_id
+        - content
+        - confidence_score
+        - family_context
+      properties:
+        memory_id:
+          type: string
+          format: uuid
+          description: Unique memory identifier
+        content:
+          type: object
+          description: Retrieved memory content
+        confidence_score:
+          type: number
+          minimum: 0.0
+          maximum: 1.0
+          description: Retrieval confidence level
+        family_context:
+          $ref: '#/components/schemas/FamilyContext'
+        emotional_salience:
+          type: number
+          minimum: 0.0
+          maximum: 1.0
+          description: Emotional importance to family
+        retrieval_metadata:
+          type: object
+          description: Retrieval process metadata
+          properties:
+            retrieval_time:
+              type: string
+              format: date-time
+            retrieval_method:
+              type: string
+            cue_effectiveness:
+              type: number
+              minimum: 0.0
+              maximum: 1.0
+
+    AssociativeChain:
+      type: object
+      required:
+        - chain_id
+        - memory_sequence
+        - association_strength
+      properties:
+        chain_id:
+          type: string
+          format: uuid
+          description: Unique associative chain identifier
+        memory_sequence:
+          type: array
+          items:
+            type: string
+            format: uuid
+          description: Sequence of associated memory IDs
+        association_strength:
+          type: number
+          minimum: 0.0
+          maximum: 1.0
+          description: Overall chain association strength
+        family_relevance:
+          type: number
+          minimum: 0.0
+          maximum: 1.0
+          description: Relevance to family context
+        chain_metadata:
+          type: object
+          description: Associative chain metadata
+          properties:
+            chain_type:
+              type: string
+              enum: [temporal, emotional, relational, semantic]
+            formation_date:
+              type: string
+              format: date-time
+            usage_frequency:
+              type: integer
+
+    FamilyMemoryCoordination:
+      type: object
+      required:
+        - coordination_status
+        - family_sync_health
+        - memory_consistency
+      properties:
+        coordination_status:
+          type: string
+          enum: [synchronized, synchronizing, conflicts_detected, coordination_failed]
+          description: Overall family memory coordination status
+        family_sync_health:
+          type: number
+          minimum: 0.0
+          maximum: 1.0
+          description: Health of family memory synchronization
+        memory_consistency:
+          type: object
+          description: Memory consistency across family members
+          properties:
+            consistency_score:
+              type: number
+              minimum: 0.0
+              maximum: 1.0
+            detected_inconsistencies:
+              type: array
+              items:
+                type: object
+            resolution_strategies:
+              type: array
+              items:
+                type: string
+
+    FamilyIntegrationStatus:
+      type: object
+      required:
+        - integration_progress
+        - family_coherence
+        - device_coordination
+      properties:
+        integration_progress:
+          type: number
+          minimum: 0.0
+          maximum: 1.0
+          description: Progress of family memory integration
+        family_coherence:
+          type: number
+          minimum: 0.0
+          maximum: 1.0
+          description: Coherence of memory across family context
+        device_coordination:
+          type: object
+          description: Coordination status across family devices
+          properties:
+            active_devices:
+              type: array
+              items:
+                type: string
+            coordination_health:
+              type: number
+              minimum: 0.0
+              maximum: 1.0
+            pending_synchronizations:
+              type: array
+              items:
+                type: object
+
+    MemoryFormationStatusResponse:
+      type: object
+      required:
+        - formation_id
+        - current_status
+        - progress_metrics
+        - family_integration
+      properties:
+        formation_id:
+          type: string
+          format: uuid
+          description: Memory formation identifier
+        current_status:
+          type: string
+          enum: [initiated, encoding, pattern_separation, pattern_completion, consolidating, completed, failed]
+          description: Current formation process status
+        progress_metrics:
+          type: object
+          description: Formation process progress metrics
+          properties:
+            completion_percentage:
+              type: number
+              minimum: 0.0
+              maximum: 100.0
+            processing_time_elapsed:
+              type: string
+              format: duration
+            estimated_time_remaining:
+              type: string
+              format: duration
+        family_integration:
+          $ref: '#/components/schemas/FamilyMemoryIntegration'
+        quality_metrics:
+          type: object
+          description: Memory formation quality assessment
+          properties:
+            encoding_quality:
+              type: number
+              minimum: 0.0
+              maximum: 1.0
+            family_context_preservation:
+              type: number
+              minimum: 0.0
+              maximum: 1.0
+            emotional_salience_accuracy:
+              type: number
+              minimum: 0.0
+              maximum: 1.0
+
+    ConsolidationStatusResponse:
+      type: object
+      required:
+        - consolidation_processes
+        - overall_status
+        - family_coordination
+      properties:
+        consolidation_processes:
+          type: array
+          items:
+            type: object
+            properties:
+              consolidation_id:
+                type: string
+                format: uuid
+              consolidation_type:
+                type: string
+                enum: [synaptic, systems, comprehensive]
+              status:
+                type: string
+                enum: [scheduled, processing, transferring, completed, failed]
+              progress_percentage:
+                type: number
+                minimum: 0.0
+                maximum: 100.0
+        overall_status:
+          type: string
+          enum: [idle, processing, high_load, optimal, degraded]
+          description: Overall consolidation system status
+        family_coordination:
+          $ref: '#/components/schemas/FamilyMemoryCoordination'
+        performance_metrics:
+          type: object
+          description: Consolidation performance metrics
+          properties:
+            consolidation_throughput:
+              type: number
+              description: Memories consolidated per hour
+            average_consolidation_time:
+              type: string
+              format: duration
+            success_rate:
+              type: number
+              minimum: 0.0
+              maximum: 1.0
+
+  responses:
+    BadRequest:
+      description: Bad request - invalid parameters or malformed request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    Unauthorized:
+      description: Unauthorized - authentication required
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    Forbidden:
+      description: Forbidden - insufficient permissions
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    ErrorResponse:
+      type: object
+      required:
+        - error
+        - message
+        - timestamp
+      properties:
+        error:
+          type: string
+          description: Error code or type
+        message:
+          type: string
+          description: Human-readable error message
+        details:
+          type: object
+          description: Additional error details
+        timestamp:
+          type: string
+          format: date-time
+          description: Error occurrence timestamp
+        correlation_id:
+          type: string
+          format: uuid
+          description: Request correlation identifier

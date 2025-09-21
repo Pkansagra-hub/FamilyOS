@@ -1,0 +1,87 @@
+# Intent Router Configuration
+# Deterministic routing logic for fast-path vs gate-path decisions
+
+# Allowed agent intents (whitelist)
+allowed_intents:
+  - WRITE
+  - RECALL
+  - PROJECT
+  - SCHEDULE
+  - DETACH
+  - UNDO
+
+# Confidence thresholds for routing decisions
+thresholds:
+  default: 0.85
+  WRITE: 0.90      # Higher threshold for write operations
+  RECALL: 0.80     # Lower threshold for read operations
+  PROJECT: 0.85    # Default for prospective memory
+  SCHEDULE: 0.80   # Lower threshold for scheduling
+  DETACH: 0.95     # Very high threshold for destructive ops
+  UNDO: 0.95       # Very high threshold for undo operations
+
+# Eligibility requirements per intent
+eligibility:
+  WRITE:
+    required_fields:
+      - envelope.actor
+      - payload.content
+      - envelope.space_id
+    max_payload_size: 10485760  # 10MB
+  RECALL:
+    required_fields:
+      - payload.query
+      - envelope.actor
+    min_query_length: 1
+    max_query_length: 1000
+  PROJECT:
+    required_fields:
+      - envelope.actor
+      - payload.trigger_condition
+      - payload.action
+  SCHEDULE:
+    required_fields:
+      - envelope.actor
+      - payload.when
+      - payload.action
+  DETACH:
+    required_fields:
+      - envelope.actor
+      - payload.envelope_id
+  UNDO:
+    required_fields:
+      - envelope.actor
+      - payload.operation_id
+
+# Security band restrictions
+band_policies:
+  BLACK:
+    allowed_intents: []  # Nothing goes fast-path for BLACK band
+  RED:
+    allowed_intents: [RECALL]  # Only reads for RED band
+  AMBER:
+    allowed_intents: [WRITE, RECALL, PROJECT, SCHEDULE]
+  GREEN:
+    allowed_intents: [WRITE, RECALL, PROJECT, SCHEDULE, DETACH, UNDO]
+
+# Policy settings
+policies:
+  fail_closed: true  # Unknown/invalid intents go to gate-path
+  max_fast_path_rate: 1000  # Max fast-path requests per second
+  enable_observability: true
+  log_decisions: true
+
+# Rate limiting per intent type
+rate_limits:
+  WRITE: 100    # per second
+  RECALL: 500   # per second
+  PROJECT: 50   # per second
+  SCHEDULE: 50  # per second
+  DETACH: 10    # per second (destructive)
+  UNDO: 5       # per second (very destructive)
+
+# Observability configuration
+observability:
+  metrics_enabled: true
+  trace_sampling_rate: 0.1  # 10% of decisions
+  detailed_logging: false   # Enable for debugging

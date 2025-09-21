@@ -1,0 +1,1433 @@
+openapi: 3.1.0
+info:
+  title: MemoryOS Control Plane - Device Coordination API
+  description: |
+    **Memory-Centric Family AI Device Coordination Operations**
+
+    This API provides family administrators with comprehensive device coordination capabilities:
+    - **Device Registration & Discovery**: Register family devices, manage device discovery, and coordinate device onboarding
+    - **Memory Synchronization**: Synchronize Memory Backbone across family devices with E2EE and CRDT consistency
+    - **Device Coordination Management**: Coordinate family device operations, task distribution, and collaborative activities
+    - **Device Health & Status**: Monitor device health, connectivity status, and operational readiness across family
+    - **Conflict Resolution**: Resolve synchronization conflicts, coordinate device priorities, and manage resource contention
+
+    **Memory-Centric Design**: Device coordination leverages Memory Backbone for:
+    - Memory-driven device intelligence through memory-based device pattern recognition and coordination optimization
+    - Memory-informed device synchronization with historical device behavior analysis and sync optimization
+    - Cross-family device intelligence with device memory synthesis and coordination optimization across family ecosystem
+    - Device evolution tracking through memory-aware device development and coordination adaptation
+
+    **Architecture Integration**:
+    - Integrates with Memory Backbone for memory-informed device coordination and sync intelligence
+    - Leverages Family Intelligence for relationship-aware device coordination and family device management
+    - Coordinates with Intelligence Layer for advanced device analytics and coordination optimization
+    - Manages family device ecosystem through comprehensive coordination engine and real-time sync mechanisms
+  version: "1.0.0"
+  contact:
+    name: MemoryOS API Team
+    url: https://familyos.local/support
+    email: api-support@familyos.local
+  license:
+    name: Family OS Private License
+    url: https://familyos.local/licenses/family-os
+
+servers:
+  - url: https://api.familyos.local/control/v1
+    description: Production Control Plane
+  - url: https://staging-api.familyos.local/control/v1
+    description: Staging Environment
+  - url: http://localhost:8080/control/v1
+    description: Local Development
+
+security:
+  - FamilyAdminAuth: []
+  - FamilyOSAuth: []
+
+paths:
+  /devices/registration:
+    get:
+      summary: Get Registered Devices
+      description: |
+        Retrieve comprehensive list of registered family devices including device status, capabilities, and coordination information.
+
+        **Device Registration Management**: Get complete device registration overview with administrative context and device insights.
+        **Device Administration**: Retrieve registered devices with device status analysis and coordination information.
+      operationId: getRegisteredDevices
+      parameters:
+        - name: device_status
+          in: query
+          description: Filter devices by status
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+              enum: [active, inactive, offline, pending, disabled]
+        - name: device_type
+          in: query
+          description: Filter devices by type
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+              enum: [smartphone, tablet, laptop, desktop, smart_home, wearable, iot_device]
+        - name: family_member
+          in: query
+          description: Filter devices by family member
+          required: false
+          schema:
+            type: string
+            format: uuid
+        - name: include_health_status
+          in: query
+          description: Include device health status
+          required: false
+          schema:
+            type: boolean
+            default: true
+      responses:
+        '200':
+          description: Registered devices retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  registered_devices:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/RegisteredDevice'
+                  device_summary:
+                    $ref: '#/components/schemas/DeviceSummary'
+                  coordination_status:
+                    $ref: '#/components/schemas/CoordinationStatus'
+                  sync_statistics:
+                    $ref: '#/components/schemas/SyncStatistics'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Device Registration
+
+    post:
+      summary: Register New Device
+      description: |
+        Register new family device with device capabilities, security credentials, and coordination configuration.
+
+        **Device Registration**: Register new device with administrative oversight and family integration.
+        **Device Onboarding**: Perform device registration with family onboarding and security setup.
+      operationId: registerNewDevice
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterDeviceRequest'
+      responses:
+        '201':
+          description: Device registered successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  device_id:
+                    type: string
+                    format: uuid
+                  registered_device:
+                    $ref: '#/components/schemas/RegisteredDevice'
+                  registration_status:
+                    $ref: '#/components/schemas/RegistrationStatus'
+                  onboarding_instructions:
+                    $ref: '#/components/schemas/OnboardingInstructions'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Device Registration
+
+  /devices/{device_id}/coordination:
+    get:
+      summary: Get Device Coordination Status
+      description: |
+        Retrieve comprehensive device coordination status including sync status, coordination activities, and family integration.
+
+        **Device Coordination Management**: Get complete device coordination status with administrative context.
+        **Coordination Administration**: Retrieve coordination status with sync analysis and family integration insights.
+      operationId: getDeviceCoordinationStatus
+      parameters:
+        - name: device_id
+          in: path
+          description: Unique identifier of the device
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: include_sync_details
+          in: query
+          description: Include detailed synchronization information
+          required: false
+          schema:
+            type: boolean
+            default: true
+        - name: include_coordination_history
+          in: query
+          description: Include coordination history
+          required: false
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: Device coordination status retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  device_coordination:
+                    $ref: '#/components/schemas/DeviceCoordination'
+                  sync_status:
+                    $ref: '#/components/schemas/SyncStatus'
+                  coordination_activities:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/CoordinationActivity'
+                  family_integration:
+                    $ref: '#/components/schemas/FamilyIntegration'
+        '404':
+          description: Device not found
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Device Coordination
+
+    post:
+      summary: Execute Device Coordination Action
+      description: |
+        Execute specific device coordination action including sync operations, task assignments, and coordination management.
+
+        **Coordination Action**: Execute device coordination action with administrative oversight.
+        **Device Management**: Perform coordination action with sync management and task coordination.
+      operationId: executeDeviceCoordinationAction
+      parameters:
+        - name: device_id
+          in: path
+          description: Unique identifier of the device
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExecuteCoordinationActionRequest'
+      responses:
+        '200':
+          description: Device coordination action executed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  action_id:
+                    type: string
+                    format: uuid
+                  coordination_action:
+                    $ref: '#/components/schemas/CoordinationAction'
+                  execution_status:
+                    $ref: '#/components/schemas/ActionExecutionStatus'
+                  coordination_results:
+                    $ref: '#/components/schemas/CoordinationResults'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '404':
+          description: Device not found
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Device Coordination
+
+  /devices/synchronization:
+    get:
+      summary: Get Synchronization Status
+      description: |
+        Retrieve comprehensive synchronization status across all family devices including sync health, conflicts, and memory consistency.
+
+        **Synchronization Management**: Get complete sync status with administrative context and sync insights.
+        **Sync Administration**: Retrieve sync status with conflict analysis and memory consistency tracking.
+      operationId: getSynchronizationStatus
+      parameters:
+        - name: sync_scope
+          in: query
+          description: Scope of synchronization status
+          required: false
+          schema:
+            type: string
+            enum: [all_devices, device_group, family_member, memory_spaces]
+            default: all_devices
+        - name: include_conflicts
+          in: query
+          description: Include synchronization conflicts
+          required: false
+          schema:
+            type: boolean
+            default: true
+        - name: include_performance
+          in: query
+          description: Include sync performance metrics
+          required: false
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: Synchronization status retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  sync_overview:
+                    $ref: '#/components/schemas/SyncOverview'
+                  device_sync_status:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/DeviceSyncStatus'
+                  sync_conflicts:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/SyncConflict'
+                  memory_consistency:
+                    $ref: '#/components/schemas/MemoryConsistency'
+                  sync_performance:
+                    $ref: '#/components/schemas/SyncPerformance'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Device Synchronization
+
+    post:
+      summary: Execute Synchronization Operation
+      description: |
+        Execute comprehensive synchronization operation including full sync, incremental sync, and conflict resolution.
+
+        **Synchronization Execution**: Execute sync operation with administrative oversight.
+        **Memory Sync Management**: Perform sync operation with memory consistency and conflict resolution.
+      operationId: executeSynchronizationOperation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExecuteSyncOperationRequest'
+      responses:
+        '200':
+          description: Synchronization operation executed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  sync_operation_id:
+                    type: string
+                    format: uuid
+                  sync_operation:
+                    $ref: '#/components/schemas/SyncOperation'
+                  sync_results:
+                    $ref: '#/components/schemas/SyncResults'
+                  conflict_resolutions:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ConflictResolution'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Device Synchronization
+
+  /devices/health:
+    get:
+      summary: Get Device Health Status
+      description: |
+        Retrieve comprehensive device health status including connectivity, performance, and operational status across family devices.
+
+        **Device Health Management**: Get complete device health overview with administrative context.
+        **Health Administration**: Retrieve health status with device analysis and operational insights.
+      operationId: getDeviceHealthStatus
+      parameters:
+        - name: health_scope
+          in: query
+          description: Scope of device health status
+          required: false
+          schema:
+            type: string
+            enum: [all_devices, unhealthy_devices, critical_devices, offline_devices]
+            default: all_devices
+        - name: include_diagnostics
+          in: query
+          description: Include device diagnostics
+          required: false
+          schema:
+            type: boolean
+            default: false
+        - name: health_detail_level
+          in: query
+          description: Level of health detail
+          required: false
+          schema:
+            type: string
+            enum: [summary, detailed, comprehensive]
+            default: detailed
+      responses:
+        '200':
+          description: Device health status retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  health_overview:
+                    $ref: '#/components/schemas/DeviceHealthOverview'
+                  device_health_status:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/DeviceHealthStatus'
+                  health_alerts:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/DeviceHealthAlert'
+                  health_recommendations:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/HealthRecommendation'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Device Health
+
+    post:
+      summary: Execute Device Health Check
+      description: |
+        Execute comprehensive device health check including connectivity tests, performance checks, and diagnostic scans.
+
+        **Health Check Execution**: Execute device health check with administrative oversight.
+        **Device Diagnostics**: Perform health check with diagnostic analysis and health assessment.
+      operationId: executeDeviceHealthCheck
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExecuteHealthCheckRequest'
+      responses:
+        '200':
+          description: Device health check executed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  health_check_id:
+                    type: string
+                    format: uuid
+                  health_check_results:
+                    $ref: '#/components/schemas/DeviceHealthCheckResults'
+                  diagnostic_results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/DeviceDiagnosticResult'
+                  health_assessment:
+                    $ref: '#/components/schemas/DeviceHealthAssessment'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Device Health
+
+  /devices/conflicts:
+    get:
+      summary: Get Coordination Conflicts
+      description: |
+        Retrieve comprehensive coordination conflicts including sync conflicts, resource conflicts, and priority conflicts across family devices.
+
+        **Conflict Management**: Get complete conflict overview with administrative context and resolution insights.
+        **Conflict Administration**: Retrieve conflicts with conflict analysis and resolution recommendations.
+      operationId: getCoordinationConflicts
+      parameters:
+        - name: conflict_types
+          in: query
+          description: Types of conflicts to retrieve
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+              enum: [sync_conflicts, resource_conflicts, priority_conflicts, scheduling_conflicts]
+        - name: conflict_severity
+          in: query
+          description: Filter conflicts by severity
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+              enum: [low, medium, high, critical]
+        - name: conflict_status
+          in: query
+          description: Filter conflicts by status
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+              enum: [open, investigating, resolving, resolved]
+      responses:
+        '200':
+          description: Coordination conflicts retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  conflict_overview:
+                    $ref: '#/components/schemas/ConflictOverview'
+                  coordination_conflicts:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/CoordinationConflict'
+                  conflict_patterns:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ConflictPattern'
+                  resolution_recommendations:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ConflictResolutionRecommendation'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Conflict Resolution
+
+    post:
+      summary: Resolve Coordination Conflict
+      description: |
+        Resolve specific coordination conflict with conflict analysis, resolution strategy, and coordination restoration.
+
+        **Conflict Resolution**: Resolve coordination conflict with administrative oversight.
+        **Coordination Restoration**: Perform conflict resolution with coordination restoration and optimization.
+      operationId: resolveCoordinationConflict
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResolveConflictRequest'
+      responses:
+        '200':
+          description: Coordination conflict resolved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  resolution_id:
+                    type: string
+                    format: uuid
+                  conflict_resolution:
+                    $ref: '#/components/schemas/ConflictResolution'
+                  resolution_results:
+                    $ref: '#/components/schemas/ResolutionResults'
+                  coordination_impact:
+                    $ref: '#/components/schemas/CoordinationImpact'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Conflict Resolution
+
+  /devices/discovery:
+    get:
+      summary: Get Device Discovery Status
+      description: |
+        Retrieve comprehensive device discovery status including discovered devices, discovery patterns, and family device ecosystem.
+
+        **Discovery Management**: Get complete device discovery status with administrative context.
+        **Discovery Administration**: Retrieve discovery status with ecosystem analysis and integration insights.
+      operationId: getDeviceDiscoveryStatus
+      parameters:
+        - name: discovery_scope
+          in: query
+          description: Scope of device discovery
+          required: false
+          schema:
+            type: string
+            enum: [active_discovery, discovered_devices, family_ecosystem, network_devices]
+            default: family_ecosystem
+        - name: include_capabilities
+          in: query
+          description: Include device capabilities
+          required: false
+          schema:
+            type: boolean
+            default: true
+        - name: discovery_timeframe
+          in: query
+          description: Timeframe for discovery information
+          required: false
+          schema:
+            type: string
+            enum: [last_hour, last_day, last_week]
+            default: last_day
+      responses:
+        '200':
+          description: Device discovery status retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  discovery_overview:
+                    $ref: '#/components/schemas/DiscoveryOverview'
+                  discovered_devices:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/DiscoveredDevice'
+                  family_ecosystem:
+                    $ref: '#/components/schemas/FamilyDeviceEcosystem'
+                  discovery_patterns:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/DiscoveryPattern'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Device Discovery
+
+    post:
+      summary: Execute Device Discovery
+      description: |
+        Execute comprehensive device discovery including network scanning, capability detection, and family device identification.
+
+        **Discovery Execution**: Execute device discovery with administrative oversight.
+        **Device Identification**: Perform discovery with capability detection and family integration analysis.
+      operationId: executeDeviceDiscovery
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExecuteDiscoveryRequest'
+      responses:
+        '200':
+          description: Device discovery executed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  discovery_id:
+                    type: string
+                    format: uuid
+                  discovery_results:
+                    $ref: '#/components/schemas/DiscoveryResults'
+                  integration_recommendations:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/IntegrationRecommendation'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Device Discovery
+
+  /devices/configuration:
+    get:
+      summary: Get Device Configuration
+      description: |
+        Retrieve comprehensive device configuration including coordination settings, sync preferences, and family integration configuration.
+
+        **Configuration Management**: Get complete device configuration with administrative context.
+        **Configuration Administration**: Retrieve configuration with settings analysis and optimization insights.
+      operationId: getDeviceConfiguration
+      parameters:
+        - name: configuration_scope
+          in: query
+          description: Scope of device configuration
+          required: false
+          schema:
+            type: string
+            enum: [all_devices, device_specific, configuration_templates, family_policies]
+            default: all_devices
+        - name: device_id
+          in: query
+          description: Specific device ID for configuration
+          required: false
+          schema:
+            type: string
+            format: uuid
+        - name: include_templates
+          in: query
+          description: Include configuration templates
+          required: false
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: Device configuration retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  configuration_overview:
+                    $ref: '#/components/schemas/ConfigurationOverview'
+                  device_configurations:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/DeviceConfiguration'
+                  configuration_templates:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ConfigurationTemplate'
+                  configuration_policies:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ConfigurationPolicy'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Device Configuration
+
+    post:
+      summary: Update Device Configuration
+      description: |
+        Update comprehensive device configuration including coordination settings, sync preferences, and family integration updates.
+
+        **Configuration Update**: Update device configuration with administrative oversight.
+        **Configuration Management**: Perform configuration update with validation and family integration.
+      operationId: updateDeviceConfiguration
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateConfigurationRequest'
+      responses:
+        '200':
+          description: Device configuration updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  configuration_id:
+                    type: string
+                    format: uuid
+                  updated_configuration:
+                    $ref: '#/components/schemas/DeviceConfiguration'
+                  validation_results:
+                    $ref: '#/components/schemas/ConfigurationValidationResults'
+                  deployment_status:
+                    $ref: '#/components/schemas/ConfigurationDeploymentStatus'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Device Configuration
+
+  /devices/groups:
+    get:
+      summary: Get Device Groups
+      description: |
+        Retrieve comprehensive device groups including group composition, coordination rules, and group management information.
+
+        **Group Management**: Get complete device groups with administrative context and group insights.
+        **Group Administration**: Retrieve groups with composition analysis and coordination optimization.
+      operationId: getDeviceGroups
+      parameters:
+        - name: group_types
+          in: query
+          description: Types of device groups to retrieve
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+              enum: [family_member_groups, device_type_groups, functional_groups, location_groups]
+        - name: include_coordination_rules
+          in: query
+          description: Include group coordination rules
+          required: false
+          schema:
+            type: boolean
+            default: true
+        - name: group_status
+          in: query
+          description: Filter groups by status
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+              enum: [active, inactive, pending, archived]
+      responses:
+        '200':
+          description: Device groups retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  group_overview:
+                    $ref: '#/components/schemas/DeviceGroupOverview'
+                  device_groups:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/DeviceGroup'
+                  group_coordination:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/GroupCoordination'
+                  group_analytics:
+                    $ref: '#/components/schemas/GroupAnalytics'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Device Groups
+
+    post:
+      summary: Create Device Group
+      description: |
+        Create new device group with group composition, coordination rules, and management configuration.
+
+        **Group Creation**: Create device group with administrative oversight.
+        **Group Setup**: Perform group creation with coordination rules and family integration.
+      operationId: createDeviceGroup
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateDeviceGroupRequest'
+      responses:
+        '201':
+          description: Device group created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  group_id:
+                    type: string
+                    format: uuid
+                  device_group:
+                    $ref: '#/components/schemas/DeviceGroup'
+                  group_status:
+                    $ref: '#/components/schemas/GroupStatus'
+                  coordination_setup:
+                    $ref: '#/components/schemas/CoordinationSetup'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Device Groups
+
+  /devices/orchestration:
+    get:
+      summary: Get Device Orchestration Status
+      description: |
+        Retrieve comprehensive device orchestration status including task coordination, workflow management, and family automation.
+
+        **Orchestration Management**: Get complete orchestration status with administrative context.
+        **Orchestration Administration**: Retrieve status with workflow analysis and automation insights.
+      operationId: getDeviceOrchestrationStatus
+      parameters:
+        - name: orchestration_scope
+          in: query
+          description: Scope of orchestration status
+          required: false
+          schema:
+            type: string
+            enum: [active_workflows, task_coordination, family_automation, scheduled_operations]
+            default: active_workflows
+        - name: include_performance
+          in: query
+          description: Include orchestration performance metrics
+          required: false
+          schema:
+            type: boolean
+            default: false
+        - name: time_range
+          in: query
+          description: Time range for orchestration data
+          required: false
+          schema:
+            type: string
+            enum: [last_hour, last_day, last_week]
+            default: last_day
+      responses:
+        '200':
+          description: Device orchestration status retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  orchestration_overview:
+                    $ref: '#/components/schemas/OrchestrationOverview'
+                  active_workflows:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/DeviceWorkflow'
+                  task_coordination:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/TaskCoordination'
+                  automation_status:
+                    $ref: '#/components/schemas/AutomationStatus'
+                  orchestration_performance:
+                    $ref: '#/components/schemas/OrchestrationPerformance'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Device Orchestration
+
+    post:
+      summary: Execute Device Orchestration
+      description: |
+        Execute comprehensive device orchestration including workflow execution, task coordination, and automation management.
+
+        **Orchestration Execution**: Execute device orchestration with administrative oversight.
+        **Workflow Management**: Perform orchestration with workflow coordination and automation execution.
+      operationId: executeDeviceOrchestration
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExecuteOrchestrationRequest'
+      responses:
+        '200':
+          description: Device orchestration executed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  orchestration_id:
+                    type: string
+                    format: uuid
+                  orchestration_execution:
+                    $ref: '#/components/schemas/OrchestrationExecution'
+                  execution_results:
+                    $ref: '#/components/schemas/OrchestrationResults'
+                  workflow_status:
+                    $ref: '#/components/schemas/WorkflowStatus'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Device Orchestration
+
+components:
+  securitySchemes:
+    FamilyAdminAuth:
+      type: http
+      scheme: bearer
+      description: Family administrator JWT authentication for device coordination operations
+      bearerFormat: JWT
+
+    FamilyOSAuth:
+      type: oauth2
+      description: FamilyOS OAuth2 authentication with device coordination scopes
+      flows:
+        authorizationCode:
+          authorizationUrl: https://auth.familyos.local/oauth/authorize
+          tokenUrl: https://auth.familyos.local/oauth/token
+          scopes:
+            devices:admin: Full device coordination administration access
+            devices:registration: Manage device registration and onboarding
+            devices:coordination: Coordinate device operations and activities
+            devices:synchronization: Manage device synchronization and memory sync
+            devices:health: Monitor device health and operational status
+            devices:conflicts: Resolve coordination conflicts and resource contention
+            devices:discovery: Manage device discovery and family ecosystem
+            devices:configuration: Configure device settings and coordination rules
+            devices:groups: Manage device groups and group coordination
+            devices:orchestration: Execute device orchestration and workflow management
+
+  schemas:
+    RegisteredDevice:
+      type: object
+      description: Comprehensive registered device information
+      properties:
+        device_id:
+          type: string
+          format: uuid
+        device_name:
+          type: string
+        device_type:
+          type: string
+          enum: [smartphone, tablet, laptop, desktop, smart_home, wearable, iot_device]
+        owner_id:
+          type: string
+          format: uuid
+        device_status:
+          type: string
+          enum: [active, inactive, offline, pending, disabled]
+        device_capabilities:
+          type: array
+          items:
+            type: string
+        coordination_settings:
+          $ref: '#/components/schemas/CoordinationSettings'
+        sync_configuration:
+          $ref: '#/components/schemas/SyncConfiguration'
+        registration_date:
+          type: string
+          format: date-time
+        last_seen:
+          type: string
+          format: date-time
+        device_metadata:
+          type: object
+      required:
+        - device_id
+        - device_name
+        - device_type
+        - owner_id
+        - device_status
+
+    DeviceCoordination:
+      type: object
+      description: Device coordination status and information
+      properties:
+        device_id:
+          type: string
+          format: uuid
+        coordination_status:
+          type: string
+          enum: [coordinated, coordinating, conflicts, offline, error]
+        active_tasks:
+          type: array
+          items:
+            $ref: '#/components/schemas/DeviceTask'
+        coordination_priority:
+          type: integer
+          minimum: 1
+          maximum: 10
+        family_integration:
+          $ref: '#/components/schemas/FamilyIntegration'
+        coordination_metrics:
+          type: object
+        last_coordination:
+          type: string
+          format: date-time
+        coordination_metadata:
+          type: object
+      required:
+        - device_id
+        - coordination_status
+
+    SyncStatus:
+      type: object
+      description: Device synchronization status
+      properties:
+        device_id:
+          type: string
+          format: uuid
+        sync_state:
+          type: string
+          enum: [synchronized, syncing, conflicts, out_of_sync, error]
+        last_sync:
+          type: string
+          format: date-time
+        sync_progress:
+          type: number
+          minimum: 0
+          maximum: 100
+        memory_sync_status:
+          $ref: '#/components/schemas/MemorySyncStatus'
+        pending_changes:
+          type: integer
+        sync_conflicts:
+          type: array
+          items:
+            $ref: '#/components/schemas/SyncConflict'
+        sync_performance:
+          type: object
+        sync_metadata:
+          type: object
+      required:
+        - device_id
+        - sync_state
+        - last_sync
+
+    DeviceHealthStatus:
+      type: object
+      description: Device health status information
+      properties:
+        device_id:
+          type: string
+          format: uuid
+        health_status:
+          type: string
+          enum: [healthy, warning, critical, offline, unknown]
+        health_score:
+          type: number
+          minimum: 0
+          maximum: 100
+        connectivity_status:
+          $ref: '#/components/schemas/ConnectivityStatus'
+        performance_metrics:
+          type: object
+        resource_utilization:
+          type: object
+        health_issues:
+          type: array
+          items:
+            type: string
+        last_health_check:
+          type: string
+          format: date-time
+        health_metadata:
+          type: object
+      required:
+        - device_id
+        - health_status
+        - health_score
+
+    CoordinationConflict:
+      type: object
+      description: Device coordination conflict information
+      properties:
+        conflict_id:
+          type: string
+          format: uuid
+        conflict_type:
+          type: string
+          enum: [sync_conflict, resource_conflict, priority_conflict, scheduling_conflict]
+        conflict_severity:
+          type: string
+          enum: [low, medium, high, critical]
+        conflict_status:
+          type: string
+          enum: [open, investigating, resolving, resolved]
+        involved_devices:
+          type: array
+          items:
+            type: string
+            format: uuid
+        conflict_description:
+          type: string
+        conflict_details:
+          type: object
+        detection_time:
+          type: string
+          format: date-time
+        resolution_time:
+          type: string
+          format: date-time
+        resolution_strategy:
+          type: string
+        conflict_metadata:
+          type: object
+      required:
+        - conflict_id
+        - conflict_type
+        - conflict_severity
+        - conflict_status
+
+    DeviceGroup:
+      type: object
+      description: Device group information
+      properties:
+        group_id:
+          type: string
+          format: uuid
+        group_name:
+          type: string
+        group_type:
+          type: string
+          enum: [family_member_group, device_type_group, functional_group, location_group]
+        group_status:
+          type: string
+          enum: [active, inactive, pending, archived]
+        member_devices:
+          type: array
+          items:
+            type: string
+            format: uuid
+        coordination_rules:
+          type: array
+          items:
+            $ref: '#/components/schemas/CoordinationRule'
+        group_settings:
+          type: object
+        created_date:
+          type: string
+          format: date-time
+        group_metadata:
+          type: object
+      required:
+        - group_id
+        - group_name
+        - group_type
+        - group_status
+
+    # Request schemas
+    RegisterDeviceRequest:
+      type: object
+      description: Request to register new device
+      properties:
+        device_name:
+          type: string
+          maxLength: 100
+        device_type:
+          type: string
+          enum: [smartphone, tablet, laptop, desktop, smart_home, wearable, iot_device]
+        owner_id:
+          type: string
+          format: uuid
+        device_capabilities:
+          type: array
+          items:
+            type: string
+        coordination_preferences:
+          type: object
+        sync_preferences:
+          type: object
+        security_settings:
+          type: object
+        device_metadata:
+          type: object
+      required:
+        - device_name
+        - device_type
+        - owner_id
+
+    ExecuteCoordinationActionRequest:
+      type: object
+      description: Request to execute coordination action
+      properties:
+        action_type:
+          type: string
+          enum: [sync_memory, execute_task, update_configuration, resolve_conflict, priority_adjustment]
+        action_parameters:
+          type: object
+        coordination_scope:
+          type: string
+          enum: [device_specific, group_wide, family_wide]
+        execution_priority:
+          type: integer
+          minimum: 1
+          maximum: 10
+        action_metadata:
+          type: object
+      required:
+        - action_type
+
+    ExecuteSyncOperationRequest:
+      type: object
+      description: Request to execute synchronization operation
+      properties:
+        sync_type:
+          type: string
+          enum: [full_sync, incremental_sync, conflict_resolution, memory_sync, selective_sync]
+        sync_scope:
+          type: string
+          enum: [all_devices, device_group, specific_devices, memory_spaces]
+        target_devices:
+          type: array
+          items:
+            type: string
+            format: uuid
+        sync_parameters:
+          type: object
+        conflict_resolution_strategy:
+          type: string
+          enum: [automatic, manual, priority_based, timestamp_based]
+      required:
+        - sync_type
+        - sync_scope
+
+    # Supporting schemas
+    CoordinationSettings:
+      type: object
+      properties:
+        coordination_enabled:
+          type: boolean
+        coordination_priority:
+          type: integer
+          minimum: 1
+          maximum: 10
+        task_coordination:
+          type: boolean
+        resource_sharing:
+          type: boolean
+        family_integration:
+          type: boolean
+
+    SyncConfiguration:
+      type: object
+      properties:
+        sync_enabled:
+          type: boolean
+        sync_frequency:
+          type: string
+          enum: [real_time, hourly, daily, manual]
+        memory_sync:
+          type: boolean
+        conflict_resolution:
+          type: string
+          enum: [automatic, manual, priority_based]
+        sync_scope:
+          type: array
+          items:
+            type: string
+
+    # Error schemas
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+            message:
+              type: string
+            details:
+              type: object
+            trace_id:
+              type: string
+          required:
+            - code
+            - message
+      required:
+        - error
+
+  responses:
+    BadRequestError:
+      description: Invalid request parameters or device coordination operation
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    ForbiddenError:
+      description: Insufficient administrative permissions or device access violation
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    InternalServerError:
+      description: Internal server error in device coordination processing
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+tags:
+  - name: Device Registration
+    description: |
+      Device registration and onboarding with family integration and security setup.
+
+      **Registration Administration**: Comprehensive device registration with family onboarding and coordination setup.
+
+  - name: Device Coordination
+    description: |
+      Device coordination management with task coordination, sync operations, and family integration.
+
+      **Coordination Administration**: Complete device coordination with task management and family collaboration.
+
+  - name: Device Synchronization
+    description: |
+      Device synchronization management with memory sync, conflict resolution, and consistency maintenance.
+
+      **Synchronization Administration**: Comprehensive sync management with memory consistency and conflict resolution.
+
+  - name: Device Health
+    description: |
+      Device health monitoring with connectivity tracking, performance assessment, and operational status.
+
+      **Health Administration**: Complete device health management with diagnostic capabilities and health optimization.
+
+  - name: Conflict Resolution
+    description: |
+      Coordination conflict resolution with conflict analysis, resolution strategies, and coordination restoration.
+
+      **Conflict Administration**: Comprehensive conflict management with resolution and coordination optimization.
+
+  - name: Device Discovery
+    description: |
+      Device discovery management with family device identification and ecosystem integration.
+
+      **Discovery Administration**: Complete device discovery with family ecosystem management and integration.
+
+  - name: Device Configuration
+    description: |
+      Device configuration management with coordination settings, sync preferences, and family policies.
+
+      **Configuration Administration**: Comprehensive configuration management with family integration and optimization.
+
+  - name: Device Groups
+    description: |
+      Device group management with group coordination, rule management, and group optimization.
+
+      **Group Administration**: Complete device group management with coordination rules and family organization.
+
+  - name: Device Orchestration
+    description: |
+      Device orchestration management with workflow execution, task coordination, and automation management.
+
+      **Orchestration Administration**: Comprehensive orchestration with workflow management and family automation.

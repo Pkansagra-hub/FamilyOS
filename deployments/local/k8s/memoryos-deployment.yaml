@@ -1,0 +1,116 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: memoryos-api
+  labels:
+    app: memoryos-api
+    version: local
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: memoryos-api
+  template:
+    metadata:
+      labels:
+        app: memoryos-api
+        version: local
+    spec:
+      containers:
+      - name: memoryos-api
+        image: memoryos/api:local
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8000
+          name: http
+        - containerPort: 8080
+          name: metrics
+        env:
+        - name: ENVIRONMENT
+          value: "local"
+        - name: LOG_LEVEL
+          value: "DEBUG"
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: memoryos-secrets
+              key: database-url
+        - name: REDIS_URL
+          valueFrom:
+            secretKeyRef:
+              name: memoryos-secrets
+              key: redis-url
+        - name: MINIO_ENDPOINT
+          valueFrom:
+            configMapKeyRef:
+              name: memoryos-config
+              key: minio_endpoint
+        - name: MINIO_ACCESS_KEY
+          valueFrom:
+            secretKeyRef:
+              name: memoryos-secrets
+              key: minio-access-key
+        - name: MINIO_SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: memoryos-secrets
+              key: minio-secret-key
+        - name: JWT_SECRET_KEY
+          valueFrom:
+            secretKeyRef:
+              name: memoryos-secrets
+              key: jwt-secret-key
+        - name: PROMETHEUS_MULTIPROC_DIR
+          value: "/tmp/prometheus_multiproc"
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "250m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /health/ready
+            port: 8000
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        volumeMounts:
+        - name: prometheus-tmp
+          mountPath: /tmp/prometheus_multiproc
+      volumes:
+      - name: prometheus-tmp
+        emptyDir: {}
+      initContainers:
+      - name: wait-for-postgres
+        image: postgres:13
+        command: ['sh', '-c', 'until pg_isready -h postgres -p 5432; do echo waiting for postgres; sleep 2; done;']
+      - name: wait-for-redis
+        image: redis:7
+        command: ['sh', '-c', 'until redis-cli -h redis ping; do echo waiting for redis; sleep 2; done;']
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: memoryos-api
+  labels:
+    app: memoryos-api
+spec:
+  selector:
+    app: memoryos-api
+  ports:
+  - name: http
+    port: 80
+    targetPort: 8000
+    protocol: TCP
+  - name: metrics
+    port: 8080
+    targetPort: 8080
+    protocol: TCP
+  type: ClusterIP

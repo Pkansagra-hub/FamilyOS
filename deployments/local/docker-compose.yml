@@ -1,0 +1,102 @@
+version: '3.8'
+
+services:
+  # MemoryOS Application (3-Plane Architecture)
+  memoryos:
+    build:
+      context: ../..
+      dockerfile: deployments/docker/Dockerfile
+    ports:
+      - "8080:8080"    # Agents Plane (agents/tools)
+      - "8081:8081"    # App Plane (frontend)
+      - "8082:8082"    # Control Plane (admin/security)
+      - "9091:9091"    # Metrics endpoint
+    environment:
+      - LOG_LEVEL=INFO
+      - LOG_FORMAT=json
+      - METRICS_ENABLED=true
+      - PROMETHEUS_URL=http://prometheus:9090
+      - OTEL_EXPORTER_OTLP_ENDPOINT=http://jaeger:14268/api/traces
+      - TRACING_ENABLED=true
+      - TRACING_SAMPLE_RATE=0.1
+      # Plane-specific configs
+      - AGENTS_PLANE_PORT=8080
+      - APP_PLANE_PORT=8081
+      - CONTROL_PLANE_PORT=8082
+      - METRICS_PORT=9091
+    volumes:
+      - memoryos_data:/app/data
+      - memoryos_logs:/app/logs
+    depends_on:
+      - prometheus
+      - grafana
+    networks:
+      - memoryos
+
+  # Prometheus for metrics collection
+  prometheus:
+    image: prom/prometheus:latest
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus_data:/prometheus
+    command:
+      - '--config.file=/etc/prometheus/prometheus.yml'
+      - '--storage.tsdb.path=/prometheus'
+      - '--web.console.libraries=/etc/prometheus/console_libraries'
+      - '--web.console.templates=/etc/prometheus/consoles'
+      - '--storage.tsdb.retention.time=200h'
+      - '--web.enable-lifecycle'
+    networks:
+      - memoryos
+
+  # Grafana for visualization
+  grafana:
+    image: grafana/grafana:latest
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_USERS_ALLOW_SIGN_UP=false
+    volumes:
+      - grafana_data:/var/lib/grafana
+      - ../monitoring/grafana/provisioning:/etc/grafana/provisioning
+      - ../monitoring/grafana/dashboards:/var/lib/grafana/dashboards
+    depends_on:
+      - prometheus
+    networks:
+      - memoryos
+
+  # Jaeger for distributed tracing
+  jaeger:
+    image: jaegertracing/all-in-one:latest
+    ports:
+      - "16686:16686"  # Jaeger UI
+      - "14268:14268"  # HTTP collector
+    environment:
+      - COLLECTOR_OTLP_ENABLED=true
+    networks:
+      - memoryos
+
+  # Redis for caching (if needed)
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - memoryos
+
+volumes:
+  memoryos_data:
+  memoryos_logs:
+  prometheus_data:
+  grafana_data:
+  redis_data:
+
+networks:
+  memoryos:
+    driver: bridge

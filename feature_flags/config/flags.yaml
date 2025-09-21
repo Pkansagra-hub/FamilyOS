@@ -1,0 +1,225 @@
+---
+# MemoryOS Feature Flags Configuration
+# ====================================
+# Brain-inspired feature flag configuration for cognitive-aware systems
+
+metadata:
+  version: "1.0.0"
+  created: "2025-01-27"
+  description: "MemoryOS cognitive feature flag configuration"
+
+environments:
+  development:
+    description: "Development environment with experimental features"
+    default_enabled: true
+  staging:
+    description: "Staging environment for integration testing"
+    default_enabled: false
+  production:
+    description: "Production environment with stable features only"
+    default_enabled: false
+
+flags:
+  # Working Memory Flags
+  working_memory_l2_cache:
+    description: "Enable L2 cache for working memory operations"
+    type: "boolean"
+    category: "working_memory"
+    owner: "memory_team"
+    default_value: true
+    enabled: true
+    environments:
+      development: true
+      staging: true
+      production: false
+    cognitive_context:
+      load_aware: true
+      cognitive_load_threshold: 0.7
+      performance_impact: "medium"
+      brain_region: "working_memory"
+
+  working_memory_complex_operations:
+    description: "Enable complex multi-step working memory operations"
+    type: "boolean"
+    category: "working_memory"
+    owner: "memory_team"
+    default_value: false
+    enabled: true
+    environments:
+      development: true
+      staging: false
+      production: false
+    cognitive_context:
+      load_aware: true
+      cognitive_load_threshold: 0.5
+      performance_impact: "high"
+      brain_region: "working_memory"
+
+  # Attention Gate Flags
+  attention_gate_detailed_analysis:
+    description: "Enable detailed salience analysis in attention gate"
+    type: "boolean"
+    category: "attention_gate"
+    owner: "attention_team"
+    default_value: true
+    enabled: true
+    environments:
+      development: true
+      staging: true
+      production: true
+    cognitive_context:
+      load_aware: true
+      cognitive_load_threshold: 0.8
+      performance_impact: "medium"
+      neural_pathway: "attention_processing"
+
+  attention_gate_backpressure_advanced:
+    description: "Advanced backpressure management with predictive scaling"
+    type: "boolean"
+    category: "attention_gate"
+    owner: "attention_team"
+    default_value: false
+    enabled: true
+    environments:
+      development: true
+      staging: false
+      production: false
+    cognitive_context:
+      load_aware: true
+      cognitive_load_threshold: 0.6
+      performance_impact: "high"
+      neural_pathway: "attention_processing"
+
+  # Memory Steward Flags
+  memory_steward_auto_consolidation:
+    description: "Automatic memory consolidation based on usage patterns"
+    type: "boolean"
+    category: "memory_steward"
+    owner: "memory_team"
+    default_value: true
+    enabled: true
+    environments:
+      development: true
+      staging: true
+      production: true
+    cognitive_context:
+      load_aware: true
+      cognitive_load_threshold: 0.9
+      performance_impact: "low"
+      brain_region: "hippocampus"
+
+  memory_steward_predictive_prefetch:
+    description: "Predictive memory prefetching based on access patterns"
+    type: "boolean"
+    category: "memory_steward"
+    owner: "memory_team"
+    default_value: false
+    enabled: true
+    environments:
+      development: true
+      staging: true
+      production: false
+    cognitive_context:
+      load_aware: true
+      cognitive_load_threshold: 0.7
+      performance_impact: "medium"
+      brain_region: "hippocampus"
+
+  # API Gateway Flags
+  api_gateway_rate_limiting_advanced:
+    description: "Advanced rate limiting with cognitive load awareness"
+    type: "boolean"
+    category: "api_gateway"
+    owner: "api_team"
+    default_value: false
+    enabled: true
+    environments:
+      development: true
+      staging: true
+      production: false
+    cognitive_context:
+      load_aware: true
+      cognitive_load_threshold: 0.8
+      performance_impact: "medium"
+
+  api_gateway_request_batching:
+    description: "Intelligent request batching for similar operations"
+    type: "boolean"
+    category: "api_gateway"
+    owner: "api_team"
+    default_value: true
+    enabled: true
+    environments:
+      development: true
+      staging: true
+      production: true
+    cognitive_context:
+      load_aware: false
+      performance_impact: "low"
+
+  # Observability Flags
+  observability_detailed_tracing:
+    description: "Detailed distributed tracing with cognitive context"
+    type: "boolean"
+    category: "observability"
+    owner: "observability_team"
+    default_value: false
+    enabled: true
+    environments:
+      development: true
+      staging: true
+      production: false
+    cognitive_context:
+      load_aware: true
+      cognitive_load_threshold: 0.9
+      performance_impact: "high"
+
+  observability_cognitive_metrics:
+    description: "Extended metrics for cognitive load and brain region activity"
+    type: "boolean"
+    category: "observability"
+    owner: "observability_team"
+    default_value: true
+    enabled: true
+    environments:
+      development: true
+      staging: true
+      production: true
+    cognitive_context:
+      load_aware: false
+      performance_impact: "low"
+
+  # Experimental Flags
+  experimental_neural_pathway_optimization:
+    description: "Experimental neural pathway optimization algorithms"
+    type: "boolean"
+    category: "experimental"
+    owner: "research_team"
+    default_value: false
+    enabled: true
+    environments:
+      development: true
+      staging: false
+      production: false
+    cognitive_context:
+      load_aware: true
+      cognitive_load_threshold: 0.5
+      performance_impact: "high"
+      neural_pathway: "experimental"
+
+  experimental_brain_region_affinity:
+    description: "Brain region affinity-based processing optimization"
+    type: "boolean"
+    category: "experimental"
+    owner: "research_team"
+    default_value: false
+    enabled: false
+    environments:
+      development: false
+      staging: false
+      production: false
+    cognitive_context:
+      load_aware: true
+      cognitive_load_threshold: 0.3
+      performance_impact: "high"
+      brain_region: "experimental"

@@ -1,0 +1,1089 @@
+openapi: 3.1.0
+info:
+  title: MemoryOS Agent Plane - Context Analysis API
+  description: |
+    **Memory-Centric Family AI Context Analysis Operations**
+
+    This API provides LLM agents with comprehensive context analysis capabilities for Family AI intelligence:
+    - **Deep Context Understanding**: Comprehensive analysis of family context across multiple dimensions and timeframes
+    - **Contextual Intelligence Generation**: Generate contextual insights and intelligence for family decision-making
+    - **Context-Aware Recommendations**: Provide recommendations that consider full family context and situational awareness
+    - **Multi-Dimensional Context Analysis**: Analyze context across emotional, relational, temporal, and situational dimensions
+    - **Context Evolution Tracking**: Monitor how family context evolves and changes over time
+
+    **Memory-Centric Design**: Context analysis leverages Memory Backbone for:
+    - Family context understanding through memory synthesis and contextual pattern recognition
+    - Memory-informed context analysis with historical context integration and contextual memory formation
+    - Cross-family context intelligence with contextual relationship understanding
+    - Context evolution tracking through memory-driven contextual development analysis
+
+    **Architecture Integration**:
+    - Integrates with Memory Backbone for memory-informed context analysis and contextual intelligence
+    - Leverages Family Intelligence for relationship-aware context understanding and contextual recommendations
+    - Coordinates with Intelligence Layer for advanced family context synthesis and contextual optimization
+    - Enforces family policies through context analysis boundaries and contextual privacy controls
+  version: "1.0.0"
+  contact:
+    name: MemoryOS API Team
+    url: https://familyos.local/support
+    email: api-support@familyos.local
+  license:
+    name: Family OS Private License
+    url: https://familyos.local/licenses/family-os
+
+servers:
+  - url: https://api.familyos.local/agent/v1
+    description: Production Agent Plane
+  - url: https://staging-api.familyos.local/agent/v1
+    description: Staging Environment
+  - url: http://localhost:8080/agent/v1
+    description: Local Development
+
+security:
+  - AgentAuth: []
+  - FamilyOSAuth: []
+
+paths:
+  /context/deep-analysis:
+    post:
+      summary: Perform Deep Context Analysis
+      description: |
+        Perform comprehensive deep context analysis across multiple family dimensions.
+
+        **Deep Context Analysis**: Comprehensive analysis of family context across emotional, relational, and situational dimensions.
+        **Contextual Intelligence**: Generate deep contextual understanding for family intelligence and decision-making.
+      operationId: performDeepContextAnalysis
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DeepContextAnalysisRequest'
+      responses:
+        '200':
+          description: Deep context analysis completed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  context_analysis:
+                    $ref: '#/components/schemas/DeepContextAnalysis'
+                  contextual_dimensions:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ContextualDimension'
+                  context_patterns:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ContextPattern'
+                  contextual_insights:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ContextualInsight'
+                  context_synthesis:
+                    $ref: '#/components/schemas/ContextSynthesis'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Deep Context Analysis
+
+  /context/situational-awareness:
+    post:
+      summary: Generate Situational Awareness
+      description: |
+        Generate comprehensive situational awareness for family context understanding.
+
+        **Situational Awareness**: Real-time understanding of family situational context and dynamics.
+        **Context Intelligence**: Generate situational intelligence for family coordination and decision-making.
+      operationId: generateSituationalAwareness
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SituationalAwarenessRequest'
+      responses:
+        '200':
+          description: Situational awareness generated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  situational_awareness:
+                    $ref: '#/components/schemas/SituationalAwareness'
+                  current_context_state:
+                    $ref: '#/components/schemas/CurrentContextState'
+                  situational_factors:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/SituationalFactor'
+                  context_dynamics:
+                    $ref: '#/components/schemas/ContextDynamics'
+                  awareness_recommendations:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/AwarenessRecommendation'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Situational Awareness
+
+  /context/temporal-analysis:
+    post:
+      summary: Analyze Temporal Context Patterns
+      description: |
+        Analyze family context patterns across temporal dimensions and time periods.
+
+        **Temporal Context Analysis**: Analyze how family context evolves and patterns across time.
+        **Context Evolution**: Understanding family context development and temporal pattern recognition.
+      operationId: analyzeTemporalContextPatterns
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TemporalContextAnalysisRequest'
+      responses:
+        '200':
+          description: Temporal context analysis completed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  temporal_analysis:
+                    $ref: '#/components/schemas/TemporalContextAnalysis'
+                  temporal_patterns:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/TemporalContextPattern'
+                  context_evolution:
+                    $ref: '#/components/schemas/ContextEvolution'
+                  temporal_insights:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/TemporalInsight'
+                  future_context_projections:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/FutureContextProjection'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Temporal Analysis
+
+  /context/emotional-context:
+    post:
+      summary: Analyze Emotional Context
+      description: |
+        Analyze family emotional context and emotional contextual dynamics.
+
+        **Emotional Context Analysis**: Deep analysis of family emotional context and emotional situational awareness.
+        **Emotional Intelligence**: Generate emotional contextual understanding for family emotional coordination.
+      operationId: analyzeFamilyEmotionalContext
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmotionalContextAnalysisRequest'
+      responses:
+        '200':
+          description: Emotional context analysis completed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  emotional_context:
+                    $ref: '#/components/schemas/EmotionalContext'
+                  emotional_dynamics:
+                    $ref: '#/components/schemas/EmotionalContextDynamics'
+                  emotional_patterns:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/EmotionalContextPattern'
+                  emotional_insights:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/EmotionalContextInsight'
+                  emotional_recommendations:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/EmotionalContextRecommendation'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Emotional Context
+
+  /context/relational-context:
+    post:
+      summary: Analyze Relational Context
+      description: |
+        Analyze family relational context and relationship contextual dynamics.
+
+        **Relational Context Analysis**: Comprehensive analysis of family relational context and relationship situational awareness.
+        **Relationship Intelligence**: Generate relational contextual understanding for family relationship optimization.
+      operationId: analyzeFamilyRelationalContext
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RelationalContextAnalysisRequest'
+      responses:
+        '200':
+          description: Relational context analysis completed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  relational_context:
+                    $ref: '#/components/schemas/RelationalContext'
+                  relationship_dynamics:
+                    $ref: '#/components/schemas/RelationalContextDynamics'
+                  relational_patterns:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/RelationalContextPattern'
+                  relational_insights:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/RelationalContextInsight'
+                  relational_recommendations:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/RelationalContextRecommendation'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Relational Context
+
+  /context/decision-context:
+    post:
+      summary: Analyze Decision-Making Context
+      description: |
+        Analyze family decision-making context for context-aware decision support.
+
+        **Decision Context Analysis**: Analyze family context for decision-making support and contextual decision intelligence.
+        **Context-Aware Decisions**: Generate contextual understanding for family decision-making optimization.
+      operationId: analyzeFamilyDecisionContext
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DecisionContextAnalysisRequest'
+      responses:
+        '200':
+          description: Decision context analysis completed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  decision_context:
+                    $ref: '#/components/schemas/DecisionContext'
+                  contextual_factors:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/DecisionContextualFactor'
+                  context_implications:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ContextImplication'
+                  decision_context_insights:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/DecisionContextInsight'
+                  context_aware_recommendations:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ContextAwareRecommendation'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Decision Context
+
+  /context/environmental-context:
+    post:
+      summary: Analyze Environmental Context
+      description: |
+        Analyze family environmental context and environmental contextual factors.
+
+        **Environmental Context Analysis**: Analyze family environmental context and environmental situational factors.
+        **Environmental Intelligence**: Generate environmental contextual understanding for family coordination.
+      operationId: analyzeFamilyEnvironmentalContext
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EnvironmentalContextAnalysisRequest'
+      responses:
+        '200':
+          description: Environmental context analysis completed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  environmental_context:
+                    $ref: '#/components/schemas/EnvironmentalContext'
+                  environmental_factors:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/EnvironmentalFactor'
+                  environmental_impacts:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/EnvironmentalImpact'
+                  environmental_insights:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/EnvironmentalInsight'
+                  environmental_recommendations:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/EnvironmentalRecommendation'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Environmental Context
+
+  /context/communication-context:
+    post:
+      summary: Analyze Communication Context
+      description: |
+        Analyze family communication context and communication contextual patterns.
+
+        **Communication Context Analysis**: Analyze family communication context and communication situational awareness.
+        **Communication Intelligence**: Generate communication contextual understanding for family communication optimization.
+      operationId: analyzeFamilyCommunicationContext
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CommunicationContextAnalysisRequest'
+      responses:
+        '200':
+          description: Communication context analysis completed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  communication_context:
+                    $ref: '#/components/schemas/CommunicationContext'
+                  communication_dynamics:
+                    $ref: '#/components/schemas/CommunicationContextDynamics'
+                  communication_patterns:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/CommunicationContextPattern'
+                  communication_insights:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/CommunicationContextInsight'
+                  communication_recommendations:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/CommunicationContextRecommendation'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Communication Context
+
+  /context/predictive-context:
+    post:
+      summary: Generate Predictive Context Analysis
+      description: |
+        Generate predictive context analysis for future family context understanding.
+
+        **Predictive Context Analysis**: Predict future family context and contextual evolution patterns.
+        **Context Forecasting**: Generate context forecasting for family planning and preparation.
+      operationId: generatePredictiveContextAnalysis
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PredictiveContextAnalysisRequest'
+      responses:
+        '200':
+          description: Predictive context analysis generated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  predictive_context:
+                    $ref: '#/components/schemas/PredictiveContext'
+                  context_forecasts:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ContextForecast'
+                  context_scenarios:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ContextScenario'
+                  predictive_insights:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/PredictiveContextInsight'
+                  preparation_recommendations:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ContextPreparationRecommendation'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Predictive Context
+
+  /context/context-synthesis:
+    post:
+      summary: Synthesize Multi-Dimensional Context
+      description: |
+        Synthesize context across multiple dimensions for comprehensive family context understanding.
+
+        **Context Synthesis**: Comprehensive synthesis of family context across all dimensions and timeframes.
+        **Holistic Context Intelligence**: Generate holistic contextual understanding for family intelligence.
+      operationId: synthesizeMultiDimensionalContext
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ContextSynthesisRequest'
+      responses:
+        '200':
+          description: Multi-dimensional context synthesis completed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  context_synthesis:
+                    $ref: '#/components/schemas/MultiDimensionalContextSynthesis'
+                  synthesized_insights:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/SynthesizedContextInsight'
+                  context_integration:
+                    $ref: '#/components/schemas/ContextIntegration'
+                  holistic_recommendations:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/HolisticContextRecommendation'
+                  synthesis_confidence:
+                    $ref: '#/components/schemas/ContextSynthesisConfidence'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Context Synthesis
+
+components:
+  securitySchemes:
+    AgentAuth:
+      type: http
+      scheme: bearer
+      description: Agent-specific JWT authentication for context analysis operations
+      bearerFormat: JWT
+
+    FamilyOSAuth:
+      type: oauth2
+      description: FamilyOS OAuth2 authentication with context analysis scopes
+      flows:
+        authorizationCode:
+          authorizationUrl: https://auth.familyos.local/oauth/authorize
+          tokenUrl: https://auth.familyos.local/oauth/token
+          scopes:
+            context:analysis: Perform deep context analysis
+            context:situational: Generate situational awareness
+            context:temporal: Analyze temporal context patterns
+            context:emotional: Analyze emotional context
+            context:relational: Analyze relational context
+            context:decision: Analyze decision-making context
+            context:environmental: Analyze environmental context
+            context:communication: Analyze communication context
+            context:predictive: Generate predictive context analysis
+            context:synthesis: Synthesize multi-dimensional context
+
+  schemas:
+    DeepContextAnalysisRequest:
+      type: object
+      description: Request for deep context analysis
+      properties:
+        analysis_scope:
+          type: string
+          enum: [individual_context, family_context, situational_context, comprehensive_context]
+          description: Scope of deep context analysis
+        context_dimensions:
+          type: array
+          items:
+            type: string
+            enum: [emotional, relational, temporal, environmental, cultural, psychological, social, physical]
+          description: Dimensions of context to analyze
+        analysis_depth:
+          type: string
+          enum: [surface, moderate, deep, comprehensive]
+          default: deep
+          description: Depth of context analysis
+        context_timeframe:
+          $ref: '#/components/schemas/ContextTimeFrame'
+        family_members:
+          type: array
+          items:
+            type: string
+            format: uuid
+          description: Family members to include in context analysis
+        analysis_priorities:
+          type: array
+          items:
+            type: string
+          description: Priority areas for context analysis
+        contextual_constraints:
+          type: array
+          items:
+            type: string
+          description: Constraints on context analysis
+      required:
+        - analysis_scope
+        - context_dimensions
+
+    SituationalAwarenessRequest:
+      type: object
+      description: Request for situational awareness generation
+      properties:
+        awareness_scope:
+          type: string
+          enum: [current_situation, emerging_situations, critical_situations, comprehensive_awareness]
+          description: Scope of situational awareness
+        situational_factors:
+          type: array
+          items:
+            type: string
+            enum: [immediate_context, environmental_factors, emotional_climate, relational_dynamics, external_pressures]
+          description: Situational factors to consider
+        awareness_urgency:
+          type: string
+          enum: [routine, moderate, high, critical]
+          default: routine
+          description: Urgency level for situational awareness
+        real_time_monitoring:
+          type: boolean
+          default: false
+          description: Whether to include real-time monitoring
+        situation_type:
+          type: string
+          enum: [normal_operations, special_events, crisis_situations, transition_periods, unknown]
+          description: Type of situation to analyze
+        awareness_preferences:
+          $ref: '#/components/schemas/AwarenessPreferences'
+      required:
+        - awareness_scope
+        - situational_factors
+
+    TemporalContextAnalysisRequest:
+      type: object
+      description: Request for temporal context analysis
+      properties:
+        temporal_scope:
+          type: string
+          enum: [historical_patterns, current_trends, future_projections, comprehensive_temporal]
+          description: Scope of temporal context analysis
+        time_horizons:
+          type: array
+          items:
+            type: string
+            enum: [immediate, short_term, medium_term, long_term, generational]
+          description: Time horizons for temporal analysis
+        temporal_patterns:
+          type: array
+          items:
+            type: string
+            enum: [cyclical_patterns, developmental_patterns, seasonal_patterns, crisis_patterns, growth_patterns]
+          description: Types of temporal patterns to analyze
+        temporal_granularity:
+          type: string
+          enum: [hourly, daily, weekly, monthly, yearly, life_stage]
+          description: Granularity of temporal analysis
+        temporal_context_focus:
+          type: array
+          items:
+            type: string
+          description: Focus areas for temporal context analysis
+        pattern_detection_sensitivity:
+          type: string
+          enum: [low, moderate, high, maximum]
+          default: moderate
+          description: Sensitivity for pattern detection
+      required:
+        - temporal_scope
+        - time_horizons
+
+    EmotionalContextAnalysisRequest:
+      type: object
+      description: Request for emotional context analysis
+      properties:
+        emotional_scope:
+          type: string
+          enum: [individual_emotions, family_emotional_climate, emotional_dynamics, comprehensive_emotional]
+          description: Scope of emotional context analysis
+        emotional_dimensions:
+          type: array
+          items:
+            type: string
+            enum: [current_emotional_state, emotional_patterns, emotional_triggers, emotional_regulation, emotional_contagion]
+          description: Dimensions of emotional context to analyze
+        emotional_intensity_levels:
+          type: array
+          items:
+            type: string
+            enum: [subtle, moderate, intense, overwhelming]
+          description: Emotional intensity levels to consider
+        emotional_timeframe:
+          $ref: '#/components/schemas/EmotionalContextTimeFrame'
+        emotional_triggers:
+          type: array
+          items:
+            type: string
+          description: Specific emotional triggers to analyze
+        emotional_goals:
+          type: array
+          items:
+            type: string
+          description: Goals for emotional context understanding
+      required:
+        - emotional_scope
+        - emotional_dimensions
+
+    RelationalContextAnalysisRequest:
+      type: object
+      description: Request for relational context analysis
+      properties:
+        relational_scope:
+          type: string
+          enum: [dyadic_relationships, family_network, relationship_dynamics, comprehensive_relational]
+          description: Scope of relational context analysis
+        relationship_dimensions:
+          type: array
+          items:
+            type: string
+            enum: [relationship_quality, power_dynamics, communication_patterns, intimacy_levels, conflict_patterns, support_structures]
+          description: Dimensions of relational context to analyze
+        relationship_targets:
+          type: array
+          items:
+            $ref: '#/components/schemas/RelationshipContextTarget'
+          description: Specific relationships to focus analysis on
+        relational_timeframe:
+          $ref: '#/components/schemas/RelationalContextTimeFrame'
+        context_factors:
+          type: array
+          items:
+            type: string
+          description: Contextual factors affecting relationships
+        analysis_priorities:
+          type: array
+          items:
+            type: string
+          description: Priority areas for relational context analysis
+      required:
+        - relational_scope
+        - relationship_dimensions
+
+    DecisionContextAnalysisRequest:
+      type: object
+      description: Request for decision-making context analysis
+      properties:
+        decision_scope:
+          type: string
+          enum: [specific_decision, decision_patterns, decision_environment, comprehensive_decision_context]
+          description: Scope of decision context analysis
+        decision_type:
+          type: string
+          enum: [routine_decisions, strategic_decisions, crisis_decisions, family_decisions, individual_decisions]
+          description: Type of decision context to analyze
+        contextual_factors:
+          type: array
+          items:
+            type: string
+            enum: [time_pressure, resource_constraints, family_impact, risk_factors, opportunity_factors, value_alignment]
+          description: Contextual factors affecting decision-making
+        decision_timeline:
+          $ref: '#/components/schemas/DecisionContextTimeline'
+        stakeholder_context:
+          $ref: '#/components/schemas/StakeholderContext'
+        decision_complexity:
+          type: string
+          enum: [simple, moderate, complex, highly_complex]
+          description: Complexity level of decision context
+      required:
+        - decision_scope
+        - decision_type
+
+    EnvironmentalContextAnalysisRequest:
+      type: object
+      description: Request for environmental context analysis
+      properties:
+        environmental_scope:
+          type: string
+          enum: [physical_environment, social_environment, cultural_environment, technological_environment, comprehensive_environmental]
+          description: Scope of environmental context analysis
+        environmental_factors:
+          type: array
+          items:
+            type: string
+            enum: [physical_space, social_dynamics, cultural_influences, technology_impact, external_pressures, resource_availability]
+          description: Environmental factors to analyze
+        environment_type:
+          type: string
+          enum: [home_environment, work_environment, social_environment, public_environment, mixed_environment]
+          description: Type of environment to analyze
+        environmental_changes:
+          type: boolean
+          default: false
+          description: Whether to analyze environmental changes
+        adaptation_analysis:
+          type: boolean
+          default: false
+          description: Whether to include adaptation analysis
+        environmental_impact_assessment:
+          type: boolean
+          default: true
+          description: Whether to assess environmental impact
+      required:
+        - environmental_scope
+        - environmental_factors
+
+    CommunicationContextAnalysisRequest:
+      type: object
+      description: Request for communication context analysis
+      properties:
+        communication_scope:
+          type: string
+          enum: [individual_communication, family_communication, communication_patterns, comprehensive_communication]
+          description: Scope of communication context analysis
+        communication_dimensions:
+          type: array
+          items:
+            type: string
+            enum: [verbal_communication, non_verbal_communication, digital_communication, emotional_communication, formal_communication, informal_communication]
+          description: Dimensions of communication context to analyze
+        communication_settings:
+          type: array
+          items:
+            type: string
+          description: Communication settings to analyze
+        communication_challenges:
+          type: array
+          items:
+            type: string
+          description: Current communication challenges
+        communication_goals:
+          type: array
+          items:
+            type: string
+          description: Goals for communication context understanding
+        communication_timeframe:
+          $ref: '#/components/schemas/CommunicationContextTimeFrame'
+      required:
+        - communication_scope
+        - communication_dimensions
+
+    PredictiveContextAnalysisRequest:
+      type: object
+      description: Request for predictive context analysis
+      properties:
+        prediction_scope:
+          type: string
+          enum: [near_future, medium_future, long_term_future, comprehensive_prediction]
+          description: Scope of predictive context analysis
+        prediction_dimensions:
+          type: array
+          items:
+            type: string
+            enum: [emotional_evolution, relational_evolution, environmental_changes, life_transitions, external_factors]
+          description: Dimensions for predictive context analysis
+        prediction_timeframe:
+          $ref: '#/components/schemas/PredictionContextTimeFrame'
+        scenario_generation:
+          type: boolean
+          default: true
+          description: Whether to generate future scenarios
+        uncertainty_analysis:
+          type: boolean
+          default: true
+          description: Whether to include uncertainty analysis
+        prediction_confidence_threshold:
+          type: number
+          minimum: 0
+          maximum: 1
+          default: 0.6
+          description: Minimum confidence threshold for predictions
+      required:
+        - prediction_scope
+        - prediction_dimensions
+
+    ContextSynthesisRequest:
+      type: object
+      description: Request for multi-dimensional context synthesis
+      properties:
+        synthesis_scope:
+          type: string
+          enum: [partial_synthesis, comprehensive_synthesis, targeted_synthesis, holistic_synthesis]
+          description: Scope of context synthesis
+        synthesis_dimensions:
+          type: array
+          items:
+            type: string
+            enum: [emotional, relational, temporal, environmental, cultural, psychological, social, physical, predictive]
+          description: Dimensions to include in synthesis
+        synthesis_objectives:
+          type: array
+          items:
+            type: string
+          description: Objectives for context synthesis
+        integration_depth:
+          type: string
+          enum: [surface, moderate, deep, comprehensive]
+          default: deep
+          description: Depth of context integration
+        synthesis_priorities:
+          type: array
+          items:
+            type: string
+          description: Priority areas for synthesis
+        holistic_understanding_goals:
+          type: array
+          items:
+            type: string
+          description: Goals for holistic understanding
+      required:
+        - synthesis_scope
+        - synthesis_dimensions
+
+    # Response schemas
+    DeepContextAnalysis:
+      type: object
+      description: Results of deep context analysis
+      properties:
+        context_overview:
+          $ref: '#/components/schemas/ContextOverview'
+        dimensional_analysis:
+          type: array
+          items:
+            $ref: '#/components/schemas/DimensionalAnalysis'
+        context_complexity:
+          $ref: '#/components/schemas/ContextComplexity'
+        context_stability:
+          $ref: '#/components/schemas/ContextStability'
+        analysis_confidence:
+          type: number
+          minimum: 0
+          maximum: 1
+      required:
+        - context_overview
+        - analysis_confidence
+
+    SituationalAwareness:
+      type: object
+      description: Situational awareness analysis results
+      properties:
+        current_situation_assessment:
+          $ref: '#/components/schemas/CurrentSituationAssessment'
+        situational_complexity:
+          $ref: '#/components/schemas/SituationalComplexity'
+        awareness_level:
+          type: string
+          enum: [low, moderate, high, comprehensive]
+        situational_urgency:
+          type: string
+          enum: [routine, moderate, high, critical]
+        awareness_confidence:
+          type: number
+          minimum: 0
+          maximum: 1
+      required:
+        - current_situation_assessment
+        - awareness_confidence
+
+    # Supporting schemas for context analysis
+    ContextTimeFrame:
+      type: object
+      properties:
+        historical_depth:
+          type: string
+          format: duration
+        current_window:
+          type: string
+          format: duration
+        future_projection:
+          type: string
+          format: duration
+
+    RelationshipContextTarget:
+      type: object
+      properties:
+        relationship_id:
+          type: string
+          format: uuid
+        participant_ids:
+          type: array
+          items:
+            type: string
+            format: uuid
+        relationship_type:
+          type: string
+        analysis_priority:
+          type: string
+          enum: [low, medium, high, critical]
+
+    # Error schemas
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+            message:
+              type: string
+            details:
+              type: object
+            trace_id:
+              type: string
+          required:
+            - code
+            - message
+      required:
+        - error
+
+  responses:
+    BadRequestError:
+      description: Invalid request parameters or context analysis task
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    ForbiddenError:
+      description: Insufficient permissions or family policy violation
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    InternalServerError:
+      description: Internal server error in context analysis processing
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+tags:
+  - name: Deep Context Analysis
+    description: |
+      Deep context analysis with comprehensive family context understanding across multiple dimensions.
+
+      **Contextual Intelligence**: Generate deep contextual understanding for family intelligence and decision-making.
+
+  - name: Situational Awareness
+    description: |
+      Situational awareness generation with real-time family context understanding and dynamics.
+
+      **Situational Intelligence**: Real-time understanding of family situational context and dynamics.
+
+  - name: Temporal Analysis
+    description: |
+      Temporal context analysis with pattern recognition across time dimensions and context evolution.
+
+      **Temporal Intelligence**: Analyze how family context evolves and patterns across time.
+
+  - name: Emotional Context
+    description: |
+      Emotional context analysis with family emotional climate and emotional dynamics understanding.
+
+      **Emotional Context Intelligence**: Deep analysis of family emotional context and emotional situational awareness.
+
+  - name: Relational Context
+    description: |
+      Relational context analysis with family relationship dynamics and relational situational awareness.
+
+      **Relational Context Intelligence**: Comprehensive analysis of family relational context and relationship situational awareness.
+
+  - name: Decision Context
+    description: |
+      Decision-making context analysis with contextual decision support and context-aware recommendations.
+
+      **Decision Context Intelligence**: Analyze family context for decision-making support and contextual decision intelligence.
+
+  - name: Environmental Context
+    description: |
+      Environmental context analysis with family environmental factors and environmental situational awareness.
+
+      **Environmental Intelligence**: Analyze family environmental context and environmental situational factors.
+
+  - name: Communication Context
+    description: |
+      Communication context analysis with family communication dynamics and communication situational awareness.
+
+      **Communication Context Intelligence**: Analyze family communication context and communication situational awareness.
+
+  - name: Predictive Context
+    description: |
+      Predictive context analysis with future context understanding and context evolution forecasting.
+
+      **Predictive Context Intelligence**: Predict future family context and contextual evolution patterns.
+
+  - name: Context Synthesis
+    description: |
+      Multi-dimensional context synthesis with holistic family context understanding and integration.
+
+      **Holistic Context Intelligence**: Comprehensive synthesis of family context across all dimensions and timeframes.

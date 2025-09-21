@@ -1,0 +1,163 @@
+# Skaffold configuration for MemoryOS hot-reload development
+# ==========================================================
+# Sub-issue #5.2: Hot-reload development workflow
+
+apiVersion: skaffold/v4beta7
+kind: Config
+metadata:
+  name: memoryos-dev
+
+# Build configuration
+build:
+  artifacts:
+  - image: memoryos/api
+    context: ../..
+    docker:
+      dockerfile: deployments/local/Dockerfile.dev
+      target: development
+    sync:
+      manual:
+      - src: "api/**/*.py"
+        dest: /app/api
+      - src: "core/**/*.py"
+        dest: /app/core
+      - src: "service.py"
+        dest: /app/service.py
+      - src: "pyproject.toml"
+        dest: /app/pyproject.toml
+  - image: memoryos/mock-services
+    context: mocks
+    docker:
+      dockerfile: Dockerfile
+    sync:
+      manual:
+      - src: "*.py"
+        dest: /app
+      - src: "*.txt"
+        dest: /app/api
+      - src: "core/**/*.py"
+        dest: /app/core
+      - src: "service.py"
+        dest: /app/service.py
+      - src: "pyproject.toml"
+        dest: /app/pyproject.toml
+  local:
+    push: false
+    useDockerCLI: true
+
+# Deploy configuration
+deploy:
+  kubectl:
+    manifests:
+    - k8s/memoryos-configmap.yaml
+    - k8s/postgres-deployment.yaml
+    - k8s/redis-deployment.yaml
+    - k8s/minio-deployment.yaml
+    - k8s/mock-services-deployment.yaml
+    - k8s/memoryos-deployment.yaml
+    - k8s/ingress.yaml
+
+# Port forwarding for development
+portForward:
+- resourceType: service
+  resourceName: memoryos-api
+  namespace: memoryos-local
+  port: 8000
+  localPort: 8000
+- resourceType: service
+  resourceName: memoryos-api
+  namespace: memoryos-local
+  port: 8080
+  localPort: 8080
+- resourceType: service
+  resourceName: postgres
+  namespace: memoryos-local
+  port: 5432
+  localPort: 5432
+- resourceType: service
+  resourceName: redis
+  namespace: memoryos-local
+  port: 6379
+  localPort: 6379
+- resourceType: service
+  resourceName: minio
+  namespace: memoryos-local
+  port: 9000
+  localPort: 9000
+- resourceType: service
+  resourceName: minio
+  namespace: memoryos-local
+  port: 9001
+  localPort: 9001
+
+# File sync patterns for hot-reload
+fileSyncPatterns:
+- "**/*.py"
+- "**/requirements*.txt"
+- "**/pyproject.toml"
+
+# Profiles for different environments
+profiles:
+- name: local
+  build:
+    artifacts:
+    - image: memoryos/api
+      docker:
+        dockerfile: deployments/local/Dockerfile.dev
+        target: development
+        buildArgs:
+          ENVIRONMENT: local
+          ENABLE_HOT_RELOAD: "true"
+          ENABLE_DEBUG: "true"
+
+- name: local-monitoring
+  build:
+    artifacts:
+    - image: memoryos/api
+      docker:
+        dockerfile: deployments/local/Dockerfile.dev
+        target: development
+  deploy:
+    kubectl:
+      manifests:
+      - k8s/memoryos-configmap.yaml
+      - k8s/postgres-deployment.yaml
+      - k8s/redis-deployment.yaml
+      - k8s/minio-deployment.yaml
+      - k8s/memoryos-deployment.yaml
+      - k8s/ingress.yaml
+      - k8s/monitoring/prometheus-deployment.yaml
+      - k8s/monitoring/grafana-deployment.yaml
+      - k8s/monitoring/jaeger-deployment.yaml
+  portForward:
+  - resourceType: service
+    resourceName: prometheus
+    namespace: memoryos-local
+    port: 9090
+    localPort: 9090
+  - resourceType: service
+    resourceName: grafana
+    namespace: memoryos-local
+    port: 3000
+    localPort: 3000
+  - resourceType: service
+    resourceName: jaeger
+    namespace: memoryos-local
+    port: 16686
+    localPort: 16686
+
+- name: debug
+  build:
+    artifacts:
+    - image: memoryos/api
+      docker:
+        dockerfile: deployments/local/Dockerfile.dev
+        target: development
+        buildArgs:
+          ENABLE_DEBUG: "true"
+  portForward:
+  - resourceType: service
+    resourceName: memoryos-api
+    namespace: memoryos-local
+    port: 5678
+    localPort: 5678  # Debug port

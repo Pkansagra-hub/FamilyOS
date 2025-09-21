@@ -1,0 +1,19 @@
+# Affect policy rules (MVP)
+banding:
+  downshift_high_arousal_negative:
+    arousal_min: 0.70
+    valence_max: -0.40
+    change: -1
+    min_band: RED
+    reason: "downshift: high arousal + negative valence"
+  conflict_minors_min_red:
+    tag: family_conflict_hint
+    actor_is_minor: true
+    set_band: RED
+    reason: "min RED for minors in conflict"
+  positive_moment_allow_green:
+    valence_min: 0.50
+    arousal_min: 0.40
+    tag: positive_family_moment
+    set_band: GREEN
+    reason: "allow GREEN for positive shared moment"

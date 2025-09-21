@@ -1,0 +1,522 @@
+openapi: 3.1.0
+info:
+  title: MemoryOS Family Intelligence Metrics Specification
+  description: |
+    **Family Intelligence Metrics Specification Contract**
+
+    This contract defines the comprehensive metrics specification for the Memory-Centric
+    Family AI system, providing standardized metric names, units, cardinality control,
+    and family context integration across all platform components.
+
+    **Family Intelligence Metrics Architecture:**
+    - **Memory Backbone Metrics Core**: Metrics coordination through family memory
+    - **Family Context Metrics Enhancement**: Metrics enriched with family relationships
+    - **Cross-Device Metrics Correlation**: Metrics correlated across family devices
+    - **Cognitive Trace Metrics Integration**: Metrics linked to cognitive processing
+    - **Family Intelligence Performance Tracking**: Intelligence system performance metrics
+
+    **Metric Categories (Platform Coverage):**
+    1. **Memory Backbone Performance**: Memory operations, storage, retrieval latency
+    2. **Family Intelligence Processing**: Cognitive pipeline performance, accuracy
+    3. **API Plane Performance**: Agents, App, Control plane latency and throughput
+    4. **Event Bus Performance**: Event processing, queue depth, delivery latency
+    5. **Storage Performance**: Read/write latency, consistency, durability metrics
+    6. **Family Coordination Performance**: Cross-device sync, relationship processing
+    7. **Security & Privacy Performance**: Policy enforcement, encryption overhead
+    8. **Learning & Adaptation Performance**: Learning loop efficiency, model accuracy
+    9. **Real-time Processing Performance**: Sub-second cognitive processing metrics
+
+    **Family Context Integration:**
+    - All metrics include family_id for family-scoped aggregation
+    - Relationship-aware metric correlation across family members
+    - Emotional context preservation in performance metrics
+    - Cross-device metric synchronization through family memory
+    - Age-appropriate metric visibility based on family member profiles
+
+    **Memory-Centric Metrics Principles:**
+    - All metrics enhance and leverage family memory backbone
+    - Performance tracking contributes to family intelligence optimization
+    - Metric correlation leverages family relationship dynamics
+    - Observability considers family context and individual member needs
+    - Metrics outcomes enhance family coordination and system reliability
+  version: "1.0.0"
+  contact:
+    name: MemoryOS Observability Platform Team
+    url: https://familyos.local/support/observability
+    email: observability-support@familyos.local
+  license:
+    name: Family OS Private License
+    url: https://familyos.local/licenses/family-os
+
+servers:
+  - url: https://metrics.familyos.local/v1
+    description: Production Family Intelligence Metrics Service
+  - url: https://staging-metrics.familyos.local/v1
+    description: Staging Environment
+  - url: http://localhost:8087/metrics/v1
+    description: Local Development
+
+security:
+  - FamilyOSAuth: []
+  - MetricsAuth: []
+
+paths:
+  /metrics/specification:
+    get:
+      summary: Get Family Intelligence Metrics Specification
+      description: |
+        Retrieve comprehensive family intelligence metrics specification
+        including metric definitions, cardinality limits, and family context.
+      operationId: getFamilyMetricsSpecification
+      parameters:
+        - name: category
+          in: query
+          schema:
+            type: string
+            enum: [memory_backbone, family_intelligence, api_planes, event_bus, storage, coordination, security, learning, realtime]
+        - name: family_scoped
+          in: query
+          schema:
+            type: boolean
+            default: true
+      responses:
+        '200':
+          description: Family metrics specification retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FamilyMetricsSpecification'
+
+  /metrics/memory-backbone:
+    get:
+      summary: Get Memory Backbone Metrics
+      description: |
+        Retrieve memory backbone performance metrics with family context
+        and cross-device correlation for family intelligence optimization.
+      operationId: getMemoryBackboneMetrics
+      parameters:
+        - name: family_id
+          in: query
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: time_range
+          in: query
+          schema:
+            type: string
+            enum: [1h, 6h, 24h, 7d, 30d]
+            default: 1h
+        - name: aggregation
+          in: query
+          schema:
+            type: string
+            enum: [avg, min, max, p50, p95, p99]
+            default: p95
+      responses:
+        '200':
+          description: Memory backbone metrics retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MemoryBackboneMetrics'
+
+  /metrics/family-intelligence:
+    get:
+      summary: Get Family Intelligence Processing Metrics
+      description: |
+        Retrieve family intelligence processing metrics including cognitive
+        pipeline performance, accuracy, and family coordination efficiency.
+      operationId: getFamilyIntelligenceMetrics
+      parameters:
+        - name: family_id
+          in: query
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: processing_type
+          in: query
+          schema:
+            type: string
+            enum: [cognitive, learning, imagination, social, adaptive]
+        - name: time_range
+          in: query
+          schema:
+            type: string
+            enum: [1h, 6h, 24h, 7d, 30d]
+            default: 1h
+      responses:
+        '200':
+          description: Family intelligence metrics retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FamilyIntelligenceMetrics'
+
+  /metrics/api-planes:
+    get:
+      summary: Get API Plane Performance Metrics
+      description: |
+        Retrieve API plane performance metrics for Agents, App, and Control
+        planes with family context and relationship-aware analysis.
+      operationId: getAPIPlaneMetrics
+      parameters:
+        - name: plane
+          in: query
+          required: true
+          schema:
+            type: string
+            enum: [agents, app, control]
+        - name: family_id
+          in: query
+          schema:
+            type: string
+            format: uuid
+        - name: time_range
+          in: query
+          schema:
+            type: string
+            enum: [1h, 6h, 24h, 7d, 30d]
+            default: 1h
+      responses:
+        '200':
+          description: API plane metrics retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIPlaneMetrics'
+
+  /metrics/cognitive-traces:
+    get:
+      summary: Get Cognitive Trace Correlation Metrics
+      description: |
+        Retrieve cognitive trace correlation metrics showing family-wide
+        cognitive processing performance and cross-device coordination.
+      operationId: getCognitiveTraceMetrics
+      parameters:
+        - name: family_id
+          in: query
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: cognitive_trace_id
+          in: query
+          schema:
+            type: string
+            format: uuid
+        - name: include_family_correlation
+          in: query
+          schema:
+            type: boolean
+            default: true
+      responses:
+        '200':
+          description: Cognitive trace metrics retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CognitiveTraceMetrics'
+
+  /metrics/family/{familyId}/dashboard:
+    get:
+      summary: Get Family Intelligence Dashboard Metrics
+      description: |
+        Retrieve comprehensive family intelligence dashboard metrics
+        including all system performance indicators and family coordination.
+      operationId: getFamilyDashboardMetrics
+      parameters:
+        - name: familyId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: time_range
+          in: query
+          schema:
+            type: string
+            enum: [1h, 6h, 24h, 7d, 30d]
+            default: 24h
+        - name: metric_level
+          in: query
+          schema:
+            type: string
+            enum: [summary, detailed, comprehensive]
+            default: summary
+      responses:
+        '200':
+          description: Family dashboard metrics retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FamilyDashboardMetrics'
+
+  /metrics/alerting/rules:
+    get:
+      summary: Get Family Metrics Alerting Rules
+      description: |
+        Retrieve family metrics alerting rules with family context
+        and relationship-aware threshold management.
+      operationId: getFamilyMetricsAlertingRules
+      parameters:
+        - name: family_id
+          in: query
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: severity
+          in: query
+          schema:
+            type: string
+            enum: [info, warning, critical]
+      responses:
+        '200':
+          description: Family metrics alerting rules retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FamilyMetricsAlertingRules'
+
+    post:
+      summary: Create Family Metrics Alerting Rule
+      description: |
+        Create new family metrics alerting rule with family context
+        and relationship-aware threshold configuration.
+      operationId: createFamilyMetricsAlertingRule
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateFamilyAlertingRuleRequest'
+      responses:
+        '201':
+          description: Family metrics alerting rule created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FamilyAlertingRuleResponse'
+
+components:
+  schemas:
+    FamilyMetricsSpecification:
+      type: object
+      required:
+        - specification_version
+        - metric_categories
+      properties:
+        specification_version:
+          type: string
+        metric_categories:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/MetricCategory'
+        family_context_requirements:
+          $ref: '#/components/schemas/FamilyContextRequirements'
+        cardinality_limits:
+          $ref: '#/components/schemas/CardinalityLimits'
+        sampling_strategies:
+          $ref: '#/components/schemas/SamplingStrategies'
+
+    MetricCategory:
+      type: object
+      required:
+        - category_name
+        - metrics
+      properties:
+        category_name:
+          type: string
+        description:
+          type: string
+        metrics:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/MetricDefinition'
+        family_scoped:
+          type: boolean
+        memory_integrated:
+          type: boolean
+
+    MetricDefinition:
+      type: object
+      required:
+        - metric_name
+        - metric_type
+        - unit
+      properties:
+        metric_name:
+          type: string
+          pattern: '^familyos_[a-z_]+$'
+        metric_type:
+          type: string
+          enum: [counter, gauge, histogram, summary]
+        unit:
+          type: string
+        description:
+          type: string
+        labels:
+          type: array
+          items:
+            $ref: '#/components/schemas/MetricLabel'
+        family_context_required:
+          type: boolean
+        cognitive_trace_correlation:
+          type: boolean
+
+    MemoryBackboneMetrics:
+      type: object
+      required:
+        - family_id
+        - memory_operations
+        - storage_performance
+      properties:
+        family_id:
+          type: string
+          format: uuid
+        memory_operations:
+          $ref: '#/components/schemas/MemoryOperationsMetrics'
+        storage_performance:
+          $ref: '#/components/schemas/StoragePerformanceMetrics'
+        retrieval_performance:
+          $ref: '#/components/schemas/RetrievalPerformanceMetrics'
+        cross_device_sync:
+          $ref: '#/components/schemas/CrossDeviceSyncMetrics'
+
+    FamilyIntelligenceMetrics:
+      type: object
+      required:
+        - family_id
+        - cognitive_processing
+        - learning_performance
+      properties:
+        family_id:
+          type: string
+          format: uuid
+        cognitive_processing:
+          $ref: '#/components/schemas/CognitiveProcessingMetrics'
+        learning_performance:
+          $ref: '#/components/schemas/LearningPerformanceMetrics'
+        imagination_performance:
+          $ref: '#/components/schemas/ImaginationPerformanceMetrics'
+        social_intelligence:
+          $ref: '#/components/schemas/SocialIntelligenceMetrics'
+
+    APIPlaneMetrics:
+      type: object
+      required:
+        - plane_name
+        - request_metrics
+        - response_metrics
+      properties:
+        plane_name:
+          type: string
+          enum: [agents, app, control]
+        request_metrics:
+          $ref: '#/components/schemas/RequestMetrics'
+        response_metrics:
+          $ref: '#/components/schemas/ResponseMetrics'
+        family_context_metrics:
+          $ref: '#/components/schemas/FamilyContextMetrics'
+        cognitive_trace_metrics:
+          $ref: '#/components/schemas/CognitiveTraceMetrics'
+
+    FamilyDashboardMetrics:
+      type: object
+      required:
+        - family_id
+        - overall_health
+        - system_performance
+      properties:
+        family_id:
+          type: string
+          format: uuid
+        overall_health:
+          $ref: '#/components/schemas/OverallHealthMetrics'
+        system_performance:
+          $ref: '#/components/schemas/SystemPerformanceMetrics'
+        family_coordination:
+          $ref: '#/components/schemas/FamilyCoordinationMetrics'
+        intelligence_efficiency:
+          $ref: '#/components/schemas/IntelligenceEfficiencyMetrics'
+
+    CreateFamilyAlertingRuleRequest:
+      type: object
+      required:
+        - rule_name
+        - family_context
+        - metric_query
+        - threshold
+      properties:
+        rule_name:
+          type: string
+        family_context:
+          $ref: '#/components/schemas/FamilyContext'
+        metric_query:
+          type: string
+        threshold:
+          $ref: '#/components/schemas/AlertingThreshold'
+        notification_config:
+          $ref: '#/components/schemas/NotificationConfig'
+
+    FamilyAlertingRuleResponse:
+      type: object
+      required:
+        - rule_id
+        - rule_name
+        - status
+      properties:
+        rule_id:
+          type: string
+          format: uuid
+        rule_name:
+          type: string
+        status:
+          type: string
+          enum: [active, inactive, error]
+        family_context:
+          $ref: '#/components/schemas/FamilyContext'
+        last_triggered:
+          type: string
+          format: date-time
+
+    Error:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        details:
+          type: object
+          additionalProperties: true
+
+  responses:
+    BadRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+  securitySchemes:
+    FamilyOSAuth:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://auth.familyos.local/oauth/authorize
+          tokenUrl: https://auth.familyos.local/oauth/token
+          scopes:
+            metrics:read: Read metrics information
+            metrics:manage: Manage metrics configuration
+            family:metrics: Access family-wide metrics capabilities
+
+    MetricsAuth:
+      type: http
+      scheme: bearer
+      description: Metrics service authentication

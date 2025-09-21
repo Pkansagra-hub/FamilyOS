@@ -1,0 +1,126 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "title": "MemoryOS Canonical ID Formats v1",
+  "description": "Canonical ID formats (UUIDv7/ULID) for user_id, device_id, workspace_id, cognitive_trace_id and family entity identifiers in the Memory-Centric Family AI system",
+  "type": "object",
+  "version": "1.0.0",
+
+  "$defs": {
+    "uuidv7": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+      "description": "UUID version 7 with time-based ordering for optimal database performance",
+      "examples": ["01234567-89ab-7def-8012-3456789abcde"]
+    },
+
+    "ulid": {
+      "type": "string",
+      "pattern": "^[0-9A-HJKMNP-TV-Z]{26}$",
+      "description": "ULID (Universally Unique Lexicographically Sortable Identifier) for human-readable sorted IDs",
+      "examples": ["01ARZ3NDEKTSV4RRFFQ69G5FAV"]
+    },
+
+    "timestamp_encoded_id": {
+      "anyOf": [
+        {"$ref": "#/$defs/uuidv7"},
+        {"$ref": "#/$defs/ulid"}
+      ],
+      "description": "Time-encoded identifier that maintains chronological ordering"
+    }
+  },
+
+  "properties": {
+    "family_id": {
+      "$ref": "#/$defs/uuidv7",
+      "description": "Family unit identifier - groups all family members and shared resources"
+    },
+
+    "user_id": {
+      "$ref": "#/$defs/uuidv7",
+      "description": "Family member identifier - uniquely identifies a person within the family ecosystem"
+    },
+
+    "device_id": {
+      "$ref": "#/$defs/uuidv7",
+      "description": "Device identifier - uniquely identifies family devices with memory capabilities"
+    },
+
+    "workspace_id": {
+      "$ref": "#/$defs/uuidv7",
+      "description": "Memory workspace identifier - defines family memory spaces (personal/shared/extended)"
+    },
+
+    "cognitive_trace_id": {
+      "$ref": "#/$defs/uuidv7",
+      "description": "Cognitive operation trace identifier - tracks family AI cognitive processing chains"
+    },
+
+    "memory_id": {
+      "$ref": "#/$defs/uuidv7",
+      "description": "Family memory instance identifier - uniquely identifies stored family memories"
+    },
+
+    "session_id": {
+      "$ref": "#/$defs/uuidv7",
+      "description": "Family session identifier - tracks cross-device family interaction sessions"
+    },
+
+    "relationship_id": {
+      "$ref": "#/$defs/uuidv7",
+      "description": "Family relationship identifier - models family member relationships"
+    },
+
+    "space_id": {
+      "$ref": "#/$defs/uuidv7",
+      "description": "Memory space identifier - family memory organization spaces"
+    },
+
+    "event_id": {
+      "$ref": "#/$defs/uuidv7",
+      "description": "Family event identifier - tracks family lifecycle and memory events"
+    },
+
+    "knowledge_id": {
+      "$ref": "#/$defs/uuidv7",
+      "description": "Family knowledge identifier - semantic knowledge in family knowledge graph"
+    },
+
+    "intelligence_operation_id": {
+      "$ref": "#/$defs/uuidv7",
+      "description": "Family intelligence operation identifier - tracks family AI decision processes"
+    },
+
+    "sync_operation_id": {
+      "$ref": "#/$defs/uuidv7",
+      "description": "Family sync operation identifier - E2EE family memory synchronization"
+    },
+
+    "request_id": {
+      "$ref": "#/$defs/uuidv7",
+      "description": "API request identifier - traces family API operations across services"
+    },
+
+    "correlation_id": {
+      "$ref": "#/$defs/uuidv7",
+      "description": "Family correlation identifier - links related family operations across time"
+    }
+  },
+
+  "required": [],
+
+  "additionalProperties": false,
+
+  "examples": [
+    {
+      "family_id": "01234567-89ab-7def-8012-3456789abcde",
+      "user_id": "01234567-89ab-7def-8012-3456789abcdf",
+      "device_id": "01234567-89ab-7def-8012-3456789abce0",
+      "workspace_id": "01234567-89ab-7def-8012-3456789abce1",
+      "cognitive_trace_id": "01234567-89ab-7def-8012-3456789abce2",
+      "memory_id": "01234567-89ab-7def-8012-3456789abce3",
+      "session_id": "01234567-89ab-7def-8012-3456789abce4"
+    }
+  ],
+
+  "$comment": "Memory-Centric Family AI ID Standards: All identifiers use UUIDv7 for time-based ordering and optimal family memory operations. ULID alternative provided for human-readable scenarios. Family context preserved through consistent ID formatting across all family intelligence systems."
+}

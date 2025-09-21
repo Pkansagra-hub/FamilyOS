@@ -1,0 +1,1359 @@
+openapi: 3.1.0
+info:
+  title: MemoryOS Agents Tools Contract
+  version: "1.0.0"
+  description: |
+    **Memory-Centric Family AI Agents Tools Contract**
+
+    This contract defines the agents tools capabilities for the Memory-Centric Family AI system,
+    providing intelligent tool orchestration with memory-driven capabilities, family context awareness,
+    cognitive tool selection, learning integration, and multi-agent coordination.
+
+    **Memory-Driven Agents Architecture:**
+    - **Memory Backbone Tool Coordination**: Tools orchestrated through memory experiences
+    - **Memory-Enhanced Cognitive Tool Selection**: Tool selection based on memory patterns
+    - **Memory-Driven Family Tool Sharing**: Tools shared and coordinated across family context
+    - **Family Memory Tool Learning**: Tool usage learned and adapted through family memory
+    - **Memory-Based Tool Orchestration**: Complex workflows orchestrated through memory insights
+
+    **Agent Tool Categories:**
+    1. **Memory-Informed Tool Discovery**: Finding tools based on memory context and needs
+    2. **Memory-Driven Tool Execution**: Executing tools with memory-enhanced parameters
+    3. **Memory-Enhanced Tool Orchestration**: Coordinating multiple tools through memory insights
+    4. **Memory-Based Tool Learning**: Learning tool patterns and effectiveness through memory
+    5. **Memory-Coordinated Family Tool Sharing**: Sharing tools and workflows across family
+    6. **Memory-Driven Tool Adaptation**: Adapting tools based on memory-driven insights
+    7. **Memory-Enhanced Tool Security**: Securing tool access through memory-based trust
+
+    **Family Intelligence Integration:**
+    - Tool orchestration coordinated through family memory backbone
+    - Tool selection influenced by family context and shared experiences
+    - Tool workflows adapted through family relationship patterns
+    - Tool security managed through family trust and memory validation
+
+servers:
+  - url: https://api.memoryos.family/v1
+    description: MemoryOS Family AI Agents Tools API
+
+paths:
+  /agents/tools/discover:
+    post:
+      summary: Discover Memory-Enhanced Tools
+      description: |
+        Discover available tools with memory-driven recommendations,
+        family context awareness, and cognitive suitability analysis.
+      operationId: discoverMemoryEnhancedTools
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ToolDiscoveryRequest'
+      responses:
+        '200':
+          description: Tools discovered successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ToolDiscoveryResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /agents/tools/execute:
+    post:
+      summary: Execute Tool with Memory Integration
+      description: |
+        Execute a tool with memory-enhanced parameters,
+        family context coordination, and cognitive adaptation.
+      operationId: executeToolWithMemoryIntegration
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ToolExecutionRequest'
+      responses:
+        '200':
+          description: Tool executed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ToolExecutionResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '422':
+          description: Tool execution validation failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ToolExecutionValidationResponse'
+
+  /agents/tools/orchestrate:
+    post:
+      summary: Orchestrate Multi-Tool Workflow with Family Memory
+      description: |
+        Orchestrate complex multi-tool workflows with family memory coordination,
+        cognitive sequencing, and adaptive execution based on memory insights.
+      operationId: orchestrateMultiToolWorkflowWithFamilyMemory
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ToolOrchestrationRequest'
+      responses:
+        '202':
+          description: Workflow orchestration initiated
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ToolOrchestrationResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /agents/tools/orchestrate/{orchestrationId}:
+    get:
+      summary: Get Memory-Enhanced Orchestration Status
+      description: |
+        Retrieve orchestration status with memory-driven insights,
+        family coordination updates, and cognitive progression analysis.
+      operationId: getMemoryEnhancedOrchestrationStatus
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: orchestrationId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Unique orchestration identifier
+      responses:
+        '200':
+          description: Orchestration status retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrchestrationStatusResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    patch:
+      summary: Modify Orchestration with Memory Adaptation
+      description: |
+        Modify running orchestration with memory-driven adaptations,
+        family context updates, and cognitive workflow adjustments.
+      operationId: modifyOrchestrationWithMemoryAdaptation
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: orchestrationId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Unique orchestration identifier
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrchestrationModificationRequest'
+      responses:
+        '200':
+          description: Orchestration modified successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrchestrationModificationResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /agents/tools/learn:
+    post:
+      summary: Learn Tool Usage Patterns with Family Memory
+      description: |
+        Learn from tool usage patterns with family memory integration,
+        cognitive pattern recognition, and adaptive improvement suggestions.
+      operationId: learnToolUsagePatternsWithFamilyMemory
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ToolLearningRequest'
+      responses:
+        '200':
+          description: Tool learning completed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ToolLearningResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /agents/tools/family/share:
+    post:
+      summary: Share Tool Configuration with Family Memory Context
+      description: |
+        Share tool configurations and workflows with family members,
+        including memory context, usage patterns, and adaptive customizations.
+      operationId: shareToolConfigurationWithFamilyMemoryContext
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FamilyToolSharingRequest'
+      responses:
+        '201':
+          description: Tool configuration shared successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FamilyToolSharingResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /agents/tools/family/shared:
+    get:
+      summary: Get Family Shared Tools with Memory Insights
+      description: |
+        Retrieve family-shared tools and workflows with memory-driven insights,
+        usage analytics, and personalized recommendations.
+      operationId: getFamilySharedToolsWithMemoryInsights
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: category
+          in: query
+          schema:
+            type: string
+          description: Tool category filter
+        - name: family_member_id
+          in: query
+          schema:
+            type: string
+            format: uuid
+          description: Specific family member's shared tools
+        - name: include_memory_insights
+          in: query
+          schema:
+            type: boolean
+            default: true
+          description: Include memory-driven insights
+      responses:
+        '200':
+          description: Family shared tools retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FamilySharedToolsResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /agents/tools/adapt:
+    post:
+      summary: Adapt Tool Behavior with Memory Learning
+      description: |
+        Adapt tool behavior based on memory learning patterns,
+        family usage analytics, and cognitive optimization insights.
+      operationId: adaptToolBehaviorWithMemoryLearning
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ToolAdaptationRequest'
+      responses:
+        '200':
+          description: Tool adaptation completed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ToolAdaptationResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /agents/tools/security/validate:
+    post:
+      summary: Validate Tool Security with Memory-Based Trust
+      description: |
+        Validate tool security with memory-based trust assessment,
+        family security coordination, and cognitive risk analysis.
+      operationId: validateToolSecurityWithMemoryBasedTrust
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ToolSecurityValidationRequest'
+      responses:
+        '200':
+          description: Tool security validation completed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ToolSecurityValidationResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          description: Tool security validation failed
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ToolSecurityFailureResponse'
+
+  /agents/tools/analytics:
+    get:
+      summary: Get Memory-Driven Tool Analytics
+      description: |
+        Retrieve tool usage analytics with memory-driven insights,
+        family coordination patterns, and cognitive optimization opportunities.
+      operationId: getMemoryDrivenToolAnalytics
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: time_range
+          in: query
+          schema:
+            type: string
+            enum: [hour, day, week, month, quarter, year]
+            default: week
+          description: Analytics time range
+        - name: tool_category
+          in: query
+          schema:
+            type: string
+          description: Specific tool category filter
+        - name: include_family_analytics
+          in: query
+          schema:
+            type: boolean
+            default: true
+          description: Include family-wide analytics
+        - name: include_memory_insights
+          in: query
+          schema:
+            type: boolean
+            default: true
+          description: Include memory-driven insights
+      responses:
+        '200':
+          description: Tool analytics retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ToolAnalyticsResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /agents/tools/recommendations:
+    get:
+      summary: Get Memory-Enhanced Tool Recommendations
+      description: |
+        Get personalized tool recommendations with memory-driven insights,
+        family context awareness, and cognitive suitability analysis.
+      operationId: getMemoryEnhancedToolRecommendations
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: context
+          in: query
+          schema:
+            type: string
+          description: Current context or task description
+        - name: include_family_recommendations
+          in: query
+          schema:
+            type: boolean
+            default: true
+          description: Include family-based recommendations
+        - name: recommendation_type
+          in: query
+          schema:
+            type: string
+            enum: [discovery, optimization, workflow, learning]
+            default: discovery
+          description: Type of recommendations requested
+      responses:
+        '200':
+          description: Tool recommendations retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ToolRecommendationsResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    ToolDiscoveryRequest:
+      type: object
+      required:
+        - discovery_context
+      properties:
+        discovery_context:
+          type: object
+          description: Context for tool discovery
+          properties:
+            task_description:
+              type: string
+              description: Description of the task or goal
+            domain:
+              type: string
+              description: Domain or category of tools
+            complexity_level:
+              type: string
+              enum: [simple, moderate, complex, expert]
+              description: Desired complexity level
+        memory_context:
+          $ref: '#/components/schemas/MemoryContext'
+        family_context:
+          $ref: '#/components/schemas/FamilyContext'
+        cognitive_preferences:
+          $ref: '#/components/schemas/CognitivePreferences'
+        filters:
+          type: object
+          description: Discovery filters
+          properties:
+            tool_categories:
+              type: array
+              items:
+                type: string
+              description: Preferred tool categories
+            exclude_categories:
+              type: array
+              items:
+                type: string
+              description: Categories to exclude
+            security_level:
+              type: string
+              enum: [basic, standard, enhanced, maximum]
+              description: Required security level
+            family_sharing_compatible:
+              type: boolean
+              description: Whether tools must be family-sharing compatible
+
+    MemoryContext:
+      type: object
+      properties:
+        relevant_memories:
+          type: array
+          items:
+            type: object
+          description: Relevant memory experiences
+        memory_patterns:
+          type: object
+          description: Identified memory patterns
+        memory_preferences:
+          type: object
+          description: Memory-driven preferences
+        historical_context:
+          type: object
+          description: Historical context from memory
+        family_memory_coordination:
+          type: object
+          description: Family memory coordination information
+
+    FamilyContext:
+      type: object
+      properties:
+        family_id:
+          type: string
+          format: uuid
+          description: Family identifier
+        requesting_member:
+          type: string
+          format: uuid
+          description: Family member making the request
+        family_coordination_level:
+          type: string
+          enum: [individual, shared, collaborative, coordinated]
+          description: Level of family coordination required
+        family_permissions:
+          type: object
+          description: Family-specific permissions
+        shared_goals:
+          type: array
+          items:
+            type: object
+          description: Shared family goals relevant to tool usage
+
+    CognitivePreferences:
+      type: object
+      properties:
+        learning_style:
+          type: string
+          enum: [visual, auditory, kinesthetic, reading, multimodal]
+          description: Preferred learning style
+        cognitive_load_preference:
+          type: string
+          enum: [minimal, moderate, high, adaptive]
+          description: Preferred cognitive load level
+        interaction_style:
+          type: string
+          enum: [guided, exploratory, autonomous, collaborative]
+          description: Preferred interaction style
+        attention_patterns:
+          type: object
+          description: Attention and focus patterns
+        memory_integration_preference:
+          type: string
+          enum: [automatic, prompted, manual, disabled]
+          description: How memory should be integrated
+
+    ToolDiscoveryResponse:
+      type: object
+      required:
+        - discovered_tools
+        - discovery_insights
+      properties:
+        discovered_tools:
+          type: array
+          items:
+            $ref: '#/components/schemas/DiscoveredTool'
+          description: List of discovered tools
+        discovery_insights:
+          type: object
+          description: Insights about the discovery process
+        memory_recommendations:
+          type: object
+          description: Memory-driven recommendations
+        family_coordination_suggestions:
+          type: object
+          description: Family coordination suggestions
+        cognitive_suitability_analysis:
+          type: object
+          description: Analysis of cognitive suitability
+        learning_opportunities:
+          type: array
+          items:
+            type: object
+          description: Identified learning opportunities
+
+    DiscoveredTool:
+      type: object
+      required:
+        - tool_id
+        - tool_name
+        - tool_type
+      properties:
+        tool_id:
+          type: string
+          format: uuid
+          description: Unique tool identifier
+        tool_name:
+          type: string
+          description: Tool name
+        tool_type:
+          type: string
+          description: Tool type or category
+        description:
+          type: string
+          description: Tool description
+        capabilities:
+          type: array
+          items:
+            type: string
+          description: Tool capabilities
+        memory_integration_level:
+          type: string
+          enum: [none, basic, standard, advanced, native]
+          description: Level of memory integration
+        family_sharing_support:
+          type: boolean
+          description: Whether tool supports family sharing
+        cognitive_suitability_score:
+          type: number
+          minimum: 0
+          maximum: 1
+          description: Cognitive suitability score
+        security_level:
+          type: string
+          enum: [basic, standard, enhanced, maximum]
+          description: Tool security level
+        learning_curve:
+          type: string
+          enum: [immediate, quick, moderate, extended, expert]
+          description: Expected learning curve
+        family_usage_patterns:
+          type: object
+          description: Family usage patterns for this tool
+
+    ToolExecutionRequest:
+      type: object
+      required:
+        - tool_id
+        - execution_context
+      properties:
+        tool_id:
+          type: string
+          format: uuid
+          description: Tool identifier to execute
+        execution_context:
+          type: object
+          description: Execution context and parameters
+        memory_integration:
+          type: object
+          description: Memory integration configuration
+        family_coordination:
+          type: object
+          description: Family coordination settings
+        cognitive_adaptation:
+          type: object
+          description: Cognitive adaptation preferences
+        security_context:
+          type: object
+          description: Security context for execution
+        execution_preferences:
+          type: object
+          properties:
+            async_execution:
+              type: boolean
+              default: false
+              description: Whether to execute asynchronously
+            result_format:
+              type: string
+              enum: [simple, detailed, comprehensive, raw]
+              default: detailed
+              description: Desired result format
+            memory_persistence:
+              type: boolean
+              default: true
+              description: Whether to persist execution in memory
+
+    ToolExecutionResponse:
+      type: object
+      required:
+        - execution_id
+        - status
+      properties:
+        execution_id:
+          type: string
+          format: uuid
+          description: Execution identifier
+        status:
+          type: string
+          enum: [success, failed, partial, async_started]
+          description: Execution status
+        result:
+          type: object
+          description: Tool execution result
+        memory_integration_result:
+          type: object
+          description: Memory integration result
+        family_coordination_result:
+          type: object
+          description: Family coordination result
+        cognitive_insights:
+          type: object
+          description: Cognitive insights from execution
+        performance_metrics:
+          type: object
+          description: Execution performance metrics
+        learned_patterns:
+          type: object
+          description: Patterns learned from execution
+        next_recommendations:
+          type: array
+          items:
+            type: object
+          description: Recommendations for next actions
+
+    ToolExecutionValidationResponse:
+      type: object
+      properties:
+        validation_errors:
+          type: array
+          items:
+            type: object
+          description: Validation errors encountered
+        security_concerns:
+          type: array
+          items:
+            type: object
+          description: Security concerns identified
+        family_permission_issues:
+          type: array
+          items:
+            type: object
+          description: Family permission issues
+        cognitive_compatibility_issues:
+          type: array
+          items:
+            type: object
+          description: Cognitive compatibility issues
+        suggestions:
+          type: array
+          items:
+            type: object
+          description: Suggestions to resolve validation issues
+
+    ToolOrchestrationRequest:
+      type: object
+      required:
+        - workflow_definition
+      properties:
+        workflow_definition:
+          type: object
+          description: Workflow definition with tool sequences
+        orchestration_context:
+          type: object
+          description: Context for orchestration
+        memory_coordination:
+          type: object
+          description: Memory coordination configuration
+        family_coordination:
+          type: object
+          description: Family coordination settings
+        cognitive_orchestration:
+          type: object
+          description: Cognitive orchestration preferences
+        execution_preferences:
+          type: object
+          properties:
+            parallel_execution:
+              type: boolean
+              default: false
+              description: Whether to enable parallel execution
+            failure_handling:
+              type: string
+              enum: [stop, continue, retry, adaptive]
+              default: adaptive
+              description: How to handle failures
+            progress_reporting:
+              type: string
+              enum: [minimal, standard, detailed, real_time]
+              default: standard
+              description: Level of progress reporting
+
+    ToolOrchestrationResponse:
+      type: object
+      required:
+        - orchestration_id
+        - status
+      properties:
+        orchestration_id:
+          type: string
+          format: uuid
+          description: Orchestration identifier
+        status:
+          type: string
+          enum: [initiated, running, paused, completed, failed, cancelled]
+          description: Orchestration status
+        workflow_analysis:
+          type: object
+          description: Analysis of the workflow
+        estimated_completion_time:
+          type: string
+          format: date-time
+          description: Estimated completion time
+        memory_coordination_status:
+          type: object
+          description: Memory coordination status
+        family_coordination_status:
+          type: object
+          description: Family coordination status
+        progress_tracking_url:
+          type: string
+          format: uri
+          description: URL for tracking progress
+
+    OrchestrationStatusResponse:
+      type: object
+      required:
+        - orchestration_id
+        - status
+        - progress
+      properties:
+        orchestration_id:
+          type: string
+          format: uuid
+          description: Orchestration identifier
+        status:
+          type: string
+          enum: [initiated, running, paused, completed, failed, cancelled]
+          description: Current orchestration status
+        progress:
+          type: object
+          description: Detailed progress information
+        completed_steps:
+          type: array
+          items:
+            type: object
+          description: Completed workflow steps
+        current_step:
+          type: object
+          description: Currently executing step
+        remaining_steps:
+          type: array
+          items:
+            type: object
+          description: Remaining workflow steps
+        memory_insights:
+          type: object
+          description: Memory insights gathered during execution
+        family_coordination_updates:
+          type: object
+          description: Family coordination updates
+        cognitive_adaptations:
+          type: array
+          items:
+            type: object
+          description: Cognitive adaptations made during execution
+        performance_metrics:
+          type: object
+          description: Performance metrics for orchestration
+
+    OrchestrationModificationRequest:
+      type: object
+      properties:
+        modification_type:
+          type: string
+          enum: [pause, resume, cancel, adapt_workflow, add_step, remove_step, modify_step]
+          description: Type of modification
+        modification_data:
+          type: object
+          description: Modification-specific data
+        memory_adaptation:
+          type: object
+          description: Memory-based adaptation parameters
+        family_coordination_update:
+          type: object
+          description: Family coordination updates
+        cognitive_adjustment:
+          type: object
+          description: Cognitive adjustment parameters
+
+    OrchestrationModificationResponse:
+      type: object
+      required:
+        - modification_status
+      properties:
+        modification_status:
+          type: string
+          enum: [applied, rejected, pending, partial]
+          description: Modification application status
+        updated_workflow:
+          type: object
+          description: Updated workflow definition
+        impact_analysis:
+          type: object
+          description: Analysis of modification impact
+        memory_coordination_impact:
+          type: object
+          description: Impact on memory coordination
+        family_coordination_impact:
+          type: object
+          description: Impact on family coordination
+
+    ToolLearningRequest:
+      type: object
+      required:
+        - learning_context
+      properties:
+        learning_context:
+          type: object
+          description: Context for tool learning
+        execution_history:
+          type: array
+          items:
+            type: object
+          description: Tool execution history to learn from
+        memory_integration:
+          type: object
+          description: Memory integration for learning
+        family_learning_sharing:
+          type: boolean
+          default: true
+          description: Whether to share learning with family
+        cognitive_learning_preferences:
+          type: object
+          description: Cognitive learning preferences
+        learning_objectives:
+          type: array
+          items:
+            type: string
+          description: Specific learning objectives
+
+    ToolLearningResponse:
+      type: object
+      required:
+        - learning_results
+      properties:
+        learning_results:
+          type: object
+          description: Results of the learning process
+        identified_patterns:
+          type: array
+          items:
+            type: object
+          description: Identified usage patterns
+        optimization_suggestions:
+          type: array
+          items:
+            type: object
+          description: Tool optimization suggestions
+        family_learning_insights:
+          type: object
+          description: Family-wide learning insights
+        cognitive_adaptations:
+          type: array
+          items:
+            type: object
+          description: Cognitive adaptations learned
+        memory_integration_improvements:
+          type: object
+          description: Memory integration improvements
+        next_learning_opportunities:
+          type: array
+          items:
+            type: object
+          description: Next learning opportunities identified
+
+    FamilyToolSharingRequest:
+      type: object
+      required:
+        - tool_configuration
+        - sharing_scope
+      properties:
+        tool_configuration:
+          type: object
+          description: Tool configuration to share
+        sharing_scope:
+          type: object
+          description: Scope of sharing within family
+        memory_context_sharing:
+          type: object
+          description: Memory context to share with configuration
+        privacy_settings:
+          type: object
+          description: Privacy settings for shared configuration
+        usage_permissions:
+          type: object
+          description: Usage permissions for family members
+        sharing_metadata:
+          type: object
+          description: Metadata about the sharing
+
+    FamilyToolSharingResponse:
+      type: object
+      required:
+        - sharing_id
+        - sharing_status
+      properties:
+        sharing_id:
+          type: string
+          format: uuid
+          description: Sharing identifier
+        sharing_status:
+          type: string
+          enum: [shared, pending_approval, restricted, failed]
+          description: Sharing operation status
+        family_notifications:
+          type: object
+          description: Family member notifications sent
+        access_permissions:
+          type: object
+          description: Access permissions granted
+        memory_coordination_setup:
+          type: object
+          description: Memory coordination setup for sharing
+
+    FamilySharedToolsResponse:
+      type: object
+      properties:
+        family_id:
+          type: string
+          format: uuid
+          description: Family identifier
+        shared_tools:
+          type: array
+          items:
+            $ref: '#/components/schemas/SharedTool'
+          description: List of family-shared tools
+        memory_insights:
+          type: object
+          description: Memory-driven insights about shared tools
+        usage_analytics:
+          type: object
+          description: Usage analytics for shared tools
+        recommendations:
+          type: array
+          items:
+            type: object
+          description: Recommendations for tool sharing and usage
+
+    SharedTool:
+      type: object
+      properties:
+        sharing_id:
+          type: string
+          format: uuid
+          description: Sharing identifier
+        tool_configuration:
+          type: object
+          description: Shared tool configuration
+        sharing_member:
+          type: string
+          format: uuid
+          description: Family member who shared the tool
+        shared_at:
+          type: string
+          format: date-time
+          description: When the tool was shared
+        usage_statistics:
+          type: object
+          description: Usage statistics for the shared tool
+        memory_integration_status:
+          type: object
+          description: Memory integration status
+        family_adaptation_insights:
+          type: object
+          description: How the tool has been adapted by family
+
+    ToolAdaptationRequest:
+      type: object
+      required:
+        - tool_id
+        - adaptation_context
+      properties:
+        tool_id:
+          type: string
+          format: uuid
+          description: Tool identifier to adapt
+        adaptation_context:
+          type: object
+          description: Context for adaptation
+        memory_learning_data:
+          type: object
+          description: Memory learning data for adaptation
+        family_usage_patterns:
+          type: object
+          description: Family usage patterns
+        cognitive_optimization_goals:
+          type: array
+          items:
+            type: string
+          description: Cognitive optimization goals
+        adaptation_preferences:
+          type: object
+          description: Adaptation preferences
+
+    ToolAdaptationResponse:
+      type: object
+      required:
+        - adaptation_id
+        - adaptation_status
+      properties:
+        adaptation_id:
+          type: string
+          format: uuid
+          description: Adaptation identifier
+        adaptation_status:
+          type: string
+          enum: [applied, testing, reverted, failed]
+          description: Adaptation status
+        adapted_configuration:
+          type: object
+          description: Adapted tool configuration
+        adaptation_insights:
+          type: object
+          description: Insights about the adaptation
+        memory_integration_changes:
+          type: object
+          description: Changes to memory integration
+        family_coordination_impact:
+          type: object
+          description: Impact on family coordination
+        performance_improvement:
+          type: object
+          description: Measured performance improvements
+
+    ToolSecurityValidationRequest:
+      type: object
+      required:
+        - tool_id
+        - security_context
+      properties:
+        tool_id:
+          type: string
+          format: uuid
+          description: Tool identifier to validate
+        security_context:
+          type: object
+          description: Security context for validation
+        memory_trust_data:
+          type: object
+          description: Memory-based trust data
+        family_security_requirements:
+          type: object
+          description: Family security requirements
+        execution_environment:
+          type: object
+          description: Execution environment details
+        risk_tolerance:
+          type: string
+          enum: [very_low, low, moderate, high, very_high]
+          description: Risk tolerance level
+
+    ToolSecurityValidationResponse:
+      type: object
+      required:
+        - validation_id
+        - security_status
+      properties:
+        validation_id:
+          type: string
+          format: uuid
+          description: Validation identifier
+        security_status:
+          type: string
+          enum: [approved, conditionally_approved, rejected, requires_review]
+          description: Security validation status
+        security_assessment:
+          type: object
+          description: Detailed security assessment
+        risk_analysis:
+          type: object
+          description: Risk analysis results
+        memory_trust_score:
+          type: number
+          minimum: 0
+          maximum: 1
+          description: Memory-based trust score
+        family_security_compliance:
+          type: object
+          description: Family security compliance status
+        mitigation_recommendations:
+          type: array
+          items:
+            type: object
+          description: Security mitigation recommendations
+
+    ToolSecurityFailureResponse:
+      type: object
+      properties:
+        failure_reason:
+          type: string
+          description: Reason for security validation failure
+        security_violations:
+          type: array
+          items:
+            type: object
+          description: Identified security violations
+        risk_factors:
+          type: array
+          items:
+            type: object
+          description: Identified risk factors
+        family_security_concerns:
+          type: array
+          items:
+            type: object
+          description: Family-specific security concerns
+        remediation_steps:
+          type: array
+          items:
+            type: object
+          description: Steps to remediate security issues
+
+    ToolAnalyticsResponse:
+      type: object
+      properties:
+        analytics_period:
+          type: object
+          description: Analytics time period
+        tool_usage_metrics:
+          type: object
+          description: Tool usage metrics
+        memory_integration_analytics:
+          type: object
+          description: Memory integration analytics
+        family_coordination_metrics:
+          type: object
+          description: Family coordination metrics
+        cognitive_optimization_insights:
+          type: object
+          description: Cognitive optimization insights
+        performance_trends:
+          type: object
+          description: Performance trends over time
+        learning_progression:
+          type: object
+          description: Learning progression analytics
+        efficiency_improvements:
+          type: object
+          description: Efficiency improvements identified
+        usage_patterns:
+          type: object
+          description: Usage pattern analysis
+        recommendations:
+          type: array
+          items:
+            type: object
+          description: Data-driven recommendations
+
+    ToolRecommendationsResponse:
+      type: object
+      properties:
+        recommendation_context:
+          type: object
+          description: Context for recommendations
+        recommended_tools:
+          type: array
+          items:
+            $ref: '#/components/schemas/RecommendedTool'
+          description: List of recommended tools
+        memory_driven_insights:
+          type: object
+          description: Memory-driven insights for recommendations
+        family_coordination_opportunities:
+          type: array
+          items:
+            type: object
+          description: Family coordination opportunities
+        cognitive_optimization_suggestions:
+          type: array
+          items:
+            type: object
+          description: Cognitive optimization suggestions
+        learning_pathway_recommendations:
+          type: array
+          items:
+            type: object
+          description: Learning pathway recommendations
+
+    RecommendedTool:
+      type: object
+      properties:
+        tool_id:
+          type: string
+          format: uuid
+          description: Recommended tool identifier
+        recommendation_reason:
+          type: string
+          description: Reason for recommendation
+        memory_relevance_score:
+          type: number
+          minimum: 0
+          maximum: 1
+          description: Memory relevance score
+        family_coordination_benefit:
+          type: object
+          description: Family coordination benefits
+        cognitive_suitability:
+          type: object
+          description: Cognitive suitability analysis
+        expected_learning_curve:
+          type: string
+          enum: [immediate, quick, moderate, extended, expert]
+          description: Expected learning curve
+        usage_scenarios:
+          type: array
+          items:
+            type: object
+          description: Recommended usage scenarios
+
+  responses:
+    BadRequest:
+      description: Bad request - invalid input parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    Unauthorized:
+      description: Authentication required
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    Forbidden:
+      description: Access forbidden - insufficient permissions
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    ConflictError:
+      description: Conflict - resource already exists
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    ErrorResponse:
+      type: object
+      required:
+        - error
+        - message
+      properties:
+        error:
+          type: string
+          description: Error code
+        message:
+          type: string
+          description: Human-readable error message
+        details:
+          type: object
+          description: Additional error details
+        trace_id:
+          type: string
+          description: Request trace identifier

@@ -1,0 +1,1540 @@
+openapi: 3.1.0
+info:
+  title: MemoryOS Control Plane - Security Management API
+  description: |
+    **Memory-Centric Family AI Security Management Operations**
+
+    This API provides family administrators with comprehensive security management capabilities:
+    - **Security Administration**: Manage family security infrastructure, policies, and operational security controls
+    - **Threat Management**: Detect, analyze, and respond to security threats across family devices and Memory Backbone
+    - **Incident Response**: Coordinate security incident response, investigation, and remediation activities
+    - **Vulnerability Management**: Identify, assess, and remediate security vulnerabilities in family systems
+    - **Identity & Access Management**: Manage family member identities, authentication, and access controls
+
+    **Memory-Centric Design**: Security management leverages Memory Backbone for:
+    - Memory-driven security intelligence through memory-based threat pattern recognition and security optimization
+    - Memory-informed threat detection with historical security analysis and predictive threat intelligence
+    - Cross-family security intelligence with security memory synthesis and threat intelligence sharing
+    - Security evolution tracking through memory-aware security development and threat adaptation
+
+    **Architecture Integration**:
+    - Integrates with Memory Backbone for memory-informed security management and threat intelligence
+    - Leverages Family Intelligence for relationship-aware security management and family protection
+    - Coordinates with Intelligence Layer for advanced security analytics and threat intelligence
+    - Protects family ecosystem through comprehensive security engine and real-time threat protection
+  version: "1.0.0"
+  contact:
+    name: MemoryOS API Team
+    url: https://familyos.local/support
+    email: api-support@familyos.local
+  license:
+    name: Family OS Private License
+    url: https://familyos.local/licenses/family-os
+
+servers:
+  - url: https://api.familyos.local/control/v1
+    description: Production Control Plane
+  - url: https://staging-api.familyos.local/control/v1
+    description: Staging Environment
+  - url: http://localhost:8080/control/v1
+    description: Local Development
+
+security:
+  - FamilySecurityAuth: []
+  - FamilyOSAuth: []
+
+paths:
+  /security/administration:
+    get:
+      summary: Get Security Administration Status
+      description: |
+        Retrieve comprehensive security administration status including security infrastructure, policy enforcement, and operational controls.
+
+        **Security Administration Management**: Get complete security administration overview with administrative context and security insights.
+        **Security Infrastructure**: Retrieve administration status with infrastructure analysis and operational security assessment.
+      operationId: getSecurityAdministrationStatus
+      parameters:
+        - name: admin_scope
+          in: query
+          description: Scope of security administration status
+          required: false
+          schema:
+            type: string
+            enum: [infrastructure, policies, operations, compliance]
+            default: infrastructure
+        - name: include_security_metrics
+          in: query
+          description: Include security performance metrics
+          required: false
+          schema:
+            type: boolean
+            default: true
+        - name: include_threats
+          in: query
+          description: Include current threat status
+          required: false
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: Security administration status retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  security_administration:
+                    $ref: '#/components/schemas/SecurityAdministration'
+                  security_infrastructure:
+                    $ref: '#/components/schemas/SecurityInfrastructure'
+                  security_metrics:
+                    $ref: '#/components/schemas/SecurityMetrics'
+                  security_alerts:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/SecurityAlert'
+                  administration_recommendations:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/AdminRecommendation'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Security Administration
+
+    post:
+      summary: Execute Security Administration Action
+      description: |
+        Execute comprehensive security administration action including infrastructure updates, policy changes, and operational modifications.
+
+        **Administration Action**: Execute security administration action with comprehensive oversight.
+        **Security Infrastructure Management**: Perform administration action with infrastructure and operational security management.
+      operationId: executeSecurityAdministrationAction
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExecuteAdministrationActionRequest'
+      responses:
+        '200':
+          description: Security administration action executed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  action_id:
+                    type: string
+                    format: uuid
+                  administration_action:
+                    $ref: '#/components/schemas/AdministrationAction'
+                  execution_status:
+                    $ref: '#/components/schemas/ActionExecutionStatus'
+                  security_impact:
+                    $ref: '#/components/schemas/SecurityImpact'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Security Administration
+
+  /security/threats:
+    get:
+      summary: Get Threat Management Status
+      description: |
+        Retrieve comprehensive threat management status including threat detection, analysis, and response coordination.
+
+        **Threat Management**: Get complete threat management overview with administrative context and threat intelligence.
+        **Threat Intelligence**: Retrieve threat status with threat analysis and response coordination insights.
+      operationId: getThreatManagementStatus
+      parameters:
+        - name: threat_scope
+          in: query
+          description: Scope of threat management status
+          required: false
+          schema:
+            type: string
+            enum: [active_threats, threat_intelligence, response_coordination, historical_analysis]
+            default: active_threats
+        - name: threat_severity
+          in: query
+          description: Filter threats by severity level
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+              enum: [low, medium, high, critical]
+        - name: include_intelligence
+          in: query
+          description: Include threat intelligence analysis
+          required: false
+          schema:
+            type: boolean
+            default: true
+      responses:
+        '200':
+          description: Threat management status retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  threat_overview:
+                    $ref: '#/components/schemas/ThreatOverview'
+                  active_threats:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/SecurityThreat'
+                  threat_intelligence:
+                    $ref: '#/components/schemas/ThreatIntelligence'
+                  response_coordination:
+                    $ref: '#/components/schemas/ResponseCoordination'
+                  threat_analytics:
+                    $ref: '#/components/schemas/ThreatAnalytics'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Threat Management
+
+    post:
+      summary: Execute Threat Response Action
+      description: |
+        Execute comprehensive threat response action including threat mitigation, containment, and response coordination.
+
+        **Threat Response**: Execute threat response action with comprehensive coordination.
+        **Response Management**: Perform threat response with mitigation and containment strategies.
+      operationId: executeThreatResponseAction
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExecuteThreatResponseRequest'
+      responses:
+        '200':
+          description: Threat response action executed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  response_id:
+                    type: string
+                    format: uuid
+                  threat_response:
+                    $ref: '#/components/schemas/ThreatResponse'
+                  response_results:
+                    $ref: '#/components/schemas/ResponseResults'
+                  mitigation_status:
+                    $ref: '#/components/schemas/MitigationStatus'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Threat Management
+
+  /security/incidents:
+    get:
+      summary: Get Security Incidents
+      description: |
+        Retrieve comprehensive security incidents including incident details, investigation status, and response coordination.
+
+        **Incident Management**: Get complete security incident overview with administrative context and incident intelligence.
+        **Incident Response**: Retrieve incidents with investigation analysis and response coordination insights.
+      operationId: getSecurityIncidents
+      parameters:
+        - name: incident_status
+          in: query
+          description: Filter incidents by status
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+              enum: [open, investigating, containing, resolving, resolved, closed]
+        - name: incident_severity
+          in: query
+          description: Filter incidents by severity level
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+              enum: [low, medium, high, critical]
+        - name: time_range
+          in: query
+          description: Time range for incident retrieval
+          required: false
+          schema:
+            type: string
+            enum: [last_hour, last_day, last_week, last_month]
+            default: last_week
+        - name: include_forensics
+          in: query
+          description: Include forensic analysis data
+          required: false
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: Security incidents retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  incident_overview:
+                    $ref: '#/components/schemas/IncidentOverview'
+                  security_incidents:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/SecurityIncident'
+                  investigation_status:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/InvestigationStatus'
+                  incident_analytics:
+                    $ref: '#/components/schemas/IncidentAnalytics'
+                  response_recommendations:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ResponseRecommendation'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Incident Response
+
+    post:
+      summary: Create Security Incident
+      description: |
+        Create new security incident with incident details, classification, and response coordination.
+
+        **Incident Creation**: Create security incident with comprehensive coordination.
+        **Incident Response Setup**: Perform incident creation with investigation and response setup.
+      operationId: createSecurityIncident
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateSecurityIncidentRequest'
+      responses:
+        '201':
+          description: Security incident created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  incident_id:
+                    type: string
+                    format: uuid
+                  security_incident:
+                    $ref: '#/components/schemas/SecurityIncident'
+                  response_plan:
+                    $ref: '#/components/schemas/IncidentResponsePlan'
+                  investigation_setup:
+                    $ref: '#/components/schemas/InvestigationSetup'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Incident Response
+
+  /security/vulnerabilities:
+    get:
+      summary: Get Vulnerability Assessment
+      description: |
+        Retrieve comprehensive vulnerability assessment including vulnerability details, risk analysis, and remediation planning.
+
+        **Vulnerability Management**: Get complete vulnerability assessment with administrative context and security insights.
+        **Risk Assessment**: Retrieve vulnerabilities with risk analysis and remediation planning insights.
+      operationId: getVulnerabilityAssessment
+      parameters:
+        - name: vulnerability_status
+          in: query
+          description: Filter vulnerabilities by status
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+              enum: [identified, analyzing, confirmed, remediating, remediated, accepted]
+        - name: risk_level
+          in: query
+          description: Filter vulnerabilities by risk level
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+              enum: [low, medium, high, critical]
+        - name: vulnerability_type
+          in: query
+          description: Filter vulnerabilities by type
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+              enum: [software, configuration, policy, physical, human]
+        - name: include_remediation
+          in: query
+          description: Include remediation recommendations
+          required: false
+          schema:
+            type: boolean
+            default: true
+      responses:
+        '200':
+          description: Vulnerability assessment retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  vulnerability_overview:
+                    $ref: '#/components/schemas/VulnerabilityOverview'
+                  vulnerabilities:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/SecurityVulnerability'
+                  risk_assessment:
+                    $ref: '#/components/schemas/RiskAssessment'
+                  remediation_plan:
+                    $ref: '#/components/schemas/RemediationPlan'
+                  vulnerability_trends:
+                    $ref: '#/components/schemas/VulnerabilityTrends'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Vulnerability Management
+
+    post:
+      summary: Execute Vulnerability Remediation
+      description: |
+        Execute comprehensive vulnerability remediation including remediation actions, validation, and risk mitigation.
+
+        **Vulnerability Remediation**: Execute remediation action with comprehensive coordination.
+        **Risk Mitigation**: Perform remediation with risk mitigation and validation strategies.
+      operationId: executeVulnerabilityRemediation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExecuteRemediationRequest'
+      responses:
+        '200':
+          description: Vulnerability remediation executed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  remediation_id:
+                    type: string
+                    format: uuid
+                  vulnerability_remediation:
+                    $ref: '#/components/schemas/VulnerabilityRemediation'
+                  remediation_results:
+                    $ref: '#/components/schemas/RemediationResults'
+                  risk_reduction:
+                    $ref: '#/components/schemas/RiskReduction'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Vulnerability Management
+
+  /security/identity:
+    get:
+      summary: Get Identity Management Status
+      description: |
+        Retrieve comprehensive identity management status including identity infrastructure, authentication systems, and access controls.
+
+        **Identity Management**: Get complete identity management overview with administrative context and identity insights.
+        **Identity Administration**: Retrieve identity status with authentication analysis and access control insights.
+      operationId: getIdentityManagementStatus
+      parameters:
+        - name: identity_scope
+          in: query
+          description: Scope of identity management status
+          required: false
+          schema:
+            type: string
+            enum: [family_identities, authentication_systems, access_controls, identity_lifecycle]
+            default: family_identities
+        - name: include_authentication_metrics
+          in: query
+          description: Include authentication performance metrics
+          required: false
+          schema:
+            type: boolean
+            default: true
+        - name: include_access_analytics
+          in: query
+          description: Include access control analytics
+          required: false
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: Identity management status retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  identity_overview:
+                    $ref: '#/components/schemas/IdentityOverview'
+                  family_identities:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/FamilyIdentity'
+                  authentication_status:
+                    $ref: '#/components/schemas/AuthenticationStatus'
+                  access_control_status:
+                    $ref: '#/components/schemas/AccessControlStatus'
+                  identity_analytics:
+                    $ref: '#/components/schemas/IdentityAnalytics'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Identity Management
+
+    post:
+      summary: Execute Identity Management Action
+      description: |
+        Execute comprehensive identity management action including identity lifecycle management, authentication updates, and access control modifications.
+
+        **Identity Management Action**: Execute identity action with comprehensive coordination.
+        **Identity Administration**: Perform identity management with authentication and access control coordination.
+      operationId: executeIdentityManagementAction
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExecuteIdentityActionRequest'
+      responses:
+        '200':
+          description: Identity management action executed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  action_id:
+                    type: string
+                    format: uuid
+                  identity_action:
+                    $ref: '#/components/schemas/IdentityAction'
+                  action_results:
+                    $ref: '#/components/schemas/IdentityActionResults'
+                  security_impact:
+                    $ref: '#/components/schemas/SecurityImpact'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Identity Management
+
+  /security/access-control:
+    get:
+      summary: Get Access Control Administration
+      description: |
+        Retrieve comprehensive access control administration including access policies, permission management, and authorization systems.
+
+        **Access Control Administration**: Get complete access control overview with administrative context and authorization insights.
+        **Authorization Management**: Retrieve access control status with policy analysis and permission management insights.
+      operationId: getAccessControlAdministration
+      parameters:
+        - name: access_scope
+          in: query
+          description: Scope of access control administration
+          required: false
+          schema:
+            type: string
+            enum: [access_policies, permission_matrix, authorization_systems, access_reviews]
+            default: access_policies
+        - name: include_access_metrics
+          in: query
+          description: Include access control performance metrics
+          required: false
+          schema:
+            type: boolean
+            default: true
+        - name: include_violations
+          in: query
+          description: Include access control violations
+          required: false
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: Access control administration retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  access_control_overview:
+                    $ref: '#/components/schemas/AccessControlOverview'
+                  access_policies:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/AccessPolicy'
+                  permission_matrix:
+                    $ref: '#/components/schemas/PermissionMatrix'
+                  authorization_status:
+                    $ref: '#/components/schemas/AuthorizationStatus'
+                  access_analytics:
+                    $ref: '#/components/schemas/AccessAnalytics'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Access Control Administration
+
+    post:
+      summary: Execute Access Control Action
+      description: |
+        Execute comprehensive access control action including policy updates, permission modifications, and authorization changes.
+
+        **Access Control Action**: Execute access control action with comprehensive coordination.
+        **Authorization Management**: Perform access control action with policy and permission coordination.
+      operationId: executeAccessControlAction
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExecuteAccessControlActionRequest'
+      responses:
+        '200':
+          description: Access control action executed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  action_id:
+                    type: string
+                    format: uuid
+                  access_control_action:
+                    $ref: '#/components/schemas/AccessControlAction'
+                  action_results:
+                    $ref: '#/components/schemas/AccessControlActionResults'
+                  policy_impact:
+                    $ref: '#/components/schemas/PolicyImpact'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Access Control Administration
+
+  /security/encryption:
+    get:
+      summary: Get Encryption Management Status
+      description: |
+        Retrieve comprehensive encryption management status including encryption infrastructure, key management, and cryptographic operations.
+
+        **Encryption Management**: Get complete encryption overview with administrative context and cryptographic insights.
+        **Cryptographic Administration**: Retrieve encryption status with key management analysis and cryptographic operation insights.
+      operationId: getEncryptionManagementStatus
+      parameters:
+        - name: encryption_scope
+          in: query
+          description: Scope of encryption management status
+          required: false
+          schema:
+            type: string
+            enum: [encryption_infrastructure, key_management, cryptographic_operations, e2ee_status]
+            default: encryption_infrastructure
+        - name: include_key_metrics
+          in: query
+          description: Include key management performance metrics
+          required: false
+          schema:
+            type: boolean
+            default: true
+        - name: include_crypto_analytics
+          in: query
+          description: Include cryptographic operation analytics
+          required: false
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: Encryption management status retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  encryption_overview:
+                    $ref: '#/components/schemas/EncryptionOverview'
+                  encryption_infrastructure:
+                    $ref: '#/components/schemas/EncryptionInfrastructure'
+                  key_management_status:
+                    $ref: '#/components/schemas/KeyManagementStatus'
+                  e2ee_status:
+                    $ref: '#/components/schemas/E2EEStatus'
+                  encryption_analytics:
+                    $ref: '#/components/schemas/EncryptionAnalytics'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Encryption Management
+
+    post:
+      summary: Execute Encryption Management Action
+      description: |
+        Execute comprehensive encryption management action including key operations, encryption updates, and cryptographic management.
+
+        **Encryption Action**: Execute encryption management action with comprehensive coordination.
+        **Cryptographic Management**: Perform encryption action with key management and cryptographic coordination.
+      operationId: executeEncryptionManagementAction
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExecuteEncryptionActionRequest'
+      responses:
+        '200':
+          description: Encryption management action executed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  action_id:
+                    type: string
+                    format: uuid
+                  encryption_action:
+                    $ref: '#/components/schemas/EncryptionAction'
+                  action_results:
+                    $ref: '#/components/schemas/EncryptionActionResults'
+                  cryptographic_impact:
+                    $ref: '#/components/schemas/CryptographicImpact'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Encryption Management
+
+  /security/audit:
+    get:
+      summary: Get Security Audit Trail
+      description: |
+        Retrieve comprehensive security audit trail including security events, compliance tracking, and audit analytics.
+
+        **Security Audit Management**: Get complete security audit trail with administrative context and compliance insights.
+        **Audit Administration**: Retrieve audit trail with security event analysis and compliance tracking insights.
+      operationId: getSecurityAuditTrail
+      parameters:
+        - name: audit_scope
+          in: query
+          description: Scope of security audit trail
+          required: false
+          schema:
+            type: string
+            enum: [security_events, compliance_tracking, access_audits, administrative_actions]
+            default: security_events
+        - name: time_range
+          in: query
+          description: Time range for audit trail
+          required: false
+          schema:
+            type: string
+            enum: [last_day, last_week, last_month, last_quarter]
+            default: last_month
+        - name: include_compliance
+          in: query
+          description: Include compliance analysis
+          required: false
+          schema:
+            type: boolean
+            default: true
+      responses:
+        '200':
+          description: Security audit trail retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  audit_overview:
+                    $ref: '#/components/schemas/SecurityAuditOverview'
+                  security_events:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/SecurityAuditEvent'
+                  compliance_status:
+                    $ref: '#/components/schemas/SecurityComplianceStatus'
+                  audit_analytics:
+                    $ref: '#/components/schemas/SecurityAuditAnalytics'
+                  audit_recommendations:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/SecurityAuditRecommendation'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Security Audit
+
+    post:
+      summary: Generate Security Audit Report
+      description: |
+        Generate comprehensive security audit report including security analysis, compliance assessment, and audit recommendations.
+
+        **Audit Report Generation**: Generate security audit report with comprehensive analysis.
+        **Security Compliance Reporting**: Perform audit report generation with compliance and security analysis.
+      operationId: generateSecurityAuditReport
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GenerateAuditReportRequest'
+      responses:
+        '201':
+          description: Security audit report generated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  report_id:
+                    type: string
+                    format: uuid
+                  security_audit_report:
+                    $ref: '#/components/schemas/SecurityAuditReport'
+                  generation_status:
+                    $ref: '#/components/schemas/ReportGenerationStatus'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Security Audit
+
+  /security/compliance:
+    get:
+      summary: Get Security Compliance Status
+      description: |
+        Retrieve comprehensive security compliance status including compliance frameworks, assessment results, and compliance analytics.
+
+        **Security Compliance Management**: Get complete security compliance overview with administrative context and compliance insights.
+        **Compliance Administration**: Retrieve compliance status with framework analysis and assessment insights.
+      operationId: getSecurityComplianceStatus
+      parameters:
+        - name: compliance_frameworks
+          in: query
+          description: Compliance frameworks to assess
+          required: false
+          schema:
+            type: array
+            items:
+              type: string
+              enum: [iso27001, nist_cybersecurity, gdpr_security, family_security_policy]
+        - name: include_assessments
+          in: query
+          description: Include compliance assessments
+          required: false
+          schema:
+            type: boolean
+            default: true
+        - name: compliance_scope
+          in: query
+          description: Scope of compliance status
+          required: false
+          schema:
+            type: string
+            enum: [overall_compliance, framework_specific, control_specific, gap_analysis]
+            default: overall_compliance
+      responses:
+        '200':
+          description: Security compliance status retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  compliance_overview:
+                    $ref: '#/components/schemas/SecurityComplianceOverview'
+                  compliance_assessments:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ComplianceAssessment'
+                  compliance_gaps:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ComplianceGap'
+                  compliance_analytics:
+                    $ref: '#/components/schemas/ComplianceAnalytics'
+                  improvement_recommendations:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ComplianceImprovementRecommendation'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Security Compliance
+
+    post:
+      summary: Execute Compliance Assessment
+      description: |
+        Execute comprehensive security compliance assessment including framework evaluation, gap analysis, and improvement planning.
+
+        **Compliance Assessment**: Execute security compliance assessment with comprehensive analysis.
+        **Compliance Management**: Perform assessment with framework evaluation and improvement planning.
+      operationId: executeComplianceAssessment
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExecuteComplianceAssessmentRequest'
+      responses:
+        '200':
+          description: Security compliance assessment executed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  assessment_id:
+                    type: string
+                    format: uuid
+                  compliance_assessment:
+                    $ref: '#/components/schemas/ComplianceAssessment'
+                  assessment_results:
+                    $ref: '#/components/schemas/ComplianceAssessmentResults'
+                  improvement_plan:
+                    $ref: '#/components/schemas/ComplianceImprovementPlan'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Security Compliance
+
+  /security/analytics:
+    get:
+      summary: Get Security Analytics
+      description: |
+        Retrieve comprehensive security analytics including security metrics, threat intelligence, and predictive security insights.
+
+        **Security Analytics Management**: Get complete security analytics with administrative context and intelligence insights.
+        **Security Intelligence**: Retrieve analytics with threat intelligence and predictive security analysis.
+      operationId: getSecurityAnalytics
+      parameters:
+        - name: analytics_scope
+          in: query
+          description: Scope of security analytics
+          required: false
+          schema:
+            type: string
+            enum: [threat_analytics, incident_analytics, vulnerability_analytics, compliance_analytics]
+            default: threat_analytics
+        - name: analytics_period
+          in: query
+          description: Time period for analytics
+          required: false
+          schema:
+            type: string
+            enum: [real_time, hourly, daily, weekly, monthly]
+            default: daily
+        - name: include_predictions
+          in: query
+          description: Include predictive analytics
+          required: false
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: Security analytics retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  analytics_overview:
+                    $ref: '#/components/schemas/SecurityAnalyticsOverview'
+                  security_metrics:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/SecurityMetric'
+                  threat_intelligence:
+                    $ref: '#/components/schemas/ThreatIntelligence'
+                  predictive_insights:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/PredictiveSecurityInsight'
+                  analytics_recommendations:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/SecurityAnalyticsRecommendation'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Security Analytics
+
+    post:
+      summary: Execute Security Analytics Operation
+      description: |
+        Execute comprehensive security analytics operation including advanced analysis, threat modeling, and predictive intelligence.
+
+        **Analytics Operation**: Execute security analytics operation with comprehensive intelligence.
+        **Security Intelligence**: Perform analytics operation with threat modeling and predictive analysis.
+      operationId: executeSecurityAnalyticsOperation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ExecuteAnalyticsOperationRequest'
+      responses:
+        '200':
+          description: Security analytics operation executed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  operation_id:
+                    type: string
+                    format: uuid
+                  analytics_operation:
+                    $ref: '#/components/schemas/SecurityAnalyticsOperation'
+                  operation_results:
+                    $ref: '#/components/schemas/AnalyticsOperationResults'
+                  intelligence_insights:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/SecurityIntelligenceInsight'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Security Analytics
+
+components:
+  securitySchemes:
+    FamilySecurityAuth:
+      type: http
+      scheme: bearer
+      description: Family security administrator JWT authentication for security management operations
+      bearerFormat: JWT
+
+    FamilyOSAuth:
+      type: oauth2
+      description: FamilyOS OAuth2 authentication with security management scopes
+      flows:
+        authorizationCode:
+          authorizationUrl: https://auth.familyos.local/oauth/authorize
+          tokenUrl: https://auth.familyos.local/oauth/token
+          scopes:
+            security:admin: Full security management administration access
+            security:administration: Manage security infrastructure and operations
+            security:threats: Manage threat detection and response
+            security:incidents: Manage security incident response
+            security:vulnerabilities: Manage vulnerability assessment and remediation
+            security:identity: Manage identity and authentication systems
+            security:access_control: Manage access control and authorization
+            security:encryption: Manage encryption and cryptographic operations
+            security:audit: Access security audit trails and compliance
+            security:compliance: Manage security compliance and assessments
+            security:analytics: Access security analytics and intelligence
+
+  schemas:
+    SecurityAdministration:
+      type: object
+      description: Comprehensive security administration status
+      properties:
+        administration_status:
+          type: string
+          enum: [operational, degraded, critical, maintenance]
+        security_posture:
+          type: string
+          enum: [strong, adequate, weak, compromised]
+        infrastructure_health:
+          type: number
+          minimum: 0
+          maximum: 100
+        active_policies:
+          type: integer
+        security_controls:
+          type: integer
+        compliance_score:
+          type: number
+          minimum: 0
+          maximum: 100
+        last_assessment:
+          type: string
+          format: date-time
+        administration_metadata:
+          type: object
+      required:
+        - administration_status
+        - security_posture
+        - infrastructure_health
+        - compliance_score
+
+    SecurityThreat:
+      type: object
+      description: Security threat information
+      properties:
+        threat_id:
+          type: string
+          format: uuid
+        threat_type:
+          type: string
+          enum: [malware, phishing, data_breach, unauthorized_access, denial_of_service, insider_threat]
+        threat_severity:
+          type: string
+          enum: [low, medium, high, critical]
+        threat_status:
+          type: string
+          enum: [detected, analyzing, confirmed, mitigating, contained, resolved]
+        threat_source:
+          type: string
+        threat_description:
+          type: string
+        affected_systems:
+          type: array
+          items:
+            type: string
+        threat_indicators:
+          type: array
+          items:
+            type: string
+        detection_time:
+          type: string
+          format: date-time
+        mitigation_actions:
+          type: array
+          items:
+            type: string
+        threat_metadata:
+          type: object
+      required:
+        - threat_id
+        - threat_type
+        - threat_severity
+        - threat_status
+        - threat_description
+
+    SecurityIncident:
+      type: object
+      description: Security incident information
+      properties:
+        incident_id:
+          type: string
+          format: uuid
+        incident_type:
+          type: string
+          enum: [security_breach, data_leak, system_compromise, policy_violation, physical_security]
+        incident_severity:
+          type: string
+          enum: [low, medium, high, critical]
+        incident_status:
+          type: string
+          enum: [open, investigating, containing, resolving, resolved, closed]
+        incident_description:
+          type: string
+        affected_systems:
+          type: array
+          items:
+            type: string
+        affected_members:
+          type: array
+          items:
+            type: string
+            format: uuid
+        incident_timeline:
+          type: array
+          items:
+            $ref: '#/components/schemas/IncidentTimelineEvent'
+        response_team:
+          type: array
+          items:
+            type: string
+        investigation_findings:
+          type: object
+        remediation_actions:
+          type: array
+          items:
+            type: string
+        incident_metadata:
+          type: object
+      required:
+        - incident_id
+        - incident_type
+        - incident_severity
+        - incident_status
+        - incident_description
+
+    SecurityVulnerability:
+      type: object
+      description: Security vulnerability information
+      properties:
+        vulnerability_id:
+          type: string
+          format: uuid
+        vulnerability_type:
+          type: string
+          enum: [software, configuration, policy, physical, human]
+        risk_level:
+          type: string
+          enum: [low, medium, high, critical]
+        vulnerability_status:
+          type: string
+          enum: [identified, analyzing, confirmed, remediating, remediated, accepted]
+        vulnerability_description:
+          type: string
+        affected_systems:
+          type: array
+          items:
+            type: string
+        cvss_score:
+          type: number
+          minimum: 0
+          maximum: 10
+        discovery_date:
+          type: string
+          format: date-time
+        remediation_timeline:
+          type: string
+        remediation_actions:
+          type: array
+          items:
+            type: string
+        vulnerability_metadata:
+          type: object
+      required:
+        - vulnerability_id
+        - vulnerability_type
+        - risk_level
+        - vulnerability_status
+        - vulnerability_description
+
+    FamilyIdentity:
+      type: object
+      description: Family member identity information
+      properties:
+        identity_id:
+          type: string
+          format: uuid
+        member_id:
+          type: string
+          format: uuid
+        identity_status:
+          type: string
+          enum: [active, inactive, suspended, locked, pending]
+        authentication_methods:
+          type: array
+          items:
+            type: string
+            enum: [password, biometric, mfa, certificate, device_trust]
+        access_level:
+          type: string
+          enum: [admin, standard, restricted, guest]
+        last_authentication:
+          type: string
+          format: date-time
+        failed_attempts:
+          type: integer
+        identity_attributes:
+          type: object
+        identity_metadata:
+          type: object
+      required:
+        - identity_id
+        - member_id
+        - identity_status
+        - access_level
+
+    # Request schemas
+    ExecuteAdministrationActionRequest:
+      type: object
+      description: Request to execute security administration action
+      properties:
+        action_type:
+          type: string
+          enum: [infrastructure_update, policy_deployment, control_modification, system_configuration]
+        action_scope:
+          type: string
+          enum: [global, family_specific, device_specific, component_specific]
+        action_parameters:
+          type: object
+        execution_priority:
+          type: integer
+          minimum: 1
+          maximum: 10
+        impact_assessment:
+          type: boolean
+        action_metadata:
+          type: object
+      required:
+        - action_type
+        - action_scope
+
+    ExecuteThreatResponseRequest:
+      type: object
+      description: Request to execute threat response action
+      properties:
+        threat_id:
+          type: string
+          format: uuid
+        response_type:
+          type: string
+          enum: [mitigation, containment, eradication, recovery, investigation]
+        response_scope:
+          type: string
+          enum: [immediate, comprehensive, targeted, preventive]
+        response_parameters:
+          type: object
+        coordination_requirements:
+          type: object
+      required:
+        - threat_id
+        - response_type
+        - response_scope
+
+    CreateSecurityIncidentRequest:
+      type: object
+      description: Request to create security incident
+      properties:
+        incident_type:
+          type: string
+          enum: [security_breach, data_leak, system_compromise, policy_violation, physical_security]
+        incident_severity:
+          type: string
+          enum: [low, medium, high, critical]
+        incident_description:
+          type: string
+          maxLength: 1000
+        affected_systems:
+          type: array
+          items:
+            type: string
+        affected_members:
+          type: array
+          items:
+            type: string
+            format: uuid
+        initial_assessment:
+          type: object
+        reporter_id:
+          type: string
+          format: uuid
+        incident_metadata:
+          type: object
+      required:
+        - incident_type
+        - incident_severity
+        - incident_description
+
+    # Supporting schemas
+    SecurityMetrics:
+      type: object
+      properties:
+        threat_detection_rate:
+          type: number
+        incident_response_time:
+          type: number
+        vulnerability_remediation_rate:
+          type: number
+        compliance_score:
+          type: number
+          minimum: 0
+          maximum: 100
+        security_posture_score:
+          type: number
+          minimum: 0
+          maximum: 100
+
+    ThreatIntelligence:
+      type: object
+      properties:
+        threat_landscape:
+          type: object
+        active_threat_campaigns:
+          type: array
+          items:
+            type: object
+        threat_indicators:
+          type: array
+          items:
+            type: string
+        threat_predictions:
+          type: array
+          items:
+            type: object
+        intelligence_sources:
+          type: array
+          items:
+            type: string
+
+    # Error schemas
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+            message:
+              type: string
+            details:
+              type: object
+            trace_id:
+              type: string
+          required:
+            - code
+            - message
+      required:
+        - error
+
+  responses:
+    BadRequestError:
+      description: Invalid request parameters or security management operation
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    ForbiddenError:
+      description: Insufficient security permissions or security access violation
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    InternalServerError:
+      description: Internal server error in security management processing
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+tags:
+  - name: Security Administration
+    description: |
+      Security infrastructure administration with policy management and operational security controls.
+
+      **Security Administration**: Comprehensive security infrastructure management with administrative oversight.
+
+  - name: Threat Management
+    description: |
+      Threat detection, analysis, and response coordination with threat intelligence integration.
+
+      **Threat Intelligence**: Complete threat management with intelligence analysis and response coordination.
+
+  - name: Incident Response
+    description: |
+      Security incident management with investigation coordination and response planning.
+
+      **Incident Management**: Comprehensive incident response with investigation and remediation coordination.
+
+  - name: Vulnerability Management
+    description: |
+      Vulnerability assessment, risk analysis, and remediation management with security optimization.
+
+      **Risk Management**: Complete vulnerability management with risk assessment and remediation planning.
+
+  - name: Identity Management
+    description: |
+      Identity lifecycle management with authentication systems and access control integration.
+
+      **Identity Administration**: Comprehensive identity management with authentication and access coordination.
+
+  - name: Access Control Administration
+    description: |
+      Access control policy management with authorization systems and permission administration.
+
+      **Authorization Management**: Complete access control administration with policy and permission management.
+
+  - name: Encryption Management
+    description: |
+      Encryption infrastructure management with key management and cryptographic operations.
+
+      **Cryptographic Administration**: Comprehensive encryption management with key lifecycle and E2EE coordination.
+
+  - name: Security Audit
+    description: |
+      Security audit trail management with compliance tracking and audit analytics.
+
+      **Audit Administration**: Complete security audit management with compliance and governance tracking.
+
+  - name: Security Compliance
+    description: |
+      Security compliance management with framework assessment and compliance optimization.
+
+      **Compliance Administration**: Comprehensive compliance management with framework evaluation and improvement planning.
+
+  - name: Security Analytics
+    description: |
+      Security analytics and intelligence with predictive security insights and threat modeling.
+
+      **Security Intelligence**: Complete security analytics with threat intelligence and predictive analysis.

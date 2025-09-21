@@ -1,0 +1,602 @@
+openapi: 3.1.0
+info:
+  title: MemoryOS Memory-Driven Imagination & Simulation Engine
+  description: |
+    **Memory-Driven Imagination & Simulation Engine Contract**
+
+    This contract defines the memory-driven imagination and simulation capabilities
+    for the Memory-Centric Family AI system based on Part 3 Architecture.
+
+    **Memory-Driven Imagination Architecture:**
+    - **Memory Backbone Simulation Core**: Simulation coordination through memory experiences
+    - **Memory-Enhanced Scenario Generation**: Scenarios built from memory patterns
+    - **Memory-Driven Counterfactual Reasoning**: What-if analysis from memory knowledge
+    - **Family Memory Social Simulation**: Social simulations from memory relationships
+    - **Memory Simulation Reality Integration**: Simulation results integrated with memory
+
+    **Simulation Categories (From Part 3):**
+    1. **Memory-Informed Future Simulation**: Future scenarios from memory experiences
+    2. **Memory-Driven Alternative Scenario Generation**: Alternative possibilities from memory
+    3. **Memory-Enhanced Counterfactual Reasoning**: What-if analysis through memory insights
+    4. **Memory-Based Social Situation Simulation**: Social scenarios from memory relationships
+    5. **Memory-Driven Problem Solution Imagination**: Creative solutions from memory patterns
+    6. **Memory-Enhanced Mental Rehearsal**: Practice scenarios from memory experiences
+    7. **Memory-Informed Creative Generation**: Creative content from memory inspiration
+    8. **Memory-Based Risk Assessment Simulation**: Risk modeling through memory knowledge
+    9. **Memory-Driven Family Dynamics Simulation**: Family interaction modeling from memory
+
+    **Family Intelligence Integration:**
+    - Simulation coordinated through family memory backbone
+    - Relationship-aware simulation from family social contexts
+    - Emotional simulation through family emotional memories
+    - Cross-device simulation coordination through family memory sync
+    - Age-appropriate simulation content based on family member profiles
+
+    **Memory-Centric Simulation Principles:**
+    - All simulations build upon and leverage family memory backbone
+    - Simulation experiences are stored as family memories for future reference
+    - Social simulation leverages family relationship dynamics and memories
+    - Creative simulation considers family context and individual member preferences
+    - Simulation outcomes enhance family intelligence and decision-making capabilities
+  version: "1.0.0"
+  contact:
+    name: MemoryOS Imagination Platform Team
+    url: https://familyos.local/support/imagination
+    email: imagination-support@familyos.local
+  license:
+    name: Family OS Private License
+    url: https://familyos.local/licenses/family-os
+
+servers:
+  - url: https://imagination.familyos.local/v1
+    description: Production Memory-Driven Imagination Service
+  - url: https://staging-imagination.familyos.local/v1
+    description: Staging Environment
+  - url: http://localhost:8085/imagination/v1
+    description: Local Development
+
+security:
+  - FamilyOSAuth: []
+  - ImaginationAuth: []
+
+paths:
+  /imagination/coordination:
+    post:
+      summary: Initialize Memory Imagination Coordination
+      description: |
+        Initialize memory-driven imagination coordination for family cognitive operations.
+        Orchestrates simulation across memory experiences and family intelligence.
+      operationId: initializeMemoryImaginationCoordination
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ImaginationCoordinationRequest'
+      responses:
+        '201':
+          description: Memory imagination coordination initialized successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ImaginationCoordinationResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+
+  /imagination/future:
+    post:
+      summary: Memory-Informed Future Simulation
+      description: |
+        Execute memory-informed future simulation based on family memory experiences
+        and patterns to model potential future scenarios for family planning.
+      operationId: executeMemoryFutureSimulation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FutureSimulationRequest'
+      responses:
+        '200':
+          description: Memory future simulation executed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FutureSimulationResponse'
+
+  /imagination/scenarios:
+    post:
+      summary: Memory-Driven Alternative Scenario Generation
+      description: |
+        Generate alternative scenarios using memory-driven analysis to explore
+        different possibilities and outcomes for family decision-making.
+      operationId: generateMemoryAlternativeScenarios
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AlternativeScenarioRequest'
+      responses:
+        '200':
+          description: Memory alternative scenarios generated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AlternativeScenarioResponse'
+
+  /imagination/counterfactual:
+    post:
+      summary: Memory-Enhanced Counterfactual Reasoning
+      description: |
+        Execute memory-enhanced counterfactual reasoning to analyze what-if
+        scenarios based on family memory knowledge and relationship patterns.
+      operationId: executeMemoryCounterfactualReasoning
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CounterfactualReasoningRequest'
+      responses:
+        '200':
+          description: Memory counterfactual reasoning executed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CounterfactualReasoningResponse'
+
+  /imagination/social:
+    post:
+      summary: Memory-Based Social Situation Simulation
+      description: |
+        Execute memory-based social situation simulation leveraging family
+        relationship memories to model social interactions and outcomes.
+      operationId: executeMemorySocialSimulation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SocialSimulationRequest'
+      responses:
+        '200':
+          description: Memory social simulation executed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SocialSimulationResponse'
+
+  /imagination/problem-solving:
+    post:
+      summary: Memory-Driven Problem Solution Imagination
+      description: |
+        Execute memory-driven problem solution imagination using family memory
+        patterns to generate creative solutions for family challenges.
+      operationId: executeMemoryProblemSolutionImagination
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProblemSolutionRequest'
+      responses:
+        '200':
+          description: Memory problem solution imagination executed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProblemSolutionResponse'
+
+  /imagination/rehearsal:
+    post:
+      summary: Memory-Enhanced Mental Rehearsal
+      description: |
+        Execute memory-enhanced mental rehearsal for practice scenarios
+        based on family memory experiences and anticipated situations.
+      operationId: executeMemoryMentalRehearsal
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MentalRehearsalRequest'
+      responses:
+        '200':
+          description: Memory mental rehearsal executed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MentalRehearsalResponse'
+
+  /imagination/creative:
+    post:
+      summary: Memory-Informed Creative Generation
+      description: |
+        Execute memory-informed creative generation leveraging family memory
+        inspiration to create original content and innovative solutions.
+      operationId: executeMemoryCreativeGeneration
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreativeGenerationRequest'
+      responses:
+        '200':
+          description: Memory creative generation executed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreativeGenerationResponse'
+
+  /imagination/risk-assessment:
+    post:
+      summary: Memory-Based Risk Assessment Simulation
+      description: |
+        Execute memory-based risk assessment simulation using family memory
+        knowledge to model and evaluate potential risks and mitigation strategies.
+      operationId: executeMemoryRiskAssessmentSimulation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RiskAssessmentRequest'
+      responses:
+        '200':
+          description: Memory risk assessment simulation executed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RiskAssessmentResponse'
+
+  /imagination/family-dynamics:
+    post:
+      summary: Memory-Driven Family Dynamics Simulation
+      description: |
+        Execute memory-driven family dynamics simulation to model family
+        interactions and relationship evolution based on memory patterns.
+      operationId: executeMemoryFamilyDynamicsSimulation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FamilyDynamicsSimulationRequest'
+      responses:
+        '200':
+          description: Memory family dynamics simulation executed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FamilyDynamicsSimulationResponse'
+
+  /imagination/family/{familyId}/simulations:
+    get:
+      summary: Get Family Simulation History
+      description: |
+        Retrieve comprehensive family simulation history across all
+        memory-driven imagination systems and family scenario modeling.
+      operationId: getFamilySimulationHistory
+      parameters:
+        - name: familyId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: simulationType
+          in: query
+          schema:
+            type: string
+            enum: [future, alternative, counterfactual, social, problem_solving, rehearsal, creative, risk_assessment, family_dynamics]
+        - name: timeframe
+          in: query
+          schema:
+            type: string
+            enum: [day, week, month, quarter, year]
+      responses:
+        '200':
+          description: Family simulation history retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FamilySimulationHistory'
+
+components:
+  schemas:
+    ImaginationCoordinationRequest:
+      type: object
+      required:
+        - family_context
+        - simulation_objectives
+      properties:
+        family_context:
+          $ref: '#/components/schemas/FamilyContext'
+        simulation_objectives:
+          type: array
+          items:
+            $ref: '#/components/schemas/SimulationObjective'
+        memory_context:
+          $ref: '#/components/schemas/MemoryContext'
+        coordination_strategy:
+          type: string
+          enum: [parallel, sequential, adaptive, family_synchronized]
+
+    ImaginationCoordinationResponse:
+      type: object
+      required:
+        - coordination_id
+        - status
+        - simulation_plan
+      properties:
+        coordination_id:
+          type: string
+          format: uuid
+        status:
+          type: string
+          enum: [initialized, active, paused, completed]
+        simulation_plan:
+          $ref: '#/components/schemas/SimulationPlan'
+        family_simulation_goals:
+          type: array
+          items:
+            $ref: '#/components/schemas/FamilySimulationGoal'
+
+    FutureSimulationRequest:
+      type: object
+      required:
+        - simulation_context
+        - family_context
+      properties:
+        simulation_context:
+          $ref: '#/components/schemas/SimulationContext'
+        family_context:
+          $ref: '#/components/schemas/FamilyContext'
+        memory_patterns:
+          type: array
+          items:
+            $ref: '#/components/schemas/MemoryPattern'
+        simulation_horizon:
+          type: string
+          enum: [immediate, short_term, medium_term, long_term]
+        scenario_count:
+          type: integer
+          minimum: 1
+          maximum: 10
+
+    FutureSimulationResponse:
+      type: object
+      required:
+        - simulation_id
+        - future_scenarios
+        - confidence_metrics
+      properties:
+        simulation_id:
+          type: string
+          format: uuid
+        future_scenarios:
+          type: array
+          items:
+            $ref: '#/components/schemas/FutureScenario'
+        confidence_metrics:
+          $ref: '#/components/schemas/ConfidenceMetrics'
+        memory_basis:
+          type: array
+          items:
+            $ref: '#/components/schemas/MemoryReference'
+
+    AlternativeScenarioRequest:
+      type: object
+      required:
+        - base_scenario
+        - family_context
+      properties:
+        base_scenario:
+          $ref: '#/components/schemas/BaseScenario'
+        family_context:
+          $ref: '#/components/schemas/FamilyContext'
+        variation_parameters:
+          type: array
+          items:
+            type: string
+        creativity_level:
+          type: string
+          enum: [conservative, moderate, creative, highly_creative]
+
+    AlternativeScenarioResponse:
+      type: object
+      required:
+        - simulation_id
+        - alternative_scenarios
+        - scenario_analysis
+      properties:
+        simulation_id:
+          type: string
+          format: uuid
+        alternative_scenarios:
+          type: array
+          items:
+            $ref: '#/components/schemas/AlternativeScenario'
+        scenario_analysis:
+          $ref: '#/components/schemas/ScenarioAnalysis'
+        family_impact_assessment:
+          $ref: '#/components/schemas/FamilyImpactAssessment'
+
+    CounterfactualReasoningRequest:
+      type: object
+      required:
+        - factual_situation
+        - family_context
+      properties:
+        factual_situation:
+          $ref: '#/components/schemas/FactualSituation'
+        family_context:
+          $ref: '#/components/schemas/FamilyContext'
+        counterfactual_parameters:
+          type: array
+          items:
+            type: string
+        reasoning_depth:
+          type: string
+          enum: [shallow, moderate, deep, exhaustive]
+
+    CounterfactualReasoningResponse:
+      type: object
+      required:
+        - reasoning_id
+        - counterfactual_scenarios
+        - causal_analysis
+      properties:
+        reasoning_id:
+          type: string
+          format: uuid
+        counterfactual_scenarios:
+          type: array
+          items:
+            $ref: '#/components/schemas/CounterfactualScenario'
+        causal_analysis:
+          $ref: '#/components/schemas/CausalAnalysis'
+        learning_insights:
+          type: array
+          items:
+            type: string
+
+    FamilyContext:
+      type: object
+      required:
+        - family_id
+      properties:
+        family_id:
+          type: string
+          format: uuid
+        family_members:
+          type: array
+          items:
+            $ref: '#/components/schemas/FamilyMember'
+        family_dynamics:
+          $ref: '#/components/schemas/FamilyDynamics'
+        simulation_preferences:
+          $ref: '#/components/schemas/FamilySimulationPreferences'
+
+    MemoryContext:
+      type: object
+      properties:
+        relevant_memories:
+          type: array
+          items:
+            $ref: '#/components/schemas/MemoryReference'
+        memory_space:
+          type: string
+          enum: [personal, selective, shared, extended, interfamily]
+        consolidation_state:
+          type: string
+          enum: [encoding, consolidating, consolidated, retrieving]
+
+    SimulationObjective:
+      type: object
+      required:
+        - objective_id
+        - objective_type
+      properties:
+        objective_id:
+          type: string
+          format: uuid
+        objective_type:
+          type: string
+          enum: [planning, training, exploration, problem_solving, creativity, risk_assessment]
+        description:
+          type: string
+        success_criteria:
+          type: array
+          items:
+            type: string
+        target_family_members:
+          type: array
+          items:
+            type: string
+            format: uuid
+
+    SimulationPlan:
+      type: object
+      required:
+        - plan_id
+        - simulation_stages
+      properties:
+        plan_id:
+          type: string
+          format: uuid
+        simulation_stages:
+          type: array
+          items:
+            $ref: '#/components/schemas/SimulationStage'
+        family_coordination:
+          $ref: '#/components/schemas/FamilyCoordination'
+        timeline:
+          $ref: '#/components/schemas/SimulationTimeline'
+
+    FamilySimulationHistory:
+      type: object
+      required:
+        - family_id
+        - simulation_summary
+      properties:
+        family_id:
+          type: string
+          format: uuid
+        simulation_summary:
+          $ref: '#/components/schemas/SimulationSummary'
+        individual_simulations:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              $ref: '#/components/schemas/IndividualSimulation'
+        simulation_insights:
+          type: array
+          items:
+            $ref: '#/components/schemas/SimulationInsight'
+        areas_for_exploration:
+          type: array
+          items:
+            type: string
+
+    Error:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        details:
+          type: object
+          additionalProperties: true
+
+  responses:
+    BadRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+  securitySchemes:
+    FamilyOSAuth:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://auth.familyos.local/oauth/authorize
+          tokenUrl: https://auth.familyos.local/oauth/token
+          scopes:
+            imagination:read: Read imagination information
+            imagination:execute: Execute imagination operations
+            family:imagination: Access family-wide imagination capabilities
+
+    ImaginationAuth:
+      type: http
+      scheme: bearer
+      description: Imagination service authentication

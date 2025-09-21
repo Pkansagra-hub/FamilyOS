@@ -1,0 +1,576 @@
+openapi: 3.1.0
+info:
+  title: MemoryOS Memory-Driven Learning Loop & Adaptive Intelligence
+  description: |
+    **Memory-Driven Learning Loop & Adaptive Intelligence Contract**
+
+    This contract defines the memory-driven learning loop and adaptive intelligence
+    capabilities for the Memory-Centric Family AI system based on Part 3 Architecture.
+
+    **Memory-Driven Learning Architecture:**
+    - **Memory Backbone Learning Core**: Learning coordination through memory experiences
+    - **Memory-Enhanced Specialized Learning**: Skills learned through memory patterns
+    - **Memory-Driven Meta-Learning & Transfer**: Learning about learning from memory patterns
+    - **Family Memory Social Learning**: Social learning from memory relationships
+    - **Memory Learning Feedback Integration**: Feedback integrated with memory backbone
+
+    **Learning Categories (From Part 3):**
+    1. **Memory-Informed Predictive Learning**: Predictions from memory experiences
+    2. **Memory-Driven Adaptive Controller**: Adaptation through memory insights
+    3. **Memory-Driven Procedural Learning**: Skills learned through memory patterns
+    4. **Memory Backbone Declarative Learning**: Facts integrated into memory knowledge
+    5. **Memory-Informed Reinforcement Learning**: Rewards evaluated through memory context
+    6. **Memory-Enhanced Social Learning**: Social learning from memory relationships
+    7. **Memory Meta-Learning**: Learning about learning from memory patterns
+    8. **Memory-Based Transfer Learning**: Knowledge transfer through memory connections
+    9. **Memory-Driven Curiosity Learning**: Curiosity guided by memory gaps
+
+    **Family Intelligence Integration:**
+    - Learning coordinated through family memory backbone
+    - Relationship-aware learning from family social contexts
+    - Emotional intelligence learning through family emotional memories
+    - Cross-device learning coordination through family memory sync
+    - Age-appropriate learning paths based on family member profiles
+
+    **Memory-Centric Learning Principles:**
+    - All learning builds upon and enhances family memory backbone
+    - Learning experiences are stored as family memories for future reference
+    - Social learning leverages family relationship dynamics and memories
+    - Adaptive learning considers family context and individual member needs
+    - Learning outcomes enhance family intelligence and coordination capabilities
+  version: "1.0.0"
+  contact:
+    name: MemoryOS Learning Platform Team
+    url: https://familyos.local/support/learning
+    email: learning-support@familyos.local
+  license:
+    name: Family OS Private License
+    url: https://familyos.local/licenses/family-os
+
+servers:
+  - url: https://learning.familyos.local/v1
+    description: Production Memory-Driven Learning Service
+  - url: https://staging-learning.familyos.local/v1
+    description: Staging Environment
+  - url: http://localhost:8084/learning/v1
+    description: Local Development
+
+security:
+  - FamilyOSAuth: []
+  - LearningAuth: []
+
+paths:
+  /learning/coordination:
+    post:
+      summary: Initialize Memory Learning Coordination
+      description: |
+        Initialize memory-driven learning coordination for family cognitive operations.
+        Orchestrates learning across memory experiences and family intelligence.
+      operationId: initializeMemoryLearningCoordination
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LearningCoordinationRequest'
+      responses:
+        '201':
+          description: Memory learning coordination initialized successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LearningCoordinationResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+
+  /learning/predictive:
+    post:
+      summary: Memory-Informed Predictive Learning
+      description: |
+        Execute memory-informed predictive learning based on family memory experiences
+        and patterns to enhance family intelligence predictions.
+      operationId: executeMemoryPredictiveLearning
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PredictiveLearningRequest'
+      responses:
+        '200':
+          description: Memory predictive learning executed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PredictiveLearningResponse'
+
+  /learning/adaptive:
+    post:
+      summary: Memory-Driven Adaptive Learning
+      description: |
+        Execute memory-driven adaptive learning that adjusts family AI behavior
+        based on memory insights and family context evolution.
+      operationId: executeMemoryAdaptiveLearning
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdaptiveLearningRequest'
+      responses:
+        '200':
+          description: Memory adaptive learning executed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdaptiveLearningResponse'
+
+  /learning/social:
+    post:
+      summary: Memory-Enhanced Social Learning
+      description: |
+        Execute memory-enhanced social learning from family relationships,
+        leveraging family memory patterns for social intelligence development.
+      operationId: executeMemorySocialLearning
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SocialLearningRequest'
+      responses:
+        '200':
+          description: Memory social learning executed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SocialLearningResponse'
+
+  /learning/procedural:
+    post:
+      summary: Memory-Driven Procedural Learning
+      description: |
+        Execute memory-driven procedural learning for skill development
+        based on family memory patterns and procedural knowledge.
+      operationId: executeMemoryProceduralLearning
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProceduralLearningRequest'
+      responses:
+        '200':
+          description: Memory procedural learning executed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProceduralLearningResponse'
+
+  /learning/meta:
+    post:
+      summary: Memory Meta-Learning
+      description: |
+        Execute memory meta-learning to learn about learning patterns
+        from family memory experiences and optimize learning strategies.
+      operationId: executeMemoryMetaLearning
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MetaLearningRequest'
+      responses:
+        '200':
+          description: Memory meta-learning executed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MetaLearningResponse'
+
+  /learning/transfer:
+    post:
+      summary: Memory-Based Transfer Learning
+      description: |
+        Execute memory-based transfer learning to apply knowledge across
+        family contexts and memory domains through memory connections.
+      operationId: executeMemoryTransferLearning
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TransferLearningRequest'
+      responses:
+        '200':
+          description: Memory transfer learning executed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransferLearningResponse'
+
+  /learning/curiosity:
+    post:
+      summary: Memory-Driven Curiosity Learning
+      description: |
+        Execute memory-driven curiosity learning guided by memory gaps
+        and family knowledge exploration opportunities.
+      operationId: executeMemoryCuriosityLearning
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CuriosityLearningRequest'
+      responses:
+        '200':
+          description: Memory curiosity learning executed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CuriosityLearningResponse'
+
+  /learning/feedback:
+    post:
+      summary: Memory Learning Feedback Integration
+      description: |
+        Integrate learning feedback into memory backbone to enhance
+        future learning and family intelligence capabilities.
+      operationId: integrateMemoryLearningFeedback
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LearningFeedbackRequest'
+      responses:
+        '200':
+          description: Memory learning feedback integrated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LearningFeedbackResponse'
+
+  /learning/family/{familyId}/progress:
+    get:
+      summary: Get Family Learning Progress
+      description: |
+        Retrieve comprehensive family learning progress across all
+        memory-driven learning systems and family member development.
+      operationId: getFamilyLearningProgress
+      parameters:
+        - name: familyId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: learningType
+          in: query
+          schema:
+            type: string
+            enum: [predictive, adaptive, social, procedural, meta, transfer, curiosity]
+        - name: timeframe
+          in: query
+          schema:
+            type: string
+            enum: [day, week, month, quarter, year]
+      responses:
+        '200':
+          description: Family learning progress retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FamilyLearningProgress'
+
+components:
+  schemas:
+    LearningCoordinationRequest:
+      type: object
+      required:
+        - family_context
+        - learning_objectives
+      properties:
+        family_context:
+          $ref: '#/components/schemas/FamilyContext'
+        learning_objectives:
+          type: array
+          items:
+            $ref: '#/components/schemas/LearningObjective'
+        memory_context:
+          $ref: '#/components/schemas/MemoryContext'
+        coordination_strategy:
+          type: string
+          enum: [parallel, sequential, adaptive, family_synchronized]
+
+    LearningCoordinationResponse:
+      type: object
+      required:
+        - coordination_id
+        - status
+        - learning_plan
+      properties:
+        coordination_id:
+          type: string
+          format: uuid
+        status:
+          type: string
+          enum: [initialized, active, paused, completed]
+        learning_plan:
+          $ref: '#/components/schemas/LearningPlan'
+        family_learning_goals:
+          type: array
+          items:
+            $ref: '#/components/schemas/FamilyLearningGoal'
+
+    PredictiveLearningRequest:
+      type: object
+      required:
+        - prediction_context
+        - family_context
+      properties:
+        prediction_context:
+          $ref: '#/components/schemas/PredictionContext'
+        family_context:
+          $ref: '#/components/schemas/FamilyContext'
+        memory_patterns:
+          type: array
+          items:
+            $ref: '#/components/schemas/MemoryPattern'
+        prediction_horizon:
+          type: string
+          enum: [immediate, short_term, medium_term, long_term]
+
+    PredictiveLearningResponse:
+      type: object
+      required:
+        - learning_id
+        - predictions
+        - confidence_metrics
+      properties:
+        learning_id:
+          type: string
+          format: uuid
+        predictions:
+          type: array
+          items:
+            $ref: '#/components/schemas/MemoryPrediction'
+        confidence_metrics:
+          $ref: '#/components/schemas/ConfidenceMetrics'
+        memory_basis:
+          type: array
+          items:
+            $ref: '#/components/schemas/MemoryReference'
+
+    AdaptiveLearningRequest:
+      type: object
+      required:
+        - adaptation_context
+        - family_context
+      properties:
+        adaptation_context:
+          $ref: '#/components/schemas/AdaptationContext'
+        family_context:
+          $ref: '#/components/schemas/FamilyContext'
+        performance_feedback:
+          $ref: '#/components/schemas/PerformanceFeedback'
+        adaptation_goals:
+          type: array
+          items:
+            type: string
+
+    AdaptiveLearningResponse:
+      type: object
+      required:
+        - learning_id
+        - adaptations
+        - performance_improvement
+      properties:
+        learning_id:
+          type: string
+          format: uuid
+        adaptations:
+          type: array
+          items:
+            $ref: '#/components/schemas/BehaviorAdaptation'
+        performance_improvement:
+          $ref: '#/components/schemas/PerformanceImprovement'
+        family_impact_assessment:
+          $ref: '#/components/schemas/FamilyImpactAssessment'
+
+    SocialLearningRequest:
+      type: object
+      required:
+        - social_context
+        - family_context
+      properties:
+        social_context:
+          $ref: '#/components/schemas/SocialContext'
+        family_context:
+          $ref: '#/components/schemas/FamilyContext'
+        relationship_patterns:
+          type: array
+          items:
+            $ref: '#/components/schemas/RelationshipPattern'
+        social_learning_type:
+          type: string
+          enum: [imitation, cooperation, communication, empathy, conflict_resolution]
+
+    SocialLearningResponse:
+      type: object
+      required:
+        - learning_id
+        - social_insights
+        - relationship_understanding
+      properties:
+        learning_id:
+          type: string
+          format: uuid
+        social_insights:
+          type: array
+          items:
+            $ref: '#/components/schemas/SocialInsight'
+        relationship_understanding:
+          $ref: '#/components/schemas/RelationshipUnderstanding'
+        family_social_intelligence:
+          $ref: '#/components/schemas/FamilySocialIntelligence'
+
+    FamilyContext:
+      type: object
+      required:
+        - family_id
+      properties:
+        family_id:
+          type: string
+          format: uuid
+        family_members:
+          type: array
+          items:
+            $ref: '#/components/schemas/FamilyMember'
+        family_dynamics:
+          $ref: '#/components/schemas/FamilyDynamics'
+        learning_preferences:
+          $ref: '#/components/schemas/FamilyLearningPreferences'
+
+    MemoryContext:
+      type: object
+      properties:
+        relevant_memories:
+          type: array
+          items:
+            $ref: '#/components/schemas/MemoryReference'
+        memory_space:
+          type: string
+          enum: [personal, selective, shared, extended, interfamily]
+        consolidation_state:
+          type: string
+          enum: [encoding, consolidating, consolidated, retrieving]
+
+    LearningObjective:
+      type: object
+      required:
+        - objective_id
+        - objective_type
+      properties:
+        objective_id:
+          type: string
+          format: uuid
+        objective_type:
+          type: string
+          enum: [skill_development, knowledge_acquisition, behavior_adaptation, social_learning]
+        description:
+          type: string
+        success_criteria:
+          type: array
+          items:
+            type: string
+        target_family_members:
+          type: array
+          items:
+            type: string
+            format: uuid
+
+    LearningPlan:
+      type: object
+      required:
+        - plan_id
+        - learning_stages
+      properties:
+        plan_id:
+          type: string
+          format: uuid
+        learning_stages:
+          type: array
+          items:
+            $ref: '#/components/schemas/LearningStage'
+        family_coordination:
+          $ref: '#/components/schemas/FamilyCoordination'
+        timeline:
+          $ref: '#/components/schemas/LearningTimeline'
+
+    FamilyLearningProgress:
+      type: object
+      required:
+        - family_id
+        - overall_progress
+      properties:
+        family_id:
+          type: string
+          format: uuid
+        overall_progress:
+          type: number
+          minimum: 0
+          maximum: 1
+        individual_progress:
+          type: object
+          additionalProperties:
+            type: number
+            minimum: 0
+            maximum: 1
+        learning_achievements:
+          type: array
+          items:
+            $ref: '#/components/schemas/LearningAchievement'
+        areas_for_improvement:
+          type: array
+          items:
+            type: string
+
+    Error:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        details:
+          type: object
+          additionalProperties: true
+
+  responses:
+    BadRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+  securitySchemes:
+    FamilyOSAuth:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://auth.familyos.local/oauth/authorize
+          tokenUrl: https://auth.familyos.local/oauth/token
+          scopes:
+            learning:read: Read learning information
+            learning:execute: Execute learning operations
+            family:learning: Access family-wide learning capabilities
+
+    LearningAuth:
+      type: http
+      scheme: bearer
+      description: Learning service authentication

@@ -1,0 +1,151 @@
+# MemoryOS Staging - Service and Ingress Configuration
+# Sub-issue #6.3: Complete staging deployment infrastructure
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: memoryos-api-service
+  namespace: memoryos-staging
+  labels:
+    app: memoryos-api
+    environment: staging
+spec:
+  type: ClusterIP
+  ports:
+  - port: 80
+    targetPort: 8000
+    protocol: TCP
+    name: http
+  selector:
+    app: memoryos-api
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: memoryos-api-ingress
+  namespace: memoryos-staging
+  labels:
+    app: memoryos-api
+    environment: staging
+  annotations:
+    kubernetes.io/ingress.class: "nginx"
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    cert-manager.io/cluster-issuer: "letsencrypt-staging"
+spec:
+  tls:
+  - hosts:
+    - staging-api.memoryos.local
+    secretName: memoryos-staging-tls
+  rules:
+  - host: staging-api.memoryos.local
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: memoryos-api-service
+            port:
+              number: 80
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: memoryos-api-config
+  namespace: memoryos-staging
+  labels:
+    app: memoryos-api
+    environment: staging
+data:
+  # Environment configuration
+  ENVIRONMENT: "staging"
+  LOG_LEVEL: "INFO"
+  API_PORT: "8000"
+
+  # Database configuration (staging)
+  DATABASE_HOST: "postgres-staging.memoryos-staging.svc.cluster.local"
+  DATABASE_PORT: "5432"
+  DATABASE_NAME: "memoryos_staging"
+
+  # Redis configuration (staging)
+  REDIS_HOST: "redis-staging.memoryos-staging.svc.cluster.local"
+  REDIS_PORT: "6379"
+  REDIS_DB: "0"
+
+  # API configuration
+  API_VERSION: "v1"
+  API_PREFIX: "/v1"
+
+  # Security configuration
+  CORS_ORIGINS: "https://staging.memoryos.local,https://staging-api.memoryos.local"
+
+  # Feature flags for staging
+  ENABLE_DEBUG_ENDPOINTS: "true"
+  ENABLE_PERFORMANCE_METRICS: "true"
+  ENABLE_DETAILED_LOGGING: "true"
+
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: memoryos-api-secrets
+  namespace: memoryos-staging
+  labels:
+    app: memoryos-api
+    environment: staging
+type: Opaque
+data:
+  # Base64 encoded secrets (these should be set via CI/CD or external secret management)
+  DATABASE_PASSWORD: "c3RhZ2luZ19wYXNzd29yZA==" # staging_password
+  REDIS_PASSWORD: "c3RhZ2luZ19yZWRpc19wYXNzd29yZA==" # staging_redis_password
+  JWT_SECRET_KEY: "c3RhZ2luZ19qd3Rfc2VjcmV0X2tleQ==" # staging_jwt_secret_key
+  API_SECRET_KEY: "c3RhZ2luZ19hcGlfc2VjcmV0X2tleQ==" # staging_api_secret_key
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: memoryos-api
+  namespace: memoryos-staging
+  labels:
+    app: memoryos-api
+    environment: staging
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: memoryos-staging
+  name: memoryos-api-role
+  labels:
+    app: memoryos-api
+    environment: staging
+rules:
+- apiGroups: [""]
+  resources: ["configmaps", "secrets"]
+  verbs: ["get", "list"]
+- apiGroups: [""]
+  resources: ["pods"]
+  verbs: ["get", "list"]
+
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: memoryos-api-binding
+  namespace: memoryos-staging
+  labels:
+    app: memoryos-api
+    environment: staging
+subjects:
+- kind: ServiceAccount
+  name: memoryos-api
+  namespace: memoryos-staging
+roleRef:
+  kind: Role
+  name: memoryos-api-role
+  apiGroup: rbac.authorization.k8s.io

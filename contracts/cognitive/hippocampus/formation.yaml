@@ -1,0 +1,1356 @@
+openapi: 3.1.0
+info:
+  title: Memory-Centric Family AI - Hippocampal Memory Formation
+  description: |
+    **Hippocampal Memory Formation Contract**
+
+    This contract defines the hippocampal memory formation protocols for the Memory-Centric Family AI system, implementing neuroscience-inspired memory processing with family context awareness.
+
+    **Hippocampal Architecture (Brain-Inspired):**
+    - **Dentate Gyrus (DG)**: Pattern separation for encoding distinct family memories and experiences
+    - **CA3 Region**: Pattern completion and associative memory formation with family relationship context
+    - **CA1 Region**: Cortical binding and memory consolidation with family emotional context
+    - **Theta Rhythm**: Coordinated oscillations for optimal encoding and retrieval timing
+
+    **Family Memory Formation Process:**
+    1. **Input Processing**: Family interactions and experiences enter the hippocampal formation
+    2. **Pattern Separation (DG)**: Distinguish unique family events and contexts to prevent interference
+    3. **Associative Binding (CA3)**: Form rich associations between family members, emotions, and contexts
+    4. **Cortical Integration (CA1)**: Bind hippocampal representations with existing family knowledge
+    5. **Consolidation**: Transfer important family memories to long-term storage with relationship preservation
+
+    **Memory-Centric Design Principles:**
+    - Family relationship awareness throughout all hippocampal processing stages
+    - Emotional context preservation for authentic family memory formation
+    - Privacy-preserving memory encoding with family consent and transparency
+    - Cross-device memory formation with E2EE sync for family coherence
+    - Age-appropriate memory filtering and family safety protocols
+
+    **Integration with Memory Backbone:**
+    - Direct interface to episodic memory storage for family context preservation
+    - Coordination with family intelligence for relationship-aware processing
+    - Integration with emotional processing for family affect understanding
+    - Support for device-local processing with family memory sync capabilities
+  version: "1.0.0"
+  contact:
+    name: MemoryOS Cognitive Architecture Team
+    url: https://familyos.local/support/cognitive
+    email: cognitive-support@familyos.local
+  license:
+    name: Family OS Private License
+    url: https://familyos.local/licenses/family-os
+
+servers:
+  - url: https://cognitive.familyos.local/hippocampus/v1
+    description: Production Hippocampal Formation Service
+  - url: https://staging-cognitive.familyos.local/hippocampus/v1
+    description: Staging Environment
+  - url: http://localhost:8081/hippocampus/v1
+    description: Local Development
+
+security:
+  - CognitiveAuth: []
+  - FamilyOSAuth: []
+
+tags:
+  - name: pattern-separation
+    description: Dentate Gyrus pattern separation for distinct family memory encoding
+  - name: pattern-completion
+    description: CA3 pattern completion and associative memory formation
+  - name: cortical-binding
+    description: CA1 cortical binding and memory consolidation
+  - name: theta-rhythm
+    description: Theta rhythm coordination for optimal memory formation
+  - name: family-context
+    description: Family relationship and emotional context processing
+  - name: consolidation
+    description: Memory consolidation and long-term storage transfer
+
+paths:
+  # Pattern Separation (Dentate Gyrus)
+  /pattern-separation/encode:
+    post:
+      tags: [pattern-separation]
+      summary: Encode Distinct Family Memory Pattern
+      description: |
+        Perform pattern separation in the Dentate Gyrus to encode distinct family memories
+        and experiences. This prevents interference between similar family events while
+        preserving unique contextual details and relationship dynamics.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                input_pattern:
+                  $ref: '#/components/schemas/FamilyMemoryInput'
+                family_context:
+                  $ref: '#/components/schemas/FamilyContext'
+                separation_parameters:
+                  $ref: '#/components/schemas/PatternSeparationParams'
+                privacy_requirements:
+                  $ref: '#/components/schemas/PrivacyRequirements'
+              required: [input_pattern, family_context]
+      responses:
+        '200':
+          description: Pattern separation completed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  separated_pattern:
+                    $ref: '#/components/schemas/SeparatedPattern'
+                  pattern_id:
+                    type: string
+                    format: uuid
+                  separation_quality:
+                    $ref: '#/components/schemas/SeparationQuality'
+                  family_distinctiveness:
+                    type: number
+                    minimum: 0
+                    maximum: 1
+                    description: How distinct this pattern is from other family memories
+                  processing_metadata:
+                    $ref: '#/components/schemas/ProcessingMetadata'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /pattern-separation/similarity:
+    post:
+      tags: [pattern-separation]
+      summary: Check Pattern Similarity
+      description: |
+        Check similarity between new family memory patterns and existing patterns
+        to determine if pattern separation is needed and estimate interference risk.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                query_pattern:
+                  $ref: '#/components/schemas/FamilyMemoryInput'
+                reference_patterns:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/FamilyMemoryPattern'
+                family_context:
+                  $ref: '#/components/schemas/FamilyContext'
+              required: [query_pattern, family_context]
+      responses:
+        '200':
+          description: Similarity analysis completed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  similarity_scores:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/PatternSimilarity'
+                  interference_risk:
+                    type: number
+                    minimum: 0
+                    maximum: 1
+                  separation_recommended:
+                    type: boolean
+                  family_pattern_conflicts:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/FamilyPatternConflict'
+
+  # Pattern Completion (CA3)
+  /pattern-completion/associate:
+    post:
+      tags: [pattern-completion]
+      summary: Form Associative Family Memory
+      description: |
+        Perform pattern completion in CA3 to form rich associative memories between
+        family members, emotions, contexts, and experiences. Creates comprehensive
+        family memory networks with relationship awareness.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                partial_pattern:
+                  $ref: '#/components/schemas/PartialPattern'
+                family_context:
+                  $ref: '#/components/schemas/FamilyContext'
+                association_parameters:
+                  $ref: '#/components/schemas/AssociationParameters'
+                existing_associations:
+                  type: array
+                  items:
+                    $ref: '#/components/schemas/FamilyAssociation'
+              required: [partial_pattern, family_context]
+      responses:
+        '200':
+          description: Pattern completion successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  completed_pattern:
+                    $ref: '#/components/schemas/CompletedPattern'
+                  family_associations:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/FamilyAssociation'
+                  completion_confidence:
+                    type: number
+                    minimum: 0
+                    maximum: 1
+                  relationship_strength:
+                    type: number
+                    minimum: 0
+                    maximum: 1
+                  emotional_coherence:
+                    type: number
+                    minimum: 0
+                    maximum: 1
+
+  /pattern-completion/retrieve:
+    post:
+      tags: [pattern-completion]
+      summary: Retrieve Associated Family Memories
+      description: |
+        Use pattern completion to retrieve associated family memories based on
+        partial cues, relationship context, or emotional triggers.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                retrieval_cue:
+                  $ref: '#/components/schemas/RetrievalCue'
+                family_context:
+                  $ref: '#/components/schemas/FamilyContext'
+                retrieval_parameters:
+                  $ref: '#/components/schemas/RetrievalParameters'
+              required: [retrieval_cue, family_context]
+      responses:
+        '200':
+          description: Memory retrieval completed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  retrieved_memories:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/RetrievedMemory'
+                  retrieval_confidence:
+                    type: number
+                    minimum: 0
+                    maximum: 1
+                  family_relevance:
+                    type: number
+                    minimum: 0
+                    maximum: 1
+                  emotional_coherence:
+                    type: number
+                    minimum: 0
+                    maximum: 1
+
+  # Cortical Binding (CA1)
+  /cortical-binding/integrate:
+    post:
+      tags: [cortical-binding]
+      summary: Integrate with Family Knowledge
+      description: |
+        Perform cortical binding in CA1 to integrate hippocampal memory representations
+        with existing family knowledge, semantic understanding, and long-term memories.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                hippocampal_pattern:
+                  $ref: '#/components/schemas/HippocampalPattern'
+                cortical_context:
+                  $ref: '#/components/schemas/CorticalContext'
+                family_knowledge:
+                  $ref: '#/components/schemas/FamilyKnowledge'
+                binding_parameters:
+                  $ref: '#/components/schemas/BindingParameters'
+              required: [hippocampal_pattern, cortical_context, family_knowledge]
+      responses:
+        '200':
+          description: Cortical binding completed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  bound_representation:
+                    $ref: '#/components/schemas/BoundRepresentation'
+                  binding_strength:
+                    type: number
+                    minimum: 0
+                    maximum: 1
+                  knowledge_integration:
+                    type: number
+                    minimum: 0
+                    maximum: 1
+                  family_coherence:
+                    type: number
+                    minimum: 0
+                    maximum: 1
+                  consolidation_readiness:
+                    type: number
+                    minimum: 0
+                    maximum: 1
+
+  /cortical-binding/consolidate:
+    post:
+      tags: [cortical-binding, consolidation]
+      summary: Initiate Memory Consolidation
+      description: |
+        Initiate the consolidation process to transfer important family memories
+        from hippocampal storage to long-term cortical storage with relationship
+        and emotional context preservation.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                bound_memory:
+                  $ref: '#/components/schemas/BoundRepresentation'
+                consolidation_criteria:
+                  $ref: '#/components/schemas/ConsolidationCriteria'
+                family_importance:
+                  $ref: '#/components/schemas/FamilyImportance'
+              required: [bound_memory, consolidation_criteria]
+      responses:
+        '200':
+          description: Consolidation initiated
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  consolidation_id:
+                    type: string
+                    format: uuid
+                  consolidation_stage:
+                    type: string
+                    enum: [initiated, processing, completed, failed]
+                  estimated_duration:
+                    type: integer
+                    description: Estimated consolidation time in minutes
+                  family_memory_priority:
+                    type: integer
+                    minimum: 1
+                    maximum: 10
+
+  # Theta Rhythm Coordination
+  /theta-rhythm/synchronize:
+    post:
+      tags: [theta-rhythm]
+      summary: Synchronize Theta Oscillations
+      description: |
+        Coordinate theta rhythm oscillations for optimal memory encoding and retrieval
+        timing across the hippocampal formation with family context awareness.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                operation_type:
+                  type: string
+                  enum: [encoding, retrieval, consolidation]
+                family_context:
+                  $ref: '#/components/schemas/FamilyContext'
+                theta_parameters:
+                  $ref: '#/components/schemas/ThetaParameters'
+              required: [operation_type, family_context]
+      responses:
+        '200':
+          description: Theta synchronization successful
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  theta_state:
+                    $ref: '#/components/schemas/ThetaState'
+                  synchronization_quality:
+                    type: number
+                    minimum: 0
+                    maximum: 1
+                  optimal_timing_window:
+                    type: integer
+                    description: Optimal processing window in milliseconds
+                  family_rhythm_coherence:
+                    type: number
+                    minimum: 0
+                    maximum: 1
+
+  # Family Context Processing
+  /family-context/analyze:
+    post:
+      tags: [family-context]
+      summary: Analyze Family Relationship Context
+      description: |
+        Analyze family relationship context, emotional dynamics, and social interactions
+        to inform hippocampal memory formation with appropriate family awareness.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                memory_input:
+                  $ref: '#/components/schemas/FamilyMemoryInput'
+                relationship_context:
+                  $ref: '#/components/schemas/RelationshipContext'
+                emotional_context:
+                  $ref: '#/components/schemas/EmotionalContext'
+              required: [memory_input, relationship_context]
+      responses:
+        '200':
+          description: Family context analysis completed
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  analyzed_context:
+                    $ref: '#/components/schemas/AnalyzedFamilyContext'
+                  relationship_dynamics:
+                    $ref: '#/components/schemas/RelationshipDynamics'
+                  emotional_significance:
+                    type: number
+                    minimum: 0
+                    maximum: 1
+                  family_importance:
+                    type: number
+                    minimum: 0
+                    maximum: 1
+                  memory_formation_recommendations:
+                    type: array
+                    items:
+                      type: string
+
+  # Health and Status
+  /health:
+    get:
+      tags: [system]
+      summary: Hippocampal Formation Health
+      description: Check health status of hippocampal formation processes
+      responses:
+        '200':
+          description: Health status
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    enum: [healthy, degraded, unhealthy]
+                  dg_status:
+                    $ref: '#/components/schemas/RegionStatus'
+                  ca3_status:
+                    $ref: '#/components/schemas/RegionStatus'
+                  ca1_status:
+                    $ref: '#/components/schemas/RegionStatus'
+                  theta_rhythm_status:
+                    $ref: '#/components/schemas/ThetaRhythmStatus'
+                  family_processing_status:
+                    $ref: '#/components/schemas/FamilyProcessingStatus'
+
+components:
+  securitySchemes:
+    CognitiveAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: Cognitive system authentication token
+
+    FamilyOSAuth:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://auth.familyos.local/oauth/authorize
+          tokenUrl: https://auth.familyos.local/oauth/token
+          scopes:
+            cognitive:hippocampus: Access to hippocampal formation
+            memory:formation: Memory formation capabilities
+            family:context: Family context processing
+
+  schemas:
+    # Input Schemas
+    FamilyMemoryInput:
+      type: object
+      properties:
+        content:
+          type: object
+          description: Raw memory content (encrypted)
+        sensory_data:
+          type: object
+          description: Sensory input data
+        temporal_context:
+          $ref: '#/components/schemas/TemporalContext'
+        social_context:
+          $ref: '#/components/schemas/SocialContext'
+        emotional_markers:
+          type: array
+          items:
+            $ref: '#/components/schemas/EmotionalMarker'
+        device_context:
+          $ref: '#/components/schemas/DeviceContext'
+      required: [content, temporal_context]
+
+    FamilyContext:
+      type: object
+      properties:
+        family_id:
+          type: string
+          format: uuid
+        relationship_context:
+          type: string
+          description: Active relationship context (e.g., 'ab', 'abc', 'family')
+        participants:
+          type: array
+          items:
+            type: string
+            format: uuid
+        family_dynamics:
+          $ref: '#/components/schemas/FamilyDynamics'
+        privacy_level:
+          type: string
+          enum: [personal, selective, shared, extended, interfamily]
+        supervision_context:
+          $ref: '#/components/schemas/SupervisionContext'
+      required: [family_id, relationship_context, privacy_level]
+
+    # Pattern Processing Schemas
+    PatternSeparationParams:
+      type: object
+      properties:
+        separation_threshold:
+          type: number
+          minimum: 0
+          maximum: 1
+          default: 0.7
+        family_distinctiveness_weight:
+          type: number
+          minimum: 0
+          maximum: 1
+          default: 0.8
+        emotional_separation_factor:
+          type: number
+          minimum: 0
+          maximum: 1
+          default: 0.6
+        temporal_separation_window:
+          type: integer
+          description: Time window for temporal separation in minutes
+        relationship_aware_separation:
+          type: boolean
+          default: true
+
+    SeparatedPattern:
+      type: object
+      properties:
+        pattern_id:
+          type: string
+          format: uuid
+        separated_features:
+          type: object
+          description: Pattern features after separation
+        distinctiveness_score:
+          type: number
+          minimum: 0
+          maximum: 1
+        family_uniqueness:
+          type: number
+          minimum: 0
+          maximum: 1
+        interference_resistance:
+          type: number
+          minimum: 0
+          maximum: 1
+        separation_metadata:
+          type: object
+
+    SeparationQuality:
+      type: object
+      properties:
+        overall_quality:
+          type: number
+          minimum: 0
+          maximum: 1
+        feature_distinctiveness:
+          type: number
+          minimum: 0
+          maximum: 1
+        family_coherence:
+          type: number
+          minimum: 0
+          maximum: 1
+        temporal_distinctiveness:
+          type: number
+          minimum: 0
+          maximum: 1
+        emotional_distinctiveness:
+          type: number
+          minimum: 0
+          maximum: 1
+
+    # Association and Completion Schemas
+    AssociationParameters:
+      type: object
+      properties:
+        association_strength_threshold:
+          type: number
+          minimum: 0
+          maximum: 1
+          default: 0.5
+        family_relationship_weight:
+          type: number
+          minimum: 0
+          maximum: 1
+          default: 0.8
+        emotional_association_weight:
+          type: number
+          minimum: 0
+          maximum: 1
+          default: 0.7
+        temporal_association_window:
+          type: integer
+          description: Time window for temporal associations in hours
+        max_associations:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 20
+
+    FamilyAssociation:
+      type: object
+      properties:
+        association_id:
+          type: string
+          format: uuid
+        source_element:
+          type: object
+        target_element:
+          type: object
+        association_type:
+          type: string
+          enum: [emotional, temporal, causal, similarity, family_relationship]
+        strength:
+          type: number
+          minimum: 0
+          maximum: 1
+        family_relevance:
+          type: number
+          minimum: 0
+          maximum: 1
+        relationship_type:
+          type: string
+        confidence:
+          type: number
+          minimum: 0
+          maximum: 1
+
+    CompletedPattern:
+      type: object
+      properties:
+        pattern_id:
+          type: string
+          format: uuid
+        completed_features:
+          type: object
+        completion_confidence:
+          type: number
+          minimum: 0
+          maximum: 1
+        family_associations:
+          type: array
+          items:
+            $ref: '#/components/schemas/FamilyAssociation'
+        emotional_coherence:
+          type: number
+          minimum: 0
+          maximum: 1
+        relationship_coherence:
+          type: number
+          minimum: 0
+          maximum: 1
+
+    # Retrieval Schemas
+    RetrievalCue:
+      type: object
+      properties:
+        cue_type:
+          type: string
+          enum: [semantic, episodic, emotional, temporal, relational]
+        cue_content:
+          type: object
+        family_context_cue:
+          type: object
+        emotional_cue:
+          $ref: '#/components/schemas/EmotionalMarker'
+        temporal_cue:
+          $ref: '#/components/schemas/TemporalContext'
+        relationship_cue:
+          type: string
+
+    RetrievedMemory:
+      type: object
+      properties:
+        memory_id:
+          type: string
+          format: uuid
+        memory_content:
+          type: object
+        retrieval_confidence:
+          type: number
+          minimum: 0
+          maximum: 1
+        family_relevance:
+          type: number
+          minimum: 0
+          maximum: 1
+        emotional_match:
+          type: number
+          minimum: 0
+          maximum: 1
+        temporal_proximity:
+          type: number
+          minimum: 0
+          maximum: 1
+        relationship_relevance:
+          type: number
+          minimum: 0
+          maximum: 1
+
+    # Cortical Binding Schemas
+    HippocampalPattern:
+      type: object
+      properties:
+        pattern_id:
+          type: string
+          format: uuid
+        dg_representation:
+          type: object
+        ca3_representation:
+          type: object
+        family_associations:
+          type: array
+          items:
+            $ref: '#/components/schemas/FamilyAssociation'
+        emotional_encoding:
+          type: object
+        temporal_encoding:
+          type: object
+
+    CorticalContext:
+      type: object
+      properties:
+        existing_knowledge:
+          type: object
+        semantic_networks:
+          type: object
+        family_schemas:
+          type: object
+        emotional_frameworks:
+          type: object
+        relationship_models:
+          type: object
+
+    FamilyKnowledge:
+      type: object
+      properties:
+        family_structure:
+          type: object
+        relationship_patterns:
+          type: object
+        family_history:
+          type: object
+        emotional_patterns:
+          type: object
+        behavioral_patterns:
+          type: object
+        family_preferences:
+          type: object
+
+    BoundRepresentation:
+      type: object
+      properties:
+        representation_id:
+          type: string
+          format: uuid
+        hippocampal_component:
+          type: object
+        cortical_component:
+          type: object
+        binding_strength:
+          type: number
+          minimum: 0
+          maximum: 1
+        family_integration:
+          type: number
+          minimum: 0
+          maximum: 1
+        knowledge_coherence:
+          type: number
+          minimum: 0
+          maximum: 1
+        consolidation_readiness:
+          type: number
+          minimum: 0
+          maximum: 1
+
+    # Consolidation Schemas
+    ConsolidationCriteria:
+      type: object
+      properties:
+        importance_threshold:
+          type: number
+          minimum: 0
+          maximum: 1
+          default: 0.7
+        family_relevance_threshold:
+          type: number
+          minimum: 0
+          maximum: 1
+          default: 0.6
+        emotional_significance_threshold:
+          type: number
+          minimum: 0
+          maximum: 1
+          default: 0.5
+        repetition_count:
+          type: integer
+          minimum: 1
+        time_since_encoding:
+          type: integer
+          description: Time since encoding in hours
+        consolidation_priority:
+          type: string
+          enum: [low, normal, high, critical]
+
+    FamilyImportance:
+      type: object
+      properties:
+        family_milestone:
+          type: boolean
+        relationship_significance:
+          type: number
+          minimum: 0
+          maximum: 1
+        emotional_impact:
+          type: number
+          minimum: 0
+          maximum: 1
+        learning_value:
+          type: number
+          minimum: 0
+          maximum: 1
+        future_relevance:
+          type: number
+          minimum: 0
+          maximum: 1
+
+    # Theta Rhythm Schemas
+    ThetaParameters:
+      type: object
+      properties:
+        frequency_hz:
+          type: number
+          minimum: 4
+          maximum: 12
+          default: 7
+        amplitude:
+          type: number
+          minimum: 0
+          maximum: 1
+          default: 0.8
+        phase_preference:
+          type: number
+          minimum: 0
+          maximum: 360
+        synchronization_window:
+          type: integer
+          description: Synchronization window in milliseconds
+        family_coherence_mode:
+          type: boolean
+          default: true
+
+    ThetaState:
+      type: object
+      properties:
+        current_frequency:
+          type: number
+        current_amplitude:
+          type: number
+        phase_coherence:
+          type: number
+          minimum: 0
+          maximum: 1
+        synchronization_quality:
+          type: number
+          minimum: 0
+          maximum: 1
+        optimal_for_operation:
+          type: boolean
+        family_rhythm_alignment:
+          type: number
+          minimum: 0
+          maximum: 1
+
+    # Context Analysis Schemas
+    RelationshipContext:
+      type: object
+      properties:
+        active_relationships:
+          type: array
+          items:
+            type: object
+            properties:
+              member_a:
+                type: string
+                format: uuid
+              member_b:
+                type: string
+                format: uuid
+              relationship_type:
+                type: string
+              relationship_quality:
+                type: number
+                minimum: 0
+                maximum: 1
+        group_dynamics:
+          type: object
+        communication_patterns:
+          type: object
+        emotional_climate:
+          type: object
+
+    EmotionalContext:
+      type: object
+      properties:
+        dominant_emotion:
+          type: string
+        emotional_intensity:
+          type: number
+          minimum: 0
+          maximum: 1
+        emotional_valence:
+          type: number
+          minimum: -1
+          maximum: 1
+        family_emotional_state:
+          type: object
+        emotional_contagion:
+          type: boolean
+        regulation_needed:
+          type: boolean
+
+    AnalyzedFamilyContext:
+      type: object
+      properties:
+        context_id:
+          type: string
+          format: uuid
+        relationship_analysis:
+          type: object
+        emotional_analysis:
+          type: object
+        social_dynamics:
+          type: object
+        context_significance:
+          type: number
+          minimum: 0
+          maximum: 1
+        memory_formation_impact:
+          type: object
+
+    # Supporting Schemas
+    TemporalContext:
+      type: object
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+        time_of_day:
+          type: string
+        day_of_week:
+          type: string
+        seasonal_context:
+          type: string
+        family_schedule_context:
+          type: object
+
+    SocialContext:
+      type: object
+      properties:
+        participants:
+          type: array
+          items:
+            type: string
+            format: uuid
+        social_setting:
+          type: string
+        interaction_type:
+          type: string
+        privacy_level:
+          type: string
+        group_size:
+          type: integer
+
+    EmotionalMarker:
+      type: object
+      properties:
+        emotion_type:
+          type: string
+        intensity:
+          type: number
+          minimum: 0
+          maximum: 1
+        valence:
+          type: number
+          minimum: -1
+          maximum: 1
+        confidence:
+          type: number
+          minimum: 0
+          maximum: 1
+        source:
+          type: string
+          enum: [facial, vocal, textual, contextual]
+
+    DeviceContext:
+      type: object
+      properties:
+        device_id:
+          type: string
+        device_type:
+          type: string
+        location:
+          type: object
+        network_status:
+          type: string
+        privacy_mode:
+          type: boolean
+
+    # Status and Health Schemas
+    RegionStatus:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [healthy, degraded, unhealthy]
+        processing_latency_ms:
+          type: integer
+        memory_utilization:
+          type: number
+          minimum: 0
+          maximum: 1
+        error_rate:
+          type: number
+          minimum: 0
+          maximum: 1
+        last_successful_operation:
+          type: string
+          format: date-time
+
+    ThetaRhythmStatus:
+      type: object
+      properties:
+        rhythm_active:
+          type: boolean
+        frequency_stability:
+          type: number
+          minimum: 0
+          maximum: 1
+        phase_coherence:
+          type: number
+          minimum: 0
+          maximum: 1
+        synchronization_quality:
+          type: number
+          minimum: 0
+          maximum: 1
+
+    FamilyProcessingStatus:
+      type: object
+      properties:
+        family_context_processing:
+          type: boolean
+        relationship_analysis_active:
+          type: boolean
+        emotional_processing_active:
+          type: boolean
+        privacy_compliance:
+          type: boolean
+        family_memory_formation_rate:
+          type: number
+          description: Memories formed per hour
+
+    ProcessingMetadata:
+      type: object
+      properties:
+        processing_time_ms:
+          type: integer
+        computational_cost:
+          type: number
+        memory_usage_mb:
+          type: number
+        quality_metrics:
+          type: object
+        family_compliance_verified:
+          type: boolean
+
+    # Additional Supporting Schemas
+    FamilyMemoryPattern:
+      type: object
+      properties:
+        pattern_id:
+          type: string
+          format: uuid
+        family_signature:
+          type: object
+        emotional_signature:
+          type: object
+        temporal_signature:
+          type: object
+        relationship_signature:
+          type: object
+
+    PatternSimilarity:
+      type: object
+      properties:
+        pattern_id:
+          type: string
+          format: uuid
+        similarity_score:
+          type: number
+          minimum: 0
+          maximum: 1
+        similarity_type:
+          type: string
+        family_overlap:
+          type: number
+          minimum: 0
+          maximum: 1
+
+    FamilyPatternConflict:
+      type: object
+      properties:
+        conflict_id:
+          type: string
+          format: uuid
+        conflicting_patterns:
+          type: array
+          items:
+            type: string
+            format: uuid
+        conflict_type:
+          type: string
+        severity:
+          type: string
+          enum: [low, medium, high, critical]
+        resolution_recommendation:
+          type: string
+
+    PartialPattern:
+      type: object
+      properties:
+        available_features:
+          type: object
+        missing_features:
+          type: array
+          items:
+            type: string
+        confidence_in_partial:
+          type: number
+          minimum: 0
+          maximum: 1
+        family_context_available:
+          type: boolean
+
+    RetrievalParameters:
+      type: object
+      properties:
+        max_results:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 10
+        confidence_threshold:
+          type: number
+          minimum: 0
+          maximum: 1
+          default: 0.5
+        family_relevance_weight:
+          type: number
+          minimum: 0
+          maximum: 1
+          default: 0.8
+        temporal_recency_weight:
+          type: number
+          minimum: 0
+          maximum: 1
+          default: 0.6
+        emotional_relevance_weight:
+          type: number
+          minimum: 0
+          maximum: 1
+          default: 0.7
+
+    BindingParameters:
+      type: object
+      properties:
+        binding_strength_threshold:
+          type: number
+          minimum: 0
+          maximum: 1
+          default: 0.6
+        knowledge_integration_weight:
+          type: number
+          minimum: 0
+          maximum: 1
+          default: 0.7
+        family_coherence_weight:
+          type: number
+          minimum: 0
+          maximum: 1
+          default: 0.8
+        consolidation_readiness_threshold:
+          type: number
+          minimum: 0
+          maximum: 1
+          default: 0.7
+
+    FamilyDynamics:
+      type: object
+      properties:
+        current_mood:
+          type: string
+        interaction_quality:
+          type: number
+          minimum: 0
+          maximum: 1
+        communication_openness:
+          type: number
+          minimum: 0
+          maximum: 1
+        conflict_level:
+          type: number
+          minimum: 0
+          maximum: 1
+        cooperation_level:
+          type: number
+          minimum: 0
+          maximum: 1
+
+    SupervisionContext:
+      type: object
+      properties:
+        supervision_required:
+          type: boolean
+        supervisor_present:
+          type: boolean
+        supervisor_id:
+          type: string
+          format: uuid
+        supervision_level:
+          type: string
+          enum: [none, passive, active, intensive]
+
+    RelationshipDynamics:
+      type: object
+      properties:
+        relationship_strength:
+          type: number
+          minimum: 0
+          maximum: 1
+        communication_quality:
+          type: number
+          minimum: 0
+          maximum: 1
+        emotional_connection:
+          type: number
+          minimum: 0
+          maximum: 1
+        conflict_resolution:
+          type: number
+          minimum: 0
+          maximum: 1
+        trust_level:
+          type: number
+          minimum: 0
+          maximum: 1
+
+    PrivacyRequirements:
+      type: object
+      properties:
+        encryption_required:
+          type: boolean
+        family_access_level:
+          type: string
+          enum: [personal, selective, shared, extended, interfamily]
+        age_appropriate_filtering:
+          type: boolean
+        consent_required:
+          type: boolean
+        audit_required:
+          type: boolean
+
+    # Error Schema
+    CognitiveError:
+      type: object
+      properties:
+        error_code:
+          type: string
+        error_message:
+          type: string
+        error_context:
+          type: object
+        suggested_actions:
+          type: array
+          items:
+            type: string
+        family_impact:
+          type: string
+          enum: [none, minimal, moderate, significant]
+      required: [error_code, error_message]
+
+  responses:
+    BadRequest:
+      description: Invalid request parameters or malformed data
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CognitiveError'
+
+    Forbidden:
+      description: Insufficient permissions for cognitive operation
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/CognitiveError'

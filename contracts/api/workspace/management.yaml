@@ -1,0 +1,1356 @@
+openapi: 3.1.0
+info:
+  title: MemoryOS App Workspace Contract
+  version: "1.0.0"
+  description: |
+    **Memory-Centric Family AI App Workspace Contract**
+
+    This contract defines the application workspace capabilities for the Memory-Centric Family AI system,
+    providing workspace management with family coordination, memory-driven organization, cognitive insights,
+    shared workspace capabilities, and collaborative family workspaces.
+
+    **Memory-Driven Workspace Architecture:**
+    - **Memory Backbone Workspace Organization**: Workspaces organized through memory experiences
+    - **Memory-Enhanced Cognitive Workspace Insights**: Workspace insights based on memory patterns
+    - **Memory-Driven Family Workspace Coordination**: Workspaces coordinated across family context
+    - **Family Memory Workspace Sharing**: Workspaces shared and collaborated through family memory
+    - **Memory-Based Workspace Optimization**: Workspace layout and functionality optimized through memory insights
+
+    **Workspace Categories:**
+    1. **Memory-Informed Personal Workspaces**: Individual workspaces with memory-driven organization
+    2. **Memory-Driven Shared Family Workspaces**: Collaborative family workspaces with memory coordination
+    3. **Memory-Enhanced Project Workspaces**: Project-focused workspaces with memory-driven insights
+    4. **Memory-Based Learning Workspaces**: Educational workspaces with cognitive learning integration
+    5. **Memory-Coordinated Creative Workspaces**: Creative collaboration with family memory context
+    6. **Memory-Driven Administrative Workspaces**: Family administration with memory-based organization
+    7. **Memory-Enhanced Communication Workspaces**: Family communication with memory context integration
+
+    **Family Intelligence Integration:**
+    - Workspace organization coordinated through family memory backbone
+    - Workspace collaboration enhanced by family relationship patterns
+    - Workspace content managed through family context and shared experiences
+    - Workspace security coordinated through family trust and memory validation
+
+servers:
+  - url: https://api.memoryos.family/v1
+    description: MemoryOS Family AI App Workspace API
+
+paths:
+  /workspaces:
+    get:
+      summary: Get Memory-Enhanced Workspaces
+      description: |
+        Retrieve user workspaces with memory-driven organization,
+        family context awareness, and cognitive insights.
+      operationId: getMemoryEnhancedWorkspaces
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: workspace_type
+          in: query
+          schema:
+            type: string
+            enum: [personal, family_shared, project, learning, creative, administrative, communication, all]
+            default: all
+          description: Filter by workspace type
+        - name: include_family_workspaces
+          in: query
+          schema:
+            type: boolean
+            default: true
+          description: Include family shared workspaces
+        - name: include_memory_insights
+          in: query
+          schema:
+            type: boolean
+            default: true
+          description: Include memory-driven insights
+        - name: organization_method
+          in: query
+          schema:
+            type: string
+            enum: [memory_driven, chronological, alphabetical, usage_frequency, cognitive_relevance]
+            default: memory_driven
+          description: Method for organizing workspace results
+      responses:
+        '200':
+          description: Workspaces retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkspacesResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+    post:
+      summary: Create Memory-Integrated Workspace
+      description: |
+        Create a new workspace with memory integration,
+        family coordination setup, and cognitive optimization.
+      operationId: createMemoryIntegratedWorkspace
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WorkspaceCreationRequest'
+      responses:
+        '201':
+          description: Workspace created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkspaceCreationResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /workspaces/{workspaceId}:
+    get:
+      summary: Get Memory-Enhanced Workspace Details
+      description: |
+        Retrieve detailed workspace information with memory insights,
+        family coordination status, and cognitive analytics.
+      operationId: getMemoryEnhancedWorkspaceDetails
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: workspaceId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Unique workspace identifier
+        - name: include_content_analysis
+          in: query
+          schema:
+            type: boolean
+            default: true
+          description: Include content analysis and insights
+        - name: include_collaboration_history
+          in: query
+          schema:
+            type: boolean
+            default: true
+          description: Include collaboration history
+      responses:
+        '200':
+          description: Workspace details retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkspaceDetailsResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    patch:
+      summary: Update Workspace with Memory Integration
+      description: |
+        Update workspace configuration with memory-driven adaptations,
+        family coordination updates, and cognitive optimizations.
+      operationId: updateWorkspaceWithMemoryIntegration
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: workspaceId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Unique workspace identifier
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WorkspaceUpdateRequest'
+      responses:
+        '200':
+          description: Workspace updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkspaceUpdateResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    delete:
+      summary: Delete Workspace with Family Coordination
+      description: |
+        Delete workspace with family coordination notification,
+        memory context cleanup, and content preservation options.
+      operationId: deleteWorkspaceWithFamilyCoordination
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: workspaceId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Unique workspace identifier
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WorkspaceDeletionRequest'
+      responses:
+        '200':
+          description: Workspace deleted successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkspaceDeletionResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /workspaces/{workspaceId}/content:
+    get:
+      summary: Get Memory-Organized Workspace Content
+      description: |
+        Retrieve workspace content with memory-driven organization,
+        cognitive categorization, and family context integration.
+      operationId: getMemoryOrganizedWorkspaceContent
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: workspaceId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Unique workspace identifier
+        - name: content_type
+          in: query
+          schema:
+            type: string
+            enum: [documents, media, notes, links, tools, applications, all]
+            default: all
+          description: Filter by content type
+        - name: organization_method
+          in: query
+          schema:
+            type: string
+            enum: [memory_relevance, cognitive_categorization, temporal, family_collaboration, frequency]
+            default: memory_relevance
+          description: Content organization method
+        - name: include_memory_insights
+          in: query
+          schema:
+            type: boolean
+            default: true
+          description: Include memory-driven insights for content
+      responses:
+        '200':
+          description: Workspace content retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkspaceContentResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    post:
+      summary: Add Content to Workspace with Memory Integration
+      description: |
+        Add content to workspace with memory integration,
+        cognitive categorization, and family sharing coordination.
+      operationId: addContentToWorkspaceWithMemoryIntegration
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: workspaceId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Unique workspace identifier
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WorkspaceContentAdditionRequest'
+      responses:
+        '201':
+          description: Content added to workspace successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkspaceContentAdditionResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /workspaces/{workspaceId}/collaborate:
+    get:
+      summary: Get Family Collaboration Status
+      description: |
+        Retrieve family collaboration status for workspace with
+        memory-driven insights and relationship coordination.
+      operationId: getFamilyCollaborationStatus
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: workspaceId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Unique workspace identifier
+      responses:
+        '200':
+          description: Family collaboration status retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FamilyCollaborationStatusResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    post:
+      summary: Initiate Family Collaboration with Memory Context
+      description: |
+        Initiate family collaboration for workspace with memory context sharing,
+        relationship-based permissions, and cognitive coordination.
+      operationId: initiateFamilyCollaborationWithMemoryContext
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: workspaceId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Unique workspace identifier
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FamilyCollaborationInitiationRequest'
+      responses:
+        '201':
+          description: Family collaboration initiated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FamilyCollaborationInitiationResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /workspaces/{workspaceId}/insights:
+    get:
+      summary: Get Memory-Driven Workspace Insights
+      description: |
+        Retrieve cognitive and memory-driven insights about workspace usage,
+        family collaboration patterns, and optimization opportunities.
+      operationId: getMemoryDrivenWorkspaceInsights
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: workspaceId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Unique workspace identifier
+        - name: insight_type
+          in: query
+          schema:
+            type: string
+            enum: [usage_patterns, collaboration_insights, memory_connections, cognitive_optimization, family_dynamics, productivity_analysis]
+            default: usage_patterns
+          description: Type of insights to retrieve
+        - name: time_range
+          in: query
+          schema:
+            type: string
+            enum: [day, week, month, quarter, year, all_time]
+            default: month
+          description: Time range for insights analysis
+      responses:
+        '200':
+          description: Workspace insights retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkspaceInsightsResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /workspaces/{workspaceId}/optimize:
+    post:
+      summary: Optimize Workspace with Memory Learning
+      description: |
+        Optimize workspace layout and functionality using memory learning,
+        family usage patterns, and cognitive adaptation insights.
+      operationId: optimizeWorkspaceWithMemoryLearning
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: workspaceId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Unique workspace identifier
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/WorkspaceOptimizationRequest'
+      responses:
+        '200':
+          description: Workspace optimization completed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkspaceOptimizationResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /workspaces/family/shared:
+    get:
+      summary: Get Family Shared Workspaces with Memory Integration
+      description: |
+        Retrieve family shared workspaces with memory-driven organization,
+        relationship insights, and collaborative activity analysis.
+      operationId: getFamilySharedWorkspacesWithMemoryIntegration
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: workspace_category
+          in: query
+          schema:
+            type: string
+            enum: [project, learning, creative, administrative, communication, entertainment, all]
+            default: all
+          description: Filter by workspace category
+        - name: family_member_id
+          in: query
+          schema:
+            type: string
+            format: uuid
+          description: Filter by specific family member
+        - name: activity_level
+          in: query
+          schema:
+            type: string
+            enum: [high, moderate, low, inactive, all]
+            default: all
+          description: Filter by activity level
+      responses:
+        '200':
+          description: Family shared workspaces retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FamilySharedWorkspacesResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /workspaces/templates:
+    get:
+      summary: Get Memory-Enhanced Workspace Templates
+      description: |
+        Retrieve workspace templates with memory-driven customization,
+        family usage patterns, and cognitive optimization insights.
+      operationId: getMemoryEnhancedWorkspaceTemplates
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: template_category
+          in: query
+          schema:
+            type: string
+            enum: [personal, family, project, learning, creative, business, custom, all]
+            default: all
+          description: Filter by template category
+        - name: family_customized
+          in: query
+          schema:
+            type: boolean
+            default: false
+          description: Include family-customized templates
+        - name: memory_optimized
+          in: query
+          schema:
+            type: boolean
+            default: true
+          description: Include memory-optimized templates
+      responses:
+        '200':
+          description: Workspace templates retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/WorkspaceTemplatesResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    WorkspacesResponse:
+      type: object
+      properties:
+        user_id:
+          type: string
+          format: uuid
+          description: User identifier
+        workspaces:
+          type: array
+          items:
+            $ref: '#/components/schemas/WorkspaceSummary'
+          description: List of user workspaces
+        family_workspaces:
+          type: array
+          items:
+            $ref: '#/components/schemas/FamilyWorkspaceSummary'
+          description: Family shared workspaces
+        memory_insights:
+          type: object
+          description: Memory-driven workspace insights
+        organization_analysis:
+          type: object
+          description: Workspace organization analysis
+        cognitive_recommendations:
+          type: array
+          items:
+            type: object
+          description: Cognitive optimization recommendations
+
+    WorkspaceSummary:
+      type: object
+      required:
+        - workspace_id
+        - name
+        - workspace_type
+      properties:
+        workspace_id:
+          type: string
+          format: uuid
+          description: Unique workspace identifier
+        name:
+          type: string
+          description: Workspace name
+        workspace_type:
+          type: string
+          enum: [personal, family_shared, project, learning, creative, administrative, communication]
+          description: Type of workspace
+        description:
+          type: string
+          description: Workspace description
+        created_at:
+          type: string
+          format: date-time
+          description: Workspace creation timestamp
+        last_accessed:
+          type: string
+          format: date-time
+          description: Last access timestamp
+        memory_integration_level:
+          type: string
+          enum: [none, basic, standard, advanced, native]
+          description: Level of memory integration
+        family_coordination_status:
+          type: string
+          enum: [none, limited, collaborative, fully_coordinated]
+          description: Family coordination status
+        cognitive_optimization_score:
+          type: number
+          minimum: 0
+          maximum: 1
+          description: Cognitive optimization score
+        content_summary:
+          type: object
+          description: Summary of workspace content
+        usage_analytics:
+          type: object
+          description: Usage analytics for workspace
+
+    FamilyWorkspaceSummary:
+      type: object
+      properties:
+        workspace_id:
+          type: string
+          format: uuid
+          description: Unique workspace identifier
+        name:
+          type: string
+          description: Workspace name
+        family_coordination_type:
+          type: string
+          enum: [shared_viewing, collaborative_editing, coordinated_workflow, family_administration]
+          description: Type of family coordination
+        participating_members:
+          type: array
+          items:
+            type: object
+          description: Family members participating in workspace
+        shared_memory_context:
+          type: object
+          description: Shared memory context for family workspace
+        collaboration_activity_level:
+          type: string
+          enum: [high, moderate, low, inactive]
+          description: Current collaboration activity level
+
+    WorkspaceCreationRequest:
+      type: object
+      required:
+        - name
+        - workspace_type
+      properties:
+        name:
+          type: string
+          description: Workspace name
+        workspace_type:
+          type: string
+          enum: [personal, family_shared, project, learning, creative, administrative, communication]
+          description: Type of workspace to create
+        description:
+          type: string
+          description: Workspace description
+        template_id:
+          type: string
+          format: uuid
+          description: Template to use for workspace creation
+        memory_integration_preferences:
+          type: object
+          description: Memory integration preferences
+        family_coordination_settings:
+          type: object
+          description: Family coordination settings
+        cognitive_optimization_preferences:
+          type: object
+          description: Cognitive optimization preferences
+        privacy_settings:
+          type: object
+          description: Privacy and sharing settings
+        initial_content:
+          type: array
+          items:
+            type: object
+          description: Initial content to add to workspace
+
+    WorkspaceCreationResponse:
+      type: object
+      required:
+        - workspace_id
+        - creation_status
+      properties:
+        workspace_id:
+          type: string
+          format: uuid
+          description: Created workspace identifier
+        creation_status:
+          type: string
+          enum: [created, partially_created, failed]
+          description: Workspace creation status
+        workspace_details:
+          $ref: '#/components/schemas/WorkspaceDetails'
+        memory_integration_setup:
+          type: object
+          description: Memory integration setup status
+        family_coordination_setup:
+          type: object
+          description: Family coordination setup status
+        cognitive_optimization_setup:
+          type: object
+          description: Cognitive optimization setup status
+        next_steps_recommendations:
+          type: array
+          items:
+            type: object
+          description: Recommended next steps
+
+    WorkspaceDetails:
+      type: object
+      properties:
+        workspace_id:
+          type: string
+          format: uuid
+          description: Unique workspace identifier
+        name:
+          type: string
+          description: Workspace name
+        workspace_type:
+          type: string
+          description: Type of workspace
+        description:
+          type: string
+          description: Workspace description
+        owner_id:
+          type: string
+          format: uuid
+          description: Workspace owner identifier
+        created_at:
+          type: string
+          format: date-time
+          description: Creation timestamp
+        last_modified:
+          type: string
+          format: date-time
+          description: Last modification timestamp
+        memory_integration_configuration:
+          type: object
+          description: Memory integration configuration
+        family_coordination_configuration:
+          type: object
+          description: Family coordination configuration
+        cognitive_optimization_configuration:
+          type: object
+          description: Cognitive optimization configuration
+        privacy_settings:
+          type: object
+          description: Privacy and sharing settings
+        content_statistics:
+          type: object
+          description: Workspace content statistics
+        usage_analytics:
+          type: object
+          description: Usage analytics and patterns
+        collaboration_history:
+          type: object
+          description: Collaboration history
+        memory_connections:
+          type: object
+          description: Memory connections and associations
+
+    WorkspaceDetailsResponse:
+      type: object
+      properties:
+        workspace_details:
+          $ref: '#/components/schemas/WorkspaceDetails'
+        content_analysis:
+          type: object
+          description: Analysis of workspace content
+        memory_insights:
+          type: object
+          description: Memory-driven insights
+        family_coordination_status:
+          type: object
+          description: Current family coordination status
+        cognitive_optimization_opportunities:
+          type: array
+          items:
+            type: object
+          description: Cognitive optimization opportunities
+        related_workspaces:
+          type: array
+          items:
+            $ref: '#/components/schemas/WorkspaceSummary'
+          description: Related workspaces
+
+    WorkspaceUpdateRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          description: Updated workspace name
+        description:
+          type: string
+          description: Updated workspace description
+        memory_integration_updates:
+          type: object
+          description: Memory integration updates
+        family_coordination_updates:
+          type: object
+          description: Family coordination updates
+        cognitive_optimization_updates:
+          type: object
+          description: Cognitive optimization updates
+        privacy_settings_updates:
+          type: object
+          description: Privacy settings updates
+        layout_customization:
+          type: object
+          description: Workspace layout customization
+
+    WorkspaceUpdateResponse:
+      type: object
+      required:
+        - update_status
+      properties:
+        update_status:
+          type: string
+          enum: [updated, partially_updated, failed]
+          description: Update operation status
+        updated_workspace_details:
+          $ref: '#/components/schemas/WorkspaceDetails'
+        memory_integration_changes:
+          type: object
+          description: Changes to memory integration
+        family_coordination_changes:
+          type: object
+          description: Changes to family coordination
+        cognitive_optimization_improvements:
+          type: object
+          description: Cognitive optimization improvements
+        impact_analysis:
+          type: object
+          description: Analysis of update impact
+
+    WorkspaceDeletionRequest:
+      type: object
+      properties:
+        deletion_reason:
+          type: string
+          description: Reason for workspace deletion
+        preserve_content:
+          type: boolean
+          default: true
+          description: Whether to preserve content before deletion
+        notify_family:
+          type: boolean
+          default: true
+          description: Whether to notify family members
+        memory_cleanup_level:
+          type: string
+          enum: [minimal, standard, comprehensive, complete]
+          default: standard
+          description: Level of memory cleanup
+
+    WorkspaceDeletionResponse:
+      type: object
+      required:
+        - deletion_status
+      properties:
+        deletion_status:
+          type: string
+          enum: [deleted, content_preserved, failed, requires_confirmation]
+          description: Deletion operation status
+        content_preservation_details:
+          type: object
+          description: Content preservation details
+        family_notification_status:
+          type: object
+          description: Family notification status
+        memory_cleanup_completed:
+          type: boolean
+          description: Whether memory cleanup was completed
+        recovery_options:
+          type: object
+          description: Available recovery options
+
+    WorkspaceContentResponse:
+      type: object
+      properties:
+        workspace_id:
+          type: string
+          format: uuid
+          description: Workspace identifier
+        content_items:
+          type: array
+          items:
+            $ref: '#/components/schemas/WorkspaceContentItem'
+          description: Workspace content items
+        organization_analysis:
+          type: object
+          description: Content organization analysis
+        memory_connections:
+          type: object
+          description: Memory connections between content
+        cognitive_categorization:
+          type: object
+          description: Cognitive categorization of content
+        family_collaboration_indicators:
+          type: object
+          description: Family collaboration indicators
+        content_insights:
+          type: object
+          description: Insights about workspace content
+
+    WorkspaceContentItem:
+      type: object
+      properties:
+        content_id:
+          type: string
+          format: uuid
+          description: Unique content identifier
+        content_type:
+          type: string
+          enum: [document, media, note, link, tool, application, folder]
+          description: Type of content
+        name:
+          type: string
+          description: Content name
+        description:
+          type: string
+          description: Content description
+        created_at:
+          type: string
+          format: date-time
+          description: Content creation timestamp
+        last_accessed:
+          type: string
+          format: date-time
+          description: Last access timestamp
+        memory_relevance_score:
+          type: number
+          minimum: 0
+          maximum: 1
+          description: Memory relevance score
+        family_collaboration_level:
+          type: string
+          enum: [private, shared, collaborative, coordinated]
+          description: Family collaboration level
+        cognitive_categorization:
+          type: array
+          items:
+            type: string
+          description: Cognitive categories assigned
+        usage_analytics:
+          type: object
+          description: Usage analytics for content item
+
+    WorkspaceContentAdditionRequest:
+      type: object
+      required:
+        - content_items
+      properties:
+        content_items:
+          type: array
+          items:
+            type: object
+          description: Content items to add
+        memory_integration_preferences:
+          type: object
+          description: Memory integration preferences for new content
+        family_sharing_settings:
+          type: object
+          description: Family sharing settings for new content
+        cognitive_categorization_preferences:
+          type: object
+          description: Cognitive categorization preferences
+        organization_preferences:
+          type: object
+          description: Content organization preferences
+
+    WorkspaceContentAdditionResponse:
+      type: object
+      required:
+        - addition_status
+      properties:
+        addition_status:
+          type: string
+          enum: [added, partially_added, failed]
+          description: Content addition status
+        added_content_items:
+          type: array
+          items:
+            $ref: '#/components/schemas/WorkspaceContentItem'
+          description: Successfully added content items
+        memory_integration_results:
+          type: object
+          description: Memory integration results
+        cognitive_categorization_results:
+          type: object
+          description: Cognitive categorization results
+        family_sharing_setup:
+          type: object
+          description: Family sharing setup status
+        organization_recommendations:
+          type: array
+          items:
+            type: object
+          description: Content organization recommendations
+
+    FamilyCollaborationStatusResponse:
+      type: object
+      properties:
+        workspace_id:
+          type: string
+          format: uuid
+          description: Workspace identifier
+        collaboration_status:
+          type: string
+          enum: [active, inactive, limited, coordinated]
+          description: Current collaboration status
+        participating_family_members:
+          type: array
+          items:
+            type: object
+          description: Family members participating in collaboration
+        collaboration_statistics:
+          type: object
+          description: Collaboration statistics
+        memory_coordination_status:
+          type: object
+          description: Memory coordination status
+        relationship_dynamics_analysis:
+          type: object
+          description: Analysis of relationship dynamics in collaboration
+        communication_patterns:
+          type: object
+          description: Communication patterns in workspace
+        shared_goals_alignment:
+          type: object
+          description: Alignment with shared family goals
+
+    FamilyCollaborationInitiationRequest:
+      type: object
+      required:
+        - collaboration_type
+        - invited_family_members
+      properties:
+        collaboration_type:
+          type: string
+          enum: [shared_viewing, collaborative_editing, coordinated_workflow, family_administration]
+          description: Type of collaboration to initiate
+        invited_family_members:
+          type: array
+          items:
+            type: string
+          description: Family member IDs to invite
+        memory_context_sharing:
+          type: object
+          description: Memory context sharing preferences
+        permissions_configuration:
+          type: object
+          description: Permissions configuration for family members
+        communication_preferences:
+          type: object
+          description: Communication preferences for collaboration
+        goal_alignment_settings:
+          type: object
+          description: Goal alignment settings
+
+    FamilyCollaborationInitiationResponse:
+      type: object
+      required:
+        - initiation_status
+      properties:
+        initiation_status:
+          type: string
+          enum: [initiated, pending_approvals, partially_initiated, failed]
+          description: Collaboration initiation status
+        collaboration_id:
+          type: string
+          format: uuid
+          description: Collaboration identifier
+        invited_members_status:
+          type: object
+          description: Status of invitations to family members
+        memory_coordination_setup:
+          type: object
+          description: Memory coordination setup status
+        permissions_setup:
+          type: object
+          description: Permissions setup status
+        communication_setup:
+          type: object
+          description: Communication setup status
+
+    WorkspaceInsightsResponse:
+      type: object
+      properties:
+        workspace_id:
+          type: string
+          format: uuid
+          description: Workspace identifier
+        insight_type:
+          type: string
+          description: Type of insights provided
+        analysis_period:
+          type: object
+          description: Analysis time period
+        usage_patterns:
+          type: object
+          description: Workspace usage patterns
+        memory_connections_analysis:
+          type: object
+          description: Analysis of memory connections
+        cognitive_optimization_insights:
+          type: object
+          description: Cognitive optimization insights
+        family_collaboration_insights:
+          type: object
+          description: Family collaboration insights
+        productivity_analysis:
+          type: object
+          description: Productivity analysis
+        content_engagement_analysis:
+          type: object
+          description: Content engagement analysis
+        recommendations:
+          type: array
+          items:
+            type: object
+          description: Actionable recommendations
+
+    WorkspaceOptimizationRequest:
+      type: object
+      properties:
+        optimization_goals:
+          type: array
+          items:
+            type: string
+          description: Optimization goals
+        memory_learning_integration:
+          type: boolean
+          default: true
+          description: Whether to integrate memory learning
+        family_usage_pattern_consideration:
+          type: boolean
+          default: true
+          description: Whether to consider family usage patterns
+        cognitive_adaptation_preferences:
+          type: object
+          description: Cognitive adaptation preferences
+        optimization_scope:
+          type: array
+          items:
+            type: string
+          description: Scope of optimization (layout, content, features, etc.)
+
+    WorkspaceOptimizationResponse:
+      type: object
+      required:
+        - optimization_status
+      properties:
+        optimization_status:
+          type: string
+          enum: [completed, partially_completed, failed, requires_approval]
+          description: Optimization operation status
+        applied_optimizations:
+          type: array
+          items:
+            type: object
+          description: Optimizations that were applied
+        memory_learning_insights:
+          type: object
+          description: Insights from memory learning
+        family_pattern_adaptations:
+          type: object
+          description: Adaptations based on family patterns
+        cognitive_improvements:
+          type: object
+          description: Cognitive improvements implemented
+        performance_improvements:
+          type: object
+          description: Measured performance improvements
+        user_feedback_suggestions:
+          type: array
+          items:
+            type: object
+          description: Suggestions for user feedback
+
+    FamilySharedWorkspacesResponse:
+      type: object
+      properties:
+        family_id:
+          type: string
+          format: uuid
+          description: Family identifier
+        shared_workspaces:
+          type: array
+          items:
+            $ref: '#/components/schemas/FamilyWorkspaceSummary'
+          description: Family shared workspaces
+        collaboration_analytics:
+          type: object
+          description: Family collaboration analytics
+        memory_coordination_insights:
+          type: object
+          description: Memory coordination insights
+        relationship_impact_analysis:
+          type: object
+          description: Analysis of relationship impact
+        shared_goals_progress:
+          type: object
+          description: Progress on shared family goals
+        communication_effectiveness:
+          type: object
+          description: Communication effectiveness analysis
+
+    WorkspaceTemplatesResponse:
+      type: object
+      properties:
+        template_categories:
+          type: array
+          items:
+            $ref: '#/components/schemas/TemplateCategory'
+          description: Available template categories
+        featured_templates:
+          type: array
+          items:
+            $ref: '#/components/schemas/WorkspaceTemplate'
+          description: Featured workspace templates
+        family_customized_templates:
+          type: array
+          items:
+            $ref: '#/components/schemas/WorkspaceTemplate'
+          description: Family-customized templates
+        memory_optimized_templates:
+          type: array
+          items:
+            $ref: '#/components/schemas/WorkspaceTemplate'
+          description: Memory-optimized templates
+        personalization_recommendations:
+          type: array
+          items:
+            type: object
+          description: Template personalization recommendations
+
+    TemplateCategory:
+      type: object
+      properties:
+        category_id:
+          type: string
+          description: Category identifier
+        category_name:
+          type: string
+          description: Category name
+        description:
+          type: string
+          description: Category description
+        template_count:
+          type: integer
+          description: Number of templates in category
+        memory_integration_level:
+          type: string
+          enum: [none, basic, standard, advanced, native]
+          description: Memory integration level for category
+        family_coordination_support:
+          type: boolean
+          description: Whether category supports family coordination
+
+    WorkspaceTemplate:
+      type: object
+      properties:
+        template_id:
+          type: string
+          format: uuid
+          description: Template identifier
+        template_name:
+          type: string
+          description: Template name
+        description:
+          type: string
+          description: Template description
+        category:
+          type: string
+          description: Template category
+        memory_integration_features:
+          type: array
+          items:
+            type: string
+          description: Memory integration features
+        family_coordination_features:
+          type: array
+          items:
+            type: string
+          description: Family coordination features
+        cognitive_optimization_features:
+          type: array
+          items:
+            type: string
+          description: Cognitive optimization features
+        usage_analytics:
+          type: object
+          description: Template usage analytics
+        customization_options:
+          type: object
+          description: Available customization options
+
+  responses:
+    BadRequest:
+      description: Bad request - invalid input parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    Unauthorized:
+      description: Authentication required
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    Forbidden:
+      description: Access forbidden - insufficient permissions
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    ConflictError:
+      description: Conflict - resource already exists
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    ErrorResponse:
+      type: object
+      required:
+        - error
+        - message
+      properties:
+        error:
+          type: string
+          description: Error code
+        message:
+          type: string
+          description: Human-readable error message
+        details:
+          type: object
+          description: Additional error details
+        trace_id:
+          type: string
+          description: Request trace identifier

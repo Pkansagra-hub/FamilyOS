@@ -1,0 +1,109 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grafana
+  namespace: monitoring
+  labels:
+    app: grafana
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: grafana
+  template:
+    metadata:
+      labels:
+        app: grafana
+    spec:
+      containers:
+        - name: grafana
+          image: grafana/grafana:10.3.3
+          ports:
+            - containerPort: 3000
+          env:
+            - name: GF_SECURITY_ADMIN_USER
+              valueFrom: {secretKeyRef: {name: grafana-admin, key: username}}
+            - name: GF_SECURITY_ADMIN_PASSWORD
+              valueFrom: {secretKeyRef: {name: grafana-admin, key: password}}
+            - name: PROMETHEUS_URL
+              value: "http://prometheus-k8s.monitoring.svc:9090"
+          volumeMounts:
+            - name: ds-provisioning
+              mountPath: /etc/grafana/provisioning/datasources
+            - name: db-provisioning
+              mountPath: /etc/grafana/provisioning/dashboards
+            - name: dashboards
+              mountPath: /var/lib/grafana/dashboards/familyos
+      volumes:
+        - name: ds-provisioning
+          configMap:
+            name: grafana-provisioning-datasources
+        - name: db-provisioning
+          configMap:
+            name: grafana-provisioning-dashboards
+        - name: dashboards
+          configMap:
+            name: grafana-dashboard-files
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-provisioning-datasources
+  namespace: monitoring
+data:
+  datasources.yaml: |
+        apiVersion: 1
+        datasources:
+          - name: PROMETHEUS
+            type: prometheus
+            access: proxy
+            orgId: 1
+            uid: PROMETHEUS_DS
+            url: ${PROMETHEUS_URL:http://prometheus-k8s.monitoring.svc:9090}
+            isDefault: true
+            jsonData:
+              httpMethod: GET
+              timeInterval: 5s
+            version: 1
+            editable: false
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-provisioning-dashboards
+  namespace: monitoring
+data:
+  dashboards.yaml: |
+        apiVersion: 1
+        providers:
+          - name: 'familyos'
+            orgId: 1
+            folder: 'FamilyOS'
+            type: file
+            disableDeletion: false
+            editable: false
+            updateIntervalSeconds: 10
+            allowUiUpdates: true
+            options:
+              path: /var/lib/grafana/dashboards/familyos
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-dashboard-files
+  namespace: monitoring
+data:
+  familyos-observability.json: |
+        {
+          "title": "FamilyOS \u2014 Observability (Fallback)",
+          "timezone": "browser",
+          "schemaVersion": 38,
+          "version": 1,
+          "time": {
+            "from": "now-6h",
+            "to": "now"
+          },
+          "panels": []
+        }

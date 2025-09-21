@@ -1,0 +1,83 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: memoryos
+  namespace: memoryos
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: memoryos
+  template:
+    metadata:
+      labels:
+        app: memoryos
+      annotations:
+        prometheus.io/scrape: "true"
+        prometheus.io/port: "8081"
+        prometheus.io/path: "/v1/metrics"
+    spec:
+      containers:
+      - name: memoryos
+        image: memoryos:latest
+        ports:
+        - containerPort: 8080
+          name: agents-plane
+        - containerPort: 8081
+          name: app-plane
+        - containerPort: 8082
+          name: control-plane
+        - containerPort: 9090
+          name: http-metrics
+        env:
+        - name: LOG_LEVEL
+          value: "INFO"
+        - name: LOG_FORMAT
+          value: "json"
+        - name: METRICS_ENABLED
+          value: "true"
+        - name: PROMETHEUS_URL
+          value: "http://prometheus.monitoring.svc.cluster.local:9090"
+        - name: TRACING_ENABLED
+          value: "true"
+        - name: OTEL_EXPORTER_OTLP_ENDPOINT
+          value: "http://jaeger.monitoring.svc.cluster.local:14268/api/traces"
+        # 3-Plane Configuration
+        - name: AGENTS_PLANE_PORT
+          value: "8080"
+        - name: APP_PLANE_PORT
+          value: "8081"
+        - name: CONTROL_PLANE_PORT
+          value: "8082"
+        - name: METRICS_PORT
+          value: "9090"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8080
+          initialDelaySeconds: 30
+          periodSeconds: 10
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 8080
+          initialDelaySeconds: 5
+          periodSeconds: 5
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        volumeMounts:
+        - name: data
+          mountPath: /app/data
+        - name: config
+          mountPath: /app/config
+      volumes:
+      - name: data
+        emptyDir: {}
+      - name: config
+        configMap:
+          name: memoryos-config

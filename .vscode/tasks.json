@@ -1,0 +1,277 @@
+{
+    "version": "2.0.0",
+    "inputs": [
+        {
+            "id": "appModule",
+            "type": "promptString",
+            "description": "Uvicorn app (e.g., main:app)",
+            "default": "main:app"
+        },
+        {
+            "id": "host",
+            "type": "pickString",
+            "description": "Host",
+            "options": [
+                "127.0.0.1",
+                "0.0.0.0"
+            ],
+            "default": "127.0.0.1"
+        },
+        {
+            "id": "port",
+            "type": "promptString",
+            "description": "Port",
+            "default": "8000"
+        }
+    ],
+    "tasks": [
+        {
+            "label": "FASTAPI: Dev Server",
+            "type": "shell",
+            "command": "python",
+            "args": [
+                "-m",
+                "uvicorn",
+                "${input:appModule}",
+                "--reload",
+                "--host",
+                "${input:host}",
+                "--port",
+                "${input:port}",
+                "--log-level",
+                "info",
+                "--access-log",
+                "--reload-delay",
+                "0.25",
+                "--reload-include",
+                "*.py",
+                "--reload-include",
+                "*.html",
+                "--reload-include",
+                "*.css",
+                "--reload-include",
+                "*.js"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated",
+                "showReuseMessage": true
+            },
+            "isBackground": true,
+            "problemMatcher": [
+                {
+                    "pattern": [
+                        {
+                            "regexp": ".*"
+                        }
+                    ],
+                    "background": {
+                        "activeOnStart": true,
+                        "beginsPattern": ".*",
+                        "endsPattern": ".*Application startup complete.*"
+                    }
+                }
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            }
+        },
+        {
+            "label": "FASTAPI: Open Browser",
+            "type": "shell",
+            "windows": {
+                "command": "powershell",
+                "args": [
+                    "-NoProfile",
+                    "-Command",
+                    "Start-Sleep -Seconds 2; Start-Process \"http://${input:host}:${input:port}\""
+                ]
+            },
+            "osx": {
+                "command": "open",
+                "args": [
+                    "http://${input:host}:${input:port}"
+                ]
+            },
+            "linux": {
+                "command": "xdg-open",
+                "args": [
+                    "http://${input:host}:${input:port}"
+                ]
+            },
+            "group": "test",
+            "presentation": {
+                "reveal": "silent",
+                "panel": "shared"
+            }
+        },
+        {
+            "label": "FASTAPI: Docs",
+            "type": "shell",
+            "windows": {
+                "command": "powershell",
+                "args": [
+                    "-NoProfile",
+                    "-Command",
+                    "Start-Process \"http://${input:host}:${input:port}/docs\""
+                ]
+            },
+            "osx": {
+                "command": "open",
+                "args": [
+                    "http://${input:host}:${input:port}/docs"
+                ]
+            },
+            "linux": {
+                "command": "xdg-open",
+                "args": [
+                    "http://${input:host}:${input:port}/docs"
+                ]
+            },
+            "group": "test",
+            "presentation": {
+                "reveal": "silent",
+                "panel": "shared"
+            }
+        },
+        {
+            "label": "FASTAPI: Dev + Browser",
+            "dependsOn": [
+                "FASTAPI: Dev Server",
+                "FASTAPI: Open Browser"
+            ],
+            "dependsOrder": "parallel",
+            "group": "build",
+            "problemMatcher": []
+        },
+        {
+            "label": "FASTAPI: Stop",
+            "type": "shell",
+            "windows": {
+                "command": "powershell",
+                "args": [
+                    "-NoProfile",
+                    "-ExecutionPolicy",
+                    "Bypass",
+                    "-Command",
+                    "$port='${input:port}'; $conns = Get-NetTCPConnection -LocalPort $port -State Listen -ErrorAction SilentlyContinue; if ($conns) { $pids = ($conns | Select-Object -ExpandProperty OwningProcess | Sort-Object -Unique); foreach ($pid in $pids) { Stop-Process -Id $pid -Force -ErrorAction SilentlyContinue }; Write-Host ('Stopped: ' + ($pids -join ',')) } else { Write-Host ('No listener on port ' + $port) }"
+                ]
+            },
+            "osx": {
+                "command": "bash",
+                "args": [
+                    "-lc",
+                    "lsof -ti:${input:port} | xargs -r kill -9 2>/dev/null || true"
+                ]
+            },
+            "linux": {
+                "command": "bash",
+                "args": [
+                    "-lc",
+                    "lsof -ti:${input:port} | xargs -r kill -9 2>/dev/null || true"
+                ]
+            },
+            "group": "build",
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "FASTAPI: Restart",
+            "dependsOn": [
+                "FASTAPI: Stop",
+                "FASTAPI: Dev + Browser"
+            ],
+            "dependsOrder": "sequence",
+            "group": {
+                "kind": "build",
+                "isDefault": false
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated",
+                "showReuseMessage": true
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "FASTAPI: Production",
+            "type": "shell",
+            "command": "python",
+            "args": [
+                "-m",
+                "uvicorn",
+                "${input:appModule}",
+                "--host",
+                "${input:host}",
+                "--port",
+                "${input:port}",
+                "--workers",
+                "4",
+                "--log-level",
+                "warning"
+            ],
+            "group": "build",
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated"
+            },
+            "isBackground": true,
+            "problemMatcher": [
+                {
+                    "pattern": [
+                        {
+                            "regexp": ".*"
+                        }
+                    ],
+                    "background": {
+                        "activeOnStart": true,
+                        "beginsPattern": ".*",
+                        "endsPattern": ".*Application startup complete.*"
+                    }
+                }
+            ]
+        },
+        {
+            "label": "FASTAPI: Install Deps",
+            "type": "shell",
+            "windows": {
+                "command": "powershell",
+                "args": [
+                    "-NoProfile",
+                    "-ExecutionPolicy",
+                    "Bypass",
+                    "-Command",
+                    "if (Test-Path requirements.txt) { python -m pip install -U -r requirements.txt } else { python -m pip install -U 'fastapi[standard]' 'uvicorn[standard]' python-multipart jinja2 python-dotenv }"
+                ]
+            },
+            "osx": {
+                "command": "bash",
+                "args": [
+                    "-lc",
+                    "[ -f requirements.txt ] && python -m pip install -U -r requirements.txt || python -m pip install -U 'fastapi[standard]' 'uvicorn[standard]' python-multipart jinja2 python-dotenv"
+                ]
+            },
+            "linux": {
+                "command": "bash",
+                "args": [
+                    "-lc",
+                    "[ -f requirements.txt ] && python -m pip install -U -r requirements.txt || python -m pip install -U 'fastapi[standard]' 'uvicorn[standard]' python-multipart jinja2 python-dotenv"
+                ]
+            },
+            "group": "build",
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated",
+                "focus": true
+            },
+            "problemMatcher": []
+        }
+    ]
+}

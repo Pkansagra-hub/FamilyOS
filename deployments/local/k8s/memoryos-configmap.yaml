@@ -1,0 +1,94 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: memoryos-config
+  labels:
+    app: memoryos
+data:
+  # Application configuration
+  environment: "local"
+  log_level: "DEBUG"
+
+  # Service endpoints
+  postgres_host: "postgres"
+  postgres_port: "5432"
+  postgres_database: "memoryos"
+
+  redis_host: "redis"
+  redis_port: "6379"
+  redis_database: "0"
+
+  minio_endpoint: "minio:9000"
+  minio_bucket: "memoryos-data"
+
+  # Feature flags
+  enable_hot_reload: "true"
+  enable_debug_logging: "true"
+  enable_metrics: "true"
+  enable_tracing: "true"
+
+  # API configuration
+  cors_origins: "http://localhost:3000,http://localhost:8080"
+  max_request_size: "10485760"  # 10MB
+  request_timeout: "30"
+
+  # Pipeline configuration
+  pipeline_workers: "4"
+  pipeline_queue_size: "1000"
+  pipeline_batch_size: "100"
+
+  # Observability
+  metrics_port: "8080"
+  health_check_interval: "30"
+
+  # Development specific
+  auto_reload: "true"
+  debug_toolbar: "true"
+
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: memoryos-secrets
+  labels:
+    app: memoryos
+type: Opaque
+stringData:
+  # Database credentials
+  database-url: "postgresql://memoryos:memoryos123@postgres:5432/memoryos"
+  postgres-user: "memoryos"
+  postgres-password: "memoryos123"
+
+  # Redis credentials
+  redis-url: "redis://redis:6379/0"
+  redis-password: ""
+
+  # MinIO credentials
+  minio-access-key: "minioadmin"
+  minio-secret-key: "minioadmin123"
+
+  # JWT secrets
+  jwt-secret-key: "local-development-secret-key-change-in-production"
+  jwt-algorithm: "HS256"
+  jwt-expiration: "3600"
+
+  # mTLS certificates (for development)
+  mtls-ca-cert: |
+    -----BEGIN CERTIFICATE-----
+    # Local development CA certificate
+    # This should be replaced with proper certificates in production
+    -----END CERTIFICATE-----
+
+  mtls-server-cert: |
+    -----BEGIN CERTIFICATE-----
+    # Local development server certificate
+    -----END CERTIFICATE-----
+
+  mtls-server-key: |
+    -----BEGIN PRIVATE KEY-----
+    # Local development server private key
+    -----END PRIVATE KEY-----
+
+  # API keys for external services (mock values for local dev)
+  external-api-key: "local-dev-api-key"
+  webhook-secret: "local-webhook-secret"

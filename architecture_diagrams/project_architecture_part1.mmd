@@ -1,0 +1,1000 @@
+---
+config:
+  flowchart:
+    htmlLabels: false
+    curve: linear
+  theme: neo
+  layout: elk
+  look: neo
+---
+flowchart TB
+
+%% ====== MEMORY-CENTRIC FAMILY AI ARCHITECTURE ======
+%% Updated: September 19, 2025
+%% Status: MEMORY MODULE AS CENTRAL NERVOUS SYSTEM
+%%
+%% Core Memory-Centric Principles:
+%% ✅ Memory as Backbone: Memory Module serves as central nervous system for all Family AI
+%% ✅ Device-Local Storage: Memory resides on user devices with E2EE family sync
+%% ✅ 3 API Planes: Agent (LLM), Tool (Apps), Control (Admin) - all serve Memory operations
+%% ✅ User-Controlled: Simple permissions with explicit commands for sensitive operations
+%% ✅ Family Intelligence: Emerges from Memory sync across devices, not separate systems
+%% ✅ Sophisticated Servants: Cognitive, Intelligence, Infrastructure systems serve Memory backbone
+%% ✅ Emotional Intelligence: Memory-driven contextual awareness and family coordination
+%% ✅ Local-First: Device-based processing with family sync creating collective intelligence
+%%
+%% Memory-Centric Architecture Quality: PRODUCTION-READY MEMORY BACKBONE SYSTEM
+%% - Memory Module as the foundational intelligence layer for all family interactions
+%% - Device-local memory instances with conflict-free family synchronization
+%% - API planes designed specifically to serve memory read/write/management operations
+%% - User ownership and control of memory with simple, explicit permission model
+%% - Family intelligence emerging organically from shared memory experiences
+%%
+%% ====== VISUAL STYLE DEFINITIONS ======
+classDef plane fill:#eef7ff,stroke:#2a6ebb,stroke-width:1px,rx:8,ry:8
+classDef mid fill:#f8fff0,stroke:#6b8e23,stroke-width:1px,rx:8,ry:8
+classDef gate fill:#fff7e6,stroke:#d48806,stroke-width:1px,rx:8,ry:8
+classDef bus fill:#f0f0f0,stroke:#666,stroke-width:2px,rx:8,ry:8
+classDef storage fill:#f3f8ff,stroke:#1f4aa1,stroke-width:1px,rx:8,ry:8
+classDef brain fill:#fffdf0,stroke:#b38b00,stroke-width:1px,rx:10,ry:10
+classDef fast stroke:#00897b,stroke-width:2px
+classDef smart stroke:#d46b08,stroke-width:2px,stroke-dasharray:4 3
+classDef card fill:#fff,stroke:#999,stroke-width:1px,rx:8,ry:8
+classDef realtime fill:#e6ffe6,stroke:#00cc00,stroke-width:2px,rx:8,ry:8
+
+%% ====== MEMORY-CENTRIC ARCHITECTURE LEGEND ======
+subgraph LEGEND["🎨 Memory-Centric Architecture Guide"]
+  direction TB
+  subgraph COLORS["Component Types"]
+    L_MEMORY["🧠 Memory Backbone - Central nervous system (gold)"]:::brain
+    L_PLANE["🔵 API Planes - Memory servants (blue)"]:::plane
+    L_MID["🟢 Processing - Memory operations (green)"]:::mid
+    L_GATE["🟡 Gateways - Memory access control (yellow)"]:::gate
+    L_BUS["⚫ Message Buses - Memory events (gray)"]:::bus
+    L_STORAGE["🔷 Storage - Memory persistence (light blue)"]:::storage
+  end
+  subgraph MEMORY_FLOWS["Memory-Centric Flows"]
+    L_TO_MEMORY["→ TO Memory - Data flowing into Memory Backbone"]
+    L_FROM_MEMORY["← FROM Memory - Intelligence emerging from Memory"]
+    L_SERVE_MEMORY["⚡ SERVE Memory - Systems serving Memory operations"]
+    L_SYNC_MEMORY["-.- Memory Sync - Cross-device Memory synchronization"]
+  end
+  subgraph MEMORY_PRINCIPLES["🧠 Memory-Centric Principles"]
+    L_BACKBONE["🎭 Memory as Backbone - Central nervous system approach"]
+    L_DEVICE_LOCAL["📱 Device-Local - Memory on user devices"]
+    L_USER_CONTROL["👤 User-Controlled - Simple permissions"]
+    L_FAMILY_SYNC["👨‍👩‍👧‍👦 Family Sync - E2EE memory sharing"]
+  end
+  subgraph IMPLEMENTATION_STATUS["🏆 Memory System Status"]
+    L_MEMORY_CORE["✅ Memory Module as central backbone established"]
+    L_API_SERVANTS["🔧 3 API Planes serving Memory operations"]
+    L_COGNITIVE_SERVANTS["🧠 Cognitive systems serving Memory backbone"]
+    L_DEVICE_INSTANCES["📱 Device-local Memory instances with E2EE sync"]
+  end
+end
+class LEGEND card
+
+%% ====== MEMORY BACKBONE - CENTRAL NERVOUS SYSTEM ======
+subgraph MEMORY_BACKBONE["🧠 MEMORY MODULE - Central Nervous System of Family AI"]
+  direction TB
+
+  subgraph MEMORY_CORE["Memory Core Architecture"]
+    MEMORY_ENGINE["🧠 Memory Engine<br/>Central processing unit<br/>🔄 Working memory operations<br/>⚡ Real-time memory access"]:::brain
+    MEMORY_SPACES["📊 Memory Spaces<br/>🔹 Episodic - Life experiences<br/>🔹 Semantic - Knowledge & facts<br/>🔹 Procedural - Skills & habits<br/>🔹 Working - Active processing"]:::brain
+    MEMORY_INDEX["🗂️ Memory Index<br/>🔍 Semantic search<br/>🔗 Relationship mapping<br/>📈 Relevance scoring"]:::brain
+  end
+
+  subgraph DEVICE_LOCAL_MEMORY["Device-Local Memory"]
+    DEVICE_STORAGE["📱 Device Storage<br/>💾 Local SQLite + Vector DB<br/>🔒 E2EE at rest<br/>⚡ Instant access"]:::storage
+    MEMORY_SYNC["🔄 Memory Sync Engine<br/>📡 CRDT-based synchronization<br/>🔐 End-to-end encryption<br/>👨‍👩‍👧‍👦 Family memory sharing"]:::mid
+    MEMORY_CACHE["⚡ Memory Cache<br/>🏃‍♂️ L1: Active memories<br/>🚀 L2: Recent access<br/>💾 L3: Warm storage"]:::fast
+  end
+
+  subgraph FAMILY_MEMORY_NETWORK["Family Memory Network"]
+    FAMILY_GRAPH["👨‍👩‍👧‍👦 Family Memory Graph<br/>🔗 Relationship mapping<br/>📚 Shared experiences<br/>🎭 Individual perspectives"]:::brain
+    MEMORY_PERMISSIONS["🔐 Memory Permissions<br/>👤 User-controlled access<br/>🎯 Explicit commands for sensitive data<br/>👶 Age-appropriate filtering"]:::gate
+    MEMORY_CONSENSUS["🤝 Memory Consensus<br/>🔄 Cross-device validation<br/>📊 Conflict resolution<br/>⏰ Temporal coherence"]:::smart
+  end
+
+  subgraph MEMORY_API_SERVANTS["Memory API Servants"]
+    AGENT_MEMORY_API["🤖 Agent Memory API<br/>🧠 Memory-driven LLM operations<br/>📝 Memory reading & writing<br/>🎯 Context-aware responses"]:::plane
+    TOOL_MEMORY_API["🔧 Tool Memory API<br/>📱 App connector memory operations<br/>📊 Data ingestion to memory<br/>🔄 Memory-driven automation"]:::plane
+    CONTROL_MEMORY_API["👑 Control Memory API<br/>⚙️ Memory administration<br/>👨‍👩‍👧‍👦 Family memory management<br/>🔒 Permission configuration"]:::plane
+  end
+end
+class MEMORY_BACKBONE card
+
+%% ====== PIPELINE COLOR REFERENCE (legend only) ======
+subgraph PIPE_COLORS["🚦 Pipeline Colors Reference"]
+  L01["P01 Recall/Read — teal"]
+  L02["P02 Write/Ingest — red"]
+  L03["P03 Consolidation/Forgetting — green"]
+  L04["P04 Arbitration/Action — blue"]
+  L05["P05 Prospective/Triggers — orange"]
+  L06["P06 Learning/Neuromod — purple"]
+  L07["P07 Sync/CRDT — darkturquoise"]
+  L08["P08 Embedding Lifecycle — gold"]
+  L09["P09 Connector Ingestion — brown"]
+  L10["P10 PII/Minimization — deeppink"]
+  L11["P11 DSAR/GDPR — royalblue"]
+  L12["P12 Device/E2EE — seagreen"]
+  L13["P13 Index Rebuild — firebrick"]
+  L14["P14 Near-Duplicate/Canon — orchid"]
+  L15["P15 Rollups/Summaries — steelblue"]
+  L16["P16 Feature Flags/A-B — olive"]
+  L17["P17 QoS/Cost Governance — saddlebrown"]
+  L18["P18 Safety/Abuse — orangered"]
+  L19["P19 Personalization/Reco — DarkOrchid"]
+  L20["P20 Procedure/Habits — dimgray"]
+end
+class PIPE_COLORS card
+
+%% ====== CLIENTS → FAMILY DEVICES → GATEWAY → TIERS ======
+subgraph FAMILY_DEVICES["🧠 Device-Local Memory Ecosystem"]
+  PERSONAL_FULL["📱 Personal Memory Devices<br/>🧠 Full Memory Module instances<br/>💾 Local SQLite + Vector DB<br/>🔒 E2EE Memory at rest<br/>👤 User-controlled permissions"]:::plane
+  FAMILY_HUB["🏠 Family Memory Hub<br/>🧠 Shared Memory instance<br/>👨‍👩‍👧‍👦 Family Memory coordination<br/>🔄 Memory sync orchestration"]:::mid
+  WORK_DEVICE["💼 Work Memory Context<br/>🧠 Personal Memory on work devices<br/>🏢 Work-family Memory boundaries<br/>🔒 Context-aware Memory isolation"]:::gate
+  GUEST_DEVICE["🚪 Guest Memory Access<br/>🧠 Emergency Memory access<br/>👤 Temporary Memory permissions<br/>🔒 Limited Memory scope"]:::gate
+end
+class FAMILY_DEVICES card
+
+subgraph CLIENTS["🧠 Memory-Driven Client Applications"]
+  WEB["🌐 Memory Web Apps<br/>🧠 Browser-based Memory access"]
+  MOBILE["📱 Memory Mobile Apps<br/>🧠 Device-local Memory operations"]
+  CLI["⌨️ Memory CLI Tools<br/>🧠 Command-line Memory interface"]
+  AGENTS["🤖 Memory-Driven LLM Agents<br/>🧠 AI agents with Memory context"]
+  ADMIN["👑 Memory Admin Console<br/>🧠 Family Memory governance"]
+  FAMILY_APP["👨‍👩‍👧‍👦 Family Memory App<br/>🧠 Memory-aware family interface<br/>📱 Cross-device Memory sync"]:::realtime
+end
+class CLIENTS card
+
+subgraph API_GATEWAY["🧠 Memory-Aware API Gateway"]
+  PROXY["Memory Auth Proxy :8080<br/>🧠 Memory-aware authentication<br/>📱 Device Memory capability detection<br/>� User-controlled Memory permissions<br/>🔒 Memory operation rate limits<br/>📊 Memory access telemetry"]:::gate
+  DEVICE_DETECTOR["Device Memory Intelligence Service<br/>🧠 Memory capability assessment<br/>📱 Device Memory instance detection<br/>� Memory sync capability resolution"]:::smart
+end
+class API_GATEWAY card
+
+subgraph API_TIERS["🧠 Memory-Serving API Planes — Servants of Memory Backbone"]
+  TIER1[🤖 Agent Memory API :7443<br/>🧠 Memory-driven LLM operations<br/>📝 Reading from & writing to Memory<br/>🎯 Memory-contextualized responses]:::plane
+  TIER2[👤 Family Memory API :8443<br/>🧠 Memory operations for family apps<br/>📱 Device-local Memory access<br/>👨‍👩‍👧‍👦 Memory sync coordination]:::plane
+  TIER3[🔐 Memory Control API :9443<br/>🧠 Memory administration & governance<br/>👨‍👩‍👧‍👦 Family Memory management<br/>🔒 Memory permissions & policies]:::plane
+end
+class API_TIERS card
+
+%% ====== ENHANCED PIPELINE BUS WITH FAMILY MEMORY PROCESSING ======
+subgraph PIPELINES["🧠 Memory-Driven Pipeline Bus (P01–P20) — Serving Memory Backbone"]
+  direction TB
+  P01["P01 Memory Recall/Read<br/>🧠 Memory retrieval operations<br/>� Memory search & filtering<br/>→ FROM Memory Backbone"]:::card
+  P02["P02 Memory Write/Ingest<br/>🧠 Memory storage operations<br/>� Experience capture & encoding<br/>→ TO Memory Backbone"]:::card
+  P03["P03 Memory Consolidation<br/>🧠 Memory strengthening & integration<br/>🔄 Experience synthesis<br/>→ WITHIN Memory Backbone"]:::card
+  P04["P04 Memory Action Selection<br/>🧠 Memory-driven decision making<br/>🎯 Context-aware responses<br/>← FROM Memory Backbone"]:::brain
+  P05["P05 Memory Triggers<br/>🧠 Memory-based event detection<br/>⏰ Experience-driven reminders<br/>← FROM Memory Backbone"]:::card
+  P06["P06 Memory Learning<br/>🧠 Memory pattern recognition<br/>� Experience-based adaptation<br/>→ TO Memory Backbone"]:::card
+  P07["P07 Memory Sync/CRDT<br/>🧠 Cross-device Memory synchronization<br/>� Memory consistency maintenance<br/>↔ Memory Backbone Sync"]:::card
+  P08["P08 Memory Embedding<br/>🧠 Memory vectorization operations<br/>🧮 Semantic Memory encoding<br/>→ TO Memory Backbone"]:::card
+  P09["P09 Memory Ingestion<br/>🧠 Multi-source Memory capture<br/>📊 Sensor-to-Memory pipeline<br/>→ TO Memory Backbone"]:::card
+  P10["P10 Memory Privacy/PII<br/>🧠 Memory content protection<br/>🔒 User-controlled redaction<br/>↔ Memory Protection"]:::card
+  P11["P11 Memory DSAR/GDPR<br/>🧠 Memory data rights<br/>⚖️ User Memory access control<br/>← FROM Memory Backbone"]:::card
+  P12["P12 Memory Device Security<br/>🧠 Device Memory trust levels<br/>� Memory encryption keys<br/>↔ Memory Security"]:::card
+  P13["P13 Memory Index Rebuild<br/>🧠 Memory organization updates<br/>�️ Memory structure maintenance<br/>↔ Memory Index"]:::card
+  P14["P14 Memory Deduplication<br/>🧠 Memory experience fusion<br/>🔄 Cross-perspective synthesis<br/>→ TO Memory Backbone"]:::card
+  P15["P15 Memory Summaries<br/>🧠 Memory narrative generation<br/>📚 Experience story creation<br/>← FROM Memory Backbone"]:::card
+  P16["P16 Memory A/B Testing<br/>🧠 Memory feature experiments<br/>🧪 Memory operation testing<br/>↔ Memory Testing"]:::card
+  P17["P17 Memory QoS/Cost<br/>🧠 Memory operation governance<br/>⚡ Memory performance tiers<br/>↔ Memory QoS"]:::card
+  P18["P18 Memory Safety<br/>🧠 Memory content protection<br/>👶 Age-appropriate Memory access<br/>↔ Memory Safety"]:::card
+  P19["P19 Memory Personalization<br/>🧠 Memory-driven preferences<br/>🎯 Experience-based recommendations<br/>← FROM Memory Backbone"]:::card
+  P20["P20 Memory Procedures<br/>🧠 Memory-driven habit tracking<br/>🔄 Experience-based routines<br/>↔ Memory Procedures"]:::card
+end
+class PIPELINES card
+
+%% ====== PIPELINE INFRA ======
+subgraph PIPE_SYS["� Memory Pipeline Infrastructure"]
+  pip_bus["pipelines/memory_bus.py"]:::bus
+  pip_mgr["pipelines/memory_manager.py"]
+  pip_reg["pipelines/memory_registry.py"]
+  pip_stages["pipelines/memory_stages.py"]
+  pip_events_shim["pipelines/memory_events_shim.py"]
+  p01_mod["pipelines/memory_p01.py"]
+  p02_mod["pipelines/p02.py"]
+  p03_mod["pipelines/memory_p03.py"]
+  p04_mod["pipelines/memory_p04.py"]
+  p05_mod["pipelines/p05.py"]
+  p06_mod["pipelines/p06.py"]
+  p07_mod["pipelines/p07.py"]
+  p08_mod["pipelines/p08.py"]
+  p09_mod["pipelines/p09.py"]
+  p10_mod["pipelines/p10.py"]
+  p11_mod["pipelines/p11.py"]
+  p12_mod["pipelines/p12.py"]
+  p13_mod["pipelines/p13.py"]
+  p14_mod["pipelines/p14.py"]
+  p15_mod["pipelines/p15.py"]
+  p16_mod["pipelines/p16.py"]
+  p17_mod["pipelines/p17.py"]
+  p18_mod["pipelines/p18.py"]
+  p19_mod["pipelines/p19.py"]
+  p20_mod["pipelines/p20.py"]
+end
+class PIPE_SYS card
+
+%% ====== EVENTS BUS (durability & schema) ======
+subgraph EVENTS_BUS["📡 Events Bus Infrastructure"]
+  direction TB
+  evt_bus["events/bus.py (EventBus)"]:::bus
+  evt_sub["events/subscription.py (Registry)"]:::mid
+  evt_dispatch["events/dispatcher.py (Routing)"]:::fast
+  evt_handlers["events/handlers.py (Pipeline)"]:::mid
+  evt_middleware["events/middleware.py (Interceptors)"]:::mid
+  evt_filters["events/filters.py (Advanced Filtering)"]:::smart
+  evt_persistence["events/persistence.py (Durability)"]:::mid
+  evt_wal["WAL (JSONL)"]:::storage
+  evt_offsets["Consumer Offsets"]:::storage
+  evt_dlq["Dead Letter Queue"]:::storage
+  evt_types["events/types.py (Event/Envelope + cognitive_trace_id)"]:::gate
+  evt_validation["events/validation.py (Schema + correlation)"]:::gate
+  evt_rejects["validation_rejects.log (Reject Sink)"]:::storage
+
+  %% NORMALIZED EVENT SCHEMA NOTE
+  evt_schema_note["🔗 All events share cognitive_trace_id<br/>for cross-namespace correlation<br/>cognitive.* ↔ intelligence.* ↔ events.*"]:::mid
+end
+class EVENTS_BUS card
+
+%% ====== CONTRACTS SYSTEM ======
+subgraph CONTRACTS_SYSTEM["📋 Contracts-First Architecture"]
+  direction TB
+  contract_api["contracts/api/* (OpenAPI specs)"]:::plane
+  contract_events["contracts/events/* (Event schemas + cognitive_trace_id)"]:::bus
+  contract_storage["contracts/storage/* (Data schemas)"]:::storage
+  contract_security["contracts/security/* (Auth/crypto)"]:::gate
+  contract_policy["contracts/policy/* (ABAC/RBAC rules)"]:::mid
+  contract_jobs["contracts/jobs/* (Workflow definitions)"]:::mid
+  contract_ci["contracts/ci/* (Validation pipeline)"]:::gate
+  contract_manifest["contracts/_manifest/* (Version control)"]:::gate
+end
+class CONTRACTS_SYSTEM card
+
+%% ====== ENHANCED POLICY FRAMEWORK WITH FAMILY INTEGRATION ======
+subgraph POLICY_FRAMEWORK["🧠 Memory-Driven Family Intelligence & Policy Framework"]
+  direction TB
+  pol_pep["policy/memory_decision.py (Memory-Driven Policy Enforcement)"]:::gate
+  pol_abac["policy/memory_abac.py (Memory-Aware Attribute Access)"]:::smart
+  pol_rbac["policy/memory_rbac.py (Memory-Based Role Access)"]:::fast
+  pol_redactor["policy/memory_redactor.py (Memory-Aware Content Redaction)"]:::smart
+  pol_safety["policy/memory_safety.py (Memory Content Protection)"]:::smart
+  pol_consent["policy/memory_consent.py (Memory Access Consent)"]:::mid
+  pol_space["policy/memory_space_policy.py (Device Memory Capabilities)"]:::mid
+  pol_audit["policy/memory_audit.py (Memory Operation Logging)"]:::storage
+  pol_config["policy/memory_config/* (Memory Policy Rules)"]:::gate
+
+  subgraph FAMILY_MEMORY_INTELLIGENCE["🧠 Memory-Driven Family Intelligence"]
+    pol_family["policy/family_memory_intelligence.py<br/>🧠 Memory-driven family coordination<br/>� Shared experience intelligence<br/>� Memory-based relationship dynamics"]:::smart
+    pol_relationship["policy/memory_relationship_intelligence.py<br/>🧠 Memory-aware authority models<br/>📊 Experience-based conflict resolution<br/>👶 Memory-driven age-appropriate access"]:::smart
+    pol_emergency["policy/memory_emergency_intelligence.py<br/>🧠 Memory-driven crisis management<br/>🚨 Experience-based emergency protocols<br/>📱 Memory-aware device procedures"]:::gate
+    pol_subscription["policy/memory_subscription_intelligence.py<br/>🧠 Memory-driven feature access<br/>� Usage pattern intelligence<br/>👨‍👩‍👧‍� Family Memory tier management"]:::smart
+  end
+
+  subgraph COGNITIVE_MEMORY_INTEGRATION["🧠 Memory-Cognitive Integration Layer"]
+    pol_cognitive["policy/memory_cognitive.py<br/>🧠 Memory-driven cognitive decisions<br/>📚 Experience-based intelligence"]:::smart
+    pol_attention["policy/memory_attention.py<br/>🧠 Memory-aware attention control<br/>👁️ Experience-prioritized access"]:::gate
+    pol_memory_lifecycle["policy/memory_lifecycle.py<br/>🧠 Memory formation & retention policies<br/>⏰ Experience-based memory management"]:::smart
+    pol_memory_coordination["policy/memory_coordination.py<br/>🧠 Cross-device Memory intelligence<br/>🔄 Family Memory consensus protocols"]:::smart
+  end
+end
+class POLICY_FRAMEWORK card
+
+%% ====== FAMILY API INGRESS ======
+subgraph API_INGRESS["🧠 Memory-Serving API Ingress (3 Memory API planes → Memory PEP → Memory Ports)"]
+  direction TB
+  APL["api/routers/memory_agents.py — Agent Memory Plane<br/>� Memory-driven AI agents<br/>📝 Memory read/write operations<br/>🎯 Memory-contextualized responses"]:::plane
+  APP["api/routers/memory_family_app.py — Family Memory Plane<br/>🧠 Family Memory operations<br/>📱 Device-local Memory access<br/>� Cross-device Memory sync"]:::plane
+  CTRL["api/routers/memory_control.py — Memory Control Plane<br/>🧠 Memory administration<br/>� Family Memory governance<br/>� Memory permissions & policies"]:::plane
+  MW_AUTH["api/memory_auth.py → Memory SecurityContext<br/>🧠 Memory-aware authentication<br/>📱 Device Memory capability resolution"]:::fast
+  MW_PEP["policy/memory_decision.py (Memory PEP)<br/>🧠 Memory-based access control<br/>👨‍👩‍👧‍� Family Memory permissions"]:::smart
+  MW_SEC["security/* (memory_mls_group, memory_keys, memory_ratchet)<br/>🔒 Memory encryption keys<br/>📱 Device Memory trust management"]:::mid
+  MW_QOS["retrieval/memory_qos_gate.py (Memory QoS)<br/>🧠 Memory operation throttling<br/>⚡ Memory performance tiers"]:::smart
+  MW_SAF["policy/memory_safety.py (Memory Safety)<br/>🧠 Memory content protection<br/>👶 Age-appropriate Memory filtering"]:::smart
+  MW_OBS["observability/* (memory_audit, memory_receipts)<br/>🧠 Memory operation logging<br/>📊 Memory access tracking"]:::mid
+  ING["ingress/memory_adapter.py (Memory HTTP handlers → Memory ports)<br/>🧠 Memory-aware request routing<br/>📱 Device Memory context resolution"]:::fast
+end
+class API_INGRESS card
+
+%% ====== PORTS ======
+subgraph PORTS["🔌 Ports (only four egress)"]
+  CMD["CommandBusPort"]:::bus
+  QRY["QueryFacadePort"]:::fast
+  SSE["SSEHubPort"]:::fast
+  OBS["ObservabilityPort"]:::mid
+end
+class PORTS card
+
+%% ====== QUERY PATH (wired) ======
+q_broker["retrieval/query_broker.py"]:::mid
+q_services["retrieval/services.py"]:::mid
+st_read["storage/* (read indices)"]:::storage
+QRY-->q_broker-->q_services-->st_read
+q_broker-. optional evented read .->P01
+
+%% ====== ACTION RUNNER & COMMIT CHAIN WITH OUTBOX PATTERN ======
+action_runner["action/runner.py (exec safe effects)"]:::mid
+uow["services/uow.py (UnitOfWork)"]:::mid
+st_outbox["st_outbox (Outbox Store - Transactional)"]:::storage
+outbox_drainer["events/outbox_drainer.py (Reliable Publisher)"]:::bus
+st_receipts["st_receipts (Receipts Store)"]:::storage
+P04-- "ACTION_DECISION" -->action_runner-->uow
+uow-- "Single Transaction" -->st_receipts & st_outbox
+st_outbox-->outbox_drainer-->EVT_P
+st_receipts-->MEM_P
+
+%% ====== ENHANCED REAL-TIME TOPICS WITH FAMILY MEMORY EVENTS ======
+subgraph TICK_TOPICS["🧠 Memory-Driven Real-time Intelligence Topics"]
+  UI_T["ui.* (Memory-driven UI state changes)"]:::mid
+  JOB_T["job.* (Memory operation job status)"]:::mid
+  PROS_T["prospective.* (Memory-driven reminders & events)"]:::mid
+  MEM_T["memory.* (Memory backbone updates)"]:::mid
+  WS_T["workspace.* (Memory-driven collaboration)"]:::mid
+  PRES_T["presence.* (Memory-aware activity tracking)"]:::mid
+  INT_T["integration.* (External events to Memory)"]:::mid
+  SAF_T["safety.* (Memory security & protection)"]:::mid
+  EVT_T["events.* (Memory system events + cognitive_trace_id)"]:::bus
+  POL_T["policy.* (Memory governance — CTRL only)"]:::gate
+  CONTRACT_T["contract.* (Memory contracts — CTRL only)"]:::plane
+  POL_T_APP["policy.version (Memory policy updates)"]:::gate
+  CONTRACT_T_APP["contract.version (Memory contract updates)"]:::plane
+
+  subgraph MEMORY_INTELLIGENCE_TOPICS["🧠 Memory-Driven Family Intelligence Topics"]
+    MEM_SYNC_T["memory.sync.* (Cross-device Memory sync + cognitive_trace_id)<br/>🧠 Memory consistency events<br/>📱 Device Memory coordination<br/>🔄 Family Memory consensus"]:::bus
+    MEM_FORM_T["memory.formation.* (Memory creation & encoding + cognitive_trace_id)<br/>🧠 Experience capture events<br/>� Memory consolidation<br/>🎭 Multi-perspective memories"]:::bus
+    MEM_RECALL_T["memory.recall.* (Memory retrieval & access + cognitive_trace_id)<br/>🧠 Memory search events<br/>� Context-aware recall<br/>🎯 Relevance-based retrieval"]:::bus
+    MEM_LEARN_T["memory.learning.* (Memory-driven learning + cognitive_trace_id)<br/>🧠 Pattern recognition from memories<br/>� Experience-based adaptation<br/>� Memory-informed intelligence"]:::bus
+    MEM_COORD_T["memory.coordination.* (Family Memory coordination + cognitive_trace_id)<br/>🧠 Multi-device Memory intelligence<br/>�‍👩‍👧‍👦 Shared experience coordination<br/>🤝 Memory consensus protocols"]:::bus
+    MEM_EMERG_T["memory.emergency.* (Memory-driven crisis response + cognitive_trace_id)<br/>🧠 Emergency Memory access<br/>� Memory-aware crisis protocols<br/>🏥 Experience-based emergency handling"]:::bus
+  end
+
+  subgraph COGNITIVE_MEMORY_INTELLIGENCE["🧠 Memory-Cognitive Intelligence Topics (cognitive_trace_id correlation)"]
+    COG_MEM_FORM_T["cognitive.memory.formation.* (Memory-driven cognition + cognitive_trace_id)<br/>🧠 Memory-aware AI reasoning<br/>📚 Experience-based intelligence<br/>🎭 Memory-contextualized responses"]:::bus
+    COG_MEM_RECALL_T["cognitive.memory.recall.* (Memory-driven retrieval + cognitive_trace_id)<br/>🧠 Memory-contextualized AI responses<br/>� Experience-informed answers<br/>🎯 Memory-guided relevance"]:::bus
+    COG_MEM_DECIDE_T["cognitive.memory.decision.* (Memory-driven decisions + cognitive_trace_id)<br/>🧠 Experience-based decision making<br/>📊 Memory-informed choices<br/>🤝 Family Memory consensus"]:::bus
+    COG_MEM_LEARN_T["cognitive.memory.learning.* (Memory-cognitive learning + cognitive_trace_id)<br/>🧠 Memory-driven pattern recognition<br/>� Experience-based model updates<br/>🔄 Memory-informed adaptation"]:::bus
+    COG_MEM_ATT_T["cognitive.memory.attention.* (Memory-driven attention + cognitive_trace_id)<br/>🧠 Memory-prioritized attention<br/>�️ Experience-based focus<br/>🎯 Memory-guided salience"]:::bus
+    COG_MEM_WM_T["cognitive.memory.working.* (Active Memory operations + cognitive_trace_id)<br/>🧠 Working Memory coordination<br/>⚡ Active Memory management<br/>� Memory operation tracking"]:::bus
+  end
+end
+class TICK_TOPICS card
+
+subgraph PRODUCERS["⚙️ Event Producers (→ Topics & Pipelines)"]
+  JOB["Jobs (Index/DSAR/Actions)"]:::mid
+  PROS_P["Prospective Engine"]:::mid
+  MEM_P["Receipts Publisher"]:::mid
+  WS_P["Workspace Broadcast"]:::mid
+  PRES_P["Presence Service"]:::mid
+  IOT_P["Integrations / IoT Adapter"]:::mid
+  SAF_P["Policy/Safety Monitor"]:::mid
+  EVT_P["Events Bus Publisher"]:::bus
+  CONTRACT_P["Contract Validator"]:::plane
+end
+class PRODUCERS card
+
+%% ====== FAMILY MEMORY API ENDPOINTS ======
+subgraph API_ENDPOINTS["🌐 Family Memory API Endpoints (auto-mapped)"]
+  direction TB
+
+  subgraph FAMILY_MEMORY_ENDPOINTS["👨‍👩‍👧‍👦 Family Memory Operations"]
+    ep_family_submit["POST /v1/family/memory/submit<br/>🧠 AI-assisted family memory creation<br/>👨‍👩‍👧‍👦 Automatic scope classification"]:::plane
+    ep_family_recall["POST /v1/family/memory/recall<br/>🔍 Relationship-aware memory retrieval<br/>📱 Device-appropriate responses"]:::fast
+    ep_family_scope["PUT /v1/family/memory/{id}/scope<br/>👑 Admin memory scope changes<br/>👨‍👩‍👧‍👦 Relationship-based access"]:::plane
+    ep_family_share["POST /v1/family/memory/{id}/share<br/>👨‍👩‍👧‍👦 Explicit family sharing<br/>💰 Subscription validation"]:::smart
+  end
+
+  subgraph FAMILY_ADMIN_ENDPOINTS["👑 Family Administration"]
+    ep_family_create["POST /v1/family/create<br/>👑 Family onboarding<br/>💰 Subscription setup"]:::plane
+    ep_family_member_add["POST /v1/family/members<br/>👶 Add family member<br/>💰 Addon enforcement"]:::plane
+    ep_family_member_remove["DELETE /v1/family/members/{id}<br/>💔 Remove family member<br/>🧠 Memory reclassification"]:::plane
+    ep_family_subscription["PUT /v1/family/subscription<br/>💰 Upgrade/downgrade subscription<br/>🔒 Feature gate updates"]:::plane
+    ep_family_emergency["POST /v1/family/emergency<br/>🚨 Emergency access protocols<br/>⏰ Time-limited overrides"]:::plane
+  end
+
+  subgraph DEVICE_SYNC_ENDPOINTS["📱 Device & Sync Management"]
+    ep_device_register["POST /v1/family/devices/register<br/>📱 Device capability registration<br/>🔒 Family context setup"]:::plane
+    ep_device_sync["POST /v1/family/devices/sync<br/>🔄 Cross-device memory sync<br/>👨‍👩‍👧‍👦 Relationship-based distribution"]:::fast
+    ep_device_handoff["POST /v1/family/devices/handoff<br/>📱 Cross-device conversation handoff<br/>🧠 Context preservation"]:::smart
+    ep_device_compromise["POST /v1/family/devices/{id}/compromise<br/>📱 Report lost/stolen device<br/>🚨 Emergency access revocation"]:::plane
+  end
+
+  subgraph LEGACY_ENDPOINTS["🔧 Legacy API Endpoints (updated for families)"]
+    ep_receipt["GET  /v1/receipts/{envelope_id}"]:::fast
+    ep_events_stream["GET /v1/events/stream (Family SSE ⚡→ Frontend)"]:::fast
+    ep_events_ack["POST /v1/events/ack"]:::fast
+    ep_events_subscribe["POST /v1/events/subscribe"]:::fast
+    ep_events_unsubscribe["POST /v1/events/unsubscribe"]:::fast
+    ep_project["POST /v1/tools/memory/project"]:::smart
+    ep_refer["POST /v1/tools/memory/refer"]:::smart
+    ep_detach["POST /v1/tools/memory/detach"]:::plane
+    ep_undo["POST /v1/tools/memory/undo"]:::plane
+    ep_dsar_create["POST /v1/privacy/dsar/requests"]:::plane
+    ep_dsar_status["GET  /v1/privacy/dsar/requests/{job_id}"]:::fast
+    ep_dsar_cancel["POST /v1/privacy/dsar/requests/{job_id}/cancel"]:::plane
+    ep_mls_join["POST /v1/security/mls/groups/{group_id}/join"]:::plane
+    ep_rotate_keys["POST /v1/security/keys/rotate"]:::plane
+    ep_ratchet_advance["POST /v1/security/ratchet/advance"]:::plane
+    ep_idx_rebuild["POST /v1/admin/index/rebuild"]:::plane
+    ep_idx_status["GET  /v1/admin/index/rebuild/{job_id}"]:::fast
+    ep_idx_cancel["POST /v1/admin/index/rebuild/{job_id}/cancel"]:::plane
+    ep_tools_list["GET /v1/registry/tools"]:::fast
+    ep_prompts_list["GET /v1/registry/prompts"]:::fast
+    ep_roles_list["GET /v1/rbac/roles"]:::fast
+    ep_binding_upsert["POST /v1/rbac/bindings"]:::plane
+    ep_sync_peers["POST /v1/sync/peers"]:::plane
+    ep_sync_status["GET /v1/sync/status"]:::fast
+    ep_flags_list["GET /v1/flags"]:::fast
+    ep_connectors["GET /v1/connectors"]:::fast
+    ep_authz_conn["POST /v1/connectors/{id}/authorize"]:::smart
+    ep_things["GET /v1/things"]:::fast
+    ep_thing_get["GET /v1/things/{thing_id}"]:::fast
+    ep_thing_cmd["POST /v1/things/{thing_id}/commands"]:::plane
+    ep_webhook["POST /v1/integrations/webhooks/{connector_id}"]:::plane
+    ep_policy_validate["POST /v1/policy/validate"]:::smart
+    ep_contracts_schema["GET /v1/contracts/schema/{component}"]:::fast
+  end
+end
+class API_ENDPOINTS card
+
+%% ====== EXTERNAL CONNECTIONS ======
+INTENT_RT["intent/router.py → Diagram 2"]:::mid
+subgraph EXTERNAL_CONNECTIONS["🔗 Connections to Other Diagrams"]
+  TO_COGNITIVE["→ Diagram 2: Cognitive Core"]:::mid
+  TO_INTELLIGENCE["→ Diagram 3: Intelligence Systems"]:::mid
+  TO_INFRASTRUCTURE["→ Diagram 4: Infrastructure"]:::mid
+end
+class EXTERNAL_CONNECTIONS card
+
+%% ====== FAMILY DEVICES→GATEWAY→TIERS BRIDGE (ALL THROUGH FAMILY PROXY) ======
+PERSONAL_FULL-->PROXY
+FAMILY_HUB-->PROXY
+WORK_DEVICE-->PROXY
+GUEST_DEVICE-->PROXY
+WEB-->PROXY
+MOBILE-->PROXY
+FAMILY_APP-->PROXY
+ADMIN-->PROXY
+AGENTS-->PROXY
+CLI-->PROXY
+PROXY-->DEVICE_DETECTOR
+DEVICE_DETECTOR-->TIER1
+DEVICE_DETECTOR-->TIER2
+DEVICE_DETECTOR-->TIER3
+TIER1-->APL
+TIER2-->APP
+TIER3-->CTRL
+
+%% ====== ENHANCED CORE REQUEST/RESPONSE FLOW WITH COGNITIVE ORCHESTRATION ======
+APL-->MW_AUTH
+APP-->MW_AUTH
+CTRL-->MW_AUTH
+MW_AUTH-->MW_PEP
+MW_PEP-->MW_SEC
+MW_SEC-->MW_QOS
+MW_QOS-->MW_SAF
+MW_SAF-->MW_OBS
+MW_OBS-->ING
+ING-->SHARED_IDEMPOTENCY
+SHARED_IDEMPOTENCY-->CMD
+ING-->QRY
+ING<-->SSE
+ING-->OBS
+
+%% ====== ENHANCED FAST vs SMART LANES WITH COGNITIVE PROCESSING ======
+CMD-- "valid intent ∧ high-confidence ∧ no blocking obligations" --> evt_types
+CMD-- "unset/low-confidence ∨ obligations present" --> INTENT_RT
+INTENT_RT-- "cognitive processing required" -->GATE
+
+%% ====== COGNITIVE ORCHESTRATION LAYER INTEGRATION ======
+CER_DISPATCH-->evt_types
+MS_RECEIPT-->evt_bus
+CB_PROVENANCE-->evt_bus
+WM_UPDATE-->evt_bus
+
+%% ====== POLICY INTEGRATION WITH COGNITIVE COMPONENTS ======
+MW_PEP-->pol_cognitive
+pol_cognitive-->pol_attention
+pol_attention-->GATE
+pol_memory_lifecycle-->MS_REDACT
+
+%% ====== MEMORY BACKBONE HIERARCHY - ALL SYSTEMS SERVE MEMORY ======
+%% All API Planes serve Memory Backbone operations
+TIER1-- "Memory Read/Write Operations" -->MEMORY_ENGINE
+TIER2-- "Family Memory Coordination" -->MEMORY_SPACES
+TIER3-- "Memory Administration" -->MEMORY_PERMISSIONS
+
+%% All Pipelines serve Memory Backbone
+P01-- "TO Memory Recall" -->MEMORY_INDEX
+P02-- "TO Memory Formation" -->MEMORY_ENGINE
+P03-- "WITHIN Memory Consolidation" -->MEMORY_SPACES
+P04-- "FROM Memory Decision" -->MEMORY_ENGINE
+P05-- "FROM Memory Triggers" -->MEMORY_INDEX
+P06-- "TO Memory Learning" -->MEMORY_ENGINE
+P07-- "Memory Sync Operations" -->MEMORY_SYNC
+P08-- "TO Memory Embeddings" -->MEMORY_INDEX
+P09-- "TO Memory Ingestion" -->MEMORY_ENGINE
+P10-- "Memory Protection" -->MEMORY_PERMISSIONS
+
+%% Device Memory connections
+PERSONAL_FULL-- "Device-Local Memory" -->DEVICE_STORAGE
+FAMILY_HUB-- "Shared Memory Hub" -->MEMORY_SYNC
+WORK_DEVICE-- "Contextual Memory" -->DEVICE_STORAGE
+GUEST_DEVICE-- "Limited Memory Access" -->MEMORY_PERMISSIONS
+
+%% Memory serves all intelligence
+MEMORY_ENGINE-- "Memory-Driven Intelligence" -->pol_cognitive
+MEMORY_SPACES-- "Family Memory Intelligence" -->pol_relationship
+MEMORY_INDEX-- "Experience-Based Decisions" -->pol_memory_lifecycle
+MEMORY_SYNC-- "Coordinated Intelligence" -->pol_memory_coordination
+
+%% Events flow through Memory
+evt_bus-- "Memory Events" -->MEMORY_ENGINE
+MEMORY_ENGINE-- "Memory State Changes" -->evt_bus
+
+%% ====== MEMORY-CENTRIC ANNOTATIONS ======
+%% Key Memory-Centric Principles Throughout Architecture
+
+%% Memory Backbone Principle
+%% 🧠 MEMORY AS BACKBONE: All systems exist to serve Memory operations
+%% Every API call, every pipeline, every device interaction ultimately serves Memory
+
+%% Device-Local Memory Principle
+%% 📱 DEVICE-LOCAL MEMORY: Memory lives on user devices, not in cloud
+%% Each device maintains its own Memory instance with E2EE sync
+
+%% User-Controlled Memory Principle
+%% 👤 USER-CONTROLLED: Simple permissions, explicit commands for sensitive Memory
+%% Users control their Memory access with straightforward permission model
+
+%% Family Intelligence Principle
+%% 👨‍👩‍👧‍👦 FAMILY INTELLIGENCE: Emerges from shared Memory experiences across devices
+%% Family coordination is Memory-driven, not separate coordination systems
+
+%% Memory-Driven AI Principle
+%% 🤖 MEMORY-DRIVEN AI: LLMs and AI agents operate on Memory context
+%% All AI responses are grounded in user's Memory experiences
+
+%% Memory-Centric Flow Annotations
+%% → TO Memory: Data flowing into Memory for formation and storage
+%% ← FROM Memory: Intelligence and responses emerging from Memory
+%% ↔ WITHIN Memory: Operations that happen within Memory spaces
+%% ⚡ Memory Operations: Real-time Memory access and manipulation
+pol_redaction_coord-->MS_REDACT & CB_ORCH
+
+%% ====== COGNITIVE ORCHESTRATION LAYER (NEW MIDDLE LAYER) ======
+subgraph COGNITIVE_ORCHESTRATION["🧠 Cognitive Orchestration Layer"]
+  direction TB
+
+  subgraph ATTENTION_BRAIN["👁️ Attention Gate (Thalamus) — Brain-Inspired"]
+    GATE["attention_gate/gate_service.py<br/>🧠 THALAMUS FUNCTIONS:<br/>• ADMIT (high salience/confidence)<br/>• DEFER (queue for later)<br/>• BOOST (priority elevation)<br/>• DROP (resource protection)<br/>derives: PROSPECTIVE_SCHEDULE · LEARNING_TICK · AFFECT_ANALYZE"]:::gate
+    SALIENCE["attention_gate/salience.py<br/>Content importance scoring"]:::smart
+    BACKPRESSURE["attention_gate/backpressure.py<br/>Queue depth & throttling"]:::smart
+    INTENT_CLASS["attention_gate/intent_rules.py<br/>Processing intent derivation"]:::smart
+  end
+
+  subgraph MEMORY_STEWARD["🧠 Memory Steward Service (Two-Layer Hippocampal Architecture)"]
+    direction TB
+
+    subgraph ORCHESTRATION_LAYER["🎭 Orchestration Layer (Policy & Workflow)"]
+      MS_STEWARD["memory_steward/__init__.py<br/>🧠 UNIFIED ORCHESTRATOR:<br/>• WriteIntent → WriteDecision pipeline<br/>• Space resolution + PII redaction<br/>• Deduplication + UoW commit<br/>• Receipt generation + event emission<br/>585 lines of sophisticated orchestration"]:::mid
+
+      %% Memory Steward Component Nodes
+      MS_SPACE["🏠 Space Resolver<br/>Policy-driven space management<br/>Family boundary enforcement"]:::memory_steward
+      MS_REDACT["🔒 Redaction Coordinator<br/>PII detection & protection<br/>Privacy-first content filtering"]:::memory_steward
+      MS_DEDUPE["🔗 Deduplication Engine<br/>Content similarity detection<br/>Intelligent merge strategies"]:::memory_steward
+      MS_COMMIT["💾 Commit Manager<br/>ACID transaction coordination<br/>UnitOfWork completion"]:::memory_steward
+      MS_RECEIPT["📄 Receipt Generator<br/>Proof-of-storage creation<br/>Cryptographic validation"]:::memory_steward
+
+      MS_COMPONENTS["🧩 INTEGRATED COMPONENTS:<br/>• SpaceResolver (policy-driven)<br/>• RedactionCoordinator (PII handling)<br/>• DeduplicationEngine (content merge)<br/>• CommitManager (ACID transactions)"]:::smart
+    end
+
+    subgraph HIPPOCAMPUS_LAYER["🌊 Hippocampus Layer (Brain-Inspired Processing)"]
+      HIPPO_API["hippocampus/api.py<br/>🧠 UNIFIED HIPPOCAMPUS API:<br/>• encode_event() - DG→CA1→Storage<br/>• recall_by_cue() - CA3 completion<br/>• 383 lines of brain-inspired memory"]:::brain
+      HIPPO_DG["hippocampus/separator.py<br/>🧠 DENTATE GYRUS:<br/>Pattern separation & sparse encoding"]:::brain
+      HIPPO_CA3["hippocampus/completer.py<br/>🧠 CA3 REGION:<br/>Content-addressable completion"]:::brain
+      HIPPO_CA1["hippocampus/bridge.py<br/>🧠 CA1 BRIDGE:<br/>Semantic projection to KG"]:::brain
+    end
+
+    subgraph INTEGRATION_LAYER["⚙️ Integration & Pipeline Coordination"]
+      P02_PIPELINE["pipelines/p02.py<br/>📡 P02 WRITE PIPELINE:<br/>Event-driven memory formation<br/>HIPPO_ENCODE → HippocampusAPI"]:::bus
+      MS_EVENTS["🔄 COGNITIVE EVENTS:<br/>cognitive.memory.write.*<br/>Comprehensive workflow coordination"]:::bus
+    end
+  end
+
+  subgraph CONTEXT_BUILDER["🧠 Context Bundle Builder (Hybrid Recall Assembly)"]
+    CB_ORCH["context_bundle/orchestrator.py<br/>Multi-store coordination"]:::mid
+    CB_FANOUT["context_bundle/store_fanout.py<br/>Parallel store queries"]:::fast
+    CB_FUSION["context_bundle/result_fuser.py<br/>Cross-store result fusion"]:::smart
+    CB_MMR["context_bundle/mmr_diversifier.py<br/>Maximal Marginal Relevance"]:::smart
+    CB_PROVENANCE["context_bundle/provenance_tracer.py<br/>Source & confidence tracking"]:::mid
+    CB_BUDGET["context_bundle/budget_enforcer.py<br/>Performance budget control"]:::fast
+  end
+
+  subgraph COGNITIVE_EVENT_ROUTER["📡 Cognitive Event Router (Smart-Path Processing)"]
+    CER_DISPATCH["cognitive_events/dispatcher.py<br/>Topic routing for cognition"]:::bus
+    CER_CONSUMER["cognitive_events/consumer_groups.py<br/>Pipeline consumer management"]:::bus
+    CER_BACKPRESSURE["cognitive_events/backpressure_handler.py<br/>Cross-module flow control"]:::smart
+    CER_DLQ["cognitive_events/dlq_manager.py<br/>Failed cognitive processing"]:::storage
+    SHARED_IDEMPOTENCY["shared/idempotency_ledger.py<br/>Global operation deduplication<br/>(actor_id, device_id, envelope_hash)"]:::fast
+  end
+
+  subgraph WM_SESSION["🧮 Working Memory Manager (Hierarchical Cache System)"]
+    direction TB
+
+    subgraph CACHE_HIERARCHY["⚡ Hierarchical Cache (L1/L2/L3)"]
+      WM_L1["working_memory/cache.py<br/>🧠 L1 CACHE (Ultra-fast in-memory)<br/>• 100ms eviction timeout<br/>• Immediate access patterns"]:::fast
+      WM_L2["working_memory/cache.py<br/>🧠 L2 CACHE (Session-local)<br/>• 5min eviction timeout<br/>• Recent access promotion"]:::mid
+      WM_L3["working_memory/cache.py<br/>🧠 L3 CACHE (Persistent storage)<br/>• 24hr+ retention<br/>• Long-term working memory"]:::storage
+    end
+
+    subgraph CACHE_MANAGEMENT["🎛️ Cache Management & Intelligence"]
+      WM_MGR["working_memory/manager.py<br/>🧠 WORKING MEMORY MANAGER:<br/>• Automatic promotion/demotion<br/>• UoW integration for persistence<br/>• Cognitive load-aware eviction"]:::mid
+      WM_STORE["working_memory/store.py<br/>🔄 WORKING MEMORY STORE:<br/>• StoreProtocol compliance<br/>• Transaction support"]:::storage
+    end
+
+    subgraph COGNITIVE_CONTROL["🧠 Cognitive Control (Brain-Inspired)"]
+      WM_ADMISSION["working_memory/admission_controller.py<br/>🚪 Salience-based admission control"]:::smart
+      WM_LOAD_MON["working_memory/load_monitor.py<br/>📊 Cognitive load monitoring"]:::smart
+    end
+  end
+end
+class COGNITIVE_ORCHESTRATION brain
+
+%% ====== NEW COGNITIVE EVENT TOPICS ======
+subgraph COGNITIVE_TOPICS["📡 Cognitive Event Topics (Brain-Inspired Workflows)"]
+  direction TB
+
+  subgraph MEMORY_EVENTS["🧠 Memory Formation Events"]
+    MEM_INIT["cognitive.memory.write.initiated"]:::bus
+    MEM_SPACE["cognitive.memory.write.space_resolved"]:::bus
+    MEM_REDACT["cognitive.memory.write.redacted"]:::bus
+    MEM_COMMIT["cognitive.memory.write.committed"]:::bus
+    MEM_FAIL["cognitive.memory.write.failed"]:::bus
+  end
+
+  subgraph RECALL_EVENTS["🔍 Context Assembly Events"]
+    REC_REQ["cognitive.recall.context.requested"]:::bus
+    REC_QUERY["cognitive.recall.stores.queried"]:::bus
+    REC_FUSE["cognitive.recall.results.fused"]:::bus
+    REC_BUNDLE["cognitive.recall.bundle.assembled"]:::bus
+    REC_FAIL["cognitive.recall.bundle.failed"]:::bus
+  end
+
+  subgraph ARBITRATION_EVENTS["⚖️ Decision Making Events"]
+    ARB_REQ["cognitive.arbitration.decision.requested"]:::bus
+    ARB_HABIT["cognitive.arbitration.habit.evaluated"]:::bus
+    ARB_PLAN["cognitive.arbitration.planner.evaluated"]:::bus
+    ARB_DECIDE["cognitive.arbitration.decision.made"]:::bus
+    ARB_FAIL["cognitive.arbitration.decision.failed"]:::bus
+  end
+
+  subgraph LEARNING_EVENTS["📈 Learning & Adaptation Events"]
+    LRN_OUT["cognitive.learning.outcome.received"]:::bus
+    LRN_HABIT["cognitive.learning.habit.updated"]:::bus
+    LRN_PLAN["cognitive.learning.planner.updated"]:::bus
+    LRN_SELF["cognitive.learning.self_model.updated"]:::bus
+  end
+
+  subgraph ATTENTION_EVENTS["👁️ Attention & Working Memory Events"]
+    ATT_ADMIT["cognitive.attention.gate.admit"]:::bus
+    ATT_DEFER["cognitive.attention.gate.defer"]:::bus
+    ATT_BOOST["cognitive.attention.gate.boost"]:::bus
+    ATT_DROP["cognitive.attention.gate.drop"]:::bus
+    WM_UPDATE["cognitive.working_memory.updated"]:::bus
+    WM_EVICT["cognitive.working_memory.evicted"]:::bus
+  end
+end
+class COGNITIVE_TOPICS card
+
+%% ====== ENHANCED SMART LANE PROCESSING ======
+INTENT_RT--"unset/low‑confidence agent_intent · high‑risk · obligations"-->GATE
+GATE-->SALIENCE
+SALIENCE-->BACKPRESSURE
+BACKPRESSURE-->INTENT_CLASS
+INTENT_CLASS-->CER_DISPATCH
+
+%% ====== COGNITIVE ORCHESTRATION WORKFLOWS (Updated for Two-Layer Architecture) ======
+GATE-- "ADMIT WriteIntent" -->MS_STEWARD
+MS_STEWARD-->HIPPO_API
+HIPPO_API-->HIPPO_DG-->HIPPO_CA3-->HIPPO_CA1
+P02_PIPELINE-->HIPPO_API
+MS_STEWARD-->MS_EVENTS
+
+GATE-- "ADMIT RecallIntent" -->CB_ORCH
+CB_ORCH-->CB_FANOUT-->CB_FUSION-->CB_MMR-->CB_PROVENANCE-->CB_BUDGET
+
+%% ====== WORKING MEMORY HIERARCHICAL CACHE INTEGRATION ======
+GATE-->WM_MGR
+WM_MGR-->WM_L1-->WM_L2-->WM_L3
+WM_MGR-->WM_ADMISSION-->WM_LOAD_MON
+WM_MGR<-->CB_ORCH
+WM_MGR<-->MS_STEWARD
+
+%% ====== HIPPOCAMPUS INTEGRATION WITH EVENTS BUS ======
+HIPPO_API-->evt_bus
+MS_EVENTS-->evt_bus
+P02_PIPELINE-->evt_bus
+
+%% ====== COGNITIVE EVENT FLOWS (Updated for Actual Implementation) ======
+MS_STEWARD-->MEM_INIT
+MS_STEWARD-->MEM_SPACE
+MS_STEWARD-->MEM_REDACT
+MS_STEWARD-->MEM_COMMIT
+HIPPO_API-->evt_bus
+P02_PIPELINE-->MEM_COMMIT
+CB_ORCH-->REC_REQ
+CB_FANOUT-->REC_QUERY
+CB_FUSION-->REC_FUSE
+CB_PROVENANCE-->REC_BUNDLE
+
+%% ====== NEW COGNITIVE PRODUCERS (Updated Architecture) ======
+MS_STEWARD-->evt_bus
+HIPPO_API-->evt_bus
+CB_ORCH-->evt_bus
+WM_MGR-->evt_bus
+P02_PIPELINE-->evt_bus
+
+%% ====== COGNITIVE EVENT ROUTING ======
+CER_DISPATCH<-->MEM_INIT & MEM_SPACE & MEM_REDACT & MEM_COMMIT & MEM_FAIL
+CER_DISPATCH<-->REC_REQ & REC_QUERY & REC_FUSE & REC_BUNDLE & REC_FAIL
+CER_DISPATCH<-->ARB_REQ & ARB_HABIT & ARB_PLAN & ARB_DECIDE & ARB_FAIL
+CER_DISPATCH<-->LRN_OUT & LRN_HABIT & LRN_PLAN & LRN_SELF
+CER_DISPATCH<-->ATT_ADMIT & ATT_DEFER & ATT_BOOST & ATT_DROP & WM_UPDATE & WM_EVICT
+
+CER_CONSUMER-->CER_BACKPRESSURE
+CER_BACKPRESSURE-. errors/failures .->CER_DLQ
+SHARED_IDEMPOTENCY<-->CER_DISPATCH
+
+%% ====== ENHANCED EVENTS BUS WITH COGNITIVE ROUTING ======
+evt_types-->evt_validation
+evt_validation-->evt_bus
+evt_validation-. "invalid" .->evt_rejects
+
+%% ====== COGNITIVE EVENT ROUTING TO EVENTS BUS ======
+CER_DISPATCH-->evt_bus
+CER_CONSUMER<-->evt_handlers
+CER_BACKPRESSURE<-->evt_handlers
+CER_DLQ<-->evt_dlq
+
+%% ====== PRODUCERS PUBLISH TO BUS (INCLUDING COGNITIVE) ======
+JOB-->evt_bus
+PROS_P-->evt_bus
+MEM_P-->evt_bus
+WS_P-->evt_bus
+PRES_P-->evt_bus
+IOT_P-->evt_bus
+SAF_P-->evt_bus
+EVT_P-->evt_bus
+CONTRACT_P-->evt_bus
+
+%% ====== NEW COGNITIVE PRODUCERS (Updated Architecture) ======
+MS_STEWARD-->evt_bus
+HIPPO_API-->evt_bus
+CB_ORCH-->evt_bus
+WM_MGR-->evt_bus
+P02_PIPELINE-->evt_bus
+GATE-->evt_bus
+
+%% ====== EVENTS BUS INTERNAL FLOW ======
+evt_bus<-->evt_dispatch
+evt_bus<-->evt_sub
+evt_dispatch<-->evt_handlers
+evt_handlers<-->evt_middleware
+evt_sub<-->evt_filters
+evt_bus<-->evt_persistence
+evt_persistence-->evt_wal
+evt_bus-->evt_offsets
+evt_handlers-. errors/nack .->evt_dlq
+
+%% ====== ENHANCED BUS → PIPELINES WITH COGNITIVE COORDINATION ======
+evt_handlers-->pip_bus
+pip_bus-->P01
+pip_bus-->P02
+pip_bus-->P03
+pip_bus-->P04
+pip_bus-->P05
+pip_bus-->P06
+pip_bus-->P07
+pip_bus-->P08
+pip_bus-->P09
+pip_bus-->P10
+pip_bus-->P11
+pip_bus-->P12
+pip_bus-->P13
+pip_bus-->P14
+pip_bus-->P15
+pip_bus-->P16
+pip_bus-->P17
+pip_bus-->P18
+pip_bus-->P19
+pip_bus-->P20
+
+%% ====== COGNITIVE ORCHESTRATION → PIPELINE INTEGRATION ======
+CB_ORCH-- "context ready" -->P01
+MS_STEWARD-- "write ready" -->P02
+CER_DISPATCH-- "cognitive events" -->P04
+WM_MGR-- "attention events" -->P05
+pol_cognitive-- "policy decisions" -->P10
+pol_redaction_coord-- "redaction events" -->P10
+
+%% ====== PIPELINE CONNECTIONS TO OTHER DIAGRAMS ======
+P01 -.-> TO_COGNITIVE
+P02 -.-> TO_COGNITIVE
+P03 -.-> TO_INFRASTRUCTURE
+P04 -.-> TO_INTELLIGENCE
+P05 -.-> TO_INFRASTRUCTURE
+P06 -.-> TO_INTELLIGENCE
+P07 -.-> TO_INFRASTRUCTURE
+P08 -.-> TO_INFRASTRUCTURE
+P09 -.-> TO_COGNITIVE
+P10 -.-> TO_INFRASTRUCTURE
+P11 -.-> TO_INFRASTRUCTURE
+P12 -.-> TO_INFRASTRUCTURE
+P13 -.-> TO_INFRASTRUCTURE
+P14 -.-> TO_INFRASTRUCTURE
+P15 -.-> TO_INFRASTRUCTURE
+P16 -.-> TO_INFRASTRUCTURE
+P17 -.-> TO_COGNITIVE
+P18 -.-> TO_INFRASTRUCTURE
+P19 -.-> TO_COGNITIVE
+P20 -.-> TO_INTELLIGENCE
+
+%% ====== CONTRACTS SYSTEM INTEGRATION ======
+contract_api-->APL
+contract_api-->APP
+contract_api-->CTRL
+contract_events-->evt_types
+contract_storage-->TO_INFRASTRUCTURE
+contract_security-->MW_SEC
+contract_policy-->pol_pep
+
+%% ====== POLICY CHAIN ======
+MW_PEP-->pol_pep
+pol_pep-->pol_abac
+pol_pep-->pol_rbac
+pol_abac-->pol_redactor
+pol_rbac-->pol_safety
+pol_safety-->pol_consent
+pol_consent-->pol_space
+pol_space-->pol_audit
+
+%% ====== ENHANCED REAL-TIME SSE STREAMING WITH FAMILY MEMORY EVENTS ======
+SSE_ACL["sse/family_acl (Family topic filters)<br/>👨‍👩‍👧‍👦 Relationship-based filtering<br/>📱 Device capability filtering<br/>💰 Subscription-based access"]:::gate
+SSE<-->SSE_ACL
+SSE_ACL<-->UI_T
+SSE_ACL<-->JOB_T
+SSE_ACL<-->PROS_T
+SSE_ACL<-->MEM_T
+SSE_ACL<-->WS_T
+SSE_ACL<-->PRES_T
+SSE_ACL<-->INT_T
+SSE_ACL<-->SAF_T
+SSE_ACL<-->EVT_T
+SSE_ACL<-->POL_T_APP
+SSE_ACL<-->CONTRACT_T_APP
+SSE_ACL-- "[FAMILY-ADMIN-only]" ---POL_T
+SSE_ACL-- "[FAMILY-ADMIN-only]" ---CONTRACT_T
+
+%% ====== EVENT TOPIC ALIASES ======
+%% Family Memory Topic Aliases
+FAM_MEM_T["family.memory.*"]
+FAM_SYNC_T["family.sync.*"]
+FAM_REL_T["family.relationships.*"]
+FAM_SUB_T["family.subscription.*"]
+FAM_EMG_T["family.emergency.*"]
+FAM_DEV_T["family.device.*"]
+
+%% Cognitive Family Topic Aliases
+COG_FAM_MEM_T["cognitive.family.memory.*"]
+COG_FAM_REC_T["cognitive.family.recall.*"]
+COG_FAM_ARB_T["cognitive.family.arbitration.*"]
+COG_FAM_LRN_T["cognitive.family.learning.*"]
+COG_FAM_ATT_T["cognitive.family.attention.*"]
+COG_FAM_WM_T["cognitive.family.working_memory.*"]
+
+%% ====== FAMILY MEMORY EVENT STREAMING ======
+SSE_ACL<-->FAM_MEM_T
+SSE_ACL<-->FAM_SYNC_T
+SSE_ACL<-->FAM_REL_T
+SSE_ACL<-->FAM_SUB_T
+SSE_ACL<-->FAM_EMG_T
+SSE_ACL<-->FAM_DEV_T
+
+%% ====== COGNITIVE FAMILY EVENT STREAMING ======
+SSE_ACL<-->COG_FAM_MEM_T
+SSE_ACL<-->COG_FAM_REC_T
+SSE_ACL<-->COG_FAM_ARB_T
+SSE_ACL<-->COG_FAM_LRN_T
+SSE_ACL<-->COG_FAM_ATT_T
+SSE_ACL<-->COG_FAM_WM_T
+
+%% ====== ENDPOINTS → PLANE ROUTING (traceability) ======
+ep_family_submit<-->APL
+ep_family_recall<-->APL
+ep_project<-->APL
+ep_refer<-->APL
+ep_undo<-->APL
+ep_tools_list<-->APL
+ep_prompts_list<-->APL
+ep_thing_cmd<-->APL
+
+ep_receipt<-->APP
+ep_events_stream<-->APP
+ep_events_ack<-->APP
+ep_events_subscribe<-->APP
+ep_events_unsubscribe<-->APP
+ep_flags_list<-->APP
+ep_things<-->APP
+ep_thing_get<-->APP
+ep_connectors<-->APP
+
+ep_detach<-->CTRL
+ep_dsar_create<-->CTRL
+ep_dsar_status<-->CTRL
+ep_dsar_cancel<-->CTRL
+ep_mls_join<-->CTRL
+ep_rotate_keys<-->CTRL
+ep_ratchet_advance<-->CTRL
+ep_idx_rebuild<-->CTRL
+ep_idx_status<-->CTRL
+ep_idx_cancel<-->CTRL
+ep_roles_list<-->CTRL
+ep_binding_upsert<-->CTRL
+ep_sync_peers<-->CTRL
+ep_sync_status<-->CTRL
+ep_authz_conn<-->CTRL
+ep_policy_validate<-->CTRL
+ep_contracts_schema<-->CTRL
+ep_webhook-->CTRL
+
+%% ====== ENHANCED FLOW SUMMARY WITH FAMILY MEMORY ORCHESTRATION ======
+subgraph FLOW_SUMMARY["🔄 Family Memory Architecture Flow Summary"]
+  direction TB
+  FLOW1["1️⃣ FAMILY DEVICE REQUEST → Family Gateway → Device Detection → 3 Tiers → Family API Planes"]:::plane
+  FLOW2["2️⃣ FAMILY SECURITY → Family Auth → Family PEP → Device Security → Family QoS → Family Safety → Family Observability"]:::gate
+  FLOW3["3️⃣ FAMILY ROUTING → Family Commands | Family Queries | Family SSE Streaming | Family Observability"]:::mid
+  FLOW4["4️⃣ FAMILY COGNITIVE ORCHESTRATION → Family Memory Steward | Family Context Builder | Family Working Memory | Family Attention Gate"]:::brain
+  FLOW5["5️⃣ FAMILY EVENT PROCESSING → Family Cognitive Events → Family EventBus → Family Memory Pipelines P01–P20"]:::bus
+  FLOW6["6️⃣ FAMILY BRAIN-INSPIRED PROCESSING → Family Hippocampus | Family Thalamus | Family Decision Making | Family Memory Consolidation"]:::brain
+  FLOW7["7️⃣ FAMILY ACTIONS → Family P04 → Family Action Runner → Family UnitOfWork → Family Receipts → Family Producers"]:::mid
+  FLOW8["8️⃣ FAMILY REAL-TIME → Family SSE filters topics (Family Admin vs Family Member + Family Cognitive Events)"]:::realtime
+  FLOW9["9️⃣ FAMILY CONTRACTS → Validate Family APIs, Family Events, Family Storage, Family Security, Family Relationships"]:::gate
+  FLOW10["🔟 FAMILY SYNC → Cross-Device Memory Distribution → Device Capability Adaptation → Relationship-Based Access"]:::realtime
+  FLOW11["1️⃣1️⃣ FAMILY SUBSCRIPTION → Tier-Based Feature Gating → Revenue Protection → Family Evolution Support"]:::gate
+  FLOW12["1️⃣2️⃣ FAMILY EMERGENCY → Crisis Management → Emergency Access → Family Recovery Protocols"]:::gate
+end
+class FLOW_SUMMARY card
+
+classDef cognitive fill:#fff7e6,stroke:#d48806,stroke-width:2px,rx:8,ry:8
+classDef memory_steward fill:#e6f7ff,stroke:#1890ff,stroke-width:2px,rx:8,ry:8
+classDef context_builder fill:#f6ffed,stroke:#52c41a,stroke-width:2px,rx:8,ry:8
+classDef working_memory fill:#fff1f0,stroke:#ff4d4f,stroke-width:2px,rx:8,ry:8
+
+class GATE,SALIENCE,BACKPRESSURE,INTENT_CLASS cognitive
+class MS_STEWARD,MS_SPACE,MS_REDACT,MS_DEDUPE,MS_COMMIT,MS_RECEIPT memory_steward
+class CB_ORCH,CB_FANOUT,CB_FUSION,CB_MMR,CB_PROVENANCE,CB_BUDGET context_builder
+class WM_MGR,WM_ADMISSION,WM_EVICTION,WM_CORRELATION working_memory
+class CER_DISPATCH,CER_CONSUMER,CER_BACKPRESSURE,CER_DLQ,SHARED_IDEMPOTENCY bus
+class pol_cognitive,pol_attention,pol_memory_lifecycle,pol_redaction_coord cognitive
+style P01 fill:#e6f5f5,stroke:#008080,stroke-width:2px
+style P02 fill:#ffecec,stroke:#FF0000,stroke-width:2px
+style P03 fill:#eaf7ea,stroke:#008000,stroke-width:2px
+style P04 fill:#ecf0ff,stroke:#0000FF,stroke-width:2px
+style P05 fill:#fff2e6,stroke:#FF8800,stroke-width:2px
+style P06 fill:#f7e6f7,stroke:#AA00AA,stroke-width:2px
+style P07 fill:#e9fbfc,stroke:#00CED1,stroke-width:2px
+style P08 fill:#fff9e3,stroke:#FFD700,stroke-width:2px
+style P09 fill:#f6ece8,stroke:#A52A2A,stroke-width:2px
+style P10 fill:#ffe7f2,stroke:#FF1493,stroke-width:2px
+style P11 fill:#eaf0ff,stroke:#4169E1,stroke-width:2px
+style P12 fill:#e9f6f0,stroke:#2E8B57,stroke-width:2px
+style P13 fill:#fbeaea,stroke:#B22222,stroke-width:2px
+style P14 fill:#fbecfe,stroke:#DA70D6,stroke-width:2px
+style P15 fill:#eaf3f9,stroke:#4682B4,stroke-width:2px
+style P16 fill:#f6f7ea,stroke:#808000,stroke-width:2px
+style P17 fill:#f5eee8,stroke:#8B4513,stroke-width:2px
+style P18 fill:#fff0ea,stroke:#FF4500,stroke-width:2px
+style P19 fill:#f4eafb,stroke:#9932CC,stroke-width:2px
+style P20 fill:#f2f2f2,stroke:#696969,stroke-width:2px

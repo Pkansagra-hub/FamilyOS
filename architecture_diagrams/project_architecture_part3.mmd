@@ -1,0 +1,459 @@
+---
+config:
+  flowchart:
+    htmlLabels: false
+    curve: linear
+  theme: neo
+  layout: elk
+  look: neo
+---
+
+flowchart TB
+
+%% ====== CORE CLASS STYLES (match Diagram 1) ======
+classDef plane fill:#eef7ff,stroke:#2a6ebb,stroke-width:1px,rx:8,ry:8
+classDef mid fill:#f8fff0,stroke:#6b8e23,stroke-width:1px,rx:8,ry:8
+classDef gate fill:#fff7e6,stroke:#d48806,stroke-width:1px,rx:8,ry:8
+classDef bus fill:#f0f0f0,stroke:#666,stroke-width:2px,rx:8,ry:8
+classDef storage fill:#f3f8ff,stroke:#1f4aa1,stroke-width:1px,rx:8,ry:8
+classDef brain fill:#fffdf0,stroke:#b38b00,stroke-width:1px,rx:10,ry:10
+classDef fast stroke:#00897b,stroke-width:2px
+classDef smart stroke:#d46b08,stroke-width:2px,stroke-dasharray:4 3
+classDef card fill:#fff,stroke:#999,stroke-width:1px,rx:8,ry:8
+
+%% Category tints (kept, but aligned to style)
+classDef intelligence_core fill:#fff9c4,stroke:#faad14,stroke-width:2px,rx:10,ry:10
+classDef learning_loop fill:#f6ffed,stroke:#52c41a,stroke-width:2px,rx:8,ry:8
+classDef social_cognition fill:#e6f7ff,stroke:#1890ff,stroke-width:2px,rx:8,ry:8
+classDef metacognitive fill:#f9f0ff,stroke:#722ed1,stroke-width:2px,rx:8,ry:8
+classDef procedural_memory fill:#fff1f0,stroke:#ff4d4f,stroke-width:2px,rx:8,ry:8
+classDef reward_system fill:#fff7e6,stroke:#d48806,stroke-width:2px,rx:8,ry:8
+classDef action_selection fill:#f0f5ff,stroke:#2f54eb,stroke-width:2px,rx:8,ry:8
+
+%% ====== FAMILY INTELLIGENCE LEGEND & BOUNDARY ======
+subgraph FAMILY_LEGEND["🎨 Family Intelligence Diagram Guide"]
+  direction TB
+  L1["🔵/🟢/🟡/⚫/🔷 = same classes as Diagram 1"]:::card
+  L2["🧠 = Family Cognitive/Intelligence modules (brain style)"]:::card
+  L3["👨‍👩‍👧‍👦 = Family relationship-aware processing"]:::card
+  L4["📱 = Cross-device intelligence coordination"]:::card
+  L5["⚠️ Advisory-only: Family Intelligence emits signals → P04; never executes actions"]:::card
+end
+
+subgraph FAMILY_ADVISORY_BOUNDARY["🚧 Family Architectural Boundary"]
+  B1["Family Intelligence Systems provide ADVISORY SIGNALS ONLY"]:::gate
+  B2["P04 (Family Arbitration/Action) is the SOLE action executor"]:::gate
+  B3["👨‍👩‍👧‍👦 Family relationship context respected in all decisions"]:::gate
+end
+
+%% ====== MEMORY BACKBONE EXTERNAL CONNECTIONS ======
+subgraph MEMORY_BACKBONE_CONNECTIONS["🧠 Memory Backbone Intelligence Connections"]
+  FROM_MEMORY_BACKBONE["← FROM Memory Backbone (D1)<br/>🧠 Memory-driven intelligence • Family context • Emotional memories"]:::brain
+  FROM_COGNITIVE_CORE["← FROM Cognitive Core (D2)<br/>🧠 Working memory • Global workspace • Attention state"]:::brain
+  TO_MEMORY_BACKBONE["→ TO Memory Backbone (D1)<br/>🧠 Intelligence insights • Learning updates • Social knowledge"]:::brain
+  TO_P04_ACTIONS["→ TO Infrastructure P04 (D4)<br/>� Advisory signals ONLY - no direct action"]:::plane
+  TO_INFRASTRUCTURE["→ TO Infrastructure (D4)<br/>📊 Intelligence metrics • Learning traces • Social analytics"]:::mid
+end
+class MEMORY_BACKBONE_CONNECTIONS card
+
+%% ====== MEMORY-DRIVEN INTELLIGENCE INFRASTRUCTURE ======
+subgraph MEMORY_INTELLIGENCE_INFRASTRUCTURE["🧠 Memory-Driven Intelligence Infrastructure"]
+  direction TB
+  subgraph MEMORY_INTELLIGENCE_SERVICES["🧩 Memory Backbone Intelligence Services"]
+    INT_COORDINATOR["🎭 Memory Intelligence Coordinator<br/>🧠 MEMORY BACKBONE INTELLIGENCE ORCHESTRATION:<br/>• Memory-driven cross-system coordination<br/>• Memory resource management for intelligence<br/>• Memory-informed performance optimization<br/>➡️ SERVES: Memory Backbone intelligence operations"]:::intelligence_core
+    INT_MEMORY_MANAGER["💾 Memory Backbone Intelligence Manager<br/>🧠 MEMORY INTELLIGENCE COORDINATION:<br/>• Memory-aware working memory coordination<br/>• Memory consolidation handoff for intelligence<br/>• Memory-driven intelligence state management<br/>➡️ SERVES: Memory Backbone intelligence storage"]:::intelligence_core
+    INT_EVENT_PROCESSOR["📡 Memory Intelligence Event Processor<br/>🧠 MEMORY INTELLIGENCE EVENTS:<br/>• Memory-aware signal routing<br/>• Memory-driven state synchronization<br/>• Memory cognitive_trace_id correlation<br/>➡️ SERVES: Memory Backbone intelligence coordination"]:::intelligence_core
+  end
+
+  subgraph MEMORY_LEGACY_INTEGRATION["⚙️ Memory-Enhanced Traditional Systems"]
+    LEG_SOCIAL["🧑‍🤝‍🧑 Memory-Aware Social Cognition<br/>🧠 Social intelligence FROM Memory Backbone<br/>➡️ SERVES: Memory Backbone social insights"]:::social_cognition
+    LEG_METACOG["🪞 Memory-Driven Metacognition<br/>🧠 Self-reflection THROUGH Memory Backbone<br/>➡️ SERVES: Memory Backbone self-awareness"]:::metacognitive
+    LEG_DRIVES["🔥 Memory-Informed Drives<br/>🧠 Motivation FROM Memory experiences<br/>➡️ SERVES: Memory Backbone motivation"]:::reward_system
+    LEG_AFFECT["💖 Memory-Enhanced Affect<br/>🧠 Emotions integrated WITH Memory Backbone<br/>➡️ SERVES: Memory Backbone emotional intelligence"]:::social_cognition
+    LEG_ACTION["🤖 Memory-Guided Action<br/>🧠 Actions informed BY Memory Backbone<br/>➡️ SERVES: Memory Backbone action intelligence"]:::action_selection
+    LEG_LEARNING["📊 Memory-Driven Learning<br/>🧠 Learning coordinated THROUGH Memory Backbone<br/>➡️ SERVES: Memory Backbone adaptive intelligence"]:::learning_loop
+    LEG_IMAGINATION["🧪 Memory-Powered Imagination<br/>🧠 Creativity FROM Memory experiences<br/>➡️ SERVES: Memory Backbone creative intelligence"]:::brain
+  end
+end
+class MEMORY_INTELLIGENCE_INFRASTRUCTURE card
+
+%% ====== MEMORY-DRIVEN LEARNING LOOP & ADAPTIVE INTELLIGENCE ======
+subgraph MEMORY_LEARNING_LOOP["🔄 Memory-Driven Learning Loop & Adaptive Intelligence"]
+  direction TB
+  subgraph MEMORY_LEARNING_CORE["🧠 Memory Backbone Learning Core"]
+    LEARN_COORDINATOR["🎭 Memory Learning Coordinator<br/>🧠 MEMORY BACKBONE LEARNING ORCHESTRATION:<br/>• Memory-driven learning coordination<br/>• Memory experience integration<br/>• Memory-informed adaptation strategies<br/>➡️ COORDINATES: Memory Backbone learning"]:::learning_loop
+    LEARN_PREDICT["🔮 Memory-Informed Predictive Learning<br/>🧠 Predictions FROM Memory experiences<br/>➡️ SERVES: Memory Backbone predictions"]:::learning_loop
+    LEARN_ADAPT["🔄 Memory-Driven Adaptive Controller<br/>🧠 Adaptation THROUGH Memory insights<br/>➡️ SERVES: Memory Backbone adaptation"]:::learning_loop
+    LEARN_FEEDBACK["📊 Memory Learning Feedback Integration<br/>🧠 Feedback integrated WITH Memory Backbone<br/>➡️ SERVES: Memory Backbone feedback loops"]:::learning_loop
+  end
+  subgraph MEMORY_LEARNING_SPECIALIZED["🧠 Memory-Enhanced Specialized Learning"]
+    LEARN_PROCEDURAL["⚙️ Memory-Driven Procedural Learning<br/>🧠 Skills learned THROUGH Memory patterns<br/>➡️ SERVES: Memory Backbone skill development"]:::learning_loop
+    LEARN_DECLARATIVE["📚 Memory Backbone Declarative Learning<br/>🧠 Facts integrated INTO Memory knowledge<br/>➡️ SERVES: Memory Backbone knowledge base"]:::learning_loop
+    LEARN_REINFORCEMENT["🎯 Memory-Informed Reinforcement Learning<br/>🧠 Rewards evaluated THROUGH Memory context<br/>➡️ SERVES: Memory Backbone reward learning"]:::learning_loop
+    LEARN_SOCIAL["🤝 Memory-Enhanced Social Learning<br/>🧠 Social learning FROM Memory relationships<br/>👨‍👩‍👧‍👦 Family Memory social intelligence<br/>➡️ SERVES: Memory Backbone social development"]:::learning_loop
+  end
+  subgraph MEMORY_META_LEARNING["🧠 Memory-Driven Meta-Learning & Transfer"]
+    LEARN_META["🎭 Memory Meta-Learning<br/>🧠 Learning about learning FROM Memory patterns<br/>➡️ SERVES: Memory Backbone meta-intelligence"]:::learning_loop
+    LEARN_TRANSFER["🔗 Memory-Based Transfer Learning<br/>🧠 Knowledge transfer THROUGH Memory connections<br/>➡️ SERVES: Memory Backbone knowledge transfer"]:::learning_loop
+    LEARN_CURIOSITY["🔍 Memory-Driven Curiosity Learning<br/>🧠 Curiosity guided BY Memory gaps<br/>➡️ SERVES: Memory Backbone exploration"]:::learning_loop
+  end
+end
+class MEMORY_LEARNING_LOOP brain
+
+%% ====== FAMILY MEMORY-AWARE SOCIAL COGNITION ======
+subgraph FAMILY_MEMORY_SOCIAL_COGNITION["🤝 Family Memory-Aware Social Cognition"]
+  direction TB
+  subgraph MEMORY_TOM_CORE["🧠 Memory-Driven Theory of Mind Core"]
+    TOM_BELIEFS["💭 Memory-Based Belief Attribution<br/>🧠 Understanding others THROUGH Memory relationships<br/>👨‍👩‍👧‍👦 Family belief modeling FROM Memory<br/>➡️ SERVES: Memory Backbone social understanding"]:::social_cognition
+    TOM_INTENTIONS["🎯 Memory-Informed Intention Recognition<br/>🧠 Intentions understood THROUGH Memory patterns<br/>👨‍👩‍👧‍👦 Family intention awareness FROM Memory<br/>➡️ SERVES: Memory Backbone intention intelligence"]:::social_cognition
+    TOM_EMOTIONS["💗 Memory-Enhanced Emotion Attribution<br/>🧠 Emotional understanding FROM Memory experiences<br/>👨‍👩‍👧‍👦 Family emotional intelligence THROUGH Memory<br/>➡️ SERVES: Memory Backbone emotional understanding"]:::social_cognition
+    TOM_KNOWLEDGE["📚 Memory Knowledge Attribution<br/>🧠 Others' knowledge modeled IN Memory Backbone<br/>👨‍👩‍👧‍👦 Family knowledge awareness THROUGH Memory<br/>➡️ SERVES: Memory Backbone knowledge modeling"]:::social_cognition
+  end
+  subgraph MEMORY_SOCIAL_REASONING["🧠 Memory-Enhanced Social Reasoning"]
+    SOC_NORMS["📋 Memory-Based Social Norms<br/>🧠 Social rules learned FROM Memory experiences<br/>👨‍👩‍👧‍👦 Family norms stored IN Memory Backbone<br/>➡️ SERVES: Memory Backbone social intelligence"]:::social_cognition
+    SOC_RELATIONS["🔗 Memory Relationship Modeling<br/>🧠 Relationships tracked IN Memory Backbone<br/>👨‍👩‍👧‍👦 Family dynamics FROM Memory patterns<br/>➡️ SERVES: Memory Backbone relationship intelligence"]:::social_cognition
+    SOC_COMMUNICATION["💬 Memory-Informed Communication Intent<br/>🧠 Communication understanding THROUGH Memory context<br/>👨‍👩‍👧‍👦 Family communication patterns FROM Memory<br/>➡️ SERVES: Memory Backbone communication intelligence"]:::social_cognition
+    SOC_COOPERATION["🤝 Memory-Driven Cooperation & Competition<br/>🧠 Social strategies FROM Memory experiences<br/>👨‍👩‍👧‍👦 Family cooperation patterns THROUGH Memory<br/>➡️ SERVES: Memory Backbone social coordination"]:::social_cognition
+  end
+  subgraph MEMORY_SOCIAL_LEARNING["🧠 Memory-Enhanced Social Learning & Adaptation"]
+    SOC_IMITATION["👯 Memory-Informed Imitation Learning<br/>🧠 Social learning THROUGH Memory examples<br/>👨‍👩‍👧‍👦 Family behavior learning FROM Memory<br/>➡️ SERVES: Memory Backbone social development"]:::social_cognition
+    SOC_FEEDBACK["📊 Memory Social Feedback<br/>🧠 Social feedback integrated INTO Memory Backbone<br/>👨‍👩‍👧‍👦 Family feedback patterns IN Memory<br/>➡️ SERVES: Memory Backbone social improvement"]:::social_cognition
+    SOC_PERSPECTIVE["👁️ Memory Perspective Switching<br/>🧠 Perspective taking FROM Memory experiences<br/>👨‍👩‍👧‍👦 Family perspective understanding THROUGH Memory<br/>➡️ SERVES: Memory Backbone empathy intelligence"]:::social_cognition
+  end
+end
+class FAMILY_MEMORY_SOCIAL_COGNITION brain
+
+%% ====== METACOGNITION ======
+subgraph METACOGNITION["🧠 Metacognitive Feedback Systems (aPFC + ACC)"]
+  direction TB
+  subgraph META_MONITORING["Metacognitive Monitoring"]
+    META_CONFIDENCE["📈 Confidence Assessment"]:::metacognitive
+    META_PERFORMANCE["⚡ Performance Monitoring"]:::metacognitive
+    META_KNOWLEDGE["📚 Knowledge Assessment"]:::metacognitive
+    META_STRATEGY["🎯 Strategy Monitoring"]:::metacognitive
+  end
+  subgraph META_CONTROL["Metacognitive Control"]
+    META_REGULATION["🔧 Cognitive Regulation"]:::metacognitive
+    META_PLANNING["📋 Metacognitive Planning"]:::metacognitive
+    META_REFLECTION["🤔 Reflective Processing"]:::metacognitive
+  end
+  subgraph SELF_MODEL["Self-Model & Identity"]
+    SELF_CONCEPT["🎭 Self-Concept"]:::metacognitive
+    SELF_EFFICACY["💪 Self-Efficacy"]:::metacognitive
+    SELF_AWARENESS["👁️ Self-Awareness"]:::metacognitive
+  end
+end
+class METACOGNITION brain
+
+%% ====== REWARD & MOTIVATION ======
+subgraph REWARD_SYSTEMS["🔥 Reward Systems & Motivation (VTA + Striatum)"]
+  direction TB
+  subgraph REWARD_CORE["Core Reward Processing"]
+    REWARD_PREDICTION["🔮 Reward Prediction"]:::reward_system
+    REWARD_ERROR["⚡ Prediction Error"]:::reward_system
+    REWARD_VALUATION["💰 Value Assessment"]:::reward_system
+  end
+  subgraph MOTIVATION_SYSTEMS["Motivational Systems"]
+    DRIVE_HOMEOSTASIS["⚖️ Homeostatic Drives"]:::reward_system
+    DRIVE_CURIOSITY["🔍 Curiosity Drive"]:::reward_system
+    DRIVE_ACHIEVEMENT["🏆 Achievement Drive"]:::reward_system
+    DRIVE_SOCIAL["🤝 Social Drive"]:::reward_system
+  end
+  subgraph INCENTIVE_PROCESSING["Incentive Processing"]
+    INCENTIVE_SALIENCE["✨ Incentive Salience"]:::reward_system
+    INCENTIVE_LEARNING["📈 Incentive Learning"]:::reward_system
+    INCENTIVE_REGULATION["🎚️ Motivation Regulation"]:::reward_system
+  end
+end
+class REWARD_SYSTEMS brain
+
+%% ====== PROCEDURAL MEMORY & HABITS ======
+subgraph PROCEDURAL_MEMORY["🧠 Procedural Memory & Habits (Basal Ganglia + Motor Cortex)"]
+  direction TB
+  subgraph HABIT_SYSTEM["Habit Formation System"]
+    HABIT_FORMATION["⚙️ Habit Formation"]:::procedural_memory
+    HABIT_EXECUTION["🏃 Habit Execution"]:::procedural_memory
+    HABIT_MODIFICATION["🔧 Habit Modification"]:::procedural_memory
+  end
+  subgraph SKILL_LEARNING["Skill Learning & Motor Programs"]
+    SKILL_ACQUISITION["📚 Skill Acquisition"]:::procedural_memory
+    SKILL_REFINEMENT["✨ Skill Refinement"]:::procedural_memory
+    SKILL_TRANSFER["🔗 Skill Transfer"]:::procedural_memory
+  end
+  subgraph ACTION_CONTROL["Action Selection & Control"]
+    ACT_SELECT["⚖️ Action Selection"]:::procedural_memory
+    ACT_INHIBIT["🛑 Action Inhibition"]:::procedural_memory
+    ACT_SWITCH["🔄 Action Switching"]:::procedural_memory
+  end
+end
+class PROCEDURAL_MEMORY brain
+
+%% ====== IMAGINATION & SIMULATION ======
+subgraph IMAGINATION["🧠 Imagination & Simulation (Default Mode Network)"]
+  direction TB
+  subgraph SIMULATION_ENGINE["Mental Simulation Engine"]
+    SIM_FORWARD["🔮 Forward Simulation"]:::brain
+    SIM_COUNTERFACTUAL["🔁 Counterfactual Thinking"]:::brain
+    SIM_EPISODIC["📅 Episodic Simulation"]:::brain
+  end
+  subgraph CREATIVE_PROCESSES["Creative & Generative Processes"]
+    CREATIVITY_DIVERGENT["🌟 Divergent Thinking"]:::brain
+    CREATIVITY_CONVERGENT["🎯 Convergent Thinking"]:::brain
+    CREATIVITY_INSIGHT["💡 Insight Generation"]:::brain
+  end
+  subgraph DREAMING["Dreaming & Offline Processing"]
+    DREAM_CONSOLIDATION["💾 Memory Consolidation"]:::brain
+    DREAM_EXPLORATION["🔍 Explorative Dreaming"]:::brain
+    DREAM_REHEARSAL["🎭 Mental Rehearsal"]:::brain
+  end
+end
+class IMAGINATION brain
+
+%% ====== ACTION & ARBITRATION (ADVISORY ONLY → P04) ======
+subgraph ACTION_SYSTEMS["🎮 Action Systems (Advisory Signals Only)"]
+  direction TB
+  subgraph ACTION_PLANNING["Action Planning (advisory)"]
+    ACTION_GOALS["🎯 Goal Formation (signals → P04)"]:::action_selection
+    ACTION_PLAN_NODE["📋 Action Planning (signals → P04)"]:::action_selection
+    ACTION_COORD_ADVISORY["⚡ Coordination Advisory (signals → P04)"]:::action_selection
+  end
+  subgraph MOTOR_LEARNING["Motor Learning & Adaptation"]
+    MOTOR_ACQUISITION["📚 Motor Acquisition"]:::action_selection
+    MOTOR_ADAPTATION["🔄 Motor Adaptation"]:::action_selection
+    MOTOR_EXPERTISE["⭐ Motor Expertise"]:::action_selection
+  end
+  subgraph ACTION_MONITORING["Action Monitoring & Control"]
+    ACTION_FEEDBACK["📈 Action Feedback"]:::action_selection
+    ACT_INHIBIT_SIGNAL["🛑 Inhibition Signal (monitor)"]:::action_selection
+    ACTION_OUTCOMES["🎯 Outcome Evaluation"]:::action_selection
+  end
+end
+class ACTION_SYSTEMS brain
+
+subgraph ARBITRATION["⚖️ Arbitration & Decision (Advisory → P04)"]
+  direction TB
+  subgraph DECISION_CORE["Decision Architecture (advisory)"]
+    DECISION_OPTIONS["📋 Option Generation (→ P04)"]:::action_selection
+    DECISION_EVALUATION["📊 Option Evaluation (→ P04)"]:::action_selection
+    DECISION_SELECTION["⚡ Decision Recommendation (→ P04)"]:::action_selection
+  end
+  subgraph STRATEGIC_PLANNING["Strategic Planning (advisory)"]
+    PLAN_FORMATION["📋 Plan Formation (→ P04)"]:::action_selection
+    PLAN_EXECUTION["⚡ Plan Monitoring (→ P04)"]:::action_selection
+    PLAN_MONITORING["📊 Plan Assessment (→ P04)"]:::action_selection
+  end
+  subgraph CONFLICT_RESOLUTION["Conflict Resolution & Control"]
+    CONFLICT_DETECTION["⚠️ Conflict Detection"]:::action_selection
+    CONFLICT_ARBITRATION["⚖️ Conflict Arbitration"]:::action_selection
+    COGNITIVE_CONTROL["🎮 Cognitive Control"]:::action_selection
+  end
+end
+class ARBITRATION brain
+
+%% ====== AFFECT & EMOTIONAL INTELLIGENCE ======
+subgraph AFFECT_INTELLIGENCE["💖 Affect & Emotional Intelligence"]
+  direction TB
+  subgraph EMOTION_CORE["Emotional Processing Core"]
+    EMOTION_RECOGNITION["🎭 Emotion Recognition"]:::social_cognition
+    EMOTION_GENERATION["⚡ Emotion Generation"]:::social_cognition
+    EMOTION_REGULATION["🎚️ Emotion Regulation"]:::social_cognition
+  end
+  subgraph SOCIAL_EMOTION["Social Emotional Intelligence"]
+    EMPATHY["💝 Empathy Systems"]:::social_cognition
+    EMOTIONAL_COMMUNICATION["💬 Emotional Communication"]:::social_cognition
+    EMOTIONAL_MEMORY["📚 Emotional Memory"]:::social_cognition
+  end
+end
+class AFFECT_INTELLIGENCE brain
+
+%% ====== INTELLIGENCE STORAGE & EVENTS ======
+subgraph INTELLIGENCE_STORAGE["💾 Intelligence Storage & Events (cognitive_trace_id)"]
+  direction TB
+  subgraph STORAGE_SYSTEMS["Specialized Storage"]
+    ST_LEARNING["📚 Learning Store"]:::storage
+    ST_SOCIAL["🤝 Social Store"]:::storage
+    ST_METACOG["🪞 Metacognitive Store"]:::storage
+    ST_PROCEDURAL["⚙️ Procedural Store"]:::storage
+  end
+  subgraph INTELLIGENCE_EVENTS["📡 intelligence.* events (trace_id correlation)"]
+    EV_LEARNING["📈 intelligence.learning.*"]:::bus
+    EV_SOCIAL["🤝 intelligence.social.*"]:::bus
+    EV_METACOG["🪞 intelligence.metacog.*"]:::bus
+    EV_DECISION["⚖️ intelligence.decision.*"]:::bus
+  end
+end
+class INTELLIGENCE_STORAGE card
+
+%% ====== INTELLIGENCE GUARDS (Policy/Safety/QoS for advisory) ======
+subgraph INTELLIGENCE_GUARDS["🛡️ Intelligence Guards (advisory only)"]
+  INT_POLICY_GUARD["policy/intelligence_guard.py<br/>ABAC/consent/redaction (advisory)"]:::gate
+  INT_QOS_GUARD["retrieval/qos_gate.py (budget on planning/advice)"]:::smart
+  INT_SAFETY_MON["policy/safety.py (harm/abuse heuristics on advice)"]:::smart
+end
+class INTELLIGENCE_GUARDS card
+
+%% ====== INTELLIGENCE TOPICS (bus bridge like Diagram 1) ======
+subgraph INTELLIGENCE_TOPICS["📡 intelligence.* topics (trace_id)"]
+  INT_T["intelligence.* (generic)"]:::bus
+  INT_ADVISORY_T["intelligence.advisory.* (to P04)"]:::bus
+  INT_TRACE_T["intelligence.trace.* (observability)"]:::bus
+end
+class INTELLIGENCE_TOPICS card
+
+%% ====== EXTERNAL ANCHORS to match Pipelines & SSE ======
+subgraph PIPELINE_ANCHORS["🔗 Pipeline & SSE anchors"]
+  %% TO_P04_ACTIONS already defined in MEMORY_BACKBONE_CONNECTIONS
+  TO_P05_PROSPECTIVE["→ P05 Prospective/Triggers (advisory)"]:::bus
+  TO_P06_LEARNING["→ P06 Learning/Neuromod (signals)"]:::bus
+  TO_P17_QOS["→ P17 QoS/Cost Governance (budgets)"]:::bus
+  TO_P18_SAFETY["→ P18 Safety/Abuse (policy hooks)"]:::bus
+  FROM_P19_PROFILE["← P19 Personalization/Reco (profiles)"]:::bus
+  TO_SSE_INTELLIGENCE["→ SSE ACL: intelligence.* (sanitized)"]:::plane
+  FROM_WORKSPACE["← workspace.* (Global Workspace broadcast)"]:::bus
+end
+class PIPELINE_ANCHORS card
+
+%% ====== WIRING: Advice path → guards → topics → P04 ======
+DECISION_SELECTION-->INT_POLICY_GUARD-->INT_QOS_GUARD-->INT_SAFETY_MON-->INT_ADVISORY_T
+ACTION_COORD_ADVISORY-->INT_POLICY_GUARD
+ACT_SELECT-->INT_POLICY_GUARD
+INT_ADVISORY_T-->TO_P04_ACTIONS
+
+%% ====== WIRING: Learning, Prospective, QoS, Safety integration ======
+LEARN_ADAPT-->TO_P06_LEARNING
+META_PLANNING-->TO_P05_PROSPECTIVE
+PLAN_FORMATION-->TO_P05_PROSPECTIVE
+INT_COORDINATOR-->TO_P17_QOS
+INT_SAFETY_MON-->TO_P18_SAFETY
+
+%% ====== WIRING: Personalization influence ======
+FROM_P19_PROFILE-->DECISION_EVALUATION
+FROM_P19_PROFILE-->REWARD_VALUATION
+
+%% ====== WIRING: SSE exposure & tracing ======
+EV_LEARNING-->INT_T
+EV_SOCIAL-->INT_T
+EV_METACOG-->INT_T
+EV_DECISION-->INT_T
+INT_EVENT_PROCESSOR-->INT_T & INT_TRACE_T
+INT_T-->TO_SSE_INTELLIGENCE
+INT_TRACE_T-->TO_INFRASTRUCTURE
+%% flows into observability/receipts stack
+
+%% ====== WIRING: Explicit workspace inputs ======
+FROM_WORKSPACE-->INT_MEMORY_MANAGER
+FROM_WORKSPACE-->DECISION_SELECTION
+
+%% ====== WIRING (normalized; keeps original intent) ======
+
+%% Memory Backbone inputs to intelligence systems
+FROM_MEMORY_BACKBONE-->INT_COORDINATOR
+FROM_MEMORY_BACKBONE-->LEARN_COORDINATOR
+FROM_COGNITIVE_CORE-->META_CONFIDENCE
+FROM_COGNITIVE_CORE-->TOM_BELIEFS
+FROM_MEMORY_BACKBONE-->INT_COORDINATOR
+FROM_MEMORY_BACKBONE-->ACTION_GOALS
+
+%% Learning core loop
+LEARN_COORDINATOR-->LEARN_PREDICT-->LEARN_ADAPT-->LEARN_FEEDBACK-->LEARN_COORDINATOR
+LEARN_FEEDBACK-->REWARD_PREDICTION
+LEARN_FEEDBACK-->META_PERFORMANCE
+LEARN_ADAPT-->ACT_SELECT
+LEARN_ADAPT-->HABIT_MODIFICATION
+
+%% Specialized learning
+LEARN_COORDINATOR-->LEARN_PROCEDURAL & LEARN_DECLARATIVE & LEARN_REINFORCEMENT & LEARN_SOCIAL
+LEARN_PROCEDURAL-->HABIT_FORMATION & SKILL_ACQUISITION
+LEARN_REINFORCEMENT-->REWARD_PREDICTION & INCENTIVE_LEARNING
+LEARN_SOCIAL-->SOC_IMITATION
+SOC_IMITATION-->TOM_BELIEFS
+
+%% Meta-learning
+LEARN_META-->LEARN_TRANSFER-->LEARN_CURIOSITY
+LEARN_CURIOSITY-->DRIVE_CURIOSITY & SIM_FORWARD
+LEARN_TRANSFER-->CREATIVITY_INSIGHT & SKILL_TRANSFER
+
+%% Social cognition
+TOM_BELIEFS-->TOM_INTENTIONS-->TOM_EMOTIONS-->TOM_KNOWLEDGE
+SOC_NORMS<-->SOC_RELATIONS<-->SOC_COMMUNICATION<-->SOC_COOPERATION
+SOC_FEEDBACK-->EV_SOCIAL
+TOM_BELIEFS-->DECISION_EVALUATION
+TOM_BELIEFS-->EMPATHY
+
+%% Metacognition
+META_CONFIDENCE-->META_PERFORMANCE-->META_KNOWLEDGE-->META_STRATEGY
+META_REGULATION-->META_PLANNING-->META_REFLECTION
+SELF_CONCEPT<-->SELF_EFFICACY<-->SELF_AWARENESS
+META_PERFORMANCE-->LEARN_FEEDBACK
+META_PERFORMANCE-->CONFLICT_DETECTION
+
+%% Reward & motivation
+REWARD_PREDICTION-->REWARD_ERROR-->REWARD_VALUATION
+DRIVE_HOMEOSTASIS & DRIVE_CURIOSITY & DRIVE_ACHIEVEMENT & DRIVE_SOCIAL-->INCENTIVE_SALIENCE
+INCENTIVE_SALIENCE-->INCENTIVE_LEARNING-->INCENTIVE_REGULATION
+REWARD_ERROR-->LEARN_REINFORCEMENT
+REWARD_ERROR-->ACTION_OUTCOMES
+
+%% Procedural/habits
+HABIT_FORMATION-->HABIT_EXECUTION-->HABIT_MODIFICATION
+SKILL_ACQUISITION-->SKILL_REFINEMENT-->SKILL_TRANSFER
+ACT_SELECT<-->ACT_INHIBIT<-->ACT_SWITCH
+HABIT_EXECUTION-->ACTION_COORD_ADVISORY
+HABIT_EXECUTION-->MOTOR_ACQUISITION
+
+%% Imagination
+SIM_FORWARD<-->SIM_COUNTERFACTUAL<-->SIM_EPISODIC
+CREATIVITY_DIVERGENT<-->CREATIVITY_CONVERGENT-->CREATIVITY_INSIGHT
+DREAM_CONSOLIDATION<-->DREAM_EXPLORATION<-->DREAM_REHEARSAL
+SIM_FORWARD-->DECISION_EVALUATION
+SIM_FORWARD-->PLAN_FORMATION
+
+%% Action (advisory only)
+ACTION_GOALS-->ACTION_PLAN_NODE-->ACTION_COORD_ADVISORY-->ACTION_FEEDBACK
+MOTOR_ACQUISITION-->MOTOR_ADAPTATION-->MOTOR_EXPERTISE
+ACTION_FEEDBACK-->ACT_INHIBIT_SIGNAL & ACTION_OUTCOMES
+ACT_SELECT-->ACTION_COORD_ADVISORY
+ACT_SELECT-->ACT_INHIBIT
+
+%% Arbitration (advisory only)
+DECISION_OPTIONS-->DECISION_EVALUATION-->DECISION_SELECTION
+PLAN_FORMATION-->PLAN_EXECUTION-->PLAN_MONITORING
+CONFLICT_DETECTION-->CONFLICT_ARBITRATION-->COGNITIVE_CONTROL
+DECISION_EVALUATION<-->REWARD_VALUATION & META_CONFIDENCE
+
+%% Affect
+EMOTION_RECOGNITION-->EMOTION_GENERATION-->EMOTION_REGULATION
+EMPATHY<-->EMOTIONAL_COMMUNICATION<-->EMOTIONAL_MEMORY
+EMOTION_REGULATION-->META_REGULATION & COGNITIVE_CONTROL
+EMPATHY-->TOM_EMOTIONS & SOC_COOPERATION
+
+%% Coordination, storage, events
+INT_COORDINATOR<-->LEARN_COORDINATOR & META_REGULATION & DECISION_SELECTION
+INT_MEMORY_MANAGER<-->EMOTIONAL_MEMORY & ST_LEARNING & ST_SOCIAL
+INT_EVENT_PROCESSOR<-->EV_LEARNING & EV_SOCIAL & EV_METACOG & EV_DECISION
+
+LEARN_FEEDBACK-->ST_LEARNING
+SOC_RELATIONS-->ST_SOCIAL
+META_PERFORMANCE-->ST_METACOG
+SKILL_ACQUISITION-->ST_PROCEDURAL
+
+LEARN_ADAPT-->EV_LEARNING
+SOC_FEEDBACK-->EV_SOCIAL
+META_REFLECTION-->EV_METACOG
+DECISION_SELECTION-->EV_DECISION
+
+%% Legacy integration
+LEG_SOCIAL<-->TOM_BELIEFS & SOC_NORMS
+LEG_METACOG<-->META_CONFIDENCE & META_PERFORMANCE
+LEG_DRIVES<-->DRIVE_HOMEOSTASIS & REWARD_PREDICTION
+LEG_AFFECT<-->EMOTION_RECOGNITION & EMPATHY
+LEG_ACTION<-->ACTION_COORD_ADVISORY & MOTOR_ACQUISITION
+LEG_LEARNING<-->LEARN_COORDINATOR & LEARN_REINFORCEMENT
+LEG_IMAGINATION<-->SIM_FORWARD & CREATIVITY_DIVERGENT
+
+%% Cross-diagram advisory outputs
+LEARN_COORDINATOR-->TO_P04_ACTIONS
+META_REFLECTION-->TO_P04_ACTIONS
+DECISION_SELECTION-->TO_P04_ACTIONS
+DREAM_CONSOLIDATION-->TO_P04_ACTIONS
+INT_EVENT_PROCESSOR-->TO_P04_ACTIONS

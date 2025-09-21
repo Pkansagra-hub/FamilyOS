@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-dashboard-familyos
+  namespace: monitoring
+  labels:
+    grafana_dashboard: "1"
+data:
+  familyos-observability.json: |
+        {
+          "title": "FamilyOS \u2014 Observability (Fallback)",
+          "timezone": "browser",
+          "schemaVersion": 38,
+          "version": 1,
+          "time": {
+            "from": "now-6h",
+            "to": "now"
+          },
+          "panels": []
+        }

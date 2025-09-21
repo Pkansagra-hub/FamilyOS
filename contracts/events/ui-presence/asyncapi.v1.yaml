@@ -1,0 +1,1390 @@
+asyncapi: 3.0.0
+info:
+  title: Family AI - UI/Presence Events
+  version: 1.0.0
+  description: |
+    Memory-Centric Family AI User Interface and Presence Event Architecture
+
+    This AsyncAPI specification defines user interface and presence events for
+    real-time family coordination, notification delivery, interface state
+    synchronization, and family presence awareness within the Memory-Centric
+    Family AI platform.
+
+    ## UI and Presence Overview
+
+    ### Real-Time Family Coordination
+    - **Presence Updates**: Real-time family member presence and availability
+    - **Activity Broadcasting**: Family activity sharing and coordination
+    - **Location Awareness**: Family location context and coordination
+    - **Status Synchronization**: Multi-device status and state synchronization
+
+    ### Notification and Communication
+    - **Smart Notifications**: Family-aware intelligent notification delivery
+    - **Priority Routing**: Emergency and priority message routing
+    - **Communication Channels**: Family communication channel management
+    - **Message Coordination**: Cross-device message delivery and acknowledgment
+
+    ### Interface State Management
+    - **Multi-Device Sync**: Interface state synchronization across devices
+    - **Family Dashboard**: Shared family dashboard state management
+    - **Personalization Sync**: Individual preference synchronization
+    - **Context Handoff**: Seamless device-to-device context transfer
+
+    ## Event Architecture
+
+    All UI/Presence events integrate with Memory-Centric Family AI:
+    - `presence_context`: Real-time family presence and availability context
+    - `family_coordination`: Multi-member coordination and activity sharing
+    - `device_synchronization`: Cross-device state and preference synchronization
+    - `notification_intelligence`: Smart notification routing and family awareness
+    - `context_continuity`: Seamless family experience across devices and locations
+
+  contact:
+    name: Family AI - UI/Presence Team
+    email: ui-presence@familyai.dev
+
+servers:
+  ui-presence-backbone:
+    host: ui-presence-backbone.familyai.local
+    protocol: kafka
+    description: UI and Presence Event Bus
+  real-time-coordination:
+    host: real-time-coordination.familyai.local
+    protocol: kafka
+    description: Real-time Family Coordination Bus
+
+channels:
+  # Presence Management
+  ui/presence/status-updated:
+    address: ui.presence.status_updated
+    description: Family member presence status updates
+    messages:
+      PresenceStatusUpdated:
+        $ref: '#/components/messages/PresenceStatusUpdated'
+
+  ui/presence/activity-broadcasted:
+    address: ui.presence.activity_broadcasted
+    description: Family activity broadcasting and sharing
+    messages:
+      ActivityBroadcasted:
+        $ref: '#/components/messages/ActivityBroadcasted'
+
+  ui/presence/location-updated:
+    address: ui.presence.location_updated
+    description: Family member location context updates
+    messages:
+      LocationUpdated:
+        $ref: '#/components/messages/LocationUpdated'
+
+  ui/presence/availability-changed:
+    address: ui.presence.availability_changed
+    description: Family member availability status changes
+    messages:
+      AvailabilityChanged:
+        $ref: '#/components/messages/AvailabilityChanged'
+
+  # Notification Management
+  ui/notification/smart-notification-sent:
+    address: ui.notification.smart_notification_sent
+    description: Intelligent family-aware notification delivery
+    messages:
+      SmartNotificationSent:
+        $ref: '#/components/messages/SmartNotificationSent'
+
+  ui/notification/priority-message-routed:
+    address: ui.notification.priority_message_routed
+    description: Priority and emergency message routing
+    messages:
+      PriorityMessageRouted:
+        $ref: '#/components/messages/PriorityMessageRouted'
+
+  ui/notification/delivery-confirmed:
+    address: ui.notification.delivery_confirmed
+    description: Notification delivery confirmation and acknowledgment
+    messages:
+      NotificationDeliveryConfirmed:
+        $ref: '#/components/messages/NotificationDeliveryConfirmed'
+
+  ui/notification/family-alert-broadcasted:
+    address: ui.notification.family_alert_broadcasted
+    description: Family-wide alert and emergency notifications
+    messages:
+      FamilyAlertBroadcasted:
+        $ref: '#/components/messages/FamilyAlertBroadcasted'
+
+  # Interface State Synchronization
+  ui/state/interface-synced:
+    address: ui.state.interface_synced
+    description: Cross-device interface state synchronization
+    messages:
+      InterfaceStateSynced:
+        $ref: '#/components/messages/InterfaceStateSynced'
+
+  ui/state/personalization-updated:
+    address: ui.state.personalization_updated
+    description: Personal preference and customization updates
+    messages:
+      PersonalizationUpdated:
+        $ref: '#/components/messages/PersonalizationUpdated'
+
+  ui/state/context-handed-off:
+    address: ui.state.context_handed_off
+    description: Device-to-device context handoff and continuity
+    messages:
+      ContextHandedOff:
+        $ref: '#/components/messages/ContextHandedOff'
+
+  ui/state/dashboard-updated:
+    address: ui.state.dashboard_updated
+    description: Family dashboard state and content updates
+    messages:
+      DashboardUpdated:
+        $ref: '#/components/messages/DashboardUpdated'
+
+  # Family Coordination
+  ui/coordination/family-gathering-initiated:
+    address: ui.coordination.family_gathering_initiated
+    description: Family gathering and meetup coordination
+    messages:
+      FamilyGatheringInitiated:
+        $ref: '#/components/messages/FamilyGatheringInitiated'
+
+  ui/coordination/shared-activity-started:
+    address: ui.coordination.shared_activity_started
+    description: Shared family activity initiation and coordination
+    messages:
+      SharedActivityStarted:
+        $ref: '#/components/messages/SharedActivityStarted'
+
+  ui/coordination/coordination-request-sent:
+    address: ui.coordination.coordination_request_sent
+    description: Family coordination request and scheduling
+    messages:
+      CoordinationRequestSent:
+        $ref: '#/components/messages/CoordinationRequestSent'
+
+  # Communication Channels
+  ui/communication/channel-created:
+    address: ui.communication.channel_created
+    description: Family communication channel creation
+    messages:
+      CommunicationChannelCreated:
+        $ref: '#/components/messages/CommunicationChannelCreated'
+
+  ui/communication/message-delivered:
+    address: ui.communication.message_delivered
+    description: Family message delivery and routing
+    messages:
+      MessageDelivered:
+        $ref: '#/components/messages/MessageDelivered'
+
+  ui/communication/conversation-synced:
+    address: ui.communication.conversation_synced
+    description: Cross-device conversation synchronization
+    messages:
+      ConversationSynced:
+        $ref: '#/components/messages/ConversationSynced'
+
+  # Device and Session Management
+  ui/device/session-started:
+    address: ui.device.session_started
+    description: Family member device session initiation
+    messages:
+      DeviceSessionStarted:
+        $ref: '#/components/messages/DeviceSessionStarted'
+
+  ui/device/session-transferred:
+    address: ui.device.session_transferred
+    description: Session transfer between family devices
+    messages:
+      SessionTransferred:
+        $ref: '#/components/messages/SessionTransferred'
+
+  ui/device/multi-device-sync:
+    address: ui.device.multi_device_sync
+    description: Multi-device state and preference synchronization
+    messages:
+      MultiDeviceSync:
+        $ref: '#/components/messages/MultiDeviceSync'
+
+operations:
+  # Presence Operations
+  handlePresenceUpdate:
+    action: receive
+    channel:
+      $ref: '#/channels/ui~1presence~1status-updated'
+    summary: Handle presence status updates
+    description: |
+      Processes family member presence updates with real-time
+      coordination and family awareness integration.
+
+  publishActivityBroadcast:
+    action: send
+    channel:
+      $ref: '#/channels/ui~1presence~1activity-broadcasted'
+    summary: Publish activity broadcasts
+    description: |
+      Publishes family activity broadcasts for coordination
+      and shared awareness across family members.
+
+  handleNotificationDelivery:
+    action: receive
+    channel:
+      $ref: '#/channels/ui~1notification~1smart-notification-sent'
+    summary: Handle smart notification delivery
+    description: |
+      Processes intelligent notification delivery with family
+      context awareness and priority routing.
+
+  handleInterfaceSync:
+    action: receive
+    channel:
+      $ref: '#/channels/ui~1state~1interface-synced'
+    summary: Handle interface state synchronization
+    description: |
+      Processes cross-device interface synchronization for
+      seamless family experience and context continuity.
+
+  handleFamilyCoordination:
+    action: receive
+    channel:
+      $ref: '#/channels/ui~1coordination~1family-gathering-initiated'
+    summary: Handle family coordination
+    description: |
+      Processes family coordination requests and gathering
+      initiation with multi-member awareness.
+
+components:
+  messages:
+    PresenceStatusUpdated:
+      name: PresenceStatusUpdated
+      title: Presence Status Updated Event
+      summary: Family member presence status updates
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/PresenceStatusUpdatedPayload'
+
+    ActivityBroadcasted:
+      name: ActivityBroadcasted
+      title: Activity Broadcasted Event
+      summary: Family activity broadcasting and sharing
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/ActivityBroadcastedPayload'
+
+    LocationUpdated:
+      name: LocationUpdated
+      title: Location Updated Event
+      summary: Family member location context updates
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/LocationUpdatedPayload'
+
+    AvailabilityChanged:
+      name: AvailabilityChanged
+      title: Availability Changed Event
+      summary: Family member availability status changes
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/AvailabilityChangedPayload'
+
+    SmartNotificationSent:
+      name: SmartNotificationSent
+      title: Smart Notification Sent Event
+      summary: Intelligent family-aware notification delivery
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/SmartNotificationSentPayload'
+
+    PriorityMessageRouted:
+      name: PriorityMessageRouted
+      title: Priority Message Routed Event
+      summary: Priority and emergency message routing
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/PriorityMessageRoutedPayload'
+
+    NotificationDeliveryConfirmed:
+      name: NotificationDeliveryConfirmed
+      title: Notification Delivery Confirmed Event
+      summary: Notification delivery confirmation and acknowledgment
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/NotificationDeliveryConfirmedPayload'
+
+    FamilyAlertBroadcasted:
+      name: FamilyAlertBroadcasted
+      title: Family Alert Broadcasted Event
+      summary: Family-wide alert and emergency notifications
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/FamilyAlertBroadcastedPayload'
+
+    InterfaceStateSynced:
+      name: InterfaceStateSynced
+      title: Interface State Synced Event
+      summary: Cross-device interface state synchronization
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/InterfaceStateSyncedPayload'
+
+    PersonalizationUpdated:
+      name: PersonalizationUpdated
+      title: Personalization Updated Event
+      summary: Personal preference and customization updates
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/PersonalizationUpdatedPayload'
+
+    ContextHandedOff:
+      name: ContextHandedOff
+      title: Context Handed Off Event
+      summary: Device-to-device context handoff and continuity
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/ContextHandedOffPayload'
+
+    DashboardUpdated:
+      name: DashboardUpdated
+      title: Dashboard Updated Event
+      summary: Family dashboard state and content updates
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/DashboardUpdatedPayload'
+
+    FamilyGatheringInitiated:
+      name: FamilyGatheringInitiated
+      title: Family Gathering Initiated Event
+      summary: Family gathering and meetup coordination
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/FamilyGatheringInitiatedPayload'
+
+    SharedActivityStarted:
+      name: SharedActivityStarted
+      title: Shared Activity Started Event
+      summary: Shared family activity initiation and coordination
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/SharedActivityStartedPayload'
+
+    CoordinationRequestSent:
+      name: CoordinationRequestSent
+      title: Coordination Request Sent Event
+      summary: Family coordination request and scheduling
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/CoordinationRequestSentPayload'
+
+    CommunicationChannelCreated:
+      name: CommunicationChannelCreated
+      title: Communication Channel Created Event
+      summary: Family communication channel creation
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/CommunicationChannelCreatedPayload'
+
+    MessageDelivered:
+      name: MessageDelivered
+      title: Message Delivered Event
+      summary: Family message delivery and routing
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/MessageDeliveredPayload'
+
+    ConversationSynced:
+      name: ConversationSynced
+      title: Conversation Synced Event
+      summary: Cross-device conversation synchronization
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/ConversationSyncedPayload'
+
+    DeviceSessionStarted:
+      name: DeviceSessionStarted
+      title: Device Session Started Event
+      summary: Family member device session initiation
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/DeviceSessionStartedPayload'
+
+    SessionTransferred:
+      name: SessionTransferred
+      title: Session Transferred Event
+      summary: Session transfer between family devices
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/SessionTransferredPayload'
+
+    MultiDeviceSync:
+      name: MultiDeviceSync
+      title: Multi Device Sync Event
+      summary: Multi-device state and preference synchronization
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/MultiDeviceSyncPayload'
+
+  schemas:
+    # Presence Management Schemas
+    PresenceStatusUpdatedPayload:
+      type: object
+      description: Family member presence status with real-time coordination
+      required:
+        - family_member_id
+        - presence_status
+        - status_context
+        - family_visibility
+        - coordination_impact
+      properties:
+        family_member_id:
+          type: string
+          format: uuid
+        presence_status:
+          type: string
+          enum: [online, offline, away, busy, do_not_disturb, available, in_meeting, sleeping]
+        status_context:
+          type: object
+          description: Context for presence status
+          properties:
+            current_activity:
+              type: string
+              enum: [working, studying, exercising, cooking, driving, sleeping, family_time, leisure]
+            device_context:
+              type: array
+              items:
+                type: object
+                properties:
+                  device_id:
+                    type: string
+                  device_type:
+                    type: string
+                  active:
+                    type: boolean
+            location_context:
+              type: string
+              enum: [home, work, school, traveling, public, private, unknown]
+        family_visibility:
+          type: object
+          description: Family visibility preferences for presence
+          properties:
+            visible_to_family:
+              type: boolean
+            detailed_status_visible:
+              type: boolean
+            location_sharing_enabled:
+              type: boolean
+            activity_sharing_enabled:
+              type: boolean
+        coordination_impact:
+          type: object
+          description: Impact on family coordination
+          properties:
+            availability_for_family:
+              type: string
+              enum: [fully_available, partially_available, unavailable, emergency_only]
+            coordination_preferences:
+              type: array
+              items:
+                type: string
+            priority_contact_allowed:
+              type: boolean
+
+    ActivityBroadcastedPayload:
+      type: object
+      description: Family activity broadcasting with coordination context
+      required:
+        - activity_id
+        - broadcasting_member
+        - activity_details
+        - family_coordination
+        - sharing_preferences
+      properties:
+        activity_id:
+          type: string
+          format: uuid
+        broadcasting_member:
+          type: string
+          format: uuid
+        activity_details:
+          type: object
+          description: Details of broadcasted activity
+          properties:
+            activity_type:
+              type: string
+              enum: [family_meal, outing, homework_help, game_time, movie_night, exercise, work_project, study_session]
+            activity_description:
+              type: string
+            start_time:
+              type: string
+              format: date-time
+            estimated_duration:
+              type: string
+              format: duration
+            location:
+              type: string
+            participants_invited:
+              type: array
+              items:
+                type: string
+                format: uuid
+        family_coordination:
+          type: object
+          description: Family coordination for activity
+          properties:
+            coordination_type:
+              type: string
+              enum: [invitation, notification, coordination_request, status_update]
+            requires_response:
+              type: boolean
+            response_deadline:
+              type: string
+              format: date-time
+            coordination_priority:
+              type: string
+              enum: [low, normal, high, urgent]
+        sharing_preferences:
+          type: object
+          description: Activity sharing preferences
+          properties:
+            share_with_extended_family:
+              type: boolean
+            allow_photos_sharing:
+              type: boolean
+            memory_creation_enabled:
+              type: boolean
+            activity_visibility:
+              type: string
+              enum: [private, family_only, extended_family, public]
+
+    LocationUpdatedPayload:
+      type: object
+      description: Family member location context with privacy controls
+      required:
+        - family_member_id
+        - location_context
+        - privacy_settings
+        - family_coordination_impact
+        - safety_considerations
+      properties:
+        family_member_id:
+          type: string
+          format: uuid
+        location_context:
+          type: object
+          description: Location context information
+          properties:
+            location_type:
+              type: string
+              enum: [home, work, school, relative_home, friend_home, public_place, travel_location, unknown]
+            specific_location:
+              type: string
+            arrival_time:
+              type: string
+              format: date-time
+            expected_departure:
+              type: string
+              format: date-time
+            location_confidence:
+              type: number
+              minimum: 0
+              maximum: 1
+        privacy_settings:
+          type: object
+          description: Location privacy and sharing settings
+          properties:
+            family_location_sharing:
+              type: boolean
+            precise_location_sharing:
+              type: boolean
+            location_history_retention:
+              type: string
+              enum: [none, limited, full]
+            emergency_location_override:
+              type: boolean
+        family_coordination_impact:
+          type: object
+          description: Impact on family coordination
+          properties:
+            affects_family_plans:
+              type: boolean
+            coordination_opportunities:
+              type: array
+              items:
+                type: string
+            travel_time_to_family:
+              type: string
+              format: duration
+            coordination_feasibility:
+              type: string
+              enum: [excellent, good, limited, not_feasible]
+        safety_considerations:
+          type: object
+          description: Safety and security considerations
+          properties:
+            safe_location_verified:
+              type: boolean
+            emergency_contact_proximity:
+              type: boolean
+            safety_alerts_enabled:
+              type: boolean
+            check_in_requirements:
+              type: boolean
+
+    AvailabilityChangedPayload:
+      type: object
+      description: Family member availability with coordination implications
+      required:
+        - family_member_id
+        - availability_status
+        - availability_context
+        - family_impact
+        - coordination_adjustments
+      properties:
+        family_member_id:
+          type: string
+          format: uuid
+        availability_status:
+          type: string
+          enum: [fully_available, partially_available, busy_but_interruptible, do_not_disturb, emergency_only, unavailable]
+        availability_context:
+          type: object
+          description: Context for availability change
+          properties:
+            reason_for_change:
+              type: string
+              enum: [work_commitment, family_time, personal_time, health_issue, travel, emergency, technical_issue]
+            expected_duration:
+              type: string
+              format: duration
+            availability_end_time:
+              type: string
+              format: date-time
+            contact_preferences:
+              type: object
+              properties:
+                preferred_contact_method:
+                  type: array
+                  items:
+                    type: string
+                    enum: [text, call, app_notification, email, in_person]
+                urgent_contact_allowed:
+                  type: boolean
+        family_impact:
+          type: object
+          description: Impact on family operations
+          properties:
+            affects_planned_activities:
+              type: boolean
+            requires_coordination_adjustment:
+              type: boolean
+            backup_arrangements_needed:
+              type: boolean
+            family_notification_priority:
+              type: string
+              enum: [low, normal, high, immediate]
+        coordination_adjustments:
+          type: object
+          description: Suggested coordination adjustments
+          properties:
+            recommended_actions:
+              type: array
+              items:
+                type: string
+            alternative_arrangements:
+              type: array
+              items:
+                type: string
+            family_members_to_notify:
+              type: array
+              items:
+                type: string
+                format: uuid
+
+    # Notification Management Schemas
+    SmartNotificationSentPayload:
+      type: object
+      description: Intelligent family-aware notification with context
+      required:
+        - notification_id
+        - target_family_member
+        - notification_content
+        - delivery_intelligence
+        - family_context_awareness
+      properties:
+        notification_id:
+          type: string
+          format: uuid
+        target_family_member:
+          type: string
+          format: uuid
+        notification_content:
+          type: object
+          description: Intelligent notification content
+          properties:
+            notification_type:
+              type: string
+              enum: [family_update, coordination_request, reminder, alert, information, social]
+            title:
+              type: string
+            message:
+              type: string
+            priority_level:
+              type: string
+              enum: [low, normal, high, urgent, emergency]
+            expiration_time:
+              type: string
+              format: date-time
+            interactive_elements:
+              type: array
+              items:
+                type: object
+                properties:
+                  action_type:
+                    type: string
+                    enum: [quick_reply, confirmation, scheduling, location_sharing]
+                  action_label:
+                    type: string
+        delivery_intelligence:
+          type: object
+          description: Intelligent delivery optimization
+          properties:
+            optimal_delivery_time:
+              type: string
+              format: date-time
+            delivery_channel_priority:
+              type: array
+              items:
+                type: string
+                enum: [push_notification, sms, email, in_app, voice_alert]
+            context_aware_timing:
+              type: boolean
+            family_schedule_consideration:
+              type: boolean
+        family_context_awareness:
+          type: object
+          description: Family context integration
+          properties:
+            related_family_members:
+              type: array
+              items:
+                type: string
+                format: uuid
+            family_activity_relevance:
+              type: string
+              enum: [high, medium, low, none]
+            coordination_opportunity:
+              type: boolean
+            privacy_sensitivity:
+              type: string
+              enum: [public, family_shared, private, confidential]
+
+    PriorityMessageRoutedPayload:
+      type: object
+      description: Priority and emergency message routing with family escalation
+      required:
+        - message_id
+        - sender_family_member
+        - priority_level
+        - routing_strategy
+        - family_escalation
+      properties:
+        message_id:
+          type: string
+          format: uuid
+        sender_family_member:
+          type: string
+          format: uuid
+        priority_level:
+          type: string
+          enum: [high, urgent, emergency, critical]
+        routing_strategy:
+          type: object
+          description: Priority routing strategy
+          properties:
+            immediate_delivery_required:
+              type: boolean
+            multi_channel_delivery:
+              type: boolean
+            delivery_confirmation_required:
+              type: boolean
+            escalation_timeline:
+              type: string
+              format: duration
+            bypass_do_not_disturb:
+              type: boolean
+        family_escalation:
+          type: object
+          description: Family escalation procedures
+          properties:
+            escalation_chain:
+              type: array
+              items:
+                type: string
+                format: uuid
+            emergency_contacts_included:
+              type: boolean
+            location_services_activated:
+              type: boolean
+            family_rally_initiated:
+              type: boolean
+
+    NotificationDeliveryConfirmedPayload:
+      type: object
+      description: Notification delivery confirmation with family awareness
+      required:
+        - notification_id
+        - delivery_status
+        - recipient_family_member
+        - delivery_details
+        - family_coordination_update
+      properties:
+        notification_id:
+          type: string
+          format: uuid
+        delivery_status:
+          type: string
+          enum: [delivered, read, acknowledged, interacted, failed, expired]
+        recipient_family_member:
+          type: string
+          format: uuid
+        delivery_details:
+          type: object
+          description: Delivery details and metrics
+          properties:
+            delivery_time:
+              type: string
+              format: date-time
+            delivery_channel:
+              type: string
+              enum: [push_notification, sms, email, in_app, voice_alert]
+            delivery_device:
+              type: string
+            interaction_type:
+              type: string
+              enum: [none, viewed, quick_reply, full_interaction, forwarded]
+        family_coordination_update:
+          type: object
+          description: Family coordination status update
+          properties:
+            coordination_status_updated:
+              type: boolean
+            requires_follow_up:
+              type: boolean
+            family_notification_complete:
+              type: boolean
+            next_coordination_action:
+              type: string
+
+    FamilyAlertBroadcastedPayload:
+      type: object
+      description: Family-wide alert with emergency coordination
+      required:
+        - alert_id
+        - alert_type
+        - alert_content
+        - emergency_coordination
+        - family_response_tracking
+      properties:
+        alert_id:
+          type: string
+          format: uuid
+        alert_type:
+          type: string
+          enum: [emergency, safety_alert, urgent_coordination, family_announcement, system_alert]
+        alert_content:
+          type: object
+          description: Alert content and details
+          properties:
+            alert_title:
+              type: string
+            alert_message:
+              type: string
+            severity_level:
+              type: string
+              enum: [info, warning, serious, critical, emergency]
+            location_relevance:
+              type: boolean
+            time_sensitivity:
+              type: string
+              format: duration
+        emergency_coordination:
+          type: object
+          description: Emergency coordination procedures
+          properties:
+            all_family_notification:
+              type: boolean
+            emergency_services_contacted:
+              type: boolean
+            location_sharing_activated:
+              type: boolean
+            family_rally_point_activated:
+              type: boolean
+            external_emergency_contacts:
+              type: boolean
+        family_response_tracking:
+          type: object
+          description: Family response tracking
+          properties:
+            response_required:
+              type: boolean
+            response_deadline:
+              type: string
+              format: date-time
+            acknowledgment_tracking:
+              type: boolean
+            location_check_in_required:
+              type: boolean
+
+    # Interface State Synchronization Schemas
+    InterfaceStateSyncedPayload:
+      type: object
+      description: Cross-device interface state synchronization
+      required:
+        - sync_session_id
+        - family_member_id
+        - interface_state
+        - synchronization_scope
+        - device_coordination
+      properties:
+        sync_session_id:
+          type: string
+          format: uuid
+        family_member_id:
+          type: string
+          format: uuid
+        interface_state:
+          type: object
+          description: Interface state information
+          properties:
+            current_view:
+              type: string
+            navigation_history:
+              type: array
+              items:
+                type: string
+            active_tasks:
+              type: array
+              items:
+                type: object
+            interface_preferences:
+              type: object
+            context_data:
+              type: object
+        synchronization_scope:
+          type: object
+          description: Scope of synchronization
+          properties:
+            sync_type:
+              type: string
+              enum: [full_state, partial_state, preferences_only, context_only]
+            affected_components:
+              type: array
+              items:
+                type: string
+            family_shared_elements:
+              type: boolean
+            privacy_filtered:
+              type: boolean
+        device_coordination:
+          type: object
+          description: Multi-device coordination
+          properties:
+            source_device:
+              type: string
+            target_devices:
+              type: array
+              items:
+                type: string
+            sync_priority:
+              type: string
+              enum: [low, normal, high, immediate]
+            conflict_resolution:
+              type: string
+              enum: [newest_wins, user_choice, merge, manual]
+
+    PersonalizationUpdatedPayload:
+      type: object
+      description: Personal preference updates with family impact consideration
+      required:
+        - personalization_id
+        - family_member_id
+        - personalization_changes
+        - family_impact_assessment
+        - synchronization_requirements
+      properties:
+        personalization_id:
+          type: string
+          format: uuid
+        family_member_id:
+          type: string
+          format: uuid
+        personalization_changes:
+          type: object
+          description: Personalization changes
+          properties:
+            preference_category:
+              type: string
+              enum: [ui_theme, notification_settings, privacy_preferences, communication_style, family_sharing]
+            changed_preferences:
+              type: array
+              items:
+                type: object
+                properties:
+                  preference_key:
+                    type: string
+                  old_value:
+                    type: string
+                  new_value:
+                    type: string
+            customization_level:
+              type: string
+              enum: [basic, intermediate, advanced, expert]
+        family_impact_assessment:
+          type: object
+          description: Assessment of family impact
+          properties:
+            affects_family_coordination:
+              type: boolean
+            requires_family_notification:
+              type: boolean
+            impacts_shared_experiences:
+              type: boolean
+            privacy_implications:
+              type: string
+              enum: [none, low, medium, high]
+        synchronization_requirements:
+          type: object
+          description: Cross-device synchronization requirements
+          properties:
+            sync_across_devices:
+              type: boolean
+            immediate_sync_required:
+              type: boolean
+            family_device_impact:
+              type: boolean
+            conflict_resolution_needed:
+              type: boolean
+
+    ContextHandedOffPayload:
+      type: object
+      description: Device-to-device context handoff for seamless experience
+      required:
+        - handoff_id
+        - family_member_id
+        - source_device
+        - target_device
+        - context_data
+        - handoff_coordination
+      properties:
+        handoff_id:
+          type: string
+          format: uuid
+        family_member_id:
+          type: string
+          format: uuid
+        source_device:
+          type: string
+        target_device:
+          type: string
+        context_data:
+          type: object
+          description: Context being handed off
+          properties:
+            active_conversation:
+              type: object
+            current_task:
+              type: object
+            navigation_state:
+              type: object
+            family_coordination_context:
+              type: object
+            time_sensitive_data:
+              type: object
+        handoff_coordination:
+          type: object
+          description: Handoff coordination details
+          properties:
+            handoff_trigger:
+              type: string
+              enum: [user_initiated, automatic_proximity, scheduled, family_request]
+            handoff_method:
+              type: string
+              enum: [seamless, user_confirmation, manual_transfer]
+            context_preservation_level:
+              type: string
+              enum: [minimal, standard, comprehensive, complete]
+            family_awareness_maintained:
+              type: boolean
+
+    DashboardUpdatedPayload:
+      type: object
+      description: Family dashboard state and content updates
+      required:
+        - dashboard_id
+        - update_type
+        - dashboard_content
+        - family_coordination_data
+        - personalization_aspects
+      properties:
+        dashboard_id:
+          type: string
+          format: uuid
+        update_type:
+          type: string
+          enum: [content_refresh, layout_change, personalization_update, family_data_update, real_time_update]
+        dashboard_content:
+          type: object
+          description: Updated dashboard content
+          properties:
+            family_status_summary:
+              type: object
+            upcoming_coordination:
+              type: array
+              items:
+                type: object
+            recent_activities:
+              type: array
+              items:
+                type: object
+            family_announcements:
+              type: array
+              items:
+                type: object
+            quick_actions:
+              type: array
+              items:
+                type: object
+        family_coordination_data:
+          type: object
+          description: Family coordination information
+          properties:
+            active_family_members:
+              type: array
+              items:
+                type: string
+                format: uuid
+            coordination_opportunities:
+              type: array
+              items:
+                type: object
+            pending_family_decisions:
+              type: array
+              items:
+                type: object
+            family_health_indicators:
+              type: object
+        personalization_aspects:
+          type: object
+          description: Personalized dashboard aspects
+          properties:
+            personalized_content:
+              type: boolean
+            family_role_customization:
+              type: boolean
+            preference_based_layout:
+              type: boolean
+            adaptive_content_priority:
+              type: boolean
+
+    # Family Coordination Schemas (simplified for brevity)
+    FamilyGatheringInitiatedPayload:
+      type: object
+      required:
+        - gathering_id
+        - initiating_member
+        - gathering_details
+        - coordination_requirements
+        - family_response_tracking
+      properties:
+        gathering_id:
+          type: string
+          format: uuid
+        initiating_member:
+          type: string
+          format: uuid
+        gathering_details:
+          type: object
+        coordination_requirements:
+          type: object
+        family_response_tracking:
+          type: object
+
+    SharedActivityStartedPayload:
+      type: object
+      required:
+        - activity_id
+        - initiating_member
+        - activity_details
+        - participation_coordination
+        - activity_management
+      properties:
+        activity_id:
+          type: string
+          format: uuid
+        initiating_member:
+          type: string
+          format: uuid
+        activity_details:
+          type: object
+        participation_coordination:
+          type: object
+        activity_management:
+          type: object
+
+    CoordinationRequestSentPayload:
+      type: object
+      required:
+        - request_id
+        - requesting_member
+        - coordination_details
+        - response_requirements
+        - family_impact
+      properties:
+        request_id:
+          type: string
+          format: uuid
+        requesting_member:
+          type: string
+          format: uuid
+        coordination_details:
+          type: object
+        response_requirements:
+          type: object
+        family_impact:
+          type: object
+
+    # Communication Schemas (simplified for brevity)
+    CommunicationChannelCreatedPayload:
+      type: object
+      required:
+        - channel_id
+        - channel_type
+        - channel_configuration
+        - family_participation
+        - channel_management
+      properties:
+        channel_id:
+          type: string
+          format: uuid
+        channel_type:
+          type: string
+          enum: [family_chat, coordination_channel, emergency_channel, activity_specific, temporary]
+        channel_configuration:
+          type: object
+        family_participation:
+          type: object
+        channel_management:
+          type: object
+
+    MessageDeliveredPayload:
+      type: object
+      required:
+        - message_id
+        - sender_id
+        - recipient_id
+        - delivery_details
+        - family_context
+      properties:
+        message_id:
+          type: string
+          format: uuid
+        sender_id:
+          type: string
+          format: uuid
+        recipient_id:
+          type: string
+          format: uuid
+        delivery_details:
+          type: object
+        family_context:
+          type: object
+
+    ConversationSyncedPayload:
+      type: object
+      required:
+        - conversation_id
+        - sync_details
+        - participating_devices
+        - synchronization_status
+        - family_coordination
+      properties:
+        conversation_id:
+          type: string
+          format: uuid
+        sync_details:
+          type: object
+        participating_devices:
+          type: array
+          items:
+            type: string
+        synchronization_status:
+          type: object
+        family_coordination:
+          type: object
+
+    # Device and Session Management Schemas (simplified for brevity)
+    DeviceSessionStartedPayload:
+      type: object
+      required:
+        - session_id
+        - family_member_id
+        - device_info
+        - session_context
+        - family_coordination_setup
+      properties:
+        session_id:
+          type: string
+          format: uuid
+        family_member_id:
+          type: string
+          format: uuid
+        device_info:
+          type: object
+        session_context:
+          type: object
+        family_coordination_setup:
+          type: object
+
+    SessionTransferredPayload:
+      type: object
+      required:
+        - transfer_id
+        - family_member_id
+        - source_device
+        - target_device
+        - transfer_details
+      properties:
+        transfer_id:
+          type: string
+          format: uuid
+        family_member_id:
+          type: string
+          format: uuid
+        source_device:
+          type: string
+        target_device:
+          type: string
+        transfer_details:
+          type: object
+
+    MultiDeviceSyncPayload:
+      type: object
+      required:
+        - sync_id
+        - family_member_id
+        - sync_scope
+        - device_coordination
+        - sync_results
+      properties:
+        sync_id:
+          type: string
+          format: uuid
+        family_member_id:
+          type: string
+          format: uuid
+        sync_scope:
+          type: object
+        device_coordination:
+          type: object
+        sync_results:
+          type: object

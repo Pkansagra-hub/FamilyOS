@@ -1,0 +1,561 @@
+openapi: 3.1.0
+info:
+  title: MemoryOS Intelligence Advisory Protocols
+  description: |
+    **Family Intelligence Advisory-Only Action Selection & Decision Safeguards**
+
+    This contract defines advisory-only action selection, decision safeguards, and intelligence-to-P04
+    handoff protocols for the Memory-Centric Family AI system based on Part 3 Architecture.
+
+    **⚠️ CRITICAL ARCHITECTURAL BOUNDARY:**
+    Family Intelligence Systems provide **ADVISORY SIGNALS ONLY**. P04 (Family Arbitration/Action)
+    is the SOLE action executor. Family relationship context is respected in all advisory decisions.
+
+    **Family Intelligence Advisory Architecture:**
+    - **Memory-Driven Decision Advisory**: Recommendations based on family memory patterns and relationships
+    - **Cross-Device Intelligence Coordination**: Advisory signals coordinated across family device ecosystem
+    - **Family-Aware Action Planning**: Action recommendations that understand family context and relationships
+    - **Emotional Intelligence Advisory**: Family emotional state-aware decision recommendations
+    - **Safety & Privacy Safeguards**: Family safety and age-appropriate advisory filtering
+
+    **Advisory Signal Categories:**
+    1. **Action Recommendations**: Suggested actions based on family memory and context
+    2. **Decision Support**: Family relationship-aware decision guidance
+    3. **Conflict Resolution**: Advisory signals for family conflict mediation
+    4. **Learning Opportunities**: Recommendations for family learning and growth
+    5. **Memory Formation Guidance**: Suggestions for optimal family memory encoding
+
+    **Integration with Memory Backbone:**
+    - Advisory signals derived from family memory patterns and relationship dynamics
+    - Cross-device advisory coordination through family memory sync
+    - Emotional context integration for family-appropriate recommendations
+    - Privacy-preserving advisory generation with family consent frameworks
+
+    **Family Safety & Ethics:**
+    - Age-appropriate advisory filtering based on family member profiles
+    - Relationship-sensitive recommendations respecting family dynamics
+    - Conflict-aware advisory signals that promote family harmony
+    - Cultural and value-based advisory alignment with family preferences
+  version: "1.0.0"
+  contact:
+    name: MemoryOS Intelligence Platform Team
+    url: https://familyos.local/support/intelligence
+    email: intelligence-support@familyos.local
+  license:
+    name: Family OS Private License
+    url: https://familyos.local/licenses/family-os
+
+servers:
+  - url: https://intelligence.familyos.local/advisory/v1
+    description: Production Intelligence Advisory Service
+  - url: https://staging-intelligence.familyos.local/advisory/v1
+    description: Staging Environment
+  - url: http://localhost:8083/advisory/v1
+    description: Local Development
+
+security:
+  - FamilyOSAuth: []
+  - IntelligenceAuth: []
+
+paths:
+  /advisory/decisions:
+    post:
+      summary: Generate Decision Advisory
+      description: |
+        Generate family-aware decision advisory based on memory patterns, relationship context,
+        and family intelligence insights. Returns advisory signals only - no direct action execution.
+
+        **Family Intelligence Features:**
+        - Memory-driven decision recommendations based on family history
+        - Relationship-aware advisory considering family dynamics
+        - Emotional context integration for family-appropriate suggestions
+        - Cross-device coordination for consistent family intelligence
+      operationId: generateDecisionAdvisory
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DecisionAdvisoryRequest'
+      responses:
+        '200':
+          description: Decision advisory generated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DecisionAdvisoryResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /advisory/actions:
+    post:
+      summary: Generate Action Recommendations
+      description: |
+        Generate family-aware action recommendations based on memory backbone intelligence.
+        These are advisory signals only that flow to P04 for actual execution.
+      operationId: generateActionRecommendations
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ActionAdvisoryRequest'
+      responses:
+        '200':
+          description: Action recommendations generated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ActionAdvisoryResponse'
+
+  /advisory/conflict-resolution:
+    post:
+      summary: Generate Conflict Resolution Advisory
+      description: |
+        Generate family conflict resolution advisory based on relationship patterns,
+        family memory, and emotional intelligence insights.
+      operationId: generateConflictResolutionAdvisory
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ConflictResolutionRequest'
+      responses:
+        '200':
+          description: Conflict resolution advisory generated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConflictResolutionResponse'
+
+  /advisory/learning:
+    post:
+      summary: Generate Learning Opportunity Advisory
+      description: |
+        Generate personalized learning opportunity recommendations based on family
+        memory patterns, individual progress, and family educational goals.
+      operationId: generateLearningAdvisory
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LearningAdvisoryRequest'
+      responses:
+        '200':
+          description: Learning advisory generated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LearningAdvisoryResponse'
+
+  /advisory/memory-formation:
+    post:
+      summary: Generate Memory Formation Guidance
+      description: |
+        Generate guidance for optimal family memory formation, encoding strategies,
+        and memory consolidation recommendations.
+      operationId: generateMemoryFormationGuidance
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MemoryFormationRequest'
+      responses:
+        '200':
+          description: Memory formation guidance generated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MemoryFormationResponse'
+
+  /advisory/family/{familyId}/history:
+    get:
+      summary: Get Family Advisory History
+      description: |
+        Retrieve historical advisory decisions and their outcomes for family
+        learning and advisory model improvement.
+      operationId: getFamilyAdvisoryHistory
+      parameters:
+        - name: familyId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: advisoryType
+          in: query
+          schema:
+            type: string
+            enum: [decision, action, conflict_resolution, learning, memory_formation]
+        - name: startDate
+          in: query
+          schema:
+            type: string
+            format: date-time
+        - name: endDate
+          in: query
+          schema:
+            type: string
+            format: date-time
+      responses:
+        '200':
+          description: Family advisory history retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FamilyAdvisoryHistory'
+
+components:
+  schemas:
+    DecisionAdvisoryRequest:
+      type: object
+      required:
+        - decision_context
+        - family_context
+      properties:
+        decision_context:
+          $ref: '#/components/schemas/DecisionContext'
+        family_context:
+          $ref: '#/components/schemas/FamilyContext'
+        memory_context:
+          $ref: '#/components/schemas/MemoryContext'
+        emotional_context:
+          $ref: '#/components/schemas/EmotionalContext'
+        urgency_level:
+          type: string
+          enum: [low, medium, high, critical]
+        constraints:
+          type: array
+          items:
+            type: string
+          description: Family constraints or preferences to consider
+
+    DecisionAdvisoryResponse:
+      type: object
+      required:
+        - advisory_id
+        - recommendations
+        - confidence_score
+      properties:
+        advisory_id:
+          type: string
+          format: uuid
+        recommendations:
+          type: array
+          items:
+            $ref: '#/components/schemas/DecisionRecommendation'
+        confidence_score:
+          type: number
+          minimum: 0
+          maximum: 1
+          description: Confidence in advisory recommendations
+        family_considerations:
+          $ref: '#/components/schemas/FamilyConsiderations'
+        memory_basis:
+          type: array
+          items:
+            $ref: '#/components/schemas/MemoryReference'
+        generated_at:
+          type: string
+          format: date-time
+
+    ActionAdvisoryRequest:
+      type: object
+      required:
+        - action_context
+        - family_context
+      properties:
+        action_context:
+          $ref: '#/components/schemas/ActionContext'
+        family_context:
+          $ref: '#/components/schemas/FamilyContext'
+        goal_alignment:
+          type: array
+          items:
+            type: string
+          description: Family goals this action should align with
+        resource_constraints:
+          $ref: '#/components/schemas/ResourceConstraints'
+
+    ActionAdvisoryResponse:
+      type: object
+      required:
+        - advisory_id
+        - action_recommendations
+      properties:
+        advisory_id:
+          type: string
+          format: uuid
+        action_recommendations:
+          type: array
+          items:
+            $ref: '#/components/schemas/ActionRecommendation'
+        priority_order:
+          type: array
+          items:
+            type: string
+            format: uuid
+          description: Recommended execution order for actions
+        family_impact_assessment:
+          $ref: '#/components/schemas/FamilyImpactAssessment'
+
+    ConflictResolutionRequest:
+      type: object
+      required:
+        - conflict_description
+        - involved_family_members
+        - family_context
+      properties:
+        conflict_description:
+          type: string
+          description: Description of the family conflict situation
+        involved_family_members:
+          type: array
+          items:
+            type: string
+            format: uuid
+        family_context:
+          $ref: '#/components/schemas/FamilyContext'
+        conflict_history:
+          type: array
+          items:
+            $ref: '#/components/schemas/MemoryReference'
+        resolution_preferences:
+          type: array
+          items:
+            type: string
+
+    ConflictResolutionResponse:
+      type: object
+      required:
+        - advisory_id
+        - resolution_strategies
+      properties:
+        advisory_id:
+          type: string
+          format: uuid
+        resolution_strategies:
+          type: array
+          items:
+            $ref: '#/components/schemas/ResolutionStrategy'
+        mediation_approach:
+          $ref: '#/components/schemas/MediationApproach'
+        success_probability:
+          type: number
+          minimum: 0
+          maximum: 1
+
+    DecisionContext:
+      type: object
+      properties:
+        decision_type:
+          type: string
+          enum: [routine, important, critical, family_milestone]
+        decision_domain:
+          type: string
+          enum: [education, health, finance, relationships, activities, safety]
+        available_options:
+          type: array
+          items:
+            type: string
+        decision_deadline:
+          type: string
+          format: date-time
+
+    FamilyContext:
+      type: object
+      required:
+        - family_id
+      properties:
+        family_id:
+          type: string
+          format: uuid
+        involved_members:
+          type: array
+          items:
+            type: string
+            format: uuid
+        family_stage:
+          type: string
+          enum: [newly_formed, growing, established, mature, transitioning]
+        family_values:
+          type: array
+          items:
+            type: string
+        cultural_context:
+          type: string
+
+    MemoryContext:
+      type: object
+      properties:
+        relevant_memories:
+          type: array
+          items:
+            $ref: '#/components/schemas/MemoryReference'
+        memory_patterns:
+          type: array
+          items:
+            type: string
+        historical_outcomes:
+          type: array
+          items:
+            $ref: '#/components/schemas/HistoricalOutcome'
+
+    EmotionalContext:
+      type: object
+      properties:
+        family_emotional_state:
+          type: string
+          enum: [harmonious, neutral, tense, celebratory, transitional]
+        individual_emotions:
+          type: object
+          additionalProperties:
+            type: string
+            enum: [positive, neutral, negative, mixed]
+        emotional_intensity:
+          type: number
+          minimum: 0
+          maximum: 1
+
+    DecisionRecommendation:
+      type: object
+      required:
+        - recommendation_id
+        - option
+        - rationale
+      properties:
+        recommendation_id:
+          type: string
+          format: uuid
+        option:
+          type: string
+        rationale:
+          type: string
+        family_benefits:
+          type: array
+          items:
+            type: string
+        potential_risks:
+          type: array
+          items:
+            type: string
+        confidence_level:
+          type: number
+          minimum: 0
+          maximum: 1
+
+    ActionRecommendation:
+      type: object
+      required:
+        - action_id
+        - action_type
+        - description
+      properties:
+        action_id:
+          type: string
+          format: uuid
+        action_type:
+          type: string
+          enum: [communication, planning, execution, monitoring, learning]
+        description:
+          type: string
+        family_role_assignments:
+          type: object
+          additionalProperties:
+            type: string
+        timeline:
+          $ref: '#/components/schemas/ActionTimeline'
+        success_metrics:
+          type: array
+          items:
+            type: string
+
+    FamilyConsiderations:
+      type: object
+      properties:
+        relationship_dynamics:
+          type: array
+          items:
+            type: string
+        age_appropriateness:
+          type: object
+          additionalProperties:
+            type: boolean
+        cultural_sensitivity:
+          type: array
+          items:
+            type: string
+        privacy_implications:
+          type: array
+          items:
+            type: string
+
+    MemoryReference:
+      type: object
+      required:
+        - memory_id
+        - memory_type
+      properties:
+        memory_id:
+          type: string
+          format: uuid
+        memory_type:
+          type: string
+          enum: [episodic, semantic, procedural, emotional]
+        relevance_score:
+          type: number
+          minimum: 0
+          maximum: 1
+        memory_summary:
+          type: string
+
+    Error:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        details:
+          type: object
+          additionalProperties: true
+
+  responses:
+    BadRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+    Unauthorized:
+      description: Unauthorized
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+  securitySchemes:
+    FamilyOSAuth:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://auth.familyos.local/oauth/authorize
+          tokenUrl: https://auth.familyos.local/oauth/token
+          scopes:
+            advisory:read: Read intelligence advisory information
+            advisory:generate: Generate intelligence advisory signals
+            family:advisory: Access family-wide advisory capabilities
+
+    IntelligenceAuth:
+      type: http
+      scheme: bearer
+      description: Intelligence service authentication

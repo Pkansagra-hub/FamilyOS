@@ -1,0 +1,133 @@
+# MemoryOS Monitoring Configuration for Staging
+# Sub-issue #6.3: Set up staging deployment
+
+apiVersion: v1
+kind: ServiceMonitor
+metadata:
+  name: memoryos-api-metrics
+  namespace: memoryos-staging
+  labels:
+    app: memoryos-api
+    environment: staging
+spec:
+  selector:
+    matchLabels:
+      app: memoryos-api
+  endpoints:
+  - port: http
+    path: /metrics
+    interval: 30s
+    scrapeTimeout: 10s
+
+---
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: memoryos-api-alerts
+  namespace: memoryos-staging
+  labels:
+    app: memoryos-api
+    environment: staging
+spec:
+  groups:
+  - name: memoryos.api.rules
+    rules:
+    - alert: MemoryOSAPIDown
+      expr: up{job="memoryos-api-service"} == 0
+      for: 1m
+      labels:
+        severity: critical
+        environment: staging
+      annotations:
+        summary: "MemoryOS API is down in staging"
+        description: "MemoryOS API has been down for more than 1 minute in staging environment"
+
+    - alert: MemoryOSAPIHighLatency
+      expr: histogram_quantile(0.95, rate(http_request_duration_seconds_bucket{job="memoryos-api-service"}[5m])) > 1
+      for: 5m
+      labels:
+        severity: warning
+        environment: staging
+      annotations:
+        summary: "High latency on MemoryOS API in staging"
+        description: "95th percentile latency is {{ $value }}s"
+
+    - alert: MemoryOSAPIHighErrorRate
+      expr: rate(http_requests_total{job="memoryos-api-service",status=~"5.."}[5m]) / rate(http_requests_total{job="memoryos-api-service"}[5m]) > 0.1
+      for: 5m
+      labels:
+        severity: warning
+        environment: staging
+      annotations:
+        summary: "High error rate on MemoryOS API in staging"
+        description: "Error rate is {{ $value | humanizePercentage }}"
+
+    - alert: MemoryOSAPIPodCrashLooping
+      expr: rate(kube_pod_container_status_restarts_total{namespace="memoryos-staging",pod=~"memoryos-api-.*"}[15m]) > 0
+      for: 5m
+      labels:
+        severity: warning
+        environment: staging
+      annotations:
+        summary: "MemoryOS API pod is crash looping in staging"
+        description: "Pod {{ $labels.pod }} is restarting frequently"
+
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: grafana-dashboard-memoryos
+  namespace: memoryos-staging
+  labels:
+    grafana_dashboard: "1"
+data:
+  memoryos-dashboard.json: |
+    {
+      "dashboard": {
+        "id": null,
+        "title": "MemoryOS API - Staging",
+        "tags": ["memoryos", "staging"],
+        "timezone": "browser",
+        "panels": [
+          {
+            "title": "Request Rate",
+            "type": "graph",
+            "targets": [
+              {
+                "expr": "rate(http_requests_total{job=\"memoryos-api-service\"}[5m])",
+                "legendFormat": "{{ method }} {{ status }}"
+              }
+            ]
+          },
+          {
+            "title": "Response Time",
+            "type": "graph",
+            "targets": [
+              {
+                "expr": "histogram_quantile(0.50, rate(http_request_duration_seconds_bucket{job=\"memoryos-api-service\"}[5m]))",
+                "legendFormat": "50th percentile"
+              },
+              {
+                "expr": "histogram_quantile(0.95, rate(http_request_duration_seconds_bucket{job=\"memoryos-api-service\"}[5m]))",
+                "legendFormat": "95th percentile"
+              }
+            ]
+          },
+          {
+            "title": "Error Rate",
+            "type": "graph",
+            "targets": [
+              {
+                "expr": "rate(http_requests_total{job=\"memoryos-api-service\",status=~\"5..\"}[5m])",
+                "legendFormat": "5xx errors"
+              }
+            ]
+          }
+        ],
+        "time": {
+          "from": "now-1h",
+          "to": "now"
+        },
+        "refresh": "5s"
+      }
+    }

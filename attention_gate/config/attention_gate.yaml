@@ -1,0 +1,213 @@
+# Attention Gate Configuration
+# Future-ready configuration supporting learning integration
+
+# Core Decision Thresholds
+thresholds:
+  # Base thresholds (Phase 1: Hardcoded)
+  admit: 0.6
+  boost: 0.8
+  drop: 0.2
+  defer: 0.4  # implicit: below admit, above drop
+
+  # Learning integration (Phase 3: Future)
+  adaptive:
+    enabled: false
+    adaptation_rate: 0.01
+    min_threshold: 0.1
+    max_threshold: 0.9
+    adaptation_frequency: "hourly"
+
+# Salience Calculation Weights
+salience:
+  # Core feature weights (explainable linear model)
+  weights:
+    urgency: 1.0        # deadline proximity, user intent urgency
+    novelty: 0.8        # deduplication, freshness
+    value: 0.9          # estimated utility/importance
+    risk: -0.7          # policy risk, safety concerns (negative)
+    cost: -0.6          # computational/time cost (negative)
+    social_risk: -0.5   # family/social impact risk (negative)
+    affect_arousal: 0.4 # emotional arousal boost
+    affect_valence: 0.2 # emotional valence influence
+    context_bump: 0.3   # situational context modifier
+    temporal_fit: 0.3   # circadian/timing alignment
+
+    # Future learning weights (Phase 3)
+    personal_relevance: 0.0  # learned personal preferences
+    goal_alignment: 0.0      # goal stack alignment
+
+  # Calibration parameters (Phase 2: Light calibration)
+  calibration:
+    temperature: 1.0    # softmax temperature for score normalization
+    platt_a: 1.0       # Platt scaling parameter A
+    platt_b: 0.0       # Platt scaling parameter B
+
+  # Bias and normalization
+  bias: 0.0
+  score_clipping:
+    min: 0.0
+    max: 1.0
+
+# Intent Derivation Rules
+intent_rules:
+  # Pattern-based intent detection
+  patterns:
+    prospective:
+      - "remind.*(?:tomorrow|next|in \\d+)"
+      - "schedule.*(?:meeting|appointment)"
+      - "plan.*(?:trip|event)"
+    recall:
+      - "^(?:find|search|where|show me)"
+      - "what.*(?:did|said|happened)"
+      - "when.*(?:did|was)"
+    write:
+      - "^(?:save|remember|note|log)"
+      - "add.*(?:to|note|reminder)"
+    project:
+      - "^(?:plan|draft|create).*(?:itinerary|proposal)"
+      - "organize.*(?:event|meeting)"
+
+  # Intent confidence thresholds
+  confidence:
+    high: 0.8
+    medium: 0.6
+    low: 0.4
+
+  # Optional neural classifier (Phase 4: Future)
+  neural_classifier:
+    enabled: false
+    model_path: null
+    confidence_threshold: 0.7
+    calibration_enabled: true
+
+# Backpressure and Load Management
+backpressure:
+  enabled: true
+
+  # Token bucket for rate limiting
+  token_bucket:
+    rate: 10          # tokens per second
+    burst: 20         # burst capacity
+
+  # Circuit breaker for downstream health
+  circuit_breaker:
+    failure_threshold: 5        # failures before opening
+    timeout_ms: 30000          # timeout before retry
+    half_open_max_calls: 3     # test calls in half-open state
+
+  # Queue management
+  queue:
+    max_size: 100
+    defer_when_full: true
+    drop_policy: "oldest"      # oldest, lowest_priority, random
+
+# Policy Integration
+policy:
+  # ABAC/RBAC enforcement points
+  enforcement:
+    pre_gate: true      # check policy before gating
+    post_decision: true # apply obligations after decision
+
+  # Band-based adjustments
+  band_modifiers:
+    BLACK:
+      max_priority: 0.3  # cap priority for BLACK band
+      force_obligations: ["audit", "extra_logging"]
+    RED:
+      max_priority: 0.5
+      boost_threshold: 0.9  # require higher scores for boost
+    AMBER:
+      max_priority: 0.8
+    GREEN:
+      max_priority: 1.0
+
+# Quality of Service
+qos:
+  # Performance targets
+  targets:
+    latency_p95_ms: 15    # 95th percentile latency target
+    throughput_rps: 100   # requests per second target
+
+  # Resource budgets
+  budgets:
+    cpu_ms: 10           # CPU time budget per request
+    memory_mb: 5         # memory budget per request
+
+  # Thermal and battery considerations
+  device_adaptation:
+    thermal_throttling: true
+    battery_aware: true
+    low_battery_threshold: 0.2
+
+# Observability and Tracing
+observability:
+  # Metrics collection
+  metrics:
+    enabled: true
+    cardinality_limit: 1000
+
+  # Decision tracing
+  tracing:
+    enabled: true
+    sample_rate: 1.0      # trace all decisions initially
+    include_features: true
+    include_weights: true
+
+  # Audit logging
+  audit:
+    enabled: true
+    log_all_decisions: true
+    include_payload_hash: true
+    pii_scrubbing: true
+
+# Learning Integration (Future)
+learning:
+  enabled: false
+
+  # Learning parameters
+  parameters:
+    learning_rate: 0.01
+    adaptation_frequency: "hourly"  # hourly, daily, weekly
+    min_samples: 100              # minimum samples before adaptation
+    max_weight_change: 0.1        # maximum single weight change
+
+  # Safety and rollback
+  safety:
+    enabled: true
+    performance_monitoring: true
+    auto_rollback: true
+    rollback_threshold: 0.1       # performance degradation threshold
+
+  # A/B testing support
+  ab_testing:
+    enabled: false
+    variant_allocation: 0.1       # 10% to experimental variants
+    variants:
+      urgency_boost:
+        description: "Boost urgency weight by 20%"
+        weight_multipliers:
+          urgency: 1.2
+      novelty_focus:
+        description: "Increase novelty importance"
+        weight_multipliers:
+          novelty: 1.5
+          value: 0.8
+
+# Development and Testing
+development:
+  # Debug modes
+  debug:
+    enabled: false
+    verbose_logging: false
+    save_decision_traces: false
+
+  # Testing support
+  testing:
+    deterministic_mode: false    # for reproducible tests
+    mock_external_services: false
+
+  # Feature flags
+  features:
+    neural_intent_classifier: false
+    adaptive_thresholds: false
+    personalization: false

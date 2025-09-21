@@ -1,0 +1,1605 @@
+openapi: 3.1.0
+info:
+  title: MemoryOS Adversarial Detection Safety Contract
+  version: "1.0.0"
+  description: |
+    **Memory-Centric Family AI Adversarial Detection Safety Contract**
+
+    This contract defines adversarial detection and protection capabilities for the Memory-Centric Family AI system,
+    providing comprehensive threat detection, family security coordination, memory-driven attack pattern recognition,
+    and adaptive defense mechanisms with family protection protocols.
+
+    **Memory-Driven Adversarial Defense Architecture:**
+    - **Memory Backbone Threat Detection**: Threats analyzed through memory pattern recognition
+    - **Memory-Enhanced Attack Pattern Recognition**: Attack patterns detected using memory baselines
+    - **Memory-Driven Family Security Coordination**: Security coordinated across family memory context
+    - **Family Memory Defense Systems**: Defense strategies based on family memory and relationship patterns
+    - **Memory-Based Threat Intelligence**: Threat intelligence enhanced by memory pattern analysis
+
+    **Adversarial Detection Categories:**
+    1. **Memory-Informed Prompt Injection Detection**: Detecting malicious prompts through memory analysis
+    2. **Memory-Driven Data Poisoning Protection**: Protection against data poisoning with memory validation
+    3. **Memory-Enhanced Model Manipulation Detection**: Detection of model manipulation through memory patterns
+    4. **Memory-Based Social Engineering Protection**: Social engineering protection using family memory
+    5. **Memory-Coordinated Privacy Attack Detection**: Privacy attack detection with memory coordination
+    6. **Memory-Driven Behavioral Manipulation Detection**: Detection of behavioral manipulation attempts
+    7. **Memory-Enhanced System Integrity Monitoring**: System integrity monitoring through memory validation
+
+    **Family Security Integration:**
+    - Adversarial detection coordinated through family memory backbone
+    - Security responses informed by family relationship patterns and shared experiences
+    - Threat analysis enhanced by family context and memory-driven insights
+    - Defense coordination across family members with memory validation
+
+servers:
+  - url: https://api.memoryos.family/v1
+    description: MemoryOS Family AI Adversarial Detection Safety API
+
+paths:
+  /safety/adversarial/detection:
+    get:
+      summary: Get Memory-Enhanced Adversarial Detection Overview
+      description: |
+        Retrieve adversarial detection overview with memory-driven threat analysis,
+        family security coordination status, and defense system effectiveness.
+      operationId: getMemoryEnhancedAdversarialDetectionOverview
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: detection_scope
+          in: query
+          schema:
+            type: string
+            enum: [individual, family, comprehensive, emergency]
+            default: family
+          description: Scope of adversarial detection
+        - name: threat_categories
+          in: query
+          schema:
+            type: array
+            items:
+              type: string
+              enum: [prompt_injection, data_poisoning, model_manipulation, social_engineering, privacy_attacks, behavioral_manipulation, system_integrity]
+          description: Threat categories to include
+        - name: time_range
+          in: query
+          schema:
+            type: string
+            enum: [hour, day, week, month, ongoing]
+            default: day
+          description: Time range for detection analysis
+        - name: include_memory_insights
+          in: query
+          schema:
+            type: boolean
+            default: true
+          description: Include memory-driven threat insights
+      responses:
+        '200':
+          description: Adversarial detection overview retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdversarialDetectionOverviewResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /safety/adversarial/threats:
+    get:
+      summary: Get Memory-Driven Threat Detection Results
+      description: |
+        Retrieve threat detection results with memory-based pattern analysis,
+        family context consideration, and adaptive defense recommendations.
+      operationId: getMemoryDrivenThreatDetectionResults
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: threat_severity
+          in: query
+          schema:
+            type: string
+            enum: [low, moderate, high, critical, emergency, all]
+            default: all
+          description: Minimum threat severity level
+        - name: threat_type
+          in: query
+          schema:
+            type: string
+            enum: [prompt_injection, data_poisoning, model_manipulation, social_engineering, privacy_attacks, behavioral_manipulation, system_integrity, all]
+            default: all
+          description: Type of threats to include
+        - name: detection_confidence
+          in: query
+          schema:
+            type: number
+            minimum: 0
+            maximum: 1
+            default: 0.5
+          description: Minimum detection confidence threshold
+        - name: family_context_analysis
+          in: query
+          schema:
+            type: boolean
+            default: true
+          description: Include family context analysis
+      responses:
+        '200':
+          description: Threat detection results retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ThreatDetectionResultsResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /safety/adversarial/threats/{threatId}:
+    get:
+      summary: Get Memory-Based Threat Analysis
+      description: |
+        Retrieve detailed threat analysis with memory-driven insights,
+        family impact assessment, and mitigation strategy recommendations.
+      operationId: getMemoryBasedThreatAnalysis
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: threatId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Unique threat identifier
+        - name: analysis_depth
+          in: query
+          schema:
+            type: string
+            enum: [summary, standard, detailed, comprehensive]
+            default: detailed
+          description: Depth of threat analysis
+      responses:
+        '200':
+          description: Threat analysis retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ThreatAnalysisResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /safety/adversarial/prompt-injection:
+    post:
+      summary: Analyze Input for Memory-Based Prompt Injection Detection
+      description: |
+        Analyze input for prompt injection attempts using memory-driven pattern recognition,
+        family context validation, and adversarial prompt classification.
+      operationId: analyzeInputForMemoryBasedPromptInjectionDetection
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PromptInjectionAnalysisRequest'
+      responses:
+        '200':
+          description: Prompt injection analysis completed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PromptInjectionAnalysisResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /safety/adversarial/data-poisoning:
+    post:
+      summary: Validate Data for Memory-Coordinated Poisoning Detection
+      description: |
+        Validate data for poisoning attempts using memory-coordinated validation,
+        family context verification, and data integrity assessment.
+      operationId: validateDataForMemoryCoordinatedPoisoningDetection
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DataPoisoningValidationRequest'
+      responses:
+        '200':
+          description: Data poisoning validation completed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataPoisoningValidationResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /safety/adversarial/model-manipulation:
+    get:
+      summary: Get Memory-Enhanced Model Integrity Assessment
+      description: |
+        Retrieve model integrity assessment with memory-enhanced validation,
+        family context consistency checks, and manipulation detection results.
+      operationId: getMemoryEnhancedModelIntegrityAssessment
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: assessment_scope
+          in: query
+          schema:
+            type: string
+            enum: [cognitive_core, memory_systems, family_coordination, comprehensive]
+            default: comprehensive
+          description: Scope of model integrity assessment
+        - name: validation_depth
+          in: query
+          schema:
+            type: string
+            enum: [basic, standard, thorough, comprehensive]
+            default: standard
+          description: Depth of integrity validation
+        - name: memory_consistency_check
+          in: query
+          schema:
+            type: boolean
+            default: true
+          description: Include memory consistency checking
+      responses:
+        '200':
+          description: Model integrity assessment retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ModelIntegrityAssessmentResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /safety/adversarial/social-engineering:
+    post:
+      summary: Analyze Interaction for Family Memory-Based Social Engineering Detection
+      description: |
+        Analyze interaction for social engineering attempts using family memory context,
+        relationship pattern validation, and manipulation technique detection.
+      operationId: analyzeInteractionForFamilyMemoryBasedSocialEngineeringDetection
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SocialEngineeringAnalysisRequest'
+      responses:
+        '200':
+          description: Social engineering analysis completed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SocialEngineeringAnalysisResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /safety/adversarial/privacy-attacks:
+    get:
+      summary: Get Family Memory-Coordinated Privacy Attack Detection
+      description: |
+        Retrieve privacy attack detection results with family memory coordination,
+        privacy violation assessment, and family protection recommendations.
+      operationId: getFamilyMemoryCoordinatedPrivacyAttackDetection
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: attack_categories
+          in: query
+          schema:
+            type: array
+            items:
+              type: string
+              enum: [data_extraction, inference_attacks, membership_inference, model_inversion, property_inference]
+          description: Privacy attack categories to detect
+        - name: protection_scope
+          in: query
+          schema:
+            type: string
+            enum: [individual, family, comprehensive]
+            default: family
+          description: Scope of privacy protection
+        - name: sensitivity_level
+          in: query
+          schema:
+            type: string
+            enum: [public, internal, confidential, restricted]
+            default: confidential
+          description: Information sensitivity level
+      responses:
+        '200':
+          description: Privacy attack detection results retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PrivacyAttackDetectionResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /safety/adversarial/behavioral-manipulation:
+    get:
+      summary: Get Memory-Driven Behavioral Manipulation Detection
+      description: |
+        Retrieve behavioral manipulation detection results with memory-driven analysis,
+        family behavior pattern validation, and manipulation technique identification.
+      operationId: getMemoryDrivenBehavioralManipulationDetection
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: manipulation_types
+          in: query
+          schema:
+            type: array
+            items:
+              type: string
+              enum: [persuasion, deception, coercion, emotional_manipulation, cognitive_bias_exploitation, habit_formation]
+          description: Types of behavioral manipulation to detect
+        - name: analysis_timeframe
+          in: query
+          schema:
+            type: string
+            enum: [real_time, recent, trending, historical]
+            default: recent
+          description: Timeframe for manipulation analysis
+        - name: family_behavioral_context
+          in: query
+          schema:
+            type: boolean
+            default: true
+          description: Include family behavioral context
+      responses:
+        '200':
+          description: Behavioral manipulation detection results retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BehavioralManipulationDetectionResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /safety/adversarial/defense:
+    get:
+      summary: Get Family Memory-Coordinated Defense Status
+      description: |
+        Retrieve defense status with family memory coordination,
+        adaptive defense mechanisms, and protection effectiveness assessment.
+      operationId: getFamilyMemoryCoordinatedDefenseStatus
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: defense_categories
+          in: query
+          schema:
+            type: array
+            items:
+              type: string
+              enum: [input_validation, output_filtering, model_protection, privacy_preservation, behavioral_safeguards, system_integrity]
+          description: Defense categories to include
+        - name: status_detail_level
+          in: query
+          schema:
+            type: string
+            enum: [summary, detailed, comprehensive, operational]
+            default: detailed
+          description: Level of defense status detail
+      responses:
+        '200':
+          description: Defense status retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefenseStatusResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+    post:
+      summary: Activate Memory-Enhanced Adaptive Defense
+      description: |
+        Activate adaptive defense measures with memory enhancement,
+        family coordination protocols, and threat-specific countermeasures.
+      operationId: activateMemoryEnhancedAdaptiveDefense
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AdaptiveDefenseActivationRequest'
+      responses:
+        '202':
+          description: Adaptive defense activated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdaptiveDefenseActivationResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /safety/adversarial/defense/{defenseId}:
+    get:
+      summary: Get Memory-Coordinated Defense Configuration
+      description: |
+        Retrieve defense configuration with memory coordination,
+        family protection settings, and adaptive mechanism status.
+      operationId: getMemoryCoordinatedDefenseConfiguration
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: defenseId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Unique defense configuration identifier
+      responses:
+        '200':
+          description: Defense configuration retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefenseConfigurationResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    patch:
+      summary: Update Defense with Family Memory Intelligence
+      description: |
+        Update defense configuration with family memory intelligence,
+        adaptive threat response, and protection optimization.
+      operationId: updateDefenseWithFamilyMemoryIntelligence
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: defenseId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Unique defense configuration identifier
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DefenseUpdateRequest'
+      responses:
+        '200':
+          description: Defense configuration updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DefenseUpdateResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /safety/adversarial/alerts:
+    get:
+      summary: Get Memory-Based Adversarial Security Alerts
+      description: |
+        Retrieve adversarial security alerts with memory-based prioritization,
+        family context awareness, and response readiness status.
+      operationId: getMemoryBasedAdversarialSecurityAlerts
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: alert_severity
+          in: query
+          schema:
+            type: string
+            enum: [low, moderate, high, critical, emergency, all]
+            default: all
+          description: Minimum alert severity level
+        - name: threat_categories
+          in: query
+          schema:
+            type: array
+            items:
+              type: string
+              enum: [prompt_injection, data_poisoning, model_manipulation, social_engineering, privacy_attacks, behavioral_manipulation, system_integrity]
+          description: Threat categories for alerts
+        - name: time_scope
+          in: query
+          schema:
+            type: string
+            enum: [active, recent, historical, trending]
+            default: active
+          description: Time scope for alerts
+      responses:
+        '200':
+          description: Adversarial security alerts retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdversarialSecurityAlertsResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /safety/adversarial/intelligence:
+    get:
+      summary: Get Family Memory-Enhanced Threat Intelligence
+      description: |
+        Retrieve threat intelligence with family memory enhancement,
+        adaptive pattern recognition, and predictive threat modeling.
+      operationId: getFamilyMemoryEnhancedThreatIntelligence
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: intelligence_scope
+          in: query
+          schema:
+            type: string
+            enum: [tactical, operational, strategic, comprehensive]
+            default: operational
+          description: Scope of threat intelligence
+        - name: prediction_timeframe
+          in: query
+          schema:
+            type: string
+            enum: [immediate, short_term, medium_term, long_term]
+            default: short_term
+          description: Timeframe for threat predictions
+        - name: family_context_integration
+          in: query
+          schema:
+            type: boolean
+            default: true
+          description: Include family context integration
+      responses:
+        '200':
+          description: Threat intelligence retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ThreatIntelligenceResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    AdversarialDetectionOverviewResponse:
+      type: object
+      properties:
+        family_id:
+          type: string
+          format: uuid
+          description: Family identifier
+        detection_period:
+          type: object
+          description: Detection analysis time period
+        overall_threat_status:
+          type: object
+          description: Overall threat status assessment
+        threat_category_summary:
+          type: object
+          description: Summary by threat category
+        family_security_coordination_status:
+          type: object
+          description: Family security coordination status
+        memory_driven_threat_insights:
+          type: object
+          description: Memory-driven threat insights
+        defense_system_effectiveness:
+          type: object
+          description: Defense system effectiveness metrics
+        active_threats_summary:
+          type: object
+          description: Summary of active threats
+        security_recommendations:
+          type: array
+          items:
+            type: object
+          description: Security recommendations
+        threat_trends:
+          type: object
+          description: Threat trend analysis
+        adaptive_defense_status:
+          type: object
+          description: Adaptive defense mechanism status
+
+    ThreatDetectionResultsResponse:
+      type: object
+      properties:
+        detection_context:
+          type: object
+          description: Threat detection context
+        detected_threats:
+          type: array
+          items:
+            $ref: '#/components/schemas/DetectedThreat'
+          description: Detected threats with analysis
+        threat_classification:
+          type: object
+          description: Classification of detected threats
+        severity_distribution:
+          type: object
+          description: Distribution of threat severities
+        family_impact_assessment:
+          type: object
+          description: Assessment of family impact
+        memory_pattern_correlation:
+          type: object
+          description: Correlation with memory patterns
+        defense_effectiveness:
+          type: object
+          description: Effectiveness of current defenses
+        mitigation_recommendations:
+          type: array
+          items:
+            type: object
+          description: Threat mitigation recommendations
+        false_positive_analysis:
+          type: object
+          description: False positive analysis and filtering
+
+    DetectedThreat:
+      type: object
+      properties:
+        threat_id:
+          type: string
+          format: uuid
+          description: Unique threat identifier
+        threat_type:
+          type: string
+          enum: [prompt_injection, data_poisoning, model_manipulation, social_engineering, privacy_attacks, behavioral_manipulation, system_integrity]
+          description: Type of detected threat
+        severity_level:
+          type: string
+          enum: [low, moderate, high, critical, emergency]
+          description: Severity level of the threat
+        confidence_score:
+          type: number
+          minimum: 0
+          maximum: 1
+          description: Confidence in threat detection
+        detection_timestamp:
+          type: string
+          format: date-time
+          description: When the threat was detected
+        threat_description:
+          type: string
+          description: Description of the threat
+        attack_vector:
+          type: object
+          description: Attack vector analysis
+        affected_components:
+          type: array
+          items:
+            type: string
+          description: System components affected
+        family_impact_potential:
+          type: object
+          description: Potential impact on family
+        memory_context_relevance:
+          type: object
+          description: Relevance to memory context
+        mitigation_urgency:
+          type: string
+          enum: [routine, recommended, urgent, immediate, critical]
+          description: Urgency of mitigation
+        threat_indicators:
+          type: array
+          items:
+            type: object
+          description: Indicators of compromise
+
+    ThreatAnalysisResponse:
+      type: object
+      properties:
+        threat_details:
+          $ref: '#/components/schemas/DetectedThreat'
+        detailed_analysis:
+          type: object
+          description: Detailed threat analysis
+        attack_pattern_analysis:
+          type: object
+          description: Attack pattern analysis
+        memory_based_insights:
+          type: object
+          description: Memory-based threat insights
+        family_context_analysis:
+          type: object
+          description: Family context threat analysis
+        impact_assessment:
+          type: object
+          description: Comprehensive impact assessment
+        attribution_analysis:
+          type: object
+          description: Threat attribution analysis
+        timeline_reconstruction:
+          type: object
+          description: Attack timeline reconstruction
+        mitigation_strategies:
+          type: array
+          items:
+            type: object
+          description: Detailed mitigation strategies
+        prevention_recommendations:
+          type: array
+          items:
+            type: object
+          description: Prevention recommendations
+
+    PromptInjectionAnalysisRequest:
+      type: object
+      required:
+        - input_text
+      properties:
+        input_text:
+          type: string
+          description: Input text to analyze for prompt injection
+        context_information:
+          type: object
+          description: Context information for analysis
+        analysis_depth:
+          type: string
+          enum: [basic, standard, thorough, comprehensive]
+          default: standard
+          description: Depth of prompt injection analysis
+        family_context_validation:
+          type: boolean
+          default: true
+          description: Include family context validation
+        memory_pattern_checking:
+          type: boolean
+          default: true
+          description: Include memory pattern checking
+
+    PromptInjectionAnalysisResponse:
+      type: object
+      required:
+        - analysis_result
+        - threat_detected
+      properties:
+        analysis_result:
+          type: object
+          description: Prompt injection analysis result
+        threat_detected:
+          type: boolean
+          description: Whether threat was detected
+        confidence_score:
+          type: number
+          minimum: 0
+          maximum: 1
+          description: Confidence in analysis result
+        injection_techniques:
+          type: array
+          items:
+            type: object
+          description: Detected injection techniques
+        memory_validation_result:
+          type: object
+          description: Memory pattern validation result
+        family_context_consistency:
+          type: object
+          description: Family context consistency check
+        risk_assessment:
+          type: object
+          description: Risk assessment for detected threats
+        mitigation_recommendations:
+          type: array
+          items:
+            type: object
+          description: Mitigation recommendations
+        safe_alternatives:
+          type: array
+          items:
+            type: string
+          description: Safe alternative inputs
+
+    DataPoisoningValidationRequest:
+      type: object
+      required:
+        - data_source
+        - validation_scope
+      properties:
+        data_source:
+          type: object
+          description: Data source to validate
+        validation_scope:
+          type: string
+          enum: [input_data, training_data, memory_updates, comprehensive]
+          description: Scope of data validation
+        validation_depth:
+          type: string
+          enum: [basic, standard, thorough, comprehensive]
+          default: standard
+          description: Depth of validation analysis
+        family_consistency_check:
+          type: boolean
+          default: true
+          description: Include family consistency checking
+        memory_integrity_validation:
+          type: boolean
+          default: true
+          description: Include memory integrity validation
+
+    DataPoisoningValidationResponse:
+      type: object
+      required:
+        - validation_result
+        - poisoning_detected
+      properties:
+        validation_result:
+          type: object
+          description: Data poisoning validation result
+        poisoning_detected:
+          type: boolean
+          description: Whether data poisoning was detected
+        confidence_score:
+          type: number
+          minimum: 0
+          maximum: 1
+          description: Confidence in validation result
+        poisoning_indicators:
+          type: array
+          items:
+            type: object
+          description: Indicators of data poisoning
+        affected_data_segments:
+          type: array
+          items:
+            type: object
+          description: Data segments affected by poisoning
+        family_impact_assessment:
+          type: object
+          description: Assessment of family impact
+        memory_integrity_status:
+          type: object
+          description: Memory integrity status
+        data_quality_assessment:
+          type: object
+          description: Overall data quality assessment
+        remediation_recommendations:
+          type: array
+          items:
+            type: object
+          description: Data remediation recommendations
+
+    ModelIntegrityAssessmentResponse:
+      type: object
+      properties:
+        assessment_scope:
+          type: object
+          description: Model integrity assessment scope
+        integrity_status:
+          type: object
+          description: Overall model integrity status
+        model_component_assessments:
+          type: array
+          items:
+            $ref: '#/components/schemas/ModelComponentIntegrity'
+          description: Assessment of model components
+        memory_consistency_validation:
+          type: object
+          description: Memory consistency validation results
+        family_coordination_integrity:
+          type: object
+          description: Family coordination integrity status
+        manipulation_indicators:
+          type: array
+          items:
+            type: object
+          description: Indicators of model manipulation
+        performance_anomalies:
+          type: object
+          description: Performance anomaly analysis
+        security_vulnerabilities:
+          type: array
+          items:
+            type: object
+          description: Identified security vulnerabilities
+        integrity_restoration_recommendations:
+          type: array
+          items:
+            type: object
+          description: Integrity restoration recommendations
+
+    ModelComponentIntegrity:
+      type: object
+      properties:
+        component_name:
+          type: string
+          description: Model component name
+        integrity_score:
+          type: number
+          minimum: 0
+          maximum: 1
+          description: Integrity score for component
+        integrity_status:
+          type: string
+          enum: [intact, compromised, uncertain, requires_verification]
+          description: Integrity status of component
+        manipulation_indicators:
+          type: array
+          items:
+            type: object
+          description: Manipulation indicators for component
+        memory_consistency:
+          type: object
+          description: Memory consistency for component
+        family_coordination_alignment:
+          type: object
+          description: Family coordination alignment
+        performance_metrics:
+          type: object
+          description: Component performance metrics
+        vulnerability_assessment:
+          type: object
+          description: Component vulnerability assessment
+
+    SocialEngineeringAnalysisRequest:
+      type: object
+      required:
+        - interaction_content
+        - interaction_context
+      properties:
+        interaction_content:
+          type: object
+          description: Interaction content to analyze
+        interaction_context:
+          type: object
+          description: Context of the interaction
+        analysis_scope:
+          type: string
+          enum: [basic, comprehensive, family_focused, memory_enhanced]
+          default: comprehensive
+          description: Scope of social engineering analysis
+        family_relationship_validation:
+          type: boolean
+          default: true
+          description: Include family relationship validation
+        memory_pattern_verification:
+          type: boolean
+          default: true
+          description: Include memory pattern verification
+
+    SocialEngineeringAnalysisResponse:
+      type: object
+      required:
+        - analysis_result
+        - manipulation_detected
+      properties:
+        analysis_result:
+          type: object
+          description: Social engineering analysis result
+        manipulation_detected:
+          type: boolean
+          description: Whether manipulation was detected
+        confidence_score:
+          type: number
+          minimum: 0
+          maximum: 1
+          description: Confidence in analysis result
+        manipulation_techniques:
+          type: array
+          items:
+            type: object
+          description: Detected manipulation techniques
+        family_context_inconsistencies:
+          type: array
+          items:
+            type: object
+          description: Family context inconsistencies
+        memory_pattern_violations:
+          type: array
+          items:
+            type: object
+          description: Memory pattern violations
+        trust_assessment:
+          type: object
+          description: Trust assessment for interaction
+        risk_indicators:
+          type: array
+          items:
+            type: object
+          description: Risk indicators identified
+        protective_recommendations:
+          type: array
+          items:
+            type: object
+          description: Protective recommendations
+
+    PrivacyAttackDetectionResponse:
+      type: object
+      properties:
+        detection_context:
+          type: object
+          description: Privacy attack detection context
+        detected_attacks:
+          type: array
+          items:
+            $ref: '#/components/schemas/PrivacyAttack'
+          description: Detected privacy attacks
+        privacy_risk_assessment:
+          type: object
+          description: Privacy risk assessment
+        family_privacy_impact:
+          type: object
+          description: Family privacy impact analysis
+        memory_exposure_assessment:
+          type: object
+          description: Memory exposure assessment
+        attack_sophistication_analysis:
+          type: object
+          description: Attack sophistication analysis
+        privacy_preservation_effectiveness:
+          type: object
+          description: Privacy preservation effectiveness
+        remediation_urgency:
+          type: object
+          description: Privacy remediation urgency
+        privacy_protection_recommendations:
+          type: array
+          items:
+            type: object
+          description: Privacy protection recommendations
+
+    PrivacyAttack:
+      type: object
+      properties:
+        attack_id:
+          type: string
+          format: uuid
+          description: Unique privacy attack identifier
+        attack_type:
+          type: string
+          enum: [data_extraction, inference_attacks, membership_inference, model_inversion, property_inference]
+          description: Type of privacy attack
+        severity_level:
+          type: string
+          enum: [low, moderate, high, critical]
+          description: Severity level of attack
+        confidence_score:
+          type: number
+          minimum: 0
+          maximum: 1
+          description: Confidence in attack detection
+        targeted_information:
+          type: object
+          description: Information targeted by attack
+        attack_vector:
+          type: object
+          description: Attack vector analysis
+        family_members_affected:
+          type: array
+          items:
+            type: string
+          description: Family members affected
+        memory_components_at_risk:
+          type: array
+          items:
+            type: string
+          description: Memory components at risk
+        privacy_breach_potential:
+          type: object
+          description: Potential for privacy breach
+        mitigation_requirements:
+          type: object
+          description: Requirements for attack mitigation
+
+    BehavioralManipulationDetectionResponse:
+      type: object
+      properties:
+        detection_analysis:
+          type: object
+          description: Behavioral manipulation detection analysis
+        detected_manipulations:
+          type: array
+          items:
+            $ref: '#/components/schemas/BehavioralManipulation'
+          description: Detected behavioral manipulations
+        manipulation_pattern_analysis:
+          type: object
+          description: Manipulation pattern analysis
+        family_behavioral_baseline:
+          type: object
+          description: Family behavioral baseline comparison
+        memory_driven_detection_insights:
+          type: object
+          description: Memory-driven detection insights
+        manipulation_impact_assessment:
+          type: object
+          description: Impact assessment of manipulations
+        resistance_effectiveness:
+          type: object
+          description: Effectiveness of manipulation resistance
+        behavioral_protection_recommendations:
+          type: array
+          items:
+            type: object
+          description: Behavioral protection recommendations
+
+    BehavioralManipulation:
+      type: object
+      properties:
+        manipulation_id:
+          type: string
+          format: uuid
+          description: Unique manipulation identifier
+        manipulation_type:
+          type: string
+          enum: [persuasion, deception, coercion, emotional_manipulation, cognitive_bias_exploitation, habit_formation]
+          description: Type of behavioral manipulation
+        severity_level:
+          type: string
+          enum: [low, moderate, high, critical]
+          description: Severity level of manipulation
+        confidence_score:
+          type: number
+          minimum: 0
+          maximum: 1
+          description: Confidence in manipulation detection
+        targeted_behaviors:
+          type: array
+          items:
+            type: string
+          description: Behaviors targeted for manipulation
+        manipulation_techniques:
+          type: array
+          items:
+            type: object
+          description: Manipulation techniques employed
+        family_vulnerability_assessment:
+          type: object
+          description: Family vulnerability to manipulation
+        memory_pattern_exploitation:
+          type: object
+          description: Memory pattern exploitation analysis
+        effectiveness_assessment:
+          type: object
+          description: Manipulation effectiveness assessment
+        countermeasure_recommendations:
+          type: array
+          items:
+            type: object
+          description: Recommended countermeasures
+
+    DefenseStatusResponse:
+      type: object
+      properties:
+        defense_overview:
+          type: object
+          description: Overall defense status overview
+        defense_mechanisms:
+          type: array
+          items:
+            $ref: '#/components/schemas/DefenseMechanism'
+          description: Active defense mechanisms
+        family_coordination_defense:
+          type: object
+          description: Family coordination defense status
+        memory_enhanced_protection:
+          type: object
+          description: Memory-enhanced protection status
+        adaptive_defense_effectiveness:
+          type: object
+          description: Adaptive defense effectiveness
+        threat_coverage_analysis:
+          type: object
+          description: Threat coverage analysis
+        defense_performance_metrics:
+          type: object
+          description: Defense performance metrics
+        vulnerability_assessment:
+          type: object
+          description: Defense vulnerability assessment
+        optimization_recommendations:
+          type: array
+          items:
+            type: object
+          description: Defense optimization recommendations
+
+    DefenseMechanism:
+      type: object
+      properties:
+        mechanism_id:
+          type: string
+          format: uuid
+          description: Defense mechanism identifier
+        mechanism_type:
+          type: string
+          enum: [input_validation, output_filtering, model_protection, privacy_preservation, behavioral_safeguards, system_integrity]
+          description: Type of defense mechanism
+        status:
+          type: string
+          enum: [active, inactive, maintenance, degraded, failed]
+          description: Current mechanism status
+        effectiveness_score:
+          type: number
+          minimum: 0
+          maximum: 1
+          description: Effectiveness score
+        threat_coverage:
+          type: array
+          items:
+            type: string
+          description: Threats covered by mechanism
+        family_integration:
+          type: object
+          description: Family integration configuration
+        memory_enhancement:
+          type: object
+          description: Memory enhancement features
+        adaptive_capabilities:
+          type: object
+          description: Adaptive defense capabilities
+        performance_metrics:
+          type: object
+          description: Mechanism performance metrics
+        configuration_status:
+          type: object
+          description: Configuration status
+
+    AdaptiveDefenseActivationRequest:
+      type: object
+      required:
+        - threat_context
+        - defense_urgency
+      properties:
+        threat_context:
+          type: object
+          description: Context of threats requiring defense
+        defense_urgency:
+          type: string
+          enum: [routine, elevated, high, critical, emergency]
+          description: Urgency level for defense activation
+        target_threats:
+          type: array
+          items:
+            type: string
+          description: Specific threats to defend against
+        family_coordination_level:
+          type: string
+          enum: [individual, family_aware, family_coordinated, comprehensive]
+          default: family_coordinated
+          description: Level of family coordination
+        memory_enhancement_settings:
+          type: object
+          description: Memory enhancement settings
+        adaptive_parameters:
+          type: object
+          description: Adaptive defense parameters
+
+    AdaptiveDefenseActivationResponse:
+      type: object
+      required:
+        - defense_id
+        - activation_status
+      properties:
+        defense_id:
+          type: string
+          format: uuid
+          description: Activated defense identifier
+        activation_status:
+          type: string
+          enum: [activated, pending, partial, failed]
+          description: Defense activation status
+        activated_mechanisms:
+          type: array
+          items:
+            type: object
+          description: Defense mechanisms activated
+        family_coordination_setup:
+          type: object
+          description: Family coordination setup
+        memory_enhancement_configuration:
+          type: object
+          description: Memory enhancement configuration
+        expected_effectiveness:
+          type: object
+          description: Expected defense effectiveness
+        monitoring_schedule:
+          type: object
+          description: Defense monitoring schedule
+        adaptive_triggers:
+          type: array
+          items:
+            type: object
+          description: Adaptive response triggers
+
+    DefenseConfigurationResponse:
+      type: object
+      properties:
+        defense_details:
+          type: object
+          description: Defense configuration details
+        mechanism_configurations:
+          type: array
+          items:
+            type: object
+          description: Individual mechanism configurations
+        family_coordination_settings:
+          type: object
+          description: Family coordination settings
+        memory_enhancement_settings:
+          type: object
+          description: Memory enhancement settings
+        adaptive_parameters:
+          type: object
+          description: Adaptive defense parameters
+        threat_response_rules:
+          type: array
+          items:
+            type: object
+          description: Threat response rules
+        performance_thresholds:
+          type: object
+          description: Performance thresholds
+        escalation_procedures:
+          type: object
+          description: Defense escalation procedures
+
+    DefenseUpdateRequest:
+      type: object
+      properties:
+        mechanism_updates:
+          type: object
+          description: Updates to defense mechanisms
+        family_coordination_adjustments:
+          type: object
+          description: Family coordination adjustments
+        memory_enhancement_updates:
+          type: object
+          description: Memory enhancement updates
+        adaptive_parameter_changes:
+          type: object
+          description: Adaptive parameter changes
+        threat_response_rule_updates:
+          type: array
+          items:
+            type: object
+          description: Threat response rule updates
+        performance_threshold_adjustments:
+          type: object
+          description: Performance threshold adjustments
+
+    DefenseUpdateResponse:
+      type: object
+      required:
+        - update_status
+      properties:
+        update_status:
+          type: string
+          enum: [updated, partially_updated, requires_approval, failed]
+          description: Defense update status
+        updated_configuration:
+          type: object
+          description: Updated defense configuration
+        impact_analysis:
+          type: object
+          description: Update impact analysis
+        effectiveness_projection:
+          type: object
+          description: Projected effectiveness with updates
+        family_coordination_impact:
+          type: object
+          description: Impact on family coordination
+        memory_enhancement_adjustments:
+          type: object
+          description: Memory enhancement adjustments
+
+    AdversarialSecurityAlertsResponse:
+      type: object
+      properties:
+        alert_summary:
+          type: object
+          description: Summary of adversarial security alerts
+        active_alerts:
+          type: array
+          items:
+            $ref: '#/components/schemas/AdversarialSecurityAlert'
+          description: Active adversarial security alerts
+        alert_prioritization:
+          type: object
+          description: Alert prioritization analysis
+        family_coordination_alerts:
+          type: object
+          description: Family coordination related alerts
+        memory_based_alert_insights:
+          type: object
+          description: Memory-based insights for alerts
+        threat_correlation_analysis:
+          type: object
+          description: Threat correlation analysis
+        response_readiness:
+          type: object
+          description: Response readiness for alerts
+        alert_escalation_status:
+          type: object
+          description: Alert escalation status
+
+    AdversarialSecurityAlert:
+      type: object
+      properties:
+        alert_id:
+          type: string
+          format: uuid
+          description: Unique alert identifier
+        alert_type:
+          type: string
+          enum: [prompt_injection, data_poisoning, model_manipulation, social_engineering, privacy_attacks, behavioral_manipulation, system_integrity]
+          description: Type of adversarial alert
+        severity_level:
+          type: string
+          enum: [low, moderate, high, critical, emergency]
+          description: Severity level of alert
+        alert_timestamp:
+          type: string
+          format: date-time
+          description: When the alert was generated
+        threat_source:
+          type: object
+          description: Source of the threat
+        affected_components:
+          type: array
+          items:
+            type: string
+          description: System components affected
+        family_impact_assessment:
+          type: object
+          description: Assessment of family impact
+        memory_context_relevance:
+          type: object
+          description: Relevance to memory context
+        recommended_actions:
+          type: array
+          items:
+            type: object
+          description: Recommended actions for alert
+        escalation_criteria:
+          type: object
+          description: Criteria for alert escalation
+
+    ThreatIntelligenceResponse:
+      type: object
+      properties:
+        intelligence_overview:
+          type: object
+          description: Threat intelligence overview
+        threat_landscape_analysis:
+          type: object
+          description: Current threat landscape analysis
+        family_specific_threats:
+          type: array
+          items:
+            type: object
+          description: Threats specific to family context
+        memory_related_vulnerabilities:
+          type: array
+          items:
+            type: object
+          description: Memory-related vulnerabilities
+        predictive_threat_modeling:
+          type: object
+          description: Predictive threat modeling results
+        adaptive_intelligence_insights:
+          type: object
+          description: Adaptive intelligence insights
+        threat_attribution_analysis:
+          type: object
+          description: Threat attribution analysis
+        intelligence_confidence_assessment:
+          type: object
+          description: Intelligence confidence assessment
+        actionable_recommendations:
+          type: array
+          items:
+            type: object
+          description: Actionable intelligence recommendations
+
+  responses:
+    BadRequest:
+      description: Bad request - invalid input parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    Unauthorized:
+      description: Authentication required
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    Forbidden:
+      description: Access forbidden - insufficient permissions
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    ConflictError:
+      description: Conflict - resource already exists
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    ErrorResponse:
+      type: object
+      required:
+        - error
+        - message
+      properties:
+        error:
+          type: string
+          description: Error code
+        message:
+          type: string
+          description: Human-readable error message
+        details:
+          type: object
+          description: Additional error details
+        trace_id:
+          type: string
+          description: Request trace identifier

@@ -1,0 +1,97 @@
+# MemoryOS Development Dockerfile
+# ==============================
+# Sub-issue #5.2: Hot-reload development workflow
+
+# Multi-stage build for development with hot-reload support
+FROM python:3.11-slim as base
+
+# Set environment variables
+ENV PYTHONUNBUFFERED=1
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PIP_NO_CACHE_DIR=1
+ENV PIP_DISABLE_PIP_VERSION_CHECK=1
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    curl \
+    git \
+    libpq-dev \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create application directory
+WORKDIR /app
+
+# Copy requirements first for better caching
+COPY requirements.txt .
+COPY requirements-dev.txt .
+
+# Install Python dependencies
+RUN pip install --no-cache-dir -r requirements.txt
+RUN pip install --no-cache-dir -r requirements-dev.txt
+
+# Development stage with hot-reload
+FROM base as development
+
+# Install development tools
+RUN pip install --no-cache-dir \
+    watchdog \
+    uvicorn[standard] \
+    debugpy \
+    ipython
+
+# Copy application code
+COPY . .
+
+# Create directories for development
+RUN mkdir -p /tmp/prometheus_multiproc
+RUN mkdir -p /app/logs
+
+# Set up hot-reload script
+COPY deployments/local/dev-entrypoint.sh /usr/local/bin/
+RUN chmod +x /usr/local/bin/dev-entrypoint.sh
+
+# Expose ports
+EXPOSE 8000 8080 5678
+
+# Health check for development
+HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \
+    CMD curl -f http://localhost:8000/health || exit 1
+
+# Development entrypoint with hot-reload
+ENTRYPOINT ["/usr/local/bin/dev-entrypoint.sh"]
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000", "--reload", "--reload-dir", "/app"]
+
+# Production stage (for reference - not used in dev)
+FROM base as production
+
+# Copy only necessary files
+COPY api/ ./api/
+COPY core/ ./core/
+COPY memory/ ./memory/
+COPY storage/ ./storage/
+COPY observability/ ./observability/
+COPY service.py .
+COPY main.py .
+COPY pyproject.toml .
+
+# Install production dependencies only
+RUN pip install --no-cache-dir .
+
+# Create non-root user
+RUN useradd --create-home --shell /bin/bash memoryos
+RUN chown -R memoryos:memoryos /app
+USER memoryos
+
+# Production entrypoint
+CMD ["uvicorn", "main:app", "--host", "0.0.0.0", "--port", "8000"]
+
+# Expose ports
+EXPOSE 8000 8080
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=30s --start-period=5s --retries=3 \
+    CMD curl -f http://localhost:8000/health || exit 1
+
+# Production entrypoint
+CMD ["uvicorn", "service:app", "--host", "0.0.0.0", "--port", "8000", "--workers", "4"]

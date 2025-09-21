@@ -1,0 +1,644 @@
+openapi: 3.1.0
+info:
+  title: MemoryOS Memory-Driven RBAC Policy Engine
+  description: |
+    **Memory-Driven Role-Based Access Control (RBAC) Policy Engine Contract**
+
+    This contract defines the memory-driven RBAC capabilities for the Memory-Centric
+    Family AI system, providing role-based access control across all API planes
+    and family intelligence systems.
+
+    **Memory-Driven RBAC Architecture:**
+    - **Memory Backbone Role Core**: Role management through family memory experiences
+    - **Memory-Enhanced Permission Engine**: Permissions based on family memory context
+    - **Memory-Driven Dynamic Role Assignment**: Roles adapt through family memory patterns
+    - **Family Memory Access Control**: Access decisions informed by family relationships
+    - **Memory Role Evolution Tracking**: Role changes tracked in family memory
+
+    **RBAC Categories (Core Policy Framework):**
+    1. **Memory-Informed Family Roles**: Roles based on family structure and memory
+    2. **Memory-Driven API Plane Access**: Plane access through memory-based authorization
+    3. **Memory-Enhanced Device Permissions**: Device access through memory context
+    4. **Memory-Based Space Authorization**: Space access informed by memory relationships
+    5. **Memory-Driven Cognitive Permissions**: Cognitive access through memory patterns
+    6. **Memory-Enhanced Control Plane RBAC**: Control access through memory authorization
+    7. **Memory-Informed Agent Permissions**: Agent access based on memory trust
+    8. **Memory-Based Temporal Role Assignment**: Time-based roles through memory patterns
+
+    **Family Intelligence Integration:**
+    - Role assignment coordinated through family memory backbone
+    - Permission evaluation considers family relationship dynamics from memory
+    - Access decisions leverage family emotional context from memory
+    - Cross-device role synchronization through family memory sync
+    - Age-appropriate permission models based on family member profiles
+
+    **Memory-Centric RBAC Principles:**
+    - All role decisions build upon and leverage family memory backbone
+    - Permission experiences are stored as family memories for future reference
+    - Access control leverages family relationship dynamics and memories
+    - Role evolution considers family context and individual member development
+    - RBAC outcomes enhance family security and coordinated access control
+  version: "1.0.0"
+  contact:
+    name: MemoryOS Policy Platform Team
+    url: https://familyos.local/support/policy
+    email: policy-support@familyos.local
+  license:
+    name: Family OS Private License
+    url: https://familyos.local/licenses/family-os
+
+servers:
+  - url: https://policy.familyos.local/v1
+    description: Production Memory-Driven Policy Service
+  - url: https://staging-policy.familyos.local/v1
+    description: Staging Environment
+  - url: http://localhost:8086/policy/v1
+    description: Local Development
+
+security:
+  - FamilyOSAuth: []
+  - PolicyAuth: []
+
+paths:
+  /rbac/roles:
+    get:
+      summary: Get Memory-Driven Family Roles
+      description: |
+        Retrieve all memory-driven family roles with memory context,
+        family relationship mapping, and permission hierarchies.
+      operationId: getMemoryFamilyRoles
+      parameters:
+        - name: family_id
+          in: query
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: include_inherited
+          in: query
+          schema:
+            type: boolean
+            default: true
+        - name: memory_context
+          in: query
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: Memory family roles retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MemoryFamilyRolesResponse'
+
+    post:
+      summary: Create Memory-Driven Family Role
+      description: |
+        Create new memory-driven family role with family context,
+        memory-based permissions, and relationship awareness.
+      operationId: createMemoryFamilyRole
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateMemoryRoleRequest'
+      responses:
+        '201':
+          description: Memory family role created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MemoryRoleResponse'
+
+  /rbac/roles/{roleId}:
+    get:
+      summary: Get Memory Family Role Details
+      description: |
+        Retrieve detailed memory family role information including
+        memory context, permission matrix, and family relationships.
+      operationId: getMemoryFamilyRole
+      parameters:
+        - name: roleId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Memory family role details retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DetailedMemoryRoleResponse'
+
+    put:
+      summary: Update Memory Family Role
+      description: |
+        Update memory family role with new permissions, memory context,
+        and family relationship considerations.
+      operationId: updateMemoryFamilyRole
+      parameters:
+        - name: roleId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateMemoryRoleRequest'
+      responses:
+        '200':
+          description: Memory family role updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MemoryRoleResponse'
+
+    delete:
+      summary: Delete Memory Family Role
+      description: |
+        Delete memory family role with proper cleanup of memory references,
+        permission transfers, and family notification.
+      operationId: deleteMemoryFamilyRole
+      parameters:
+        - name: roleId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          description: Memory family role deleted successfully
+
+  /rbac/assignments:
+    get:
+      summary: Get Memory Role Assignments
+      description: |
+        Retrieve memory role assignments for family members with
+        memory context, temporal permissions, and relationship mapping.
+      operationId: getMemoryRoleAssignments
+      parameters:
+        - name: family_id
+          in: query
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: user_id
+          in: query
+          schema:
+            type: string
+            format: uuid
+        - name: device_id
+          in: query
+          schema:
+            type: string
+            format: uuid
+        - name: include_temporary
+          in: query
+          schema:
+            type: boolean
+            default: true
+      responses:
+        '200':
+          description: Memory role assignments retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MemoryRoleAssignmentsResponse'
+
+    post:
+      summary: Assign Memory Family Role
+      description: |
+        Assign memory family role to user/device with memory context,
+        temporal constraints, and family relationship validation.
+      operationId: assignMemoryFamilyRole
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AssignMemoryRoleRequest'
+      responses:
+        '201':
+          description: Memory family role assigned successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MemoryRoleAssignmentResponse'
+
+  /rbac/assignments/{assignmentId}:
+    delete:
+      summary: Revoke Memory Role Assignment
+      description: |
+        Revoke memory role assignment with proper cleanup of memory references,
+        permission cascade, and family notification.
+      operationId: revokeMemoryRoleAssignment
+      parameters:
+        - name: assignmentId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '204':
+          description: Memory role assignment revoked successfully
+
+  /rbac/permissions/check:
+    post:
+      summary: Check Memory-Based Permissions
+      description: |
+        Check memory-based permissions for specific actions with
+        family context, relationship evaluation, and memory pattern analysis.
+      operationId: checkMemoryPermissions
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MemoryPermissionCheckRequest'
+      responses:
+        '200':
+          description: Memory permission check completed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MemoryPermissionCheckResponse'
+
+  /rbac/permissions/batch:
+    post:
+      summary: Batch Memory Permission Check
+      description: |
+        Perform batch memory permission checks for multiple actions
+        with optimized family context evaluation and memory analysis.
+      operationId: batchMemoryPermissionCheck
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BatchMemoryPermissionCheckRequest'
+      responses:
+        '200':
+          description: Batch memory permission check completed successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BatchMemoryPermissionCheckResponse'
+
+  /rbac/planes/{plane}/permissions:
+    get:
+      summary: Get Plane Memory Permissions
+      description: |
+        Retrieve memory-based permissions for specific API plane
+        with family context and relationship-aware access control.
+      operationId: getPlaneMemoryPermissions
+      parameters:
+        - name: plane
+          in: path
+          required: true
+          schema:
+            type: string
+            enum: [agents, app, control]
+        - name: family_id
+          in: query
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: user_id
+          in: query
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Plane memory permissions retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PlaneMemoryPermissionsResponse'
+
+  /rbac/family/{familyId}/hierarchy:
+    get:
+      summary: Get Family RBAC Hierarchy
+      description: |
+        Retrieve complete family RBAC hierarchy with memory context,
+        relationship mapping, and permission inheritance chains.
+      operationId: getFamilyRBACHierarchy
+      parameters:
+        - name: familyId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: include_memory_context
+          in: query
+          schema:
+            type: boolean
+            default: true
+      responses:
+        '200':
+          description: Family RBAC hierarchy retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FamilyRBACHierarchyResponse'
+
+components:
+  schemas:
+    CreateMemoryRoleRequest:
+      type: object
+      required:
+        - role_name
+        - family_context
+        - permissions
+      properties:
+        role_name:
+          type: string
+          maxLength: 100
+        family_context:
+          $ref: '#/components/schemas/FamilyContext'
+        permissions:
+          type: array
+          items:
+            $ref: '#/components/schemas/MemoryPermission'
+        description:
+          type: string
+          maxLength: 500
+        inherits_from:
+          type: array
+          items:
+            type: string
+            format: uuid
+        memory_constraints:
+          $ref: '#/components/schemas/MemoryConstraints'
+
+    MemoryRoleResponse:
+      type: object
+      required:
+        - role_id
+        - role_name
+        - status
+      properties:
+        role_id:
+          type: string
+          format: uuid
+        role_name:
+          type: string
+        status:
+          type: string
+          enum: [active, inactive, deprecated]
+        family_context:
+          $ref: '#/components/schemas/FamilyContext'
+        permissions:
+          type: array
+          items:
+            $ref: '#/components/schemas/MemoryPermission'
+        memory_basis:
+          type: array
+          items:
+            $ref: '#/components/schemas/MemoryReference'
+
+    DetailedMemoryRoleResponse:
+      allOf:
+        - $ref: '#/components/schemas/MemoryRoleResponse'
+        - type: object
+          properties:
+            inheritance_chain:
+              type: array
+              items:
+                $ref: '#/components/schemas/RoleInheritance'
+            assignment_count:
+              type: integer
+            memory_evolution:
+              $ref: '#/components/schemas/MemoryRoleEvolution'
+            family_impact:
+              $ref: '#/components/schemas/FamilyImpactAssessment'
+
+    AssignMemoryRoleRequest:
+      type: object
+      required:
+        - role_id
+        - assignee
+        - family_context
+      properties:
+        role_id:
+          type: string
+          format: uuid
+        assignee:
+          $ref: '#/components/schemas/RoleAssignee'
+        family_context:
+          $ref: '#/components/schemas/FamilyContext'
+        temporal_constraints:
+          $ref: '#/components/schemas/TemporalConstraints'
+        memory_justification:
+          type: string
+          maxLength: 500
+
+    MemoryRoleAssignmentResponse:
+      type: object
+      required:
+        - assignment_id
+        - role_id
+        - assignee
+        - status
+      properties:
+        assignment_id:
+          type: string
+          format: uuid
+        role_id:
+          type: string
+          format: uuid
+        assignee:
+          $ref: '#/components/schemas/RoleAssignee'
+        status:
+          type: string
+          enum: [active, suspended, expired]
+        assigned_at:
+          type: string
+          format: date-time
+        expires_at:
+          type: string
+          format: date-time
+        memory_context:
+          $ref: '#/components/schemas/MemoryContext'
+
+    MemoryPermissionCheckRequest:
+      type: object
+      required:
+        - subject
+        - action
+        - resource
+        - family_context
+      properties:
+        subject:
+          $ref: '#/components/schemas/PermissionSubject'
+        action:
+          type: string
+        resource:
+          $ref: '#/components/schemas/PermissionResource'
+        family_context:
+          $ref: '#/components/schemas/FamilyContext'
+        memory_context:
+          $ref: '#/components/schemas/MemoryContext'
+        additional_attributes:
+          type: object
+          additionalProperties: true
+
+    MemoryPermissionCheckResponse:
+      type: object
+      required:
+        - allowed
+        - decision_basis
+      properties:
+        allowed:
+          type: boolean
+        decision_basis:
+          type: array
+          items:
+            $ref: '#/components/schemas/PermissionDecisionBasis'
+        memory_influences:
+          type: array
+          items:
+            $ref: '#/components/schemas/MemoryInfluence'
+        family_considerations:
+          type: array
+          items:
+            $ref: '#/components/schemas/FamilyConsideration'
+        temporal_constraints:
+          $ref: '#/components/schemas/TemporalConstraints'
+
+    FamilyContext:
+      type: object
+      required:
+        - family_id
+      properties:
+        family_id:
+          type: string
+          format: uuid
+        family_members:
+          type: array
+          items:
+            $ref: '#/components/schemas/FamilyMember'
+        family_structure:
+          $ref: '#/components/schemas/FamilyStructure'
+        rbac_preferences:
+          $ref: '#/components/schemas/FamilyRBACPreferences'
+
+    MemoryPermission:
+      type: object
+      required:
+        - permission_id
+        - action
+        - resource_pattern
+      properties:
+        permission_id:
+          type: string
+          format: uuid
+        action:
+          type: string
+        resource_pattern:
+          type: string
+        conditions:
+          type: array
+          items:
+            $ref: '#/components/schemas/PermissionCondition'
+        memory_requirements:
+          $ref: '#/components/schemas/MemoryRequirements'
+
+    MemoryConstraints:
+      type: object
+      properties:
+        memory_space_access:
+          type: array
+          items:
+            type: string
+            enum: [personal, selective, shared, extended, interfamily]
+        relationship_requirements:
+          type: array
+          items:
+            type: string
+        temporal_memory_scope:
+          type: string
+          enum: [immediate, recent, historical, all_time]
+
+    FamilyRBACHierarchyResponse:
+      type: object
+      required:
+        - family_id
+        - hierarchy_structure
+      properties:
+        family_id:
+          type: string
+          format: uuid
+        hierarchy_structure:
+          $ref: '#/components/schemas/RBACHierarchyStructure'
+        role_matrix:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/MemoryRoleResponse'
+        permission_inheritance:
+          type: array
+          items:
+            $ref: '#/components/schemas/PermissionInheritance'
+        memory_based_overrides:
+          type: array
+          items:
+            $ref: '#/components/schemas/MemoryBasedOverride'
+
+    Error:
+      type: object
+      required:
+        - code
+        - message
+      properties:
+        code:
+          type: string
+        message:
+          type: string
+        details:
+          type: object
+          additionalProperties: true
+
+  responses:
+    BadRequest:
+      description: Bad request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+    Forbidden:
+      description: Insufficient permissions
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+
+  securitySchemes:
+    FamilyOSAuth:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: https://auth.familyos.local/oauth/authorize
+          tokenUrl: https://auth.familyos.local/oauth/token
+          scopes:
+            rbac:read: Read RBAC information
+            rbac:manage: Manage roles and permissions
+            family:rbac: Access family-wide RBAC capabilities
+
+    PolicyAuth:
+      type: http
+      scheme: bearer
+      description: Policy service authentication

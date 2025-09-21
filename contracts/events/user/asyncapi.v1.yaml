@@ -1,0 +1,1126 @@
+asyncapi: 3.0.0
+info:
+  title: Family AI - User Events
+  version: 1.0.0
+  description: |
+    Memory-Centric Family AI User Lifecycle Event Architecture
+
+    This AsyncAPI specification defines user and family member lifecycle events
+    for the Memory-Centric Family AI platform. Events support comprehensive
+    family member management, device coordination, space participation, and
+    presence awareness with family intelligence integration.
+
+    ## Family-Centric User Management
+
+    ### User Lifecycle Events
+    - **User Creation**: New family member onboarding with relationship mapping
+    - **User Updates**: Profile changes, preference updates, family role modifications
+    - **User Deletion**: Family member removal with memory cleanup and relationship updates
+    - **Device Binding**: Multi-device family coordination and sync setup
+    - **Space Participation**: Family space membership and permission management
+    - **Presence Changes**: Real-time family presence awareness and coordination
+
+    ### Family Intelligence Integration
+    - **Relationship Mapping**: Automatic relationship detection and family tree building
+    - **Family Role Assignment**: Dynamic role assignment based on family structure
+    - **Memory Space Coordination**: User-driven memory space access and sharing
+    - **Device Ecosystem**: Family device registration and coordination
+    - **Privacy Controls**: Age-appropriate and relationship-based access control
+
+    ## Event Architecture
+
+    All user events integrate with Memory-Centric Family AI:
+    - `family_member_id`: Links to family relationship graph
+    - `relationship_context`: Active family relationships affecting user operations
+    - `memory_space_access`: User's memory space permissions and access patterns
+    - `device_coordination`: Multi-device family sync and handoff capabilities
+    - `presence_context`: Real-time family presence and location awareness
+
+  contact:
+    name: Family AI - User Management Team
+    email: users@familyai.dev
+
+servers:
+  user-backbone:
+    host: user-backbone.familyai.local
+    protocol: kafka
+    description: User Management Event Bus for Family Operations
+  family-coordination:
+    host: family-coordination.familyai.local
+    protocol: kafka
+    description: Family Coordination Bus with Real-time Presence
+
+channels:
+  # Core User Lifecycle Events
+  user/lifecycle/created:
+    address: user.lifecycle.created
+    description: New family member creation and onboarding events
+    messages:
+      UserCreated:
+        $ref: '#/components/messages/UserCreated'
+
+  user/lifecycle/updated:
+    address: user.lifecycle.updated
+    description: Family member profile and preference updates
+    messages:
+      UserUpdated:
+        $ref: '#/components/messages/UserUpdated'
+
+  user/lifecycle/deleted:
+    address: user.lifecycle.deleted
+    description: Family member removal and cleanup events
+    messages:
+      UserDeleted:
+        $ref: '#/components/messages/UserDeleted'
+
+  user/device/bound:
+    address: user.device.bound
+    description: Device binding and family device coordination
+    messages:
+      DeviceBound:
+        $ref: '#/components/messages/DeviceBound'
+
+  user/device/unbound:
+    address: user.device.unbound
+    description: Device unbinding and family sync cleanup
+    messages:
+      DeviceUnbound:
+        $ref: '#/components/messages/DeviceUnbound'
+
+  user/space/joined:
+    address: user.space.joined
+    description: Family space membership addition
+    messages:
+      SpaceJoined:
+        $ref: '#/components/messages/SpaceJoined'
+
+  user/space/left:
+    address: user.space.left
+    description: Family space membership removal
+    messages:
+      SpaceLeft:
+        $ref: '#/components/messages/SpaceLeft'
+
+  user/presence/changed:
+    address: user.presence.changed
+    description: Real-time family presence and availability changes
+    messages:
+      PresenceChanged:
+        $ref: '#/components/messages/PresenceChanged'
+
+  user/role/assigned:
+    address: user.role.assigned
+    description: Family role assignment and permission updates
+    messages:
+      RoleAssigned:
+        $ref: '#/components/messages/RoleAssigned'
+
+  user/preferences/updated:
+    address: user.preferences.updated
+    description: User preference and personalization updates
+    messages:
+      PreferencesUpdated:
+        $ref: '#/components/messages/PreferencesUpdated'
+
+  # Family Relationship Events
+  user/relationship/established:
+    address: user.relationship.established
+    description: New family relationship establishment
+    messages:
+      RelationshipEstablished:
+        $ref: '#/components/messages/RelationshipEstablished'
+
+  user/relationship/modified:
+    address: user.relationship.modified
+    description: Family relationship changes and updates
+    messages:
+      RelationshipModified:
+        $ref: '#/components/messages/RelationshipModified'
+
+  user/family/invitation-sent:
+    address: user.family.invitation_sent
+    description: Family invitation and onboarding coordination
+    messages:
+      FamilyInvitationSent:
+        $ref: '#/components/messages/FamilyInvitationSent'
+
+  user/family/invitation-accepted:
+    address: user.family.invitation_accepted
+    description: Family invitation acceptance and integration
+    messages:
+      FamilyInvitationAccepted:
+        $ref: '#/components/messages/FamilyInvitationAccepted'
+
+  # Memory and Privacy Events
+  user/memory/space-access-granted:
+    address: user.memory.space_access_granted
+    description: Memory space access permission changes
+    messages:
+      MemorySpaceAccessGranted:
+        $ref: '#/components/messages/MemorySpaceAccessGranted'
+
+  user/privacy/settings-updated:
+    address: user.privacy.settings_updated
+    description: Privacy setting and family sharing preference updates
+    messages:
+      PrivacySettingsUpdated:
+        $ref: '#/components/messages/PrivacySettingsUpdated'
+
+operations:
+  # User Lifecycle Operations
+  handleUserCreation:
+    action: receive
+    channel:
+      $ref: '#/channels/user~1lifecycle~1created'
+    summary: Handle new family member creation
+    description: |
+      Processes new family member creation events including automatic
+      relationship mapping, family role assignment, and memory space setup.
+
+  handleUserUpdate:
+    action: receive
+    channel:
+      $ref: '#/channels/user~1lifecycle~1updated'
+    summary: Handle family member updates
+    description: |
+      Processes family member profile updates, preference changes,
+      and family role modifications with relationship awareness.
+
+  handleDeviceBinding:
+    action: receive
+    channel:
+      $ref: '#/channels/user~1device~1bound'
+    summary: Handle device binding
+    description: |
+      Processes device binding for family members including multi-device
+      coordination, sync setup, and family device ecosystem integration.
+
+  handlePresenceChange:
+    action: send
+    channel:
+      $ref: '#/channels/user~1presence~1changed'
+    summary: Publish presence changes
+    description: |
+      Publishes real-time family presence changes for coordination
+      and family-aware intelligent responses.
+
+  handleRelationshipEvents:
+    action: receive
+    channel:
+      $ref: '#/channels/user~1relationship~1established'
+    summary: Handle family relationship establishment
+    description: |
+      Processes new family relationship establishment including
+      automatic permission adjustments and memory space coordination.
+
+components:
+  messages:
+    UserCreated:
+      name: UserCreated
+      title: User Created Event
+      summary: New family member creation and onboarding
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/UserCreatedPayload'
+
+    UserUpdated:
+      name: UserUpdated
+      title: User Updated Event
+      summary: Family member profile and preference updates
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/UserUpdatedPayload'
+
+    UserDeleted:
+      name: UserDeleted
+      title: User Deleted Event
+      summary: Family member removal and relationship cleanup
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/UserDeletedPayload'
+
+    DeviceBound:
+      name: DeviceBound
+      title: Device Bound Event
+      summary: Device binding and family coordination setup
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/DeviceBoundPayload'
+
+    DeviceUnbound:
+      name: DeviceUnbound
+      title: Device Unbound Event
+      summary: Device unbinding and sync cleanup
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/DeviceUnboundPayload'
+
+    SpaceJoined:
+      name: SpaceJoined
+      title: Space Joined Event
+      summary: Family space membership addition
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/SpaceJoinedPayload'
+
+    SpaceLeft:
+      name: SpaceLeft
+      title: Space Left Event
+      summary: Family space membership removal
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/SpaceLeftPayload'
+
+    PresenceChanged:
+      name: PresenceChanged
+      title: Presence Changed Event
+      summary: Real-time family presence and availability update
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/PresenceChangedPayload'
+
+    RoleAssigned:
+      name: RoleAssigned
+      title: Role Assigned Event
+      summary: Family role assignment and permission update
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/RoleAssignedPayload'
+
+    PreferencesUpdated:
+      name: PreferencesUpdated
+      title: Preferences Updated Event
+      summary: User preference and personalization update
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/PreferencesUpdatedPayload'
+
+    RelationshipEstablished:
+      name: RelationshipEstablished
+      title: Relationship Established Event
+      summary: New family relationship establishment
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/RelationshipEstablishedPayload'
+
+    RelationshipModified:
+      name: RelationshipModified
+      title: Relationship Modified Event
+      summary: Family relationship change or update
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/RelationshipModifiedPayload'
+
+    FamilyInvitationSent:
+      name: FamilyInvitationSent
+      title: Family Invitation Sent Event
+      summary: Family invitation and onboarding coordination
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/FamilyInvitationSentPayload'
+
+    FamilyInvitationAccepted:
+      name: FamilyInvitationAccepted
+      title: Family Invitation Accepted Event
+      summary: Family invitation acceptance and integration
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/FamilyInvitationAcceptedPayload'
+
+    MemorySpaceAccessGranted:
+      name: MemorySpaceAccessGranted
+      title: Memory Space Access Granted Event
+      summary: Memory space access permission change
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/MemorySpaceAccessGrantedPayload'
+
+    PrivacySettingsUpdated:
+      name: PrivacySettingsUpdated
+      title: Privacy Settings Updated Event
+      summary: Privacy and family sharing preference update
+      contentType: application/json
+      payload:
+        $ref: '#/components/schemas/PrivacySettingsUpdatedPayload'
+
+  schemas:
+    # Core User Lifecycle Schemas
+    UserCreatedPayload:
+      type: object
+      description: New family member creation with relationship context
+      required:
+        - user_id
+        - family_member_id
+        - user_profile
+        - family_context
+        - onboarding_state
+      properties:
+        user_id:
+          type: string
+          format: uuid
+          description: Unique user identifier
+        family_member_id:
+          type: string
+          format: uuid
+          description: Family-specific member identifier
+        user_profile:
+          type: object
+          description: Basic user profile information
+          properties:
+            display_name:
+              type: string
+              maxLength: 100
+            age_group:
+              type: string
+              enum: [toddler, child, teenager, adult]
+            preferred_language:
+              type: string
+              pattern: "^[a-z]{2}(-[A-Z]{2})?$"
+            timezone:
+              type: string
+              description: IANA timezone identifier
+        family_context:
+          type: object
+          description: Family context and relationship information
+          properties:
+            family_id:
+              type: string
+              format: uuid
+            inviting_member_id:
+              type: string
+              format: uuid
+            proposed_relationships:
+              type: array
+              items:
+                type: object
+                properties:
+                  related_member_id:
+                    type: string
+                    format: uuid
+                  relationship_type:
+                    type: string
+                    enum: [parent, child, sibling, spouse, grandparent, grandchild, extended_family]
+                  relationship_status:
+                    type: string
+                    enum: [proposed, confirmed, mutual]
+        onboarding_state:
+          type: object
+          description: Onboarding process state
+          properties:
+            onboarding_step:
+              type: string
+              enum: [profile_setup, relationship_confirmation, device_setup, memory_preferences, privacy_setup, completed]
+            completed_steps:
+              type: array
+              items:
+                type: string
+            next_actions:
+              type: array
+              items:
+                type: string
+        initial_permissions:
+          type: object
+          description: Initial family permissions and access
+          properties:
+            memory_space_access:
+              type: array
+              items:
+                type: string
+                enum: [personal, selective, shared, extended]
+            family_role:
+              type: string
+              enum: [family_admin, parent, child, extended_family, guest]
+            device_privileges:
+              type: array
+              items:
+                type: string
+                enum: [memory_sync, emergency_access, family_coordination]
+
+    UserUpdatedPayload:
+      type: object
+      description: Family member profile and preference updates
+      required:
+        - user_id
+        - family_member_id
+        - update_type
+        - updated_fields
+      properties:
+        user_id:
+          type: string
+          format: uuid
+        family_member_id:
+          type: string
+          format: uuid
+        update_type:
+          type: string
+          enum: [profile_update, preference_change, role_modification, relationship_update]
+        updated_fields:
+          type: array
+          items:
+            type: object
+            properties:
+              field_name:
+                type: string
+              old_value:
+                type: string
+              new_value:
+                type: string
+        family_impact:
+          type: object
+          description: Impact of updates on family dynamics
+          properties:
+            affected_relationships:
+              type: array
+              items:
+                type: string
+            permission_changes:
+              type: array
+              items:
+                type: string
+            memory_space_adjustments:
+              type: array
+              items:
+                type: string
+
+    UserDeletedPayload:
+      type: object
+      description: Family member removal with relationship cleanup
+      required:
+        - user_id
+        - family_member_id
+        - deletion_type
+        - cleanup_operations
+      properties:
+        user_id:
+          type: string
+          format: uuid
+        family_member_id:
+          type: string
+          format: uuid
+        deletion_type:
+          type: string
+          enum: [voluntary_removal, family_removal, account_deletion, suspended]
+        cleanup_operations:
+          type: object
+          description: Cleanup operations for family integration
+          properties:
+            relationship_cleanup:
+              type: array
+              items:
+                type: object
+                properties:
+                  affected_member_id:
+                    type: string
+                    format: uuid
+                  relationship_type:
+                    type: string
+                  cleanup_action:
+                    type: string
+                    enum: [remove, transfer, archive]
+            memory_handling:
+              type: object
+              properties:
+                shared_memory_action:
+                  type: string
+                  enum: [archive, delete, transfer_ownership]
+                personal_memory_action:
+                  type: string
+                  enum: [delete, anonymize, family_archive]
+            device_coordination:
+              type: array
+              items:
+                type: object
+                properties:
+                  device_id:
+                    type: string
+                  cleanup_action:
+                    type: string
+                    enum: [revoke_access, factory_reset, selective_wipe]
+
+    DeviceBoundPayload:
+      type: object
+      description: Device binding and family coordination setup
+      required:
+        - user_id
+        - family_member_id
+        - device_info
+        - binding_type
+        - coordination_setup
+      properties:
+        user_id:
+          type: string
+          format: uuid
+        family_member_id:
+          type: string
+          format: uuid
+        device_info:
+          type: object
+          description: Device information and capabilities
+          properties:
+            device_id:
+              type: string
+            device_type:
+              type: string
+              enum: [smartphone, tablet, laptop, desktop, smart_speaker, family_hub, wearable]
+            platform:
+              type: string
+              enum: [ios, android, macos, windows, linux, web, familyos]
+            capabilities:
+              type: object
+              properties:
+                memory_sync_capable:
+                  type: boolean
+                e2ee_supported:
+                  type: boolean
+                voice_interface:
+                  type: boolean
+                always_online:
+                  type: boolean
+        binding_type:
+          type: string
+          enum: [primary_device, secondary_device, shared_family_device, guest_device]
+        coordination_setup:
+          type: object
+          description: Family device coordination configuration
+          properties:
+            sync_preferences:
+              type: object
+              properties:
+                memory_sync_enabled:
+                  type: boolean
+                real_time_sync:
+                  type: boolean
+                offline_mode_enabled:
+                  type: boolean
+            family_sharing:
+              type: object
+              properties:
+                shared_spaces:
+                  type: array
+                  items:
+                    type: string
+                family_calendar_access:
+                  type: boolean
+                presence_sharing:
+                  type: boolean
+
+    DeviceUnboundPayload:
+      type: object
+      description: Device unbinding and sync cleanup
+      required:
+        - user_id
+        - family_member_id
+        - device_id
+        - unbind_reason
+        - cleanup_actions
+      properties:
+        user_id:
+          type: string
+          format: uuid
+        family_member_id:
+          type: string
+          format: uuid
+        device_id:
+          type: string
+        unbind_reason:
+          type: string
+          enum: [user_requested, device_lost, device_replaced, security_breach, family_removal]
+        cleanup_actions:
+          type: object
+          description: Cleanup actions for device removal
+          properties:
+            data_wipe_required:
+              type: boolean
+            sync_data_preservation:
+              type: boolean
+            family_notification:
+              type: boolean
+            emergency_access_revocation:
+              type: boolean
+
+    SpaceJoinedPayload:
+      type: object
+      description: Family space membership addition
+      required:
+        - user_id
+        - family_member_id
+        - space_id
+        - membership_type
+        - permissions_granted
+      properties:
+        user_id:
+          type: string
+          format: uuid
+        family_member_id:
+          type: string
+          format: uuid
+        space_id:
+          type: string
+          description: Memory space identifier
+        membership_type:
+          type: string
+          enum: [owner, admin, member, guest, temporary]
+        permissions_granted:
+          type: array
+          items:
+            type: string
+            enum: [read, write, admin, invite_others, moderate_content]
+        family_coordination:
+          type: object
+          description: Family coordination for space access
+          properties:
+            invited_by:
+              type: string
+              format: uuid
+            approval_required:
+              type: boolean
+            supervision_level:
+              type: string
+              enum: [none, monitoring, approval_required, restricted]
+
+    SpaceLeftPayload:
+      type: object
+      description: Family space membership removal
+      required:
+        - user_id
+        - family_member_id
+        - space_id
+        - departure_type
+        - content_handling
+      properties:
+        user_id:
+          type: string
+          format: uuid
+        family_member_id:
+          type: string
+          format: uuid
+        space_id:
+          type: string
+        departure_type:
+          type: string
+          enum: [voluntary_leave, removed_by_admin, family_decision, space_closure]
+        content_handling:
+          type: object
+          description: Handling of user content in space
+          properties:
+            user_content_action:
+              type: string
+              enum: [preserve, transfer_ownership, delete, anonymize]
+            shared_content_action:
+              type: string
+              enum: [preserve, remove_association, mark_departed]
+
+    PresenceChangedPayload:
+      type: object
+      description: Real-time family presence and availability update
+      required:
+        - user_id
+        - family_member_id
+        - presence_state
+        - availability_status
+        - context_information
+      properties:
+        user_id:
+          type: string
+          format: uuid
+        family_member_id:
+          type: string
+          format: uuid
+        presence_state:
+          type: string
+          enum: [online, offline, away, busy, do_not_disturb, invisible]
+        availability_status:
+          type: string
+          enum: [available, busy, in_meeting, sleeping, at_school, at_work, traveling, emergency]
+        context_information:
+          type: object
+          description: Contextual presence information
+          properties:
+            location_context:
+              type: string
+              enum: [home, work, school, traveling, public, private]
+            device_context:
+              type: array
+              items:
+                type: object
+                properties:
+                  device_id:
+                    type: string
+                  device_status:
+                    type: string
+                    enum: [active, inactive, locked, charging]
+            activity_context:
+              type: string
+              enum: [active_conversation, focused_work, family_time, rest, emergency]
+        family_visibility:
+          type: object
+          description: Family-specific presence visibility
+          properties:
+            visible_to_family:
+              type: boolean
+            detailed_status_sharing:
+              type: boolean
+            location_sharing_enabled:
+              type: boolean
+            emergency_override_enabled:
+              type: boolean
+
+    RoleAssignedPayload:
+      type: object
+      description: Family role assignment and permission update
+      required:
+        - user_id
+        - family_member_id
+        - assigned_role
+        - role_context
+        - permission_changes
+      properties:
+        user_id:
+          type: string
+          format: uuid
+        family_member_id:
+          type: string
+          format: uuid
+        assigned_role:
+          type: string
+          enum: [family_admin, parent, child, extended_family, guest, caregiver, temporary_guardian]
+        role_context:
+          type: object
+          description: Context for role assignment
+          properties:
+            assigned_by:
+              type: string
+              format: uuid
+            assignment_reason:
+              type: string
+              enum: [family_structure, temporary_assignment, emergency_delegation, user_request]
+            duration:
+              type: string
+              enum: [permanent, temporary, emergency_only]
+            expiration_date:
+              type: string
+              format: date-time
+        permission_changes:
+          type: object
+          description: Permission changes due to role assignment
+          properties:
+            added_permissions:
+              type: array
+              items:
+                type: string
+            removed_permissions:
+              type: array
+              items:
+                type: string
+            memory_space_access_changes:
+              type: array
+              items:
+                type: object
+                properties:
+                  space_type:
+                    type: string
+                    enum: [personal, selective, shared, extended, interfamily]
+                  access_level:
+                    type: string
+                    enum: [none, read, write, admin]
+
+    PreferencesUpdatedPayload:
+      type: object
+      description: User preference and personalization update
+      required:
+        - user_id
+        - family_member_id
+        - preference_category
+        - updated_preferences
+      properties:
+        user_id:
+          type: string
+          format: uuid
+        family_member_id:
+          type: string
+          format: uuid
+        preference_category:
+          type: string
+          enum: [privacy, personalization, communication, family_sharing, device_behavior, memory_management]
+        updated_preferences:
+          type: array
+          items:
+            type: object
+            properties:
+              preference_key:
+                type: string
+              old_value:
+                type: string
+              new_value:
+                type: string
+              family_impact:
+                type: string
+                enum: [none, low, medium, high]
+        family_coordination_impact:
+          type: object
+          description: Impact on family coordination and sharing
+          properties:
+            affects_family_sharing:
+              type: boolean
+            requires_family_notification:
+              type: boolean
+            may_affect_relationships:
+              type: array
+              items:
+                type: string
+
+    RelationshipEstablishedPayload:
+      type: object
+      description: New family relationship establishment
+      required:
+        - relationship_id
+        - member_a_id
+        - member_b_id
+        - relationship_type
+        - establishment_context
+      properties:
+        relationship_id:
+          type: string
+          format: uuid
+        member_a_id:
+          type: string
+          format: uuid
+        member_b_id:
+          type: string
+          format: uuid
+        relationship_type:
+          type: string
+          enum: [parent_child, siblings, spouse, grandparent_grandchild, extended_family, friend, caregiver]
+        establishment_context:
+          type: object
+          description: Context for relationship establishment
+          properties:
+            established_by:
+              type: string
+              format: uuid
+            establishment_method:
+              type: string
+              enum: [mutual_confirmation, family_admin_assignment, automatic_detection, invitation_process]
+            confirmation_status:
+              type: string
+              enum: [pending, confirmed, mutual]
+        relationship_attributes:
+          type: object
+          description: Attributes of the relationship
+          properties:
+            closeness_level:
+              type: number
+              minimum: 0
+              maximum: 1
+            primary_relationship:
+              type: boolean
+            guardianship_status:
+              type: string
+              enum: [none, legal_guardian, temporary_guardian, emergency_contact]
+
+    RelationshipModifiedPayload:
+      type: object
+      description: Family relationship change or update
+      required:
+        - relationship_id
+        - member_a_id
+        - member_b_id
+        - modification_type
+        - changes
+      properties:
+        relationship_id:
+          type: string
+          format: uuid
+        member_a_id:
+          type: string
+          format: uuid
+        member_b_id:
+          type: string
+          format: uuid
+        modification_type:
+          type: string
+          enum: [status_change, attribute_update, permission_adjustment, temporary_modification]
+        changes:
+          type: array
+          items:
+            type: object
+            properties:
+              attribute_name:
+                type: string
+              old_value:
+                type: string
+              new_value:
+                type: string
+              change_reason:
+                type: string
+
+    FamilyInvitationSentPayload:
+      type: object
+      description: Family invitation and onboarding coordination
+      required:
+        - invitation_id
+        - inviting_member_id
+        - invited_email
+        - proposed_relationship
+        - invitation_context
+      properties:
+        invitation_id:
+          type: string
+          format: uuid
+        inviting_member_id:
+          type: string
+          format: uuid
+        invited_email:
+          type: string
+          format: email
+        proposed_relationship:
+          type: string
+          enum: [parent, child, sibling, spouse, grandparent, grandchild, extended_family]
+        invitation_context:
+          type: object
+          description: Context and customization for invitation
+          properties:
+            invitation_message:
+              type: string
+              maxLength: 500
+            family_name:
+              type: string
+            proposed_family_role:
+              type: string
+              enum: [family_admin, parent, child, extended_family]
+            expiration_date:
+              type: string
+              format: date-time
+
+    FamilyInvitationAcceptedPayload:
+      type: object
+      description: Family invitation acceptance and integration
+      required:
+        - invitation_id
+        - accepted_by_user_id
+        - acceptance_timestamp
+        - integration_actions
+      properties:
+        invitation_id:
+          type: string
+          format: uuid
+        accepted_by_user_id:
+          type: string
+          format: uuid
+        acceptance_timestamp:
+          type: string
+          format: date-time
+        integration_actions:
+          type: object
+          description: Actions for family integration
+          properties:
+            relationship_confirmations:
+              type: array
+              items:
+                type: object
+                properties:
+                  relationship_id:
+                    type: string
+                    format: uuid
+                  confirmation_status:
+                    type: string
+                    enum: [confirmed, pending, requires_mutual]
+            initial_permissions:
+              type: array
+              items:
+                type: string
+            memory_space_access:
+              type: array
+              items:
+                type: string
+                enum: [personal, selective, shared, extended]
+
+    MemorySpaceAccessGrantedPayload:
+      type: object
+      description: Memory space access permission change
+      required:
+        - user_id
+        - family_member_id
+        - space_id
+        - access_level
+        - granted_by
+      properties:
+        user_id:
+          type: string
+          format: uuid
+        family_member_id:
+          type: string
+          format: uuid
+        space_id:
+          type: string
+        access_level:
+          type: string
+          enum: [none, read_only, read_write, admin, owner]
+        granted_by:
+          type: string
+          format: uuid
+        access_context:
+          type: object
+          description: Context for access granting
+          properties:
+            access_reason:
+              type: string
+              enum: [family_role, explicit_grant, temporary_access, emergency_access]
+            duration:
+              type: string
+              enum: [permanent, temporary, emergency_only]
+            expiration_date:
+              type: string
+              format: date-time
+
+    PrivacySettingsUpdatedPayload:
+      type: object
+      description: Privacy and family sharing preference update
+      required:
+        - user_id
+        - family_member_id
+        - privacy_category
+        - settings_changes
+      properties:
+        user_id:
+          type: string
+          format: uuid
+        family_member_id:
+          type: string
+          format: uuid
+        privacy_category:
+          type: string
+          enum: [data_sharing, family_visibility, memory_sharing, location_sharing, presence_sharing]
+        settings_changes:
+          type: array
+          items:
+            type: object
+            properties:
+              setting_name:
+                type: string
+              old_value:
+                type: boolean
+              new_value:
+                type: boolean
+              scope:
+                type: string
+                enum: [personal, family, extended_family, public]
+        family_impact_assessment:
+          type: object
+          description: Assessment of privacy changes on family
+          properties:
+            affects_family_coordination:
+              type: boolean
+            requires_family_notification:
+              type: boolean
+            relationship_access_changes:
+              type: array
+              items:
+                type: object
+                properties:
+                  affected_member_id:
+                    type: string
+                    format: uuid
+                  access_change:
+                    type: string
+                    enum: [increased, decreased, no_change]

@@ -1,0 +1,199 @@
+# MemoryOS Staging Deployment Manifest
+# Sub-issue #6.3: Set up staging deployment
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: memoryos-staging
+  labels:
+    app.kubernetes.io/name: memoryos
+    app.kubernetes.io/environment: staging
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: memoryos-api
+  namespace: memoryos-staging
+  labels:
+    app: memoryos-api
+    environment: staging
+    version: "0.1.0"
+spec:
+  replicas: 2
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+  selector:
+    matchLabels:
+      app: memoryos-api
+  template:
+    metadata:
+      labels:
+        app: memoryos-api
+        environment: staging
+    spec:
+      serviceAccountName: memoryos-api
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+        fsGroup: 1000
+      containers:
+      - name: memoryos-api
+        image: ghcr.io/pkansagra99/memoryos:staging-latest
+        imagePullPolicy: Always
+        ports:
+        - containerPort: 8000
+          name: http
+        env:
+        - name: ENVIRONMENT
+          value: "staging"
+        - name: LOG_LEVEL
+          value: "INFO"
+        - name: REDIS_URL
+          valueFrom:
+            secretKeyRef:
+              name: memoryos-secrets
+              key: redis-url
+        - name: DATABASE_URL
+          valueFrom:
+            secretKeyRef:
+              name: memoryos-secrets
+              key: database-url
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+          limits:
+            memory: "512Mi"
+            cpu: "500m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8000
+          initialDelaySeconds: 30
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 3
+        readinessProbe:
+          httpGet:
+            path: /ready
+            port: 8000
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          timeoutSeconds: 3
+          failureThreshold: 2
+        securityContext:
+          allowPrivilegeEscalation: false
+          readOnlyRootFilesystem: true
+          capabilities:
+            drop:
+            - ALL
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: memoryos-api-service
+  namespace: memoryos-staging
+  labels:
+    app: memoryos-api
+spec:
+  selector:
+    app: memoryos-api
+  ports:
+  - name: http
+    port: 80
+    targetPort: 8000
+    protocol: TCP
+  type: ClusterIP
+
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: memoryos-api
+  namespace: memoryos-staging
+  labels:
+    app: memoryos-api
+
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: memoryos-api-ingress
+  namespace: memoryos-staging
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    cert-manager.io/cluster-issuer: letsencrypt-staging
+    nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+spec:
+  tls:
+  - hosts:
+    - staging-api.memoryos.local
+    secretName: memoryos-staging-tls
+  rules:
+  - host: staging-api.memoryos.local
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: memoryos-api-service
+            port:
+              number: 80
+
+---
+apiVersion: v1
+kind: Secret
+metadata:
+  name: memoryos-secrets
+  namespace: memoryos-staging
+type: Opaque
+stringData:
+  redis-url: "redis://redis-service:6379"
+  database-url: "postgresql://user:password@postgres-service:5432/memoryos_staging"
+
+---
+apiVersion: policy/v1
+kind: PodDisruptionBudget
+metadata:
+  name: memoryos-api-pdb
+  namespace: memoryos-staging
+spec:
+  minAvailable: 1
+  selector:
+    matchLabels:
+      app: memoryos-api
+
+---
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: memoryos-api-hpa
+  namespace: memoryos-staging
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: memoryos-api
+  minReplicas: 2
+  maxReplicas: 10
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 80

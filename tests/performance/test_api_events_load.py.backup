@@ -1,0 +1,814 @@
+"""
+Comprehensive API + Events Bus Load Testing
+==========================================
+
+This module tests the complete MemoryOS infrastructure under high load:
+- 50,000 API requests across all 3 planes (Agents/App/Control)
+- Events bus publishing and consumption
+- Policy enforcement (ABAC/RBAC)
+- Real-time metrics collection
+- Full middleware chain validation
+
+Architecture Components Tested:
+- API Planes: Agents, App, Control
+- Middleware Chain: Auth → PEP → Security → QoS → Safety → Observability
+- Events Bus: Publishing, subscription, filtering, persistence
+- Policy Framework: ABAC/RBAC enforcement with real decisions
+- Storage Layer: Memory operations, receipts, persisten@test("Light Load Test with 1K Requests")
+async def test_light_load_1k():
+    """Test MemoryOS infrastructure with 1,000 requests for initial validation."""
+    load_tester = ComprehensiveLoadTester()
+    await load_tester.initialize()
+    
+    results = await load_tester.run_comprehensive_load_test(
+        total_requests=1000,
+        concurrency=20,
+        events_load=100,
+        policy_decisions=100
+    )
+    
+    load_tester.print_detailed_report()
+    
+    # Assertions for light test
+    expect(results.successful_requests).to_be_greater_than(980)  # 98% success rate
+    expect(results.throughput_req_per_sec).to_be_greater_than(50)  # Basic throughput
+    expect(results.p95_response_time_ms).to_be_less_than(1000)  # Reasonable response time
+
+
+@test("Medium Load Test with 10K Requests")
+async def test_medium_load_10k():
+    """Test MemoryOS infrastructure with 10,000 requests for baseline."""
+    load_tester = ComprehensiveLoadTester()
+    await load_tester.initialize()
+    
+    results = await load_tester.run_comprehensive_load_test(
+        total_requests=10000,
+        concurrency=50,
+        events_load=1000,
+        policy_decisions=1000
+    )
+    
+    load_tester.print_detailed_report()
+    
+    # Assertions for medium test
+    expect(results.successful_requests).to_be_greater_than(9800)  # 98% success rate
+    expect(results.throughput_req_per_sec).to_be_greater_than(150)  # Higher throughput
+    expect(results.p95_response_time_ms).to_be_less_than(500)  # Faster responsected:
+- Request throughput (req/sec)
+- Response time percentiles (p50, p95, p99)
+- Error rates by endpoint and plane
+- Events processing latency
+- Policy decision latency
+- Memory usage and GC pressure
+- Database connection pool metrics
+"""
+
+import asyncio
+import json
+import logging
+import statistics
+import time
+from collections import defaultdict
+from dataclasses import dataclass, field
+from datetime import datetime, timezone
+from typing import Any, Dict, List, Optional
+from uuid import uuid4
+
+import httpx
+from fastapi.testclient import TestClient
+from ward import expect, fixture, test
+
+# Import the main application and key components
+from main import app
+
+# Import events system for direct testing
+from events.bus import EventBus
+from events.types import Event, EventType
+
+# Import policy service for enforcement testing
+from policy.service import PolicyService
+
+logger = logging.getLogger(__name__)
+
+
+@dataclass
+class RequestMetrics:
+    """Metrics for individual requests."""
+    endpoint: str
+    plane: str
+    method: str
+    status_code: int
+    response_time_ms: float
+    timestamp: datetime
+    error: Optional[str] = None
+    payload_size: int = 0
+    response_size: int = 0
+
+
+@dataclass
+class LoadTestResults:
+    """Comprehensive load test results."""
+    total_requests: int = 0
+    successful_requests: int = 0
+    failed_requests: int = 0
+    total_duration_seconds: float = 0.0
+    
+    # Performance metrics
+    throughput_req_per_sec: float = 0.0
+    avg_response_time_ms: float = 0.0
+    p50_response_time_ms: float = 0.0
+    p95_response_time_ms: float = 0.0
+    p99_response_time_ms: float = 0.0
+    
+    # Per-plane metrics
+    plane_metrics: Dict[str, Dict[str, Any]] = field(default_factory=dict)
+    
+    # Events metrics
+    events_published: int = 0
+    events_processed: int = 0
+    avg_event_processing_ms: float = 0.0
+    
+    # Policy metrics
+    policy_decisions: int = 0
+    avg_policy_decision_ms: float = 0.0
+    
+    # Error analysis
+    error_breakdown: Dict[str, int] = field(default_factory=dict)
+    
+    # Raw request data for detailed analysis
+    request_metrics: List[RequestMetrics] = field(default_factory=list)
+
+
+class ComprehensiveLoadTester:
+    """High-performance load tester for MemoryOS infrastructure."""
+    
+    def __init__(self, base_url: str = "http://localhost:8000"):
+        self.base_url = base_url
+        self.results = LoadTestResults()
+        self.event_bus: Optional[EventBus] = None
+        self.policy_service: Optional[PolicyService] = None
+        
+        # Test data generators
+        self.memory_contents = [
+            "Artificial intelligence breakthrough in quantum computing",
+            "New sustainable energy storage technology developed",
+            "Medical research advances in genetic therapy",
+            "Climate change mitigation strategies implemented",
+            "Space exploration mission to Mars approved",
+            "Blockchain technology revolutionizes supply chain",
+            "Renewable energy costs reach historic lows",
+            "Machine learning improves disease diagnosis",
+            "Electric vehicle adoption accelerates globally",
+            "Cybersecurity measures enhanced with AI"
+        ]
+        
+        # Request templates for different planes
+        self.request_templates = {
+            "agents": [
+                ("/v1/tools/memory/submit", "POST", self._generate_submit_payload),
+                ("/v1/tools/memory/recall", "POST", self._generate_recall_payload),
+                ("/v1/tools/memory/project", "POST", self._generate_project_payload),
+                ("/v1/registry/tools", "GET", None),
+                ("/v1/registry/prompts", "GET", None),
+            ],
+            "app": [
+                ("/api/v1/memories", "GET", None),
+                ("/api/v1/memories/search", "POST", self._generate_search_payload),
+                ("/api/v1/receipts/{receipt_id}", "GET", None),
+                ("/api/v1/events/stream", "GET", None),
+                ("/api/v1/flags", "GET", None),
+            ],
+            "control": [
+                ("/admin/v1/health/detailed", "GET", None),
+                ("/admin/v1/system/status", "GET", None),
+                ("/admin/v1/index/status", "GET", None),
+                ("/admin/v1/rbac/roles", "GET", None),
+                ("/admin/v1/policy/validate", "POST", self._generate_policy_payload),
+            ]
+        }
+    
+    async def initialize(self):
+        """Initialize event bus and policy service for testing."""
+        try:
+            # Initialize event bus
+            self.event_bus = EventBus()
+            await self.event_bus.start()  # Start the EventBus before using it
+            logger.info("✅ Event bus initialized for load testing")
+            
+            # Initialize policy service
+            from policy.service import initialize_policy_service
+            self.policy_service = initialize_policy_service()
+            logger.info("✅ Policy service initialized for load testing")
+            
+        except Exception as e:
+            logger.warning(f"⚠️ Could not initialize all components: {e}")
+
+    async def cleanup(self):
+        """Cleanup resources after testing."""
+        try:
+            if self.event_bus:
+                await self.event_bus.shutdown()
+                logger.info("✅ Event bus shutdown completed")
+        except Exception as e:
+            logger.warning(f"⚠️ Error during cleanup: {e}")
+    
+    def _generate_submit_payload(self) -> Dict[str, Any]:
+        """Generate realistic memory submit payload."""
+        return {
+            "content": f"{self.memory_contents[int(time.time()) % len(self.memory_contents)]} - {uuid4()}",
+            "metadata": {
+                "source": "load_test",
+                "timestamp": datetime.now(timezone.utc).isoformat(),
+                "test_id": str(uuid4())
+            },
+            "tags": ["performance", "load_test", f"batch_{int(time.time())}"],
+            "space_id": "load_test_space",
+            "actor_id": "load_test_actor"
+        }
+    
+    def _generate_recall_payload(self) -> Dict[str, Any]:
+        """Generate realistic memory recall payload."""
+        return {
+            "query": f"artificial intelligence quantum {uuid4()}",
+            "limit": 10,
+            "space_id": "load_test_space",
+            "actor_id": "load_test_actor"
+        }
+    
+    def _generate_project_payload(self) -> Dict[str, Any]:
+        """Generate realistic memory projection payload."""
+        return {
+            "memory_ids": [str(uuid4()) for _ in range(3)],
+            "projection_type": "summary",
+            "context": "Load testing projection scenario",
+            "space_id": "load_test_space",
+            "actor_id": "load_test_actor"
+        }
+    
+    def _generate_search_payload(self) -> Dict[str, Any]:
+        """Generate realistic search payload."""
+        return {
+            "query": f"search technology innovation {uuid4()}",
+            "filters": {"tags": ["performance"]},
+            "limit": 20
+        }
+    
+    def _generate_policy_payload(self) -> Dict[str, Any]:
+        """Generate realistic policy validation payload."""
+        return {
+            "action": "memory.read",
+            "resource": f"memory:{uuid4()}",
+            "actor": "load_test_actor",
+            "context": {
+                "space_id": "load_test_space",
+                "device_id": "load_test_device",
+                "environment": "test"
+            }
+        }
+    
+    async def _make_request(self, client: httpx.AsyncClient, method: str, url: str, 
+                          payload: Optional[Dict[str, Any]] = None) -> RequestMetrics:
+        """Make a single HTTP request and collect metrics."""
+        start_time = time.perf_counter()
+        timestamp = datetime.now(timezone.utc)
+        
+        # Determine plane from URL
+        if url.startswith("/v1/"):
+            plane = "agents"
+        elif url.startswith("/api/v1/"):
+            plane = "app"
+        elif url.startswith("/admin/v1/"):
+            plane = "control"
+        else:
+            plane = "unknown"
+        
+        try:
+            # Handle URL parameters
+            if "{receipt_id}" in url:
+                url = url.replace("{receipt_id}", str(uuid4()))
+            
+            # Make request
+            if method.upper() == "POST" and payload:
+                response = await client.post(url, json=payload)
+                payload_size = len(json.dumps(payload).encode())
+            elif method.upper() == "GET":
+                response = await client.get(url)
+                payload_size = 0
+            else:
+                response = await client.request(method, url)
+                payload_size = 0
+            
+            end_time = time.perf_counter()
+            response_time_ms = (end_time - start_time) * 1000
+            
+            # Calculate response size
+            response_size = len(response.content) if response.content else 0
+            
+            return RequestMetrics(
+                endpoint=url,
+                plane=plane,
+                method=method.upper(),
+                status_code=response.status_code,
+                response_time_ms=response_time_ms,
+                timestamp=timestamp,
+                payload_size=payload_size,
+                response_size=response_size
+            )
+            
+        except Exception as e:
+            end_time = time.perf_counter()
+            response_time_ms = (end_time - start_time) * 1000
+            
+            return RequestMetrics(
+                endpoint=url,
+                plane=plane,
+                method=method.upper(),
+                status_code=0,
+                response_time_ms=response_time_ms,
+                timestamp=timestamp,
+                error=str(e)
+            )
+    
+    async def _generate_events_load(self, num_events: int = 1000) -> List[float]:
+        """Generate events load and measure processing times."""
+        if not self.event_bus:
+            return []
+        
+        processing_times = []
+        
+        for i in range(num_events):
+            start_time = time.perf_counter()
+            
+            # Create test event with proper EventMeta
+            from events.types import EventMeta, Actor, Device, QoS, SecurityBand, Capability
+            
+            actor = Actor(user_id="load_test_actor", caps=[Capability.WRITE])
+            device = Device(device_id="load_test_device", platform="test")
+            qos = QoS(priority=1, latency_budget_ms=1000)
+            
+            meta = EventMeta(
+                topic=EventType.WORKSPACE_BROADCAST,
+                actor=actor,
+                device=device,
+                space_id="load_test_space",
+                band=SecurityBand.GREEN,
+                policy_version="1.0.0",
+                qos=qos,
+                obligations=[]
+            )
+            
+            event = Event(
+                meta=meta,
+                payload={
+                    "test_id": str(uuid4()),
+                    "load_test_sequence": i,
+                    "timestamp": datetime.now(timezone.utc).isoformat(),
+                    "content": f"Load test event {i}"
+                }
+            )
+            
+            try:
+                # Publish event
+                await self.event_bus.publish(event, meta.topic.value)
+                
+                end_time = time.perf_counter()
+                processing_time_ms = (end_time - start_time) * 1000
+                processing_times.append(processing_time_ms)
+                
+            except Exception as e:
+                logger.error(f"Event publishing failed: {e}")
+        
+        return processing_times
+    
+    async def _generate_policy_decisions_load(self, num_decisions: int = 1000) -> List[float]:
+        """Generate policy decisions load and measure processing times."""
+        if not self.policy_service:
+            return []
+        
+        decision_times = []
+        
+        for i in range(num_decisions):
+            start_time = time.perf_counter()
+            
+            try:
+                # Make policy decision - just measure timing, don't use result
+                from api.schemas import SecurityContext, AuthMethod, TrustLevel, Capability
+                security_context = SecurityContext(
+                    user_id=str(uuid4()),
+                    device_id="load_test_device",
+                    authenticated=True,
+                    auth_method=AuthMethod.JWT,
+                    capabilities=[Capability.WRITE, Capability.RECALL],
+                    mls_group="load_test_group",
+                    trust_level=TrustLevel.GREEN
+                )
+                
+                await self.policy_service.check_api_operation(
+                    security_context=security_context,
+                    operation="REFER",
+                    resource=f"memory:{uuid4()}",
+                    band="GREEN",
+                    tags=["load_test"]
+                )
+                
+                end_time = time.perf_counter()
+                decision_time_ms = (end_time - start_time) * 1000
+                decision_times.append(decision_time_ms)
+                
+            except Exception as e:
+                logger.error(f"Policy decision failed: {e}")
+        
+        return decision_times
+    
+    async def run_comprehensive_load_test(self, total_requests: int = 50000, 
+                                        concurrency: int = 100,
+                                        events_load: int = 5000,
+                                        policy_decisions: int = 5000) -> LoadTestResults:
+        """Run comprehensive load test with all components."""
+        logger.info("🚀 Starting comprehensive load test:")
+        logger.info(f"   📊 Total requests: {total_requests:,}")
+        logger.info(f"   🔄 Concurrency: {concurrency}")
+        logger.info(f"   📡 Events load: {events_load:,}")
+        logger.info(f"   🛡️ Policy decisions: {policy_decisions:,}")
+        
+        start_time = time.perf_counter()
+        
+        # Generate request distribution across planes
+        requests_per_plane = total_requests // 3
+        remaining_requests = total_requests % 3
+        
+        plane_requests = {
+            "agents": requests_per_plane + (1 if remaining_requests > 0 else 0),
+            "app": requests_per_plane + (1 if remaining_requests > 1 else 0),
+            "control": requests_per_plane
+        }
+        
+        logger.info(f"📋 Request distribution: {plane_requests}")
+        
+        # Generate all requests
+        all_requests = []
+        for plane, count in plane_requests.items():
+            templates = self.request_templates[plane]
+            for i in range(count):
+                template = templates[i % len(templates)]
+                endpoint, method, payload_generator = template
+                payload = payload_generator() if payload_generator else None
+                all_requests.append((plane, method, endpoint, payload))
+        
+        # Run concurrent requests
+        async with httpx.AsyncClient(base_url=self.base_url, timeout=30.0) as client:
+            semaphore = asyncio.Semaphore(concurrency)
+            
+            async def bounded_request(plane: str, method: str, endpoint: str, 
+                                    payload: Optional[Dict[str, Any]]):
+                async with semaphore:
+                    return await self._make_request(client, method, endpoint, payload)
+            
+            # Execute all requests concurrently
+            logger.info("🔄 Executing API requests...")
+            request_tasks = [
+                bounded_request(plane, method, endpoint, payload)
+                for plane, method, endpoint, payload in all_requests
+            ]
+            
+            # Start additional load tests concurrently
+            logger.info("📡 Generating events load...")
+            events_task = asyncio.create_task(self._generate_events_load(events_load))
+            
+            logger.info("🛡️ Generating policy decisions load...")
+            policy_task = asyncio.create_task(self._generate_policy_decisions_load(policy_decisions))
+            
+            # Wait for all requests to complete
+            request_results = await asyncio.gather(*request_tasks, return_exceptions=True)
+            events_processing_times = await events_task
+            policy_decision_times = await policy_task
+        
+        end_time = time.perf_counter()
+        total_duration = end_time - start_time
+        
+        # Process results
+        self.results.total_duration_seconds = total_duration
+        self.results.total_requests = len(request_results)
+        
+        # Filter out exceptions and process metrics
+        valid_metrics = []
+        for result in request_results:
+            if isinstance(result, RequestMetrics):
+                valid_metrics.append(result)
+                if result.status_code >= 200 and result.status_code < 400:
+                    self.results.successful_requests += 1
+                else:
+                    self.results.failed_requests += 1
+                    error_key = f"{result.status_code}_{result.error or 'unknown'}"
+                    self.results.error_breakdown[error_key] = self.results.error_breakdown.get(error_key, 0) + 1
+        
+        self.results.request_metrics = valid_metrics
+        
+        # Calculate performance metrics
+        if valid_metrics:
+            response_times = [m.response_time_ms for m in valid_metrics]
+            self.results.avg_response_time_ms = statistics.mean(response_times)
+            self.results.p50_response_time_ms = statistics.median(response_times)
+            self.results.p95_response_time_ms = statistics.quantiles(response_times, n=20)[18]  # 95th percentile
+            self.results.p99_response_time_ms = statistics.quantiles(response_times, n=100)[98]  # 99th percentile
+        
+        self.results.throughput_req_per_sec = self.results.total_requests / total_duration
+        
+        # Process per-plane metrics
+        plane_data = defaultdict(list)
+        for metric in valid_metrics:
+            plane_data[metric.plane].append(metric)
+        
+        for plane, metrics in plane_data.items():
+            successful = len([m for m in metrics if 200 <= m.status_code < 400])
+            response_times = [m.response_time_ms for m in metrics]
+            
+            self.results.plane_metrics[plane] = {
+                "requests": len(metrics),
+                "successful": successful,
+                "failed": len(metrics) - successful,
+                "success_rate": successful / len(metrics) if metrics else 0,
+                "avg_response_time_ms": statistics.mean(response_times) if response_times else 0,
+                "p95_response_time_ms": statistics.quantiles(response_times, n=20)[18] if len(response_times) > 20 else max(response_times) if response_times else 0
+            }
+        
+        # Events metrics
+        self.results.events_published = events_load
+        self.results.events_processed = len(events_processing_times)
+        if events_processing_times:
+            self.results.avg_event_processing_ms = statistics.mean(events_processing_times)
+        
+        # Policy metrics
+        self.results.policy_decisions = len(policy_decision_times)
+        if policy_decision_times:
+            self.results.avg_policy_decision_ms = statistics.mean(policy_decision_times)
+        
+        return self.results
+    
+    def print_detailed_report(self):
+        """Print comprehensive test results."""
+        print("\n" + "="*80)
+        print("🚀 MEMORYOS COMPREHENSIVE LOAD TEST RESULTS")
+        print("="*80)
+        
+        # Overall metrics
+        print("📊 OVERALL PERFORMANCE")
+        print(f"   Total Requests: {self.results.total_requests:,}")
+        print(f"   Successful: {self.results.successful_requests:,} ({self.results.successful_requests/self.results.total_requests*100:.1f}%)")
+        print(f"   Failed: {self.results.failed_requests:,} ({self.results.failed_requests/self.results.total_requests*100:.1f}%)")
+        print(f"   Duration: {self.results.total_duration_seconds:.2f}s")
+        print(f"   Throughput: {self.results.throughput_req_per_sec:.1f} req/sec")
+        print()
+        
+        # Response time metrics
+        print("⏱️  RESPONSE TIME METRICS")
+        print(f"   Average: {self.results.avg_response_time_ms:.1f}ms")
+        print(f"   Median (p50): {self.results.p50_response_time_ms:.1f}ms")
+        print(f"   95th percentile: {self.results.p95_response_time_ms:.1f}ms")
+        print(f"   99th percentile: {self.results.p99_response_time_ms:.1f}ms")
+        print()
+        
+        # Per-plane metrics
+        print("🛫 PER-PLANE PERFORMANCE")
+        for plane, metrics in self.results.plane_metrics.items():
+            print(f"   {plane.upper()} PLANE:")
+            print(f"     Requests: {metrics['requests']:,}")
+            print(f"     Success Rate: {metrics['success_rate']*100:.1f}%")
+            print(f"     Avg Response Time: {metrics['avg_response_time_ms']:.1f}ms")
+            print(f"     P95 Response Time: {metrics['p95_response_time_ms']:.1f}ms")
+        print()
+        
+        # Events metrics
+        if self.results.events_published > 0:
+            print("📡 EVENTS BUS PERFORMANCE")
+            print(f"   Events Published: {self.results.events_published:,}")
+            print(f"   Events Processed: {self.results.events_processed:,}")
+            print(f"   Processing Rate: {self.results.events_processed/self.results.events_published*100:.1f}%")
+            print(f"   Avg Processing Time: {self.results.avg_event_processing_ms:.1f}ms")
+            print()
+        
+        # Policy metrics
+        if self.results.policy_decisions > 0:
+            print("🛡️  POLICY ENFORCEMENT PERFORMANCE")
+            print(f"   Policy Decisions: {self.results.policy_decisions:,}")
+            print(f"   Avg Decision Time: {self.results.avg_policy_decision_ms:.1f}ms")
+            print()
+        
+        # Error analysis
+        if self.results.error_breakdown:
+            print("❌ ERROR ANALYSIS")
+            for error, count in sorted(self.results.error_breakdown.items()):
+                print(f"   {error}: {count:,} occurrences")
+            print()
+        
+        print("="*80)
+
+
+@fixture
+async def load_tester():
+    """Create and initialize load tester."""
+    tester = ComprehensiveLoadTester()
+    await tester.initialize()
+    return tester
+
+
+@fixture
+def test_client():
+    """Create test client for the application."""
+    return TestClient(app)
+
+
+@test("Comprehensive infrastructure load test with 50k requests")
+async def test_50k_requests_comprehensive_load(load_tester=load_tester):
+    """
+    Comprehensive load test hitting all infrastructure components:
+    - 50,000 API requests across all planes
+    - 5,000 events published and processed
+    - 5,000 policy decisions made
+    - Real-time performance metrics collection
+    """
+    
+    # Run the comprehensive load test
+    results = await load_tester.run_comprehensive_load_test(
+        total_requests=50000,
+        concurrency=100,
+        events_load=5000,
+        policy_decisions=5000
+    )
+    
+    # Print detailed report
+    load_tester.print_detailed_report()
+    
+    # Performance assertions
+    expect(results.total_requests).equals(50000)
+    expect(results.successful_requests).to_be_greater_than(45000)  # 90% success rate minimum
+    expect(results.throughput_req_per_sec).to_be_greater_than(100)  # Minimum 100 req/sec
+    expect(results.p95_response_time_ms).to_be_less_than(5000)  # P95 under 5 seconds
+    
+    # Events performance assertions
+    expect(results.events_processed).to_be_greater_than(4500)  # 90% event processing
+    expect(results.avg_event_processing_ms).to_be_less_than(100)  # Fast event processing
+    
+    # Policy performance assertions  
+    expect(results.policy_decisions).to_be_greater_than(4500)  # 90% policy decisions
+    expect(results.avg_policy_decision_ms).to_be_less_than(50)  # Fast policy decisions
+    
+    # Per-plane performance assertions
+    for plane, metrics in results.plane_metrics.items():
+        expect(metrics['success_rate']).to_be_greater_than(0.85)  # 85% success per plane
+        expect(metrics['avg_response_time_ms']).to_be_less_than(2000)  # Reasonable response times
+
+
+@test("Medium load test with 10k requests for CI/CD")
+async def test_10k_requests_medium_load(load_tester=load_tester):
+    """
+    Medium load test suitable for CI/CD pipelines:
+    - 10,000 API requests
+    - 1,000 events
+    - 1,000 policy decisions
+    """
+    
+    results = await load_tester.run_comprehensive_load_test(
+        total_requests=10000,
+        concurrency=50,
+        events_load=1000,
+        policy_decisions=1000
+    )
+    
+    load_tester.print_detailed_report()
+    
+    # Stricter performance requirements for smaller load
+    expect(results.successful_requests).to_be_greater_than(9500)  # 95% success rate
+    expect(results.throughput_req_per_sec).to_be_greater_than(150)  # Higher throughput expected
+    expect(results.p95_response_time_ms).to_be_less_than(2000)  # Faster P95
+    expect(results.avg_event_processing_ms).to_be_less_than(50)  # Faster events
+    expect(results.avg_policy_decision_ms).to_be_less_than(25)  # Faster policy decisions
+
+
+@test("Stress test with high concurrency")
+async def test_stress_high_concurrency(load_tester=load_tester):
+    """
+    Stress test with high concurrency to test system limits:
+    - 5,000 requests with 200 concurrent connections
+    - Tests system behavior under stress
+    """
+    
+    results = await load_tester.run_comprehensive_load_test(
+        total_requests=5000,
+        concurrency=200,  # High concurrency
+        events_load=500,
+        policy_decisions=500
+    )
+    
+    load_tester.print_detailed_report()
+    
+    # More lenient assertions for stress test
+    expect(results.successful_requests).to_be_greater_than(4000)  # 80% success under stress
+    expect(results.throughput_req_per_sec).to_be_greater_than(50)  # Lower throughput expected
+    expect(results.p99_response_time_ms).to_be_less_than(10000)  # Allow higher latency under stress
+
+
+
+# =============================================================================
+# WARD TEST DEFINITIONS
+# =============================================================================
+
+@test("Comprehensive 50k Request Load Test")
+async def test_comprehensive_load_50k():
+    """Test complete MemoryOS infrastructure with 50,000 requests."""
+    load_tester = ComprehensiveLoadTester()
+    try:
+        await load_tester.initialize()
+        
+        results = await load_tester.run_comprehensive_load_test(
+            total_requests=50000,
+            concurrency=100,
+            events_load=5000,
+            policy_decisions=5000
+        )
+        
+        load_tester.print_detailed_report()
+        
+        # Assertions for comprehensive test
+        expect(results.successful_requests).to_be_greater_than(47500)  # 95% success rate
+        expect(results.throughput_req_per_sec).to_be_greater_than(100)  # Minimum throughput
+        expect(results.p95_response_time_ms).to_be_less_than(1000)  # p95 under 1 second
+        expect(results.p99_response_time_ms).to_be_less_than(2000)  # p99 under 2 seconds
+    finally:
+        await load_tester.cleanup()
+
+
+@test("Medium 10k Request Load Test")
+async def test_medium_load_10k():
+    """Test MemoryOS infrastructure with 10,000 requests for baseline."""
+    load_tester = ComprehensiveLoadTester()
+    await load_tester.initialize()
+    
+    results = await load_tester.run_comprehensive_load_test(
+        total_requests=10000,
+        concurrency=50,
+        events_load=1000,
+        policy_decisions=1000
+    )
+    
+    load_tester.print_detailed_report()
+    
+    # Assertions for medium test
+    expect(results.successful_requests).to_be_greater_than(9800)  # 98% success rate
+    expect(results.throughput_req_per_sec).to_be_greater_than(150)  # Higher throughput
+    expect(results.p95_response_time_ms).to_be_less_than(500)  # Faster response
+
+
+@test("Stress Test with High Concurrency")
+async def test_stress_high_concurrency():
+    """Stress test with high concurrency to find breaking points."""
+    load_tester = ComprehensiveLoadTester()
+    await load_tester.initialize()
+    
+    results = await load_tester.run_comprehensive_load_test(
+        total_requests=5000,
+        concurrency=200,  # High concurrency
+        events_load=2000,
+        policy_decisions=2000
+    )
+    
+    load_tester.print_detailed_report()
+    
+    # More lenient assertions for stress test
+    expect(results.successful_requests).to_be_greater_than(4000)  # 80% success under stress
+    expect(results.throughput_req_per_sec).to_be_greater_than(50)  # Lower throughput expected
+    expect(results.p99_response_time_ms).to_be_less_than(10000)  # Allow higher latency under stress
+
+
+if __name__ == "__main__":
+    # Run standalone performance test
+    import asyncio
+    
+    async def main():
+        tester = ComprehensiveLoadTester()
+        await tester.initialize()
+        
+        print("🚀 Running standalone comprehensive load test...")
+        results = await tester.run_comprehensive_load_test(
+            total_requests=50000,
+            concurrency=100,
+            events_load=5000,
+            policy_decisions=5000
+        )
+        
+        tester.print_detailed_report()
+        
+        # Save results to JSON for analysis
+        import json
+        from dataclasses import asdict
+        
+        # Convert results to JSON-serializable format
+        results_dict = asdict(results)
+        results_dict['request_metrics'] = []  # Remove detailed metrics for JSON
+        
+        with open(f"load_test_results_{int(time.time())}.json", "w") as f:
+            json.dump(results_dict, f, indent=2, default=str)
+        
+        print("📊 Results saved to JSON file for further analysis")
+    
+    asyncio.run(main())

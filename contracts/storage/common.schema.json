@@ -1,0 +1,363 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://familyos.local/contracts/storage/common.schema.json",
+  "title": "FamilyOS Common Schema Definitions",
+  "description": "Shared schema components for Memory-Centric Family AI storage contracts",
+
+  "$defs": {
+    "ULID": {
+      "type": "string",
+      "pattern": "^[0-7][0-9A-HJKMNP-TV-Z]{25}$",
+      "description": "Universally Unique Lexicographically Sortable Identifier"
+    },
+
+    "UUID": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Standard UUID v4"
+    },
+
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "ISO 8601 timestamp with timezone"
+    },
+
+    "unix_timestamp": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Unix timestamp in seconds"
+    },
+
+    "SpaceId": {
+      "type": "string",
+      "pattern": "^(personal|selective|shared|extended|interfamily):[A-Za-z0-9_\\-\\.]+$",
+      "description": "Memory space identifier for family access control"
+    },
+
+    "UserId": {
+      "$ref": "#/$defs/ULID",
+      "description": "User identifier within family system"
+    },
+
+    "FamilyId": {
+      "$ref": "#/$defs/ULID",
+      "description": "Family unit identifier"
+    },
+
+    "DeviceId": {
+      "$ref": "#/$defs/ULID",
+      "description": "Family device identifier"
+    },
+
+    "MemoryId": {
+      "$ref": "#/$defs/ULID",
+      "description": "Family memory record identifier"
+    },
+
+    "EnvelopeId": {
+      "$ref": "#/$defs/ULID",
+      "description": "Event envelope identifier"
+    },
+
+    "MLSGroup": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9._:-]{3,64}$",
+      "description": "MLS group identifier for E2EE family coordination"
+    },
+
+    "Band": {
+      "type": "string",
+      "enum": ["GREEN", "AMBER", "RED", "BLACK"],
+      "description": "Security band classification for family data"
+    },
+
+    "LanguageCode": {
+      "type": "string",
+      "pattern": "^[a-z]{2}(-[A-Z]{2})?$",
+      "description": "ISO 639-1 language code with optional country"
+    },
+
+    "ActorRef": {
+      "type": "object",
+      "required": ["user_id", "device_id"],
+      "properties": {
+        "user_id": { "$ref": "#/$defs/UserId" },
+        "device_id": { "$ref": "#/$defs/DeviceId" },
+        "family_role": {
+          "type": "string",
+          "enum": ["parent", "child", "teen", "adult_child", "grandparent", "guardian", "family_friend"]
+        },
+        "actor_type": {
+          "type": "string",
+          "enum": ["human", "ai_agent", "system", "family_hub"]
+        }
+      }
+    },
+
+    "DeviceRef": {
+      "type": "object",
+      "required": ["device_id", "device_type"],
+      "properties": {
+        "device_id": { "$ref": "#/$defs/DeviceId" },
+        "device_type": {
+          "type": "string",
+          "enum": ["smartphone", "tablet", "laptop", "desktop", "family_hub", "smart_speaker", "wearable"]
+        },
+        "device_name": { "type": "string" },
+        "owner_id": { "$ref": "#/$defs/UserId" }
+      }
+    },
+
+    "BlobRef": {
+      "type": "object",
+      "required": ["blob_id", "content_type", "size_bytes"],
+      "properties": {
+        "blob_id": { "$ref": "#/$defs/ULID" },
+        "content_type": { "type": "string" },
+        "size_bytes": { "type": "integer", "minimum": 0 },
+        "checksum_sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+        "encryption_key_id": { "type": "string" },
+        "family_visibility": {
+          "type": "string",
+          "enum": ["private", "family", "extended_family", "public"]
+        }
+      }
+    },
+
+    "FamilySecurityContext": {
+      "type": "object",
+      "required": ["user_id", "family_id", "family_roles"],
+      "properties": {
+        "user_id": { "$ref": "#/$defs/UserId" },
+        "family_id": { "$ref": "#/$defs/FamilyId" },
+        "family_roles": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["parent", "child", "teen", "adult_child", "grandparent", "guardian", "family_friend"]
+          }
+        },
+        "permissions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "memory_read", "memory_write", "memory_delete", "memory_share",
+              "family_admin", "child_supervision", "emergency_access",
+              "ai_interaction", "privacy_controls", "device_management"
+            ]
+          }
+        },
+        "trust_level": {
+          "type": "string",
+          "enum": ["family_verified", "device_verified", "basic", "restricted"]
+        },
+        "age_category": {
+          "type": "string",
+          "enum": ["adult", "teen", "child", "toddler", "unknown"]
+        },
+        "supervision_required": { "type": "boolean", "default": false },
+        "supervised_by": { "$ref": "#/$defs/UserId" }
+      }
+    },
+
+    "EmotionalContext": {
+      "type": "object",
+      "properties": {
+        "primary_emotion": {
+          "type": "string",
+          "enum": [
+            "joy", "love", "pride", "excitement", "gratitude", "contentment",
+            "sadness", "anger", "fear", "anxiety", "frustration", "disappointment",
+            "surprise", "curiosity", "hope", "nostalgia", "empathy", "calm"
+          ]
+        },
+        "emotional_intensity": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 1.0
+        },
+        "family_emotional_tone": {
+          "type": "string",
+          "enum": ["positive", "negative", "mixed", "neutral", "complex"]
+        },
+        "emotional_triggers": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+
+    "FamilyRelationship": {
+      "type": "object",
+      "required": ["relationship_type", "primary_user", "related_user"],
+      "properties": {
+        "relationship_type": {
+          "type": "string",
+          "enum": [
+            "parent_child", "grandparent_grandchild", "sibling", "spouse_partner",
+            "aunt_uncle_niece_nephew", "cousin", "step_relation", "adoptive_relation",
+            "foster_relation", "guardian_ward", "family_friend", "chosen_family"
+          ]
+        },
+        "primary_user": { "$ref": "#/$defs/UserId" },
+        "related_user": { "$ref": "#/$defs/UserId" },
+        "relationship_strength": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 1.0
+        },
+        "interaction_frequency": {
+          "type": "string",
+          "enum": ["daily", "weekly", "monthly", "occasional", "rare"]
+        }
+      }
+    },
+
+    "VectorClock": {
+      "type": "object",
+      "additionalProperties": { "type": "integer" },
+      "description": "CRDT vector clock for causality tracking across family devices"
+    },
+
+    "CRDTOperation": {
+      "type": "object",
+      "required": ["op_type", "field", "value"],
+      "properties": {
+        "op_type": {
+          "type": "string",
+          "enum": ["insert", "update", "delete", "merge", "move"]
+        },
+        "field": { "type": "string" },
+        "value": {},
+        "position": { "type": "integer" },
+        "merge_strategy": {
+          "type": "string",
+          "enum": ["last_writer_wins", "semantic_merge", "family_consensus"]
+        }
+      }
+    },
+
+    "Pagination": {
+      "type": "object",
+      "properties": {
+        "limit": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 1000,
+          "default": 50
+        },
+        "offset": {
+          "type": "integer",
+          "minimum": 0,
+          "default": 0
+        },
+        "cursor": {
+          "type": "string",
+          "description": "Opaque pagination cursor for family memory queries"
+        },
+        "sort_by": {
+          "type": "string",
+          "enum": ["timestamp", "importance", "family_relevance", "emotional_intensity"]
+        },
+        "sort_order": {
+          "type": "string",
+          "enum": ["asc", "desc"],
+          "default": "desc"
+        }
+      }
+    },
+
+    "ErrorResponse": {
+      "type": "object",
+      "required": ["error", "message"],
+      "properties": {
+        "error": {
+          "type": "string",
+          "description": "Error code"
+        },
+        "message": {
+          "type": "string",
+          "description": "Human-readable error message"
+        },
+        "family_context": {
+          "type": "object",
+          "properties": {
+            "family_id": { "$ref": "#/$defs/FamilyId" },
+            "affects_children": { "type": "boolean" },
+            "privacy_impact": { "type": "boolean" },
+            "requires_parent_action": { "type": "boolean" }
+          }
+        },
+        "error_details": {
+          "type": "object",
+          "properties": {
+            "field": { "type": "string" },
+            "constraint": { "type": "string" },
+            "suggestion": { "type": "string" }
+          }
+        },
+        "trace_id": { "$ref": "#/$defs/ULID" },
+        "timestamp": { "$ref": "#/$defs/timestamp" }
+      }
+    },
+
+    "PrivacySettings": {
+      "type": "object",
+      "properties": {
+        "visibility_scope": {
+          "type": "string",
+          "enum": ["author_only", "immediate_family", "extended_family", "family_friends", "custom"]
+        },
+        "age_appropriate": {
+          "type": "object",
+          "properties": {
+            "min_age": { "type": "integer", "minimum": 0, "maximum": 18 },
+            "content_rating": {
+              "type": "string",
+              "enum": ["all_ages", "teen", "mature", "adult_only"]
+            },
+            "parental_guidance": { "type": "boolean" }
+          }
+        },
+        "consent_requirements": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "user_id": { "$ref": "#/$defs/UserId" },
+              "consent_type": {
+                "type": "string",
+                "enum": ["sharing", "storage", "analysis", "ai_processing"]
+              },
+              "consent_status": {
+                "type": "string",
+                "enum": ["granted", "denied", "pending", "expired"]
+              }
+            }
+          }
+        }
+      }
+    },
+
+    "SyncMetadata": {
+      "type": "object",
+      "required": ["vector_clock", "sync_status"],
+      "properties": {
+        "vector_clock": { "$ref": "#/$defs/VectorClock" },
+        "sync_status": {
+          "type": "string",
+          "enum": ["local_only", "syncing", "synced", "conflict", "error"]
+        },
+        "last_sync_ts": { "$ref": "#/$defs/timestamp" },
+        "sync_source_device": { "$ref": "#/$defs/DeviceId" },
+        "conflict_count": { "type": "integer", "minimum": 0 },
+        "family_sync_participants": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/DeviceId" }
+        }
+      }
+    }
+  }
+}

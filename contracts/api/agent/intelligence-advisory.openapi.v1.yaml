@@ -1,0 +1,1096 @@
+openapi: 3.1.0
+info:
+  title: MemoryOS Agent Plane - Intelligence Advisory API
+  description: |
+    **Memory-Centric Family AI Intelligence Advisory Operations**
+
+    This API provides LLM agents with strategic intelligence advisory capabilities for Family AI coordination:
+    - **Strategic Family Intelligence**: High-level intelligence analysis and family coordination recommendations
+    - **Family Coordination Advisory**: Strategic advice for family coordination and relationship optimization
+    - **Memory-Informed Strategy**: Strategic recommendations based on family memory patterns and relationship analysis
+    - **Predictive Family Planning**: Forward-looking family planning and coordination intelligence
+    - **Family Optimization Insights**: Intelligence for optimizing family relationships and coordination
+
+    **Memory-Centric Design**: Intelligence advisory leverages Memory Backbone for:
+    - Family relationship understanding and strategic intelligence generation
+    - Memory-informed advisory and strategic family planning recommendations
+    - Cross-family intelligence synthesis and strategic coordination insights
+    - Predictive intelligence that considers family evolution and relationship development
+
+    **Architecture Integration**:
+    - Integrates with Memory Backbone for memory-informed strategic intelligence
+    - Leverages Family Intelligence for relationship-aware advisory and coordination recommendations
+    - Coordinates with Intelligence Layer for advanced family strategic analysis
+    - Enforces family policies through intelligence advisory boundaries and privacy controls
+  version: "1.0.0"
+  contact:
+    name: MemoryOS API Team
+    url: https://familyos.local/support
+    email: api-support@familyos.local
+  license:
+    name: Family OS Private License
+    url: https://familyos.local/licenses/family-os
+
+servers:
+  - url: https://api.familyos.local/agent/v1
+    description: Production Agent Plane
+  - url: https://staging-api.familyos.local/agent/v1
+    description: Staging Environment
+  - url: http://localhost:8080/agent/v1
+    description: Local Development
+
+security:
+  - AgentAuth: []
+  - FamilyOSAuth: []
+
+paths:
+  /intelligence/strategic-analysis:
+    post:
+      summary: Perform Strategic Family Intelligence Analysis
+      description: |
+        Conduct strategic intelligence analysis for family coordination and relationship optimization.
+
+        **Strategic Intelligence**: High-level intelligence analysis considering family goals and relationship dynamics.
+        **Family Strategy**: Strategic recommendations for family coordination and long-term relationship development.
+      operationId: performStrategicFamilyIntelligenceAnalysis
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/StrategicAnalysisRequest'
+      responses:
+        '200':
+          description: Strategic analysis completed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  strategic_intelligence:
+                    $ref: '#/components/schemas/StrategicIntelligence'
+                  family_coordination_strategies:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/CoordinationStrategy'
+                  relationship_optimization_opportunities:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/RelationshipOptimizationOpportunity'
+                  strategic_recommendations:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/StrategicRecommendation'
+                  implementation_roadmap:
+                    $ref: '#/components/schemas/ImplementationRoadmap'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Strategic Analysis
+
+  /intelligence/family-coordination:
+    post:
+      summary: Generate Family Coordination Intelligence
+      description: |
+        Generate intelligence for family coordination and collaborative optimization.
+
+        **Coordination Intelligence**: Advanced intelligence for family coordination and collaborative activities.
+        **Family Synergy**: Intelligence recommendations for maximizing family synergy and collaborative potential.
+      operationId: generateFamilyCoordinationIntelligence
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FamilyCoordinationRequest'
+      responses:
+        '200':
+          description: Family coordination intelligence generated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  coordination_intelligence:
+                    $ref: '#/components/schemas/CoordinationIntelligence'
+                  synergy_opportunities:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/SynergyOpportunity'
+                  collaboration_recommendations:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/CollaborationRecommendation'
+                  family_alignment_analysis:
+                    $ref: '#/components/schemas/FamilyAlignmentAnalysis'
+                  coordination_optimization_plan:
+                    $ref: '#/components/schemas/CoordinationOptimizationPlan'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Family Coordination
+
+  /intelligence/predictive-planning:
+    post:
+      summary: Generate Predictive Family Planning Intelligence
+      description: |
+        Generate predictive intelligence for family planning and future coordination strategies.
+
+        **Predictive Planning**: Forward-looking intelligence for family planning and relationship development.
+        **Future Coordination**: Predictive recommendations for future family coordination and optimization.
+      operationId: generatePredictiveFamilyPlanningIntelligence
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PredictivePlanningRequest'
+      responses:
+        '200':
+          description: Predictive planning intelligence generated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  predictive_intelligence:
+                    $ref: '#/components/schemas/PredictiveIntelligence'
+                  future_coordination_strategies:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/FutureCoordinationStrategy'
+                  family_evolution_projections:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/FamilyEvolutionProjection'
+                  planning_recommendations:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/PlanningRecommendation'
+                  risk_mitigation_strategies:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/RiskMitigationStrategy'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Predictive Planning
+
+  /intelligence/relationship-advisory:
+    post:
+      summary: Provide Family Relationship Advisory Intelligence
+      description: |
+        Provide advisory intelligence for family relationship development and optimization.
+
+        **Relationship Advisory**: Expert advisory intelligence for family relationship development and enhancement.
+        **Relationship Intelligence**: Deep intelligence analysis for relationship optimization and growth opportunities.
+      operationId: provideFamilyRelationshipAdvisoryIntelligence
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RelationshipAdvisoryRequest'
+      responses:
+        '200':
+          description: Relationship advisory intelligence provided successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  relationship_intelligence:
+                    $ref: '#/components/schemas/RelationshipIntelligence'
+                  relationship_development_strategies:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/RelationshipDevelopmentStrategy'
+                  relationship_optimization_recommendations:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/RelationshipOptimizationRecommendation'
+                  relationship_health_assessment:
+                    $ref: '#/components/schemas/RelationshipHealthAssessment'
+                  intervention_recommendations:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/InterventionRecommendation'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Relationship Advisory
+
+  /intelligence/family-optimization:
+    post:
+      summary: Generate Family Optimization Intelligence
+      description: |
+        Generate intelligence for comprehensive family optimization and enhancement strategies.
+
+        **Family Optimization**: Comprehensive intelligence for family optimization and enhancement across all dimensions.
+        **Holistic Intelligence**: Holistic intelligence recommendations for family wellbeing and optimization.
+      operationId: generateFamilyOptimizationIntelligence
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FamilyOptimizationRequest'
+      responses:
+        '200':
+          description: Family optimization intelligence generated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  optimization_intelligence:
+                    $ref: '#/components/schemas/OptimizationIntelligence'
+                  optimization_strategies:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/OptimizationStrategy'
+                  family_enhancement_opportunities:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/FamilyEnhancementOpportunity'
+                  wellbeing_recommendations:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/WellbeingRecommendation'
+                  optimization_roadmap:
+                    $ref: '#/components/schemas/OptimizationRoadmap'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Family Optimization
+
+  /intelligence/crisis-management:
+    post:
+      summary: Provide Crisis Management Intelligence
+      description: |
+        Provide intelligence for family crisis management and emergency response coordination.
+
+        **Crisis Intelligence**: Strategic intelligence for family crisis management and emergency response.
+        **Emergency Coordination**: Intelligence recommendations for emergency family coordination and support strategies.
+      operationId: provideCrisisManagementIntelligence
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CrisisManagementRequest'
+      responses:
+        '200':
+          description: Crisis management intelligence provided successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  crisis_intelligence:
+                    $ref: '#/components/schemas/CrisisIntelligence'
+                  emergency_response_strategies:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/EmergencyResponseStrategy'
+                  family_support_recommendations:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/FamilySupportRecommendation'
+                  crisis_communication_plan:
+                    $ref: '#/components/schemas/CrisisCommunicationPlan'
+                  recovery_strategies:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/RecoveryStrategy'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Crisis Management
+
+  /intelligence/opportunity-analysis:
+    post:
+      summary: Analyze Family Growth Opportunities
+      description: |
+        Analyze and identify family growth opportunities with strategic intelligence recommendations.
+
+        **Opportunity Intelligence**: Strategic intelligence for identifying and developing family growth opportunities.
+        **Growth Analysis**: Comprehensive analysis of family growth potential and development opportunities.
+      operationId: analyzeFamilyGrowthOpportunities
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OpportunityAnalysisRequest'
+      responses:
+        '200':
+          description: Family growth opportunities analyzed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  opportunity_intelligence:
+                    $ref: '#/components/schemas/OpportunityIntelligence'
+                  growth_opportunities:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/GrowthOpportunity'
+                  development_strategies:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/DevelopmentStrategy'
+                  opportunity_prioritization:
+                    $ref: '#/components/schemas/OpportunityPrioritization'
+                  implementation_strategies:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ImplementationStrategy'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Opportunity Analysis
+
+  /intelligence/resource-optimization:
+    post:
+      summary: Optimize Family Resource Allocation
+      description: |
+        Generate intelligence for optimal family resource allocation and utilization strategies.
+
+        **Resource Intelligence**: Strategic intelligence for family resource optimization and allocation.
+        **Allocation Strategy**: Intelligence recommendations for optimal resource distribution and utilization.
+      operationId: optimizeFamilyResourceAllocation
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ResourceOptimizationRequest'
+      responses:
+        '200':
+          description: Family resource optimization completed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  resource_intelligence:
+                    $ref: '#/components/schemas/ResourceIntelligence'
+                  allocation_strategies:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/AllocationStrategy'
+                  optimization_recommendations:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ResourceOptimizationRecommendation'
+                  efficiency_analysis:
+                    $ref: '#/components/schemas/EfficiencyAnalysis'
+                  resource_utilization_plan:
+                    $ref: '#/components/schemas/ResourceUtilizationPlan'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Resource Optimization
+
+  /intelligence/performance-analysis:
+    post:
+      summary: Analyze Family Performance Metrics
+      description: |
+        Analyze family performance metrics and generate intelligence for continuous improvement.
+
+        **Performance Intelligence**: Comprehensive intelligence analysis of family performance and optimization opportunities.
+        **Continuous Improvement**: Intelligence recommendations for family performance enhancement and development.
+      operationId: analyzeFamilyPerformanceMetrics
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PerformanceAnalysisRequest'
+      responses:
+        '200':
+          description: Family performance analysis completed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  performance_intelligence:
+                    $ref: '#/components/schemas/PerformanceIntelligence'
+                  performance_metrics:
+                    $ref: '#/components/schemas/FamilyPerformanceMetrics'
+                  improvement_opportunities:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ImprovementOpportunity'
+                  performance_trends:
+                    $ref: '#/components/schemas/PerformanceTrends'
+                  optimization_strategies:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/PerformanceOptimizationStrategy'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Performance Analysis
+
+  /intelligence/innovation-advisory:
+    post:
+      summary: Provide Family Innovation Advisory Intelligence
+      description: |
+        Provide advisory intelligence for family innovation and creative development opportunities.
+
+        **Innovation Intelligence**: Strategic intelligence for family innovation and creative development.
+        **Creative Advisory**: Intelligence recommendations for family creative growth and innovative solutions.
+      operationId: provideFamilyInnovationAdvisoryIntelligence
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/InnovationAdvisoryRequest'
+      responses:
+        '200':
+          description: Family innovation advisory intelligence provided successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  innovation_intelligence:
+                    $ref: '#/components/schemas/InnovationIntelligence'
+                  innovation_opportunities:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/InnovationOpportunity'
+                  creative_development_strategies:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/CreativeDevelopmentStrategy'
+                  innovation_implementation_plan:
+                    $ref: '#/components/schemas/InnovationImplementationPlan'
+                  creative_collaboration_recommendations:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/CreativeCollaborationRecommendation'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Innovation Advisory
+
+components:
+  securitySchemes:
+    AgentAuth:
+      type: http
+      scheme: bearer
+      description: Agent-specific JWT authentication for intelligence advisory operations
+      bearerFormat: JWT
+
+    FamilyOSAuth:
+      type: oauth2
+      description: FamilyOS OAuth2 authentication with intelligence advisory scopes
+      flows:
+        authorizationCode:
+          authorizationUrl: https://auth.familyos.local/oauth/authorize
+          tokenUrl: https://auth.familyos.local/oauth/token
+          scopes:
+            intelligence:strategic: Perform strategic intelligence analysis
+            intelligence:coordination: Generate family coordination intelligence
+            intelligence:planning: Perform predictive planning operations
+            intelligence:advisory: Provide relationship advisory intelligence
+            intelligence:optimization: Generate optimization intelligence
+            intelligence:crisis: Provide crisis management intelligence
+            intelligence:opportunity: Analyze growth opportunities
+            intelligence:resource: Optimize resource allocation
+            intelligence:performance: Analyze performance metrics
+            intelligence:innovation: Provide innovation advisory intelligence
+
+  schemas:
+    StrategicAnalysisRequest:
+      type: object
+      description: Request for strategic family intelligence analysis
+      properties:
+        analysis_focus:
+          type: array
+          items:
+            type: string
+            enum: [family_goals, relationship_development, coordination_optimization, long_term_planning, resource_allocation]
+          description: Focus areas for strategic analysis
+        analysis_timeframe:
+          $ref: '#/components/schemas/AnalysisTimeFrame'
+        family_context:
+          $ref: '#/components/schemas/FamilyStrategicContext'
+        strategic_objectives:
+          type: array
+          items:
+            type: string
+          description: Strategic objectives for analysis
+        current_challenges:
+          type: array
+          items:
+            $ref: '#/components/schemas/FamilyChallenge'
+          description: Current family challenges to address
+        analysis_depth:
+          type: string
+          enum: [overview, detailed, comprehensive, deep_strategic]
+          default: detailed
+          description: Depth of strategic analysis
+      required:
+        - analysis_focus
+        - strategic_objectives
+
+    FamilyCoordinationRequest:
+      type: object
+      description: Request for family coordination intelligence
+      properties:
+        coordination_goals:
+          type: array
+          items:
+            type: string
+          description: Goals for family coordination
+        coordination_scope:
+          type: string
+          enum: [daily_coordination, project_coordination, event_coordination, long_term_coordination, crisis_coordination]
+          description: Scope of coordination intelligence
+        family_members_involved:
+          type: array
+          items:
+            type: string
+            format: uuid
+          description: Family members involved in coordination
+        coordination_challenges:
+          type: array
+          items:
+            type: string
+          description: Current coordination challenges
+        coordination_preferences:
+          $ref: '#/components/schemas/CoordinationPreferences'
+        desired_outcomes:
+          type: array
+          items:
+            type: string
+          description: Desired coordination outcomes
+      required:
+        - coordination_goals
+        - coordination_scope
+
+    PredictivePlanningRequest:
+      type: object
+      description: Request for predictive family planning intelligence
+      properties:
+        planning_horizon:
+          $ref: '#/components/schemas/PlanningHorizon'
+        planning_domains:
+          type: array
+          items:
+            type: string
+            enum: [relationship_development, family_growth, resource_planning, education_planning, career_planning, lifestyle_planning]
+          description: Domains for predictive planning
+        family_aspirations:
+          type: array
+          items:
+            type: string
+          description: Family aspirations and goals
+        current_trajectory_analysis:
+          type: boolean
+          default: true
+          description: Whether to analyze current family trajectory
+        scenario_planning:
+          type: boolean
+          default: false
+          description: Whether to include scenario planning
+        risk_assessment:
+          type: boolean
+          default: true
+          description: Whether to include risk assessment
+      required:
+        - planning_horizon
+        - planning_domains
+
+    RelationshipAdvisoryRequest:
+      type: object
+      description: Request for family relationship advisory intelligence
+      properties:
+        advisory_focus:
+          type: array
+          items:
+            type: string
+            enum: [relationship_development, communication_improvement, conflict_resolution, intimacy_enhancement, trust_building, support_strengthening]
+          description: Focus areas for relationship advisory
+        relationship_scope:
+          type: string
+          enum: [individual_relationships, family_wide, specific_dyads, multi_generational]
+          description: Scope of relationship advisory
+        relationship_goals:
+          type: array
+          items:
+            type: string
+          description: Goals for relationship development
+        current_relationship_status:
+          $ref: '#/components/schemas/CurrentRelationshipStatus'
+        advisory_preferences:
+          $ref: '#/components/schemas/AdvisoryPreferences'
+        intervention_readiness:
+          type: string
+          enum: [high, moderate, low, assessment_needed]
+          description: Family readiness for relationship interventions
+      required:
+        - advisory_focus
+        - relationship_scope
+
+    FamilyOptimizationRequest:
+      type: object
+      description: Request for family optimization intelligence
+      properties:
+        optimization_domains:
+          type: array
+          items:
+            type: string
+            enum: [communication, coordination, resource_utilization, relationship_quality, family_wellbeing, growth_development]
+          description: Domains for family optimization
+        optimization_goals:
+          type: array
+          items:
+            type: string
+          description: Goals for family optimization
+        current_family_assessment:
+          $ref: '#/components/schemas/CurrentFamilyAssessment'
+        optimization_constraints:
+          type: array
+          items:
+            type: string
+          description: Constraints on optimization approaches
+        optimization_timeline:
+          $ref: '#/components/schemas/OptimizationTimeline'
+        family_readiness:
+          type: string
+          enum: [high, moderate, low, variable]
+          description: Family readiness for optimization changes
+      required:
+        - optimization_domains
+        - optimization_goals
+
+    CrisisManagementRequest:
+      type: object
+      description: Request for crisis management intelligence
+      properties:
+        crisis_type:
+          type: string
+          enum: [relationship_crisis, family_emergency, health_crisis, financial_crisis, communication_breakdown, trust_crisis]
+          description: Type of family crisis
+        crisis_severity:
+          type: string
+          enum: [low, moderate, high, critical]
+          description: Severity level of the crisis
+        crisis_context:
+          type: string
+          description: Context and details of the crisis
+          maxLength: 2000
+        affected_family_members:
+          type: array
+          items:
+            type: string
+            format: uuid
+          description: Family members affected by the crisis
+        immediate_needs:
+          type: array
+          items:
+            type: string
+          description: Immediate needs and priorities
+        available_resources:
+          $ref: '#/components/schemas/AvailableResources'
+      required:
+        - crisis_type
+        - crisis_severity
+        - crisis_context
+
+    OpportunityAnalysisRequest:
+      type: object
+      description: Request for family growth opportunity analysis
+      properties:
+        opportunity_domains:
+          type: array
+          items:
+            type: string
+            enum: [relationship_growth, skill_development, career_advancement, education_opportunities, family_experiences, community_engagement]
+          description: Domains for opportunity analysis
+        opportunity_timeframe:
+          $ref: '#/components/schemas/OpportunityTimeFrame'
+        family_strengths:
+          type: array
+          items:
+            type: string
+          description: Current family strengths to leverage
+        growth_aspirations:
+          type: array
+          items:
+            type: string
+          description: Family growth aspirations
+        opportunity_constraints:
+          type: array
+          items:
+            type: string
+          description: Constraints on opportunity development
+        risk_tolerance:
+          type: string
+          enum: [conservative, moderate, aggressive, mixed]
+          description: Family risk tolerance for opportunities
+      required:
+        - opportunity_domains
+        - growth_aspirations
+
+    ResourceOptimizationRequest:
+      type: object
+      description: Request for family resource optimization
+      properties:
+        resource_types:
+          type: array
+          items:
+            type: string
+            enum: [time, financial, emotional, social, knowledge, skills, technology, physical_space]
+          description: Types of resources to optimize
+        optimization_objectives:
+          type: array
+          items:
+            type: string
+          description: Objectives for resource optimization
+        current_resource_allocation:
+          $ref: '#/components/schemas/CurrentResourceAllocation'
+        resource_constraints:
+          type: array
+          items:
+            type: string
+          description: Constraints on resource optimization
+        optimization_priorities:
+          type: array
+          items:
+            $ref: '#/components/schemas/OptimizationPriority'
+          description: Priorities for resource optimization
+        efficiency_goals:
+          type: array
+          items:
+            type: string
+          description: Efficiency goals for resource utilization
+      required:
+        - resource_types
+        - optimization_objectives
+
+    PerformanceAnalysisRequest:
+      type: object
+      description: Request for family performance analysis
+      properties:
+        performance_dimensions:
+          type: array
+          items:
+            type: string
+            enum: [relationship_quality, communication_effectiveness, coordination_efficiency, goal_achievement, wellbeing_metrics, growth_progress]
+          description: Dimensions for performance analysis
+        analysis_period:
+          $ref: '#/components/schemas/PerformanceAnalysisPeriod'
+        performance_benchmarks:
+          $ref: '#/components/schemas/PerformanceBenchmarks'
+        analysis_granularity:
+          type: string
+          enum: [individual, relationship, family_unit, comprehensive]
+          description: Granularity of performance analysis
+        improvement_focus:
+          type: array
+          items:
+            type: string
+          description: Areas to focus improvement analysis on
+        benchmarking_preferences:
+          type: array
+          items:
+            type: string
+          description: Preferences for performance benchmarking
+      required:
+        - performance_dimensions
+        - analysis_period
+
+    InnovationAdvisoryRequest:
+      type: object
+      description: Request for family innovation advisory intelligence
+      properties:
+        innovation_domains:
+          type: array
+          items:
+            type: string
+            enum: [family_processes, communication_methods, coordination_tools, relationship_enhancement, learning_approaches, problem_solving]
+          description: Domains for innovation advisory
+        innovation_goals:
+          type: array
+          items:
+            type: string
+          description: Goals for family innovation
+        current_innovation_capacity:
+          $ref: '#/components/schemas/InnovationCapacity'
+        creativity_preferences:
+          type: array
+          items:
+            type: string
+          description: Family creativity preferences and styles
+        innovation_constraints:
+          type: array
+          items:
+            type: string
+          description: Constraints on innovation implementation
+        collaboration_readiness:
+          type: string
+          enum: [high, moderate, low, developing]
+          description: Family readiness for innovative collaboration
+      required:
+        - innovation_domains
+        - innovation_goals
+
+    # Response schemas
+    StrategicIntelligence:
+      type: object
+      description: Strategic intelligence analysis results
+      properties:
+        strategic_assessment:
+          $ref: '#/components/schemas/StrategicAssessment'
+        intelligence_insights:
+          type: array
+          items:
+            $ref: '#/components/schemas/IntelligenceInsight'
+        strategic_opportunities:
+          type: array
+          items:
+            $ref: '#/components/schemas/StrategicOpportunity'
+        strategic_risks:
+          type: array
+          items:
+            $ref: '#/components/schemas/StrategicRisk'
+        intelligence_confidence:
+          type: number
+          minimum: 0
+          maximum: 1
+      required:
+        - strategic_assessment
+        - intelligence_confidence
+
+    CoordinationIntelligence:
+      type: object
+      description: Family coordination intelligence results
+      properties:
+        coordination_assessment:
+          $ref: '#/components/schemas/CoordinationAssessment'
+        coordination_opportunities:
+          type: array
+          items:
+            $ref: '#/components/schemas/CoordinationOpportunity'
+        synergy_potential:
+          $ref: '#/components/schemas/SynergyPotential'
+        coordination_challenges:
+          type: array
+          items:
+            $ref: '#/components/schemas/CoordinationChallenge'
+        coordination_intelligence_confidence:
+          type: number
+          minimum: 0
+          maximum: 1
+      required:
+        - coordination_assessment
+        - coordination_intelligence_confidence
+
+    PredictiveIntelligence:
+      type: object
+      description: Predictive planning intelligence results
+      properties:
+        predictive_analysis:
+          $ref: '#/components/schemas/PredictiveAnalysis'
+        future_scenarios:
+          type: array
+          items:
+            $ref: '#/components/schemas/FutureScenario'
+        planning_insights:
+          type: array
+          items:
+            $ref: '#/components/schemas/PlanningInsight'
+        predictive_confidence:
+          type: number
+          minimum: 0
+          maximum: 1
+        uncertainty_factors:
+          type: array
+          items:
+            type: string
+      required:
+        - predictive_analysis
+        - predictive_confidence
+
+    # Supporting schemas for intelligence context
+    FamilyStrategicContext:
+      type: object
+      properties:
+        family_vision:
+          type: string
+        family_values:
+          type: array
+          items:
+            type: string
+        strategic_priorities:
+          type: array
+          items:
+            type: string
+        current_strategic_position:
+          type: object
+
+    AnalysisTimeFrame:
+      type: object
+      properties:
+        start_period:
+          type: string
+          format: date
+        end_period:
+          type: string
+          format: date
+        analysis_granularity:
+          type: string
+          enum: [daily, weekly, monthly, quarterly, yearly]
+
+    # Error schemas
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+            message:
+              type: string
+            details:
+              type: object
+            trace_id:
+              type: string
+          required:
+            - code
+            - message
+      required:
+        - error
+
+  responses:
+    BadRequestError:
+      description: Invalid request parameters or intelligence advisory task
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    ForbiddenError:
+      description: Insufficient permissions or family policy violation
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    InternalServerError:
+      description: Internal server error in intelligence advisory processing
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+tags:
+  - name: Strategic Analysis
+    description: |
+      Strategic family intelligence analysis with memory and relationship context integration.
+
+      **Strategic Intelligence**: High-level intelligence analysis considering family goals and relationship dynamics.
+
+  - name: Family Coordination
+    description: |
+      Family coordination intelligence with collaborative optimization and synergy analysis.
+
+      **Coordination Intelligence**: Advanced intelligence for family coordination and collaborative activities.
+
+  - name: Predictive Planning
+    description: |
+      Predictive planning intelligence with future coordination and relationship development strategies.
+
+      **Predictive Intelligence**: Forward-looking intelligence for family planning and relationship development.
+
+  - name: Relationship Advisory
+    description: |
+      Family relationship advisory intelligence with development and optimization strategies.
+
+      **Relationship Advisory**: Expert advisory intelligence for family relationship development and enhancement.
+
+  - name: Family Optimization
+    description: |
+      Family optimization intelligence with comprehensive enhancement and wellbeing strategies.
+
+      **Optimization Intelligence**: Comprehensive intelligence for family optimization and enhancement across all dimensions.
+
+  - name: Crisis Management
+    description: |
+      Crisis management intelligence with emergency response and family support coordination.
+
+      **Crisis Intelligence**: Strategic intelligence for family crisis management and emergency response.
+
+  - name: Opportunity Analysis
+    description: |
+      Family growth opportunity analysis with strategic development and implementation intelligence.
+
+      **Opportunity Intelligence**: Strategic intelligence for identifying and developing family growth opportunities.
+
+  - name: Resource Optimization
+    description: |
+      Family resource optimization intelligence with allocation and utilization strategies.
+
+      **Resource Intelligence**: Strategic intelligence for family resource optimization and allocation.
+
+  - name: Performance Analysis
+    description: |
+      Family performance analysis intelligence with continuous improvement and optimization strategies.
+
+      **Performance Intelligence**: Comprehensive intelligence analysis of family performance and optimization opportunities.
+
+  - name: Innovation Advisory
+    description: |
+      Family innovation advisory intelligence with creative development and collaboration strategies.
+
+      **Innovation Intelligence**: Strategic intelligence for family innovation and creative development.

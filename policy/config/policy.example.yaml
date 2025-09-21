@@ -1,0 +1,37 @@
+roles:
+  guardian: ["memory.read","memory.write","memory.project","memory.refer","memory.detach","privacy.redact","privacy.delete","privacy.undo","prospective.manage"]
+  minor: ["memory.read","memory.write","prospective.manage"]
+  guest: ["memory.read"]
+  system: ["memory.read","memory.write","memory.admin","band.override"]
+
+redaction_categories: ["pii.email","pii.phone","pii.cc","url","pii.ip","pii.ssn"]
+
+band_defaults:
+  "shared:household": "GREEN"
+  "interfamily:*": "AMBER"
+
+# Policy band configuration for storage layer
+policy_bands:
+  GREEN:
+    write_allowed: true
+    read_redaction: []
+    description: "Normal operations - no restrictions"
+
+  AMBER:
+    write_allowed: true
+    read_redaction: ["pii.email", "pii.phone"]
+    description: "Elevated security - some PII redacted"
+
+  RED:
+    write_allowed: false
+    read_redaction: ["pii.email", "pii.phone", "pii.cc", "pii.ssn"]
+    override_required: true
+    description: "High security - writes blocked, override required"
+
+  BLACK:
+    write_allowed: false
+    read_redaction: ["pii.email", "pii.phone", "pii.cc", "pii.ssn", "pii.ip"]
+    system_only: true
+    description: "Critical security - system access only"
+
+minor_night_curfew_hours: [22,23,0,1,2,3,4,5]

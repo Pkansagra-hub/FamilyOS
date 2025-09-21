@@ -1,0 +1,31 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: memoryos-config
+  namespace: memoryos
+data:
+  config.yaml: |
+    # MemoryOS Configuration
+    api:
+      host: "0.0.0.0"
+      port: 8080
+
+    metrics:
+      enabled: true
+      port: 8081
+      path: "/v1/metrics"
+
+    logging:
+      level: "INFO"
+      format: "json"
+      correlation_enabled: true
+
+    tracing:
+      enabled: true
+      sample_rate: 0.1
+
+    storage:
+      type: "sqlite"
+      path: "/app/data/memoryos.db"
+
+    # Add other configuration as needed

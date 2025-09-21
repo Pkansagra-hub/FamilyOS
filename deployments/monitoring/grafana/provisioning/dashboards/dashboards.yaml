@@ -1,0 +1,12 @@
+apiVersion: 1
+providers:
+  - name: 'familyos'
+    orgId: 1
+    folder: 'FamilyOS'
+    type: file
+    disableDeletion: false
+    editable: false
+    updateIntervalSeconds: 10
+    allowUiUpdates: true
+    options:
+      path: /var/lib/grafana/dashboards/familyos

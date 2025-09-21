@@ -1,0 +1,1432 @@
+openapi: 3.1.0
+info:
+  title: MemoryOS App Plane - Users API
+  description: |
+    **Memory-Centric Family AI User Management**
+
+    This API manages the complete user lifecycle in the Memory-Centric Family AI system, including:
+    - **Family Structure Management**: Family units, members, relationships, and hierarchies
+    - **Device Ecosystem**: User devices with memory capabilities and sync coordination
+    - **Memory Spaces**: Personal, selective, shared, extended, and interfamily memory organization
+    - **User Presence**: Real-time presence and family coordination
+    - **Profile Management**: Family-aware user profiles with relationship contexts
+
+    **Memory-Centric Design**: All endpoints integrate with the Memory Backbone to ensure:
+    - Family relationships are preserved in memory formation
+    - User context flows through memory operations
+    - Device capabilities inform memory sync strategies
+    - Family intelligence guides user experience personalization
+
+    **Architecture Integration**:
+    - Serves the Memory Backbone as the central nervous system
+    - Integrates with Family Intelligence for relationship awareness
+    - Coordinates with Device Ecosystem for cross-device memory sync
+    - Supports 3 API Planes: App, Agent, and Control serving memory operations
+  version: "1.0.0"
+  contact:
+    name: MemoryOS API Team
+    url: https://familyos.local/support
+    email: api-support@familyos.local
+  license:
+    name: Family OS Private License
+    url: https://familyos.local/licenses/family-os
+
+servers:
+  - url: https://api.familyos.local/app/v1
+    description: Production App Plane
+  - url: https://staging-api.familyos.local/app/v1
+    description: Staging Environment
+  - url: http://localhost:8080/app/v1
+    description: Local Development
+
+security:
+  - FamilyOSAuth: []
+  - DeviceAuth: []
+
+paths:
+  /users:
+    get:
+      summary: List Family Members
+      description: |
+        Retrieve family members with relationship context and memory access permissions.
+
+        **Memory Integration**: Returns users with their memory space access and family relationship context.
+        **Family Intelligence**: Respects family hierarchy and relationship-based visibility.
+      operationId: listFamilyMembers
+      parameters:
+        - name: family_id
+          in: query
+          description: Family unit identifier for filtering
+          required: false
+          schema:
+            type: string
+            format: uuid
+        - name: relationship_context
+          in: query
+          description: Relationship context filter (e.g., 'ab', 'abc', 'family')
+          required: false
+          schema:
+            type: string
+            pattern: '^[a-z]+$'
+        - name: include_memory_spaces
+          in: query
+          description: Include user memory space access information
+          required: false
+          schema:
+            type: boolean
+            default: false
+        - name: presence_filter
+          in: query
+          description: Filter by presence status
+          required: false
+          schema:
+            type: string
+            enum: [online, offline, away, busy]
+      responses:
+        '200':
+          description: Family members retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  users:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/FamilyUser'
+                  family_context:
+                    $ref: '#/components/schemas/FamilyContext'
+                  memory_summary:
+                    $ref: '#/components/schemas/MemorySummary'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Family Management
+
+    post:
+      summary: Add Family Member
+      description: |
+        Add a new member to the family with specified role and memory access permissions.
+
+        **Memory Integration**: Creates user memory spaces and establishes family relationship context.
+        **Family Intelligence**: Configures family hierarchy and relationship-based access control.
+      operationId: addFamilyMember
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateFamilyUserRequest'
+      responses:
+        '201':
+          description: Family member added successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    $ref: '#/components/schemas/FamilyUser'
+                  memory_spaces_created:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/MemorySpace'
+                  family_relationships_established:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/FamilyRelationship'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '409':
+          description: User already exists in family
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConflictError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Family Management
+
+  /users/{user_id}:
+    get:
+      summary: Get Family Member Details
+      description: |
+        Retrieve detailed information about a specific family member including relationship context and memory access.
+
+        **Memory Integration**: Returns memory space access, recent memory activity, and family context.
+        **Family Intelligence**: Provides relationship-aware information with appropriate privacy controls.
+      operationId: getFamilyMember
+      parameters:
+        - name: user_id
+          in: path
+          description: Family member identifier
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: include_memory_activity
+          in: query
+          description: Include recent memory activity summary
+          required: false
+          schema:
+            type: boolean
+            default: false
+        - name: include_devices
+          in: query
+          description: Include user device information
+          required: false
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: Family member details retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    $ref: '#/components/schemas/FamilyUserDetailed'
+                  relationship_context:
+                    $ref: '#/components/schemas/RelationshipContext'
+                  memory_activity:
+                    $ref: '#/components/schemas/MemoryActivity'
+                  devices:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/UserDevice'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Family Management
+
+    put:
+      summary: Update Family Member
+      description: |
+        Update family member information including role, permissions, and memory access.
+
+        **Memory Integration**: Updates memory space access and family relationship context.
+        **Family Intelligence**: Maintains family relationship consistency and privacy controls.
+      operationId: updateFamilyMember
+      parameters:
+        - name: user_id
+          in: path
+          description: Family member identifier
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateFamilyUserRequest'
+      responses:
+        '200':
+          description: Family member updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  user:
+                    $ref: '#/components/schemas/FamilyUser'
+                  changes_applied:
+                    type: array
+                    items:
+                      type: string
+                  memory_access_updated:
+                    type: boolean
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Family Management
+
+    delete:
+      summary: Remove Family Member
+      description: |
+        Remove a family member and handle memory migration/cleanup according to family policies.
+
+        **Memory Integration**: Manages memory cleanup, migration to family memory spaces, and relationship updates.
+        **Family Intelligence**: Maintains family relationship integrity and memory continuity.
+      operationId: removeFamilyMember
+      parameters:
+        - name: user_id
+          in: path
+          description: Family member identifier
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: memory_migration_strategy
+          in: query
+          description: Strategy for handling user memories
+          required: false
+          schema:
+            type: string
+            enum: [migrate_to_family, archive_personal, delete_all]
+            default: migrate_to_family
+      responses:
+        '200':
+          description: Family member removed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  removed_user_id:
+                    type: string
+                    format: uuid
+                  memory_migration_summary:
+                    $ref: '#/components/schemas/MemoryMigrationSummary'
+                  family_relationships_updated:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/FamilyRelationship'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Family Management
+
+  /users/{user_id}/devices:
+    get:
+      summary: List User Devices
+      description: |
+        Retrieve devices associated with a family member including memory capabilities and sync status.
+
+        **Memory Integration**: Returns device memory capabilities, sync status, and storage information.
+        **Device Ecosystem**: Provides comprehensive device coordination and capability information.
+      operationId: listUserDevices
+      parameters:
+        - name: user_id
+          in: path
+          description: Family member identifier
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: include_memory_status
+          in: query
+          description: Include memory sync and storage status
+          required: false
+          schema:
+            type: boolean
+            default: true
+        - name: active_only
+          in: query
+          description: Return only active devices
+          required: false
+          schema:
+            type: boolean
+            default: false
+      responses:
+        '200':
+          description: User devices retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  devices:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/UserDevice'
+                  sync_summary:
+                    $ref: '#/components/schemas/DeviceSyncSummary'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Device Management
+
+    post:
+      summary: Register User Device
+      description: |
+        Register a new device for a family member with memory capabilities and sync configuration.
+
+        **Memory Integration**: Configures device memory capabilities and sync preferences.
+        **Device Ecosystem**: Establishes device in the family ecosystem with appropriate capabilities.
+      operationId: registerUserDevice
+      parameters:
+        - name: user_id
+          in: path
+          description: Family member identifier
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RegisterDeviceRequest'
+      responses:
+        '201':
+          description: Device registered successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  device:
+                    $ref: '#/components/schemas/UserDevice'
+                  memory_sync_configuration:
+                    $ref: '#/components/schemas/MemorySyncConfiguration'
+                  family_device_coordination:
+                    $ref: '#/components/schemas/FamilyDeviceCoordination'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '409':
+          description: Device already registered
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ConflictError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Device Management
+
+  /users/{user_id}/devices/{device_id}:
+    get:
+      summary: Get Device Details
+      description: |
+        Retrieve detailed information about a specific device including memory status and capabilities.
+
+        **Memory Integration**: Returns comprehensive memory sync status, storage usage, and capabilities.
+        **Device Ecosystem**: Provides device coordination status and family integration information.
+      operationId: getUserDevice
+      parameters:
+        - name: user_id
+          in: path
+          description: Family member identifier
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: device_id
+          in: path
+          description: Device identifier
+          required: true
+          schema:
+            type: string
+            pattern: '^[A-Za-z0-9._:-]{3,64}$'
+      responses:
+        '200':
+          description: Device details retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  device:
+                    $ref: '#/components/schemas/UserDeviceDetailed'
+                  memory_status:
+                    $ref: '#/components/schemas/DeviceMemoryStatus'
+                  sync_history:
+                    $ref: '#/components/schemas/DeviceSyncHistory'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Device Management
+
+    put:
+      summary: Update Device Configuration
+      description: |
+        Update device configuration including memory sync preferences and capabilities.
+
+        **Memory Integration**: Updates memory sync configuration and storage preferences.
+        **Device Ecosystem**: Modifies device coordination and capability settings.
+      operationId: updateUserDevice
+      parameters:
+        - name: user_id
+          in: path
+          description: Family member identifier
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: device_id
+          in: path
+          description: Device identifier
+          required: true
+          schema:
+            type: string
+            pattern: '^[A-Za-z0-9._:-]{3,64}$'
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdateDeviceRequest'
+      responses:
+        '200':
+          description: Device updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  device:
+                    $ref: '#/components/schemas/UserDevice'
+                  configuration_changes:
+                    type: array
+                    items:
+                      type: string
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Device Management
+
+    delete:
+      summary: Unregister Device
+      description: |
+        Unregister a device and handle memory cleanup according to family policies.
+
+        **Memory Integration**: Manages memory cleanup and migration from device storage.
+        **Device Ecosystem**: Removes device from family coordination and sync networks.
+      operationId: unregisterUserDevice
+      parameters:
+        - name: user_id
+          in: path
+          description: Family member identifier
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: device_id
+          in: path
+          description: Device identifier
+          required: true
+          schema:
+            type: string
+            pattern: '^[A-Za-z0-9._:-]{3,64}$'
+        - name: memory_cleanup_strategy
+          in: query
+          description: Strategy for handling device memories
+          required: false
+          schema:
+            type: string
+            enum: [sync_to_family, archive_local, secure_wipe]
+            default: sync_to_family
+      responses:
+        '200':
+          description: Device unregistered successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  device_id:
+                    type: string
+                  memory_cleanup_summary:
+                    $ref: '#/components/schemas/MemoryCleanupSummary'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Device Management
+
+  /users/{user_id}/memory-spaces:
+    get:
+      summary: List User Memory Spaces
+      description: |
+        Retrieve memory spaces accessible to a family member with permissions and usage information.
+
+        **Memory Integration**: Returns comprehensive memory space access, usage, and relationship context.
+        **Family Intelligence**: Provides family-aware memory space organization and access control.
+      operationId: listUserMemorySpaces
+      parameters:
+        - name: user_id
+          in: path
+          description: Family member identifier
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: include_usage_stats
+          in: query
+          description: Include memory usage statistics
+          required: false
+          schema:
+            type: boolean
+            default: false
+        - name: space_type_filter
+          in: query
+          description: Filter by memory space type
+          required: false
+          schema:
+            type: string
+            enum: [personal, selective, shared, extended, interfamily]
+      responses:
+        '200':
+          description: User memory spaces retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  memory_spaces:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/MemorySpace'
+                  total_usage:
+                    $ref: '#/components/schemas/MemoryUsageSummary'
+                  access_permissions:
+                    $ref: '#/components/schemas/MemoryAccessPermissions'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Memory Management
+
+  /users/{user_id}/presence:
+    get:
+      summary: Get User Presence
+      description: |
+        Retrieve current presence status and family coordination information for a user.
+
+        **Family Intelligence**: Returns presence with family coordination context and relationship awareness.
+        **Device Ecosystem**: Provides presence across all user devices with sync status.
+      operationId: getUserPresence
+      parameters:
+        - name: user_id
+          in: path
+          description: Family member identifier
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: User presence retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  presence:
+                    $ref: '#/components/schemas/UserPresence'
+                  family_coordination:
+                    $ref: '#/components/schemas/FamilyCoordinationStatus'
+                  device_presence:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/DevicePresence'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Presence Management
+
+    put:
+      summary: Update User Presence
+      description: |
+        Update user presence status with family coordination and device synchronization.
+
+        **Family Intelligence**: Updates presence with family-aware coordination and notification.
+        **Device Ecosystem**: Synchronizes presence across all user devices.
+      operationId: updateUserPresence
+      parameters:
+        - name: user_id
+          in: path
+          description: Family member identifier
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UpdatePresenceRequest'
+      responses:
+        '200':
+          description: User presence updated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  presence:
+                    $ref: '#/components/schemas/UserPresence'
+                  family_notifications_sent:
+                    type: array
+                    items:
+                      type: string
+                      format: uuid
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Presence Management
+
+  /families:
+    get:
+      summary: List User Families
+      description: |
+        Retrieve families that the authenticated user is a member of.
+
+        **Family Intelligence**: Returns families with relationship context and memory access information.
+      operationId: listUserFamilies
+      responses:
+        '200':
+          description: User families retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  families:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Family'
+                  primary_family:
+                    $ref: '#/components/schemas/Family'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Family Management
+
+    post:
+      summary: Create Family
+      description: |
+        Create a new family unit with initial member and memory space configuration.
+
+        **Memory Integration**: Creates family memory spaces and establishes memory sync coordination.
+        **Family Intelligence**: Initializes family relationship structure and intelligence systems.
+      operationId: createFamily
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateFamilyRequest'
+      responses:
+        '201':
+          description: Family created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  family:
+                    $ref: '#/components/schemas/Family'
+                  memory_spaces_created:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/MemorySpace'
+                  initial_configuration:
+                    $ref: '#/components/schemas/FamilyConfiguration'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Family Management
+
+  /families/{family_id}:
+    get:
+      summary: Get Family Details
+      description: |
+        Retrieve detailed information about a family including members, relationships, and memory configuration.
+
+        **Family Intelligence**: Returns comprehensive family structure, relationships, and intelligence configuration.
+        **Memory Integration**: Provides family memory organization and access control information.
+      operationId: getFamilyDetails
+      parameters:
+        - name: family_id
+          in: path
+          description: Family identifier
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        '200':
+          description: Family details retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  family:
+                    $ref: '#/components/schemas/FamilyDetailed'
+                  members:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/FamilyMember'
+                  relationships:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/FamilyRelationship'
+                  memory_configuration:
+                    $ref: '#/components/schemas/FamilyMemoryConfiguration'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Family Management
+
+components:
+  securitySchemes:
+    FamilyOSAuth:
+      type: oauth2
+      description: FamilyOS OAuth2 authentication with family-aware scopes
+      flows:
+        authorizationCode:
+          authorizationUrl: https://auth.familyos.local/oauth/authorize
+          tokenUrl: https://auth.familyos.local/oauth/token
+          scopes:
+            family:read: Read family information and relationships
+            family:write: Modify family structure and relationships
+            memory:read: Access family memory spaces
+            memory:write: Create and modify family memories
+            device:manage: Manage family devices and sync
+            presence:read: View family member presence
+            presence:write: Update presence status
+
+    DeviceAuth:
+      type: apiKey
+      description: Device-specific authentication for registered family devices
+      name: X-Device-Token
+      in: header
+
+  schemas:
+    FamilyUser:
+      type: object
+      description: Family member with relationship context and memory access
+      properties:
+        user_id:
+          type: string
+          format: uuid
+          description: Unique user identifier
+        family_member_id:
+          type: string
+          format: uuid
+          description: Family-specific member identifier
+        email:
+          type: string
+          format: email
+          description: User email address
+        display_name:
+          type: string
+          description: Display name within family context
+        family_role:
+          type: string
+          enum: [family_admin, parent, child, extended_family, guest]
+          description: Role within family hierarchy
+        relationship_context:
+          type: string
+          description: Active relationship context (e.g., 'ab', 'abc', 'family')
+        age_group:
+          type: string
+          enum: [adult, teenager, child, toddler]
+          description: Age group for appropriate content and permissions
+        created_at:
+          type: string
+          format: date-time
+          description: Account creation timestamp
+        last_active:
+          type: string
+          format: date-time
+          description: Last activity timestamp
+        memory_access_level:
+          type: string
+          enum: [full, limited, supervised, restricted]
+          description: Memory access permissions level
+        presence_status:
+          type: string
+          enum: [online, offline, away, busy]
+          description: Current presence status
+      required:
+        - user_id
+        - family_member_id
+        - email
+        - display_name
+        - family_role
+
+    FamilyUserDetailed:
+      allOf:
+        - $ref: '#/components/schemas/FamilyUser'
+        - type: object
+          properties:
+            profile:
+              $ref: '#/components/schemas/UserProfile'
+            preferences:
+              $ref: '#/components/schemas/UserPreferences'
+            capabilities:
+              type: array
+              items:
+                type: string
+                enum: [WRITE, RECALL, PROJECT, SCHEDULE, FAMILY_ADMIN, MEMORY_SYNC, EMERGENCY_ACCESS]
+            supervision_settings:
+              $ref: '#/components/schemas/SupervisionSettings'
+
+    CreateFamilyUserRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          description: User email address
+        display_name:
+          type: string
+          description: Display name within family
+        family_role:
+          type: string
+          enum: [family_admin, parent, child, extended_family, guest]
+          description: Role within family hierarchy
+        age_group:
+          type: string
+          enum: [adult, teenager, child, toddler]
+          description: Age group for appropriate permissions
+        memory_access_level:
+          type: string
+          enum: [full, limited, supervised, restricted]
+          description: Initial memory access level
+        send_invitation:
+          type: boolean
+          default: true
+          description: Whether to send invitation email
+        initial_memory_spaces:
+          type: array
+          items:
+            type: string
+            enum: [personal, selective, shared]
+          description: Initial memory spaces to create
+      required:
+        - email
+        - display_name
+        - family_role
+        - age_group
+
+    UpdateFamilyUserRequest:
+      type: object
+      properties:
+        display_name:
+          type: string
+          description: Updated display name
+        family_role:
+          type: string
+          enum: [family_admin, parent, child, extended_family, guest]
+          description: Updated family role
+        memory_access_level:
+          type: string
+          enum: [full, limited, supervised, restricted]
+          description: Updated memory access level
+        age_group:
+          type: string
+          enum: [adult, teenager, child, toddler]
+          description: Updated age group
+        supervision_settings:
+          $ref: '#/components/schemas/SupervisionSettings'
+
+    UserDevice:
+      type: object
+      description: User device with memory capabilities and sync status
+      properties:
+        device_id:
+          type: string
+          pattern: '^[A-Za-z0-9._:-]{3,64}$'
+          description: Unique device identifier
+        device_name:
+          type: string
+          description: User-friendly device name
+        platform:
+          type: string
+          enum: [ios, android, macos, windows, linux, web, edge, familyos_hub, voice_assistant]
+          description: Device platform
+        capability_class:
+          type: string
+          enum: [full_memory_os, limited_smart_device, voice_assistant, display_only, familyos_hub]
+          description: Device capability classification
+        ownership_type:
+          type: string
+          enum: [personal, shared_family, guest, public]
+          description: Device ownership model
+        memory_capabilities:
+          $ref: '#/components/schemas/DeviceMemoryCapabilities'
+        sync_status:
+          $ref: '#/components/schemas/DeviceSyncStatus'
+        last_seen:
+          type: string
+          format: date-time
+          description: Last device activity timestamp
+        registered_at:
+          type: string
+          format: date-time
+          description: Device registration timestamp
+      required:
+        - device_id
+        - device_name
+        - platform
+        - capability_class
+
+    UserDeviceDetailed:
+      allOf:
+        - $ref: '#/components/schemas/UserDevice'
+        - type: object
+          properties:
+            app_version:
+              type: string
+              pattern: '^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-[0-9A-Za-z-.]+)?$'
+              description: Application version
+            physical_location:
+              type: string
+              enum: [home, bedroom, kitchen, living_room, office, public, unknown]
+              description: Physical location context
+            network_capability:
+              type: string
+              enum: [online, offline, limited, edge_only]
+              description: Network connectivity status
+            security_status:
+              $ref: '#/components/schemas/DeviceSecurityStatus'
+
+    RegisterDeviceRequest:
+      type: object
+      properties:
+        device_name:
+          type: string
+          description: User-friendly device name
+        platform:
+          type: string
+          enum: [ios, android, macos, windows, linux, web, edge, familyos_hub, voice_assistant]
+          description: Device platform
+        capability_class:
+          type: string
+          enum: [full_memory_os, limited_smart_device, voice_assistant, display_only, familyos_hub]
+          description: Device capability classification
+        ownership_type:
+          type: string
+          enum: [personal, shared_family, guest, public]
+          description: Device ownership model
+        physical_location:
+          type: string
+          enum: [home, bedroom, kitchen, living_room, office, public, unknown]
+          description: Physical location context
+        memory_preferences:
+          $ref: '#/components/schemas/DeviceMemoryPreferences'
+        sync_preferences:
+          $ref: '#/components/schemas/DeviceSyncPreferences'
+      required:
+        - device_name
+        - platform
+        - capability_class
+
+    UpdateDeviceRequest:
+      type: object
+      properties:
+        device_name:
+          type: string
+          description: Updated device name
+        physical_location:
+          type: string
+          enum: [home, bedroom, kitchen, living_room, office, public, unknown]
+          description: Updated physical location
+        memory_preferences:
+          $ref: '#/components/schemas/DeviceMemoryPreferences'
+        sync_preferences:
+          $ref: '#/components/schemas/DeviceSyncPreferences'
+
+    MemorySpace:
+      type: object
+      description: Memory space with access control and usage information
+      properties:
+        space_id:
+          type: string
+          description: Memory space identifier
+        space_type:
+          type: string
+          enum: [personal, selective, shared, extended, interfamily]
+          description: Memory space classification
+        space_name:
+          type: string
+          description: Human-readable space name
+        access_level:
+          type: string
+          enum: [read_write, read_only, write_only, no_access]
+          description: User access level to this space
+        created_at:
+          type: string
+          format: date-time
+          description: Space creation timestamp
+        memory_count:
+          type: integer
+          description: Number of memories in this space
+        storage_used:
+          type: integer
+          description: Storage used in bytes
+        last_accessed:
+          type: string
+          format: date-time
+          description: Last access timestamp
+      required:
+        - space_id
+        - space_type
+        - space_name
+        - access_level
+
+    UserPresence:
+      type: object
+      description: User presence with family coordination context
+      properties:
+        status:
+          type: string
+          enum: [online, offline, away, busy]
+          description: Primary presence status
+        status_message:
+          type: string
+          description: Custom status message
+        last_seen:
+          type: string
+          format: date-time
+          description: Last seen timestamp
+        current_device:
+          type: string
+          description: Currently active device ID
+        family_availability:
+          type: string
+          enum: [available, limited, unavailable, emergency_only]
+          description: Availability for family coordination
+        location_sharing:
+          type: boolean
+          description: Whether location is shared with family
+        updated_at:
+          type: string
+          format: date-time
+          description: Presence last updated timestamp
+      required:
+        - status
+        - last_seen
+
+    UpdatePresenceRequest:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [online, offline, away, busy]
+          description: New presence status
+        status_message:
+          type: string
+          description: Custom status message
+        family_availability:
+          type: string
+          enum: [available, limited, unavailable, emergency_only]
+          description: Family coordination availability
+        location_sharing:
+          type: boolean
+          description: Location sharing preference
+      required:
+        - status
+
+    Family:
+      type: object
+      description: Family unit with basic information
+      properties:
+        family_id:
+          type: string
+          format: uuid
+          description: Unique family identifier
+        family_name:
+          type: string
+          description: Family display name
+        created_at:
+          type: string
+          format: date-time
+          description: Family creation timestamp
+        member_count:
+          type: integer
+          description: Total number of family members
+        subscription_tier:
+          type: string
+          enum: [base, child_addon, extended_family, premium]
+          description: Current subscription tier
+        family_admin:
+          type: string
+          format: uuid
+          description: Primary family administrator user ID
+      required:
+        - family_id
+        - family_name
+        - created_at
+        - member_count
+
+    FamilyDetailed:
+      allOf:
+        - $ref: '#/components/schemas/Family'
+        - type: object
+          properties:
+            description:
+              type: string
+              description: Family description
+            family_policies:
+              $ref: '#/components/schemas/FamilyPolicies'
+            memory_configuration:
+              $ref: '#/components/schemas/FamilyMemoryConfiguration'
+            coordination_settings:
+              $ref: '#/components/schemas/FamilyCoordinationSettings'
+
+    CreateFamilyRequest:
+      type: object
+      properties:
+        family_name:
+          type: string
+          description: Family display name
+        description:
+          type: string
+          description: Family description
+        subscription_tier:
+          type: string
+          enum: [base, child_addon, extended_family, premium]
+          description: Initial subscription tier
+        initial_policies:
+          $ref: '#/components/schemas/FamilyPolicies'
+      required:
+        - family_name
+
+    # Additional supporting schemas
+    FamilyContext:
+      type: object
+      properties:
+        family_id:
+          type: string
+          format: uuid
+        relationship_map:
+          type: object
+          additionalProperties:
+            type: array
+            items:
+              type: string
+        emotional_context:
+          type: object
+          properties:
+            family_mood:
+              type: string
+              enum: [positive, neutral, negative, mixed, unknown]
+        coordination_active:
+          type: boolean
+
+    MemorySummary:
+      type: object
+      properties:
+        total_memories:
+          type: integer
+        memory_spaces:
+          type: integer
+        recent_activity:
+          type: integer
+        shared_memories:
+          type: integer
+
+    RelationshipContext:
+      type: object
+      properties:
+        primary_relationships:
+          type: array
+          items:
+            type: string
+        relationship_strength:
+          type: object
+          additionalProperties:
+            type: number
+            minimum: 0
+            maximum: 1
+        emotional_bonds:
+          type: object
+          additionalProperties:
+            type: string
+
+    MemoryActivity:
+      type: object
+      properties:
+        recent_formations:
+          type: integer
+        recent_recalls:
+          type: integer
+        shared_activities:
+          type: integer
+        last_memory_formation:
+          type: string
+          format: date-time
+
+    DeviceMemoryCapabilities:
+      type: object
+      properties:
+        local_storage_available:
+          type: boolean
+        vector_db_supported:
+          type: boolean
+        encryption_hardware:
+          type: boolean
+        sync_capability:
+          type: string
+          enum: [full, partial, receive_only, none]
+
+    DeviceSyncStatus:
+      type: object
+      properties:
+        sync_state:
+          type: string
+          enum: [synced, syncing, pending, error, offline]
+        last_sync:
+          type: string
+          format: date-time
+        pending_operations:
+          type: integer
+        sync_conflicts:
+          type: integer
+
+    # Error Response Schemas
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+              description: Error code identifier
+            message:
+              type: string
+              description: Human-readable error message
+            details:
+              type: object
+              description: Additional error context
+            trace_id:
+              type: string
+              description: Request trace identifier
+          required:
+            - code
+            - message
+      required:
+        - error
+
+    ConflictError:
+      allOf:
+        - $ref: '#/components/schemas/ErrorResponse'
+        - type: object
+          properties:
+            conflict_type:
+              type: string
+              enum: [user_exists, device_exists, family_exists]
+            existing_resource:
+              type: object
+              description: Information about conflicting resource
+
+  responses:
+    BadRequestError:
+      description: Invalid request parameters or payload
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    ForbiddenError:
+      description: Insufficient permissions or family access denied
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    NotFoundError:
+      description: Requested resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    InternalServerError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+tags:
+  - name: Family Management
+    description: |
+      Family structure management including members, relationships, and hierarchy.
+
+      **Memory Integration**: All family operations integrate with Memory Backbone for relationship-aware memory formation and access control.
+
+  - name: Device Management
+    description: |
+      Device registration and management with memory capabilities and sync coordination.
+
+      **Device Ecosystem**: Comprehensive device coordination across family members with memory sync and capability management.
+
+  - name: Memory Management
+    description: |
+      Memory space organization and access control for family members.
+
+      **Memory-Centric**: Direct integration with Memory Backbone for space management and family-aware memory organization.
+
+  - name: Presence Management
+    description: |
+      User presence and family coordination status management.
+
+      **Family Intelligence**: Real-time presence with family coordination and relationship-aware notifications.

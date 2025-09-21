@@ -1,0 +1,14 @@
+apiVersion: 1
+datasources:
+  - name: PROMETHEUS
+    type: prometheus
+    access: proxy
+    orgId: 1
+    uid: PROMETHEUS_DS
+    url: ${PROMETHEUS_URL:http://prometheus-k8s.monitoring.svc:9090}
+    isDefault: true
+    jsonData:
+      httpMethod: GET
+      timeInterval: 5s
+    version: 1
+    editable: false

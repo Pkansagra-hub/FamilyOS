@@ -1,0 +1,92 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mock-services
+  namespace: memoryos-dev
+  labels:
+    app: mock-services
+    component: testing
+    environment: development
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mock-services
+  template:
+    metadata:
+      labels:
+        app: mock-services
+        component: testing
+        environment: development
+    spec:
+      containers:
+      - name: mock-services
+        image: memoryos/mock-services:dev
+        ports:
+        - containerPort: 8090
+          name: http
+        env:
+        - name: ENVIRONMENT
+          value: "development"
+        - name: LOG_LEVEL
+          value: "INFO"
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "50m"
+          limits:
+            memory: "256Mi"
+            cpu: "200m"
+        livenessProbe:
+          httpGet:
+            path: /health
+            port: 8090
+          initialDelaySeconds: 10
+          periodSeconds: 30
+          timeoutSeconds: 5
+        readinessProbe:
+          httpGet:
+            path: /health
+            port: 8090
+          initialDelaySeconds: 5
+          periodSeconds: 10
+          timeoutSeconds: 3
+      restartPolicy: Always
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mock-services
+  namespace: memoryos-dev
+  labels:
+    app: mock-services
+    component: testing
+spec:
+  selector:
+    app: mock-services
+  ports:
+  - port: 8090
+    targetPort: 8090
+    protocol: TCP
+    name: http
+  type: ClusterIP
+
+---
+# Service Monitor for Prometheus (if monitoring is enabled)
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: mock-services-monitor
+  namespace: memoryos-dev
+  labels:
+    app: mock-services
+    component: testing
+spec:
+  selector:
+    matchLabels:
+      app: mock-services
+  endpoints:
+  - port: http
+    path: /metrics
+    interval: 30s

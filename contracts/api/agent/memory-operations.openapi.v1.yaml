@@ -1,0 +1,1140 @@
+openapi: 3.1.0
+info:
+  title: MemoryOS Agent Plane - Memory Operations API
+  description: |
+    **Memory-Centric Family AI LLM Memory Operations**
+
+    This API provides LLM agents with direct access to the Memory-Centric Family AI memory system for intelligent operations:
+    - **Memory Formation & Consolidation**: Create, encode, and consolidate memories with family context
+    - **Memory Retrieval & Recall**: Intelligent memory retrieval with family relationship awareness
+    - **Memory Association & Connection**: Build and strengthen memory connections across family contexts
+    - **Memory Pattern Analysis**: Analyze memory patterns for family intelligence insights
+    - **Context-Aware Memory Operations**: Memory operations that respect family boundaries and relationships
+
+    **Memory-Centric Design**: Direct integration with Memory Backbone for:
+    - Real-time memory formation during family interactions and device usage
+    - Intelligent memory retrieval for contextual family assistance and coordination
+    - Memory consolidation that strengthens family relationship understanding
+    - Cross-device memory synchronization with family-aware conflict resolution
+
+    **Architecture Integration**:
+    - Core interface to Memory Backbone for all LLM memory operations
+    - Integrates with Family Intelligence for relationship-aware memory processing
+    - Coordinates with Cognitive Core for intelligent memory analysis and insights
+    - Enforces family policies through memory access control and privacy boundaries
+  version: "1.0.0"
+  contact:
+    name: MemoryOS API Team
+    url: https://familyos.local/support
+    email: api-support@familyos.local
+  license:
+    name: Family OS Private License
+    url: https://familyos.local/licenses/family-os
+
+servers:
+  - url: https://api.familyos.local/agent/v1
+    description: Production Agent Plane
+  - url: https://staging-api.familyos.local/agent/v1
+    description: Staging Environment
+  - url: http://localhost:8080/agent/v1
+    description: Local Development
+
+security:
+  - AgentAuth: []
+  - FamilyOSAuth: []
+
+paths:
+  /memory/formation:
+    post:
+      summary: Form New Memory
+      description: |
+        Create and encode a new memory with family context and relationship awareness.
+
+        **Memory Formation**: Encodes memory with rich family context and relationship dynamics.
+        **Family Intelligence**: Applies family-appropriate tagging and cross-memory connections.
+      operationId: formMemory
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MemoryFormationRequest'
+      responses:
+        '201':
+          description: Memory formed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  memory:
+                    $ref: '#/components/schemas/FormedMemory'
+                  family_context_analysis:
+                    $ref: '#/components/schemas/FamilyContextAnalysis'
+                  cross_memory_connections:
+                    $ref: '#/components/schemas/CrossMemoryConnections'
+                  consolidation_schedule:
+                    $ref: '#/components/schemas/ConsolidationSchedule'
+                  family_coordination_impact:
+                    $ref: '#/components/schemas/FamilyCoordinationImpact'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Memory Formation
+
+  /memory/consolidation:
+    post:
+      summary: Consolidate Memory
+      description: |
+        Consolidate an existing memory by strengthening connections and family relationships.
+
+        **Memory Consolidation**: Strengthens memory encoding and family relationship connections.
+        **Family Intelligence**: Enhances family context understanding and relationship dynamics.
+      operationId: consolidateMemory
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MemoryConsolidationRequest'
+      responses:
+        '200':
+          description: Memory consolidated successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  memory:
+                    $ref: '#/components/schemas/ConsolidatedMemory'
+                  consolidation_changes:
+                    $ref: '#/components/schemas/ConsolidationChanges'
+                  strengthened_connections:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/MemoryConnection'
+                  family_relationship_updates:
+                    $ref: '#/components/schemas/FamilyRelationshipUpdates'
+                  next_consolidation_schedule:
+                    type: string
+                    format: date-time
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '404':
+          $ref: '#/components/responses/NotFoundError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Memory Consolidation
+
+  /memory/retrieval:
+    post:
+      summary: Retrieve Memories
+      description: |
+        Intelligent memory retrieval with family context and relationship awareness.
+
+        **Memory Retrieval**: Context-aware memory search with family relationship filtering.
+        **Family Intelligence**: Retrieves memories appropriate for family context and relationships.
+      operationId: retrieveMemories
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MemoryRetrievalRequest'
+      responses:
+        '200':
+          description: Memories retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  memories:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/RetrievedMemory'
+                  retrieval_confidence:
+                    type: number
+                    minimum: 0
+                    maximum: 1
+                  family_context_relevance:
+                    $ref: '#/components/schemas/FamilyContextRelevance'
+                  memory_associations:
+                    $ref: '#/components/schemas/MemoryAssociations'
+                  retrieval_insights:
+                    $ref: '#/components/schemas/RetrievalInsights'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Memory Retrieval
+
+  /memory/associations:
+    post:
+      summary: Create Memory Associations
+      description: |
+        Create or strengthen associations between memories with family relationship context.
+
+        **Memory Association**: Creates intelligent connections between memories based on family context.
+        **Family Intelligence**: Builds associations that enhance family relationship understanding.
+      operationId: createMemoryAssociations
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MemoryAssociationRequest'
+      responses:
+        '201':
+          description: Memory associations created successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  associations:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/MemoryAssociation'
+                  network_impact:
+                    $ref: '#/components/schemas/MemoryNetworkImpact'
+                  family_relationship_insights:
+                    $ref: '#/components/schemas/FamilyRelationshipInsights'
+                  strengthened_pathways:
+                    type: array
+                    items:
+                      type: string
+                      format: uuid
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Memory Associations
+
+    get:
+      summary: Analyze Memory Associations
+      description: |
+        Analyze existing memory associations and connection patterns with family intelligence.
+
+        **Association Analysis**: Examines memory connection patterns and family relationship dynamics.
+        **Family Intelligence**: Provides insights into family memory patterns and relationship evolution.
+      operationId: analyzeMemoryAssociations
+      parameters:
+        - name: memory_id
+          in: query
+          description: Specific memory to analyze associations for
+          required: false
+          schema:
+            type: string
+            format: uuid
+        - name: family_member_id
+          in: query
+          description: Analyze associations for specific family member
+          required: false
+          schema:
+            type: string
+            format: uuid
+        - name: association_type
+          in: query
+          description: Type of associations to analyze
+          required: false
+          schema:
+            type: string
+            enum: [semantic, episodic, emotional, relational, temporal, causal]
+        - name: analysis_depth
+          in: query
+          description: Depth of association analysis
+          required: false
+          schema:
+            type: string
+            enum: [shallow, medium, deep, comprehensive]
+            default: medium
+        - name: include_family_insights
+          in: query
+          description: Include family relationship insights
+          required: false
+          schema:
+            type: boolean
+            default: true
+      responses:
+        '200':
+          description: Memory associations analyzed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  association_network:
+                    $ref: '#/components/schemas/MemoryAssociationNetwork'
+                  family_relationship_patterns:
+                    $ref: '#/components/schemas/FamilyRelationshipPatterns'
+                  memory_clustering:
+                    $ref: '#/components/schemas/MemoryClustering'
+                  strength_distribution:
+                    $ref: '#/components/schemas/AssociationStrengthDistribution'
+                  insights:
+                    $ref: '#/components/schemas/AssociationAnalysisInsights'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Memory Associations
+
+  /memory/patterns:
+    get:
+      summary: Analyze Memory Patterns
+      description: |
+        Analyze memory formation and retrieval patterns with family intelligence insights.
+
+        **Pattern Analysis**: Examines memory patterns across family members and contexts.
+        **Family Intelligence**: Provides insights into family memory dynamics and relationship patterns.
+      operationId: analyzeMemoryPatterns
+      parameters:
+        - name: pattern_type
+          in: query
+          description: Type of memory patterns to analyze
+          required: false
+          schema:
+            type: string
+            enum: [formation, retrieval, consolidation, family_interaction, emotional, temporal]
+        - name: time_range
+          in: query
+          description: Time range for pattern analysis
+          required: false
+          schema:
+            type: string
+            enum: [hour, day, week, month, quarter, year]
+            default: week
+        - name: family_scope
+          in: query
+          description: Scope of family analysis
+          required: false
+          schema:
+            type: string
+            enum: [individual, nuclear_family, extended_family, all]
+            default: nuclear_family
+        - name: include_predictions
+          in: query
+          description: Include predictive pattern analysis
+          required: false
+          schema:
+            type: boolean
+            default: true
+      responses:
+        '200':
+          description: Memory patterns analyzed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  memory_formation_patterns:
+                    $ref: '#/components/schemas/MemoryFormationPatterns'
+                  memory_retrieval_patterns:
+                    $ref: '#/components/schemas/MemoryRetrievalPatterns'
+                  family_interaction_patterns:
+                    $ref: '#/components/schemas/FamilyInteractionPatterns'
+                  emotional_memory_patterns:
+                    $ref: '#/components/schemas/EmotionalMemoryPatterns'
+                  temporal_patterns:
+                    $ref: '#/components/schemas/TemporalMemoryPatterns'
+                  predictive_insights:
+                    $ref: '#/components/schemas/PredictiveMemoryInsights'
+                  pattern_recommendations:
+                    $ref: '#/components/schemas/MemoryPatternRecommendations'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Memory Pattern Analysis
+
+  /memory/context:
+    post:
+      summary: Analyze Memory Context
+      description: |
+        Analyze and enrich memory context with family intelligence and relationship dynamics.
+
+        **Context Analysis**: Deep analysis of memory context including family relationships and dynamics.
+        **Family Intelligence**: Enhances memory context with family-aware insights and connections.
+      operationId: analyzeMemoryContext
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MemoryContextAnalysisRequest'
+      responses:
+        '200':
+          description: Memory context analyzed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  context_analysis:
+                    $ref: '#/components/schemas/MemoryContextAnalysis'
+                  family_relationship_context:
+                    $ref: '#/components/schemas/FamilyRelationshipContext'
+                  emotional_context:
+                    $ref: '#/components/schemas/EmotionalContext'
+                  temporal_context:
+                    $ref: '#/components/schemas/TemporalContext'
+                  social_context:
+                    $ref: '#/components/schemas/SocialContext'
+                  contextual_recommendations:
+                    $ref: '#/components/schemas/ContextualRecommendations'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Memory Context Analysis
+
+  /memory/forgetting:
+    post:
+      summary: Manage Memory Forgetting
+      description: |
+        Manage memory forgetting and decay with family consideration and privacy requirements.
+
+        **Memory Forgetting**: Intelligent memory decay that preserves family-important memories.
+        **Family Intelligence**: Considers family significance before allowing memory forgetting.
+      operationId: manageMemoryForgetting
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MemoryForgettingRequest'
+      responses:
+        '200':
+          description: Memory forgetting managed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  forgetting_plan:
+                    $ref: '#/components/schemas/MemoryForgettingPlan'
+                  preserved_memories:
+                    type: array
+                    items:
+                      type: string
+                      format: uuid
+                  family_impact_assessment:
+                    $ref: '#/components/schemas/FamilyImpactAssessment'
+                  privacy_compliance:
+                    $ref: '#/components/schemas/PrivacyCompliance'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Memory Management
+
+  /memory/search:
+    post:
+      summary: Semantic Memory Search
+      description: |
+        Perform semantic search across memories with family context and relationship awareness.
+
+        **Semantic Search**: Advanced memory search using semantic understanding and family context.
+        **Family Intelligence**: Search results filtered by family appropriateness and relationship context.
+      operationId: searchMemories
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MemorySearchRequest'
+      responses:
+        '200':
+          description: Memory search completed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  search_results:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/MemorySearchResult'
+                  search_insights:
+                    $ref: '#/components/schemas/SearchInsights'
+                  family_context_relevance:
+                    $ref: '#/components/schemas/FamilyContextRelevance'
+                  semantic_clusters:
+                    $ref: '#/components/schemas/SemanticClusters'
+                  related_searches:
+                    type: array
+                    items:
+                      type: string
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Memory Search
+
+  /memory/synchronization:
+    post:
+      summary: Synchronize Memories
+      description: |
+        Synchronize memories across family devices with conflict resolution and E2EE preservation.
+
+        **Memory Sync**: Cross-device memory synchronization with family coordination.
+        **Family Intelligence**: Conflict resolution that considers family relationship dynamics.
+      operationId: synchronizeMemories
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MemorySynchronizationRequest'
+      responses:
+        '200':
+          description: Memory synchronization completed successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  sync_results:
+                    $ref: '#/components/schemas/MemorySyncResults'
+                  conflict_resolutions:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/ConflictResolution'
+                  family_coordination_updates:
+                    $ref: '#/components/schemas/FamilyCoordinationUpdates'
+                  e2ee_verification:
+                    $ref: '#/components/schemas/E2EEVerification'
+                  sync_statistics:
+                    $ref: '#/components/schemas/SyncStatistics'
+        '400':
+          $ref: '#/components/responses/BadRequestError'
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Memory Synchronization
+
+    get:
+      summary: Get Memory Sync Status
+      description: |
+        Retrieve memory synchronization status across family devices with conflict information.
+
+        **Sync Status**: Current synchronization state with family device coordination information.
+        **Family Intelligence**: Sync status with family member activity and conflict analysis.
+      operationId: getMemorySyncStatus
+      parameters:
+        - name: include_device_details
+          in: query
+          description: Include detailed device sync information
+          required: false
+          schema:
+            type: boolean
+            default: true
+        - name: include_conflict_analysis
+          in: query
+          description: Include memory conflict analysis
+          required: false
+          schema:
+            type: boolean
+            default: true
+        - name: family_scope
+          in: query
+          description: Scope of family sync status
+          required: false
+          schema:
+            type: string
+            enum: [user_devices, nuclear_family, extended_family, all]
+            default: nuclear_family
+      responses:
+        '200':
+          description: Memory sync status retrieved successfully
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  overall_sync_status:
+                    type: string
+                    enum: [synced, syncing, conflicts, partial, offline, error]
+                  device_sync_status:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/DeviceMemorySyncStatus'
+                  family_coordination_status:
+                    $ref: '#/components/schemas/FamilyCoordinationStatus'
+                  conflict_summary:
+                    $ref: '#/components/schemas/ConflictSummary'
+                  sync_performance:
+                    $ref: '#/components/schemas/SyncPerformance'
+                  last_successful_sync:
+                    type: string
+                    format: date-time
+        '403':
+          $ref: '#/components/responses/ForbiddenError'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      tags:
+        - Memory Synchronization
+
+components:
+  securitySchemes:
+    AgentAuth:
+      type: http
+      scheme: bearer
+      description: Agent-specific JWT authentication for LLM memory operations
+      bearerFormat: JWT
+
+    FamilyOSAuth:
+      type: oauth2
+      description: FamilyOS OAuth2 authentication with memory operation scopes
+      flows:
+        authorizationCode:
+          authorizationUrl: https://auth.familyos.local/oauth/authorize
+          tokenUrl: https://auth.familyos.local/oauth/token
+          scopes:
+            memory:read: Read memories and perform retrieval operations
+            memory:write: Create and modify memories
+            memory:analyze: Perform memory analysis and pattern recognition
+            memory:consolidate: Perform memory consolidation operations
+            memory:sync: Access memory synchronization operations
+            memory:family: Access family-aware memory operations
+
+  schemas:
+    MemoryFormationRequest:
+      type: object
+      description: Request to form a new memory with family context
+      properties:
+        content:
+          type: string
+          description: Memory content to encode
+          maxLength: 10000
+        memory_type:
+          type: string
+          enum: [episodic, semantic, procedural, working, emotional, social]
+          description: Type of memory being formed
+        importance_score:
+          type: number
+          minimum: 0
+          maximum: 1
+          description: Initial importance assessment
+        emotional_valence:
+          type: number
+          minimum: -1
+          maximum: 1
+          description: Emotional tone of the memory
+        family_context:
+          $ref: '#/components/schemas/FamilyMemoryContext'
+        temporal_context:
+          $ref: '#/components/schemas/TemporalMemoryContext'
+        spatial_context:
+          $ref: '#/components/schemas/SpatialMemoryContext'
+        social_context:
+          $ref: '#/components/schemas/SocialMemoryContext'
+        encoding_preferences:
+          $ref: '#/components/schemas/MemoryEncodingPreferences'
+        cross_memory_hints:
+          type: array
+          items:
+            type: string
+            format: uuid
+          description: Hints for connecting to existing memories
+      required:
+        - content
+        - memory_type
+
+    MemoryConsolidationRequest:
+      type: object
+      description: Request to consolidate an existing memory
+      properties:
+        memory_id:
+          type: string
+          format: uuid
+          description: Memory to consolidate
+        consolidation_type:
+          type: string
+          enum: [strengthen, reorganize, connect, family_integrate]
+          description: Type of consolidation to perform
+        family_context_updates:
+          $ref: '#/components/schemas/FamilyContextUpdates'
+        association_targets:
+          type: array
+          items:
+            type: string
+            format: uuid
+          description: Memories to strengthen associations with
+        importance_adjustment:
+          type: number
+          minimum: -0.5
+          maximum: 0.5
+          description: Adjustment to memory importance
+        emotional_reprocessing:
+          type: boolean
+          default: false
+          description: Whether to reprocess emotional content
+      required:
+        - memory_id
+        - consolidation_type
+
+    MemoryRetrievalRequest:
+      type: object
+      description: Request for intelligent memory retrieval
+      properties:
+        query:
+          type: string
+          description: Retrieval query or context
+          maxLength: 1000
+        retrieval_type:
+          type: string
+          enum: [semantic, episodic, associative, contextual, family_aware]
+          description: Type of retrieval to perform
+        memory_types:
+          type: array
+          items:
+            type: string
+            enum: [episodic, semantic, procedural, working, emotional, social]
+          description: Types of memories to retrieve
+        family_context_filter:
+          $ref: '#/components/schemas/FamilyContextFilter'
+        temporal_filter:
+          $ref: '#/components/schemas/TemporalFilter'
+        importance_threshold:
+          type: number
+          minimum: 0
+          maximum: 1
+          description: Minimum importance score for retrieval
+        max_results:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 10
+          description: Maximum number of memories to retrieve
+        include_associations:
+          type: boolean
+          default: true
+          description: Include memory associations in results
+      required:
+        - query
+        - retrieval_type
+
+    MemoryAssociationRequest:
+      type: object
+      description: Request to create memory associations
+      properties:
+        source_memory_id:
+          type: string
+          format: uuid
+          description: Source memory for association
+        target_memory_ids:
+          type: array
+          items:
+            type: string
+            format: uuid
+          description: Target memories to associate with
+        association_type:
+          type: string
+          enum: [semantic, causal, temporal, emotional, family_relational, contextual]
+          description: Type of association to create
+        association_strength:
+          type: number
+          minimum: 0
+          maximum: 1
+          description: Strength of the association
+        family_relationship_context:
+          type: string
+          description: Family relationship context for the association
+        bidirectional:
+          type: boolean
+          default: true
+          description: Whether the association is bidirectional
+      required:
+        - source_memory_id
+        - target_memory_ids
+        - association_type
+
+    MemoryContextAnalysisRequest:
+      type: object
+      description: Request for memory context analysis
+      properties:
+        memory_ids:
+          type: array
+          items:
+            type: string
+            format: uuid
+          description: Memories to analyze
+          minItems: 1
+          maxItems: 50
+        analysis_dimensions:
+          type: array
+          items:
+            type: string
+            enum: [family_relationship, emotional, temporal, social, spatial, causal]
+          description: Dimensions of context to analyze
+        family_scope:
+          type: string
+          enum: [individual, nuclear_family, extended_family, all]
+          default: nuclear_family
+          description: Scope of family analysis
+        include_predictions:
+          type: boolean
+          default: true
+          description: Include predictive context analysis
+      required:
+        - memory_ids
+        - analysis_dimensions
+
+    MemoryForgettingRequest:
+      type: object
+      description: Request for memory forgetting management
+      properties:
+        forgetting_criteria:
+          $ref: '#/components/schemas/ForgettingCriteria'
+        family_preservation_rules:
+          $ref: '#/components/schemas/FamilyPreservationRules'
+        privacy_requirements:
+          $ref: '#/components/schemas/PrivacyRequirements'
+        dry_run:
+          type: boolean
+          default: true
+          description: Whether to perform a dry run without actual forgetting
+        confirmation_required:
+          type: boolean
+          default: true
+          description: Whether family confirmation is required
+
+    MemorySearchRequest:
+      type: object
+      description: Request for semantic memory search
+      properties:
+        query:
+          type: string
+          description: Search query
+          maxLength: 500
+        search_mode:
+          type: string
+          enum: [semantic, vector, hybrid, family_contextual]
+          default: hybrid
+          description: Search mode to use
+        memory_types:
+          type: array
+          items:
+            type: string
+            enum: [episodic, semantic, procedural, working, emotional, social]
+          description: Types of memories to search
+        family_context_weight:
+          type: number
+          minimum: 0
+          maximum: 1
+          default: 0.3
+          description: Weight of family context in search relevance
+        temporal_weight:
+          type: number
+          minimum: 0
+          maximum: 1
+          default: 0.2
+          description: Weight of temporal recency in search relevance
+        result_limit:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 20
+          description: Maximum number of search results
+        include_clusters:
+          type: boolean
+          default: true
+          description: Include semantic clustering of results
+      required:
+        - query
+
+    MemorySynchronizationRequest:
+      type: object
+      description: Request for memory synchronization
+      properties:
+        sync_scope:
+          type: string
+          enum: [user_devices, family_shared, all_accessible]
+          default: user_devices
+          description: Scope of synchronization
+        conflict_resolution_strategy:
+          type: string
+          enum: [latest_wins, family_priority, manual_review, intelligent_merge]
+          default: intelligent_merge
+          description: Strategy for resolving conflicts
+        family_coordination:
+          type: boolean
+          default: true
+          description: Whether to coordinate with family members
+        e2ee_verification:
+          type: boolean
+          default: true
+          description: Whether to verify E2EE integrity
+        performance_priority:
+          type: string
+          enum: [speed, accuracy, bandwidth_efficiency]
+          default: accuracy
+          description: Synchronization performance priority
+
+    # Response schemas
+    FormedMemory:
+      type: object
+      description: Successfully formed memory with family context
+      properties:
+        memory_id:
+          type: string
+          format: uuid
+        content:
+          type: string
+        memory_type:
+          type: string
+          enum: [episodic, semantic, procedural, working, emotional, social]
+        importance_score:
+          type: number
+          minimum: 0
+          maximum: 1
+        emotional_valence:
+          type: number
+          minimum: -1
+          maximum: 1
+        created_at:
+          type: string
+          format: date-time
+        family_context:
+          $ref: '#/components/schemas/EnrichedFamilyContext'
+        encoding_metadata:
+          $ref: '#/components/schemas/MemoryEncodingMetadata'
+      required:
+        - memory_id
+        - content
+        - memory_type
+        - created_at
+
+    RetrievedMemory:
+      type: object
+      description: Memory retrieved with context and relevance
+      properties:
+        memory_id:
+          type: string
+          format: uuid
+        content:
+          type: string
+        memory_type:
+          type: string
+          enum: [episodic, semantic, procedural, working, emotional, social]
+        relevance_score:
+          type: number
+          minimum: 0
+          maximum: 1
+        family_relevance:
+          type: number
+          minimum: 0
+          maximum: 1
+        created_at:
+          type: string
+          format: date-time
+        last_accessed:
+          type: string
+          format: date-time
+        access_count:
+          type: integer
+        associations:
+          type: array
+          items:
+            $ref: '#/components/schemas/MemoryAssociation'
+        family_context:
+          $ref: '#/components/schemas/EnrichedFamilyContext'
+      required:
+        - memory_id
+        - content
+        - memory_type
+        - relevance_score
+
+    MemoryAssociation:
+      type: object
+      description: Association between memories
+      properties:
+        association_id:
+          type: string
+          format: uuid
+        source_memory_id:
+          type: string
+          format: uuid
+        target_memory_id:
+          type: string
+          format: uuid
+        association_type:
+          type: string
+          enum: [semantic, causal, temporal, emotional, family_relational, contextual]
+        strength:
+          type: number
+          minimum: 0
+          maximum: 1
+        created_at:
+          type: string
+          format: date-time
+        family_relationship_context:
+          type: string
+      required:
+        - association_id
+        - source_memory_id
+        - target_memory_id
+        - association_type
+        - strength
+
+    # Supporting schemas for family and memory context
+    FamilyMemoryContext:
+      type: object
+      properties:
+        family_members_involved:
+          type: array
+          items:
+            type: string
+            format: uuid
+        relationship_dynamics:
+          type: object
+        emotional_climate:
+          type: object
+        privacy_level:
+          type: string
+          enum: [personal, family_shared, family_private, restricted]
+
+    EnrichedFamilyContext:
+      allOf:
+        - $ref: '#/components/schemas/FamilyMemoryContext'
+        - type: object
+          properties:
+            relationship_analysis:
+              type: object
+            emotional_intelligence_insights:
+              type: object
+            family_coordination_impact:
+              type: object
+
+    # Error schemas
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+            message:
+              type: string
+            details:
+              type: object
+            trace_id:
+              type: string
+          required:
+            - code
+            - message
+      required:
+        - error
+
+  responses:
+    BadRequestError:
+      description: Invalid request parameters or memory operation
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    ForbiddenError:
+      description: Insufficient permissions or family policy violation
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    NotFoundError:
+      description: Requested memory or resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    InternalServerError:
+      description: Internal server error in memory operations
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+tags:
+  - name: Memory Formation
+    description: |
+      Create and encode new memories with family context and relationship awareness.
+
+      **Core Memory Operations**: Foundation of the Memory-Centric Family AI system.
+
+  - name: Memory Consolidation
+    description: |
+      Strengthen and reorganize memories with family relationship integration.
+
+      **Memory Strengthening**: Enhance memory encoding and family connection understanding.
+
+  - name: Memory Retrieval
+    description: |
+      Intelligent memory retrieval with family context and relationship filtering.
+
+      **Context-Aware Retrieval**: Family-appropriate memory access with relationship consideration.
+
+  - name: Memory Associations
+    description: |
+      Create and analyze memory associations with family relationship dynamics.
+
+      **Memory Connections**: Build intelligent memory networks with family awareness.
+
+  - name: Memory Pattern Analysis
+    description: |
+      Analyze memory patterns and family dynamics for intelligence insights.
+
+      **Pattern Intelligence**: Family-aware memory pattern analysis and prediction.
+
+  - name: Memory Context Analysis
+    description: |
+      Deep analysis of memory context with family intelligence integration.
+
+      **Context Intelligence**: Rich context analysis with family relationship insights.
+
+  - name: Memory Management
+    description: |
+      Manage memory lifecycle including forgetting with family considerations.
+
+      **Lifecycle Management**: Family-aware memory management and preservation.
+
+  - name: Memory Search
+    description: |
+      Semantic search across memories with family context and relationship awareness.
+
+      **Intelligent Search**: Family-appropriate memory search with semantic understanding.
+
+  - name: Memory Synchronization
+    description: |
+      Synchronize memories across family devices with conflict resolution.
+
+      **Cross-Device Sync**: Family-coordinated memory synchronization with E2EE preservation.

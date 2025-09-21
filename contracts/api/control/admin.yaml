@@ -1,0 +1,1447 @@
+openapi: 3.1.0
+info:
+  title: MemoryOS Control Admin Contract
+  version: "1.0.0"
+  description: |
+    **Memory-Centric Family AI Control Administration Contract**
+
+    This contract defines the control and administration capabilities for the Memory-Centric Family AI system,
+    providing comprehensive family management, memory oversight, security controls, system administration,
+    and family governance with memory-driven insights and coordination.
+
+    **Memory-Driven Control Architecture:**
+    - **Memory Backbone Administration Core**: Administration coordinated through memory experiences
+    - **Memory-Enhanced Family Management**: Family management with memory-driven insights
+    - **Memory-Driven Security Controls**: Security controls coordinated through memory analysis
+    - **Family Memory Governance**: Governance decisions informed by family memory patterns
+    - **Memory-Based System Administration**: System administration with memory-driven optimization
+
+    **Administration Categories:**
+    1. **Memory-Informed Family Management**: Family structure and relationship management
+    2. **Memory-Driven User Administration**: User account and permission management
+    3. **Memory-Enhanced Security Administration**: Security policy and threat management
+    4. **Memory-Based System Configuration**: System settings and optimization
+    5. **Memory-Coordinated Data Management**: Data governance and compliance
+    6. **Memory-Driven Analytics Administration**: Analytics and reporting management
+    7. **Memory-Enhanced Compliance Management**: Regulatory and policy compliance
+
+    **Family Intelligence Integration:**
+    - Administration coordinated through family memory backbone
+    - Management decisions informed by family relationship patterns
+    - Security controls adapted through family trust and memory validation
+    - Governance aligned with family values and memory-driven insights
+
+servers:
+  - url: https://api.memoryos.family/v1
+    description: MemoryOS Family AI Control Admin API
+
+paths:
+  /admin/family:
+    get:
+      summary: Get Memory-Enhanced Family Administration Overview
+      description: |
+        Retrieve comprehensive family administration overview with memory-driven insights,
+        relationship analytics, and governance status.
+      operationId: getMemoryEnhancedFamilyAdministrationOverview
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: include_memory_insights
+          in: query
+          schema:
+            type: boolean
+            default: true
+          description: Include memory-driven insights
+        - name: analysis_depth
+          in: query
+          schema:
+            type: string
+            enum: [summary, detailed, comprehensive, complete]
+            default: detailed
+          description: Depth of analysis to include
+      responses:
+        '200':
+          description: Family administration overview retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FamilyAdministrationOverviewResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /admin/family/members:
+    get:
+      summary: Get Family Members with Memory-Driven Insights
+      description: |
+        Retrieve family member information with memory-driven insights,
+        relationship analysis, and administrative status.
+      operationId: getFamilyMembersWithMemoryDrivenInsights
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: include_relationship_analysis
+          in: query
+          schema:
+            type: boolean
+            default: true
+          description: Include relationship analysis
+        - name: include_memory_patterns
+          in: query
+          schema:
+            type: boolean
+            default: true
+          description: Include memory pattern analysis
+      responses:
+        '200':
+          description: Family members retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FamilyMembersResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+    post:
+      summary: Add Family Member with Memory Integration
+      description: |
+        Add new family member with memory integration setup,
+        relationship establishment, and administrative configuration.
+      operationId: addFamilyMemberWithMemoryIntegration
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FamilyMemberAdditionRequest'
+      responses:
+        '201':
+          description: Family member added successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FamilyMemberAdditionResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /admin/family/members/{memberId}:
+    get:
+      summary: Get Family Member Details with Memory Context
+      description: |
+        Retrieve detailed family member information with memory context,
+        relationship dynamics, and administrative history.
+      operationId: getFamilyMemberDetailsWithMemoryContext
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: memberId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Unique family member identifier
+      responses:
+        '200':
+          description: Family member details retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FamilyMemberDetailsResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    patch:
+      summary: Update Family Member with Memory Coordination
+      description: |
+        Update family member information with memory coordination,
+        relationship adjustment, and administrative changes.
+      operationId: updateFamilyMemberWithMemoryCoordination
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: memberId
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+          description: Unique family member identifier
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/FamilyMemberUpdateRequest'
+      responses:
+        '200':
+          description: Family member updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FamilyMemberUpdateResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  /admin/security:
+    get:
+      summary: Get Memory-Driven Security Administration Overview
+      description: |
+        Retrieve security administration overview with memory-driven analysis,
+        threat assessment, and family security coordination status.
+      operationId: getMemoryDrivenSecurityAdministrationOverview
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: security_scope
+          in: query
+          schema:
+            type: string
+            enum: [family, individual, system, comprehensive]
+            default: family
+          description: Scope of security administration
+        - name: threat_analysis_depth
+          in: query
+          schema:
+            type: string
+            enum: [basic, standard, advanced, comprehensive]
+            default: standard
+          description: Depth of threat analysis
+      responses:
+        '200':
+          description: Security administration overview retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SecurityAdministrationOverviewResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /admin/security/policies:
+    get:
+      summary: Get Family Security Policies with Memory Integration
+      description: |
+        Retrieve family security policies with memory-driven recommendations,
+        compliance status, and effectiveness analysis.
+      operationId: getFamilySecurityPoliciesWithMemoryIntegration
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: Security policies retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SecurityPoliciesResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+    post:
+      summary: Create Security Policy with Memory Context
+      description: |
+        Create new security policy with memory context analysis,
+        family impact assessment, and compliance coordination.
+      operationId: createSecurityPolicyWithMemoryContext
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SecurityPolicyCreationRequest'
+      responses:
+        '201':
+          description: Security policy created successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SecurityPolicyCreationResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /admin/system/configuration:
+    get:
+      summary: Get Memory-Optimized System Configuration
+      description: |
+        Retrieve system configuration with memory-driven optimization,
+        family-specific settings, and performance analytics.
+      operationId: getMemoryOptimizedSystemConfiguration
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: configuration_scope
+          in: query
+          schema:
+            type: string
+            enum: [core, memory, family, security, performance, all]
+            default: all
+          description: Scope of configuration to retrieve
+      responses:
+        '200':
+          description: System configuration retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SystemConfigurationResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+    patch:
+      summary: Update System Configuration with Memory Coordination
+      description: |
+        Update system configuration with memory coordination,
+        family impact analysis, and performance optimization.
+      operationId: updateSystemConfigurationWithMemoryCoordination
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SystemConfigurationUpdateRequest'
+      responses:
+        '200':
+          description: System configuration updated successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SystemConfigurationUpdateResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /admin/data/governance:
+    get:
+      summary: Get Memory-Driven Data Governance Overview
+      description: |
+        Retrieve data governance overview with memory-driven analysis,
+        compliance status, and family data coordination.
+      operationId: getMemoryDrivenDataGovernanceOverview
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: governance_scope
+          in: query
+          schema:
+            type: string
+            enum: [family, individual, system, regulatory, comprehensive]
+            default: family
+          description: Scope of data governance
+      responses:
+        '200':
+          description: Data governance overview retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataGovernanceOverviewResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /admin/data/compliance:
+    get:
+      summary: Get Family Data Compliance with Memory Analysis
+      description: |
+        Retrieve data compliance status with memory-driven analysis,
+        regulatory alignment, and family privacy coordination.
+      operationId: getFamilyDataComplianceWithMemoryAnalysis
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: compliance_framework
+          in: query
+          schema:
+            type: string
+            enum: [gdpr, ccpa, coppa, hipaa, family_privacy, all]
+            default: all
+          description: Compliance framework to analyze
+      responses:
+        '200':
+          description: Data compliance status retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataComplianceResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /admin/analytics:
+    get:
+      summary: Get Memory-Enhanced Administration Analytics
+      description: |
+        Retrieve administration analytics with memory-driven insights,
+        family coordination metrics, and system performance analysis.
+      operationId: getMemoryEnhancedAdministrationAnalytics
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: analytics_scope
+          in: query
+          schema:
+            type: string
+            enum: [family, security, system, data, compliance, comprehensive]
+            default: comprehensive
+          description: Scope of analytics to retrieve
+        - name: time_range
+          in: query
+          schema:
+            type: string
+            enum: [day, week, month, quarter, year, all_time]
+            default: month
+          description: Time range for analytics
+      responses:
+        '200':
+          description: Administration analytics retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AdministrationAnalyticsResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /admin/audit/logs:
+    get:
+      summary: Get Memory-Coordinated Audit Logs
+      description: |
+        Retrieve audit logs with memory coordination,
+        family activity analysis, and security event tracking.
+      operationId: getMemoryCoordinatedAuditLogs
+      security:
+        - BearerAuth: []
+      parameters:
+        - name: log_category
+          in: query
+          schema:
+            type: string
+            enum: [family, security, system, data, compliance, all]
+            default: all
+          description: Category of audit logs
+        - name: time_range
+          in: query
+          schema:
+            type: string
+            enum: [hour, day, week, month, quarter, year]
+            default: week
+          description: Time range for audit logs
+        - name: severity_level
+          in: query
+          schema:
+            type: string
+            enum: [info, warning, error, critical, all]
+            default: all
+          description: Minimum severity level
+      responses:
+        '200':
+          description: Audit logs retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuditLogsResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+  /admin/maintenance:
+    get:
+      summary: Get Memory-Optimized System Maintenance Status
+      description: |
+        Retrieve system maintenance status with memory-driven optimization,
+        family impact analysis, and performance health metrics.
+      operationId: getMemoryOptimizedSystemMaintenanceStatus
+      security:
+        - BearerAuth: []
+      responses:
+        '200':
+          description: System maintenance status retrieved successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/SystemMaintenanceStatusResponse'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+    post:
+      summary: Schedule Maintenance with Family Coordination
+      description: |
+        Schedule system maintenance with family coordination,
+        memory backup planning, and minimal disruption optimization.
+      operationId: scheduleMaintenanceWithFamilyCoordination
+      security:
+        - BearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MaintenanceSchedulingRequest'
+      responses:
+        '202':
+          description: Maintenance scheduled successfully
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/MaintenanceSchedulingResponse'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    FamilyAdministrationOverviewResponse:
+      type: object
+      properties:
+        family_id:
+          type: string
+          format: uuid
+          description: Family identifier
+        administration_summary:
+          type: object
+          description: Family administration summary
+        family_structure:
+          type: object
+          description: Current family structure
+        relationship_analytics:
+          type: object
+          description: Family relationship analytics
+        memory_coordination_status:
+          type: object
+          description: Memory coordination status
+        governance_insights:
+          type: object
+          description: Family governance insights
+        security_status:
+          type: object
+          description: Family security status overview
+        system_health:
+          type: object
+          description: System health for family
+        data_governance_status:
+          type: object
+          description: Data governance status
+        compliance_overview:
+          type: object
+          description: Compliance status overview
+        administrative_recommendations:
+          type: array
+          items:
+            type: object
+          description: Administrative recommendations
+
+    FamilyMembersResponse:
+      type: object
+      properties:
+        family_id:
+          type: string
+          format: uuid
+          description: Family identifier
+        family_members:
+          type: array
+          items:
+            $ref: '#/components/schemas/FamilyMemberSummary'
+          description: List of family members
+        relationship_analysis:
+          type: object
+          description: Family relationship analysis
+        memory_pattern_insights:
+          type: object
+          description: Memory pattern insights across family
+        role_distribution:
+          type: object
+          description: Distribution of roles within family
+        coordination_effectiveness:
+          type: object
+          description: Family coordination effectiveness
+        administrative_recommendations:
+          type: array
+          items:
+            type: object
+          description: Recommendations for family administration
+
+    FamilyMemberSummary:
+      type: object
+      properties:
+        member_id:
+          type: string
+          format: uuid
+          description: Family member identifier
+        name:
+          type: string
+          description: Family member name
+        role:
+          type: string
+          enum: [parent, child, guardian, admin, member]
+          description: Family role
+        status:
+          type: string
+          enum: [active, inactive, suspended, pending]
+          description: Member status
+        joined_date:
+          type: string
+          format: date-time
+          description: Date joined family
+        last_activity:
+          type: string
+          format: date-time
+          description: Last activity timestamp
+        memory_integration_level:
+          type: string
+          enum: [none, basic, standard, advanced, native]
+          description: Memory integration level
+        relationship_connections:
+          type: array
+          items:
+            type: object
+          description: Relationship connections within family
+        administrative_permissions:
+          type: object
+          description: Administrative permissions
+        security_trust_level:
+          type: string
+          enum: [basic, standard, enhanced, maximum]
+          description: Security trust level
+
+    FamilyMemberAdditionRequest:
+      type: object
+      required:
+        - name
+        - role
+        - invitation_method
+      properties:
+        name:
+          type: string
+          description: New family member name
+        role:
+          type: string
+          enum: [parent, child, guardian, admin, member]
+          description: Family role to assign
+        invitation_method:
+          type: string
+          enum: [email, sms, in_person, existing_user]
+          description: Method for inviting new member
+        contact_information:
+          type: object
+          description: Contact information for invitation
+        relationship_details:
+          type: object
+          description: Relationship details within family
+        memory_integration_preferences:
+          type: object
+          description: Memory integration preferences
+        initial_permissions:
+          type: object
+          description: Initial administrative permissions
+        security_settings:
+          type: object
+          description: Initial security settings
+
+    FamilyMemberAdditionResponse:
+      type: object
+      required:
+        - member_id
+        - addition_status
+      properties:
+        member_id:
+          type: string
+          format: uuid
+          description: New family member identifier
+        addition_status:
+          type: string
+          enum: [added, invitation_sent, pending_approval, failed]
+          description: Addition operation status
+        invitation_details:
+          type: object
+          description: Invitation details and status
+        memory_integration_setup:
+          type: object
+          description: Memory integration setup status
+        relationship_establishment:
+          type: object
+          description: Relationship establishment status
+        administrative_setup:
+          type: object
+          description: Administrative setup status
+        next_steps:
+          type: array
+          items:
+            type: object
+          description: Next steps for member onboarding
+
+    FamilyMemberDetailsResponse:
+      type: object
+      properties:
+        member_details:
+          $ref: '#/components/schemas/FamilyMemberDetails'
+        memory_context:
+          type: object
+          description: Memory context for family member
+        relationship_dynamics:
+          type: object
+          description: Relationship dynamics analysis
+        administrative_history:
+          type: object
+          description: Administrative history
+        security_analysis:
+          type: object
+          description: Security analysis for member
+        coordination_patterns:
+          type: object
+          description: Family coordination patterns
+        recommendations:
+          type: array
+          items:
+            type: object
+          description: Recommendations for member management
+
+    FamilyMemberDetails:
+      type: object
+      properties:
+        member_id:
+          type: string
+          format: uuid
+          description: Family member identifier
+        personal_information:
+          type: object
+          description: Personal information
+        family_role_details:
+          type: object
+          description: Detailed family role information
+        administrative_permissions:
+          type: object
+          description: Administrative permissions
+        memory_integration_configuration:
+          type: object
+          description: Memory integration configuration
+        security_configuration:
+          type: object
+          description: Security configuration
+        relationship_mappings:
+          type: object
+          description: Relationship mappings within family
+        activity_patterns:
+          type: object
+          description: Activity patterns and analytics
+        preferences:
+          type: object
+          description: Member preferences and settings
+
+    FamilyMemberUpdateRequest:
+      type: object
+      properties:
+        role_update:
+          type: string
+          enum: [parent, child, guardian, admin, member]
+          description: Updated family role
+        permissions_update:
+          type: object
+          description: Updated administrative permissions
+        memory_integration_update:
+          type: object
+          description: Updated memory integration settings
+        security_settings_update:
+          type: object
+          description: Updated security settings
+        relationship_updates:
+          type: object
+          description: Updated relationship information
+        status_update:
+          type: string
+          enum: [active, inactive, suspended, pending]
+          description: Updated member status
+
+    FamilyMemberUpdateResponse:
+      type: object
+      required:
+        - update_status
+      properties:
+        update_status:
+          type: string
+          enum: [updated, partially_updated, failed, requires_approval]
+          description: Update operation status
+        updated_member_details:
+          $ref: '#/components/schemas/FamilyMemberDetails'
+        memory_coordination_impact:
+          type: object
+          description: Impact on memory coordination
+        relationship_adjustment_results:
+          type: object
+          description: Results of relationship adjustments
+        security_implications:
+          type: object
+          description: Security implications of changes
+        family_notification_status:
+          type: object
+          description: Family notification status
+
+    SecurityAdministrationOverviewResponse:
+      type: object
+      properties:
+        family_id:
+          type: string
+          format: uuid
+          description: Family identifier
+        security_status_overview:
+          type: object
+          description: Overall security status
+        threat_assessment:
+          type: object
+          description: Current threat assessment
+        security_policies_status:
+          type: object
+          description: Security policies status
+        compliance_status:
+          type: object
+          description: Security compliance status
+        memory_based_security_insights:
+          type: object
+          description: Memory-based security insights
+        family_security_coordination:
+          type: object
+          description: Family security coordination status
+        incident_summary:
+          type: object
+          description: Security incident summary
+        vulnerability_assessment:
+          type: object
+          description: Vulnerability assessment results
+        security_recommendations:
+          type: array
+          items:
+            type: object
+          description: Security recommendations
+
+    SecurityPoliciesResponse:
+      type: object
+      properties:
+        family_id:
+          type: string
+          format: uuid
+          description: Family identifier
+        active_policies:
+          type: array
+          items:
+            $ref: '#/components/schemas/SecurityPolicy'
+          description: Active security policies
+        policy_effectiveness:
+          type: object
+          description: Policy effectiveness analysis
+        compliance_alignment:
+          type: object
+          description: Compliance alignment status
+        memory_driven_recommendations:
+          type: object
+          description: Memory-driven policy recommendations
+        family_impact_analysis:
+          type: object
+          description: Family impact analysis of policies
+
+    SecurityPolicy:
+      type: object
+      properties:
+        policy_id:
+          type: string
+          format: uuid
+          description: Security policy identifier
+        policy_name:
+          type: string
+          description: Policy name
+        policy_type:
+          type: string
+          enum: [access_control, data_protection, authentication, family_safety, privacy]
+          description: Type of security policy
+        description:
+          type: string
+          description: Policy description
+        created_date:
+          type: string
+          format: date-time
+          description: Policy creation date
+        last_modified:
+          type: string
+          format: date-time
+          description: Last modification date
+        status:
+          type: string
+          enum: [active, inactive, pending, deprecated]
+          description: Policy status
+        scope:
+          type: object
+          description: Policy scope and applicability
+        rules:
+          type: array
+          items:
+            type: object
+          description: Policy rules and conditions
+        enforcement_level:
+          type: string
+          enum: [advisory, required, enforced, critical]
+          description: Policy enforcement level
+        memory_integration:
+          type: object
+          description: Memory integration aspects
+        family_customization:
+          type: object
+          description: Family-specific customizations
+
+    SecurityPolicyCreationRequest:
+      type: object
+      required:
+        - policy_name
+        - policy_type
+        - rules
+      properties:
+        policy_name:
+          type: string
+          description: Name for new security policy
+        policy_type:
+          type: string
+          enum: [access_control, data_protection, authentication, family_safety, privacy]
+          description: Type of security policy
+        description:
+          type: string
+          description: Policy description
+        rules:
+          type: array
+          items:
+            type: object
+          description: Policy rules and conditions
+        scope:
+          type: object
+          description: Policy scope and applicability
+        enforcement_level:
+          type: string
+          enum: [advisory, required, enforced, critical]
+          default: required
+          description: Policy enforcement level
+        memory_integration_settings:
+          type: object
+          description: Memory integration settings
+        family_customization_settings:
+          type: object
+          description: Family customization settings
+
+    SecurityPolicyCreationResponse:
+      type: object
+      required:
+        - policy_id
+        - creation_status
+      properties:
+        policy_id:
+          type: string
+          format: uuid
+          description: Created policy identifier
+        creation_status:
+          type: string
+          enum: [created, pending_approval, failed, requires_review]
+          description: Policy creation status
+        policy_details:
+          $ref: '#/components/schemas/SecurityPolicy'
+        memory_integration_setup:
+          type: object
+          description: Memory integration setup status
+        family_impact_assessment:
+          type: object
+          description: Family impact assessment
+        compliance_analysis:
+          type: object
+          description: Compliance analysis results
+
+    SystemConfigurationResponse:
+      type: object
+      properties:
+        family_id:
+          type: string
+          format: uuid
+          description: Family identifier
+        core_configuration:
+          type: object
+          description: Core system configuration
+        memory_configuration:
+          type: object
+          description: Memory system configuration
+        family_configuration:
+          type: object
+          description: Family-specific configuration
+        security_configuration:
+          type: object
+          description: Security configuration
+        performance_configuration:
+          type: object
+          description: Performance configuration
+        integration_configuration:
+          type: object
+          description: Integration configuration
+        optimization_insights:
+          type: object
+          description: Configuration optimization insights
+        family_customizations:
+          type: object
+          description: Family customizations
+        configuration_recommendations:
+          type: array
+          items:
+            type: object
+          description: Configuration recommendations
+
+    SystemConfigurationUpdateRequest:
+      type: object
+      properties:
+        core_updates:
+          type: object
+          description: Core configuration updates
+        memory_updates:
+          type: object
+          description: Memory configuration updates
+        family_updates:
+          type: object
+          description: Family configuration updates
+        security_updates:
+          type: object
+          description: Security configuration updates
+        performance_updates:
+          type: object
+          description: Performance configuration updates
+        integration_updates:
+          type: object
+          description: Integration configuration updates
+        optimization_preferences:
+          type: object
+          description: Optimization preferences
+
+    SystemConfigurationUpdateResponse:
+      type: object
+      required:
+        - update_status
+      properties:
+        update_status:
+          type: string
+          enum: [updated, partially_updated, failed, requires_restart]
+          description: Configuration update status
+        updated_configuration:
+          $ref: '#/components/schemas/SystemConfigurationResponse'
+        memory_coordination_impact:
+          type: object
+          description: Impact on memory coordination
+        family_impact_analysis:
+          type: object
+          description: Family impact analysis
+        performance_impact:
+          type: object
+          description: Performance impact assessment
+        restart_requirements:
+          type: object
+          description: System restart requirements
+
+    DataGovernanceOverviewResponse:
+      type: object
+      properties:
+        family_id:
+          type: string
+          format: uuid
+          description: Family identifier
+        governance_framework:
+          type: object
+          description: Data governance framework
+        data_classification:
+          type: object
+          description: Data classification overview
+        privacy_controls:
+          type: object
+          description: Privacy controls status
+        access_governance:
+          type: object
+          description: Access governance overview
+        retention_policies:
+          type: object
+          description: Data retention policies
+        memory_data_governance:
+          type: object
+          description: Memory data governance
+        family_data_coordination:
+          type: object
+          description: Family data coordination
+        compliance_status:
+          type: object
+          description: Data governance compliance status
+        governance_recommendations:
+          type: array
+          items:
+            type: object
+          description: Data governance recommendations
+
+    DataComplianceResponse:
+      type: object
+      properties:
+        family_id:
+          type: string
+          format: uuid
+          description: Family identifier
+        compliance_frameworks:
+          type: array
+          items:
+            type: object
+          description: Applicable compliance frameworks
+        compliance_status:
+          type: object
+          description: Overall compliance status
+        gdpr_compliance:
+          type: object
+          description: GDPR compliance status
+        ccpa_compliance:
+          type: object
+          description: CCPA compliance status
+        coppa_compliance:
+          type: object
+          description: COPPA compliance status
+        family_privacy_compliance:
+          type: object
+          description: Family privacy compliance
+        memory_data_compliance:
+          type: object
+          description: Memory data compliance
+        regulatory_alignment:
+          type: object
+          description: Regulatory alignment analysis
+        compliance_gaps:
+          type: array
+          items:
+            type: object
+          description: Identified compliance gaps
+        remediation_recommendations:
+          type: array
+          items:
+            type: object
+          description: Compliance remediation recommendations
+
+    AdministrationAnalyticsResponse:
+      type: object
+      properties:
+        family_id:
+          type: string
+          format: uuid
+          description: Family identifier
+        analytics_period:
+          type: object
+          description: Analytics time period
+        family_administration_metrics:
+          type: object
+          description: Family administration metrics
+        security_administration_metrics:
+          type: object
+          description: Security administration metrics
+        system_administration_metrics:
+          type: object
+          description: System administration metrics
+        data_governance_metrics:
+          type: object
+          description: Data governance metrics
+        compliance_metrics:
+          type: object
+          description: Compliance metrics
+        memory_coordination_analytics:
+          type: object
+          description: Memory coordination analytics
+        efficiency_analysis:
+          type: object
+          description: Administrative efficiency analysis
+        trend_analysis:
+          type: object
+          description: Trend analysis
+        predictive_insights:
+          type: object
+          description: Predictive insights
+        optimization_opportunities:
+          type: array
+          items:
+            type: object
+          description: Optimization opportunities
+
+    AuditLogsResponse:
+      type: object
+      properties:
+        family_id:
+          type: string
+          format: uuid
+          description: Family identifier
+        log_period:
+          type: object
+          description: Audit log time period
+        audit_entries:
+          type: array
+          items:
+            $ref: '#/components/schemas/AuditLogEntry'
+          description: Audit log entries
+        log_summary:
+          type: object
+          description: Audit log summary
+        security_events:
+          type: object
+          description: Security events summary
+        family_activity_analysis:
+          type: object
+          description: Family activity analysis
+        memory_coordination_events:
+          type: object
+          description: Memory coordination events
+        compliance_events:
+          type: object
+          description: Compliance-related events
+        anomaly_detection:
+          type: object
+          description: Anomaly detection results
+
+    AuditLogEntry:
+      type: object
+      properties:
+        log_id:
+          type: string
+          format: uuid
+          description: Unique log entry identifier
+        timestamp:
+          type: string
+          format: date-time
+          description: Event timestamp
+        event_type:
+          type: string
+          description: Type of event
+        category:
+          type: string
+          enum: [family, security, system, data, compliance]
+          description: Event category
+        severity:
+          type: string
+          enum: [info, warning, error, critical]
+          description: Event severity
+        actor:
+          type: object
+          description: Actor who performed the action
+        action:
+          type: string
+          description: Action performed
+        resource:
+          type: object
+          description: Resource affected
+        result:
+          type: string
+          enum: [success, failure, partial, pending]
+          description: Action result
+        details:
+          type: object
+          description: Additional event details
+        memory_context:
+          type: object
+          description: Memory context related to event
+        family_impact:
+          type: object
+          description: Impact on family
+
+    SystemMaintenanceStatusResponse:
+      type: object
+      properties:
+        family_id:
+          type: string
+          format: uuid
+          description: Family identifier
+        system_health:
+          type: object
+          description: Current system health
+        maintenance_schedule:
+          type: array
+          items:
+            type: object
+          description: Upcoming maintenance schedule
+        recent_maintenance:
+          type: array
+          items:
+            type: object
+          description: Recent maintenance activities
+        memory_system_health:
+          type: object
+          description: Memory system health
+        family_coordination_health:
+          type: object
+          description: Family coordination health
+        performance_metrics:
+          type: object
+          description: System performance metrics
+        optimization_opportunities:
+          type: array
+          items:
+            type: object
+          description: System optimization opportunities
+        maintenance_recommendations:
+          type: array
+          items:
+            type: object
+          description: Maintenance recommendations
+
+    MaintenanceSchedulingRequest:
+      type: object
+      required:
+        - maintenance_type
+        - preferred_schedule
+      properties:
+        maintenance_type:
+          type: string
+          enum: [routine, security_update, performance_optimization, memory_optimization, family_coordination_update]
+          description: Type of maintenance
+        preferred_schedule:
+          type: object
+          description: Preferred maintenance schedule
+        family_coordination_preferences:
+          type: object
+          description: Family coordination preferences for maintenance
+        memory_backup_preferences:
+          type: object
+          description: Memory backup preferences
+        disruption_tolerance:
+          type: string
+          enum: [minimal, low, moderate, high]
+          default: minimal
+          description: Tolerance for service disruption
+        notification_preferences:
+          type: object
+          description: Notification preferences for maintenance
+        emergency_maintenance:
+          type: boolean
+          default: false
+          description: Whether this is emergency maintenance
+
+    MaintenanceSchedulingResponse:
+      type: object
+      required:
+        - maintenance_id
+        - scheduling_status
+      properties:
+        maintenance_id:
+          type: string
+          format: uuid
+          description: Scheduled maintenance identifier
+        scheduling_status:
+          type: string
+          enum: [scheduled, pending_approval, conflict_detected, failed]
+          description: Maintenance scheduling status
+        scheduled_time:
+          type: string
+          format: date-time
+          description: Scheduled maintenance time
+        estimated_duration:
+          type: string
+          description: Estimated maintenance duration
+        family_coordination_plan:
+          type: object
+          description: Family coordination plan for maintenance
+        memory_backup_plan:
+          type: object
+          description: Memory backup plan
+        impact_assessment:
+          type: object
+          description: Maintenance impact assessment
+        notification_schedule:
+          type: object
+          description: Notification schedule for family
+
+  responses:
+    BadRequest:
+      description: Bad request - invalid input parameters
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    Unauthorized:
+      description: Authentication required
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    NotFound:
+      description: Resource not found
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    Forbidden:
+      description: Access forbidden - insufficient permissions
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    ConflictError:
+      description: Conflict - resource already exists
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+
+    ErrorResponse:
+      type: object
+      required:
+        - error
+        - message
+      properties:
+        error:
+          type: string
+          description: Error code
+        message:
+          type: string
+          description: Human-readable error message
+        details:
+          type: object
+          description: Additional error details
+        trace_id:
+          type: string
+          description: Request trace identifier
