@@ -12,10 +12,10 @@ Key Features:
 - Pipeline Instrumentation: Detailed tracing for all 20 pipelines
 """
 
-import time
 import logging
-from typing import Dict, List, Optional, Any, ContextManager
+import time
 from contextlib import contextmanager
+from typing import Any, ContextManager, Dict, List, Optional
 
 # OpenTelemetry imports
 from opentelemetry import trace
@@ -23,9 +23,9 @@ from opentelemetry.exporter.jaeger.thrift import JaegerExporter
 from opentelemetry.exporter.otlp.proto.grpc.trace_exporter import OTLPSpanExporter
 from opentelemetry.instrumentation.fastapi import FastAPIInstrumentor
 from opentelemetry.instrumentation.requests import RequestsInstrumentor
+from opentelemetry.sdk.resources import SERVICE_NAME, SERVICE_VERSION, Resource
 from opentelemetry.sdk.trace import TracerProvider
 from opentelemetry.sdk.trace.export import BatchSpanProcessor, ConsoleSpanExporter
-from opentelemetry.sdk.resources import SERVICE_NAME, SERVICE_VERSION, Resource
 
 from .envelope import MemoryEnvelope, envelope_tracker
 
@@ -279,5 +279,7 @@ class MemoryTracer:
         }
 
 
+# Global memory tracer instance
+memory_tracer = MemoryTracer()
 # Global memory tracer instance
 memory_tracer = MemoryTracer()
