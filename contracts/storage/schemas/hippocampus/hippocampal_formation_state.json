@@ -1,0 +1,418 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://familyos.local/schemas/storage/hippocampus/hippocampal_formation_state.json",
+    "title": "Hippocampal Formation State",
+    "description": "Storage schema for overall hippocampal formation state including subregions, connectivity, and functional status",
+    "type": "object",
+    "required": [
+        "formation_id",
+        "subregion_states",
+        "connectivity_matrix",
+        "functional_status",
+        "oscillatory_state",
+        "plasticity_state"
+    ],
+    "properties": {
+        "formation_id": {
+            "type": "string",
+            "pattern": "^hippocampus_[a-zA-Z0-9_-]+$",
+            "description": "Unique identifier for hippocampal formation"
+        },
+        "subregion_states": {
+            "type": "object",
+            "required": [
+                "ca1",
+                "ca2",
+                "ca3",
+                "dentate_gyrus",
+                "subiculum",
+                "entorhinal_cortex"
+            ],
+            "properties": {
+                "ca1": {
+                    "type": "object",
+                    "properties": {
+                        "activity_level": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "firing_rate": {
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "place_cell_count": {
+                            "type": "integer",
+                            "minimum": 0
+                        },
+                        "plasticity_state": {
+                            "type": "string"
+                        },
+                        "health_status": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "ca2": {
+                    "type": "object",
+                    "properties": {
+                        "activity_level": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "social_memory_activity": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "temporal_coding": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    }
+                },
+                "ca3": {
+                    "type": "object",
+                    "properties": {
+                        "activity_level": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "recurrent_strength": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "pattern_completion_efficiency": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "associative_strength": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    }
+                },
+                "dentate_gyrus": {
+                    "type": "object",
+                    "properties": {
+                        "activity_level": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "granule_cell_activity": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "pattern_separation_strength": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "sparsity_level": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "neurogenesis_rate": {
+                            "type": "number",
+                            "minimum": 0
+                        }
+                    }
+                },
+                "subiculum": {
+                    "type": "object",
+                    "properties": {
+                        "activity_level": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "output_strength": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "spatial_processing": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    }
+                },
+                "entorhinal_cortex": {
+                    "type": "object",
+                    "properties": {
+                        "activity_level": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "grid_cell_activity": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "temporal_processing": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "cortical_interface": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    }
+                }
+            }
+        },
+        "connectivity_matrix": {
+            "type": "object",
+            "properties": {
+                "trisynaptic_circuit": {
+                    "type": "object",
+                    "properties": {
+                        "ec_to_dg": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "dg_to_ca3": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "ca3_to_ca1": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "ca1_to_subiculum": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    }
+                },
+                "recurrent_connections": {
+                    "type": "object",
+                    "properties": {
+                        "ca3_recurrent": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "ca1_recurrent": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    }
+                },
+                "cortical_connections": {
+                    "type": "object",
+                    "properties": {
+                        "prefrontal_cortex": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "temporal_cortex": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "parietal_cortex": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    }
+                }
+            }
+        },
+        "functional_status": {
+            "type": "object",
+            "required": [
+                "encoding_capacity",
+                "retrieval_efficiency",
+                "consolidation_rate"
+            ],
+            "properties": {
+                "encoding_capacity": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "retrieval_efficiency": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "consolidation_rate": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "pattern_separation_strength": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "pattern_completion_accuracy": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "spatial_navigation_accuracy": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "temporal_sequence_fidelity": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                }
+            }
+        },
+        "oscillatory_state": {
+            "type": "object",
+            "properties": {
+                "theta_rhythm": {
+                    "type": "object",
+                    "properties": {
+                        "frequency": {
+                            "type": "number",
+                            "minimum": 4,
+                            "maximum": 12
+                        },
+                        "amplitude": {
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "coherence": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "phase_locking": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    }
+                },
+                "gamma_oscillations": {
+                    "type": "object",
+                    "properties": {
+                        "slow_gamma": {
+                            "type": "object",
+                            "properties": {
+                                "frequency": {
+                                    "type": "number"
+                                },
+                                "power": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "fast_gamma": {
+                            "type": "object",
+                            "properties": {
+                                "frequency": {
+                                    "type": "number"
+                                },
+                                "power": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "theta_gamma_coupling": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    }
+                },
+                "ripple_activity": {
+                    "type": "object",
+                    "properties": {
+                        "ripple_rate": {
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "ripple_amplitude": {
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "ripple_frequency": {
+                            "type": "number",
+                            "minimum": 80,
+                            "maximum": 250
+                        }
+                    }
+                }
+            }
+        },
+        "plasticity_state": {
+            "type": "object",
+            "properties": {
+                "synaptic_plasticity": {
+                    "type": "object",
+                    "properties": {
+                        "ltp_threshold": {
+                            "type": "number"
+                        },
+                        "ltd_threshold": {
+                            "type": "number"
+                        },
+                        "plasticity_window": {
+                            "type": "number"
+                        },
+                        "metaplasticity_state": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "structural_plasticity": {
+                    "type": "object",
+                    "properties": {
+                        "spine_density": {
+                            "type": "number"
+                        },
+                        "dendritic_branching": {
+                            "type": "number"
+                        },
+                        "axonal_sprouting": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "homeostatic_mechanisms": {
+                    "type": "object",
+                    "properties": {
+                        "synaptic_scaling": {
+                            "type": "number"
+                        },
+                        "intrinsic_excitability": {
+                            "type": "number"
+                        },
+                        "inhibitory_balance": {
+                            "type": "number"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "additionalProperties": false
+}

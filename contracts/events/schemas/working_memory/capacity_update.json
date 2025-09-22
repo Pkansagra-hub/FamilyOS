@@ -1,0 +1,47 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "$id": "capacity_update.schema.json",
+    "title": "Working Memory Capacity Update Event",
+    "description": "Event for changes in working memory capacity",
+    "type": "object",
+    "required": [
+        "timestamp",
+        "previous_capacity",
+        "new_capacity",
+        "trigger"
+    ],
+    "properties": {
+        "timestamp": {
+            "type": "string",
+            "format": "date-time"
+        },
+        "previous_capacity": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+        },
+        "new_capacity": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+        },
+        "trigger": {
+            "type": "string",
+            "enum": [
+                "load_change",
+                "task_switch",
+                "fatigue",
+                "arousal"
+            ]
+        },
+        "capacity_type": {
+            "type": "string",
+            "enum": [
+                "total",
+                "verbal",
+                "visuospatial",
+                "central_executive"
+            ]
+        }
+    }
+}

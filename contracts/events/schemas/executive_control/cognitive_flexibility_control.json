@@ -1,0 +1,366 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "$id": "cognitive_flexibility_control.schema.json",
+    "title": "Cognitive Flexibility Control Event",
+    "description": "Event for cognitive flexibility mechanisms including task switching, mental set shifting, and adaptive control with brain-inspired coordination",
+    "type": "object",
+    "required": [
+        "timestamp",
+        "flexibility_operation",
+        "task_switching_dynamics",
+        "mental_set_management",
+        "neural_coordination"
+    ],
+    "properties": {
+        "timestamp": {
+            "type": "string",
+            "format": "date-time"
+        },
+        "flexibility_operation": {
+            "type": "string",
+            "enum": [
+                "task_switch",
+                "rule_switch",
+                "attention_switch",
+                "cognitive_set_shift",
+                "strategy_adaptation",
+                "context_update"
+            ]
+        },
+        "task_switching_dynamics": {
+            "type": "object",
+            "required": [
+                "switch_trigger",
+                "switch_cost",
+                "reconfiguration_process"
+            ],
+            "properties": {
+                "switch_trigger": {
+                    "type": "object",
+                    "properties": {
+                        "trigger_type": {
+                            "type": "string",
+                            "enum": [
+                                "cue_driven",
+                                "goal_driven",
+                                "context_driven",
+                                "error_driven",
+                                "voluntary"
+                            ]
+                        },
+                        "trigger_strength": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "trigger_latency": {
+                            "type": "number"
+                        },
+                        "trigger_confidence": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "switch_cost": {
+                    "type": "object",
+                    "properties": {
+                        "reaction_time_cost": {
+                            "type": "number"
+                        },
+                        "accuracy_cost": {
+                            "type": "number"
+                        },
+                        "cognitive_effort_cost": {
+                            "type": "number"
+                        },
+                        "resource_reallocation_cost": {
+                            "type": "number"
+                        },
+                        "interference_cost": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "reconfiguration_process": {
+                    "type": "object",
+                    "properties": {
+                        "preparation_phase": {
+                            "type": "object",
+                            "properties": {
+                                "advance_preparation": {
+                                    "type": "boolean"
+                                },
+                                "preparation_effectiveness": {
+                                    "type": "number"
+                                },
+                                "cue_utilization": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "execution_phase": {
+                            "type": "object",
+                            "properties": {
+                                "task_set_activation": {
+                                    "type": "number"
+                                },
+                                "task_set_inhibition": {
+                                    "type": "number"
+                                },
+                                "response_selection": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "consolidation_phase": {
+                            "type": "object",
+                            "properties": {
+                                "new_set_stabilization": {
+                                    "type": "number"
+                                },
+                                "interference_resolution": {
+                                    "type": "number"
+                                },
+                                "learning_integration": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "mental_set_management": {
+            "type": "object",
+            "properties": {
+                "current_mental_sets": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "set_id": {
+                                "type": "string"
+                            },
+                            "set_type": {
+                                "type": "string",
+                                "enum": [
+                                    "task_set",
+                                    "response_set",
+                                    "attention_set",
+                                    "goal_set",
+                                    "context_set"
+                                ]
+                            },
+                            "activation_level": {
+                                "type": "number"
+                            },
+                            "stability": {
+                                "type": "number"
+                            },
+                            "interference_potential": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                },
+                "set_competition": {
+                    "type": "object",
+                    "properties": {
+                        "competing_sets": {
+                            "type": "array"
+                        },
+                        "competition_strength": {
+                            "type": "number"
+                        },
+                        "resolution_mechanism": {
+                            "type": "string"
+                        },
+                        "winner_selection": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "set_updating": {
+                    "type": "object",
+                    "properties": {
+                        "update_trigger": {
+                            "type": "string"
+                        },
+                        "update_scope": {
+                            "type": "string"
+                        },
+                        "update_effectiveness": {
+                            "type": "number"
+                        },
+                        "persistence_adjustment": {
+                            "type": "number"
+                        }
+                    }
+                }
+            }
+        },
+        "neural_coordination": {
+            "type": "object",
+            "properties": {
+                "prefrontal_cortex_control": {
+                    "type": "object",
+                    "properties": {
+                        "lateral_pfc_activity": {
+                            "type": "object",
+                            "properties": {
+                                "rule_representation": {
+                                    "type": "number"
+                                },
+                                "cognitive_control": {
+                                    "type": "number"
+                                },
+                                "interference_resolution": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "frontal_pole_activity": {
+                            "type": "object",
+                            "properties": {
+                                "abstract_rule_processing": {
+                                    "type": "number"
+                                },
+                                "hierarchical_control": {
+                                    "type": "number"
+                                },
+                                "meta_cognitive_control": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "anterior_cingulate_activity": {
+                            "type": "object",
+                            "properties": {
+                                "conflict_detection": {
+                                    "type": "number"
+                                },
+                                "performance_monitoring": {
+                                    "type": "number"
+                                },
+                                "control_adjustment": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                },
+                "basal_ganglia_modulation": {
+                    "type": "object",
+                    "properties": {
+                        "action_selection": {
+                            "type": "number"
+                        },
+                        "response_inhibition": {
+                            "type": "number"
+                        },
+                        "habit_override": {
+                            "type": "number"
+                        },
+                        "reward_prediction": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "phase1_system_coordination": {
+                    "type": "object",
+                    "properties": {
+                        "attention_gate_flexibility": {
+                            "type": "object",
+                            "properties": {
+                                "gate_reconfiguration": {
+                                    "type": "number"
+                                },
+                                "attention_switching": {
+                                    "type": "number"
+                                },
+                                "salience_reweighting": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "working_memory_flexibility": {
+                            "type": "object",
+                            "properties": {
+                                "buffer_switching": {
+                                    "type": "number"
+                                },
+                                "content_updating": {
+                                    "type": "number"
+                                },
+                                "executive_control_adaptation": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "consciousness_flexibility": {
+                            "type": "object",
+                            "properties": {
+                                "coalition_switching": {
+                                    "type": "number"
+                                },
+                                "conscious_content_updating": {
+                                    "type": "number"
+                                },
+                                "global_accessibility_changes": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "adaptation_mechanisms": {
+            "type": "object",
+            "properties": {
+                "performance_based_adaptation": {
+                    "type": "object",
+                    "properties": {
+                        "error_rate_monitoring": {
+                            "type": "number"
+                        },
+                        "speed_accuracy_tradeoff": {
+                            "type": "object"
+                        },
+                        "strategy_effectiveness": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "context_based_adaptation": {
+                    "type": "object",
+                    "properties": {
+                        "environmental_demands": {
+                            "type": "object"
+                        },
+                        "task_complexity_adjustment": {
+                            "type": "number"
+                        },
+                        "resource_availability_adaptation": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "learning_based_adaptation": {
+                    "type": "object",
+                    "properties": {
+                        "experience_integration": {
+                            "type": "number"
+                        },
+                        "strategy_refinement": {
+                            "type": "number"
+                        },
+                        "meta_learning_application": {
+                            "type": "number"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

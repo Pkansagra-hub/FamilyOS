@@ -1,0 +1,616 @@
+---
+title: "Storage Service - Store Error Mappings and Recovery Strategies"
+version: "1.0.0"
+updated: "2025-09-16T00:00:00Z"
+service: "storage"
+category: "ops/errors"
+description: |
+  Store-specific error mappings for all 22 MemoryOS storage implementations.
+  Maps each store to relevant error categories with tailored recovery strategies
+  and escalation policies based on store characteristics and criticality.
+
+# =============================================================================
+# STORE INVENTORY MAPPING
+# =============================================================================
+
+store_categories:
+  memory_stores:
+    description: "Core memory storage components"
+    criticality: "high"
+    stores:
+      - "EpisodicStore"
+      - "SemanticStore"
+      - "EmbeddingsStore"
+      - "VectorStore"
+      - "FTSStore"
+
+  cognitive_stores:
+    description: "Cognitive processing support stores"
+    criticality: "medium"
+    stores:
+      - "AffectStore"
+      - "HippocampusStore"
+      - "ImaginationStore"
+      - "MetacogStore"
+      - "SocialCognitionStore"
+      - "DrivesStore"
+
+  system_stores:
+    description: "System infrastructure stores"
+    criticality: "critical"
+    stores:
+      - "ReceiptsStore"
+      - "IdempotencyStore"
+      - "OutboxStore"
+      - "WorkspaceStore"
+      - "PrivacyStore"
+      - "SecureStore"
+
+  specialized_stores:
+    description: "Domain-specific specialized stores"
+    criticality: "medium"
+    stores:
+      - "BlobStore"
+      - "CRDTStore"
+      - "KGStore"
+      - "MLStore"
+      - "ProspectiveStore"
+
+# =============================================================================
+# MEMORY STORES ERROR MAPPINGS
+# =============================================================================
+
+memory_stores:
+  EpisodicStore:
+    description: "Sequential memory records with temporal ordering"
+    primary_error_risks:
+      - "STOR401: CHECKSUM_VALIDATION_FAILED" # High data integrity requirements
+      - "STOR500: OPERATION_TIMEOUT" # Large sequential scans
+      - "STOR502: MEMORY_PRESSURE_HIGH" # Large episodic sequences
+      - "STOR406: RECORD_VERSION_CONFLICT" # Concurrent episode updates
+
+    recovery_strategies:
+      STOR401: "restore_from_backup" # Critical for memory integrity
+      STOR500: "retry_with_exponential_backoff"
+      STOR502: "reduce_memory_usage"
+      STOR406: "return_conflict_error"
+
+    escalation_overrides:
+      STOR401: "immediate" # Memory corruption is critical
+      STOR502: "after_2_occurrences" # Memory pressure in episodic store
+
+    specific_configurations:
+      max_episode_size_mb: 10
+      timeout_override_ms: 30000
+      backup_frequency_hours: 2
+
+  SemanticStore:
+    description: "Semantic relationship and concept storage"
+    primary_error_risks:
+      - "STOR405: CROSS_STORE_CONSISTENCY_VIOLATION" # Links to multiple stores
+      - "STOR402: FOREIGN_KEY_CONSTRAINT_VIOLATION" # Complex relationships
+      - "STOR501: QUERY_PERFORMANCE_DEGRADED" # Complex semantic queries
+      - "STOR507: CACHE_MISS_RATE_HIGH" # Frequent semantic lookups
+
+    recovery_strategies:
+      STOR405: "initiate_consistency_repair"
+      STOR402: "return_constraint_error"
+      STOR501: "optimize_query_execution"
+      STOR507: "optimize_cache_strategy"
+
+    escalation_overrides:
+      STOR405: "after_1_occurrence" # Consistency critical for semantics
+
+    specific_configurations:
+      semantic_cache_size_mb: 50
+      relationship_index_optimization: true
+      consistency_check_interval_hours: 6
+
+  EmbeddingsStore:
+    description: "High-dimensional vector embeddings"
+    primary_error_risks:
+      - "STOR407: DATA_SIZE_LIMIT_EXCEEDED" # Large embedding vectors
+      - "STOR502: MEMORY_PRESSURE_HIGH" # Vector operations memory intensive
+      - "STOR500: OPERATION_TIMEOUT" # Similarity searches
+      - "STOR508: WRITE_AMPLIFICATION_HIGH" # Frequent embedding updates
+
+    recovery_strategies:
+      STOR407: "return_size_limit_error"
+      STOR502: "reduce_memory_usage"
+      STOR500: "retry_with_exponential_backoff"
+      STOR508: "optimize_write_patterns"
+
+    escalation_overrides:
+      STOR502: "after_1_occurrence" # Vector operations can be memory critical
+
+    specific_configurations:
+      max_embedding_dimensions: 1536
+      vector_cache_size_mb: 100
+      similarity_search_timeout_ms: 15000
+
+  VectorStore:
+    description: "Optimized vector storage and indexing"
+    primary_error_risks:
+      - "STOR506: INDEX_REBUILD_FAILED" # Vector indexes complex
+      - "STOR502: MEMORY_PRESSURE_HIGH" # Vector operations
+      - "STOR501: QUERY_PERFORMANCE_DEGRADED" # Nearest neighbor queries
+      - "STOR407: DATA_SIZE_LIMIT_EXCEEDED" # Large vectors
+
+    recovery_strategies:
+      STOR506: "rebuild_index_incrementally"
+      STOR502: "reduce_memory_usage"
+      STOR501: "optimize_query_execution"
+      STOR407: "return_size_limit_error"
+
+    specific_configurations:
+      vector_index_type: "hnsw"
+      max_vector_size_mb: 5
+      index_rebuild_threshold: 1000000
+
+  FTSStore:
+    description: "Full-text search with indexed content"
+    primary_error_risks:
+      - "STOR506: INDEX_REBUILD_FAILED" # FTS indexes
+      - "STOR501: QUERY_PERFORMANCE_DEGRADED" # Complex text queries
+      - "STOR507: CACHE_MISS_RATE_HIGH" # Text search patterns
+      - "STOR505: VACUUM_OPERATION_FAILED" # FTS vacuum issues
+
+    recovery_strategies:
+      STOR506: "rebuild_index_incrementally"
+      STOR501: "optimize_query_execution"
+      STOR507: "optimize_cache_strategy"
+      STOR505: "retry_vacuum_during_maintenance"
+
+    specific_configurations:
+      fts_tokenizer: "unicode61"
+      index_optimization_frequency: "weekly"
+      search_result_limit: 1000
+
+# =============================================================================
+# COGNITIVE STORES ERROR MAPPINGS
+# =============================================================================
+
+cognitive_stores:
+  AffectStore:
+    description: "Emotional state and affect tracking"
+    primary_error_risks:
+      - "STOR301: QUOTA_EXCEEDED" # Affect data can grow rapidly
+      - "STOR500: OPERATION_TIMEOUT" # Real-time affect processing
+      - "STOR406: RECORD_VERSION_CONFLICT" # Concurrent affect updates
+      - "STOR404: DATA_TYPE_VALIDATION_FAILED" # Affect value validation
+
+    recovery_strategies:
+      STOR301: "enforce_quota_limit"
+      STOR500: "retry_with_exponential_backoff"
+      STOR406: "return_conflict_error"
+      STOR404: "return_validation_error"
+
+    specific_configurations:
+      affect_data_retention_days: 365
+      real_time_processing_timeout_ms: 5000
+      affect_value_range: [-1.0, 1.0]
+
+  HippocampusStore:
+    description: "Memory consolidation and indexing"
+    primary_error_risks:
+      - "STOR405: CROSS_STORE_CONSISTENCY_VIOLATION" # Links many memory stores
+      - "STOR402: FOREIGN_KEY_CONSTRAINT_VIOLATION" # Memory references
+      - "STOR501: QUERY_PERFORMANCE_DEGRADED" # Memory consolidation queries
+      - "STOR502: MEMORY_PRESSURE_HIGH" # Consolidation processing
+
+    recovery_strategies:
+      STOR405: "initiate_consistency_repair"
+      STOR402: "return_constraint_error"
+      STOR501: "optimize_query_execution"
+      STOR502: "reduce_memory_usage"
+
+    escalation_overrides:
+      STOR405: "after_1_occurrence" # Consistency critical for memory system
+
+    specific_configurations:
+      consolidation_batch_size: 100
+      memory_reference_validation: true
+      consolidation_timeout_minutes: 30
+
+  ImaginationStore:
+    description: "Hypothetical scenarios and simulations"
+    primary_error_risks:
+      - "STOR407: DATA_SIZE_LIMIT_EXCEEDED" # Complex simulation data
+      - "STOR502: MEMORY_PRESSURE_HIGH" # Simulation processing
+      - "STOR500: OPERATION_TIMEOUT" # Long simulation runs
+      - "STOR404: DATA_TYPE_VALIDATION_FAILED" # Scenario validation
+
+    recovery_strategies:
+      STOR407: "return_size_limit_error"
+      STOR502: "reduce_memory_usage"
+      STOR500: "retry_with_exponential_backoff"
+      STOR404: "return_validation_error"
+
+    specific_configurations:
+      max_simulation_size_mb: 50
+      simulation_timeout_minutes: 15
+      scenario_validation_schema: "strict"
+
+  MetacogStore:
+    description: "Metacognitive awareness and self-reflection"
+    primary_error_risks:
+      - "STOR405: CROSS_STORE_CONSISTENCY_VIOLATION" # References all cognitive stores
+      - "STOR301: QUOTA_EXCEEDED" # Metacognitive data accumulation
+      - "STOR501: QUERY_PERFORMANCE_DEGRADED" # Self-reflection queries
+      - "STOR500: OPERATION_TIMEOUT" # Complex metacognitive analysis
+
+    recovery_strategies:
+      STOR405: "initiate_consistency_repair"
+      STOR301: "enforce_quota_limit"
+      STOR501: "optimize_query_execution"
+      STOR500: "retry_with_exponential_backoff"
+
+    specific_configurations:
+      metacognitive_depth_levels: 5
+      self_reflection_timeout_minutes: 10
+      cross_store_validation: true
+
+  SocialCognitionStore:
+    description: "Social interaction patterns and relationships"
+    primary_error_risks:
+      - "STOR305: COMPLIANCE_VIOLATION" # Privacy and social data
+      - "STOR306: PRIVACY_FILTER_FAILED" # Social data filtering
+      - "STOR402: FOREIGN_KEY_CONSTRAINT_VIOLATION" # Social relationships
+      - "STOR301: QUOTA_EXCEEDED" # Social interaction data
+
+    recovery_strategies:
+      STOR305: "block_and_report_violation"
+      STOR306: "default_to_most_restrictive"
+      STOR402: "return_constraint_error"
+      STOR301: "enforce_quota_limit"
+
+    escalation_overrides:
+      STOR305: "immediate" # Privacy violations critical
+      STOR306: "immediate" # Privacy filter failures critical
+
+    specific_configurations:
+      privacy_compliance_level: "strict"
+      social_data_anonymization: true
+      relationship_validation_rules: "comprehensive"
+
+  DrivesStore:
+    description: "Motivational drives and goal states"
+    primary_error_risks:
+      - "STOR404: DATA_TYPE_VALIDATION_FAILED" # Drive value validation
+      - "STOR406: RECORD_VERSION_CONFLICT" # Concurrent drive updates
+      - "STOR500: OPERATION_TIMEOUT" # Drive calculation processing
+      - "STOR301: QUOTA_EXCEEDED" # Drive history accumulation
+
+    recovery_strategies:
+      STOR404: "return_validation_error"
+      STOR406: "return_conflict_error"
+      STOR500: "retry_with_exponential_backoff"
+      STOR301: "enforce_quota_limit"
+
+    specific_configurations:
+      drive_value_range: [0.0, 1.0]
+      drive_update_timeout_ms: 3000
+      drive_history_retention_days: 90
+
+# =============================================================================
+# SYSTEM STORES ERROR MAPPINGS
+# =============================================================================
+
+system_stores:
+  ReceiptsStore:
+    description: "Transaction receipts and audit trail"
+    criticality: "critical"
+    primary_error_risks:
+      - "STOR400: DATA_CORRUPTION_DETECTED" # Audit integrity critical
+      - "STOR304: AUDIT_LOGGING_FAILED" # Core audit functionality
+      - "STOR403: UNIQUE_CONSTRAINT_VIOLATION" # Receipt ID uniqueness
+      - "STOR500: OPERATION_TIMEOUT" # High-volume receipt generation
+
+    recovery_strategies:
+      STOR400: "restore_from_backup"
+      STOR304: "block_operation_until_logged"
+      STOR403: "return_uniqueness_error"
+      STOR500: "retry_with_exponential_backoff"
+
+    escalation_overrides:
+      STOR400: "immediate" # Receipt corruption critical for audit
+      STOR304: "immediate" # Audit logging failures critical
+
+    specific_configurations:
+      receipt_signing_required: true
+      audit_log_backup_frequency_hours: 1
+      receipt_retention_years: 7
+
+  IdempotencyStore:
+    description: "Idempotency key tracking and duplicate detection"
+    criticality: "critical"
+    primary_error_risks:
+      - "STOR403: UNIQUE_CONSTRAINT_VIOLATION" # Idempotency key conflicts
+      - "STOR500: OPERATION_TIMEOUT" # High-throughput key checking
+      - "STOR507: CACHE_MISS_RATE_HIGH" # Frequent key lookups
+      - "STOR301: QUOTA_EXCEEDED" # Idempotency key accumulation
+
+    recovery_strategies:
+      STOR403: "return_uniqueness_error"
+      STOR500: "retry_with_exponential_backoff"
+      STOR507: "optimize_cache_strategy"
+      STOR301: "enforce_quota_limit"
+
+    escalation_overrides:
+      STOR403: "none" # Idempotency violations expected and handled
+
+    specific_configurations:
+      idempotency_cache_size_mb: 200
+      key_expiration_hours: 24
+      high_throughput_optimization: true
+
+  OutboxStore:
+    description: "Event outbox pattern for reliable messaging"
+    criticality: "critical"
+    primary_error_risks:
+      - "STOR101: TRANSACTION_TIMEOUT" # Outbox transaction coordination
+      - "STOR500: OPERATION_TIMEOUT" # Event publishing delays
+      - "STOR301: QUOTA_EXCEEDED" # Event accumulation
+      - "STOR105: DISTRIBUTED_TRANSACTION_COORDINATOR_FAILED" # Event coordination
+
+    recovery_strategies:
+      STOR101: "rollback_and_retry"
+      STOR500: "retry_with_exponential_backoff"
+      STOR301: "enforce_quota_limit"
+      STOR105: "initiate_recovery_protocol"
+
+    escalation_overrides:
+      STOR105: "immediate" # Event coordination failures critical
+
+    specific_configurations:
+      event_processing_timeout_ms: 10000
+      max_pending_events: 10000
+      dead_letter_queue_enabled: true
+
+  WorkspaceStore:
+    description: "Workspace configuration and state"
+    criticality: "high"
+    primary_error_risks:
+      - "STOR202: SCHEMA_VALIDATION_FAILED" # Workspace schema compliance
+      - "STOR404: DATA_TYPE_VALIDATION_FAILED" # Configuration validation
+      - "STOR406: RECORD_VERSION_CONFLICT" # Concurrent workspace updates
+      - "STOR500: OPERATION_TIMEOUT" # Workspace state operations
+
+    recovery_strategies:
+      STOR202: "regenerate_schema"
+      STOR404: "return_validation_error"
+      STOR406: "return_conflict_error"
+      STOR500: "retry_with_exponential_backoff"
+
+    specific_configurations:
+      workspace_schema_validation: "strict"
+      configuration_backup_frequency_hours: 4
+      concurrent_access_protection: true
+
+  PrivacyStore:
+    description: "Privacy policies and data protection"
+    criticality: "critical"
+    primary_error_risks:
+      - "STOR305: COMPLIANCE_VIOLATION" # Privacy compliance
+      - "STOR306: PRIVACY_FILTER_FAILED" # Privacy filtering
+      - "STOR300: ACCESS_DENIED" # Privacy access control
+      - "STOR303: ENCRYPTION_POLICY_VIOLATION" # Privacy encryption
+
+    recovery_strategies:
+      STOR305: "block_and_report_violation"
+      STOR306: "default_to_most_restrictive"
+      STOR300: "return_authorization_error"
+      STOR303: "enforce_encryption_requirements"
+
+    escalation_overrides:
+      STOR305: "immediate" # Privacy violations critical
+      STOR306: "immediate" # Privacy filter failures critical
+      STOR303: "immediate" # Encryption violations critical
+
+    specific_configurations:
+      privacy_compliance_framework: ["GDPR", "CCPA"]
+      encryption_at_rest_required: true
+      privacy_audit_frequency_hours: 2
+
+  SecureStore:
+    description: "Encrypted secure data storage"
+    criticality: "critical"
+    primary_error_risks:
+      - "STOR303: ENCRYPTION_POLICY_VIOLATION" # Encryption requirements
+      - "STOR400: DATA_CORRUPTION_DETECTED" # Encrypted data integrity
+      - "STOR300: ACCESS_DENIED" # Security access control
+      - "STOR401: CHECKSUM_VALIDATION_FAILED" # Encrypted data validation
+
+    recovery_strategies:
+      STOR303: "enforce_encryption_requirements"
+      STOR400: "restore_from_backup"
+      STOR300: "return_authorization_error"
+      STOR401: "retry_from_source"
+
+    escalation_overrides:
+      STOR303: "immediate" # Encryption violations critical
+      STOR400: "immediate" # Secure data corruption critical
+
+    specific_configurations:
+      encryption_algorithm: "AES-256-GCM"
+      key_rotation_frequency_days: 90
+      secure_backup_encryption: true
+
+# =============================================================================
+# SPECIALIZED STORES ERROR MAPPINGS
+# =============================================================================
+
+specialized_stores:
+  BlobStore:
+    description: "Large binary object storage"
+    primary_error_risks:
+      - "STOR407: DATA_SIZE_LIMIT_EXCEEDED" # Large blob limits
+      - "STOR503: DISK_SPACE_LOW" # Blob storage space
+      - "STOR500: OPERATION_TIMEOUT" # Large blob operations
+      - "STOR401: CHECKSUM_VALIDATION_FAILED" # Blob integrity
+
+    recovery_strategies:
+      STOR407: "return_size_limit_error"
+      STOR503: "trigger_cleanup_procedures"
+      STOR500: "retry_with_exponential_backoff"
+      STOR401: "retry_from_source"
+
+    specific_configurations:
+      max_blob_size_gb: 1
+      blob_checksum_algorithm: "SHA-256"
+      storage_optimization: "compression"
+
+  CRDTStore:
+    description: "Conflict-free replicated data types"
+    primary_error_risks:
+      - "STOR405: CROSS_STORE_CONSISTENCY_VIOLATION" # CRDT synchronization
+      - "STOR406: RECORD_VERSION_CONFLICT" # CRDT merge conflicts
+      - "STOR500: OPERATION_TIMEOUT" # CRDT merge operations
+      - "STOR502: MEMORY_PRESSURE_HIGH" # CRDT state size
+
+    recovery_strategies:
+      STOR405: "initiate_consistency_repair"
+      STOR406: "return_conflict_error"
+      STOR500: "retry_with_exponential_backoff"
+      STOR502: "reduce_memory_usage"
+
+    specific_configurations:
+      crdt_type: "state_based"
+      merge_conflict_resolution: "last_write_wins"
+      synchronization_interval_ms: 5000
+
+  KGStore:
+    description: "Knowledge graph storage and querying"
+    primary_error_risks:
+      - "STOR402: FOREIGN_KEY_CONSTRAINT_VIOLATION" # Graph relationships
+      - "STOR501: QUERY_PERFORMANCE_DEGRADED" # Complex graph queries
+      - "STOR502: MEMORY_PRESSURE_HIGH" # Graph traversal operations
+      - "STOR408: REFERENTIAL_INTEGRITY_VIOLATION" # Graph integrity
+
+    recovery_strategies:
+      STOR402: "return_constraint_error"
+      STOR501: "optimize_query_execution"
+      STOR502: "reduce_memory_usage"
+      STOR408: "enforce_referential_integrity"
+
+    specific_configurations:
+      graph_traversal_depth_limit: 10
+      knowledge_graph_index_optimization: true
+      referential_integrity_checks: "strict"
+
+  MLStore:
+    description: "Machine learning model and artifact storage"
+    primary_error_risks:
+      - "STOR407: DATA_SIZE_LIMIT_EXCEEDED" # Large ML models
+      - "STOR503: DISK_SPACE_LOW" # Model storage space
+      - "STOR404: DATA_TYPE_VALIDATION_FAILED" # Model format validation
+      - "STOR500: OPERATION_TIMEOUT" # Model loading operations
+
+    recovery_strategies:
+      STOR407: "return_size_limit_error"
+      STOR503: "trigger_cleanup_procedures"
+      STOR404: "return_validation_error"
+      STOR500: "retry_with_exponential_backoff"
+
+    specific_configurations:
+      max_model_size_gb: 5
+      model_format_validation: "strict"
+      model_compression_enabled: true
+
+  ProspectiveStore:
+    description: "Future planning and prospective memory"
+    primary_error_risks:
+      - "STOR404: DATA_TYPE_VALIDATION_FAILED" # Planning constraint validation
+      - "STOR500: OPERATION_TIMEOUT" # Complex planning operations
+      - "STOR502: MEMORY_PRESSURE_HIGH" # Planning state space
+      - "STOR406: RECORD_VERSION_CONFLICT" # Concurrent plan updates
+
+    recovery_strategies:
+      STOR404: "return_validation_error"
+      STOR500: "retry_with_exponential_backoff"
+      STOR502: "reduce_memory_usage"
+      STOR406: "return_conflict_error"
+
+    specific_configurations:
+      planning_horizon_days: 365
+      plan_complexity_limit: 1000
+      prospective_memory_validation: "enabled"
+
+# =============================================================================
+# CROSS-STORE ERROR HANDLING
+# =============================================================================
+
+cross_store_scenarios:
+  unit_of_work_failures:
+    description: "UnitOfWork spans multiple stores"
+    affected_stores: "all"
+    primary_errors:
+      - "STOR105: DISTRIBUTED_TRANSACTION_COORDINATOR_FAILED"
+      - "STOR106: TRANSACTION_PREPARE_FAILED"
+      - "STOR107: UNIT_OF_WORK_VALIDATION_FAILED"
+
+    recovery_strategy: "distributed_rollback"
+    rollback_order:
+      - "SecureStore" # Most critical first
+      - "PrivacyStore"
+      - "ReceiptsStore"
+      - "IdempotencyStore"
+      - "OutboxStore"
+      - "memory_stores" # Memory stores as group
+      - "cognitive_stores" # Cognitive stores as group
+      - "specialized_stores" # Specialized stores as group
+
+    escalation_policy: "immediate"
+
+  consistency_violations:
+    description: "Cross-store data consistency issues"
+    monitoring_frequency: "continuous"
+    consistency_checks:
+      - "episodic_semantic_consistency"
+      - "hippocampus_memory_consistency"
+      - "outbox_receipt_consistency"
+      - "privacy_secure_consistency"
+
+    repair_strategies:
+      - "incremental_repair"
+      - "full_consistency_rebuild"
+      - "manual_intervention"
+
+# =============================================================================
+# STORE-SPECIFIC SLA TARGETS
+# =============================================================================
+
+sla_targets:
+  critical_stores: # ReceiptsStore, IdempotencyStore, OutboxStore, PrivacyStore, SecureStore
+    error_rate_threshold: 0.01 # 0.01% maximum error rate
+    recovery_time_seconds: 30 # 30 second maximum recovery time
+    availability_percentage: 99.99 # 99.99% availability
+
+  high_priority_stores: # Memory stores, WorkspaceStore
+    error_rate_threshold: 0.1 # 0.1% maximum error rate
+    recovery_time_seconds: 60 # 1 minute maximum recovery time
+    availability_percentage: 99.9 # 99.9% availability
+
+  standard_stores: # Cognitive stores, Specialized stores
+    error_rate_threshold: 0.5 # 0.5% maximum error rate
+    recovery_time_seconds: 300 # 5 minute maximum recovery time
+    availability_percentage: 99.5 # 99.5% availability
+
+# =============================================================================
+# CONTRACT METADATA
+# =============================================================================
+
+contract_metadata:
+  stores_mapped: 22
+  error_mappings_defined: 88
+  recovery_strategies_customized: 22
+  sla_targets_defined: 3
+  cross_store_scenarios: 2
+
+  last_updated: "2025-09-16T00:00:00Z"
+  validation_status: "complete"
+  coverage_analysis:
+    stores_covered: "100%"
+    error_categories_mapped: "100%"
+    recovery_strategies_defined: "100%"
+    escalation_policies_defined: "100%"

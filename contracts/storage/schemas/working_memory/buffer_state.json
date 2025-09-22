@@ -1,0 +1,52 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "$id": "buffer_state.schema.json",
+    "title": "Working Memory Buffer State Storage",
+    "type": "object",
+    "required": [
+        "buffer_id",
+        "capacity",
+        "utilization",
+        "content_items",
+        "status"
+    ],
+    "properties": {
+        "buffer_id": {
+            "type": "string"
+        },
+        "capacity": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+        },
+        "utilization": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+        },
+        "content_items": {
+            "type": "array",
+            "items": {
+                "type": "object"
+            }
+        },
+        "status": {
+            "type": "string",
+            "enum": [
+                "active",
+                "inactive",
+                "maintenance",
+                "error"
+            ]
+        },
+        "decay_rate": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+        },
+        "last_accessed": {
+            "type": "string",
+            "format": "date-time"
+        }
+    }
+}

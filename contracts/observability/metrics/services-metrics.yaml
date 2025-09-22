@@ -1,0 +1,16 @@
+metrics:
+  - name: services_health_changes_total
+    type: counter
+    unit: "events"
+    labels: ["service","status","band"]
+  - name: services_receipts_total
+    type: counter
+    unit: "receipts"
+    labels: ["service","op"]
+  - name: services_operation_duration_ms
+    type: histogram
+    unit: "ms"
+    labels: ["operation"]
+slos:
+  availability: ">= 99.5%"
+  health_emit_p95_ms: 30

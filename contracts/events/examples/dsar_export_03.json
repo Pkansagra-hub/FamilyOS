@@ -1,0 +1,59 @@
+{
+  "schema_version": "1.1.0",
+  "id": "5f06bc9e-c503-43ec-a273-d8868ac7bed3",
+  "ts": "2025-09-09T04:20:40Z",
+  "topic": "DSAR_EXPORT",
+  "band": "RED",
+  "actor": {
+    "user_id": "c2a99bb6-1aa6-4b80-bc27-5c9b8e9b3d01",
+    "agent_id": "system.v1",
+    "caps": [
+      "WRITE",
+      "RECALL"
+    ]
+  },
+  "device": {
+    "device_id": "srv-privacy-01",
+    "platform": "macos",
+    "app_version": "1.1.9",
+    "locale": "en-US"
+  },
+  "space_id": "extended:grandparents",
+  "policy_version": "1.3",
+  "abac": {
+    "role": "guest",
+    "trust": "red",
+    "geo_precision": "city"
+  },
+  "qos": {
+    "routing": "fast-path",
+    "priority": 6,
+    "latency_budget_ms": 262,
+    "retries": 0
+  },
+  "trace": {
+    "trace_id": "443dd55ba3df472dc2a2bae39d00a7da",
+    "span_id": "a2d5cd59bf69d6dc",
+    "sampled": true
+  },
+  "obligations": [
+    "AUDIT_ACCESS"
+  ],
+  "redaction_applied": true,
+  "hashes": {
+    "payload_sha256": "af50c1b0f1ba1dac1f9cf4292bcbc54205bad14e64d31323ba8756bda3147c3a"
+  },
+  "payload": {
+    "type": "export",
+    "subject": {
+      "user_id": "72dcffe4-d0c5-46b2-833a-cdf426e88e10"
+    }
+  },
+  "signature": {
+    "alg": "ed25519",
+    "key_id": "key_dsar_export_red_2024",
+    "public_key": "cHVibGlj",
+    "signature": "c2ln"
+  },
+  "mls_group": "household-secure"
+}

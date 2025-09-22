@@ -1,0 +1,15 @@
+roles:
+  - name: internal_service
+    permits: ["observability.read_metrics","observability.read_health"]
+abac:
+  rules:
+    - when: "record.space_id == ctx.space_id"
+      allow: ["log.write","metric.write","span.write"]
+bands:
+  GREEN: { logs: "full", metrics: "full", traces: "full" }
+  AMBER: { logs: "mask_sensitive", metrics: "full", traces: "full" }
+  RED:   { logs: "summary_only", metrics: "aggregate_only", traces: "headers_only" }
+  BLACK: { logs: "deny", metrics: "deny", traces: "deny" }
+obligations:
+  - on: "any.write"
+    do: "audit_emit"

@@ -1,0 +1,14 @@
+metrics:
+  - name: perception_ingest_total
+    type: counter
+    labels: [kind, band]
+    unit: frames
+  - name: perception_ingest_latency_ms
+    type: histogram
+    labels: [kind]
+    buckets_ms: [5,10,20,40,80,160,320]
+  - name: perception_ttl_pruned_total
+    type: counter
+    labels: []
+slo:
+  ingest_p95_ms: 60

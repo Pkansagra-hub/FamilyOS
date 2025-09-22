@@ -1,0 +1,60 @@
+{
+  "schema_version": "1.1.0",
+  "id": "80bb811b-9027-4b55-89c5-e9de28ec94cd",
+  "ts": "2025-09-09T04:20:40Z",
+  "topic": "TOMBSTONE_APPLIED",
+  "band": "RED",
+  "actor": {
+    "user_id": "ddc308e9-f950-4c7e-a0e3-5963449b8609",
+    "agent_id": "encoder.v1",
+    "caps": [
+      "PROJECT"
+    ]
+  },
+  "device": {
+    "device_id": "android-pixel8",
+    "platform": "edge",
+    "app_version": "1.7.0",
+    "locale": "de-DE"
+  },
+  "space_id": "shared:household",
+  "policy_version": "1.3",
+  "abac": {
+    "role": "parent",
+    "trust": "red",
+    "geo_precision": "region"
+  },
+  "qos": {
+    "routing": "gate-path",
+    "priority": 9,
+    "latency_budget_ms": 236,
+    "retries": 0
+  },
+  "trace": {
+    "trace_id": "3f51205697b22d62b6c364ed5d60353a",
+    "span_id": "320a2c72294ecb5d",
+    "sampled": true
+  },
+  "obligations": [
+    "REDACT_PII",
+    "TOMBSTONE_ON_DELETE"
+  ],
+  "redaction_applied": true,
+  "hashes": {
+    "payload_sha256": "17a3c808fb8af1847f406adde896e522a7e7c1b29ba3ad0c95ecf51c8b7b6c1e"
+  },
+  "payload": {
+    "reason": "DSAR erasure",
+    "target_ids": [
+      "18dc9c55-ec99-460a-bb30-01c3472d8e37",
+      "88fb164a-eff2-4923-9005-9e1ba902a8bb"
+    ]
+  },
+  "signature": {
+    "alg": "ed25519",
+    "key_id": "key_tombstone_applied_red_2024",
+    "public_key": "cHVibGlj",
+    "signature": "c2ln"
+  },
+  "mls_group": "household-secure"
+}

@@ -1,0 +1,39 @@
+{
+  "id": "01JA9X6MXXXXXXXXXXXXXXXXXX",
+  "created_ts": "2025-09-16T10:30:00.000Z",
+  "cognitive_trace_id": "01JA9X6NYYYYYYYYYYYYYYYYYY",
+  "band": "GREEN",
+  "space_id": "shared:household",
+  "pipeline_id": "P20",
+  "input_events": [
+    "cognitive_request",
+    "input_data"
+  ],
+  "output_events": [
+    "cognitive_response",
+    "output_data"
+  ],
+  "processing_stage": "cognitive_processing",
+  "performance_sla": {
+    "max_latency_ms": 120,
+    "throughput_per_sec": 100,
+    "accuracy_threshold": 0.95
+  },
+  "neural_substrate": {
+    "brain_region": "sensory_cortex",
+    "neural_circuit": "multimodal integration circuit",
+    "neurotransmitter_systems": [
+      "glutamate",
+      "acetylcholine"
+    ],
+    "oscillatory_patterns": {
+      "frequency_band": "gamma",
+      "amplitude": 0.65,
+      "phase_coherence": 0.75
+    }
+  },
+  "cognitive_functions": [
+    "attention",
+    "memory"
+  ]
+}

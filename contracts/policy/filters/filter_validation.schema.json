@@ -1,0 +1,282 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "title": "Retrieval Filter Validation Schema",
+    "description": "JSON Schema for validating retrieval service filter requests",
+    "type": "object",
+    "properties": {
+        "temporal": {
+            "type": "object",
+            "description": "Time-based filters",
+            "properties": {
+                "after": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Include items after this timestamp"
+                },
+                "before": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Include items before this timestamp"
+                },
+                "within_days": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 3650,
+                    "description": "Include items from last N days"
+                }
+            },
+            "not": {
+                "allOf": [
+                    {
+                        "required": [
+                            "within_days"
+                        ]
+                    },
+                    {
+                        "anyOf": [
+                            {
+                                "required": [
+                                    "after"
+                                ]
+                            },
+                            {
+                                "required": [
+                                    "before"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            "if": {
+                "allOf": [
+                    {
+                        "required": [
+                            "after"
+                        ]
+                    },
+                    {
+                        "required": [
+                            "before"
+                        ]
+                    }
+                ]
+            },
+            "then": {
+                "properties": {
+                    "after": {
+                        "type": "string"
+                    },
+                    "before": {
+                        "type": "string"
+                    }
+                }
+            },
+            "additionalProperties": false
+        },
+        "topics": {
+            "type": "array",
+            "items": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_]*$",
+                "maxLength": 50
+            },
+            "maxItems": 10,
+            "uniqueItems": true,
+            "description": "Include only items with these topics"
+        },
+        "exclude_topics": {
+            "type": "array",
+            "items": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_]*$",
+                "maxLength": 50
+            },
+            "maxItems": 10,
+            "uniqueItems": true,
+            "description": "Exclude items with these topics"
+        },
+        "bands": {
+            "type": "array",
+            "items": {
+                "type": "string",
+                "enum": [
+                    "GREEN",
+                    "AMBER",
+                    "RED",
+                    "BLACK"
+                ]
+            },
+            "minItems": 1,
+            "maxItems": 4,
+            "uniqueItems": true,
+            "description": "Allowed security bands"
+        },
+        "max_band": {
+            "type": "string",
+            "enum": [
+                "GREEN",
+                "AMBER",
+                "RED",
+                "BLACK"
+            ],
+            "description": "Maximum security band (inclusive)"
+        },
+        "allow_shared": {
+            "type": "boolean",
+            "default": true,
+            "description": "Include shared space items"
+        },
+        "allow_cross_space": {
+            "type": "boolean",
+            "default": false,
+            "description": "Allow cross-space queries (admin only)"
+        },
+        "space_types": {
+            "type": "array",
+            "items": {
+                "type": "string",
+                "enum": [
+                    "personal",
+                    "selective",
+                    "shared",
+                    "extended",
+                    "interfamily"
+                ]
+            },
+            "uniqueItems": true,
+            "description": "Allowed space types"
+        },
+        "max_sensitivity": {
+            "type": "string",
+            "enum": [
+                "public",
+                "internal",
+                "confidential",
+                "restricted"
+            ],
+            "description": "Maximum data sensitivity level"
+        },
+        "exclude_sensitive": {
+            "type": "boolean",
+            "default": false,
+            "description": "Exclude confidential/restricted items"
+        },
+        "owner_only": {
+            "type": "boolean",
+            "default": false,
+            "description": "Only items owned by requester"
+        },
+        "include_owners": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            },
+            "description": "Include items from specific owners"
+        },
+        "exclude_owners": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            },
+            "description": "Exclude items from specific owners"
+        }
+    },
+    "allOf": [
+        {
+            "description": "Cannot specify both topics and exclude_topics with overlap",
+            "not": {
+                "allOf": [
+                    {
+                        "required": [
+                            "topics"
+                        ]
+                    },
+                    {
+                        "required": [
+                            "exclude_topics"
+                        ]
+                    },
+                    {
+                        "properties": {
+                            "topics": {
+                                "type": "array"
+                            },
+                            "exclude_topics": {
+                                "type": "array"
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "description": "Cannot specify both bands and max_band",
+            "not": {
+                "allOf": [
+                    {
+                        "required": [
+                            "bands"
+                        ]
+                    },
+                    {
+                        "required": [
+                            "max_band"
+                        ]
+                    }
+                ]
+            }
+        },
+        {
+            "description": "Cannot specify both owner_only and include_owners",
+            "not": {
+                "allOf": [
+                    {
+                        "properties": {
+                            "owner_only": {
+                                "const": true
+                            }
+                        }
+                    },
+                    {
+                        "required": [
+                            "include_owners"
+                        ]
+                    }
+                ]
+            }
+        }
+    ],
+    "additionalProperties": false,
+    "examples": [
+        {
+            "temporal": {
+                "within_days": 30
+            },
+            "topics": [
+                "work_meetings",
+                "project_updates"
+            ],
+            "bands": [
+                "GREEN",
+                "AMBER"
+            ],
+            "space_types": [
+                "shared"
+            ],
+            "max_sensitivity": "internal"
+        },
+        {
+            "temporal": {
+                "after": "2025-08-01T00:00:00Z",
+                "before": "2025-09-16T00:00:00Z"
+            },
+            "exclude_topics": [
+                "personal_health"
+            ],
+            "max_band": "RED",
+            "allow_cross_space": false,
+            "exclude_sensitive": false
+        }
+    ]
+}

@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://familyos.local/contracts/storage/registry_tool.schema.json",
+  "title": "Registry Tool",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "name",
+    "caps",
+    "created_ts"
+  ],
+  "properties": {
+    "id": {
+      "$ref": "./common.schema.json#/$defs/ULID"
+    },
+    "name": {
+      "type": "string"
+    },
+    "caps": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "created_ts": {
+      "$ref": "./common.schema.json#/$defs/Timestamp"
+    },
+    "owner_space": {
+      "$ref": "./common.schema.json#/$defs/SpaceId"
+    }
+  }
+}

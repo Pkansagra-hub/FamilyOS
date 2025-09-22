@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://memoryos.local/contracts/events/schemas/ml_run_event.schema.json",
+  "title": "ML_RUN_EVENT@1.0 payload",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "run_id",
+    "kind",
+    "started_at"
+  ],
+  "properties": {
+    "run_id": {
+      "type": "string"
+    },
+    "kind": {
+      "type": "string",
+      "enum": [
+        "train",
+        "eval",
+        "promote"
+      ]
+    },
+    "started_at": {
+      "$ref": "_common.json#/definitions/ISOInstant"
+    },
+    "completed_at": {
+      "$ref": "_common.json#/definitions/ISOInstant"
+    },
+    "dataset": {
+      "type": "string"
+    },
+    "metrics": {
+      "type": "object"
+    },
+    "trace": {
+      "$ref": "_common.json#/definitions/TraceContext"
+    }
+  }
+}

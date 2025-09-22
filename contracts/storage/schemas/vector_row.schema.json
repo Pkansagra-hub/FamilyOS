@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://familyos.local/contracts/storage/vector_row.schema.json",
+  "title": "Vector Row",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "vec_id",
+    "doc_id",
+    "space_id",
+    "model_id",
+    "dim",
+    "vector"
+  ],
+  "properties": {
+    "vec_id": {
+      "$ref": "./common.schema.json#/$defs/ULID"
+    },
+    "doc_id": {
+      "$ref": "./common.schema.json#/$defs/ULID"
+    },
+    "space_id": {
+      "$ref": "./common.schema.json#/$defs/SpaceId"
+    },
+    "model_id": {
+      "$ref": "./common.schema.json#/$defs/EmbeddingModelId"
+    },
+    "dim": {
+      "$ref": "./common.schema.json#/$defs/Dim"
+    },
+    "dtype": {
+      "type": "string",
+      "enum": [
+        "f32",
+        "f16",
+        "q8",
+        "bfloat16"
+      ],
+      "default": "f32"
+    },
+    "vector": {
+      "type": "array",
+      "items": {
+        "type": "number"
+      },
+      "minItems": 8
+    },
+    "norm": {
+      "type": "number"
+    },
+    "index_name": {
+      "$ref": "./common.schema.json#/$defs/IndexName"
+    },
+    "timestamp": {
+      "$ref": "./common.schema.json#/$defs/Timestamp"
+    }
+  }
+}

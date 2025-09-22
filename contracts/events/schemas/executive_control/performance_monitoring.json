@@ -1,0 +1,402 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "$id": "performance_monitoring.schema.json",
+    "title": "Performance Monitoring Event",
+    "description": "Event for continuous performance monitoring, error detection, and adaptive control adjustments with brain-inspired feedback mechanisms",
+    "type": "object",
+    "required": [
+        "timestamp",
+        "monitoring_scope",
+        "performance_metrics",
+        "error_detection",
+        "adaptive_adjustments"
+    ],
+    "properties": {
+        "timestamp": {
+            "type": "string",
+            "format": "date-time"
+        },
+        "monitoring_scope": {
+            "type": "string",
+            "enum": [
+                "task_level",
+                "goal_level",
+                "system_level",
+                "meta_cognitive_level",
+                "global_performance"
+            ]
+        },
+        "performance_metrics": {
+            "type": "object",
+            "properties": {
+                "accuracy_measures": {
+                    "type": "object",
+                    "properties": {
+                        "response_accuracy": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "goal_achievement_rate": {
+                            "type": "number"
+                        },
+                        "task_completion_accuracy": {
+                            "type": "number"
+                        },
+                        "decision_quality": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "efficiency_measures": {
+                    "type": "object",
+                    "properties": {
+                        "response_time": {
+                            "type": "number"
+                        },
+                        "processing_speed": {
+                            "type": "number"
+                        },
+                        "resource_utilization": {
+                            "type": "number"
+                        },
+                        "energy_efficiency": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "stability_measures": {
+                    "type": "object",
+                    "properties": {
+                        "performance_variability": {
+                            "type": "number"
+                        },
+                        "consistency_index": {
+                            "type": "number"
+                        },
+                        "stability_over_time": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "adaptive_measures": {
+                    "type": "object",
+                    "properties": {
+                        "learning_rate": {
+                            "type": "number"
+                        },
+                        "adaptation_speed": {
+                            "type": "number"
+                        },
+                        "flexibility_index": {
+                            "type": "number"
+                        }
+                    }
+                }
+            }
+        },
+        "error_detection": {
+            "type": "object",
+            "properties": {
+                "error_types": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "error_category": {
+                                "type": "string",
+                                "enum": [
+                                    "commission_error",
+                                    "omission_error",
+                                    "timing_error",
+                                    "selection_error",
+                                    "execution_error"
+                                ]
+                            },
+                            "error_severity": {
+                                "type": "number"
+                            },
+                            "error_frequency": {
+                                "type": "number"
+                            },
+                            "error_pattern": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "error_detection_mechanisms": {
+                    "type": "object",
+                    "properties": {
+                        "online_monitoring": {
+                            "type": "object",
+                            "properties": {
+                                "real_time_detection": {
+                                    "type": "boolean"
+                                },
+                                "detection_latency": {
+                                    "type": "number"
+                                },
+                                "detection_confidence": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "outcome_monitoring": {
+                            "type": "object",
+                            "properties": {
+                                "feedback_processing": {
+                                    "type": "number"
+                                },
+                                "outcome_prediction_error": {
+                                    "type": "number"
+                                },
+                                "reward_prediction_error": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "comparative_monitoring": {
+                            "type": "object",
+                            "properties": {
+                                "expected_vs_actual": {
+                                    "type": "object"
+                                },
+                                "norm_comparison": {
+                                    "type": "object"
+                                },
+                                "historical_comparison": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "error_impact_assessment": {
+                    "type": "object",
+                    "properties": {
+                        "immediate_consequences": {
+                            "type": "array"
+                        },
+                        "cascading_effects": {
+                            "type": "array"
+                        },
+                        "recovery_requirements": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "adaptive_adjustments": {
+            "type": "object",
+            "properties": {
+                "control_adjustments": {
+                    "type": "object",
+                    "properties": {
+                        "cognitive_control_strengthening": {
+                            "type": "number"
+                        },
+                        "attention_control_refinement": {
+                            "type": "number"
+                        },
+                        "inhibitory_control_enhancement": {
+                            "type": "number"
+                        },
+                        "flexibility_increase": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "strategy_adjustments": {
+                    "type": "object",
+                    "properties": {
+                        "strategy_switching": {
+                            "type": "boolean"
+                        },
+                        "strategy_refinement": {
+                            "type": "object"
+                        },
+                        "meta_strategy_adoption": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "resource_adjustments": {
+                    "type": "object",
+                    "properties": {
+                        "attention_reallocation": {
+                            "type": "object"
+                        },
+                        "working_memory_reconfiguration": {
+                            "type": "object"
+                        },
+                        "processing_resource_redistribution": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "threshold_adjustments": {
+                    "type": "object",
+                    "properties": {
+                        "response_threshold_changes": {
+                            "type": "number"
+                        },
+                        "decision_criterion_adjustments": {
+                            "type": "number"
+                        },
+                        "confidence_threshold_modifications": {
+                            "type": "number"
+                        }
+                    }
+                }
+            }
+        },
+        "neural_monitoring_circuits": {
+            "type": "object",
+            "properties": {
+                "anterior_cingulate_monitoring": {
+                    "type": "object",
+                    "properties": {
+                        "conflict_monitoring_activity": {
+                            "type": "number"
+                        },
+                        "error_related_negativity": {
+                            "type": "number"
+                        },
+                        "performance_monitoring_signal": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "frontal_monitoring_networks": {
+                    "type": "object",
+                    "properties": {
+                        "lateral_prefrontal_monitoring": {
+                            "type": "number"
+                        },
+                        "medial_frontal_monitoring": {
+                            "type": "number"
+                        },
+                        "orbitofrontal_outcome_monitoring": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "subcortical_monitoring": {
+                    "type": "object",
+                    "properties": {
+                        "basal_ganglia_action_monitoring": {
+                            "type": "number"
+                        },
+                        "dopaminergic_prediction_error": {
+                            "type": "number"
+                        },
+                        "thalamic_relay_monitoring": {
+                            "type": "number"
+                        }
+                    }
+                }
+            }
+        },
+        "system_integration": {
+            "type": "object",
+            "properties": {
+                "phase1_system_feedback": {
+                    "type": "object",
+                    "properties": {
+                        "attention_gate_performance_feedback": {
+                            "type": "object",
+                            "properties": {
+                                "gate_effectiveness_assessment": {
+                                    "type": "number"
+                                },
+                                "salience_accuracy_evaluation": {
+                                    "type": "number"
+                                },
+                                "interference_control_performance": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "working_memory_performance_feedback": {
+                            "type": "object",
+                            "properties": {
+                                "maintenance_effectiveness": {
+                                    "type": "number"
+                                },
+                                "updating_accuracy": {
+                                    "type": "number"
+                                },
+                                "interference_resistance": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "consciousness_system_feedback": {
+                            "type": "object",
+                            "properties": {
+                                "global_access_effectiveness": {
+                                    "type": "number"
+                                },
+                                "coalition_competition_quality": {
+                                    "type": "number"
+                                },
+                                "conscious_control_efficacy": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                },
+                "cross_system_performance_coordination": {
+                    "type": "object",
+                    "properties": {
+                        "system_synchronization_quality": {
+                            "type": "number"
+                        },
+                        "information_integration_effectiveness": {
+                            "type": "number"
+                        },
+                        "coordinated_adaptation_success": {
+                            "type": "number"
+                        }
+                    }
+                }
+            }
+        },
+        "learning_and_optimization": {
+            "type": "object",
+            "properties": {
+                "performance_learning": {
+                    "type": "object",
+                    "properties": {
+                        "error_based_learning": {
+                            "type": "number"
+                        },
+                        "reinforcement_learning_signals": {
+                            "type": "array"
+                        },
+                        "meta_learning_updates": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "optimization_signals": {
+                    "type": "object",
+                    "properties": {
+                        "efficiency_optimization": {
+                            "type": "number"
+                        },
+                        "accuracy_optimization": {
+                            "type": "number"
+                        },
+                        "stability_optimization": {
+                            "type": "number"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

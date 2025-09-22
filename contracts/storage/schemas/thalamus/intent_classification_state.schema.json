@@ -1,0 +1,516 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://familyos.local/contracts/storage/schemas/thalamus/intent_classification_state.schema.json",
+    "title": "Intent Classification State Storage Schema",
+    "description": "Storage schema for persistent intent classification state in thalamic processing",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "classifier_id",
+        "model_state",
+        "classification_data",
+        "performance_metrics",
+        "last_updated"
+    ],
+    "properties": {
+        "classifier_id": {
+            "type": "string",
+            "description": "Unique identifier for the intent classifier"
+        },
+        "model_state": {
+            "type": "object",
+            "required": [
+                "model_version",
+                "training_state",
+                "parameters"
+            ],
+            "properties": {
+                "model_version": {
+                    "type": "string"
+                },
+                "training_state": {
+                    "type": "string",
+                    "enum": [
+                        "initialized",
+                        "training",
+                        "trained",
+                        "fine_tuning",
+                        "deployed"
+                    ]
+                },
+                "parameters": {
+                    "type": "object",
+                    "properties": {
+                        "feature_dimensions": {
+                            "type": "integer"
+                        },
+                        "hidden_layers": {
+                            "type": "array",
+                            "items": {
+                                "type": "integer"
+                            }
+                        },
+                        "activation_functions": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "learning_rate": {
+                            "type": "number"
+                        },
+                        "regularization_strength": {
+                            "type": "number"
+                        },
+                        "dropout_rate": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "weights": {
+                    "type": "object",
+                    "properties": {
+                        "layer_weights": {
+                            "type": "array"
+                        },
+                        "bias_vectors": {
+                            "type": "array"
+                        },
+                        "attention_weights": {
+                            "type": "array"
+                        }
+                    }
+                },
+                "vocabulary": {
+                    "type": "object",
+                    "properties": {
+                        "word_embeddings": {
+                            "type": "object"
+                        },
+                        "intent_categories": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "feature_mappings": {
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "description": "Current state of the classification model"
+        },
+        "classification_data": {
+            "type": "object",
+            "required": [
+                "recent_classifications",
+                "category_statistics"
+            ],
+            "properties": {
+                "recent_classifications": {
+                    "type": "array",
+                    "maxItems": 1000,
+                    "items": {
+                        "type": "object",
+                        "required": [
+                            "content_id",
+                            "primary_intent",
+                            "confidence",
+                            "timestamp"
+                        ],
+                        "properties": {
+                            "content_id": {
+                                "type": "string"
+                            },
+                            "primary_intent": {
+                                "type": "string",
+                                "enum": [
+                                    "memory_storage",
+                                    "memory_recall",
+                                    "executive_control",
+                                    "learning_process",
+                                    "emotional_processing",
+                                    "social_interaction",
+                                    "problem_solving",
+                                    "planning",
+                                    "unknown"
+                                ]
+                            },
+                            "confidence": {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 1
+                            },
+                            "timestamp": {
+                                "type": "string"
+                            },
+                            "intent_probabilities": {
+                                "type": "object",
+                                "additionalProperties": {
+                                    "type": "number"
+                                }
+                            },
+                            "feature_activations": {
+                                "type": "array",
+                                "items": {
+                                    "type": "number"
+                                }
+                            },
+                            "processing_time_ms": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                },
+                "category_statistics": {
+                    "type": "object",
+                    "required": [
+                        "category_counts",
+                        "confidence_distributions"
+                    ],
+                    "properties": {
+                        "category_counts": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "integer"
+                            }
+                        },
+                        "confidence_distributions": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "object",
+                                "properties": {
+                                    "mean": {
+                                        "type": "number"
+                                    },
+                                    "std_dev": {
+                                        "type": "number"
+                                    },
+                                    "quartiles": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "number"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "temporal_patterns": {
+                            "type": "object",
+                            "properties": {
+                                "hourly_distribution": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "integer"
+                                    }
+                                },
+                                "daily_trends": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "number"
+                                    }
+                                },
+                                "seasonal_patterns": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "uncertainty_tracking": {
+                    "type": "object",
+                    "properties": {
+                        "high_uncertainty_items": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "content_id": {
+                                        "type": "string"
+                                    },
+                                    "uncertainty_score": {
+                                        "type": "number"
+                                    },
+                                    "uncertainty_sources": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "ambiguous_patterns": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "novel_patterns": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            },
+            "description": "Classification data and statistics"
+        },
+        "performance_metrics": {
+            "type": "object",
+            "required": [
+                "accuracy",
+                "precision",
+                "recall"
+            ],
+            "properties": {
+                "accuracy": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "precision": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "number"
+                    }
+                },
+                "recall": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "number"
+                    }
+                },
+                "f1_scores": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "number"
+                    }
+                },
+                "confusion_matrix": {
+                    "type": "array",
+                    "items": {
+                        "type": "array",
+                        "items": {
+                            "type": "integer"
+                        }
+                    }
+                },
+                "processing_latency": {
+                    "type": "object",
+                    "properties": {
+                        "mean_ms": {
+                            "type": "number"
+                        },
+                        "p95_ms": {
+                            "type": "number"
+                        },
+                        "p99_ms": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "throughput": {
+                    "type": "number",
+                    "description": "Classifications per second"
+                }
+            },
+            "description": "Performance metrics for the classifier"
+        },
+        "training_history": {
+            "type": "object",
+            "properties": {
+                "training_sessions": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "session_id": {
+                                "type": "string"
+                            },
+                            "start_time": {
+                                "type": "string"
+                            },
+                            "end_time": {
+                                "type": "string"
+                            },
+                            "training_samples": {
+                                "type": "integer"
+                            },
+                            "validation_samples": {
+                                "type": "integer"
+                            },
+                            "final_loss": {
+                                "type": "number"
+                            },
+                            "final_accuracy": {
+                                "type": "number"
+                            },
+                            "convergence_epoch": {
+                                "type": "integer"
+                            }
+                        }
+                    }
+                },
+                "hyperparameter_history": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "timestamp": {
+                                "type": "string"
+                            },
+                            "parameter_name": {
+                                "type": "string"
+                            },
+                            "old_value": {
+                                "type": "number"
+                            },
+                            "new_value": {
+                                "type": "number"
+                            },
+                            "performance_impact": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                }
+            },
+            "description": "Training and optimization history"
+        },
+        "adaptation_state": {
+            "type": "object",
+            "properties": {
+                "online_learning": {
+                    "type": "object",
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean"
+                        },
+                        "learning_rate": {
+                            "type": "number"
+                        },
+                        "adaptation_window": {
+                            "type": "integer"
+                        },
+                        "stability_threshold": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "feedback_integration": {
+                    "type": "object",
+                    "properties": {
+                        "user_corrections": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "content_id": {
+                                        "type": "string"
+                                    },
+                                    "predicted_intent": {
+                                        "type": "string"
+                                    },
+                                    "correct_intent": {
+                                        "type": "string"
+                                    },
+                                    "correction_timestamp": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        },
+                        "correction_impact": {
+                            "type": "number"
+                        }
+                    }
+                }
+            },
+            "description": "Adaptation and learning state"
+        },
+        "feature_importance": {
+            "type": "object",
+            "properties": {
+                "global_importance": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "number"
+                    }
+                },
+                "category_specific_importance": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "object",
+                        "additionalProperties": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "temporal_importance_trends": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "timestamp": {
+                                "type": "string"
+                            },
+                            "feature_rankings": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "description": "Feature importance analysis"
+        },
+        "last_updated": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp of last state update"
+        },
+        "metadata": {
+            "type": "object",
+            "properties": {
+                "creation_time": {
+                    "type": "string"
+                },
+                "model_checkpoints": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "deployment_status": {
+                    "type": "string",
+                    "enum": [
+                        "development",
+                        "testing",
+                        "production",
+                        "deprecated"
+                    ]
+                },
+                "resource_requirements": {
+                    "type": "object",
+                    "properties": {
+                        "memory_mb": {
+                            "type": "number"
+                        },
+                        "cpu_cores": {
+                            "type": "number"
+                        },
+                        "gpu_memory_mb": {
+                            "type": "number"
+                        }
+                    }
+                }
+            },
+            "description": "Metadata about the classifier state"
+        }
+    }
+}

@@ -1,0 +1,190 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "title": "Retrieval Response Event Schema",
+    "description": "Event schema for retrieval response ready events",
+    "type": "object",
+    "allOf": [
+        {
+            "$ref": "../envelope.schema.json"
+        },
+        {
+            "properties": {
+                "event_type": {
+                    "const": "RETRIEVAL_RESPONSE_READY"
+                },
+                "payload": {
+                    "type": "object",
+                    "properties": {
+                        "request_id": {
+                            "type": "string",
+                            "description": "Original request identifier"
+                        },
+                        "user_id": {
+                            "type": "string",
+                            "description": "User who made the request"
+                        },
+                        "result_count": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 1000,
+                            "description": "Number of results returned"
+                        },
+                        "processing_time_ms": {
+                            "type": "number",
+                            "minimum": 0,
+                            "description": "Total processing time in milliseconds"
+                        },
+                        "success": {
+                            "type": "boolean",
+                            "description": "Whether the request completed successfully"
+                        },
+                        "qos_budget_used_ms": {
+                            "type": "number",
+                            "minimum": 0,
+                            "description": "QoS budget consumed in milliseconds"
+                        },
+                        "qos_budget_total_ms": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "maximum": 1000,
+                            "description": "Total QoS budget allocated"
+                        },
+                        "stages_completed": {
+                            "type": "array",
+                            "items": {
+                                "type": "string",
+                                "enum": [
+                                    "policy_evaluation",
+                                    "fts_search",
+                                    "vector_search",
+                                    "kg_search",
+                                    "fusion",
+                                    "ranking",
+                                    "mmr_diversity",
+                                    "reranking",
+                                    "calibration",
+                                    "response_building"
+                                ]
+                            },
+                            "description": "Processing stages completed"
+                        },
+                        "warnings": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "description": "Warning messages"
+                        },
+                        "performance_metadata": {
+                            "type": "object",
+                            "properties": {
+                                "candidates_total": {
+                                    "type": "integer",
+                                    "minimum": 0,
+                                    "description": "Total candidates considered"
+                                },
+                                "candidates_fts": {
+                                    "type": "integer",
+                                    "minimum": 0,
+                                    "description": "Candidates from FTS search"
+                                },
+                                "candidates_vector": {
+                                    "type": "integer",
+                                    "minimum": 0,
+                                    "description": "Candidates from vector search"
+                                },
+                                "candidates_kg": {
+                                    "type": "integer",
+                                    "minimum": 0,
+                                    "description": "Candidates from knowledge graph"
+                                },
+                                "fusion_method": {
+                                    "type": "string",
+                                    "enum": [
+                                        "rrf",
+                                        "linear_combination",
+                                        "learned_fusion"
+                                    ],
+                                    "description": "Fusion algorithm used"
+                                },
+                                "ranking_features_used": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    },
+                                    "description": "Features used in ranking"
+                                },
+                                "mmr_lambda": {
+                                    "type": "number",
+                                    "minimum": 0,
+                                    "maximum": 1,
+                                    "description": "MMR diversity parameter used"
+                                },
+                                "confidence_calibrated": {
+                                    "type": "boolean",
+                                    "description": "Whether confidence scores were calibrated"
+                                }
+                            },
+                            "additionalProperties": false
+                        }
+                    },
+                    "required": [
+                        "request_id",
+                        "user_id",
+                        "result_count",
+                        "processing_time_ms",
+                        "success"
+                    ],
+                    "additionalProperties": false
+                }
+            }
+        }
+    ],
+    "examples": [
+        {
+            "id": "evt_retrieval_resp_001",
+            "event_type": "RETRIEVAL_RESPONSE_READY",
+            "timestamp": "2025-09-16T10:30:00.146Z",
+            "source": "retrieval.broker",
+            "space_id": "shared:research_team",
+            "user_id": "alice_researcher",
+            "trace_id": "a1b2c3d4e5f6789012345678deadbeef",
+            "version": "1.0.0",
+            "payload": {
+                "request_id": "req_20250916_001",
+                "user_id": "alice_researcher",
+                "result_count": 12,
+                "processing_time_ms": 23.5,
+                "success": true,
+                "qos_budget_used_ms": 23.5,
+                "qos_budget_total_ms": 150,
+                "stages_completed": [
+                    "policy_evaluation",
+                    "fts_search",
+                    "vector_search",
+                    "fusion",
+                    "ranking",
+                    "mmr_diversity",
+                    "calibration",
+                    "response_building"
+                ],
+                "warnings": [],
+                "performance_metadata": {
+                    "candidates_total": 156,
+                    "candidates_fts": 89,
+                    "candidates_vector": 67,
+                    "candidates_kg": 0,
+                    "fusion_method": "rrf",
+                    "ranking_features_used": [
+                        "bm25",
+                        "tfidf_cosine",
+                        "recency",
+                        "personalization"
+                    ],
+                    "mmr_lambda": 0.35,
+                    "confidence_calibrated": true
+                }
+            }
+        }
+    ]
+}

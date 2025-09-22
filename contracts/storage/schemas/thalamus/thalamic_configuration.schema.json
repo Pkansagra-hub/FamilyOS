@@ -1,0 +1,632 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://familyos.local/contracts/storage/schemas/thalamus/thalamic_configuration.schema.json",
+    "title": "Thalamic Configuration Storage Schema",
+    "description": "Storage schema for persistent thalamic system configuration and settings",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "configuration_id",
+        "system_configuration",
+        "circuit_configurations",
+        "global_settings",
+        "last_updated"
+    ],
+    "properties": {
+        "configuration_id": {
+            "type": "string",
+            "description": "Unique identifier for the configuration"
+        },
+        "system_configuration": {
+            "type": "object",
+            "required": [
+                "version",
+                "deployment_mode",
+                "resource_limits"
+            ],
+            "properties": {
+                "version": {
+                    "type": "string"
+                },
+                "deployment_mode": {
+                    "type": "string",
+                    "enum": [
+                        "development",
+                        "testing",
+                        "production",
+                        "research"
+                    ]
+                },
+                "resource_limits": {
+                    "type": "object",
+                    "properties": {
+                        "max_memory_mb": {
+                            "type": "number"
+                        },
+                        "max_cpu_cores": {
+                            "type": "number"
+                        },
+                        "max_attention_units": {
+                            "type": "number"
+                        },
+                        "max_concurrent_bindings": {
+                            "type": "integer"
+                        },
+                        "max_decision_queue_size": {
+                            "type": "integer"
+                        }
+                    }
+                },
+                "logging_configuration": {
+                    "type": "object",
+                    "properties": {
+                        "log_level": {
+                            "type": "string",
+                            "enum": [
+                                "DEBUG",
+                                "INFO",
+                                "WARN",
+                                "ERROR",
+                                "FATAL"
+                            ]
+                        },
+                        "log_destinations": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "performance_logging": {
+                            "type": "boolean"
+                        },
+                        "decision_logging": {
+                            "type": "boolean"
+                        },
+                        "detailed_tracing": {
+                            "type": "boolean"
+                        }
+                    }
+                },
+                "monitoring_configuration": {
+                    "type": "object",
+                    "properties": {
+                        "metrics_enabled": {
+                            "type": "boolean"
+                        },
+                        "metrics_interval_ms": {
+                            "type": "number"
+                        },
+                        "health_check_interval_ms": {
+                            "type": "number"
+                        },
+                        "alert_thresholds": {
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "description": "Overall system configuration"
+        },
+        "circuit_configurations": {
+            "type": "object",
+            "required": [
+                "memory_circuit",
+                "recall_circuit",
+                "executive_circuit",
+                "learning_circuit"
+            ],
+            "properties": {
+                "memory_circuit": {
+                    "type": "object",
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean"
+                        },
+                        "base_threshold": {
+                            "type": "number"
+                        },
+                        "adaptation_rate": {
+                            "type": "number"
+                        },
+                        "hysteresis_width": {
+                            "type": "number"
+                        },
+                        "max_cognitive_load": {
+                            "type": "number"
+                        },
+                        "priority_weights": {
+                            "type": "object",
+                            "properties": {
+                                "salience_weight": {
+                                    "type": "number"
+                                },
+                                "recency_weight": {
+                                    "type": "number"
+                                },
+                                "emotional_weight": {
+                                    "type": "number"
+                                },
+                                "goal_relevance_weight": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "processing_limits": {
+                            "type": "object",
+                            "properties": {
+                                "max_queue_size": {
+                                    "type": "integer"
+                                },
+                                "timeout_ms": {
+                                    "type": "number"
+                                },
+                                "batch_size": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    }
+                },
+                "recall_circuit": {
+                    "type": "object",
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean"
+                        },
+                        "base_threshold": {
+                            "type": "number"
+                        },
+                        "adaptation_rate": {
+                            "type": "number"
+                        },
+                        "hysteresis_width": {
+                            "type": "number"
+                        },
+                        "max_cognitive_load": {
+                            "type": "number"
+                        },
+                        "retrieval_strategy": {
+                            "type": "string"
+                        },
+                        "caching_enabled": {
+                            "type": "boolean"
+                        },
+                        "cache_size": {
+                            "type": "integer"
+                        }
+                    }
+                },
+                "executive_circuit": {
+                    "type": "object",
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean"
+                        },
+                        "base_threshold": {
+                            "type": "number"
+                        },
+                        "adaptation_rate": {
+                            "type": "number"
+                        },
+                        "hysteresis_width": {
+                            "type": "number"
+                        },
+                        "max_cognitive_load": {
+                            "type": "number"
+                        },
+                        "control_authority": {
+                            "type": "number"
+                        },
+                        "intervention_threshold": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "learning_circuit": {
+                    "type": "object",
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean"
+                        },
+                        "base_threshold": {
+                            "type": "number"
+                        },
+                        "adaptation_rate": {
+                            "type": "number"
+                        },
+                        "hysteresis_width": {
+                            "type": "number"
+                        },
+                        "max_cognitive_load": {
+                            "type": "number"
+                        },
+                        "learning_rate": {
+                            "type": "number"
+                        },
+                        "exploration_factor": {
+                            "type": "number"
+                        },
+                        "consolidation_threshold": {
+                            "type": "number"
+                        }
+                    }
+                }
+            },
+            "description": "Configuration for individual thalamic circuits"
+        },
+        "attention_configuration": {
+            "type": "object",
+            "properties": {
+                "spatial_attention": {
+                    "type": "object",
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean"
+                        },
+                        "default_window_size": {
+                            "type": "number"
+                        },
+                        "max_concurrent_windows": {
+                            "type": "integer"
+                        },
+                        "shift_speed": {
+                            "type": "number"
+                        },
+                        "focus_intensity_range": {
+                            "type": "array",
+                            "items": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                },
+                "temporal_attention": {
+                    "type": "object",
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean"
+                        },
+                        "default_window_duration_ms": {
+                            "type": "number"
+                        },
+                        "max_concurrent_windows": {
+                            "type": "integer"
+                        },
+                        "temporal_resolution_ms": {
+                            "type": "number"
+                        },
+                        "decay_rate": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "feature_attention": {
+                    "type": "object",
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean"
+                        },
+                        "feature_dimensions": {
+                            "type": "integer"
+                        },
+                        "selectivity_sharpness": {
+                            "type": "number"
+                        },
+                        "competition_strength": {
+                            "type": "number"
+                        },
+                        "adaptation_speed": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "object_attention": {
+                    "type": "object",
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean"
+                        },
+                        "max_tracked_objects": {
+                            "type": "integer"
+                        },
+                        "binding_strength_threshold": {
+                            "type": "number"
+                        },
+                        "coherence_requirement": {
+                            "type": "number"
+                        },
+                        "persistence_duration_ms": {
+                            "type": "number"
+                        }
+                    }
+                }
+            },
+            "description": "Configuration for attention mechanisms"
+        },
+        "salience_configuration": {
+            "type": "object",
+            "properties": {
+                "computation_method": {
+                    "type": "string"
+                },
+                "update_frequency_ms": {
+                    "type": "number"
+                },
+                "normalization_method": {
+                    "type": "string"
+                },
+                "factor_weights": {
+                    "type": "object",
+                    "properties": {
+                        "recency": {
+                            "type": "number"
+                        },
+                        "frequency": {
+                            "type": "number"
+                        },
+                        "emotional_valence": {
+                            "type": "number"
+                        },
+                        "goal_relevance": {
+                            "type": "number"
+                        },
+                        "novelty": {
+                            "type": "number"
+                        },
+                        "social_importance": {
+                            "type": "number"
+                        },
+                        "urgency": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "temporal_decay": {
+                    "type": "object",
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean"
+                        },
+                        "decay_rate": {
+                            "type": "number"
+                        },
+                        "minimum_salience": {
+                            "type": "number"
+                        }
+                    }
+                }
+            },
+            "description": "Configuration for salience computation"
+        },
+        "hysteresis_configuration": {
+            "type": "object",
+            "properties": {
+                "enabled": {
+                    "type": "boolean"
+                },
+                "detection_sensitivity": {
+                    "type": "number"
+                },
+                "intervention_threshold": {
+                    "type": "number"
+                },
+                "dampening_strength": {
+                    "type": "number"
+                },
+                "memory_depth": {
+                    "type": "integer"
+                },
+                "learning_enabled": {
+                    "type": "boolean"
+                }
+            },
+            "description": "Configuration for hysteresis control"
+        },
+        "budget_configuration": {
+            "type": "object",
+            "properties": {
+                "total_budget": {
+                    "type": "number"
+                },
+                "allocation_strategy": {
+                    "type": "string"
+                },
+                "dynamic_reallocation": {
+                    "type": "boolean"
+                },
+                "protection_thresholds": {
+                    "type": "object",
+                    "properties": {
+                        "warning": {
+                            "type": "number"
+                        },
+                        "protection": {
+                            "type": "number"
+                        },
+                        "emergency": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "recovery_policies": {
+                    "type": "object",
+                    "properties": {
+                        "auto_recovery": {
+                            "type": "boolean"
+                        },
+                        "recovery_time_ms": {
+                            "type": "number"
+                        },
+                        "fallback_mode": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "description": "Configuration for cognitive budget management"
+        },
+        "global_settings": {
+            "type": "object",
+            "properties": {
+                "debug_mode": {
+                    "type": "boolean"
+                },
+                "performance_optimization": {
+                    "type": "boolean"
+                },
+                "fault_tolerance": {
+                    "type": "boolean"
+                },
+                "graceful_degradation": {
+                    "type": "boolean"
+                },
+                "auto_tuning": {
+                    "type": "boolean"
+                },
+                "experimental_features": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "feature_flags": {
+                    "type": "object"
+                }
+            },
+            "description": "Global system settings"
+        },
+        "integration_configuration": {
+            "type": "object",
+            "properties": {
+                "external_systems": {
+                    "type": "object",
+                    "properties": {
+                        "hippocampus_integration": {
+                            "type": "boolean"
+                        },
+                        "prefrontal_cortex_integration": {
+                            "type": "boolean"
+                        },
+                        "global_workspace_integration": {
+                            "type": "boolean"
+                        },
+                        "affect_system_integration": {
+                            "type": "boolean"
+                        }
+                    }
+                },
+                "api_configuration": {
+                    "type": "object",
+                    "properties": {
+                        "rate_limiting": {
+                            "type": "boolean"
+                        },
+                        "authentication_required": {
+                            "type": "boolean"
+                        },
+                        "timeout_ms": {
+                            "type": "number"
+                        },
+                        "max_concurrent_requests": {
+                            "type": "integer"
+                        }
+                    }
+                }
+            },
+            "description": "Configuration for system integrations"
+        },
+        "configuration_history": {
+            "type": "object",
+            "properties": {
+                "previous_versions": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "version": {
+                                "type": "string"
+                            },
+                            "timestamp": {
+                                "type": "string"
+                            },
+                            "changes": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "rollback_possible": {
+                                "type": "boolean"
+                            }
+                        }
+                    }
+                },
+                "change_log": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "timestamp": {
+                                "type": "string"
+                            },
+                            "parameter": {
+                                "type": "string"
+                            },
+                            "old_value": {
+                                "type": "string"
+                            },
+                            "new_value": {
+                                "type": "string"
+                            },
+                            "change_reason": {
+                                "type": "string"
+                            },
+                            "changed_by": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            },
+            "description": "Configuration change history"
+        },
+        "last_updated": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp of last configuration update"
+        },
+        "metadata": {
+            "type": "object",
+            "properties": {
+                "creation_time": {
+                    "type": "string"
+                },
+                "configuration_name": {
+                    "type": "string"
+                },
+                "environment": {
+                    "type": "string"
+                },
+                "config_status": {
+                    "type": "string",
+                    "enum": [
+                        "active",
+                        "pending",
+                        "archived",
+                        "deprecated"
+                    ]
+                },
+                "validation_status": {
+                    "type": "string",
+                    "enum": [
+                        "valid",
+                        "warning",
+                        "error",
+                        "unknown"
+                    ]
+                }
+            },
+            "description": "Metadata about the configuration"
+        }
+    }
+}

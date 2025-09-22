@@ -1,0 +1,313 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://familyos.local/contracts/events/schemas/global_workspace/coalition_formed.schema.json",
+    "title": "Coalition Formed Event",
+    "description": "Event triggered when cognitive processes form a coalition to compete for global workspace access. Models the competitive dynamics of consciousness theories.",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "timestamp",
+        "coalition_id",
+        "member_processes",
+        "formation_trigger",
+        "coalition_strength",
+        "competition_context",
+        "formation_speed"
+    ],
+    "properties": {
+        "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "When the coalition formation completed"
+        },
+        "coalition_id": {
+            "type": "string",
+            "pattern": "^coal_[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+            "description": "Unique identifier for this coalition"
+        },
+        "member_processes": {
+            "type": "array",
+            "minItems": 2,
+            "items": {
+                "type": "object",
+                "required": [
+                    "process_id",
+                    "process_type",
+                    "activation_level",
+                    "coalition_role"
+                ],
+                "properties": {
+                    "process_id": {
+                        "type": "string",
+                        "description": "Unique identifier of participating process"
+                    },
+                    "process_type": {
+                        "type": "string",
+                        "enum": [
+                            "perceptual",
+                            "memory_retrieval",
+                            "executive_control",
+                            "motor_planning",
+                            "language",
+                            "emotional",
+                            "social"
+                        ],
+                        "description": "Type of cognitive process joining coalition"
+                    },
+                    "activation_level": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1,
+                        "description": "Current activation strength of this process"
+                    },
+                    "coalition_role": {
+                        "type": "string",
+                        "enum": [
+                            "leader",
+                            "supporter",
+                            "modulator",
+                            "integrator"
+                        ],
+                        "description": "Role this process plays in the coalition"
+                    },
+                    "contribution_type": {
+                        "type": "string",
+                        "enum": [
+                            "content",
+                            "attention",
+                            "priority",
+                            "context",
+                            "validation"
+                        ],
+                        "description": "Type of contribution this process makes"
+                    },
+                    "synergy_strength": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1,
+                        "description": "How well this process synergizes with others"
+                    }
+                }
+            },
+            "description": "Cognitive processes that have joined this coalition"
+        },
+        "formation_trigger": {
+            "type": "object",
+            "required": [
+                "trigger_type",
+                "trigger_source",
+                "urgency_level"
+            ],
+            "properties": {
+                "trigger_type": {
+                    "type": "string",
+                    "enum": [
+                        "content_coherence",
+                        "priority_alignment",
+                        "temporal_synchrony",
+                        "competitive_pressure",
+                        "external_stimulus"
+                    ],
+                    "description": "What caused these processes to form a coalition"
+                },
+                "trigger_source": {
+                    "type": "string",
+                    "description": "Specific source or event that triggered coalition formation"
+                },
+                "urgency_level": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "How urgent the trigger was (0=low urgency, 1=critical)"
+                },
+                "trigger_context": {
+                    "type": "object",
+                    "properties": {
+                        "cognitive_state": {
+                            "type": "string"
+                        },
+                        "attention_demands": {
+                            "type": "number"
+                        },
+                        "resource_availability": {
+                            "type": "number"
+                        },
+                        "competition_pressure": {
+                            "type": "number"
+                        }
+                    },
+                    "description": "Context in which coalition formation was triggered"
+                }
+            },
+            "description": "What triggered the formation of this coalition"
+        },
+        "coalition_strength": {
+            "type": "object",
+            "required": [
+                "total_activation",
+                "coherence_score",
+                "synergy_factor",
+                "competitive_advantage"
+            ],
+            "properties": {
+                "total_activation": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Sum of all member process activations (normalized)"
+                },
+                "coherence_score": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "How coherent/integrated the coalition members are"
+                },
+                "synergy_factor": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 2,
+                    "description": "Multiplicative benefit from process interactions (>1 = synergy)"
+                },
+                "competitive_advantage": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Estimated advantage over competing coalitions"
+                },
+                "stability_index": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "How stable this coalition is likely to be"
+                }
+            },
+            "description": "Metrics quantifying the strength of this coalition"
+        },
+        "competition_context": {
+            "type": "object",
+            "properties": {
+                "competing_coalitions": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "coalition_id": {
+                                "type": "string"
+                            },
+                            "estimated_strength": {
+                                "type": "number"
+                            },
+                            "overlap_similarity": {
+                                "type": "number"
+                            }
+                        }
+                    },
+                    "description": "Other coalitions currently competing for workspace access"
+                },
+                "workspace_availability": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Current availability of global workspace resources"
+                },
+                "competition_intensity": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Overall intensity of current competition"
+                }
+            },
+            "description": "Context of competition this coalition faces"
+        },
+        "formation_speed": {
+            "type": "object",
+            "properties": {
+                "formation_duration_ms": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Time taken to form this coalition"
+                },
+                "recruitment_rate": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Rate at which processes joined coalition"
+                },
+                "synchronization_time_ms": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Time for processes to synchronize their activities"
+                }
+            },
+            "description": "Temporal dynamics of coalition formation"
+        },
+        "communication_patterns": {
+            "type": "object",
+            "properties": {
+                "information_flow": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "from_process": {
+                                "type": "string"
+                            },
+                            "to_process": {
+                                "type": "string"
+                            },
+                            "information_type": {
+                                "type": "string"
+                            },
+                            "flow_strength": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                },
+                "synchronization_mechanisms": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "How coalition members synchronize their activities"
+                },
+                "coordination_efficiency": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "How efficiently coalition members coordinate"
+                }
+            },
+            "description": "Communication and coordination patterns within coalition"
+        },
+        "predicted_outcomes": {
+            "type": "object",
+            "properties": {
+                "success_probability": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Estimated probability of winning workspace access"
+                },
+                "expected_broadcast_content": {
+                    "type": "object",
+                    "description": "Predicted content if coalition wins"
+                },
+                "resource_requirements": {
+                    "type": "object",
+                    "properties": {
+                        "attention_resources": {
+                            "type": "number"
+                        },
+                        "processing_resources": {
+                            "type": "number"
+                        },
+                        "memory_resources": {
+                            "type": "number"
+                        }
+                    }
+                }
+            },
+            "description": "Predicted outcomes if this coalition succeeds"
+        }
+    }
+}

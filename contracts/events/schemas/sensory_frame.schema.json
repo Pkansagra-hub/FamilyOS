@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://memoryos.local/contracts/events/schemas/sensory_frame.schema.json",
+  "title": "SENSORY_FRAME@1.0 payload",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "modality",
+    "content",
+    "captured_at",
+    "space_id"
+  ],
+  "properties": {
+    "modality": {
+      "type": "string",
+      "enum": [
+        "text",
+        "audio",
+        "image",
+        "video",
+        "sensor"
+      ]
+    },
+    "content": {
+      "type": "object"
+    },
+    "captured_at": {
+      "$ref": "_common.json#/definitions/ISOInstant"
+    },
+    "space_id": {
+      "$ref": "_common.json#/definitions/SpaceRef"
+    },
+    "labels": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "trace": {
+      "$ref": "_common.json#/definitions/TraceContext"
+    }
+  }
+}

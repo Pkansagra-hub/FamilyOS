@@ -1,0 +1,268 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "$id": "cross_system_memory_transfer.schema.json",
+    "title": "Cross-System Memory Transfer Event",
+    "description": "Event for coordinated memory transfer between hippocampal, cortical, working memory, and consciousness systems",
+    "type": "object",
+    "required": [
+        "timestamp",
+        "transfer_type",
+        "source_system",
+        "target_system",
+        "memory_content",
+        "transfer_coordination"
+    ],
+    "properties": {
+        "timestamp": {
+            "type": "string",
+            "format": "date-time"
+        },
+        "transfer_type": {
+            "type": "string",
+            "enum": [
+                "hippocampus_to_cortex",
+                "working_to_long_term",
+                "cortical_reorganization",
+                "consciousness_integration",
+                "cross_modal_binding"
+            ]
+        },
+        "source_system": {
+            "type": "object",
+            "properties": {
+                "system_type": {
+                    "type": "string",
+                    "enum": [
+                        "hippocampus",
+                        "cortical_networks",
+                        "working_memory",
+                        "global_workspace",
+                        "attention_gate"
+                    ]
+                },
+                "system_state": {
+                    "type": "object"
+                },
+                "memory_readiness": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "transfer_capacity": {
+                    "type": "number"
+                }
+            }
+        },
+        "target_system": {
+            "type": "object",
+            "properties": {
+                "system_type": {
+                    "type": "string",
+                    "enum": [
+                        "hippocampus",
+                        "cortical_networks",
+                        "working_memory",
+                        "global_workspace",
+                        "attention_gate"
+                    ]
+                },
+                "integration_capacity": {
+                    "type": "number"
+                },
+                "plasticity_state": {
+                    "type": "string"
+                },
+                "interference_risk": {
+                    "type": "number"
+                }
+            }
+        },
+        "memory_content": {
+            "type": "object",
+            "properties": {
+                "content_id": {
+                    "type": "string"
+                },
+                "content_type": {
+                    "type": "string",
+                    "enum": [
+                        "episodic",
+                        "semantic",
+                        "procedural",
+                        "working_memory_buffer",
+                        "conscious_content"
+                    ]
+                },
+                "representational_format": {
+                    "type": "object",
+                    "properties": {
+                        "encoding_format": {
+                            "type": "string"
+                        },
+                        "compression_level": {
+                            "type": "number"
+                        },
+                        "multimodal_binding": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "transfer_package": {
+                    "type": "object",
+                    "properties": {
+                        "core_content": {
+                            "type": "object"
+                        },
+                        "contextual_tags": {
+                            "type": "array"
+                        },
+                        "associative_links": {
+                            "type": "array"
+                        },
+                        "metadata": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "transfer_coordination": {
+            "type": "object",
+            "properties": {
+                "phase_1_systems_coordination": {
+                    "type": "object",
+                    "properties": {
+                        "attention_gate_involvement": {
+                            "type": "object",
+                            "properties": {
+                                "gate_state": {
+                                    "type": "string"
+                                },
+                                "salience_boost": {
+                                    "type": "number"
+                                },
+                                "resource_allocation": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "working_memory_coordination": {
+                            "type": "object",
+                            "properties": {
+                                "buffer_involvement": {
+                                    "type": "array"
+                                },
+                                "executive_control": {
+                                    "type": "object"
+                                },
+                                "rehearsal_support": {
+                                    "type": "boolean"
+                                }
+                            }
+                        },
+                        "consciousness_involvement": {
+                            "type": "object",
+                            "properties": {
+                                "global_broadcast": {
+                                    "type": "boolean"
+                                },
+                                "conscious_accessibility": {
+                                    "type": "number"
+                                },
+                                "coalition_support": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "transfer_schedule": {
+                    "type": "object",
+                    "properties": {
+                        "transfer_phases": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "phase_name": {
+                                        "type": "string"
+                                    },
+                                    "duration_estimate": {
+                                        "type": "number"
+                                    },
+                                    "required_resources": {
+                                        "type": "object"
+                                    },
+                                    "success_criteria": {
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        },
+                        "synchronization_requirements": {
+                            "type": "object",
+                            "properties": {
+                                "temporal_windows": {
+                                    "type": "array"
+                                },
+                                "system_synchrony": {
+                                    "type": "object"
+                                },
+                                "critical_periods": {
+                                    "type": "array"
+                                }
+                            }
+                        }
+                    }
+                },
+                "quality_control": {
+                    "type": "object",
+                    "properties": {
+                        "fidelity_monitoring": {
+                            "type": "object",
+                            "properties": {
+                                "content_integrity": {
+                                    "type": "number"
+                                },
+                                "associative_preservation": {
+                                    "type": "number"
+                                },
+                                "contextual_accuracy": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "interference_management": {
+                            "type": "object",
+                            "properties": {
+                                "interference_detection": {
+                                    "type": "boolean"
+                                },
+                                "resolution_strategy": {
+                                    "type": "string"
+                                },
+                                "prevention_measures": {
+                                    "type": "array"
+                                }
+                            }
+                        },
+                        "error_correction": {
+                            "type": "object",
+                            "properties": {
+                                "error_detection_threshold": {
+                                    "type": "number"
+                                },
+                                "correction_mechanisms": {
+                                    "type": "array"
+                                },
+                                "rollback_capability": {
+                                    "type": "boolean"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

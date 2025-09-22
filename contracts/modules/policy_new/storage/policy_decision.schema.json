@@ -1,0 +1,263 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Policy Decision Record",
+  "description": "Record of policy evaluation decision with context and audit trail",
+  "type": "object",
+  "properties": {
+    "decision_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique decision identifier"
+    },
+    "request_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Correlation ID from original request"
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Decision timestamp in UTC"
+    },
+    "subject": {
+      "type": "object",
+      "properties": {
+        "user_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "space_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "roles": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "attributes": {
+          "type": "object",
+          "additionalProperties": true,
+          "description": "Subject attributes used in evaluation"
+        }
+      },
+      "required": ["user_id", "space_id"],
+      "additionalProperties": false
+    },
+    "resource": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["memory", "space", "policy", "system"]
+        },
+        "id": {
+          "type": "string",
+          "description": "Resource identifier"
+        },
+        "space_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "attributes": {
+          "type": "object",
+          "additionalProperties": true,
+          "description": "Resource attributes used in evaluation"
+        }
+      },
+      "required": ["type", "id"],
+      "additionalProperties": false
+    },
+    "action": {
+      "type": "string",
+      "enum": ["read", "write", "delete", "execute", "admin"],
+      "description": "Requested action"
+    },
+    "decision": {
+      "type": "string",
+      "enum": ["permit", "deny", "indeterminate"],
+      "description": "Policy evaluation result"
+    },
+    "reason": {
+      "type": "string",
+      "maxLength": 1024,
+      "description": "Human-readable explanation of decision"
+    },
+    "evaluation_details": {
+      "type": "object",
+      "properties": {
+        "applicable_policies": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "policy_id": { "type": "string", "format": "uuid" },
+              "policy_name": { "type": "string" },
+              "version": { "type": "string" },
+              "evaluated": { "type": "boolean" },
+              "result": { "enum": ["permit", "deny", "not_applicable"] }
+            },
+            "required": ["policy_id", "policy_name", "version", "evaluated", "result"]
+          }
+        },
+        "abac_evaluation": {
+          "type": "object",
+          "properties": {
+            "rules_evaluated": { "type": "integer", "minimum": 0 },
+            "rules_matched": { "type": "integer", "minimum": 0 },
+            "permit_rules": { "type": "integer", "minimum": 0 },
+            "deny_rules": { "type": "integer", "minimum": 0 }
+          },
+          "required": ["rules_evaluated"],
+          "additionalProperties": false
+        },
+        "rbac_evaluation": {
+          "type": "object",
+          "properties": {
+            "roles_checked": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "permissions_granted": {
+              "type": "array",
+              "items": { "type": "string" }
+            },
+            "permissions_denied": {
+              "type": "array",
+              "items": { "type": "string" }
+            }
+          },
+          "additionalProperties": false
+        },
+        "execution_time_ms": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Policy evaluation time in milliseconds"
+        },
+        "cached": {
+          "type": "boolean",
+          "description": "True if result was retrieved from cache"
+        },
+        "cache_key": {
+          "type": "string",
+          "description": "Cache key used (if cached)"
+        }
+      },
+      "required": ["applicable_policies", "execution_time_ms", "cached"],
+      "additionalProperties": false
+    },
+    "context": {
+      "type": "object",
+      "properties": {
+        "ip_address": {
+          "type": "string",
+          "description": "Client IP address"
+        },
+        "user_agent": {
+          "type": "string",
+          "description": "Client user agent"
+        },
+        "session_id": {
+          "type": "string",
+          "description": "Session identifier"
+        },
+        "request_headers": {
+          "type": "object",
+          "additionalProperties": { "type": "string" },
+          "description": "Relevant HTTP headers"
+        },
+        "band": {
+          "type": "string",
+          "enum": ["GREEN", "AMBER", "RED", "BLACK"],
+          "description": "Security band classification"
+        },
+        "environment": {
+          "type": "object",
+          "properties": {
+            "time_of_day": { "type": "string" },
+            "day_of_week": { "type": "string" },
+            "timezone": { "type": "string" },
+            "location": { "type": "string" }
+          },
+          "additionalProperties": true
+        }
+      },
+      "additionalProperties": false
+    },
+    "audit_metadata": {
+      "type": "object",
+      "properties": {
+        "audit_id": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Audit trail identifier"
+        },
+        "retention_until": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When this record can be deleted"
+        },
+        "compliance_tags": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["GDPR", "HIPAA", "SOX", "PCI_DSS", "CCPA"]
+          }
+        },
+        "sensitivity_level": {
+          "type": "string",
+          "enum": ["low", "medium", "high", "critical"]
+        },
+        "redacted": {
+          "type": "boolean",
+          "description": "True if record has been redacted"
+        },
+        "redaction_reason": {
+          "type": "string",
+          "description": "Reason for redaction (if applied)"
+        }
+      },
+      "required": ["audit_id", "retention_until"],
+      "additionalProperties": false
+    },
+    "violations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "violation_type": {
+            "type": "string",
+            "enum": ["unauthorized_access", "policy_bypass", "data_breach", "privilege_escalation"]
+          },
+          "severity": {
+            "type": "string",
+            "enum": ["low", "medium", "high", "critical"]
+          },
+          "description": {
+            "type": "string",
+            "description": "Violation details"
+          },
+          "flagged_for_review": {
+            "type": "boolean",
+            "default": false
+          }
+        },
+        "required": ["violation_type", "severity", "description"],
+        "additionalProperties": false
+      },
+      "description": "Any policy violations detected during evaluation"
+    }
+  },
+  "required": [
+    "decision_id",
+    "request_id",
+    "timestamp",
+    "subject",
+    "resource",
+    "action",
+    "decision",
+    "reason",
+    "evaluation_details",
+    "audit_metadata"
+  ],
+  "additionalProperties": false
+}

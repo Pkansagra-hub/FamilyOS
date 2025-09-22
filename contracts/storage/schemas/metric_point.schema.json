@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://familyos.local/contracts/storage/metric_point.schema.json",
+  "title": "Metric Point",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "run_id",
+    "ts",
+    "name",
+    "value"
+  ],
+  "properties": {
+    "run_id": {
+      "$ref": "./common.schema.json#/$defs/ULID"
+    },
+    "ts": {
+      "$ref": "./common.schema.json#/$defs/Timestamp"
+    },
+    "name": {
+      "type": "string"
+    },
+    "value": {
+      "type": "number"
+    },
+    "meta": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  }
+}

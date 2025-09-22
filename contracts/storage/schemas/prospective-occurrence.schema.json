@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "https://familyos.local/contracts/prospective/storage/occurrence.schema.json",
+  "title": "Prospective Occurrence",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id","trigger_id","when","window","status"],
+  "properties": {
+    "id": { "type": "string" },
+    "trigger_id": { "type": "string" },
+    "when": { "$ref": "../../events/schemas/_common.json#/definitions/ISOInstant" },
+    "window": { "type": "string", "enum": ["T-15","T","T+5"] },
+    "status": { "type": "string", "enum": ["due","skipped","fired"] },
+    "reason": { "type": "string" },
+    "created_at": { "$ref": "../../events/schemas/_common.json#/definitions/ISOInstant" }
+  }
+}

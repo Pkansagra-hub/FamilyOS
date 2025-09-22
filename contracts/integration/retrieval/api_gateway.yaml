@@ -1,0 +1,626 @@
+# Retrieval Service API Gateway Contracts
+# Defines comprehensive API gateway integration and management
+# Version: 2.0.0 - Complete API gateway integration
+
+metadata:
+  version: "2.0.0"
+  title: "Retrieval Service API Gateway Contracts"
+  description: "Comprehensive API gateway integration and traffic management"
+  created: "2025-09-16"
+  contract_type: "api_gateway_specification"
+
+# =============================================================================
+# API Gateway Configuration
+# =============================================================================
+
+api_gateway:
+  platform: "kong"
+  version: "3.4.0"
+  deployment_mode: "hybrid"
+
+  global_configuration:
+    rate_limiting:
+      default_policy:
+        requests_per_minute: 1000
+        requests_per_hour: 50000
+        burst_size: 100
+
+    security:
+      cors:
+        enabled: true
+        origins: ["https://*.familyos.com"]
+        methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
+        headers: ["Content-Type", "Authorization", "X-Request-ID"]
+
+      request_size_limit: "10MB"
+
+    observability:
+      logging:
+        enabled: true
+        format: "json"
+        include_request_body: false
+        include_response_body: false
+
+      metrics:
+        prometheus_enabled: true
+        statsd_enabled: true
+
+      tracing:
+        jaeger_enabled: true
+        sampling_rate: 0.1
+
+# =============================================================================
+# Service Routes
+# =============================================================================
+
+routes:
+  retrieval_api_v1:
+    service: "retrieval-service"
+    protocols: ["https"]
+    hosts: ["api.memory.familyos.com"]
+    paths: ["/retrieval/v1"]
+
+    plugins:
+      authentication:
+        - name: "jwt"
+          config:
+            secret_is_base64: false
+            key_claim_name: "iss"
+            claims_to_verify: ["exp", "iat"]
+
+      authorization:
+        - name: "acl"
+          config:
+            allow: ["authenticated"]
+
+      rate_limiting:
+        - name: "rate-limiting-advanced"
+          config:
+            limit: [100, 1000]
+            window_size: [60, 3600]
+            identifier: "consumer"
+            sync_rate: 10
+
+      request_transformation:
+        - name: "request-transformer"
+          config:
+            add:
+              headers:
+                - "X-Service-Version:v1"
+                - "X-Gateway-Request-ID:$(request_id)"
+
+      response_transformation:
+        - name: "response-transformer"
+          config:
+            add:
+              headers:
+                - "X-Response-Time:$(response_time)"
+                - "X-Service-ID:retrieval-service"
+
+      caching:
+        - name: "proxy-cache-advanced"
+          config:
+            cache_ttl: 300
+            cache_control: true
+            vary_headers: ["Authorization", "Accept-Language"]
+
+  health_check:
+    service: "retrieval-service"
+    protocols: ["https"]
+    hosts: ["api.memory.familyos.com"]
+    paths: ["/retrieval/health"]
+
+    plugins:
+      rate_limiting:
+        - name: "rate-limiting"
+          config:
+            minute: 60
+            policy: "redis"
+
+  admin_api:
+    service: "retrieval-service"
+    protocols: ["https"]
+    hosts: ["admin.memory.familyos.com"]
+    paths: ["/retrieval/admin"]
+
+    plugins:
+      authentication:
+        - name: "jwt"
+          config:
+            secret_is_base64: false
+
+      authorization:
+        - name: "acl"
+          config:
+            allow: ["admin", "service-admin"]
+
+      ip_restriction:
+        - name: "ip-restriction"
+          config:
+            allow: ["10.0.0.0/8", "172.16.0.0/12"]
+
+# =============================================================================
+# Service Discovery
+# =============================================================================
+
+services:
+  retrieval_service:
+    name: "retrieval-service"
+    protocol: "http"
+    host: "retrieval.memory.local"
+    port: 8080
+    path: "/"
+
+    connect_timeout: 5000
+    write_timeout: 30000
+    read_timeout: 30000
+
+    healthchecks:
+      active:
+        type: "http"
+        http_path: "/health/live"
+        timeout: 5
+        concurrency: 2
+        healthy:
+          interval: 30
+          successes: 2
+        unhealthy:
+          interval: 10
+          http_failures: 3
+          timeouts: 3
+
+      passive:
+        type: "http"
+        healthy:
+          http_statuses: [200, 201, 202, 204]
+          successes: 2
+        unhealthy:
+          http_statuses: [500, 502, 503, 504]
+          http_failures: 3
+          timeouts: 3
+
+    load_balancing:
+      algorithm: "least-connections"
+      hash_on: "none"
+      healthchecks: true
+
+# =============================================================================
+# Consumer Management
+# =============================================================================
+
+consumers:
+  web_application:
+    username: "web-app"
+    custom_id: "web-app-001"
+
+    credentials:
+      jwt:
+        algorithm: "RS256"
+        key: "web-app-jwt-key"
+
+      acl:
+        group: "authenticated"
+
+    rate_limiting_tiers:
+      tier: "premium"
+      limits:
+        minute: 500
+        hour: 25000
+        day: 500000
+
+  mobile_application:
+    username: "mobile-app"
+    custom_id: "mobile-app-001"
+
+    credentials:
+      jwt:
+        algorithm: "RS256"
+        key: "mobile-app-jwt-key"
+
+      acl:
+        group: "authenticated"
+
+    rate_limiting_tiers:
+      tier: "standard"
+      limits:
+        minute: 200
+        hour: 10000
+        day: 200000
+
+  analytics_service:
+    username: "analytics"
+    custom_id: "analytics-001"
+
+    credentials:
+      jwt:
+        algorithm: "RS256"
+        key: "analytics-jwt-key"
+
+      acl:
+        group: "service"
+
+    rate_limiting_tiers:
+      tier: "service"
+      limits:
+        minute: 100
+        hour: 5000
+        day: 100000
+
+  admin_users:
+    username: "admin-group"
+    custom_id: "admin-001"
+
+    credentials:
+      jwt:
+        algorithm: "RS256"
+        key: "admin-jwt-key"
+
+      acl:
+        group: "admin"
+
+    rate_limiting_tiers:
+      tier: "admin"
+      limits:
+        minute: 1000
+        hour: 50000
+        day: 1000000
+
+# =============================================================================
+# Security Policies
+# =============================================================================
+
+security_policies:
+  ddos_protection:
+    rate_limiting:
+      global_limit:
+        requests_per_second: 10000
+        burst_size: 5000
+
+      per_ip_limit:
+        requests_per_minute: 100
+        ban_duration: 300
+
+    request_filtering:
+      max_request_size: "10MB"
+      allowed_methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"]
+      blocked_user_agents: []
+
+  authentication_policies:
+    jwt_validation:
+      issuer_verification: true
+      audience_verification: true
+      expiration_check: true
+      signature_verification: true
+
+    token_requirements:
+      bearer_token_required: true
+      token_minimum_length: 10
+
+  authorization_policies:
+    rbac_enforcement:
+      enabled: true
+      default_deny: true
+
+    resource_access_control:
+      path_based_authorization: true
+      method_based_authorization: true
+
+  data_protection:
+    request_sanitization:
+      sql_injection_protection: true
+      xss_protection: true
+      path_traversal_protection: true
+
+    response_filtering:
+      sensitive_data_masking: true
+      error_message_sanitization: true
+
+# =============================================================================
+# Traffic Management
+# =============================================================================
+
+traffic_management:
+  load_balancing:
+    algorithm: "weighted_round_robin"
+    health_check_based: true
+
+    upstream_configuration:
+      retrieval_service_upstream:
+        targets:
+          - target: "retrieval-1.memory.local:8080"
+            weight: 100
+          - target: "retrieval-2.memory.local:8080"
+            weight: 100
+          - target: "retrieval-3.memory.local:8080"
+            weight: 100
+
+        healthchecks:
+          active:
+            http_path: "/health/live"
+            timeout: 5
+            interval: 30
+
+  circuit_breaker:
+    failure_threshold: 10
+    recovery_timeout: 30
+    monitoring_window: 60
+
+    fallback_responses:
+      service_unavailable:
+        status: 503
+        body: '{"error": "Service temporarily unavailable"}'
+        headers:
+          "Content-Type": "application/json"
+          "Retry-After": "30"
+
+  request_routing:
+    path_based_routing:
+      - path: "/retrieval/v1/search"
+        service: "retrieval-service"
+        methods: ["GET", "POST"]
+
+      - path: "/retrieval/v1/admin"
+        service: "retrieval-service"
+        methods: ["GET", "POST", "PUT", "DELETE"]
+
+    header_based_routing:
+      - header: "X-API-Version"
+        values: ["v1"]
+        service: "retrieval-service"
+
+  traffic_splitting:
+    canary_deployments:
+      enabled: true
+      traffic_split:
+        stable: 90
+        canary: 10
+
+    blue_green_deployments:
+      enabled: true
+      switch_mechanism: "header_based"
+
+# =============================================================================
+# Caching Strategy
+# =============================================================================
+
+caching:
+  cache_policies:
+    query_results:
+      cache_key: "query:${query_hash}:${user_id}"
+      ttl: 300
+      vary_headers: ["Authorization", "Accept-Language"]
+
+    user_permissions:
+      cache_key: "permissions:${user_id}"
+      ttl: 600
+      invalidation_triggers: ["user_update", "permission_change"]
+
+    policy_decisions:
+      cache_key: "policy:${policy_hash}:${context_hash}"
+      ttl: 120
+
+  cache_backend:
+    redis_cluster:
+      nodes:
+        - "redis-cache-1.memory.local:6379"
+        - "redis-cache-2.memory.local:6379"
+        - "redis-cache-3.memory.local:6379"
+
+      configuration:
+        max_memory: "1GB"
+        eviction_policy: "allkeys-lru"
+
+  cache_invalidation:
+    strategies:
+      time_based: "ttl_expiration"
+      event_based: "webhook_invalidation"
+      manual: "api_invalidation"
+
+    invalidation_events:
+      - event: "user_permission_change"
+        cache_patterns: ["permissions:*"]
+
+      - event: "policy_update"
+        cache_patterns: ["policy:*"]
+
+# =============================================================================
+# Monitoring and Observability
+# =============================================================================
+
+monitoring:
+  metrics_collection:
+    gateway_metrics:
+      - "request_count"
+      - "request_duration"
+      - "response_status_codes"
+      - "upstream_response_time"
+      - "cache_hit_ratio"
+
+    business_metrics:
+      - "authenticated_requests"
+      - "api_usage_by_consumer"
+      - "rate_limit_violations"
+      - "error_rate_by_endpoint"
+
+  alerting:
+    alert_rules:
+      high_error_rate:
+        condition: "error_rate > 5%"
+        duration: "5m"
+        severity: "critical"
+
+      high_latency:
+        condition: "p95_latency > 1000ms"
+        duration: "5m"
+        severity: "warning"
+
+      rate_limit_exceeded:
+        condition: "rate_limit_violations > 100"
+        duration: "1m"
+        severity: "warning"
+
+      upstream_down:
+        condition: "upstream_health_check_failures > 3"
+        duration: "30s"
+        severity: "critical"
+
+  logging:
+    access_logs:
+      format: "json"
+      fields:
+        - "timestamp"
+        - "request_id"
+        - "client_ip"
+        - "method"
+        - "path"
+        - "status_code"
+        - "response_time"
+        - "user_agent"
+        - "consumer_id"
+
+    error_logs:
+      level: "error"
+      include_stack_trace: true
+
+  tracing:
+    distributed_tracing:
+      enabled: true
+      sampling_rate: 0.1
+
+    trace_headers:
+      - "X-Trace-ID"
+      - "X-Span-ID"
+      - "X-Parent-Span-ID"
+
+# =============================================================================
+# API Documentation
+# =============================================================================
+
+api_documentation:
+  openapi_specification:
+    version: "3.0.3"
+    info:
+      title: "Memory Retrieval API"
+      version: "1.0.0"
+      description: "Comprehensive memory retrieval service API"
+
+    servers:
+      - url: "https://api.memory.familyos.com/retrieval/v1"
+        description: "Production API"
+      - url: "https://staging-api.memory.familyos.com/retrieval/v1"
+        description: "Staging API"
+
+    security:
+      - bearerAuth: []
+
+    paths:
+      "/search":
+        post:
+          summary: "Search memory documents"
+          operationId: "searchMemories"
+          requestBody:
+            $ref: "#/components/requestBodies/SearchRequest"
+          responses:
+            200:
+              $ref: "#/components/responses/SearchResponse"
+            400:
+              $ref: "#/components/responses/BadRequest"
+            401:
+              $ref: "#/components/responses/Unauthorized"
+            403:
+              $ref: "#/components/responses/Forbidden"
+            500:
+              $ref: "#/components/responses/InternalError"
+
+  developer_portal:
+    features:
+      - "interactive_api_explorer"
+      - "code_samples"
+      - "authentication_guides"
+      - "rate_limiting_documentation"
+      - "error_handling_guides"
+
+    code_samples:
+      languages:
+        - "curl"
+        - "javascript"
+        - "python"
+        - "java"
+        - "go"
+
+# =============================================================================
+# Deployment Configuration
+# =============================================================================
+
+deployment:
+  environments:
+    development:
+      replicas: 1
+      resources:
+        cpu: "500m"
+        memory: "1Gi"
+
+    staging:
+      replicas: 2
+      resources:
+        cpu: "1000m"
+        memory: "2Gi"
+
+    production:
+      replicas: 3
+      resources:
+        cpu: "2000m"
+        memory: "4Gi"
+
+      high_availability:
+        multi_zone: true
+        anti_affinity: true
+
+  configuration_management:
+    config_sources:
+      - "environment_variables"
+      - "kubernetes_configmaps"
+      - "kubernetes_secrets"
+      - "vault_secrets"
+
+    hot_reload:
+      enabled: true
+      supported_configs:
+        - "rate_limiting"
+        - "caching"
+        - "routing"
+
+# =============================================================================
+# Testing and Validation
+# =============================================================================
+
+testing:
+  integration_testing:
+    test_scenarios:
+      - "authentication_flow"
+      - "rate_limiting_enforcement"
+      - "circuit_breaker_behavior"
+      - "cache_functionality"
+      - "load_balancing"
+
+  performance_testing:
+    load_testing:
+      tools: ["k6", "jmeter"]
+      scenarios:
+        - "baseline_load"
+        - "stress_testing"
+        - "spike_testing"
+
+    performance_targets:
+      throughput: "> 5000 rps"
+      latency_p95: "< 100ms"
+      error_rate: "< 0.1%"
+
+  security_testing:
+    penetration_testing:
+      frequency: "quarterly"
+      scope: "full_api_surface"
+
+    vulnerability_scanning:
+      tools: ["owasp_zap", "nikto"]
+      frequency: "weekly"

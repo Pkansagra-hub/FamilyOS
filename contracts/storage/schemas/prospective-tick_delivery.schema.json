@@ -1,0 +1,12 @@
+{
+  "$id": "https://familyos/contracts/prospective/tick_delivery.schema.json",
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "type":"object",
+  "required": ["schedule_id","tick_at","status","attempts"],
+  "properties": {
+    "schedule_id":{"type":"string"},
+    "tick_at":{"type":"string","format":"date-time"},
+    "status":{"type":"string","enum":["DELIVERED","SKIPPED"]},
+    "attempts":{"type":"integer","minimum":0}
+  }
+}

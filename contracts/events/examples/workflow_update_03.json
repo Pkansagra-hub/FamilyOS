@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.1.0",
+  "id": "7a887d42-436c-47b0-8948-cf262c898b13",
+  "ts": "2025-09-09T04:20:40Z",
+  "topic": "WORKFLOW_UPDATE",
+  "band": "RED",
+  "actor": {
+    "user_id": "bf277fc8-1892-41b4-8b44-bff1a875cd13",
+    "agent_id": "privacy.v1",
+    "caps": [
+      "PROJECT"
+    ]
+  },
+  "device": {
+    "device_id": "android-pixel8",
+    "platform": "windows",
+    "app_version": "1.6.1",
+    "locale": "de-DE"
+  },
+  "space_id": "interfamily:link",
+  "policy_version": "1.3",
+  "abac": {
+    "role": "system",
+    "trust": "red",
+    "geo_precision": "region"
+  },
+  "qos": {
+    "routing": "fast-path",
+    "priority": 4,
+    "latency_budget_ms": 260,
+    "retries": 2
+  },
+  "trace": {
+    "trace_id": "08d9853c4426b48263079a33ee1edfc4",
+    "span_id": "5370de7f031c1103",
+    "sampled": true
+  },
+  "obligations": [
+    "REDACT_PII"
+  ],
+  "redaction_applied": false,
+  "hashes": {
+    "payload_sha256": "c11da7aeb10db9214322574ca2f76f17409fadba56d903fe8cee872285342f19"
+  },
+  "payload": {
+    "note": "system-update",
+    "ts": "2025-09-09T04:20:40Z"
+  },
+  "signature": {
+    "alg": "ed25519",
+    "key_id": "key_workflow_update_red_2024",
+    "public_key": "cHVibGlj",
+    "signature": "c2ln"
+  },
+  "mls_group": "household-secure"
+}

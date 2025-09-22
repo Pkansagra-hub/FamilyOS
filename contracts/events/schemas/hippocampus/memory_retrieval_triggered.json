@@ -1,0 +1,245 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://familyos.local/schemas/events/hippocampus/memory_retrieval_triggered.json",
+    "title": "Memory Retrieval Triggered Event",
+    "description": "Event emitted when the hippocampus initiates memory retrieval in response to retrieval cues, activating stored memory representations",
+    "type": "object",
+    "required": [
+        "event_type",
+        "timestamp",
+        "hippocampus_id",
+        "retrieval_session_id",
+        "retrieval_cues",
+        "retrieval_strategy",
+        "target_memories"
+    ],
+    "properties": {
+        "event_type": {
+            "type": "string",
+            "const": "memory_retrieval_triggered",
+            "description": "Event type identifier for memory retrieval triggering"
+        },
+        "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "ISO 8601 timestamp when memory retrieval was triggered"
+        },
+        "hippocampus_id": {
+            "type": "string",
+            "pattern": "^hippocampus_[a-zA-Z0-9_-]+$",
+            "description": "Unique identifier for the hippocampus instance performing retrieval"
+        },
+        "retrieval_session_id": {
+            "type": "string",
+            "pattern": "^retrieval_session_[a-zA-Z0-9_-]+$",
+            "description": "Unique identifier for this retrieval session"
+        },
+        "retrieval_cues": {
+            "type": "object",
+            "required": [
+                "cue_types",
+                "cue_strength",
+                "cue_specificity"
+            ],
+            "properties": {
+                "cue_types": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "enum": [
+                            "semantic",
+                            "episodic",
+                            "spatial",
+                            "temporal",
+                            "emotional",
+                            "perceptual",
+                            "contextual"
+                        ]
+                    },
+                    "description": "Types of retrieval cues present"
+                },
+                "cue_strength": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Overall strength of retrieval cues"
+                },
+                "cue_specificity": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Specificity of retrieval cues (low = general, high = specific)"
+                },
+                "semantic_cues": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "concept": {
+                                "type": "string"
+                            },
+                            "activation_strength": {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 1
+                            },
+                            "semantic_distance": {
+                                "type": "number",
+                                "minimum": 0
+                            }
+                        }
+                    },
+                    "description": "Semantic cues for memory retrieval"
+                },
+                "contextual_cues": {
+                    "type": "object",
+                    "properties": {
+                        "spatial_context": {
+                            "type": "string"
+                        },
+                        "temporal_context": {
+                            "type": "string"
+                        },
+                        "emotional_context": {
+                            "type": "string"
+                        },
+                        "social_context": {
+                            "type": "string"
+                        }
+                    },
+                    "description": "Contextual cues for memory retrieval"
+                }
+            },
+            "description": "Cues that triggered the memory retrieval process"
+        },
+        "retrieval_strategy": {
+            "type": "object",
+            "required": [
+                "strategy_type",
+                "search_mode",
+                "completion_mode"
+            ],
+            "properties": {
+                "strategy_type": {
+                    "type": "string",
+                    "enum": [
+                        "direct_access",
+                        "associative_search",
+                        "reconstructive",
+                        "generative",
+                        "pattern_completion"
+                    ],
+                    "description": "Type of retrieval strategy employed"
+                },
+                "search_mode": {
+                    "type": "string",
+                    "enum": [
+                        "parallel",
+                        "serial",
+                        "hierarchical",
+                        "spreading_activation"
+                    ],
+                    "description": "Mode of memory search"
+                },
+                "completion_mode": {
+                    "type": "string",
+                    "enum": [
+                        "pattern_completion",
+                        "pattern_separation",
+                        "mixed"
+                    ],
+                    "description": "Pattern completion mode for retrieval"
+                }
+            },
+            "description": "Strategy used for memory retrieval"
+        },
+        "target_memories": {
+            "type": "object",
+            "required": [
+                "candidate_memories",
+                "retrieval_confidence"
+            ],
+            "properties": {
+                "candidate_memories": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "memory_id": {
+                                "type": "string"
+                            },
+                            "match_strength": {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 1
+                            },
+                            "retrieval_probability": {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 1
+                            },
+                            "expected_quality": {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 1
+                            }
+                        }
+                    },
+                    "description": "Candidate memories identified for retrieval"
+                },
+                "retrieval_confidence": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Confidence in successful retrieval"
+                }
+            },
+            "description": "Target memories identified for retrieval"
+        }
+    },
+    "additionalProperties": false,
+    "examples": [
+        {
+            "event_type": "memory_retrieval_triggered",
+            "timestamp": "2025-09-16T15:30:22.456Z",
+            "hippocampus_id": "hippocampus_primary_001",
+            "retrieval_session_id": "retrieval_session_20250916_153022",
+            "retrieval_cues": {
+                "cue_types": [
+                    "semantic",
+                    "contextual"
+                ],
+                "cue_strength": 0.8,
+                "cue_specificity": 0.7,
+                "semantic_cues": [
+                    {
+                        "concept": "coffee",
+                        "activation_strength": 0.9,
+                        "semantic_distance": 0.1
+                    }
+                ],
+                "contextual_cues": {
+                    "spatial_context": "kitchen",
+                    "temporal_context": "morning",
+                    "emotional_context": "peaceful"
+                }
+            },
+            "retrieval_strategy": {
+                "strategy_type": "associative_search",
+                "search_mode": "spreading_activation",
+                "completion_mode": "pattern_completion"
+            },
+            "target_memories": {
+                "candidate_memories": [
+                    {
+                        "memory_id": "mem_episode_20250916_143045",
+                        "match_strength": 0.85,
+                        "retrieval_probability": 0.8,
+                        "expected_quality": 0.75
+                    }
+                ],
+                "retrieval_confidence": 0.8
+            }
+        }
+    ]
+}

@@ -1,0 +1,37 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "$id": "capacity_metrics.schema.json",
+    "title": "Working Memory Capacity Metrics Storage",
+    "type": "object",
+    "required": [
+        "total_capacity",
+        "available_capacity",
+        "utilization_history"
+    ],
+    "properties": {
+        "total_capacity": {
+            "type": "number",
+            "minimum": 0
+        },
+        "available_capacity": {
+            "type": "number",
+            "minimum": 0
+        },
+        "utilization_history": {
+            "type": "array",
+            "items": {
+                "type": "number"
+            }
+        },
+        "peak_utilization": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+        },
+        "efficiency_rating": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+        }
+    }
+}

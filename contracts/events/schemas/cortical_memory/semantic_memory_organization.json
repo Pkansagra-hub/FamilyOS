@@ -1,0 +1,187 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "$id": "semantic_memory_organization.schema.json",
+    "title": "Semantic Memory Organization Event",
+    "description": "Event for organizing semantic knowledge in cortical networks with conceptual hierarchies and cross-modal integration",
+    "type": "object",
+    "required": [
+        "timestamp",
+        "organization_type",
+        "semantic_content",
+        "cortical_regions",
+        "knowledge_integration"
+    ],
+    "properties": {
+        "timestamp": {
+            "type": "string",
+            "format": "date-time"
+        },
+        "organization_type": {
+            "type": "string",
+            "enum": [
+                "concept_formation",
+                "hierarchy_update",
+                "cross_modal_binding",
+                "knowledge_consolidation",
+                "semantic_pruning"
+            ]
+        },
+        "semantic_content": {
+            "type": "object",
+            "properties": {
+                "concept_id": {
+                    "type": "string"
+                },
+                "concept_type": {
+                    "type": "string",
+                    "enum": [
+                        "concrete",
+                        "abstract",
+                        "relational",
+                        "temporal",
+                        "spatial",
+                        "social"
+                    ]
+                },
+                "semantic_features": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "feature_name": {
+                                "type": "string"
+                            },
+                            "feature_value": {
+                                "type": "number"
+                            },
+                            "feature_weight": {
+                                "type": "number"
+                            },
+                            "modality": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "conceptual_relations": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "relation_type": {
+                                "type": "string"
+                            },
+                            "target_concept": {
+                                "type": "string"
+                            },
+                            "relation_strength": {
+                                "type": "number"
+                            },
+                            "relation_confidence": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "cortical_regions": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "region_name": {
+                        "type": "string",
+                        "enum": [
+                            "temporal_pole",
+                            "anterior_temporal_lobe",
+                            "angular_gyrus",
+                            "precuneus",
+                            "lateral_temporal_cortex",
+                            "inferior_frontal_gyrus"
+                        ]
+                    },
+                    "specialization": {
+                        "type": "string",
+                        "enum": [
+                            "conceptual_hub",
+                            "feature_processing",
+                            "semantic_control",
+                            "multimodal_integration"
+                        ]
+                    },
+                    "activation_pattern": {
+                        "type": "object",
+                        "properties": {
+                            "activation_level": {
+                                "type": "number"
+                            },
+                            "temporal_dynamics": {
+                                "type": "array"
+                            },
+                            "connectivity_pattern": {
+                                "type": "object"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "knowledge_integration": {
+            "type": "object",
+            "properties": {
+                "hierarchical_organization": {
+                    "type": "object",
+                    "properties": {
+                        "superordinate_concepts": {
+                            "type": "array"
+                        },
+                        "subordinate_concepts": {
+                            "type": "array"
+                        },
+                        "taxonomic_depth": {
+                            "type": "number"
+                        },
+                        "hierarchical_coherence": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "distributed_representation": {
+                    "type": "object",
+                    "properties": {
+                        "hub_regions": {
+                            "type": "array"
+                        },
+                        "spoke_regions": {
+                            "type": "array"
+                        },
+                        "integration_strength": {
+                            "type": "number"
+                        },
+                        "representational_similarity": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "knowledge_graph_updates": {
+                    "type": "object",
+                    "properties": {
+                        "new_nodes": {
+                            "type": "array"
+                        },
+                        "new_edges": {
+                            "type": "array"
+                        },
+                        "updated_weights": {
+                            "type": "array"
+                        },
+                        "graph_metrics": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

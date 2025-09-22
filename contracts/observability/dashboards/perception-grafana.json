@@ -1,0 +1,1 @@
+{ "title": "Perception", "panels": [{ "type": "timeseries", "title": "Ingest p95 (ms)", "targets": [{"expr": "histogram_quantile(0.95, sum(rate(perception_ingest_latency_ms_bucket[5m])) by (le))"}]}] }

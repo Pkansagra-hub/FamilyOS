@@ -1,0 +1,71 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Learning Module Event Catalog",
+  "description": "Learning events for P06 neuromodulation and adaptive learning",
+  "type": "object",
+  "properties": {
+    "events": {
+      "type": "array",
+      "items": [
+        {
+          "name": "LEARNING_TICK",
+          "version": "1.0",
+          "description": "Periodic learning system update with adaptation results",
+          "schema": {
+            "type": "object",
+            "properties": {
+              "session_id": { "type": "string", "format": "ulid" },
+              "learning_type": { "type": "string", "enum": ["outcome_analysis", "pattern_detection", "performance_monitoring", "neuromodulation"] },
+              "adaptations_applied": { "type": "array", "items": { "type": "object" } },
+              "performance_delta": { "type": "number" },
+              "confidence_score": { "type": "number", "minimum": 0, "maximum": 1 }
+            },
+            "required": ["session_id", "learning_type", "performance_delta"]
+          },
+          "key": { "partition": "space_id", "ordering": "ts" },
+          "idempotency": { "dedupe_key": "session_id", "window": "PT5M" },
+          "retention": "P90D"
+        },
+        {
+          "name": "NEUROMOD_ADJUSTMENT",
+          "version": "1.0",
+          "description": "Neuromodulation parameter changes affecting cognitive processes",
+          "schema": {
+            "type": "object",
+            "properties": {
+              "adjustment_id": { "type": "string", "format": "ulid" },
+              "target_system": { "type": "string", "enum": ["salience_gateway", "retrieval_ranker", "attention_gate", "decision_arbiter"] },
+              "parameter_changes": { "type": "object", "additionalProperties": true },
+              "expected_effect": { "type": "string" },
+              "rollback_available": { "type": "boolean" }
+            },
+            "required": ["adjustment_id", "target_system", "parameter_changes"]
+          },
+          "key": { "partition": "target_system", "ordering": "ts" },
+          "idempotency": { "dedupe_key": "adjustment_id", "window": "PT1M" },
+          "retention": "P180D"
+        },
+        {
+          "name": "PATTERN_DETECTED",
+          "version": "1.0",
+          "description": "New behavioral or performance pattern identification",
+          "schema": {
+            "type": "object",
+            "properties": {
+              "pattern_id": { "type": "string", "format": "ulid" },
+              "pattern_type": { "type": "string", "enum": ["behavioral", "performance", "error", "success"] },
+              "pattern_description": { "type": "string" },
+              "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+              "supporting_evidence": { "type": "array", "items": { "type": "object" } },
+              "actionable_insights": { "type": "array", "items": { "type": "string" } }
+            },
+            "required": ["pattern_id", "pattern_type", "pattern_description", "confidence"]
+          },
+          "key": { "partition": "space_id", "ordering": "ts" },
+          "idempotency": { "dedupe_key": "pattern_id", "window": "PT10M" },
+          "retention": "P180D"
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "vec_id": "01HX3V6M5K4R8G9XWGSHK4HH90",
+  "space_id": "personal:11111111-2222-4333-8444-555555555555",
+  "doc_id": "2D41303SREQ12Q348NT9ZPG3WK",
+  "model_id": "text-embedding-3-large",
+  "dim": 8,
+  "vector": [
+    0.0123,
+    -0.0042,
+    0.9981,
+    0.2456,
+    -0.7890,
+    0.1234,
+    0.5678,
+    -0.3456
+  ],
+  "norm": 1.0001
+}

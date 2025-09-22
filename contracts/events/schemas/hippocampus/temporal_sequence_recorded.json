@@ -1,0 +1,241 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://familyos.local/schemas/events/hippocampus/temporal_sequence_recorded.json",
+    "title": "Temporal Sequence Recorded Event",
+    "description": "Event emitted when the hippocampus records temporal sequences of events for episodic memory formation and temporal ordering",
+    "type": "object",
+    "required": [
+        "event_type",
+        "timestamp",
+        "hippocampus_id",
+        "sequence_id",
+        "temporal_sequence",
+        "time_cell_activity",
+        "sequence_quality"
+    ],
+    "properties": {
+        "event_type": {
+            "type": "string",
+            "const": "temporal_sequence_recorded",
+            "description": "Event type identifier for temporal sequence recording"
+        },
+        "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "ISO 8601 timestamp when temporal sequence was recorded"
+        },
+        "hippocampus_id": {
+            "type": "string",
+            "pattern": "^hippocampus_[a-zA-Z0-9_-]+$",
+            "description": "Unique identifier for the hippocampus instance recording sequence"
+        },
+        "sequence_id": {
+            "type": "string",
+            "pattern": "^sequence_[a-zA-Z0-9_-]+$",
+            "description": "Unique identifier for this temporal sequence"
+        },
+        "temporal_sequence": {
+            "type": "object",
+            "required": [
+                "sequence_events",
+                "temporal_resolution",
+                "sequence_duration"
+            ],
+            "properties": {
+                "sequence_events": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "event_id": {
+                                "type": "string"
+                            },
+                            "event_timestamp": {
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            "sequence_position": {
+                                "type": "integer",
+                                "minimum": 0
+                            },
+                            "event_duration_ms": {
+                                "type": "integer",
+                                "minimum": 0
+                            },
+                            "event_content": {
+                                "type": "object"
+                            },
+                            "temporal_certainty": {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 1
+                            }
+                        }
+                    },
+                    "description": "Events in the temporal sequence"
+                },
+                "temporal_resolution": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Temporal resolution of sequence recording in milliseconds"
+                },
+                "sequence_duration": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "description": "Total duration of sequence in milliseconds"
+                }
+            },
+            "description": "Temporal sequence being recorded"
+        },
+        "time_cell_activity": {
+            "type": "object",
+            "required": [
+                "active_time_cells",
+                "temporal_coding"
+            ],
+            "properties": {
+                "active_time_cells": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "cell_id": {
+                                "type": "string"
+                            },
+                            "temporal_field": {
+                                "type": "number",
+                                "minimum": 0
+                            },
+                            "firing_pattern": {
+                                "type": "string"
+                            },
+                            "sequence_coding": {
+                                "type": "string"
+                            },
+                            "peak_time": {
+                                "type": "number",
+                                "minimum": 0
+                            }
+                        }
+                    },
+                    "description": "Time cells active during sequence recording"
+                },
+                "temporal_coding": {
+                    "type": "object",
+                    "properties": {
+                        "coding_scheme": {
+                            "type": "string",
+                            "enum": [
+                                "rate_coding",
+                                "temporal_coding",
+                                "phase_coding",
+                                "population_vector"
+                            ]
+                        },
+                        "temporal_precision": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "sequence_compression": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "temporal_binding": {
+                            "type": "boolean"
+                        }
+                    },
+                    "description": "Temporal coding scheme for sequence"
+                }
+            },
+            "description": "Time cell activity during sequence recording"
+        },
+        "sequence_quality": {
+            "type": "object",
+            "required": [
+                "temporal_accuracy",
+                "sequence_completeness",
+                "order_fidelity"
+            ],
+            "properties": {
+                "temporal_accuracy": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Accuracy of temporal information in sequence"
+                },
+                "sequence_completeness": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Completeness of recorded sequence"
+                },
+                "order_fidelity": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Fidelity of temporal order representation"
+                }
+            },
+            "description": "Quality metrics of sequence recording"
+        }
+    },
+    "additionalProperties": false,
+    "examples": [
+        {
+            "event_type": "temporal_sequence_recorded",
+            "timestamp": "2025-09-16T19:30:55.678Z",
+            "hippocampus_id": "hippocampus_primary_001",
+            "sequence_id": "sequence_20250916_193055",
+            "temporal_sequence": {
+                "sequence_events": [
+                    {
+                        "event_id": "event_001",
+                        "event_timestamp": "2025-09-16T19:30:45.000Z",
+                        "sequence_position": 0,
+                        "event_duration_ms": 2000,
+                        "event_content": {
+                            "action": "coffee_brewing_start"
+                        },
+                        "temporal_certainty": 0.95
+                    },
+                    {
+                        "event_id": "event_002",
+                        "event_timestamp": "2025-09-16T19:30:50.000Z",
+                        "sequence_position": 1,
+                        "event_duration_ms": 3000,
+                        "event_content": {
+                            "action": "aroma_detection"
+                        },
+                        "temporal_certainty": 0.9
+                    }
+                ],
+                "temporal_resolution": 100.0,
+                "sequence_duration": 10000
+            },
+            "time_cell_activity": {
+                "active_time_cells": [
+                    {
+                        "cell_id": "time_cell_012",
+                        "temporal_field": 2.5,
+                        "firing_pattern": "ramping_activity",
+                        "sequence_coding": "forward_sequence",
+                        "peak_time": 2.5
+                    }
+                ],
+                "temporal_coding": {
+                    "coding_scheme": "temporal_coding",
+                    "temporal_precision": 0.9,
+                    "sequence_compression": 0.7,
+                    "temporal_binding": true
+                }
+            },
+            "sequence_quality": {
+                "temporal_accuracy": 0.92,
+                "sequence_completeness": 0.88,
+                "order_fidelity": 0.95
+            }
+        }
+    ]
+}

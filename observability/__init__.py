@@ -21,7 +21,7 @@ Envelope Tracking:
 
 from .envelope import EnvelopeTracker, MemoryEnvelope
 from .memory_trace import MemoryTracer, CognitiveSpan
-from .pipeline_metrics import PipelineMetrics, MemoryMetrics
+# from .pipeline_metrics import PipelineMetrics, MemoryMetrics  # TODO: Create pipeline_metrics module
 from .dashboard import ObservabilityDashboard
 from .middleware import MemoryTracingMiddleware
 
@@ -30,8 +30,8 @@ __all__ = [
     "MemoryEnvelope", 
     "MemoryTracer",
     "CognitiveSpan",
-    "PipelineMetrics",
-    "MemoryMetrics",
+    # "PipelineMetrics",
+    # "MemoryMetrics",
     "ObservabilityDashboard",
     "MemoryTracingMiddleware"
 ]

@@ -1,0 +1,640 @@
+# Retrieval Service Integration Contracts
+# Defines comprehensive integration specifications for external systems and services
+# Version: 2.0.0 - Complete integration operational excellence
+
+metadata:
+  version: "2.0.0"
+  title: "Retrieval Service Integration Contracts"
+  description: "Comprehensive integration specifications and service dependencies"
+  created: "2025-09-16"
+  contract_type: "integration_specification"
+
+# =============================================================================
+# API Integration Contracts
+# =============================================================================
+
+api_integrations:
+  external_apis:
+    policy_engine:
+      service_name: "Open Policy Agent (OPA)"
+      version: "v0.57.0"
+      protocol: "HTTP/REST"
+      base_url: "${OPA_ENDPOINT}"
+
+      endpoints:
+        policy_evaluation:
+          path: "/v1/data/retrieval/policy/allow"
+          method: "POST"
+          timeout: "PT2S"
+          retry_policy:
+            max_attempts: 3
+            backoff_strategy: "exponential"
+            initial_delay: "PT100MS"
+
+          request_schema:
+            type: "object"
+            properties:
+              input:
+                type: "object"
+                properties:
+                  user:
+                    $ref: "#/schemas/User"
+                  request:
+                    $ref: "#/schemas/RetrievalRequest"
+                  context:
+                    $ref: "#/schemas/RequestContext"
+
+          response_schema:
+            type: "object"
+            properties:
+              result:
+                type: "boolean"
+              constraints:
+                type: "object"
+              metadata:
+                type: "object"
+
+        policy_query:
+          path: "/v1/data/retrieval/policy"
+          method: "GET"
+          timeout: "PT1S"
+
+      circuit_breaker:
+        failure_threshold: 5
+        recovery_timeout: "PT30S"
+        fallback_strategy: "deny_by_default"
+
+      monitoring:
+        metrics:
+          - "request_count"
+          - "response_time"
+          - "error_rate"
+          - "circuit_breaker_state"
+
+    search_engine:
+      service_name: "Elasticsearch"
+      version: "8.8.0"
+      protocol: "HTTP/REST"
+      base_url: "${ELASTICSEARCH_ENDPOINT}"
+
+      indices:
+        memory_documents:
+          name: "memory_documents_${ENVIRONMENT}"
+          mapping_file: "elasticsearch/mappings/memory_documents.json"
+          settings_file: "elasticsearch/settings/memory_documents.json"
+
+        user_spaces:
+          name: "user_spaces_${ENVIRONMENT}"
+          mapping_file: "elasticsearch/mappings/user_spaces.json"
+
+      operations:
+        search:
+          endpoint: "/_search"
+          timeout: "PT5S"
+          max_result_window: 10000
+
+        index:
+          endpoint: "/_doc"
+          timeout: "PT10S"
+          refresh_policy: "wait_for"
+
+        bulk_operations:
+          endpoint: "/_bulk"
+          timeout: "PT30S"
+          batch_size: 1000
+
+      monitoring:
+        cluster_health: true
+        index_statistics: true
+        query_performance: true
+
+    user_service:
+      service_name: "User Management Service"
+      version: "v2.1.0"
+      protocol: "HTTP/REST"
+      base_url: "${USER_SERVICE_ENDPOINT}"
+
+      endpoints:
+        user_profile:
+          path: "/api/v2/users/{user_id}"
+          method: "GET"
+          timeout: "PT3S"
+          cache_ttl: "PT5M"
+
+        user_permissions:
+          path: "/api/v2/users/{user_id}/permissions"
+          method: "GET"
+          timeout: "PT2S"
+          cache_ttl: "PT10M"
+
+        space_memberships:
+          path: "/api/v2/users/{user_id}/spaces"
+          method: "GET"
+          timeout: "PT2S"
+          cache_ttl: "PT15M"
+
+      authentication:
+        type: "jwt_bearer"
+        token_endpoint: "/api/v2/auth/token"
+
+    audit_service:
+      service_name: "Audit Logging Service"
+      version: "v1.5.0"
+      protocol: "HTTP/REST + Message Queue"
+      base_url: "${AUDIT_SERVICE_ENDPOINT}"
+
+      endpoints:
+        log_event:
+          path: "/api/v1/events"
+          method: "POST"
+          timeout: "PT1S"
+          async: true
+
+      message_queue:
+        topic: "audit.retrieval.events"
+        format: "cloudevents"
+        delivery_guarantee: "at_least_once"
+
+# =============================================================================
+# Service Mesh Integration
+# =============================================================================
+
+service_mesh:
+  platform: "istio"
+  version: "1.18.0"
+
+  traffic_management:
+    virtual_services:
+      retrieval_service:
+        hosts: ["retrieval.memory.local"]
+        http:
+          - match:
+              - uri:
+                  prefix: "/api/v1/"
+            route:
+              - destination:
+                  host: "retrieval"
+                  subset: "v1"
+                timeout: "PT30S"
+                retries:
+                  attempts: 3
+                  per_try_timeout: "PT10S"
+
+          - match:
+              - uri:
+                  prefix: "/health"
+            route:
+              - destination:
+                  host: "retrieval"
+                  subset: "v1"
+                timeout: "PT5S"
+
+    destination_rules:
+      retrieval_service:
+        host: "retrieval"
+        traffic_policy:
+          load_balancer:
+            simple: "LEAST_CONN"
+          connection_pool:
+            tcp:
+              max_connections: 100
+            http:
+              http1_max_pending_requests: 50
+              max_requests_per_connection: 10
+
+        subsets:
+          - name: "v1"
+            labels:
+              version: "v1"
+
+  security:
+    peer_authentication:
+      default:
+        mtls:
+          mode: "STRICT"
+
+    authorization_policies:
+      retrieval_access:
+        selector:
+          match_labels:
+            app: "retrieval"
+        rules:
+          - from:
+              - source:
+                  principals: ["cluster.local/ns/default/sa/web-app"]
+            to:
+              - operation:
+                  methods: ["GET", "POST"]
+                  paths: ["/api/v1/*"]
+
+  observability:
+    telemetry:
+      metrics:
+        providers:
+          - prometheus
+        overrides:
+          - match:
+              metric: "ALL_METRICS"
+            tags:
+              request_id: "request.headers['x-request-id'] | 'unknown'"
+
+      tracing:
+        providers:
+          - jaeger
+        random_sampling_percentage: 1.0
+
+      access_logging:
+        providers:
+          - envoy
+
+# =============================================================================
+# Database Integration
+# =============================================================================
+
+database_integrations:
+  primary_database:
+    type: "postgresql"
+    version: "14.9"
+    driver: "asyncpg"
+
+    connection_pool:
+      min_connections: 5
+      max_connections: 20
+      acquire_timeout: "PT30S"
+      idle_timeout: "PT10M"
+
+    connection_string: "${DATABASE_URL}"
+    ssl_mode: "require"
+
+    schemas:
+      retrieval_requests:
+        table: "retrieval_requests"
+        partitioning: "monthly"
+        retention: "P1Y"
+
+      user_sessions:
+        table: "user_sessions"
+        indexes:
+          - "user_id"
+          - "created_at"
+          - "session_token"
+
+      audit_logs:
+        table: "audit_logs"
+        partitioning: "weekly"
+        retention: "P2Y"
+        compression: true
+
+    monitoring:
+      connection_health: true
+      query_performance: true
+      table_statistics: true
+
+  cache_database:
+    type: "redis"
+    version: "7.0"
+    driver: "aioredis"
+
+    connection_pool:
+      max_connections: 50
+      retry_on_timeout: true
+
+    cluster_configuration:
+      nodes:
+        - "${REDIS_NODE_1}"
+        - "${REDIS_NODE_2}"
+        - "${REDIS_NODE_3}"
+      read_from_replicas: true
+
+    cache_strategies:
+      query_results:
+        ttl: "PT5M"
+        key_pattern: "query:{query_hash}"
+        compression: true
+
+      user_permissions:
+        ttl: "PT10M"
+        key_pattern: "user:{user_id}:permissions"
+
+      policy_decisions:
+        ttl: "PT2M"
+        key_pattern: "policy:{policy_hash}:{context_hash}"
+
+# =============================================================================
+# Message Queue Integration
+# =============================================================================
+
+message_queue_integrations:
+  event_streaming:
+    platform: "apache_kafka"
+    version: "3.5.0"
+
+    cluster_configuration:
+      bootstrap_servers:
+        - "${KAFKA_BROKER_1}"
+        - "${KAFKA_BROKER_2}"
+        - "${KAFKA_BROKER_3}"
+      security_protocol: "SASL_SSL"
+      sasl_mechanism: "PLAIN"
+
+    topics:
+      retrieval_events:
+        name: "memory.retrieval.events"
+        partitions: 12
+        replication_factor: 3
+        retention: "P7D"
+        compression: "gzip"
+
+      policy_updates:
+        name: "memory.policy.updates"
+        partitions: 3
+        replication_factor: 3
+        retention: "P30D"
+
+      user_activity:
+        name: "memory.user.activity"
+        partitions: 6
+        replication_factor: 3
+        retention: "P1D"
+
+    producers:
+      retrieval_events_producer:
+        topic: "memory.retrieval.events"
+        batch_size: 100
+        linger_ms: 5
+        compression_type: "gzip"
+        acks: "all"
+
+    consumers:
+      audit_consumer:
+        group_id: "retrieval_audit"
+        topics: ["memory.retrieval.events"]
+        auto_offset_reset: "earliest"
+        enable_auto_commit: false
+
+      analytics_consumer:
+        group_id: "retrieval_analytics"
+        topics: ["memory.retrieval.events"]
+        auto_offset_reset: "latest"
+
+# =============================================================================
+# External Service Dependencies
+# =============================================================================
+
+external_dependencies:
+  ai_ml_services:
+    embedding_service:
+      name: "Vector Embedding Service"
+      endpoint: "${EMBEDDING_SERVICE_ENDPOINT}"
+      model: "all-MiniLM-L6-v2"
+      timeout: "PT10S"
+
+      operations:
+        generate_embedding:
+          path: "/embeddings"
+          method: "POST"
+          batch_size: 50
+
+      fallback_strategy: "use_cached_embeddings"
+
+    nlp_service:
+      name: "Natural Language Processing Service"
+      endpoint: "${NLP_SERVICE_ENDPOINT}"
+      timeout: "PT5S"
+
+      operations:
+        analyze_query:
+          path: "/analyze"
+          method: "POST"
+
+        extract_entities:
+          path: "/entities"
+          method: "POST"
+
+  monitoring_services:
+    metrics_collector:
+      name: "Prometheus"
+      endpoint: "${PROMETHEUS_ENDPOINT}"
+      scrape_interval: "PT15S"
+
+    log_aggregator:
+      name: "Elasticsearch (Logs)"
+      endpoint: "${LOG_ELASTICSEARCH_ENDPOINT}"
+      index_pattern: "logs-retrieval-*"
+
+    tracing_system:
+      name: "Jaeger"
+      endpoint: "${JAEGER_ENDPOINT}"
+      sampling_rate: 0.1
+
+  security_services:
+    certificate_authority:
+      name: "Internal CA"
+      endpoint: "${CA_ENDPOINT}"
+      certificate_renewal: "P30D"
+
+    secrets_manager:
+      name: "HashiCorp Vault"
+      endpoint: "${VAULT_ENDPOINT}"
+      auth_method: "kubernetes"
+
+# =============================================================================
+# Data Pipeline Integration
+# =============================================================================
+
+data_pipelines:
+  ingestion_pipeline:
+    source_systems:
+      document_repository:
+        type: "file_system"
+        path: "${DOCUMENT_PATH}"
+        file_formats: ["pdf", "docx", "txt", "md"]
+
+      legacy_search_system:
+        type: "database"
+        connection: "${LEGACY_DB_CONNECTION}"
+        migration_strategy: "incremental"
+
+    processing_stages:
+      extraction:
+        service: "document_processor"
+        timeout: "PT30S"
+        retry_policy: "exponential_backoff"
+
+      enrichment:
+        service: "metadata_enricher"
+        timeout: "PT10S"
+
+      indexing:
+        service: "elasticsearch_indexer"
+        batch_size: 100
+        timeout: "PT60S"
+
+    scheduling:
+      full_reindex: "weekly"
+      incremental_updates: "hourly"
+
+  analytics_pipeline:
+    data_export:
+      destination: "data_warehouse"
+      format: "parquet"
+      schedule: "daily"
+
+    metrics_aggregation:
+      window_sizes: ["PT1M", "PT5M", "PT1H", "P1D"]
+      metrics:
+        - "query_volume"
+        - "response_times"
+        - "error_rates"
+        - "user_activity"
+
+# =============================================================================
+# Integration Testing
+# =============================================================================
+
+integration_testing:
+  contract_testing:
+    consumer_driven_contracts:
+      tools: ["pact"]
+      verification_frequency: "on_every_deploy"
+
+    api_compatibility:
+      backward_compatibility: "required"
+      forward_compatibility: "best_effort"
+
+  end_to_end_testing:
+    test_environments:
+      integration:
+        real_dependencies: true
+        test_data: "sanitized_production_subset"
+
+      staging:
+        production_like: true
+        performance_testing: true
+
+    test_scenarios:
+      happy_path:
+        - "successful_retrieval_flow"
+        - "policy_enforcement_flow"
+        - "caching_behavior"
+
+      error_scenarios:
+        - "external_service_timeout"
+        - "database_connection_failure"
+        - "policy_service_unavailable"
+
+      load_scenarios:
+        - "high_concurrent_requests"
+        - "large_result_sets"
+        - "cache_miss_scenarios"
+
+# =============================================================================
+# Integration Monitoring
+# =============================================================================
+
+integration_monitoring:
+  service_health:
+    dependency_health_checks:
+      frequency: "PT30S"
+      timeout: "PT5S"
+
+      checks:
+        - "database_connectivity"
+        - "elasticsearch_cluster_health"
+        - "policy_engine_availability"
+        - "cache_connectivity"
+
+    circuit_breakers:
+      failure_threshold: 5
+      recovery_timeout: "PT30S"
+      monitoring: true
+
+  performance_monitoring:
+    integration_metrics:
+      - "external_api_response_times"
+      - "database_query_performance"
+      - "cache_hit_ratios"
+      - "message_queue_lag"
+
+    alerting:
+      slow_dependencies:
+        threshold: "p95 > 1000ms"
+        severity: "warning"
+
+      dependency_failures:
+        threshold: "error_rate > 5%"
+        severity: "critical"
+
+  data_quality_monitoring:
+    data_freshness:
+      search_index: "< PT1H"
+      cache_data: "< PT5M"
+
+    data_consistency:
+      cross_system_validation: "daily"
+      reconciliation_reports: "weekly"
+
+# =============================================================================
+# Integration Security
+# =============================================================================
+
+integration_security:
+  authentication:
+    service_to_service:
+      method: "mutual_tls"
+      certificate_rotation: "automatic"
+
+    api_authentication:
+      method: "jwt_bearer"
+      token_validation: "centralized"
+
+  authorization:
+    service_mesh_policies: "enforce_rbac"
+    api_gateway_policies: "rate_limiting + authorization"
+
+  network_security:
+    traffic_encryption: "tls_1_3"
+    network_policies: "zero_trust"
+
+  data_protection:
+    sensitive_data_handling:
+      encryption_at_rest: "aes_256"
+      encryption_in_transit: "tls_1_3"
+
+    data_classification:
+      automatic_labeling: true
+      policy_enforcement: true
+
+# =============================================================================
+# Integration Governance
+# =============================================================================
+
+integration_governance:
+  change_management:
+    dependency_updates:
+      approval_required: true
+      testing_mandatory: true
+      rollback_plan: "required"
+
+    api_versioning:
+      strategy: "semantic_versioning"
+      deprecation_notice: "P90D"
+
+  documentation:
+    integration_documentation:
+      api_specifications: "openapi_3_0"
+      sequence_diagrams: "up_to_date"
+      troubleshooting_guides: "maintained"
+
+    runbooks:
+      incident_response: "detailed"
+      maintenance_procedures: "step_by_step"
+
+  compliance:
+    data_governance:
+      data_lineage: "tracked"
+      privacy_compliance: "gdpr + ccpa"
+
+    audit_requirements:
+      integration_logging: "comprehensive"
+      access_tracking: "detailed"

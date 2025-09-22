@@ -1,0 +1,317 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "$id": "thalamic_relay_defer.schema.json",
+    "title": "Thalamic Relay DEFER Decision Event",
+    "description": "Event generated when thalamic relay circuits decide to DEFER cognitive processing requests due to capacity constraints or lower priority. This implements cognitive load management and queuing mechanisms.",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "timestamp",
+        "relay_circuit",
+        "cognitive_load",
+        "salience_score",
+        "defer_reason",
+        "estimated_delay",
+        "queue_position"
+    ],
+    "properties": {
+        "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Precise timing of thalamic relay DEFER decision"
+        },
+        "relay_circuit": {
+            "type": "string",
+            "enum": [
+                "memory",
+                "recall",
+                "executive",
+                "learning",
+                "perception",
+                "motor"
+            ],
+            "description": "Which thalamic relay circuit made the DEFER decision"
+        },
+        "cognitive_load": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "description": "Current cognitive load that necessitated deferral"
+        },
+        "salience_score": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "description": "Computed salience score that was insufficient for immediate admission"
+        },
+        "defer_reason": {
+            "type": "object",
+            "required": [
+                "primary_constraint",
+                "secondary_constraints"
+            ],
+            "properties": {
+                "primary_constraint": {
+                    "type": "string",
+                    "enum": [
+                        "cognitive_overload",
+                        "resource_exhaustion",
+                        "priority_conflict",
+                        "temporal_mismatch",
+                        "attention_unavailable",
+                        "working_memory_full"
+                    ],
+                    "description": "Primary reason for DEFER decision"
+                },
+                "secondary_constraints": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "enum": [
+                            "attention_competition",
+                            "executive_control_busy",
+                            "memory_consolidation_active",
+                            "interference_risk",
+                            "energy_conservation"
+                        ]
+                    },
+                    "description": "Additional constraints that supported the DEFER decision"
+                },
+                "threshold_shortfall": {
+                    "type": "number",
+                    "description": "How much the request fell short of the admission threshold"
+                },
+                "capacity_utilization": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Current system capacity utilization"
+                }
+            },
+            "description": "Detailed reasoning for the DEFER decision"
+        },
+        "estimated_delay": {
+            "type": "object",
+            "required": [
+                "minimum_delay_ms",
+                "expected_delay_ms"
+            ],
+            "properties": {
+                "minimum_delay_ms": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Minimum delay before reconsideration in milliseconds"
+                },
+                "expected_delay_ms": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Expected delay before processing in milliseconds"
+                },
+                "maximum_delay_ms": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Maximum acceptable delay before timeout in milliseconds"
+                },
+                "delay_variability": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Uncertainty/variability in delay estimation"
+                }
+            },
+            "description": "Estimated delay parameters for deferred processing"
+        },
+        "queue_position": {
+            "type": "object",
+            "required": [
+                "position",
+                "queue_length"
+            ],
+            "properties": {
+                "position": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "description": "Position in the processing queue (1=next in line)"
+                },
+                "queue_length": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "description": "Total length of the processing queue"
+                },
+                "queue_type": {
+                    "type": "string",
+                    "enum": [
+                        "priority_queue",
+                        "fifo_queue",
+                        "temporal_queue",
+                        "adaptive_queue"
+                    ],
+                    "description": "Type of queuing mechanism being used"
+                },
+                "estimated_queue_time": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Estimated time to process through queue in milliseconds"
+                }
+            },
+            "description": "Position and status in the processing queue"
+        },
+        "hysteresis_state": {
+            "type": "object",
+            "required": [
+                "previous_decision",
+                "stability_count"
+            ],
+            "properties": {
+                "previous_decision": {
+                    "type": "string",
+                    "enum": [
+                        "ADMIT",
+                        "DEFER",
+                        "BOOST",
+                        "DROP"
+                    ],
+                    "description": "Previous thalamic decision for anti-oscillation control"
+                },
+                "stability_count": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "description": "Number of consecutive DEFER decisions"
+                },
+                "oscillation_prevention": {
+                    "type": "boolean",
+                    "description": "Whether hysteresis is preventing oscillation"
+                },
+                "defer_streak": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "description": "Number of consecutive defer decisions for this request type"
+                }
+            },
+            "description": "Anti-oscillation hysteresis control state"
+        },
+        "resource_status": {
+            "type": "object",
+            "properties": {
+                "attention_availability": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Current attention resource availability"
+                },
+                "working_memory_availability": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Current working memory availability"
+                },
+                "executive_control_availability": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Current executive control availability"
+                },
+                "processing_bandwidth": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Available processing bandwidth"
+                }
+            },
+            "description": "Current cognitive resource availability status"
+        },
+        "reconsideration_conditions": {
+            "type": "object",
+            "properties": {
+                "load_reduction_threshold": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Cognitive load level that would trigger reconsideration"
+                },
+                "priority_boost_events": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Events that could boost priority and trigger reconsideration"
+                },
+                "temporal_triggers": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "trigger_time": {
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            "trigger_type": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "description": "Time-based triggers for reconsideration"
+                }
+            },
+            "description": "Conditions that would trigger reconsideration of the deferred request"
+        },
+        "request_metadata": {
+            "type": "object",
+            "properties": {
+                "request_id": {
+                    "type": "string",
+                    "description": "Unique identifier for the processing request"
+                },
+                "request_type": {
+                    "type": "string",
+                    "enum": [
+                        "memory_encoding",
+                        "memory_retrieval",
+                        "executive_control",
+                        "learning_update",
+                        "perceptual_processing",
+                        "motor_planning"
+                    ],
+                    "description": "Type of cognitive processing request"
+                },
+                "request_source": {
+                    "type": "string",
+                    "description": "Source module or system that initiated the request"
+                },
+                "defer_count": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "description": "Number of times this request has been deferred"
+                },
+                "original_timestamp": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Original timestamp when request was first submitted"
+                }
+            },
+            "description": "Metadata about the deferred processing request"
+        },
+        "performance_metrics": {
+            "type": "object",
+            "properties": {
+                "decision_latency_ms": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Time taken to make the DEFER decision in milliseconds"
+                },
+                "queue_efficiency": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Current efficiency of the queueing system"
+                },
+                "deferral_accuracy": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Historical accuracy of defer decisions"
+                }
+            },
+            "description": "Performance metrics for the DEFER decision"
+        }
+    }
+}

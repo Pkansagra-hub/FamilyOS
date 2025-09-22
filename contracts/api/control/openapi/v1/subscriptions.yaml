@@ -1,0 +1,1587 @@
+openapi: 3.0.3
+info:
+  title: "Family AI Control Subscriptions API"
+  description: |
+    Control Subscriptions API for Memory-Centric Family AI
+
+    This API provides comprehensive subscription management, billing coordination,
+    and family tier administration for the Control Plane. It enables family
+    administrators to manage subscription lifecycle, billing preferences, and
+    family plan features while maintaining memory-centric intelligence optimization.
+
+    **Control Subscriptions Mission:**
+    The Control Subscriptions API manages family subscription lifecycle, billing
+    coordination, plan feature management, and family tier optimization for
+    Family AI deployments. All operations respect family financial autonomy
+    while providing necessary subscription management and cost optimization.
+
+    **Subscription Categories:**
+    - `/plans` - Family plan management and feature comparison
+    - `/billing` - Family billing coordination and payment management
+    - `/usage` - Family usage tracking and optimization insights
+    - `/tiers` - Family tier management and upgrade/downgrade coordination
+    - `/cost-optimization` - Family cost optimization and budget management
+
+    **Memory-Centric Subscriptions:**
+    - Subscription decisions integrate with family memory and usage patterns
+    - Plan recommendations based on family intelligence insights
+    - Billing coordination leverages family financial preferences
+    - Usage optimization respects family privacy and device coordination
+  version: "1.0.0"
+  contact:
+    name: "Family AI Development Team"
+    url: "https://github.com/pkansagra99/family_os"
+  license:
+    name: "MIT"
+    url: "https://opensource.org/licenses/MIT"
+
+servers:
+  - url: "http://localhost:8000/v1/control/subscriptions"
+    description: "Local development server"
+  - url: "https://api.familyos.local/v1/control/subscriptions"
+    description: "Production Family AI instance"
+
+security:
+  - FamilyAdminAuth: []
+  - FamilyBillingAuth: []
+
+paths:
+  # =============================================================================
+  # FAMILY PLANS MANAGEMENT
+  # =============================================================================
+
+  /plans:
+    get:
+      summary: "List available family plans"
+      description: |
+        List all available Family AI subscription plans including features,
+        pricing, and family-specific recommendations based on usage patterns.
+      operationId: "listFamilyPlans"
+      tags: ["Family Plans"]
+      parameters:
+        - name: include_recommendations
+          in: query
+          schema:
+            type: boolean
+            default: true
+          description: "Include personalized plan recommendations for this family"
+        - name: compare_current
+          in: query
+          schema:
+            type: boolean
+            default: true
+          description: "Include comparison with current family plan"
+        - name: family_size_filter
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 20
+          description: "Filter plans suitable for specific family size"
+      responses:
+        "200":
+          description: "Family plans listed successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FamilyPlansResponse"
+              examples:
+                family_plan_options:
+                  summary: "Family plan options with recommendations"
+                  value:
+                    available_plans:
+                      - plan_id: "family_starter"
+                        plan_name: "Family Starter"
+                        plan_category: "basic"
+                        family_size_limit: 4
+                        device_limit: 8
+                        monthly_price: 19.99
+                        annual_price: 199.99
+                        currency: "USD"
+                        features:
+                          memory_storage: "10GB per family member"
+                          ai_interactions: "unlimited"
+                          device_sync: "real_time"
+                          family_coordination: "basic"
+                          emergency_protocols: "standard"
+                          child_safety_features: "comprehensive"
+                          external_integrations: "basic_apps"
+                          priority_support: false
+                          advanced_analytics: false
+                        memory_features:
+                          memory_retention: "1_year"
+                          cross_domain_intelligence: "basic"
+                          emotional_intelligence: "standard"
+                          family_pattern_learning: "limited"
+                      - plan_id: "family_premium"
+                        plan_name: "Family Premium"
+                        plan_category: "premium"
+                        family_size_limit: 8
+                        device_limit: 20
+                        monthly_price: 39.99
+                        annual_price: 399.99
+                        currency: "USD"
+                        features:
+                          memory_storage: "50GB per family member"
+                          ai_interactions: "unlimited"
+                          device_sync: "real_time"
+                          family_coordination: "advanced"
+                          emergency_protocols: "comprehensive"
+                          child_safety_features: "comprehensive"
+                          external_integrations: "premium_apps"
+                          priority_support: true
+                          advanced_analytics: true
+                        memory_features:
+                          memory_retention: "indefinite"
+                          cross_domain_intelligence: "advanced"
+                          emotional_intelligence: "enhanced"
+                          family_pattern_learning: "comprehensive"
+                    current_plan:
+                      plan_id: "family_starter"
+                      upgrade_available: true
+                      cost_difference: 20.00
+                      feature_comparison:
+                        memory_storage: "40GB additional per member"
+                        family_coordination: "upgrade_to_advanced"
+                        advanced_analytics: "new_feature"
+                    recommendations:
+                      recommended_plan: "family_premium"
+                      recommendation_confidence: 0.87
+                      recommendation_reasons:
+                        - "Family uses 75% of current memory storage limit"
+                        - "Advanced family coordination would improve daily scheduling"
+                        - "Three teenage children would benefit from enhanced analytics"
+                        - "Current family growth pattern suggests need for larger device limit"
+                      cost_benefit_analysis:
+                        monthly_value_added: 45.50
+                        annual_savings_potential: 120.00
+                        roi_timeline: "3_months"
+
+    post:
+      summary: "Subscribe to family plan"
+      description: |
+        Subscribe family to specific Family AI plan with billing setup,
+        feature activation, and family coordination for plan benefits.
+      operationId: "subscribeFamilyPlan"
+      tags: ["Family Plans"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SubscribePlanRequest"
+      responses:
+        "201":
+          description: "Family plan subscription created successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PlanSubscriptionResponse"
+        "400":
+          description: "Invalid subscription request"
+        "402":
+          description: "Payment method required or declined"
+
+  /plans/current:
+    get:
+      summary: "Get current family plan"
+      description: |
+        Retrieve current family plan details including usage statistics,
+        feature utilization, and upgrade/downgrade recommendations.
+      operationId: "getCurrentFamilyPlan"
+      tags: ["Family Plans"]
+      parameters:
+        - name: include_usage_stats
+          in: query
+          schema:
+            type: boolean
+            default: true
+          description: "Include detailed usage statistics for current plan"
+        - name: include_optimization_suggestions
+          in: query
+          schema:
+            type: boolean
+            default: true
+          description: "Include plan optimization suggestions"
+      responses:
+        "200":
+          description: "Current family plan retrieved successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CurrentPlanResponse"
+
+    put:
+      summary: "Update family plan"
+      description: |
+        Update family plan including upgrades, downgrades, or plan modifications
+        with family approval workflow and billing transition coordination.
+      operationId: "updateFamilyPlan"
+      tags: ["Family Plans"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdatePlanRequest"
+      responses:
+        "200":
+          description: "Family plan updated successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PlanUpdateResponse"
+
+  /plans/comparison:
+    post:
+      summary: "Compare family plans"
+      description: |
+        Generate detailed family plan comparison including feature differences,
+        cost analysis, and family-specific benefit assessment.
+      operationId: "compareFamilyPlans"
+      tags: ["Family Plans"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PlanComparisonRequest"
+      responses:
+        "200":
+          description: "Family plan comparison generated successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PlanComparisonResponse"
+
+  # =============================================================================
+  # FAMILY BILLING MANAGEMENT
+  # =============================================================================
+
+  /billing:
+    get:
+      summary: "Get family billing information"
+      description: |
+        Retrieve family billing information including payment methods,
+        billing history, and upcoming charges with family-appropriate privacy.
+      operationId: "getFamilyBilling"
+      tags: ["Family Billing"]
+      parameters:
+        - name: include_payment_methods
+          in: query
+          schema:
+            type: boolean
+            default: true
+          description: "Include family payment methods (masked for security)"
+        - name: include_billing_history
+          in: query
+          schema:
+            type: boolean
+            default: false
+          description: "Include recent billing history"
+        - name: billing_period
+          in: query
+          schema:
+            type: string
+            enum: ["current", "last_3_months", "last_6_months", "last_year"]
+          description: "Billing history period to include"
+      responses:
+        "200":
+          description: "Family billing information retrieved successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FamilyBillingResponse"
+
+    put:
+      summary: "Update family billing settings"
+      description: |
+        Update family billing settings including payment methods,
+        billing preferences, and family financial coordination options.
+      operationId: "updateFamilyBilling"
+      tags: ["Family Billing"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateBillingRequest"
+      responses:
+        "200":
+          description: "Family billing settings updated successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BillingUpdateResponse"
+
+  /billing/payment-methods:
+    get:
+      summary: "List family payment methods"
+      description: |
+        List family payment methods with security masking and
+        family authorization for payment method access.
+      operationId: "listFamilyPaymentMethods"
+      tags: ["Family Billing"]
+      responses:
+        "200":
+          description: "Family payment methods listed successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PaymentMethodsResponse"
+
+    post:
+      summary: "Add family payment method"
+      description: |
+        Add new payment method for family billing with secure processing
+        and family authorization workflow for financial changes.
+      operationId: "addFamilyPaymentMethod"
+      tags: ["Family Billing"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AddPaymentMethodRequest"
+      responses:
+        "201":
+          description: "Family payment method added successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PaymentMethodResponse"
+
+  /billing/invoices:
+    get:
+      summary: "List family invoices"
+      description: |
+        List family billing invoices including payment status,
+        usage details, and family cost allocation information.
+      operationId: "listFamilyInvoices"
+      tags: ["Family Billing"]
+      parameters:
+        - name: status_filter
+          in: query
+          schema:
+            type: string
+            enum: ["paid", "pending", "overdue", "draft", "all"]
+          description: "Filter invoices by payment status"
+        - name: date_range
+          in: query
+          schema:
+            type: string
+            enum: ["last_month", "last_3_months", "last_6_months", "last_year", "custom"]
+          description: "Invoice date range filter"
+        - name: include_usage_breakdown
+          in: query
+          schema:
+            type: boolean
+            default: false
+          description: "Include detailed usage breakdown in invoices"
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+          description: "Maximum number of invoices to return"
+      responses:
+        "200":
+          description: "Family invoices listed successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FamilyInvoicesResponse"
+
+  /billing/cost-analysis:
+    get:
+      summary: "Get family cost analysis"
+      description: |
+        Generate family cost analysis including spending patterns,
+        optimization opportunities, and budget recommendations.
+      operationId: "getFamilyCostAnalysis"
+      tags: ["Family Billing"]
+      parameters:
+        - name: analysis_period
+          in: query
+          schema:
+            type: string
+            enum: ["monthly", "quarterly", "yearly", "custom"]
+          description: "Cost analysis time period"
+        - name: include_optimization_suggestions
+          in: query
+          schema:
+            type: boolean
+            default: true
+          description: "Include cost optimization suggestions"
+        - name: include_usage_correlation
+          in: query
+          schema:
+            type: boolean
+            default: true
+          description: "Include usage pattern correlation analysis"
+      responses:
+        "200":
+          description: "Family cost analysis generated successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CostAnalysisResponse"
+
+  # =============================================================================
+  # FAMILY USAGE TRACKING
+  # =============================================================================
+
+  /usage:
+    get:
+      summary: "Get family usage statistics"
+      description: |
+        Retrieve comprehensive family usage statistics including memory
+        consumption, AI interactions, device coordination, and feature utilization.
+      operationId: "getFamilyUsage"
+      tags: ["Family Usage"]
+      parameters:
+        - name: usage_period
+          in: query
+          schema:
+            type: string
+            enum: ["daily", "weekly", "monthly", "quarterly", "custom"]
+          description: "Usage statistics time period"
+        - name: include_member_breakdown
+          in: query
+          schema:
+            type: boolean
+            default: false
+          description: "Include individual family member usage (with privacy protection)"
+        - name: include_trends
+          in: query
+          schema:
+            type: boolean
+            default: true
+          description: "Include usage trend analysis"
+        - name: include_optimization_insights
+          in: query
+          schema:
+            type: boolean
+            default: true
+          description: "Include usage optimization insights"
+      responses:
+        "200":
+          description: "Family usage statistics retrieved successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FamilyUsageResponse"
+
+  /usage/limits:
+    get:
+      summary: "Get family usage limits"
+      description: |
+        Retrieve family usage limits including current consumption,
+        limit thresholds, and approaching limit notifications.
+      operationId: "getFamilyUsageLimits"
+      tags: ["Family Usage"]
+      responses:
+        "200":
+          description: "Family usage limits retrieved successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UsageLimitsResponse"
+
+    put:
+      summary: "Update family usage limits"
+      description: |
+        Update family usage limits including consumption thresholds,
+        notification preferences, and family budget management.
+      operationId: "updateFamilyUsageLimits"
+      tags: ["Family Usage"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateUsageLimitsRequest"
+      responses:
+        "200":
+          description: "Family usage limits updated successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UsageLimitsResponse"
+
+  /usage/optimization:
+    get:
+      summary: "Get usage optimization recommendations"
+      description: |
+        Generate family usage optimization recommendations including
+        cost savings, feature optimization, and efficiency improvements.
+      operationId: "getUsageOptimization"
+      tags: ["Family Usage"]
+      parameters:
+        - name: optimization_focus
+          in: query
+          schema:
+            type: string
+            enum: ["cost_reduction", "feature_utilization", "performance_improvement", "comprehensive"]
+          description: "Focus area for optimization recommendations"
+        - name: include_implementation_steps
+          in: query
+          schema:
+            type: boolean
+            default: true
+          description: "Include step-by-step implementation guidance"
+      responses:
+        "200":
+          description: "Usage optimization recommendations generated successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UsageOptimizationResponse"
+
+  # =============================================================================
+  # FAMILY TIER MANAGEMENT
+  # =============================================================================
+
+  /tiers:
+    get:
+      summary: "Get family tier information"
+      description: |
+        Retrieve family tier information including current tier benefits,
+        tier progression requirements, and family tier optimization insights.
+      operationId: "getFamilyTierInfo"
+      tags: ["Family Tiers"]
+      parameters:
+        - name: include_progression_path
+          in: query
+          schema:
+            type: boolean
+            default: true
+          description: "Include tier progression path and requirements"
+        - name: include_tier_benefits
+          in: query
+          schema:
+            type: boolean
+            default: true
+          description: "Include detailed tier benefits comparison"
+      responses:
+        "200":
+          description: "Family tier information retrieved successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FamilyTierResponse"
+
+  /tiers/upgrade:
+    post:
+      summary: "Request family tier upgrade"
+      description: |
+        Request family tier upgrade with cost assessment,
+        benefit analysis, and family approval workflow.
+      operationId: "requestFamilyTierUpgrade"
+      tags: ["Family Tiers"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TierUpgradeRequest"
+      responses:
+        "202":
+          description: "Family tier upgrade request submitted for processing"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TierUpgradeResponse"
+
+  /tiers/benefits:
+    get:
+      summary: "List family tier benefits"
+      description: |
+        List all family tier benefits including memory features,
+        AI capabilities, and family coordination enhancements by tier.
+      operationId: "listFamilyTierBenefits"
+      tags: ["Family Tiers"]
+      parameters:
+        - name: tier_filter
+          in: query
+          schema:
+            type: string
+            enum: ["starter", "premium", "enterprise", "all"]
+          description: "Filter benefits by specific tier"
+        - name: benefit_category
+          in: query
+          schema:
+            type: string
+            enum: ["memory", "ai_features", "family_coordination", "support", "all"]
+          description: "Filter by benefit category"
+      responses:
+        "200":
+          description: "Family tier benefits listed successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TierBenefitsResponse"
+
+  # =============================================================================
+  # COST OPTIMIZATION
+  # =============================================================================
+
+  /cost-optimization:
+    get:
+      summary: "Get cost optimization analysis"
+      description: |
+        Generate comprehensive cost optimization analysis including
+        spending patterns, savings opportunities, and family budget recommendations.
+      operationId: "getCostOptimizationAnalysis"
+      tags: ["Cost Optimization"]
+      parameters:
+        - name: optimization_timeframe
+          in: query
+          schema:
+            type: string
+            enum: ["monthly", "quarterly", "yearly", "long_term"]
+          description: "Cost optimization analysis timeframe"
+        - name: include_family_impact
+          in: query
+          schema:
+            type: boolean
+            default: true
+          description: "Include family experience impact assessment"
+        - name: savings_target
+          in: query
+          schema:
+            type: number
+            minimum: 0
+            maximum: 100
+          description: "Target savings percentage (optional)"
+      responses:
+        "200":
+          description: "Cost optimization analysis generated successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CostOptimizationResponse"
+
+  /cost-optimization/recommendations:
+    get:
+      summary: "Get cost optimization recommendations"
+      description: |
+        Retrieve specific cost optimization recommendations including
+        actionable steps, savings estimates, and family coordination guidance.
+      operationId: "getCostOptimizationRecommendations"
+      tags: ["Cost Optimization"]
+      parameters:
+        - name: recommendation_type
+          in: query
+          schema:
+            type: string
+            enum: ["immediate", "short_term", "long_term", "comprehensive"]
+          description: "Type of cost optimization recommendations"
+        - name: family_priorities
+          in: query
+          schema:
+            type: array
+            items:
+              type: string
+              enum: ["cost_savings", "feature_preservation", "family_experience", "growth_planning"]
+          description: "Family priorities for optimization recommendations"
+      responses:
+        "200":
+          description: "Cost optimization recommendations retrieved successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OptimizationRecommendationsResponse"
+
+  /cost-optimization/implement:
+    post:
+      summary: "Implement cost optimization"
+      description: |
+        Implement selected cost optimization recommendations with
+        family approval workflow and change impact coordination.
+      operationId: "implementCostOptimization"
+      tags: ["Cost Optimization"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ImplementOptimizationRequest"
+      responses:
+        "200":
+          description: "Cost optimization implementation initiated successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OptimizationImplementationResponse"
+
+components:
+  securitySchemes:
+    FamilyAdminAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: "Family administrator authentication token"
+    FamilyBillingAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: "Family billing management authentication token"
+
+  schemas:
+    # =============================================================================
+    # FAMILY PLANS SCHEMAS
+    # =============================================================================
+
+    FamilyPlansResponse:
+      type: object
+      required: ["available_plans"]
+      properties:
+        available_plans:
+          type: array
+          items:
+            type: object
+            properties:
+              plan_id:
+                type: string
+              plan_name:
+                type: string
+              plan_category:
+                type: string
+                enum: ["basic", "standard", "premium", "enterprise"]
+              family_size_limit:
+                type: integer
+                minimum: 1
+                maximum: 50
+              device_limit:
+                type: integer
+                minimum: 1
+                maximum: 200
+              monthly_price:
+                type: number
+                minimum: 0
+              annual_price:
+                type: number
+                minimum: 0
+              currency:
+                type: string
+                enum: ["USD", "EUR", "GBP", "CAD", "AUD"]
+              features:
+                type: object
+                properties:
+                  memory_storage:
+                    type: string
+                    description: "Memory storage allocation per family member"
+                  ai_interactions:
+                    type: string
+                    enum: ["limited", "standard", "unlimited", "priority"]
+                  device_sync:
+                    type: string
+                    enum: ["manual", "scheduled", "real_time", "instant"]
+                  family_coordination:
+                    type: string
+                    enum: ["basic", "standard", "advanced", "premium"]
+                  emergency_protocols:
+                    type: string
+                    enum: ["basic", "standard", "comprehensive", "enterprise"]
+                  child_safety_features:
+                    type: string
+                    enum: ["basic", "standard", "comprehensive", "maximum"]
+                  external_integrations:
+                    type: string
+                    enum: ["basic_apps", "standard_apps", "premium_apps", "enterprise_suite"]
+                  priority_support:
+                    type: boolean
+                  advanced_analytics:
+                    type: boolean
+              memory_features:
+                type: object
+                properties:
+                  memory_retention:
+                    type: string
+                    enum: ["6_months", "1_year", "3_years", "indefinite"]
+                  cross_domain_intelligence:
+                    type: string
+                    enum: ["basic", "standard", "advanced", "premium"]
+                  emotional_intelligence:
+                    type: string
+                    enum: ["basic", "standard", "enhanced", "maximum"]
+                  family_pattern_learning:
+                    type: string
+                    enum: ["limited", "basic", "comprehensive", "advanced"]
+              plan_limits:
+                type: object
+                properties:
+                  monthly_memory_gb:
+                    type: number
+                  monthly_ai_interactions:
+                    type: integer
+                  concurrent_devices:
+                    type: integer
+                  family_spaces:
+                    type: integer
+        current_plan:
+          type: object
+          properties:
+            plan_id:
+              type: string
+            upgrade_available:
+              type: boolean
+            downgrade_available:
+              type: boolean
+            cost_difference:
+              type: number
+              description: "Monthly cost difference for upgrade (positive) or savings for downgrade (negative)"
+            feature_comparison:
+              type: object
+              description: "Comparison of features between current and recommended plans"
+        recommendations:
+          type: object
+          properties:
+            recommended_plan:
+              type: string
+            recommendation_confidence:
+              type: number
+              minimum: 0
+              maximum: 1
+              description: "Confidence score for plan recommendation"
+            recommendation_reasons:
+              type: array
+              items:
+                type: string
+              description: "Reasons for plan recommendation based on family usage patterns"
+            cost_benefit_analysis:
+              type: object
+              properties:
+                monthly_value_added:
+                  type: number
+                  description: "Estimated monthly value added from upgrade"
+                annual_savings_potential:
+                  type: number
+                  description: "Potential annual savings from optimization"
+                roi_timeline:
+                  type: string
+                  enum: ["immediate", "1_month", "3_months", "6_months", "1_year"]
+                  description: "Expected return on investment timeline"
+
+    SubscribePlanRequest:
+      type: object
+      required: ["plan_id", "billing_cycle", "payment_method_id"]
+      properties:
+        plan_id:
+          type: string
+        billing_cycle:
+          type: string
+          enum: ["monthly", "annual"]
+        payment_method_id:
+          type: string
+        family_approval_token:
+          type: string
+          description: "Token confirming family approval for subscription changes"
+        start_date:
+          type: string
+          format: date
+          description: "Desired subscription start date (default: immediate)"
+        promotional_code:
+          type: string
+          description: "Optional promotional code for discounts"
+
+    PlanSubscriptionResponse:
+      type: object
+      properties:
+        subscription_id:
+          type: string
+        plan_details:
+          type: object
+        billing_details:
+          type: object
+        activation_status:
+          type: string
+          enum: ["pending", "active", "failed"]
+        first_billing_date:
+          type: string
+          format: date-time
+        family_notification_sent:
+          type: boolean
+
+    CurrentPlanResponse:
+      type: object
+      properties:
+        current_plan:
+          type: object
+        subscription_status:
+          type: string
+          enum: ["active", "pending", "suspended", "cancelled"]
+        usage_statistics:
+          type: object
+          properties:
+            memory_usage:
+              type: object
+              properties:
+                used_gb:
+                  type: number
+                allocated_gb:
+                  type: number
+                utilization_percentage:
+                  type: number
+            ai_interactions:
+              type: object
+              properties:
+                monthly_count:
+                  type: integer
+                monthly_limit:
+                  type: integer
+                utilization_percentage:
+                  type: number
+            device_connections:
+              type: object
+              properties:
+                active_devices:
+                  type: integer
+                device_limit:
+                  type: integer
+                utilization_percentage:
+                  type: number
+        optimization_suggestions:
+          type: array
+          items:
+            type: object
+            properties:
+              suggestion_type:
+                type: string
+                enum: ["upgrade", "downgrade", "feature_optimization", "usage_optimization"]
+              description:
+                type: string
+              potential_savings:
+                type: number
+              implementation_complexity:
+                type: string
+                enum: ["easy", "moderate", "complex"]
+
+    UpdatePlanRequest:
+      type: object
+      required: ["plan_change_type"]
+      properties:
+        plan_change_type:
+          type: string
+          enum: ["upgrade", "downgrade", "modify_features", "change_billing_cycle"]
+        new_plan_id:
+          type: string
+          description: "Required for upgrade/downgrade"
+        new_billing_cycle:
+          type: string
+          enum: ["monthly", "annual"]
+          description: "Required for billing cycle changes"
+        feature_modifications:
+          type: object
+          description: "Specific feature changes for modify_features"
+        change_reason:
+          type: string
+        family_approval_token:
+          type: string
+        effective_date:
+          type: string
+          format: date
+          description: "When the change should take effect"
+
+    PlanUpdateResponse:
+      type: object
+      properties:
+        update_id:
+          type: string
+        plan_change_summary:
+          type: object
+        billing_impact:
+          type: object
+        effective_date:
+          type: string
+          format: date-time
+        family_notifications_sent:
+          type: boolean
+
+    PlanComparisonRequest:
+      type: object
+      required: ["plan_ids"]
+      properties:
+        plan_ids:
+          type: array
+          items:
+            type: string
+          minItems: 2
+          maxItems: 5
+          description: "Plans to compare (2-5 plans)"
+        comparison_criteria:
+          type: array
+          items:
+            type: string
+            enum: ["features", "pricing", "memory_capabilities", "family_coordination", "support_level"]
+        family_priorities:
+          type: array
+          items:
+            type: string
+            enum: ["cost_effectiveness", "feature_richness", "family_growth", "simplicity"]
+
+    PlanComparisonResponse:
+      type: object
+      properties:
+        comparison_id:
+          type: string
+        comparison_matrix:
+          type: object
+          description: "Detailed feature and pricing comparison matrix"
+        recommendation:
+          type: object
+          properties:
+            best_overall:
+              type: string
+            best_value:
+              type: string
+            best_features:
+              type: string
+            recommendation_reasoning:
+              type: array
+              items:
+                type: string
+
+    # =============================================================================
+    # FAMILY BILLING SCHEMAS
+    # =============================================================================
+
+    FamilyBillingResponse:
+      type: object
+      properties:
+        billing_summary:
+          type: object
+          properties:
+            current_balance:
+              type: number
+            next_billing_date:
+              type: string
+              format: date-time
+            billing_cycle:
+              type: string
+              enum: ["monthly", "annual"]
+            auto_pay_enabled:
+              type: boolean
+            currency:
+              type: string
+        payment_methods:
+          type: array
+          items:
+            type: object
+            properties:
+              payment_method_id:
+                type: string
+              method_type:
+                type: string
+                enum: ["credit_card", "debit_card", "bank_account", "digital_wallet"]
+              masked_details:
+                type: string
+                description: "Masked payment method details for security"
+              is_primary:
+                type: boolean
+              expiry_date:
+                type: string
+                format: date
+                description: "For cards only"
+              status:
+                type: string
+                enum: ["active", "expired", "suspended"]
+        billing_preferences:
+          type: object
+          properties:
+            invoice_delivery:
+              type: string
+              enum: ["email", "postal_mail", "family_app"]
+            payment_reminders:
+              type: boolean
+            budget_alerts:
+              type: boolean
+            family_spending_notifications:
+              type: boolean
+        billing_history:
+          type: array
+          items:
+            type: object
+            properties:
+              invoice_id:
+                type: string
+              billing_period:
+                type: object
+                properties:
+                  start_date:
+                    type: string
+                    format: date
+                  end_date:
+                    type: string
+                    format: date
+              amount:
+                type: number
+              currency:
+                type: string
+              status:
+                type: string
+                enum: ["paid", "pending", "overdue", "cancelled"]
+              payment_date:
+                type: string
+                format: date-time
+              usage_summary:
+                type: object
+
+    UpdateBillingRequest:
+      type: object
+      properties:
+        billing_preferences_updates:
+          type: object
+        add_payment_method:
+          type: object
+        update_primary_payment_method:
+          type: string
+        remove_payment_method:
+          type: string
+        family_approval_required:
+          type: boolean
+          default: true
+
+    BillingUpdateResponse:
+      type: object
+      properties:
+        update_confirmation:
+          type: object
+        updated_billing_summary:
+          type: object
+        family_notifications_sent:
+          type: boolean
+
+    PaymentMethodsResponse:
+      type: object
+      properties:
+        payment_methods:
+          type: array
+          items:
+            type: object
+        primary_method:
+          type: object
+        payment_security_status:
+          type: object
+
+    AddPaymentMethodRequest:
+      type: object
+      required: ["method_type", "payment_details"]
+      properties:
+        method_type:
+          type: string
+          enum: ["credit_card", "debit_card", "bank_account", "digital_wallet"]
+        payment_details:
+          type: object
+          description: "Secure payment method details (encrypted)"
+        set_as_primary:
+          type: boolean
+          default: false
+        family_authorization_token:
+          type: string
+
+    PaymentMethodResponse:
+      type: object
+      properties:
+        payment_method_id:
+          type: string
+        method_summary:
+          type: object
+        verification_status:
+          type: string
+          enum: ["pending", "verified", "failed"]
+
+    FamilyInvoicesResponse:
+      type: object
+      properties:
+        invoices:
+          type: array
+          items:
+            type: object
+        invoice_summary:
+          type: object
+          properties:
+            total_invoices:
+              type: integer
+            total_amount:
+              type: number
+            average_monthly_cost:
+              type: number
+            outstanding_amount:
+              type: number
+
+    CostAnalysisResponse:
+      type: object
+      properties:
+        cost_analysis_summary:
+          type: object
+        spending_patterns:
+          type: object
+        optimization_opportunities:
+          type: array
+          items:
+            type: object
+        budget_recommendations:
+          type: object
+
+    # =============================================================================
+    # FAMILY USAGE SCHEMAS
+    # =============================================================================
+
+    FamilyUsageResponse:
+      type: object
+      properties:
+        usage_summary:
+          type: object
+          properties:
+            total_memory_usage:
+              type: object
+            total_ai_interactions:
+              type: integer
+            total_device_connections:
+              type: integer
+            total_family_coordination_events:
+              type: integer
+        usage_trends:
+          type: object
+          properties:
+            memory_growth_rate:
+              type: number
+              description: "Monthly memory growth rate percentage"
+            interaction_growth_rate:
+              type: number
+              description: "Monthly AI interaction growth rate percentage"
+            peak_usage_periods:
+              type: array
+              items:
+                type: object
+        member_usage_breakdown:
+          type: array
+          items:
+            type: object
+            properties:
+              member_id:
+                type: string
+              usage_percentage:
+                type: number
+              primary_activities:
+                type: array
+                items:
+                  type: string
+        optimization_insights:
+          type: array
+          items:
+            type: object
+            properties:
+              insight_type:
+                type: string
+                enum: ["efficiency_improvement", "cost_optimization", "feature_utilization"]
+              description:
+                type: string
+              potential_impact:
+                type: string
+                enum: ["low", "medium", "high"]
+              implementation_effort:
+                type: string
+                enum: ["easy", "moderate", "complex"]
+
+    UsageLimitsResponse:
+      type: object
+      properties:
+        current_limits:
+          type: object
+          properties:
+            memory_limit_gb:
+              type: number
+            monthly_ai_interaction_limit:
+              type: integer
+            device_connection_limit:
+              type: integer
+            family_member_limit:
+              type: integer
+        current_usage:
+          type: object
+          properties:
+            memory_used_gb:
+              type: number
+            monthly_ai_interactions_used:
+              type: integer
+            devices_connected:
+              type: integer
+            family_members_active:
+              type: integer
+        limit_utilization:
+          type: object
+          properties:
+            memory_utilization_percentage:
+              type: number
+            interaction_utilization_percentage:
+              type: number
+            device_utilization_percentage:
+              type: number
+        approaching_limits:
+          type: array
+          items:
+            type: object
+            properties:
+              limit_type:
+                type: string
+              current_percentage:
+                type: number
+              warning_threshold:
+                type: number
+              estimated_days_to_limit:
+                type: integer
+
+    UpdateUsageLimitsRequest:
+      type: object
+      properties:
+        new_limits:
+          type: object
+        limit_notifications:
+          type: object
+        family_budget_considerations:
+          type: object
+        family_approval_token:
+          type: string
+
+    UsageOptimizationResponse:
+      type: object
+      properties:
+        optimization_recommendations:
+          type: array
+          items:
+            type: object
+            properties:
+              recommendation_id:
+                type: string
+              optimization_type:
+                type: string
+                enum: ["memory_optimization", "interaction_efficiency", "device_management", "feature_utilization"]
+              description:
+                type: string
+              potential_savings:
+                type: object
+                properties:
+                  cost_savings:
+                    type: number
+                  efficiency_improvement:
+                    type: number
+              implementation_steps:
+                type: array
+                items:
+                  type: string
+              family_impact:
+                type: string
+                enum: ["minimal", "moderate", "significant"]
+              implementation_timeline:
+                type: string
+                enum: ["immediate", "within_week", "within_month"]
+
+    # =============================================================================
+    # FAMILY TIER SCHEMAS
+    # =============================================================================
+
+    FamilyTierResponse:
+      type: object
+      properties:
+        current_tier:
+          type: object
+          properties:
+            tier_id:
+              type: string
+            tier_name:
+              type: string
+            tier_level:
+              type: integer
+            benefits:
+              type: array
+              items:
+                type: string
+        tier_progression:
+          type: object
+          properties:
+            next_tier:
+              type: string
+            requirements_to_advance:
+              type: object
+            estimated_timeline:
+              type: string
+            progress_percentage:
+              type: number
+        tier_benefits_comparison:
+          type: array
+          items:
+            type: object
+            properties:
+              tier_id:
+                type: string
+              tier_name:
+                type: string
+              benefits:
+                type: array
+                items:
+                  type: string
+              requirements:
+                type: object
+
+    TierUpgradeRequest:
+      type: object
+      required: ["target_tier"]
+      properties:
+        target_tier:
+          type: string
+        upgrade_reason:
+          type: string
+        family_consensus_required:
+          type: boolean
+          default: true
+        immediate_upgrade:
+          type: boolean
+          default: false
+
+    TierUpgradeResponse:
+      type: object
+      properties:
+        upgrade_request_id:
+          type: string
+        cost_assessment:
+          type: object
+        benefit_analysis:
+          type: object
+        approval_workflow_initiated:
+          type: boolean
+        estimated_processing_time:
+          type: string
+
+    TierBenefitsResponse:
+      type: object
+      properties:
+        tier_benefits:
+          type: array
+          items:
+            type: object
+        benefit_categories:
+          type: object
+        tier_comparison_matrix:
+          type: object
+
+    # =============================================================================
+    # COST OPTIMIZATION SCHEMAS
+    # =============================================================================
+
+    CostOptimizationResponse:
+      type: object
+      properties:
+        optimization_analysis:
+          type: object
+          properties:
+            current_spending:
+              type: object
+            optimization_potential:
+              type: object
+            savings_opportunities:
+              type: array
+              items:
+                type: object
+        family_impact_assessment:
+          type: object
+        recommendations:
+          type: array
+          items:
+            type: object
+
+    OptimizationRecommendationsResponse:
+      type: object
+      properties:
+        recommendations:
+          type: array
+          items:
+            type: object
+        implementation_roadmap:
+          type: object
+        family_coordination_plan:
+          type: object
+
+    ImplementOptimizationRequest:
+      type: object
+      required: ["selected_recommendations"]
+      properties:
+        selected_recommendations:
+          type: array
+          items:
+            type: string
+        implementation_timeline:
+          type: string
+        family_approval_token:
+          type: string
+
+    OptimizationImplementationResponse:
+      type: object
+      properties:
+        implementation_id:
+          type: string
+        implementation_plan:
+          type: object
+        expected_savings:
+          type: object
+        family_impact_summary:
+          type: object
+
+  responses:
+    BadRequest:
+      description: "Invalid request format or parameters"
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+              details:
+                type: string
+
+    PaymentRequired:
+      description: "Payment method required or payment declined"
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+              payment_required:
+                type: boolean
+              payment_options:
+                type: array
+                items:
+                  type: string
+
+    Forbidden:
+      description: "Access denied - insufficient billing privileges"
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+              required_role:
+                type: string
+              billing_authorization_required:
+                type: boolean
+
+tags:
+  - name: "Family Plans"
+    description: "Family plan management and feature comparison"
+  - name: "Family Billing"
+    description: "Family billing coordination and payment management"
+  - name: "Family Usage"
+    description: "Family usage tracking and optimization insights"
+  - name: "Family Tiers"
+    description: "Family tier management and upgrade/downgrade coordination"
+  - name: "Cost Optimization"
+    description: "Family cost optimization and budget management"

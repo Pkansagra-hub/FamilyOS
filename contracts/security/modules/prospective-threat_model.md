@@ -1,0 +1,5 @@
+- Spoofing: mtls/bearer; schedule ownership checked.
+- Tampering: envelope signatures; versioned records.
+- Repudiation: audit on AMBER.
+- Info Disclosure: payload minimized; no cross-space propagation.
+- DoS: per-user rate limits on create/cancel.

@@ -1,0 +1,36 @@
+{
+  "id": "tom-rpt-2025-09-05-001",
+  "event_id": "evt-2025-09-05-001",
+  "person_id": "alice",
+  "space_id": "shared:household",
+  "inferred_beliefs": {
+    "belief:wants:should call grandma after dinner": 0.72
+  },
+  "intentions": [
+    {
+      "plan": "call grandma after dinner",
+      "commitment": 0.72
+    }
+  ],
+  "norm_judgments": [
+    {
+      "tag": "polite",
+      "pressure": 0.15,
+      "confidence": 0.6
+    },
+    {
+      "tag": "family_obligation",
+      "pressure": 0.25,
+      "confidence": 0.7
+    }
+  ],
+  "confidence": 0.68,
+  "false_belief_risk": null,
+  "notes": [
+    "heuristic_inference_v1",
+    "detected_deontic_modal_should",
+    "high_commitment_detected"
+  ],
+  "model_version": "tom-mvp",
+  "created_at": 1693872000.0
+}

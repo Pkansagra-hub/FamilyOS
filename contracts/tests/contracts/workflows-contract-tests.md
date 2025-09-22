@@ -1,0 +1,2 @@
+- Start → Update → Complete transition chain with version checks.
+- Failed then Retried increments attempt; idempotency holds.

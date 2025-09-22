@@ -1,0 +1,282 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "CommonAPITypes",
+  "description": "Common data types shared across all API planes",
+  "definitions": {
+    "FamilyMember": {
+      "type": "object",
+      "description": "Family member representation",
+      "required": ["id", "role"],
+      "properties": {
+        "id": {
+          "type": "string",
+          "pattern": "^fam_[a-zA-Z0-9]{16}$",
+          "description": "Unique family member identifier"
+        },
+        "role": {
+          "type": "string",
+          "enum": ["parent", "child", "teenager", "extended", "guardian"],
+          "description": "Family role classification"
+        },
+        "name": {
+          "type": "string",
+          "description": "Display name (may be pseudonymized)"
+        },
+        "age_group": {
+          "type": "string",
+          "enum": ["infant", "toddler", "child", "teenager", "adult", "senior"],
+          "description": "Age group for appropriate content filtering"
+        },
+        "permissions": {
+          "type": "object",
+          "description": "Family member permissions",
+          "properties": {
+            "can_access_spaces": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^(personal|selective|shared|extended|interfamily):[a-zA-Z0-9_-]+$"
+              }
+            },
+            "can_manage_family": {
+              "type": "boolean"
+            },
+            "can_emergency_access": {
+              "type": "boolean"
+            }
+          }
+        }
+      }
+    },
+    "MemorySpace": {
+      "type": "object",
+      "description": "Memory space definition for family privacy boundaries",
+      "required": ["space_id", "privacy_level", "access_control"],
+      "properties": {
+        "space_id": {
+          "type": "string",
+          "pattern": "^(personal|selective|shared|extended|interfamily):[a-zA-Z0-9_-]+$"
+        },
+        "privacy_level": {
+          "type": "string",
+          "enum": ["GREEN", "AMBER", "RED", "BLACK"],
+          "description": "Privacy band classification"
+        },
+        "access_control": {
+          "type": "object",
+          "properties": {
+            "allowed_members": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "access_type": {
+              "type": "string",
+              "enum": ["read", "write", "admin"]
+            },
+            "automatic_sharing": {
+              "type": "boolean"
+            }
+          }
+        },
+        "retention_policy": {
+          "type": "object",
+          "properties": {
+            "default_retention": {
+              "type": "string",
+              "enum": ["standard", "extended", "permanent", "ephemeral"]
+            },
+            "auto_cleanup": {
+              "type": "boolean"
+            },
+            "backup_enabled": {
+              "type": "boolean"
+            }
+          }
+        }
+      }
+    },
+    "DeviceInfo": {
+      "type": "object",
+      "description": "Device information for family ecosystem coordination",
+      "required": ["device_id", "device_type", "capabilities"],
+      "properties": {
+        "device_id": {
+          "type": "string",
+          "pattern": "^dev_[a-zA-Z0-9]{20}$"
+        },
+        "device_type": {
+          "type": "string",
+          "enum": ["phone", "tablet", "laptop", "desktop", "smart_speaker", "smart_display", "tv", "watch"]
+        },
+        "owner_id": {
+          "type": "string",
+          "description": "Primary family member who owns this device"
+        },
+        "capabilities": {
+          "type": "object",
+          "properties": {
+            "memory_processing": {
+              "type": "object",
+              "properties": {
+                "local_storage_mb": {
+                  "type": "integer"
+                },
+                "can_run_cognitive_pipelines": {
+                  "type": "boolean"
+                },
+                "supports_offline_mode": {
+                  "type": "boolean"
+                }
+              }
+            },
+            "family_coordination": {
+              "type": "object",
+              "properties": {
+                "can_sync_family_memories": {
+                  "type": "boolean"
+                },
+                "supports_e2ee": {
+                  "type": "boolean"
+                },
+                "real_time_coordination": {
+                  "type": "boolean"
+                }
+              }
+            },
+            "interface_types": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": ["voice", "text", "visual", "gesture", "touch"]
+              }
+            }
+          }
+        },
+        "sync_status": {
+          "type": "object",
+          "properties": {
+            "last_sync": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "sync_conflicts": {
+              "type": "integer"
+            },
+            "pending_operations": {
+              "type": "integer"
+            }
+          }
+        }
+      }
+    },
+    "ErrorResponse": {
+      "type": "object",
+      "description": "Standard error response format",
+      "required": ["error", "message", "request_id"],
+      "properties": {
+        "error": {
+          "type": "string",
+          "enum": [
+            "validation_error",
+            "authentication_error",
+            "authorization_error",
+            "rate_limit_exceeded",
+            "memory_space_not_found",
+            "family_member_not_found",
+            "cognitive_processing_error",
+            "sync_conflict_error",
+            "privacy_violation",
+            "internal_server_error"
+          ]
+        },
+        "message": {
+          "type": "string",
+          "description": "Human-readable error message"
+        },
+        "details": {
+          "type": "object",
+          "description": "Additional error details",
+          "properties": {
+            "field_errors": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "string"
+              }
+            },
+            "suggested_actions": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "request_id": {
+          "type": "string"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "SuccessResponse": {
+      "type": "object",
+      "description": "Standard success response format",
+      "required": ["success", "message", "request_id"],
+      "properties": {
+        "success": {
+          "type": "boolean",
+          "const": true
+        },
+        "message": {
+          "type": "string",
+          "description": "Success message"
+        },
+        "data": {
+          "type": "object",
+          "description": "Response data (type varies by endpoint)"
+        },
+        "request_id": {
+          "type": "string"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    },
+    "PaginationInfo": {
+      "type": "object",
+      "description": "Pagination information for list responses",
+      "properties": {
+        "total_count": {
+          "type": "integer",
+          "description": "Total number of items available"
+        },
+        "page_size": {
+          "type": "integer",
+          "description": "Number of items per page"
+        },
+        "current_page": {
+          "type": "integer",
+          "description": "Current page number (1-based)"
+        },
+        "total_pages": {
+          "type": "integer",
+          "description": "Total number of pages"
+        },
+        "has_next": {
+          "type": "boolean",
+          "description": "Whether there are more pages"
+        },
+        "has_previous": {
+          "type": "boolean",
+          "description": "Whether there are previous pages"
+        }
+      }
+    }
+  }
+}

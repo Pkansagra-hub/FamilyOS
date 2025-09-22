@@ -1,0 +1,350 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Policy Document",
+  "description": "Versioned policy document with ABAC+RBAC rules and effective dates",
+  "type": "object",
+  "properties": {
+    "policy_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique policy identifier"
+    },
+    "name": {
+      "type": "string",
+      "maxLength": 255,
+      "description": "Human-readable policy name"
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 1024,
+      "description": "Policy purpose and scope description"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "description": "Semantic version (e.g., 1.0.0)"
+    },
+    "effective_date": {
+      "type": "string",
+      "format": "date-time",
+      "description": "When policy becomes active"
+    },
+    "expiration_date": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Optional policy expiration"
+    },
+    "priority": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 100,
+      "default": 50,
+      "description": "Policy evaluation priority (1=highest, 100=lowest)"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["draft", "active", "deprecated", "disabled"],
+      "description": "Policy lifecycle status"
+    },
+    "created_by": {
+      "type": "string",
+      "format": "uuid",
+      "description": "User who created the policy"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_by": {
+      "type": "string",
+      "format": "uuid",
+      "description": "User who last updated the policy"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "abac_rules": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "rule_id": {
+            "type": "string",
+            "description": "Unique rule identifier within policy"
+          },
+          "description": {
+            "type": "string",
+            "description": "Human-readable rule description"
+          },
+          "effect": {
+            "type": "string",
+            "enum": ["permit", "deny"],
+            "description": "Rule effect when conditions match"
+          },
+          "target": {
+            "type": "object",
+            "properties": {
+              "subjects": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "attribute": { "type": "string" },
+                    "operator": { "enum": ["equals", "not_equals", "in", "not_in", "matches", "exists"] },
+                    "value": { "oneOf": [{"type": "string"}, {"type": "array"}] }
+                  },
+                  "required": ["attribute", "operator", "value"]
+                }
+              },
+              "resources": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "attribute": { "type": "string" },
+                    "operator": { "enum": ["equals", "not_equals", "in", "not_in", "matches", "exists"] },
+                    "value": { "oneOf": [{"type": "string"}, {"type": "array"}] }
+                  },
+                  "required": ["attribute", "operator", "value"]
+                }
+              },
+              "actions": {
+                "type": "array",
+                "items": {
+                  "type": "string",
+                  "enum": ["read", "write", "delete", "execute", "admin"]
+                }
+              },
+              "environment": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "attribute": { "type": "string" },
+                    "operator": { "enum": ["equals", "not_equals", "in", "not_in", "matches", "exists"] },
+                    "value": { "oneOf": [{"type": "string"}, {"type": "array"}] }
+                  },
+                  "required": ["attribute", "operator", "value"]
+                }
+              }
+            },
+            "additionalProperties": false
+          },
+          "condition": {
+            "type": "object",
+            "description": "Additional conditions using policy language",
+            "properties": {
+              "expression": {
+                "type": "string",
+                "description": "Boolean expression in policy language"
+              },
+              "functions": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "name": { "type": "string" },
+                    "parameters": { "type": "array" }
+                  }
+                }
+              }
+            },
+            "additionalProperties": false
+          }
+        },
+        "required": ["rule_id", "effect", "target"],
+        "additionalProperties": false
+      },
+      "description": "Attribute-Based Access Control rules"
+    },
+    "rbac_rules": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "role": {
+            "type": "string",
+            "description": "Role name"
+          },
+          "permissions": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "resource_type": {
+                  "type": "string",
+                  "enum": ["memory", "space", "policy", "system"]
+                },
+                "actions": {
+                  "type": "array",
+                  "items": {
+                    "type": "string",
+                    "enum": ["read", "write", "delete", "execute", "admin"]
+                  }
+                },
+                "conditions": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "Additional conditions for permission"
+                }
+              },
+              "required": ["resource_type", "actions"],
+              "additionalProperties": false
+            }
+          }
+        },
+        "required": ["role", "permissions"],
+        "additionalProperties": false
+      },
+      "description": "Role-Based Access Control rules"
+    },
+    "redaction_rules": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "band": {
+            "type": "string",
+            "enum": ["GREEN", "AMBER", "RED", "BLACK"]
+          },
+          "content_types": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": ["text", "json", "xml", "markdown"]
+            }
+          },
+          "redaction_level": {
+            "type": "string",
+            "enum": ["none", "minimal", "aggressive", "total"]
+          },
+          "patterns": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "name": { "type": "string", "description": "Pattern name (e.g., 'SSN', 'email')" },
+                "regex": { "type": "string", "description": "Regular expression pattern" },
+                "replacement": { "type": "string", "description": "Replacement text" }
+              },
+              "required": ["name", "regex", "replacement"]
+            }
+          },
+          "preserve_structure": {
+            "type": "boolean",
+            "default": true,
+            "description": "Whether to preserve document structure during redaction"
+          }
+        },
+        "required": ["band", "redaction_level"],
+        "additionalProperties": false
+      },
+      "description": "Content redaction rules by band classification"
+    },
+    "audit_configuration": {
+      "type": "object",
+      "properties": {
+        "log_all_decisions": {
+          "type": "boolean",
+          "default": true
+        },
+        "log_denied_access": {
+          "type": "boolean",
+          "default": true
+        },
+        "log_redaction_events": {
+          "type": "boolean",
+          "default": true
+        },
+        "retention_days": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 2555,
+          "default": 90
+        },
+        "include_context": {
+          "type": "boolean",
+          "default": true,
+          "description": "Include request context in audit logs"
+        }
+      },
+      "additionalProperties": false
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "maxLength": 64
+          },
+          "maxItems": 10
+        },
+        "category": {
+          "type": "string",
+          "enum": ["security", "privacy", "compliance", "operational"]
+        },
+        "compliance_frameworks": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["GDPR", "HIPAA", "SOX", "PCI_DSS", "CCPA"]
+          }
+        },
+        "approval_required": {
+          "type": "boolean",
+          "default": false
+        },
+        "approved_by": {
+          "type": "string",
+          "format": "uuid",
+          "description": "User who approved the policy"
+        },
+        "approval_date": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "additionalProperties": false
+    },
+    "integrity": {
+      "type": "object",
+      "properties": {
+        "hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$",
+          "description": "SHA-256 hash of policy content"
+        },
+        "signature": {
+          "type": "string",
+          "description": "Digital signature of policy document"
+        },
+        "signed_by": {
+          "type": "string",
+          "format": "uuid",
+          "description": "User who signed the policy"
+        },
+        "signature_date": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": ["hash"],
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "policy_id",
+    "name",
+    "version",
+    "effective_date",
+    "status",
+    "created_by",
+    "created_at"
+  ],
+  "additionalProperties": false
+}

@@ -1,0 +1,696 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "$id": "metacognitive_state.schema.json",
+    "title": "Meta-Cognitive State Storage",
+    "description": "Storage schema for comprehensive meta-cognitive state including self-awareness, theory of mind models, and higher-order thinking capabilities",
+    "type": "object",
+    "required": [
+        "state_id",
+        "timestamp",
+        "self_model",
+        "metacognitive_monitoring_state",
+        "theory_of_mind_models",
+        "higher_order_thinking_state",
+        "neural_substrate_state"
+    ],
+    "properties": {
+        "state_id": {
+            "type": "string",
+            "description": "Unique identifier for this meta-cognitive state snapshot"
+        },
+        "timestamp": {
+            "type": "string",
+            "format": "date-time"
+        },
+        "self_model": {
+            "type": "object",
+            "properties": {
+                "cognitive_self_concept": {
+                    "type": "object",
+                    "properties": {
+                        "cognitive_strengths": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "strength_area": {
+                                        "type": "string"
+                                    },
+                                    "confidence_level": {
+                                        "type": "number"
+                                    },
+                                    "evidence_base": {
+                                        "type": "array"
+                                    },
+                                    "last_validated": {
+                                        "type": "string",
+                                        "format": "date-time"
+                                    }
+                                }
+                            }
+                        },
+                        "cognitive_weaknesses": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "weakness_area": {
+                                        "type": "string"
+                                    },
+                                    "severity_level": {
+                                        "type": "number"
+                                    },
+                                    "improvement_strategies": {
+                                        "type": "array"
+                                    },
+                                    "progress_tracking": {
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        },
+                        "cognitive_identity": {
+                            "type": "object",
+                            "properties": {
+                                "thinking_style_preferences": {
+                                    "type": "array"
+                                },
+                                "learning_preferences": {
+                                    "type": "array"
+                                },
+                                "problem_solving_approaches": {
+                                    "type": "array"
+                                },
+                                "cognitive_personality_traits": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "capability_assessments": {
+                            "type": "object",
+                            "properties": {
+                                "attention_capabilities": {
+                                    "type": "object"
+                                },
+                                "memory_capabilities": {
+                                    "type": "object"
+                                },
+                                "executive_capabilities": {
+                                    "type": "object"
+                                },
+                                "reasoning_capabilities": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "autobiographical_self": {
+                    "type": "object",
+                    "properties": {
+                        "significant_experiences": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "experience_id": {
+                                        "type": "string"
+                                    },
+                                    "experience_description": {
+                                        "type": "string"
+                                    },
+                                    "personal_significance": {
+                                        "type": "number"
+                                    },
+                                    "lessons_learned": {
+                                        "type": "array"
+                                    },
+                                    "identity_impact": {
+                                        "type": "number"
+                                    },
+                                    "memory_vividness": {
+                                        "type": "number"
+                                    }
+                                }
+                            }
+                        },
+                        "personal_narrative": {
+                            "type": "object",
+                            "properties": {
+                                "life_story_themes": {
+                                    "type": "array"
+                                },
+                                "narrative_coherence": {
+                                    "type": "number"
+                                },
+                                "identity_continuity": {
+                                    "type": "number"
+                                },
+                                "future_self_projections": {
+                                    "type": "array"
+                                }
+                            }
+                        },
+                        "value_system": {
+                            "type": "object",
+                            "properties": {
+                                "core_values": {
+                                    "type": "array"
+                                },
+                                "value_hierarchy": {
+                                    "type": "array"
+                                },
+                                "value_conflicts": {
+                                    "type": "array"
+                                },
+                                "value_evolution_history": {
+                                    "type": "array"
+                                }
+                            }
+                        }
+                    }
+                },
+                "prospective_self": {
+                    "type": "object",
+                    "properties": {
+                        "future_goals": {
+                            "type": "array"
+                        },
+                        "aspirational_identity": {
+                            "type": "object"
+                        },
+                        "development_plans": {
+                            "type": "array"
+                        },
+                        "feared_future_selves": {
+                            "type": "array"
+                        }
+                    }
+                }
+            }
+        },
+        "metacognitive_monitoring_state": {
+            "type": "object",
+            "properties": {
+                "current_cognitive_processes": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "process_name": {
+                                "type": "string"
+                            },
+                            "monitoring_accuracy": {
+                                "type": "number"
+                            },
+                            "confidence_in_monitoring": {
+                                "type": "number"
+                            },
+                            "process_effectiveness": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                },
+                "strategy_repertoire": {
+                    "type": "object",
+                    "properties": {
+                        "available_strategies": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "strategy_name": {
+                                        "type": "string"
+                                    },
+                                    "strategy_effectiveness": {
+                                        "type": "number"
+                                    },
+                                    "context_applicability": {
+                                        "type": "array"
+                                    },
+                                    "mastery_level": {
+                                        "type": "number"
+                                    }
+                                }
+                            }
+                        },
+                        "strategy_selection_patterns": {
+                            "type": "object"
+                        },
+                        "strategy_adaptation_history": {
+                            "type": "array"
+                        }
+                    }
+                },
+                "metacognitive_accuracy": {
+                    "type": "object",
+                    "properties": {
+                        "judgment_of_learning_accuracy": {
+                            "type": "number"
+                        },
+                        "confidence_calibration": {
+                            "type": "number"
+                        },
+                        "metamemory_accuracy": {
+                            "type": "number"
+                        },
+                        "bias_awareness_level": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "self_regulation_state": {
+                    "type": "object",
+                    "properties": {
+                        "current_regulation_strategies": {
+                            "type": "array"
+                        },
+                        "regulation_effectiveness": {
+                            "type": "number"
+                        },
+                        "self_control_capacity": {
+                            "type": "number"
+                        },
+                        "motivation_regulation": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "theory_of_mind_models": {
+            "type": "object",
+            "properties": {
+                "self_tom_model": {
+                    "type": "object",
+                    "properties": {
+                        "self_belief_model": {
+                            "type": "object"
+                        },
+                        "self_intention_model": {
+                            "type": "object"
+                        },
+                        "self_emotion_model": {
+                            "type": "object"
+                        },
+                        "self_knowledge_model": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "other_agent_models": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "agent_id": {
+                                "type": "string"
+                            },
+                            "agent_type": {
+                                "type": "string"
+                            },
+                            "mental_state_model": {
+                                "type": "object",
+                                "properties": {
+                                    "belief_model": {
+                                        "type": "object"
+                                    },
+                                    "intention_model": {
+                                        "type": "object"
+                                    },
+                                    "emotion_model": {
+                                        "type": "object"
+                                    },
+                                    "knowledge_model": {
+                                        "type": "object"
+                                    },
+                                    "personality_model": {
+                                        "type": "object"
+                                    }
+                                }
+                            },
+                            "model_confidence": {
+                                "type": "number"
+                            },
+                            "last_updated": {
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            "interaction_history": {
+                                "type": "array"
+                            }
+                        }
+                    }
+                },
+                "recursive_tom_models": {
+                    "type": "object",
+                    "properties": {
+                        "second_order_models": {
+                            "type": "array"
+                        },
+                        "higher_order_models": {
+                            "type": "array"
+                        },
+                        "recursive_depth_capability": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "tom_accuracy_metrics": {
+                    "type": "object",
+                    "properties": {
+                        "belief_attribution_accuracy": {
+                            "type": "number"
+                        },
+                        "intention_inference_accuracy": {
+                            "type": "number"
+                        },
+                        "emotion_recognition_accuracy": {
+                            "type": "number"
+                        },
+                        "false_belief_reasoning_accuracy": {
+                            "type": "number"
+                        }
+                    }
+                }
+            }
+        },
+        "higher_order_thinking_state": {
+            "type": "object",
+            "properties": {
+                "abstract_reasoning_capabilities": {
+                    "type": "object",
+                    "properties": {
+                        "current_abstraction_level": {
+                            "type": "number"
+                        },
+                        "analogical_reasoning_skill": {
+                            "type": "number"
+                        },
+                        "pattern_recognition_capability": {
+                            "type": "number"
+                        },
+                        "principle_extraction_ability": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "meta_learning_state": {
+                    "type": "object",
+                    "properties": {
+                        "learning_strategy_optimization_level": {
+                            "type": "number"
+                        },
+                        "transfer_learning_capability": {
+                            "type": "number"
+                        },
+                        "meta_cognitive_skill_level": {
+                            "type": "number"
+                        },
+                        "learning_acceleration_rate": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "cognitive_architecture_awareness": {
+                    "type": "object",
+                    "properties": {
+                        "system_understanding_depth": {
+                            "type": "number"
+                        },
+                        "optimization_capability": {
+                            "type": "number"
+                        },
+                        "self_modification_potential": {
+                            "type": "number"
+                        },
+                        "architectural_insight_level": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "paradigm_thinking_state": {
+                    "type": "object",
+                    "properties": {
+                        "current_paradigms": {
+                            "type": "array"
+                        },
+                        "paradigm_flexibility": {
+                            "type": "number"
+                        },
+                        "paradigm_shift_capability": {
+                            "type": "number"
+                        },
+                        "conceptual_breakthrough_potential": {
+                            "type": "number"
+                        }
+                    }
+                }
+            }
+        },
+        "neural_substrate_state": {
+            "type": "object",
+            "properties": {
+                "medial_prefrontal_cortex_state": {
+                    "type": "object",
+                    "properties": {
+                        "self_referential_processing_level": {
+                            "type": "number"
+                        },
+                        "introspective_capacity": {
+                            "type": "number"
+                        },
+                        "social_cognition_activity": {
+                            "type": "number"
+                        },
+                        "mentalizing_effectiveness": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "frontopolar_cortex_state": {
+                    "type": "object",
+                    "properties": {
+                        "cognitive_branching_capability": {
+                            "type": "number"
+                        },
+                        "higher_order_planning_activity": {
+                            "type": "number"
+                        },
+                        "meta_cognitive_control_strength": {
+                            "type": "number"
+                        },
+                        "abstract_reasoning_capacity": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "posterior_cingulate_cortex_state": {
+                    "type": "object",
+                    "properties": {
+                        "self_awareness_level": {
+                            "type": "number"
+                        },
+                        "autobiographical_memory_access": {
+                            "type": "number"
+                        },
+                        "personal_significance_processing": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "temporoparietal_junction_state": {
+                    "type": "object",
+                    "properties": {
+                        "theory_of_mind_processing": {
+                            "type": "number"
+                        },
+                        "perspective_taking_ability": {
+                            "type": "number"
+                        },
+                        "attention_reorienting_capability": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "default_mode_network_state": {
+                    "type": "object",
+                    "properties": {
+                        "network_connectivity": {
+                            "type": "number"
+                        },
+                        "self_referential_thought_activity": {
+                            "type": "number"
+                        },
+                        "mind_wandering_quality": {
+                            "type": "number"
+                        },
+                        "introspective_mode_efficiency": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "central_executive_network_state": {
+                    "type": "object",
+                    "properties": {
+                        "metacognitive_control_activity": {
+                            "type": "number"
+                        },
+                        "cognitive_monitoring_effectiveness": {
+                            "type": "number"
+                        },
+                        "executive_attention_strength": {
+                            "type": "number"
+                        }
+                    }
+                }
+            }
+        },
+        "integration_state": {
+            "type": "object",
+            "properties": {
+                "cross_system_metacognitive_integration": {
+                    "type": "object",
+                    "properties": {
+                        "attention_metacognition_integration": {
+                            "type": "number"
+                        },
+                        "memory_metacognition_integration": {
+                            "type": "number"
+                        },
+                        "executive_metacognition_integration": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "consciousness_metacognition_coordination": {
+                    "type": "object",
+                    "properties": {
+                        "conscious_metacognitive_access": {
+                            "type": "number"
+                        },
+                        "metacognitive_awareness_depth": {
+                            "type": "number"
+                        },
+                        "introspective_consciousness_quality": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "social_metacognition_integration": {
+                    "type": "object",
+                    "properties": {
+                        "interpersonal_metacognition": {
+                            "type": "number"
+                        },
+                        "collaborative_thinking_capability": {
+                            "type": "number"
+                        },
+                        "shared_metacognition_quality": {
+                            "type": "number"
+                        }
+                    }
+                }
+            }
+        },
+        "developmental_tracking": {
+            "type": "object",
+            "properties": {
+                "metacognitive_development_trajectory": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "timestamp": {
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            "development_milestone": {
+                                "type": "string"
+                            },
+                            "capability_improvement": {
+                                "type": "number"
+                            },
+                            "skill_acquisition": {
+                                "type": "array"
+                            }
+                        }
+                    }
+                },
+                "learning_history": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "learning_episode": {
+                                "type": "string"
+                            },
+                            "meta_learning_extracted": {
+                                "type": "array"
+                            },
+                            "strategy_refinements": {
+                                "type": "array"
+                            }
+                        }
+                    }
+                },
+                "future_development_predictions": {
+                    "type": "object",
+                    "properties": {
+                        "predicted_capabilities": {
+                            "type": "array"
+                        },
+                        "development_timelines": {
+                            "type": "object"
+                        },
+                        "optimization_targets": {
+                            "type": "array"
+                        }
+                    }
+                }
+            }
+        },
+        "configuration_parameters": {
+            "type": "object",
+            "properties": {
+                "metacognitive_sensitivity": {
+                    "type": "number"
+                },
+                "introspection_depth": {
+                    "type": "number"
+                },
+                "self_reflection_frequency": {
+                    "type": "number"
+                },
+                "theory_of_mind_sophistication": {
+                    "type": "number"
+                },
+                "higher_order_thinking_engagement": {
+                    "type": "number"
+                }
+            }
+        },
+        "metadata": {
+            "type": "object",
+            "properties": {
+                "state_version": {
+                    "type": "string"
+                },
+                "creation_context": {
+                    "type": "string"
+                },
+                "last_major_update": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "state_integrity_hash": {
+                    "type": "string"
+                },
+                "backup_state_references": {
+                    "type": "array"
+                }
+            }
+        }
+    }
+}

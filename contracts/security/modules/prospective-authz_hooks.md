@@ -1,0 +1,2 @@
+- API: before create/cancel/ack → check role in space (RBAC) and ABAC conditions.
+- Events: ensure `space_id` matches actor's membership.

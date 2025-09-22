@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "https://familyos.local/contracts/social_cognition/events/belief_update.schema.json",
+  "title": "BELIEF_UPDATE@1.0 payload",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["subject_id","belief_key","value","confidence","ts"],
+  "properties": {
+    "subject_id": { "type": "string" },
+    "belief_key": { "type": "string", "pattern": "^[a-z0-9._:-]{3,64}$" },
+    "value": { "type": ["number","string","boolean","null"] },
+    "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+    "explain": { "type": "string", "maxLength": 280 },
+    "ts": { "$ref": "../../events/schemas/_common.json#/definitions/ISOInstant" }
+  }
+}

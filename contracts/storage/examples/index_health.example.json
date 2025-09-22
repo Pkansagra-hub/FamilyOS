@@ -1,0 +1,24 @@
+{
+  "index_name": "notes_fts_v1",
+  "space_id": "shared:household",
+  "status": "DEGRADED",
+  "checked_at": "2025-09-13T10:45:00Z",
+  "reasons": [
+    "refresh_latency_over_threshold",
+    "stale_index_exceeds_max_stale"
+  ],
+  "metrics": {
+    "size_mb": 512.4,
+    "document_count": 124003,
+    "last_updated": "2025-09-13T10:22:17Z",
+    "refresh_latency_ms": 4200,
+    "error_rate": 0.012,
+    "rebuild_in_progress": false
+  },
+  "thresholds": {
+    "max_size_mb": 1024,
+    "max_refresh_latency_ms": 2000,
+    "max_error_rate": 0.01,
+    "max_stale_minutes": 15
+  }
+}

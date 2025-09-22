@@ -1,0 +1,148 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://familyos.local/schemas/events/hippocampus/memory_transfer_completed.json",
+    "title": "Memory Transfer Completed Event",
+    "description": "Event emitted when hippocampal memory transfer to cortical regions is completed, marking successful systems consolidation",
+    "type": "object",
+    "required": [
+        "event_type",
+        "timestamp",
+        "hippocampus_id",
+        "transfer_session_id",
+        "transferred_memory",
+        "target_cortical_region",
+        "transfer_quality"
+    ],
+    "properties": {
+        "event_type": {
+            "type": "string",
+            "const": "memory_transfer_completed",
+            "description": "Event type identifier for memory transfer completion"
+        },
+        "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "ISO 8601 timestamp when memory transfer was completed"
+        },
+        "hippocampus_id": {
+            "type": "string",
+            "pattern": "^hippocampus_[a-zA-Z0-9_-]+$",
+            "description": "Unique identifier for the hippocampus instance completing transfer"
+        },
+        "transfer_session_id": {
+            "type": "string",
+            "pattern": "^transfer_session_[a-zA-Z0-9_-]+$",
+            "description": "Unique identifier for this memory transfer session"
+        },
+        "transferred_memory": {
+            "type": "object",
+            "required": [
+                "memory_id",
+                "memory_type",
+                "transfer_fidelity"
+            ],
+            "properties": {
+                "memory_id": {
+                    "type": "string",
+                    "pattern": "^mem_[a-zA-Z0-9_-]+$",
+                    "description": "ID of the transferred memory"
+                },
+                "memory_type": {
+                    "type": "string",
+                    "enum": [
+                        "episodic",
+                        "semantic",
+                        "procedural",
+                        "spatial",
+                        "temporal"
+                    ],
+                    "description": "Type of memory transferred"
+                },
+                "transfer_fidelity": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Fidelity of memory transfer"
+                }
+            },
+            "description": "Memory that was transferred"
+        },
+        "target_cortical_region": {
+            "type": "object",
+            "required": [
+                "region_name",
+                "integration_success"
+            ],
+            "properties": {
+                "region_name": {
+                    "type": "string",
+                    "enum": [
+                        "prefrontal_cortex",
+                        "temporal_cortex",
+                        "parietal_cortex",
+                        "occipital_cortex",
+                        "motor_cortex"
+                    ],
+                    "description": "Target cortical region for memory storage"
+                },
+                "integration_success": {
+                    "type": "boolean",
+                    "description": "Whether memory was successfully integrated into cortical networks"
+                }
+            },
+            "description": "Target cortical region for memory transfer"
+        },
+        "transfer_quality": {
+            "type": "object",
+            "required": [
+                "completeness",
+                "accuracy",
+                "stability"
+            ],
+            "properties": {
+                "completeness": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Completeness of memory transfer"
+                },
+                "accuracy": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Accuracy of transferred memory"
+                },
+                "stability": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Stability of memory in cortical storage"
+                }
+            },
+            "description": "Quality metrics of memory transfer"
+        }
+    },
+    "additionalProperties": false,
+    "examples": [
+        {
+            "event_type": "memory_transfer_completed",
+            "timestamp": "2025-09-17T08:15:30.456Z",
+            "hippocampus_id": "hippocampus_primary_001",
+            "transfer_session_id": "transfer_session_20250917_081530",
+            "transferred_memory": {
+                "memory_id": "mem_episode_20250916_143045",
+                "memory_type": "episodic",
+                "transfer_fidelity": 0.88
+            },
+            "target_cortical_region": {
+                "region_name": "prefrontal_cortex",
+                "integration_success": true
+            },
+            "transfer_quality": {
+                "completeness": 0.9,
+                "accuracy": 0.85,
+                "stability": 0.92
+            }
+        }
+    ]
+}

@@ -1,0 +1,546 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://familyos.local/contracts/events/schemas/global_workspace/consciousness_threshold_crossed.schema.json",
+    "title": "Consciousness Threshold Crossed Event",
+    "description": "Event triggered when content crosses the threshold for conscious awareness, transitioning from unconscious to conscious processing.",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "timestamp",
+        "threshold_crossing_id",
+        "content_description",
+        "threshold_details",
+        "crossing_dynamics",
+        "consciousness_emergence"
+    ],
+    "properties": {
+        "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Precise moment when consciousness threshold was crossed"
+        },
+        "threshold_crossing_id": {
+            "type": "string",
+            "pattern": "^tc_[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+            "description": "Unique identifier for this threshold crossing event"
+        },
+        "content_description": {
+            "type": "object",
+            "required": [
+                "content_type",
+                "pre_conscious_state",
+                "post_conscious_state"
+            ],
+            "properties": {
+                "content_type": {
+                    "type": "string",
+                    "enum": [
+                        "perceptual",
+                        "memorial",
+                        "conceptual",
+                        "emotional",
+                        "intentional",
+                        "linguistic",
+                        "abstract"
+                    ],
+                    "description": "Type of content crossing consciousness threshold"
+                },
+                "pre_conscious_state": {
+                    "type": "object",
+                    "properties": {
+                        "activation_level": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "processing_depth": {
+                            "type": "string",
+                            "enum": [
+                                "minimal",
+                                "shallow",
+                                "intermediate"
+                            ]
+                        },
+                        "accessibility": {
+                            "type": "string",
+                            "enum": [
+                                "inaccessible",
+                                "limited",
+                                "subliminal"
+                            ]
+                        },
+                        "integration_level": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    },
+                    "description": "State of content before crossing consciousness threshold"
+                },
+                "post_conscious_state": {
+                    "type": "object",
+                    "properties": {
+                        "activation_level": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "processing_depth": {
+                            "type": "string",
+                            "enum": [
+                                "conscious",
+                                "fully_accessible",
+                                "integrated"
+                            ]
+                        },
+                        "accessibility": {
+                            "type": "string",
+                            "enum": [
+                                "reportable",
+                                "globally_accessible",
+                                "controllable"
+                            ]
+                        },
+                        "integration_level": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    },
+                    "description": "State of content after crossing consciousness threshold"
+                },
+                "content_identity": {
+                    "type": "object",
+                    "properties": {
+                        "semantic_content": {
+                            "type": "object"
+                        },
+                        "representational_format": {
+                            "type": "string"
+                        },
+                        "associated_memories": {
+                            "type": "array"
+                        },
+                        "conceptual_relations": {
+                            "type": "object"
+                        }
+                    },
+                    "description": "Identity and representation of the conscious content"
+                }
+            },
+            "description": "Description of content that crossed the consciousness threshold"
+        },
+        "threshold_details": {
+            "type": "object",
+            "required": [
+                "threshold_type",
+                "threshold_value",
+                "crossing_mechanism"
+            ],
+            "properties": {
+                "threshold_type": {
+                    "type": "string",
+                    "enum": [
+                        "activation_threshold",
+                        "integration_threshold",
+                        "attention_threshold",
+                        "competition_threshold",
+                        "temporal_threshold"
+                    ],
+                    "description": "Type of consciousness threshold that was crossed"
+                },
+                "threshold_value": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Numerical value of the consciousness threshold"
+                },
+                "crossing_mechanism": {
+                    "type": "string",
+                    "enum": [
+                        "gradual_accumulation",
+                        "sudden_breakthrough",
+                        "competitive_victory",
+                        "attention_amplification",
+                        "integration_convergence"
+                    ],
+                    "description": "Mechanism by which threshold was crossed"
+                },
+                "threshold_dynamics": {
+                    "type": "object",
+                    "properties": {
+                        "threshold_stability": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "adaptive_threshold": {
+                            "type": "boolean"
+                        },
+                        "context_sensitivity": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "temporal_modulation": {
+                            "type": "object"
+                        }
+                    },
+                    "description": "Dynamic properties of the consciousness threshold"
+                }
+            },
+            "description": "Details about the consciousness threshold that was crossed"
+        },
+        "crossing_dynamics": {
+            "type": "object",
+            "required": [
+                "crossing_speed",
+                "crossing_trajectory",
+                "energy_profile"
+            ],
+            "properties": {
+                "crossing_speed": {
+                    "type": "object",
+                    "properties": {
+                        "total_duration_ms": {
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "acceleration_phase_ms": {
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "crossing_moment_ms": {
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "stabilization_phase_ms": {
+                            "type": "number",
+                            "minimum": 0
+                        }
+                    },
+                    "description": "Temporal dynamics of threshold crossing"
+                },
+                "crossing_trajectory": {
+                    "type": "object",
+                    "properties": {
+                        "approach_pattern": {
+                            "type": "string",
+                            "enum": [
+                                "linear",
+                                "exponential",
+                                "step_function",
+                                "oscillatory"
+                            ]
+                        },
+                        "peak_activation": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "threshold_overshoot": {
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "settling_dynamics": {
+                            "type": "object"
+                        }
+                    },
+                    "description": "Trajectory of activation leading to threshold crossing"
+                },
+                "energy_profile": {
+                    "type": "object",
+                    "properties": {
+                        "energy_buildup": {
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "crossing_energy_cost": {
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "post_crossing_energy": {
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "energy_efficiency": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    },
+                    "description": "Energy dynamics during threshold crossing"
+                }
+            },
+            "description": "Dynamics of the threshold crossing process"
+        },
+        "consciousness_emergence": {
+            "type": "object",
+            "required": [
+                "emergence_quality",
+                "consciousness_features",
+                "subjective_aspects"
+            ],
+            "properties": {
+                "emergence_quality": {
+                    "type": "object",
+                    "properties": {
+                        "clarity": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "vividness": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "stability": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "coherence": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    },
+                    "description": "Quality characteristics of emerging consciousness"
+                },
+                "consciousness_features": {
+                    "type": "object",
+                    "properties": {
+                        "global_accessibility": {
+                            "type": "boolean"
+                        },
+                        "reportability": {
+                            "type": "boolean"
+                        },
+                        "controllability": {
+                            "type": "boolean"
+                        },
+                        "introspective_access": {
+                            "type": "boolean"
+                        },
+                        "phenomenal_presence": {
+                            "type": "boolean"
+                        }
+                    },
+                    "description": "Key features of consciousness that emerged"
+                },
+                "subjective_aspects": {
+                    "type": "object",
+                    "properties": {
+                        "first_person_perspective": {
+                            "type": "boolean"
+                        },
+                        "qualitative_experience": {
+                            "type": "object"
+                        },
+                        "subjective_intensity": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "felt_presence": {
+                            "type": "boolean"
+                        }
+                    },
+                    "description": "Subjective aspects of conscious experience"
+                }
+            },
+            "description": "Characteristics of consciousness that emerged from threshold crossing"
+        },
+        "causal_factors": {
+            "type": "object",
+            "properties": {
+                "triggering_events": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "event_type": {
+                                "type": "string"
+                            },
+                            "event_strength": {
+                                "type": "number"
+                            },
+                            "temporal_relation": {
+                                "type": "string"
+                            },
+                            "causal_influence": {
+                                "type": "number"
+                            }
+                        }
+                    },
+                    "description": "Events that triggered threshold crossing"
+                },
+                "enabling_conditions": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "condition_type": {
+                                "type": "string"
+                            },
+                            "condition_strength": {
+                                "type": "number"
+                            },
+                            "necessity_level": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "description": "Conditions that enabled threshold crossing"
+                },
+                "modulatory_influences": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "influence_source": {
+                                "type": "string"
+                            },
+                            "influence_type": {
+                                "type": "string",
+                                "enum": [
+                                    "enhancing",
+                                    "inhibiting",
+                                    "modulating"
+                                ]
+                            },
+                            "influence_strength": {
+                                "type": "number"
+                            }
+                        }
+                    },
+                    "description": "Influences that modulated threshold crossing"
+                }
+            },
+            "description": "Causal factors contributing to threshold crossing"
+        },
+        "system_impacts": {
+            "type": "object",
+            "properties": {
+                "attention_system_impacts": {
+                    "type": "object",
+                    "properties": {
+                        "attention_capture": {
+                            "type": "boolean"
+                        },
+                        "attention_reallocation": {
+                            "type": "object"
+                        },
+                        "attention_enhancement": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "memory_system_impacts": {
+                    "type": "object",
+                    "properties": {
+                        "encoding_enhancement": {
+                            "type": "boolean"
+                        },
+                        "retrieval_facilitation": {
+                            "type": "boolean"
+                        },
+                        "consolidation_triggering": {
+                            "type": "boolean"
+                        }
+                    }
+                },
+                "executive_system_impacts": {
+                    "type": "object",
+                    "properties": {
+                        "control_engagement": {
+                            "type": "boolean"
+                        },
+                        "monitoring_activation": {
+                            "type": "boolean"
+                        },
+                        "strategy_updating": {
+                            "type": "boolean"
+                        }
+                    }
+                },
+                "motor_system_impacts": {
+                    "type": "object",
+                    "properties": {
+                        "action_preparation": {
+                            "type": "boolean"
+                        },
+                        "response_priming": {
+                            "type": "boolean"
+                        },
+                        "motor_planning": {
+                            "type": "boolean"
+                        }
+                    }
+                }
+            },
+            "description": "Impacts on various cognitive systems from consciousness emergence"
+        },
+        "temporal_context": {
+            "type": "object",
+            "properties": {
+                "preceding_events": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "event_id": {
+                                "type": "string"
+                            },
+                            "event_type": {
+                                "type": "string"
+                            },
+                            "temporal_offset_ms": {
+                                "type": "number"
+                            }
+                        }
+                    },
+                    "description": "Events preceding threshold crossing"
+                },
+                "concurrent_processes": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "process_id": {
+                                "type": "string"
+                            },
+                            "process_type": {
+                                "type": "string"
+                            },
+                            "interaction_strength": {
+                                "type": "number"
+                            }
+                        }
+                    },
+                    "description": "Processes concurrent with threshold crossing"
+                },
+                "predicted_consequences": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "consequence_type": {
+                                "type": "string"
+                            },
+                            "probability": {
+                                "type": "number"
+                            },
+                            "expected_timing_ms": {
+                                "type": "number"
+                            }
+                        }
+                    },
+                    "description": "Predicted consequences of threshold crossing"
+                }
+            },
+            "description": "Temporal context surrounding threshold crossing"
+        }
+    }
+}

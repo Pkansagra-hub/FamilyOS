@@ -1,0 +1,15 @@
+{
+  "id": "01HX3V6MWRKSPAC789ABCDEFGH",
+  "space_id": "personal:11111111-2222-4333-8444-555555555555",
+  "focus": [
+    "2D41303SREQ12Q348NT9ZPG3WK"
+  ],
+  "salience": [
+    {
+      "id": "01HX3V6MDY1E2G9XWGSHK4HH90",
+      "score": 0.92
+    }
+  ],
+  "summary": "Personal workspace with focused tasks",
+  "ts": "2025-09-09T12:34:56.000Z"
+}

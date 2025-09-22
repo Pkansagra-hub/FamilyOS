@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://familyos.local/contracts/perception/sensory_frame.schema.json",
+  "title": "Perception Sensory Frame Payload",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "frame_id": { "type": "string", "format": "uuid" },
+    "kind": { "type": "string", "enum": ["mic","camera","accel","gyro","gps","other"] },
+    "ts": { "type": "string", "format": "date-time" },
+    "meta": { "type": "object", "additionalProperties": true },
+    "data_ref": { "type": "string" },
+    "space_id": { "type": "string" }
+  },
+  "required": ["frame_id","kind","ts","space_id"]
+}

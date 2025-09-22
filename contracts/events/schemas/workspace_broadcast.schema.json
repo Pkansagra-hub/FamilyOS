@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://memoryos.local/contracts/events/schemas/workspace_broadcast.schema.json",
+  "title": "WORKSPACE_BROADCAST@1.0 payload",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "state_id",
+    "salient_keys",
+    "space_id",
+    "generated_at"
+  ],
+  "properties": {
+    "state_id": {
+      "type": "string"
+    },
+    "salient_keys": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "space_id": {
+      "$ref": "_common.json#/definitions/SpaceRef"
+    },
+    "generated_at": {
+      "$ref": "_common.json#/definitions/ISOInstant"
+    },
+    "trace": {
+      "$ref": "_common.json#/definitions/TraceContext"
+    }
+  }
+}

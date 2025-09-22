@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.1.0",
+  "id": "d691f39e-af9b-48db-85c0-dddd33ee5e47",
+  "ts": "2025-09-09T04:20:40Z",
+  "topic": "ACTION_DECISION",
+  "band": "GREEN",
+  "actor": {
+    "user_id": "c1226eae-4974-4331-a5ef-dbf7ba2116f5",
+    "agent_id": "privacy.v1",
+    "caps": [
+      "PROJECT"
+    ]
+  },
+  "device": {
+    "device_id": "ios-iphone15",
+    "platform": "macos",
+    "app_version": "1.9.8",
+    "locale": "en-US"
+  },
+  "space_id": "extended:grandparents",
+  "policy_version": "1.3",
+  "abac": {
+    "role": "service",
+    "trust": "amber",
+    "geo_precision": "region"
+  },
+  "qos": {
+    "routing": "fast-path",
+    "priority": 8,
+    "latency_budget_ms": 127,
+    "retries": 2
+  },
+  "trace": {
+    "trace_id": "46a5707d10da47fb6e81b7c39b0501d0",
+    "span_id": "b2b8ba26a499bf0b",
+    "sampled": true
+  },
+  "obligations": [],
+  "redaction_applied": false,
+  "hashes": {
+    "payload_sha256": "48c56a8b9130dbf545a2c1009e5d113d34f6cc3f22bcbad88fe1a55588e0c5ca"
+  },
+  "payload": {
+    "action": "files_write_text",
+    "status": "queued"
+  },
+  "signature": {
+    "alg": "ed25519",
+    "key_id": "key_action_decision_green_2024",
+    "public_key": "cHVibGlj",
+    "signature": "c2ln"
+  }
+}

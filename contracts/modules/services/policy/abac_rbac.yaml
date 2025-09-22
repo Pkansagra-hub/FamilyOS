@@ -1,0 +1,17 @@
+rbac:
+  roles:
+    system: { allow: ["services:*"] }
+    owner:  { allow: ["services:read"] }
+    adult:  { allow: ["services:read"] }
+    child:  { allow: [] }
+    guest:  { allow: [] }
+abac:
+  attributes:
+    band_required:
+      SERVICE_HEALTH_CHANGED: "GREEN"
+      MEMORY_RECEIPT_CREATED: "AMBER"
+  conditions:
+    - when: { action: "emit_event", topic: "SERVICE_HEALTH_CHANGED@1.0" }
+      require: { band: ["GREEN","AMBER"], mls_group: "if AMBER" }
+obligations:
+  - AUDIT_ACCESS

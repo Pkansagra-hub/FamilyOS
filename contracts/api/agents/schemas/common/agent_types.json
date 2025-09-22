@@ -1,0 +1,300 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://family-ai.dev/schemas/agents/common/agent_types.json",
+  "title": "Agent Plane Common Types",
+  "description": "Shared type definitions for Agent Plane APIs - Memory-Centric Family AI",
+  "definitions": {
+    "AgentCapability": {
+      "type": "object",
+      "description": "Defines an agent's capability with family context awareness",
+      "properties": {
+        "capability_id": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_-]+$",
+          "description": "Unique capability identifier"
+        },
+        "name": {
+          "type": "string",
+          "description": "Human-readable capability name"
+        },
+        "description": {
+          "type": "string",
+          "description": "Detailed capability description for family understanding"
+        },
+        "family_safety_level": {
+          "type": "string",
+          "enum": ["child_safe", "teen_appropriate", "adult_only", "family_coordinator"],
+          "description": "Family safety classification for capability access"
+        },
+        "memory_integration": {
+          "type": "object",
+          "description": "How this capability integrates with family memory",
+          "properties": {
+            "reads_memory": {
+              "type": "boolean",
+              "description": "Whether capability requires memory read access"
+            },
+            "writes_memory": {
+              "type": "boolean",
+              "description": "Whether capability creates new memories"
+            },
+            "memory_spaces": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": ["personal", "selective", "shared", "extended", "interfamily"]
+              },
+              "description": "Memory spaces this capability can access"
+            },
+            "emotional_context_required": {
+              "type": "boolean",
+              "description": "Whether capability needs emotional context from memory"
+            }
+          },
+          "required": ["reads_memory", "writes_memory", "memory_spaces"]
+        },
+        "input_schema": {
+          "$ref": "#/definitions/JsonSchema",
+          "description": "JSON schema for capability input validation"
+        },
+        "output_schema": {
+          "$ref": "#/definitions/JsonSchema",
+          "description": "JSON schema for capability output structure"
+        }
+      },
+      "required": ["capability_id", "name", "family_safety_level", "memory_integration"]
+    },
+    "FamilyAgent": {
+      "type": "object",
+      "description": "Family-aware AI agent with memory integration",
+      "properties": {
+        "agent_id": {
+          "type": "string",
+          "pattern": "^family_agent_[a-zA-Z0-9_-]+$",
+          "description": "Unique family agent identifier"
+        },
+        "name": {
+          "type": "string",
+          "description": "Agent name for family identification"
+        },
+        "persona": {
+          "type": "object",
+          "description": "Agent personality and interaction style",
+          "properties": {
+            "communication_style": {
+              "type": "string",
+              "enum": ["supportive", "playful", "professional", "nurturing", "encouraging"]
+            },
+            "family_role": {
+              "type": "string",
+              "enum": ["coordinator", "helper", "educator", "entertainer", "advisor"]
+            },
+            "age_adaptation": {
+              "type": "boolean",
+              "description": "Whether agent adapts communication based on family member age"
+            },
+            "emotional_intelligence": {
+              "type": "boolean",
+              "description": "Whether agent provides emotional support and empathy"
+            }
+          }
+        },
+        "capabilities": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/AgentCapability"
+          },
+          "description": "List of agent capabilities"
+        },
+        "family_permissions": {
+          "type": "object",
+          "description": "Family-specific permissions and access controls",
+          "properties": {
+            "can_coordinate_family": {
+              "type": "boolean",
+              "description": "Can coordinate activities across family members"
+            },
+            "can_access_child_data": {
+              "type": "boolean",
+              "description": "Can access child-specific data with parental oversight"
+            },
+            "emergency_protocols": {
+              "type": "boolean",
+              "description": "Can participate in family emergency protocols"
+            },
+            "financial_access": {
+              "type": "boolean",
+              "description": "Can access family financial information"
+            }
+          }
+        },
+        "memory_scope": {
+          "type": "object",
+          "description": "Defines agent's memory access and integration scope",
+          "properties": {
+            "accessible_spaces": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": ["personal", "selective", "shared", "extended", "interfamily"]
+              }
+            },
+            "memory_retention_policy": {
+              "type": "string",
+              "enum": ["ephemeral", "session", "persistent", "long_term"],
+              "description": "How long agent retains conversation context"
+            },
+            "emotional_memory": {
+              "type": "boolean",
+              "description": "Whether agent remembers family emotional patterns"
+            },
+            "learning_enabled": {
+              "type": "boolean",
+              "description": "Whether agent learns from family interactions"
+            }
+          }
+        }
+      },
+      "required": ["agent_id", "name", "capabilities", "family_permissions", "memory_scope"]
+    },
+    "FamilyConversation": {
+      "type": "object",
+      "description": "Family conversation context with privacy and safety considerations",
+      "properties": {
+        "conversation_id": {
+          "type": "string",
+          "format": "uuid",
+          "description": "Unique conversation identifier"
+        },
+        "family_member_id": {
+          "type": "string",
+          "description": "ID of family member in conversation"
+        },
+        "agent_id": {
+          "type": "string",
+          "description": "ID of participating agent"
+        },
+        "privacy_level": {
+          "type": "string",
+          "enum": ["personal", "family_shared", "supervised", "public"],
+          "description": "Privacy level for conversation content"
+        },
+        "parental_oversight": {
+          "type": "boolean",
+          "description": "Whether conversation requires parental oversight"
+        },
+        "emotional_context": {
+          "type": "object",
+          "description": "Detected emotional context for appropriate responses",
+          "properties": {
+            "detected_emotions": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": ["happy", "sad", "frustrated", "excited", "worried", "calm", "stressed"]
+              }
+            },
+            "confidence_score": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1,
+              "description": "Confidence in emotion detection"
+            },
+            "response_adaptation": {
+              "type": "string",
+              "enum": ["supportive", "celebratory", "calming", "encouraging", "problem_solving"]
+            }
+          }
+        },
+        "family_context": {
+          "type": "object",
+          "description": "Relevant family context for conversation",
+          "properties": {
+            "current_family_activity": {
+              "type": "string",
+              "description": "What the family is currently doing"
+            },
+            "family_mood": {
+              "type": "string",
+              "enum": ["harmonious", "busy", "stressed", "celebratory", "quiet"]
+            },
+            "relevant_family_members": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Other family members relevant to conversation"
+            }
+          }
+        }
+      },
+      "required": ["conversation_id", "family_member_id", "agent_id", "privacy_level"]
+    },
+    "MemoryIntegration": {
+      "type": "object",
+      "description": "How agents integrate with family memory system",
+      "properties": {
+        "memory_operation": {
+          "type": "string",
+          "enum": ["read", "write", "update", "delete", "search", "recall"],
+          "description": "Type of memory operation"
+        },
+        "memory_space": {
+          "type": "string",
+          "enum": ["personal", "selective", "shared", "extended", "interfamily"],
+          "description": "Target memory space for operation"
+        },
+        "content_type": {
+          "type": "string",
+          "enum": ["conversation", "event", "preference", "routine", "emotion", "achievement"],
+          "description": "Type of memory content"
+        },
+        "family_impact": {
+          "type": "string",
+          "enum": ["individual", "pair", "group", "whole_family"],
+          "description": "Scope of family members affected by memory operation"
+        },
+        "permission_required": {
+          "type": "boolean",
+          "description": "Whether operation requires explicit family permission"
+        },
+        "retention_policy": {
+          "type": "object",
+          "properties": {
+            "duration": {
+              "type": "string",
+              "enum": ["temporary", "session", "daily", "weekly", "monthly", "permanent"]
+            },
+            "auto_cleanup": {
+              "type": "boolean",
+              "description": "Whether memory should be automatically cleaned up"
+            },
+            "family_archive": {
+              "type": "boolean",
+              "description": "Whether memory should be preserved in family archive"
+            }
+          }
+        }
+      },
+      "required": ["memory_operation", "memory_space", "content_type", "family_impact"]
+    },
+    "JsonSchema": {
+      "type": "object",
+      "description": "JSON Schema for input/output validation",
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "properties": {
+          "type": "object"
+        },
+        "required": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

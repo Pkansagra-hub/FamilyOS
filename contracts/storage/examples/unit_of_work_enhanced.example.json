@@ -1,0 +1,50 @@
+{
+  "uow_id": "7QKTSEGXQW5Q6QX6MKN9EDTS4J",
+  "envelope_id": "650e8400-e29b-41d4-a716-446655440001",
+  "created_ts": "2024-03-15T10:30:45.123Z",
+  "committed_ts": "2024-03-15T10:30:45.567Z",
+  "status": "committed",
+  "contract_version": "1.1.0",
+  "writes": [
+    {
+      "store": "episodic_store",
+      "record_id": "6985Z5233HT8K7Z1JRHEE4R008",
+      "operation_type": "create",
+      "bytes_written": 1024,
+      "checksum": "a1b2c3d4e5f67890123456789012345678901234567890123456789012345678"
+    },
+    {
+      "store": "semantic_store",
+      "record_id": "4PFYMKA2DTG8BF8NS8QMP5BQMK",
+      "operation_type": "update",
+      "bytes_written": 512,
+      "checksum": "b2c3d4e5f67890123456789012345678901234567890123456789012345678ab"
+    }
+  ],
+  "metrics": {
+    "total_execution_time_ms": 234,
+    "commit_time_ms": 67,
+    "store_count": 2,
+    "total_bytes_written": 1536,
+    "retry_count": 0
+  },
+  "receipt": {
+    "receipt_hash": "c3d4e5f67890123456789012345678901234567890123456789012345678cdef",
+    "generated_ts": "2024-03-15T10:30:45.570Z",
+    "signature": "MEUCIQDr4fWqJ3X4Q7yKp9X2N1m5L8G9t4vH2oR6sF3pA9jW1wIgKvB7nE4t2yM8x5L3f6G9oH2jS4pW1rN8vE5tA3qC7dR",
+    "stores_involved": ["episodic_store", "semantic_store"]
+  },
+  "context": {
+    "space_id": "personal:alice",
+    "actor_ref": {
+      "user_id": "38WYWW7GZH4N3EWXNKAS901JRS"
+    },
+    "device_ref": {
+      "device_id": "alice-macbook-2KMRACH0JETGYHBZ27Z8PTEX9A",
+      "platform": "macos",
+      "app_version": "1.2.3"
+    },
+    "correlation_id": "trace-12345678-90ab-cdef-1234-567890abcdef",
+    "band": "GREEN"
+  }
+}

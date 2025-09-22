@@ -1,0 +1,20 @@
+roles:
+  - name: device
+    caps: [INGEST_FRAME]
+  - name: user
+    caps: [CONFIGURE_SENSORS]
+attributes:
+  device_trust: [low, medium, high]
+  space_role: [owner, adult, child]
+bands:
+  GREEN: { allow: [INGEST_FRAME] }
+  AMBER: { allow: [INGEST_FRAME], obligations: [AUDIT, REDACT_PII, LOCAL_ONLY] }
+  RED: { deny: ["*"] }
+  BLACK: { deny: ["*"] }
+decisions:
+  - when: { role: device, device_trust: high }
+    band: GREEN
+  - when: { role: device, device_trust: low }
+    band: AMBER
+audit:
+  emit: true

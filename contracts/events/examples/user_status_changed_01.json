@@ -1,0 +1,59 @@
+{
+  "schema_version": "1.2.0",
+  "id": "01HF8N3Q8QRST7VW2XYZ789GHI",
+  "ts": "2025-09-18T16:45:00Z",
+  "topic": "USER_STATUS_CHANGED",
+  "band": "AMBER",
+  "actor": {
+    "user_id": "fedcba98-7654-3210-fedc-ba9876543210",
+    "caps": ["WRITE", "RECALL", "PROJECT", "SCHEDULE"]
+  },
+  "device": {
+    "device_id": "admin-console-001",
+    "platform": "web",
+    "app_version": "1.2.0",
+    "locale": "en-US"
+  },
+  "space_id": "shared:household",
+  "policy_version": "1.2",
+  "abac": {
+    "role": "parent",
+    "trust": "green"
+  },
+  "mls_group": "family_primary",
+  "qos": {
+    "routing": "gate-path",
+    "priority": 7,
+    "latency_budget_ms": 150,
+    "retries": 1
+  },
+  "trace": {
+    "trace_id": "def456abc789012345678901234567cd",
+    "span_id": "789ghi012345678",
+    "sampled": true
+  },
+  "obligations": ["AUDIT_ACCESS", "SYNC_REQUIRED"],
+  "redaction_applied": false,
+  "hashes": {
+    "payload_sha256": "d4e5f6789012345678901234567890123456789012345678901234567abc"
+  },
+  "payload": {
+    "user_id": "01234567-89ab-cdef-0123-456789abcdef",
+    "previous_status": "pending_verification",
+    "new_status": "active",
+    "reason": "Email verification completed successfully",
+    "changed_by": "fedcba98-7654-3210-fedc-ba9876543210",
+    "automatic": false,
+    "changed_ts": "2025-09-18T16:45:00Z",
+    "trace_context": {
+      "trace_id": "def456abc789012345678901234567cd",
+      "span_id": "789ghi012345678"
+    }
+  },
+  "signature": {
+    "alg": "ed25519",
+    "key_id": "key_user_mgmt_amber_2025",
+    "public_key": "c3RhdHVzX2NoYW5nZWRfcHVibGljX2tleQ==",
+    "signature": "c3RhdHVzX2NoYW5nZWRfc2lnbmF0dXJl"
+  }
+}

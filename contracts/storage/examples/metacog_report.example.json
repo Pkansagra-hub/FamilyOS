@@ -1,0 +1,11 @@
+{
+  "id": "01HX3V6MMETX9M7BETQHS4VGCP",
+  "space_id": "shared:household",
+  "signals": {
+    "duration_ms": 123,
+    "error_rate": 0.01
+  },
+  "notes": "Model felt uncertain about time parsing.",
+  "ts": "2025-01-14T10:30:00.000Z",
+  "confidence": 0.71
+}

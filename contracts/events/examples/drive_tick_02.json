@@ -1,0 +1,54 @@
+{
+  "schema_version": "1.1.0",
+  "id": "3d6da458-3159-4627-aea4-2a73edfdd6d8",
+  "ts": "2025-09-09T04:20:40Z",
+  "topic": "DRIVE_TICK",
+  "band": "AMBER",
+  "actor": {
+    "user_id": "eb2a7319-f180-40e4-a9c0-44291d72eb35",
+    "agent_id": "system.v1",
+    "caps": [
+      "WRITE"
+    ]
+  },
+  "device": {
+    "device_id": "edge-jetson",
+    "platform": "windows",
+    "app_version": "1.3.1",
+    "locale": "en-GB"
+  },
+  "space_id": "extended:grandparents",
+  "policy_version": "1.3",
+  "abac": {
+    "role": "system",
+    "trust": "amber",
+    "geo_precision": "region"
+  },
+  "qos": {
+    "routing": "gate-path",
+    "priority": 8,
+    "latency_budget_ms": 77,
+    "retries": 1
+  },
+  "trace": {
+    "trace_id": "7270183e7aa8e2284daf8b5360f356da",
+    "span_id": "708f72f9ecc54935",
+    "sampled": true
+  },
+  "obligations": [],
+  "redaction_applied": true,
+  "hashes": {
+    "payload_sha256": "c11da7aeb10db9214322574ca2f76f17409fadba56d903fe8cee872285342f19"
+  },
+  "payload": {
+    "note": "system-update",
+    "ts": "2025-09-09T04:20:40Z"
+  },
+  "signature": {
+    "alg": "ed25519",
+    "key_id": "key_drive_tick_amber_2024",
+    "public_key": "cHVibGlj",
+    "signature": "c2ln"
+  },
+  "mls_group": "household-secure"
+}

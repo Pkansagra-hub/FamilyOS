@@ -1,0 +1,9 @@
+{
+  "id": "01HX3V6MKGER58TK07EYYKFTDS",
+  "src": "01HX3V6MKGER58TK07EYYKFTDS",
+  "dst": "01HX3V6MKGER58TK07EYYKFTDT",
+  "pred": "KNOWS",
+  "weight": 0.82,
+  "created_ts": "2025-01-14T10:30:00.000Z",
+  "space_id": "personal:user123"
+}

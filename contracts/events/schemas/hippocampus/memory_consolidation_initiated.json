@@ -1,0 +1,992 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://familyos.local/schemas/events/hippocampus/memory_consolidation_initiated.json",
+    "title": "Memory Consolidation Initiated Event",
+    "description": "Event emitted when the hippocampus begins the consolidation process for transferring memories from temporary hippocampal storage to long-term cortical storage",
+    "type": "object",
+    "required": [
+        "event_type",
+        "timestamp",
+        "hippocampus_id",
+        "consolidation_session_id",
+        "memory_batch",
+        "consolidation_strategy",
+        "sleep_phase"
+    ],
+    "properties": {
+        "event_type": {
+            "type": "string",
+            "const": "memory_consolidation_initiated",
+            "description": "Event type identifier for memory consolidation initiation"
+        },
+        "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "ISO 8601 timestamp when consolidation was initiated"
+        },
+        "hippocampus_id": {
+            "type": "string",
+            "pattern": "^hippocampus_[a-zA-Z0-9_-]+$",
+            "description": "Unique identifier for the hippocampus instance initiating consolidation"
+        },
+        "consolidation_session_id": {
+            "type": "string",
+            "pattern": "^consol_session_[a-zA-Z0-9_-]+$",
+            "description": "Unique identifier for this consolidation session"
+        },
+        "memory_batch": {
+            "type": "object",
+            "required": [
+                "memory_ids",
+                "batch_size",
+                "selection_criteria"
+            ],
+            "properties": {
+                "memory_ids": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "pattern": "^mem_[a-zA-Z0-9_-]+$"
+                    },
+                    "minItems": 1,
+                    "description": "Array of memory IDs selected for consolidation"
+                },
+                "batch_size": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "description": "Number of memories in this consolidation batch"
+                },
+                "selection_criteria": {
+                    "type": "object",
+                    "required": [
+                        "priority_threshold",
+                        "age_range",
+                        "strength_threshold"
+                    ],
+                    "properties": {
+                        "priority_threshold": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "Minimum priority level for consolidation selection"
+                        },
+                        "age_range": {
+                            "type": "object",
+                            "properties": {
+                                "min_age_hours": {
+                                    "type": "number",
+                                    "minimum": 0
+                                },
+                                "max_age_hours": {
+                                    "type": "number",
+                                    "minimum": 0
+                                }
+                            },
+                            "description": "Age range of memories selected for consolidation"
+                        },
+                        "strength_threshold": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "Minimum memory strength for consolidation"
+                        },
+                        "emotional_weight": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "Emotional significance weight in selection"
+                        },
+                        "rehearsal_frequency": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "description": "Minimum number of rehearsals for selection"
+                        },
+                        "interference_level": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "Maximum acceptable interference level"
+                        }
+                    },
+                    "description": "Criteria used for selecting memories for consolidation"
+                },
+                "memory_types": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "enum": [
+                            "episodic",
+                            "semantic",
+                            "procedural",
+                            "emotional",
+                            "spatial",
+                            "temporal"
+                        ]
+                    },
+                    "description": "Types of memories included in this batch"
+                },
+                "consolidation_targets": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "memory_id": {
+                                "type": "string"
+                            },
+                            "target_cortical_region": {
+                                "type": "string"
+                            },
+                            "transfer_priority": {
+                                "type": "string",
+                                "enum": [
+                                    "critical",
+                                    "high",
+                                    "normal",
+                                    "low"
+                                ]
+                            },
+                            "estimated_duration_hours": {
+                                "type": "number",
+                                "minimum": 0
+                            }
+                        }
+                    },
+                    "description": "Specific consolidation targets for each memory"
+                }
+            },
+            "description": "Batch of memories selected for consolidation processing"
+        },
+        "consolidation_strategy": {
+            "type": "object",
+            "required": [
+                "strategy_type",
+                "replay_pattern",
+                "timing_schedule"
+            ],
+            "properties": {
+                "strategy_type": {
+                    "type": "string",
+                    "enum": [
+                        "standard",
+                        "prioritized",
+                        "selective",
+                        "massive",
+                        "targeted"
+                    ],
+                    "description": "Type of consolidation strategy being employed"
+                },
+                "replay_pattern": {
+                    "type": "object",
+                    "required": [
+                        "replay_type",
+                        "replay_speed",
+                        "replay_fidelity"
+                    ],
+                    "properties": {
+                        "replay_type": {
+                            "type": "string",
+                            "enum": [
+                                "forward",
+                                "reverse",
+                                "random",
+                                "sequential",
+                                "compressed"
+                            ],
+                            "description": "Pattern of memory replay during consolidation"
+                        },
+                        "replay_speed": {
+                            "type": "number",
+                            "minimum": 0.1,
+                            "maximum": 20.0,
+                            "description": "Speed of replay relative to original encoding (1.0 = real-time)"
+                        },
+                        "replay_fidelity": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "Fidelity of replay compared to original memory"
+                        },
+                        "compression_ratio": {
+                            "type": "number",
+                            "minimum": 0.1,
+                            "maximum": 1.0,
+                            "description": "Compression ratio for replay sequences"
+                        },
+                        "replay_frequency": {
+                            "type": "object",
+                            "properties": {
+                                "ripples_per_minute": {
+                                    "type": "number",
+                                    "minimum": 0
+                                },
+                                "burst_duration_ms": {
+                                    "type": "number",
+                                    "minimum": 0
+                                },
+                                "inter_burst_interval_ms": {
+                                    "type": "number",
+                                    "minimum": 0
+                                }
+                            },
+                            "description": "Frequency characteristics of memory replay"
+                        }
+                    },
+                    "description": "Pattern and characteristics of memory replay"
+                },
+                "timing_schedule": {
+                    "type": "object",
+                    "required": [
+                        "consolidation_phases",
+                        "total_duration_hours"
+                    ],
+                    "properties": {
+                        "consolidation_phases": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "phase_name": {
+                                        "type": "string"
+                                    },
+                                    "duration_hours": {
+                                        "type": "number",
+                                        "minimum": 0
+                                    },
+                                    "intensity": {
+                                        "type": "number",
+                                        "minimum": 0,
+                                        "maximum": 1
+                                    },
+                                    "primary_mechanism": {
+                                        "type": "string"
+                                    },
+                                    "cortical_targets": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            },
+                            "description": "Phases of the consolidation process"
+                        },
+                        "total_duration_hours": {
+                            "type": "number",
+                            "minimum": 0,
+                            "description": "Total expected duration of consolidation in hours"
+                        },
+                        "sleep_dependency": {
+                            "type": "object",
+                            "properties": {
+                                "requires_sleep": {
+                                    "type": "boolean"
+                                },
+                                "optimal_sleep_stages": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                },
+                                "sleep_spindle_requirement": {
+                                    "type": "boolean"
+                                },
+                                "slow_wave_requirement": {
+                                    "type": "boolean"
+                                }
+                            },
+                            "description": "Sleep-dependent aspects of consolidation"
+                        }
+                    },
+                    "description": "Timing and scheduling of consolidation phases"
+                },
+                "interference_management": {
+                    "type": "object",
+                    "properties": {
+                        "interference_detection": {
+                            "type": "boolean"
+                        },
+                        "conflict_resolution": {
+                            "type": "string",
+                            "enum": [
+                                "prioritize_newer",
+                                "prioritize_stronger",
+                                "integrate",
+                                "separate"
+                            ]
+                        },
+                        "overlap_threshold": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "competition_resolution": {
+                            "type": "string"
+                        }
+                    },
+                    "description": "Strategy for managing memory interference during consolidation"
+                }
+            },
+            "description": "Strategy and approach for the consolidation process"
+        },
+        "sleep_phase": {
+            "type": "object",
+            "required": [
+                "sleep_stage",
+                "oscillatory_state"
+            ],
+            "properties": {
+                "sleep_stage": {
+                    "type": "string",
+                    "enum": [
+                        "NREM_1",
+                        "NREM_2",
+                        "NREM_3",
+                        "REM",
+                        "awake_rest",
+                        "quiet_wakefulness"
+                    ],
+                    "description": "Current sleep stage during consolidation initiation"
+                },
+                "oscillatory_state": {
+                    "type": "object",
+                    "required": [
+                        "dominant_rhythm",
+                        "coupling_strength"
+                    ],
+                    "properties": {
+                        "dominant_rhythm": {
+                            "type": "string",
+                            "enum": [
+                                "slow_wave",
+                                "sleep_spindle",
+                                "theta",
+                                "gamma",
+                                "ripple",
+                                "mixed"
+                            ],
+                            "description": "Dominant brain rhythm during consolidation"
+                        },
+                        "coupling_strength": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "Strength of rhythm coupling between brain regions"
+                        },
+                        "sharp_wave_ripples": {
+                            "type": "object",
+                            "properties": {
+                                "ripple_frequency": {
+                                    "type": "number",
+                                    "minimum": 80,
+                                    "maximum": 250
+                                },
+                                "ripple_amplitude": {
+                                    "type": "number",
+                                    "minimum": 0
+                                },
+                                "ripple_duration_ms": {
+                                    "type": "number",
+                                    "minimum": 10,
+                                    "maximum": 200
+                                },
+                                "ripple_rate_per_second": {
+                                    "type": "number",
+                                    "minimum": 0
+                                }
+                            },
+                            "description": "Sharp-wave ripple characteristics during consolidation"
+                        },
+                        "slow_oscillations": {
+                            "type": "object",
+                            "properties": {
+                                "frequency_hz": {
+                                    "type": "number",
+                                    "minimum": 0.5,
+                                    "maximum": 2.0
+                                },
+                                "amplitude": {
+                                    "type": "number",
+                                    "minimum": 0
+                                },
+                                "up_state_duration_ms": {
+                                    "type": "number",
+                                    "minimum": 0
+                                },
+                                "down_state_duration_ms": {
+                                    "type": "number",
+                                    "minimum": 0
+                                }
+                            },
+                            "description": "Slow oscillation characteristics"
+                        },
+                        "sleep_spindles": {
+                            "type": "object",
+                            "properties": {
+                                "frequency_hz": {
+                                    "type": "number",
+                                    "minimum": 11,
+                                    "maximum": 15
+                                },
+                                "duration_ms": {
+                                    "type": "number",
+                                    "minimum": 500,
+                                    "maximum": 3000
+                                },
+                                "amplitude": {
+                                    "type": "number",
+                                    "minimum": 0
+                                },
+                                "spindle_density": {
+                                    "type": "number",
+                                    "minimum": 0
+                                }
+                            },
+                            "description": "Sleep spindle characteristics"
+                        }
+                    },
+                    "description": "Oscillatory brain state characteristics"
+                },
+                "sleep_quality": {
+                    "type": "object",
+                    "properties": {
+                        "sleep_efficiency": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "sleep_depth": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "consolidation_window": {
+                            "type": "boolean"
+                        },
+                        "optimal_conditions": {
+                            "type": "boolean"
+                        }
+                    },
+                    "description": "Quality of sleep for effective consolidation"
+                }
+            },
+            "description": "Sleep phase and brain state information during consolidation"
+        },
+        "neural_mechanisms": {
+            "type": "object",
+            "properties": {
+                "hippocampal_cortical_dialogue": {
+                    "type": "object",
+                    "properties": {
+                        "communication_strength": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "dialogue_frequency": {
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "cortical_regions": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "information_flow_direction": {
+                            "type": "string",
+                            "enum": [
+                                "hippocampus_to_cortex",
+                                "cortex_to_hippocampus",
+                                "bidirectional"
+                            ]
+                        }
+                    },
+                    "description": "Communication between hippocampus and cortical regions"
+                },
+                "systems_consolidation": {
+                    "type": "object",
+                    "properties": {
+                        "hippocampal_dependency": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "cortical_independence": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "transformation_process": {
+                            "type": "string"
+                        },
+                        "schema_integration": {
+                            "type": "boolean"
+                        }
+                    },
+                    "description": "Systems-level consolidation mechanisms"
+                },
+                "synaptic_consolidation": {
+                    "type": "object",
+                    "properties": {
+                        "protein_synthesis": {
+                            "type": "boolean"
+                        },
+                        "gene_expression_changes": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "synaptic_strengthening": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "structural_changes": {
+                            "type": "boolean"
+                        }
+                    },
+                    "description": "Synaptic-level consolidation processes"
+                }
+            },
+            "description": "Neural mechanisms underlying the consolidation process"
+        },
+        "consolidation_factors": {
+            "type": "object",
+            "properties": {
+                "emotional_modulation": {
+                    "type": "object",
+                    "properties": {
+                        "stress_hormone_level": {
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "noradrenaline_level": {
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "emotional_enhancement": {
+                            "type": "boolean"
+                        },
+                        "amygdala_influence": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    },
+                    "description": "Emotional factors influencing consolidation"
+                },
+                "attention_during_rest": {
+                    "type": "object",
+                    "properties": {
+                        "mind_wandering": {
+                            "type": "boolean"
+                        },
+                        "default_network_activity": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "spontaneous_reactivation": {
+                            "type": "boolean"
+                        },
+                        "offline_processing": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    },
+                    "description": "Attention-related factors during rest/sleep"
+                },
+                "prior_knowledge_integration": {
+                    "type": "object",
+                    "properties": {
+                        "schema_availability": {
+                            "type": "boolean"
+                        },
+                        "semantic_network_activation": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "knowledge_consolidation": {
+                            "type": "boolean"
+                        },
+                        "conceptual_integration": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    },
+                    "description": "Integration with existing knowledge structures"
+                }
+            },
+            "description": "Factors influencing the consolidation process"
+        },
+        "consolidation_monitoring": {
+            "type": "object",
+            "properties": {
+                "progress_metrics": {
+                    "type": "object",
+                    "properties": {
+                        "transfer_rate": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "consolidation_efficiency": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "error_rate": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "stability_increase": {
+                            "type": "number",
+                            "minimum": 0
+                        }
+                    },
+                    "description": "Metrics for monitoring consolidation progress"
+                },
+                "quality_indicators": {
+                    "type": "object",
+                    "properties": {
+                        "memory_coherence": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "detail_preservation": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "gist_extraction": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "integration_success": {
+                            "type": "boolean"
+                        }
+                    },
+                    "description": "Quality indicators for consolidation outcomes"
+                },
+                "checkpoint_schedule": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "checkpoint_time": {
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            "checkpoint_type": {
+                                "type": "string"
+                            },
+                            "evaluation_metrics": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "description": "Scheduled checkpoints for monitoring consolidation"
+                }
+            },
+            "description": "Monitoring and tracking of consolidation progress"
+        },
+        "system_coordination": {
+            "type": "object",
+            "properties": {
+                "working_memory_coordination": {
+                    "type": "object",
+                    "properties": {
+                        "working_memory_id": {
+                            "type": "string"
+                        },
+                        "coordination_type": {
+                            "type": "string"
+                        },
+                        "memory_transfer_status": {
+                            "type": "string"
+                        },
+                        "buffer_clearing": {
+                            "type": "boolean"
+                        }
+                    },
+                    "description": "Coordination with working memory systems"
+                },
+                "attention_coordination": {
+                    "type": "object",
+                    "properties": {
+                        "attention_gate_id": {
+                            "type": "string"
+                        },
+                        "attention_modulation": {
+                            "type": "boolean"
+                        },
+                        "focus_during_consolidation": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "interference_prevention": {
+                            "type": "boolean"
+                        }
+                    },
+                    "description": "Coordination with attention systems"
+                },
+                "consciousness_coordination": {
+                    "type": "object",
+                    "properties": {
+                        "consciousness_involvement": {
+                            "type": "boolean"
+                        },
+                        "global_workspace_id": {
+                            "type": "string"
+                        },
+                        "awareness_during_consolidation": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "conscious_processing": {
+                            "type": "boolean"
+                        }
+                    },
+                    "description": "Coordination with consciousness systems"
+                }
+            },
+            "description": "Coordination with other cognitive systems during consolidation"
+        }
+    },
+    "additionalProperties": false,
+    "examples": [
+        {
+            "event_type": "memory_consolidation_initiated",
+            "timestamp": "2025-09-16T23:45:12.789Z",
+            "hippocampus_id": "hippocampus_primary_001",
+            "consolidation_session_id": "consol_session_20250916_2345",
+            "memory_batch": {
+                "memory_ids": [
+                    "mem_episode_20250916_143045",
+                    "mem_episode_20250916_160230",
+                    "mem_episode_20250916_182115"
+                ],
+                "batch_size": 3,
+                "selection_criteria": {
+                    "priority_threshold": 0.6,
+                    "age_range": {
+                        "min_age_hours": 6,
+                        "max_age_hours": 24
+                    },
+                    "strength_threshold": 0.7,
+                    "emotional_weight": 0.8,
+                    "rehearsal_frequency": 2,
+                    "interference_level": 0.3
+                },
+                "memory_types": [
+                    "episodic",
+                    "emotional"
+                ],
+                "consolidation_targets": [
+                    {
+                        "memory_id": "mem_episode_20250916_143045",
+                        "target_cortical_region": "prefrontal_cortex",
+                        "transfer_priority": "high",
+                        "estimated_duration_hours": 8.0
+                    }
+                ]
+            },
+            "consolidation_strategy": {
+                "strategy_type": "prioritized",
+                "replay_pattern": {
+                    "replay_type": "compressed",
+                    "replay_speed": 7.5,
+                    "replay_fidelity": 0.85,
+                    "compression_ratio": 0.3,
+                    "replay_frequency": {
+                        "ripples_per_minute": 12,
+                        "burst_duration_ms": 150,
+                        "inter_burst_interval_ms": 5000
+                    }
+                },
+                "timing_schedule": {
+                    "consolidation_phases": [
+                        {
+                            "phase_name": "initial_stabilization",
+                            "duration_hours": 2.0,
+                            "intensity": 0.9,
+                            "primary_mechanism": "synaptic_consolidation",
+                            "cortical_targets": [
+                                "prefrontal_cortex"
+                            ]
+                        },
+                        {
+                            "phase_name": "systems_transfer",
+                            "duration_hours": 6.0,
+                            "intensity": 0.7,
+                            "primary_mechanism": "systems_consolidation",
+                            "cortical_targets": [
+                                "prefrontal_cortex",
+                                "temporal_cortex"
+                            ]
+                        }
+                    ],
+                    "total_duration_hours": 8.0,
+                    "sleep_dependency": {
+                        "requires_sleep": true,
+                        "optimal_sleep_stages": [
+                            "NREM_2",
+                            "NREM_3"
+                        ],
+                        "sleep_spindle_requirement": true,
+                        "slow_wave_requirement": true
+                    }
+                },
+                "interference_management": {
+                    "interference_detection": true,
+                    "conflict_resolution": "prioritize_stronger",
+                    "overlap_threshold": 0.4,
+                    "competition_resolution": "temporal_separation"
+                }
+            },
+            "sleep_phase": {
+                "sleep_stage": "NREM_2",
+                "oscillatory_state": {
+                    "dominant_rhythm": "sleep_spindle",
+                    "coupling_strength": 0.85,
+                    "sharp_wave_ripples": {
+                        "ripple_frequency": 150.0,
+                        "ripple_amplitude": 120.5,
+                        "ripple_duration_ms": 80,
+                        "ripple_rate_per_second": 0.2
+                    },
+                    "slow_oscillations": {
+                        "frequency_hz": 0.8,
+                        "amplitude": 95.2,
+                        "up_state_duration_ms": 800,
+                        "down_state_duration_ms": 450
+                    },
+                    "sleep_spindles": {
+                        "frequency_hz": 12.5,
+                        "duration_ms": 1200,
+                        "amplitude": 45.8,
+                        "spindle_density": 4.2
+                    }
+                },
+                "sleep_quality": {
+                    "sleep_efficiency": 0.92,
+                    "sleep_depth": 0.85,
+                    "consolidation_window": true,
+                    "optimal_conditions": true
+                }
+            },
+            "neural_mechanisms": {
+                "hippocampal_cortical_dialogue": {
+                    "communication_strength": 0.88,
+                    "dialogue_frequency": 0.75,
+                    "cortical_regions": [
+                        "prefrontal_cortex",
+                        "temporal_cortex",
+                        "parietal_cortex"
+                    ],
+                    "information_flow_direction": "hippocampus_to_cortex"
+                },
+                "systems_consolidation": {
+                    "hippocampal_dependency": 0.9,
+                    "cortical_independence": 0.3,
+                    "transformation_process": "gradual_transfer",
+                    "schema_integration": true
+                },
+                "synaptic_consolidation": {
+                    "protein_synthesis": true,
+                    "gene_expression_changes": [
+                        "CREB",
+                        "Arc",
+                        "c-fos"
+                    ],
+                    "synaptic_strengthening": 0.82,
+                    "structural_changes": true
+                }
+            },
+            "consolidation_factors": {
+                "emotional_modulation": {
+                    "stress_hormone_level": 0.3,
+                    "noradrenaline_level": 0.6,
+                    "emotional_enhancement": true,
+                    "amygdala_influence": 0.7
+                },
+                "attention_during_rest": {
+                    "mind_wandering": false,
+                    "default_network_activity": 0.8,
+                    "spontaneous_reactivation": true,
+                    "offline_processing": 0.9
+                },
+                "prior_knowledge_integration": {
+                    "schema_availability": true,
+                    "semantic_network_activation": 0.75,
+                    "knowledge_consolidation": true,
+                    "conceptual_integration": 0.8
+                }
+            },
+            "consolidation_monitoring": {
+                "progress_metrics": {
+                    "transfer_rate": 0.0,
+                    "consolidation_efficiency": 0.0,
+                    "error_rate": 0.0,
+                    "stability_increase": 0.0
+                },
+                "quality_indicators": {
+                    "memory_coherence": 0.85,
+                    "detail_preservation": 0.8,
+                    "gist_extraction": 0.9,
+                    "integration_success": false
+                },
+                "checkpoint_schedule": [
+                    {
+                        "checkpoint_time": "2025-09-17T01:45:12.789Z",
+                        "checkpoint_type": "progress_evaluation",
+                        "evaluation_metrics": [
+                            "transfer_rate",
+                            "stability"
+                        ]
+                    },
+                    {
+                        "checkpoint_time": "2025-09-17T07:45:12.789Z",
+                        "checkpoint_type": "completion_assessment",
+                        "evaluation_metrics": [
+                            "integration_success",
+                            "memory_coherence"
+                        ]
+                    }
+                ]
+            },
+            "system_coordination": {
+                "working_memory_coordination": {
+                    "working_memory_id": "wm_system_001",
+                    "coordination_type": "memory_transfer",
+                    "memory_transfer_status": "initiated",
+                    "buffer_clearing": false
+                },
+                "attention_coordination": {
+                    "attention_gate_id": "thalamic_gate_001",
+                    "attention_modulation": false,
+                    "focus_during_consolidation": 0.1,
+                    "interference_prevention": true
+                },
+                "consciousness_coordination": {
+                    "consciousness_involvement": false,
+                    "global_workspace_id": "gws_primary_001",
+                    "awareness_during_consolidation": 0.05,
+                    "conscious_processing": false
+                }
+            }
+        }
+    ]
+}

@@ -1,0 +1,460 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "$id": "https://schemas.memoryos.ai/storage/performance_alert.json",
+    "title": "Storage Performance Alert Event Schema",
+    "description": "Schema for storage performance monitoring alert events",
+    "type": "object",
+    "allOf": [
+        {
+            "$ref": "base_event.json"
+        },
+        {
+            "type": "object",
+            "required": [
+                "alert_type",
+                "store_name",
+                "metric_name",
+                "current_value",
+                "threshold_value"
+            ],
+            "properties": {
+                "event_type": {
+                    "const": "STORAGE_PERFORMANCE_ALERT"
+                },
+                "alert_type": {
+                    "type": "string",
+                    "description": "Type of performance alert",
+                    "enum": [
+                        "warning",
+                        "critical",
+                        "threshold_approaching",
+                        "capacity_warning",
+                        "sla_breach",
+                        "degradation_detected"
+                    ],
+                    "examples": [
+                        "warning",
+                        "critical",
+                        "sla_breach"
+                    ]
+                },
+                "store_name": {
+                    "type": "string",
+                    "description": "Store generating the alert",
+                    "enum": [
+                        "EpisodicStore",
+                        "SemanticStore",
+                        "ReceiptsStore",
+                        "PrivacyStore",
+                        "EmbeddingsStore",
+                        "ConsolidationStore",
+                        "HippocampusStore",
+                        "ObservabilityStore",
+                        "MetricsStore",
+                        "ConfigStore",
+                        "CacheStore",
+                        "EventStore",
+                        "AuditStore",
+                        "BackupStore",
+                        "TempStore"
+                    ],
+                    "examples": [
+                        "EpisodicStore",
+                        "CacheStore"
+                    ]
+                },
+                "metric_name": {
+                    "type": "string",
+                    "description": "Performance metric that triggered alert",
+                    "enum": [
+                        "latency_p50",
+                        "latency_p95",
+                        "latency_p99",
+                        "throughput_rps",
+                        "error_rate_percentage",
+                        "availability_percentage",
+                        "cpu_usage_percentage",
+                        "memory_usage_percentage",
+                        "disk_usage_percentage",
+                        "connection_count",
+                        "queue_depth",
+                        "lock_wait_time_ms",
+                        "index_hit_ratio",
+                        "cache_hit_ratio"
+                    ],
+                    "examples": [
+                        "latency_p95",
+                        "memory_usage_percentage",
+                        "error_rate_percentage"
+                    ]
+                },
+                "current_value": {
+                    "type": "number",
+                    "description": "Current value of the metric",
+                    "examples": [
+                        15.5,
+                        85.2,
+                        0.05
+                    ]
+                },
+                "threshold_value": {
+                    "type": "number",
+                    "description": "Threshold value that was exceeded",
+                    "examples": [
+                        8.0,
+                        80.0,
+                        0.01
+                    ]
+                },
+                "metric_unit": {
+                    "type": "string",
+                    "description": "Unit of measurement for the metric",
+                    "enum": [
+                        "milliseconds",
+                        "seconds",
+                        "percentage",
+                        "requests_per_second",
+                        "bytes",
+                        "megabytes",
+                        "gigabytes",
+                        "count",
+                        "ratio"
+                    ],
+                    "examples": [
+                        "milliseconds",
+                        "percentage",
+                        "requests_per_second"
+                    ]
+                },
+                "alert_severity": {
+                    "type": "string",
+                    "description": "Severity level of the alert",
+                    "enum": [
+                        "info",
+                        "low",
+                        "medium",
+                        "high",
+                        "critical"
+                    ],
+                    "examples": [
+                        "high",
+                        "critical"
+                    ]
+                },
+                "alert_duration_seconds": {
+                    "type": "integer",
+                    "description": "How long the condition has persisted",
+                    "minimum": 0,
+                    "examples": [
+                        30,
+                        120,
+                        300
+                    ]
+                },
+                "store_metadata": {
+                    "$ref": "store_reference.json"
+                },
+                "alert_context": {
+                    "type": "object",
+                    "description": "Additional context for the alert",
+                    "properties": {
+                        "baseline_value": {
+                            "type": "number",
+                            "description": "Historical baseline for this metric",
+                            "examples": [
+                                5.2,
+                                60.0,
+                                0.001
+                            ]
+                        },
+                        "trend": {
+                            "type": "string",
+                            "enum": [
+                                "increasing",
+                                "decreasing",
+                                "stable",
+                                "volatile"
+                            ],
+                            "description": "Trend of the metric",
+                            "examples": [
+                                "increasing",
+                                "volatile"
+                            ]
+                        },
+                        "affected_operations": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "description": "Operations affected by this performance issue",
+                            "examples": [
+                                [
+                                    "read",
+                                    "write"
+                                ],
+                                [
+                                    "index_scan"
+                                ]
+                            ]
+                        },
+                        "potential_causes": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "description": "Potential causes of the performance issue",
+                            "examples": [
+                                [
+                                    "high_load",
+                                    "lock_contention"
+                                ],
+                                [
+                                    "memory_pressure"
+                                ]
+                            ]
+                        },
+                        "correlated_metrics": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "metric_name": {
+                                        "type": "string"
+                                    },
+                                    "current_value": {
+                                        "type": "number"
+                                    },
+                                    "correlation_strength": {
+                                        "type": "number",
+                                        "minimum": -1,
+                                        "maximum": 1
+                                    }
+                                }
+                            },
+                            "description": "Other metrics that correlate with this alert"
+                        }
+                    }
+                },
+                "sla_impact": {
+                    "type": "object",
+                    "description": "Impact on SLA commitments",
+                    "properties": {
+                        "sla_tier": {
+                            "type": "string",
+                            "enum": [
+                                "bronze",
+                                "silver",
+                                "gold"
+                            ],
+                            "description": "SLA tier being impacted",
+                            "examples": [
+                                "gold",
+                                "silver"
+                            ]
+                        },
+                        "sla_target": {
+                            "type": "number",
+                            "description": "SLA target for this metric",
+                            "examples": [
+                                8.0,
+                                99.9
+                            ]
+                        },
+                        "sla_breach_duration_seconds": {
+                            "type": "integer",
+                            "description": "Duration of SLA breach",
+                            "minimum": 0,
+                            "examples": [
+                                45,
+                                180
+                            ]
+                        },
+                        "estimated_impact": {
+                            "type": "string",
+                            "enum": [
+                                "none",
+                                "minor",
+                                "moderate",
+                                "major",
+                                "severe"
+                            ],
+                            "description": "Estimated impact on users",
+                            "examples": [
+                                "moderate",
+                                "major"
+                            ]
+                        }
+                    }
+                },
+                "recommended_actions": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "action": {
+                                "type": "string",
+                                "description": "Recommended action to take",
+                                "examples": [
+                                    "scale_up",
+                                    "optimize_queries",
+                                    "clear_cache"
+                                ]
+                            },
+                            "priority": {
+                                "type": "string",
+                                "enum": [
+                                    "low",
+                                    "medium",
+                                    "high",
+                                    "urgent"
+                                ],
+                                "description": "Priority of this action"
+                            },
+                            "estimated_impact": {
+                                "type": "string",
+                                "description": "Expected impact of this action",
+                                "examples": [
+                                    "reduce_latency_50%",
+                                    "increase_capacity_25%"
+                                ]
+                            },
+                            "complexity": {
+                                "type": "string",
+                                "enum": [
+                                    "low",
+                                    "medium",
+                                    "high"
+                                ],
+                                "description": "Implementation complexity"
+                            }
+                        }
+                    },
+                    "description": "Recommended actions to address the alert"
+                }
+            }
+        }
+    ],
+    "examples": [
+        {
+            "event_id": "evt_stor006_20250916_123600",
+            "timestamp": "2025-09-16T12:36:00.123Z",
+            "correlation_id": "req_perf456abc789",
+            "source_service": "storage",
+            "event_type": "STORAGE_PERFORMANCE_ALERT",
+            "event_version": "1.0.0",
+            "alert_type": "sla_breach",
+            "store_name": "EpisodicStore",
+            "metric_name": "latency_p95",
+            "current_value": 15.5,
+            "threshold_value": 8.0,
+            "metric_unit": "milliseconds",
+            "alert_severity": "high",
+            "alert_duration_seconds": 120,
+            "store_metadata": {
+                "store_name": "EpisodicStore",
+                "store_type": "postgresql",
+                "store_instance": "episodic-primary",
+                "store_metadata": {
+                    "host": "postgres-primary.storage.svc.cluster.local",
+                    "replica_role": "primary",
+                    "region": "us-east-1"
+                }
+            },
+            "alert_context": {
+                "baseline_value": 5.2,
+                "trend": "increasing",
+                "affected_operations": [
+                    "read",
+                    "index_scan"
+                ],
+                "potential_causes": [
+                    "high_load",
+                    "lock_contention"
+                ],
+                "correlated_metrics": [
+                    {
+                        "metric_name": "cpu_usage_percentage",
+                        "current_value": 85.0,
+                        "correlation_strength": 0.78
+                    },
+                    {
+                        "metric_name": "connection_count",
+                        "current_value": 45,
+                        "correlation_strength": 0.65
+                    }
+                ]
+            },
+            "sla_impact": {
+                "sla_tier": "gold",
+                "sla_target": 8.0,
+                "sla_breach_duration_seconds": 120,
+                "estimated_impact": "moderate"
+            },
+            "recommended_actions": [
+                {
+                    "action": "analyze_slow_queries",
+                    "priority": "high",
+                    "estimated_impact": "reduce_latency_30%",
+                    "complexity": "medium"
+                },
+                {
+                    "action": "scale_read_replicas",
+                    "priority": "medium",
+                    "estimated_impact": "reduce_load_40%",
+                    "complexity": "low"
+                }
+            ],
+            "metadata": {
+                "environment": "production",
+                "service_version": "2.1.0"
+            }
+        },
+        {
+            "event_id": "evt_stor007_20250916_123630",
+            "timestamp": "2025-09-16T12:36:30.456Z",
+            "correlation_id": "req_cache789xyz123",
+            "source_service": "storage",
+            "event_type": "STORAGE_PERFORMANCE_ALERT",
+            "event_version": "1.0.0",
+            "alert_type": "capacity_warning",
+            "store_name": "CacheStore",
+            "metric_name": "memory_usage_percentage",
+            "current_value": 88.5,
+            "threshold_value": 85.0,
+            "metric_unit": "percentage",
+            "alert_severity": "medium",
+            "alert_duration_seconds": 60,
+            "store_metadata": {
+                "store_name": "CacheStore",
+                "store_type": "redis",
+                "store_instance": "cache-node-1"
+            },
+            "alert_context": {
+                "baseline_value": 65.0,
+                "trend": "increasing",
+                "potential_causes": [
+                    "cache_buildup",
+                    "memory_leak"
+                ]
+            },
+            "recommended_actions": [
+                {
+                    "action": "clear_expired_keys",
+                    "priority": "high",
+                    "estimated_impact": "reduce_usage_15%",
+                    "complexity": "low"
+                },
+                {
+                    "action": "increase_memory_limit",
+                    "priority": "medium",
+                    "estimated_impact": "increase_capacity_50%",
+                    "complexity": "medium"
+                }
+            ],
+            "metadata": {
+                "environment": "production",
+                "service_version": "2.1.0"
+            }
+        }
+    ]
+}

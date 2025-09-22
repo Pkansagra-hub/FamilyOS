@@ -1,0 +1,5 @@
+{
+  "observability.log_record": "storage/schemas/log_record.schema.json",
+  "observability.metric_point": "storage/schemas/metric_point.schema.json",
+  "observability.span_record": "storage/schemas/span_record.schema.json"
+}

@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.2.0",
+  "id": "01HF8N2P7QRST7VW2XYZ456DEF",
+  "ts": "2025-09-18T14:32:00Z",
+  "topic": "USER_SPACE_ACCESS_GRANTED",
+  "band": "GREEN",
+  "actor": {
+    "user_id": "fedcba98-7654-3210-fedc-ba9876543210",
+    "caps": ["WRITE", "RECALL", "PROJECT", "SCHEDULE"]
+  },
+  "device": {
+    "device_id": "admin-console-001",
+    "platform": "web",
+    "app_version": "1.2.0",
+    "locale": "en-US"
+  },
+  "space_id": "shared:household",
+  "policy_version": "1.2",
+  "abac": {
+    "role": "parent",
+    "trust": "green"
+  },
+  "qos": {
+    "routing": "fast-path",
+    "priority": 6,
+    "latency_budget_ms": 100,
+    "retries": 1
+  },
+  "trace": {
+    "trace_id": "abc123def456789012345678901234ab",
+    "span_id": "456def789012345",
+    "parent_span_id": "def456789012345",
+    "sampled": true
+  },
+  "obligations": ["AUDIT_ACCESS"],
+  "redaction_applied": false,
+  "hashes": {
+    "payload_sha256": "c3d4e5f6789012345678901234567890123456789012345678901234567ab"
+  },
+  "payload": {
+    "assignment_id": "01HF8M9K8QRST7VW2XYZ123456",
+    "user_id": "01234567-89ab-cdef-0123-456789abcdef",
+    "space_id": "shared:household",
+    "permissions": ["READ", "WRITE", "SHARE"],
+    "role_context": "guardian",
+    "restrictions": {
+      "time_limited": false,
+      "allowed_bands": ["GREEN", "AMBER"],
+      "device_restrictions": []
+    },
+    "assigned_by": "fedcba98-7654-3210-fedc-ba9876543210",
+    "assignment_reason": "Initial space access for new user creation",
+    "assigned_ts": "2025-09-18T14:32:00Z",
+    "trace_context": {
+      "trace_id": "abc123def456789012345678901234ab",
+      "span_id": "456def789012345"
+    }
+  },
+  "signature": {
+    "alg": "ed25519",
+    "key_id": "key_user_mgmt_green_2025",
+    "public_key": "c3BhY2VfYWNjZXNzX3B1YmxpY19rZXk=",
+    "signature": "c3BhY2VfYWNjZXNzX3NpZ25hdHVyZQ=="
+  }
+}

@@ -1,0 +1,40 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "$id": "workspace_state.schema.json",
+    "title": "Global Workspace State Storage",
+    "type": "object",
+    "required": [
+        "workspace_id",
+        "active_coalitions",
+        "consciousness_level",
+        "broadcast_queue"
+    ],
+    "properties": {
+        "workspace_id": {
+            "type": "string"
+        },
+        "active_coalitions": {
+            "type": "array",
+            "items": {
+                "type": "object"
+            }
+        },
+        "consciousness_level": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+        },
+        "broadcast_queue": {
+            "type": "array",
+            "items": {
+                "type": "object"
+            }
+        },
+        "attention_focus": {
+            "type": "string"
+        },
+        "global_availability": {
+            "type": "boolean"
+        }
+    }
+}

@@ -1,0 +1,73 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "simulation-request.schema.json",
+  "title": "Simulation Request",
+  "description": "Mental simulation request and parameters",
+  "type": "object",
+  "properties": {
+    "simulation_id": {
+      "type": "string",
+      "format": "ulid",
+      "description": "Unique simulation identifier"
+    },
+    "space_id": {
+      "type": "string",
+      "format": "ulid",
+      "description": "Memory space context"
+    },
+    "simulation_type": {
+      "type": "string",
+      "enum": ["action_preview", "scenario_planning", "counterfactual", "creative_ideation", "dream_processing"],
+      "description": "Type of simulation requested"
+    },
+    "simulation_parameters": {
+      "type": "object",
+      "properties": {
+        "time_horizon": { "type": "string", "pattern": "^P\\d+[YMWD]$" },
+        "complexity_budget": { "type": "integer", "minimum": 1, "maximum": 10 },
+        "exploration_depth": { "type": "integer", "minimum": 1, "maximum": 5 },
+        "novelty_target": { "type": "number", "minimum": 0, "maximum": 1 }
+      }
+    },
+    "initial_state": {
+      "type": "object",
+      "description": "Starting conditions for simulation",
+      "additionalProperties": true
+    },
+    "constraints": {
+      "type": "object",
+      "properties": {
+        "safety_bounds": { "type": "array", "items": { "type": "string" } },
+        "resource_limits": { "type": "object" },
+        "ethical_constraints": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "goals": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "goal_id": { "type": "string", "format": "ulid" },
+          "priority": { "type": "number", "minimum": 0, "maximum": 1 },
+          "success_criteria": { "type": "object" }
+        }
+      }
+    },
+    "requested_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "priority": {
+      "type": "string",
+      "enum": ["low", "normal", "high", "urgent"],
+      "default": "normal"
+    },
+    "retention_policy": {
+      "type": "string",
+      "enum": ["P30D", "P60D", "P90D"],
+      "default": "P60D"
+    }
+  },
+  "required": ["simulation_id", "space_id", "simulation_type", "initial_state", "requested_at"],
+  "additionalProperties": false
+}

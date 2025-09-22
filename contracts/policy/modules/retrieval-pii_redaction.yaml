@@ -1,0 +1,102 @@
+fields:
+  query_text:
+    classification: "potentially_sensitive"
+    at_rest:
+      GREEN: "store_plain"
+      AMBER: "hash_sha256"
+      RED: "hash_sha256"
+      BLACK: "drop"
+    in_transit:
+      GREEN: "allow"
+      AMBER: "hash_only"
+      RED: "hash_only"
+      BLACK: "deny"
+    logging:
+      GREEN: "hash_for_correlation"
+      AMBER: "exclude"
+      RED: "exclude"
+      BLACK: "exclude"
+
+  snippet:
+    classification: "content_derivative"
+    at_rest: "store"
+    in_transit:
+      GREEN: "full"
+      AMBER: "truncate_200_chars"
+      RED: "exclude"
+      BLACK: "exclude"
+    logging: "exclude_always"
+
+  results:
+    classification: "derived_data"
+    at_rest: "store"
+    in_transit:
+      GREEN: "full_metadata"
+      AMBER: "limited_metadata"
+      RED: "ids_and_scores_only"
+      BLACK: "exclude"
+
+  correlation_id:
+    classification: "technical_metadata"
+    at_rest: "store"
+    in_transit: "allow"
+    logging: "allow"
+    retention: "7_days"
+
+logs:
+  drop_fields: ["raw_query", "snippet", "result_content"]
+  hash_fields: ["query_hash"]
+  keep_fields: ["correlation_id", "space_id", "query_type", "result_count", "processing_time_ms"]
+
+metrics:
+  labels_allowlist:
+    - "space_id"
+    - "query_type"
+    - "result_source"
+    - "band"
+    - "cache_hit"
+    - "error_type"
+  ban_raw_values:
+    - "query_text"
+    - "snippet"
+    - "raw_query"
+    - "correlation_id"
+    - "actor_user_id"
+
+exports:
+  external_apis:
+    - field: "query_text"
+      action: "exclude"
+    - field: "snippet"
+      bands:
+        GREEN: "allow"
+        AMBER: "truncate_100"
+        RED: "exclude"
+        BLACK: "exclude"
+
+  telemetry:
+    allow_aggregated: true
+    allow_individual: false
+    anonymization_threshold: 10
+
+data_retention:
+  query_logs:
+    GREEN: "7_days"
+    AMBER: "3_days"
+    RED: "1_day"
+    BLACK: "immediate_delete"
+  cache_entries:
+    GREEN: "24_hours"
+    AMBER: "6_hours"
+    RED: "1_hour"
+    BLACK: "no_cache"
+
+anonymization:
+  techniques:
+    - "k_anonymity_5"
+    - "differential_privacy_epsilon_0_1"
+    - "hash_substitution"
+  triggers:
+    - "export_request"
+    - "long_term_storage"
+    - "cross_space_analysis"

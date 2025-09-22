@@ -1,0 +1,543 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "working_memory_transfer.schema.json",
+    "title": "Working Memory to Hippocampal Transfer Contract",
+    "description": "Defines the transfer of content from prefrontal cortex working memory buffers to hippocampal long-term memory encoding with cognitive load and rehearsal history.",
+    "type": "object",
+    "required": [
+        "transfer_id",
+        "source_system",
+        "target_system",
+        "transfer_content",
+        "transfer_metadata",
+        "cognitive_context",
+        "transfer_strategy",
+        "timestamp"
+    ],
+    "properties": {
+        "transfer_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Unique identifier for the memory transfer session"
+        },
+        "source_system": {
+            "type": "object",
+            "required": [
+                "system_type",
+                "system_id",
+                "buffer_types"
+            ],
+            "properties": {
+                "system_type": {
+                    "type": "string",
+                    "enum": [
+                        "prefrontal_working_memory"
+                    ],
+                    "description": "Source cognitive system type"
+                },
+                "system_id": {
+                    "type": "string",
+                    "description": "Unique identifier for the source system instance"
+                },
+                "buffer_types": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "enum": [
+                            "phonological_loop",
+                            "visuospatial_sketchpad",
+                            "episodic_buffer",
+                            "central_executive"
+                        ]
+                    },
+                    "description": "Working memory buffer types contributing to transfer"
+                },
+                "current_load": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Current cognitive load at transfer time"
+                }
+            }
+        },
+        "target_system": {
+            "type": "object",
+            "required": [
+                "system_type",
+                "system_id",
+                "encoding_pathway"
+            ],
+            "properties": {
+                "system_type": {
+                    "type": "string",
+                    "enum": [
+                        "hippocampal_memory"
+                    ],
+                    "description": "Target cognitive system type"
+                },
+                "system_id": {
+                    "type": "string",
+                    "description": "Unique identifier for the hippocampal system instance"
+                },
+                "encoding_pathway": {
+                    "type": "string",
+                    "enum": [
+                        "entorhinal_cortex",
+                        "direct_ca1",
+                        "dentate_gyrus_ca3",
+                        "subicular_complex"
+                    ],
+                    "description": "Hippocampal encoding pathway for memory consolidation"
+                },
+                "consolidation_priority": {
+                    "type": "string",
+                    "enum": [
+                        "critical",
+                        "high",
+                        "normal",
+                        "low",
+                        "deferred"
+                    ],
+                    "description": "Priority level for memory consolidation"
+                }
+            }
+        },
+        "transfer_content": {
+            "type": "object",
+            "required": [
+                "buffer_contents",
+                "manipulation_history"
+            ],
+            "properties": {
+                "buffer_contents": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "required": [
+                            "buffer_type",
+                            "content_items",
+                            "activation_level"
+                        ],
+                        "properties": {
+                            "buffer_type": {
+                                "type": "string",
+                                "enum": [
+                                    "phonological_loop",
+                                    "visuospatial_sketchpad",
+                                    "episodic_buffer",
+                                    "central_executive"
+                                ]
+                            },
+                            "content_items": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "item_id": {
+                                            "type": "string"
+                                        },
+                                        "content_type": {
+                                            "type": "string"
+                                        },
+                                        "activation_strength": {
+                                            "type": "number"
+                                        },
+                                        "rehearsal_count": {
+                                            "type": "integer"
+                                        },
+                                        "content_data": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            },
+                            "activation_level": {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 1,
+                                "description": "Current activation level of buffer contents"
+                            },
+                            "capacity_utilization": {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 1,
+                                "description": "Buffer capacity utilization at transfer time"
+                            }
+                        }
+                    }
+                },
+                "manipulation_history": {
+                    "type": "object",
+                    "properties": {
+                        "operations_performed": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "operation_type": {
+                                        "type": "string"
+                                    },
+                                    "timestamp": {
+                                        "type": "string",
+                                        "format": "date-time"
+                                    },
+                                    "success_rate": {
+                                        "type": "number"
+                                    },
+                                    "cognitive_effort": {
+                                        "type": "number"
+                                    }
+                                }
+                            }
+                        },
+                        "rehearsal_patterns": {
+                            "type": "object",
+                            "properties": {
+                                "rehearsal_frequency": {
+                                    "type": "number"
+                                },
+                                "rehearsal_effectiveness": {
+                                    "type": "number"
+                                },
+                                "interference_level": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "attention_allocation": {
+                            "type": "object",
+                            "properties": {
+                                "focused_attention_duration": {
+                                    "type": "number"
+                                },
+                                "divided_attention_episodes": {
+                                    "type": "integer"
+                                },
+                                "attention_switching_cost": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                },
+                "semantic_organization": {
+                    "type": "object",
+                    "properties": {
+                        "conceptual_clusters": {
+                            "type": "array"
+                        },
+                        "associative_links": {
+                            "type": "array"
+                        },
+                        "hierarchical_structure": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "transfer_metadata": {
+            "type": "object",
+            "required": [
+                "transfer_trigger",
+                "urgency_level"
+            ],
+            "properties": {
+                "transfer_trigger": {
+                    "type": "string",
+                    "enum": [
+                        "capacity_overflow",
+                        "task_completion",
+                        "explicit_request",
+                        "sleep_initiation",
+                        "interference_threshold"
+                    ],
+                    "description": "Event that triggered the memory transfer"
+                },
+                "urgency_level": {
+                    "type": "string",
+                    "enum": [
+                        "immediate",
+                        "priority",
+                        "standard",
+                        "batch",
+                        "background"
+                    ],
+                    "description": "Urgency level for processing the transfer"
+                },
+                "transfer_completeness": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Completeness of content available for transfer"
+                },
+                "interference_risk": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Risk of interference if transfer is delayed"
+                },
+                "consolidation_window": {
+                    "type": "object",
+                    "properties": {
+                        "optimal_start_time": {
+                            "type": "string",
+                            "format": "date-time"
+                        },
+                        "deadline": {
+                            "type": "string",
+                            "format": "date-time"
+                        },
+                        "sleep_dependency": {
+                            "type": "boolean"
+                        }
+                    }
+                }
+            }
+        },
+        "cognitive_context": {
+            "type": "object",
+            "required": [
+                "attention_state",
+                "arousal_level"
+            ],
+            "properties": {
+                "attention_state": {
+                    "type": "object",
+                    "properties": {
+                        "focus_level": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "attention_scope": {
+                            "type": "string"
+                        },
+                        "distraction_level": {
+                            "type": "number"
+                        },
+                        "attention_stability": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "arousal_level": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Current physiological and cognitive arousal"
+                },
+                "emotional_state": {
+                    "type": "object",
+                    "properties": {
+                        "valence": {
+                            "type": "number",
+                            "minimum": -1,
+                            "maximum": 1
+                        },
+                        "arousal": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "stress_level": {
+                            "type": "number"
+                        },
+                        "motivation_level": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "sleep_pressure": {
+                    "type": "object",
+                    "properties": {
+                        "time_since_sleep": {
+                            "type": "number"
+                        },
+                        "consolidation_readiness": {
+                            "type": "number"
+                        },
+                        "sleep_quality_expectation": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "circadian_phase": {
+                    "type": "string",
+                    "enum": [
+                        "morning",
+                        "midday",
+                        "afternoon",
+                        "evening",
+                        "night"
+                    ],
+                    "description": "Current circadian rhythm phase"
+                }
+            }
+        },
+        "transfer_strategy": {
+            "type": "object",
+            "required": [
+                "strategy_type",
+                "encoding_approach"
+            ],
+            "properties": {
+                "strategy_type": {
+                    "type": "string",
+                    "enum": [
+                        "immediate_encoding",
+                        "delayed_consolidation",
+                        "selective_transfer",
+                        "batch_processing"
+                    ],
+                    "description": "Strategy for conducting the memory transfer"
+                },
+                "encoding_approach": {
+                    "type": "string",
+                    "enum": [
+                        "elaborative_encoding",
+                        "maintenance_rehearsal",
+                        "organizational_encoding",
+                        "dual_coding"
+                    ],
+                    "description": "Encoding approach for hippocampal consolidation"
+                },
+                "pattern_separation_level": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Level of pattern separation to apply during encoding"
+                },
+                "consolidation_scheduling": {
+                    "type": "object",
+                    "properties": {
+                        "immediate_consolidation": {
+                            "type": "boolean"
+                        },
+                        "sleep_dependent_consolidation": {
+                            "type": "boolean"
+                        },
+                        "replay_scheduling": {
+                            "type": "object"
+                        },
+                        "systems_consolidation_timeline": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "quality_control": {
+                    "type": "object",
+                    "properties": {
+                        "encoding_verification": {
+                            "type": "boolean"
+                        },
+                        "interference_monitoring": {
+                            "type": "boolean"
+                        },
+                        "consolidation_tracking": {
+                            "type": "boolean"
+                        }
+                    }
+                }
+            }
+        },
+        "performance_metrics": {
+            "type": "object",
+            "properties": {
+                "transfer_efficiency": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Efficiency of the transfer operation"
+                },
+                "encoding_success_rate": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Success rate of hippocampal encoding"
+                },
+                "consolidation_prediction": {
+                    "type": "object",
+                    "properties": {
+                        "predicted_strength": {
+                            "type": "number"
+                        },
+                        "predicted_durability": {
+                            "type": "number"
+                        },
+                        "consolidation_timeline": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "resource_utilization": {
+                    "type": "object",
+                    "properties": {
+                        "working_memory_relief": {
+                            "type": "number"
+                        },
+                        "hippocampal_capacity_used": {
+                            "type": "number"
+                        },
+                        "energy_cost": {
+                            "type": "number"
+                        }
+                    }
+                }
+            }
+        },
+        "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when the transfer was initiated"
+        },
+        "system_coordination": {
+            "type": "object",
+            "properties": {
+                "thalamic_gating": {
+                    "type": "object",
+                    "properties": {
+                        "attention_gate_state": {
+                            "type": "string"
+                        },
+                        "salience_assessment": {
+                            "type": "number"
+                        },
+                        "routing_decision": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "consciousness_coordination": {
+                    "type": "object",
+                    "properties": {
+                        "workspace_availability": {
+                            "type": "boolean"
+                        },
+                        "conscious_access_granted": {
+                            "type": "boolean"
+                        },
+                        "broadcast_participation": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "cortical_coordination": {
+                    "type": "object",
+                    "properties": {
+                        "target_cortical_areas": {
+                            "type": "array"
+                        },
+                        "binding_strength": {
+                            "type": "number"
+                        },
+                        "distributed_representation": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "additionalProperties": false
+}

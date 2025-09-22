@@ -1,0 +1,144 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "$id": "salience_weights.schema.json",
+    "title": "Salience Weights Storage",
+    "description": "Storage schema for salience computation weights and parameters.",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "weight_set_id",
+        "bottom_up_weights",
+        "top_down_weights",
+        "contextual_weights",
+        "learning_parameters"
+    ],
+    "properties": {
+        "weight_set_id": {
+            "type": "string",
+            "description": "Unique identifier for this weight set"
+        },
+        "bottom_up_weights": {
+            "type": "object",
+            "properties": {
+                "sensory_weight": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "novelty_weight": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "surprise_weight": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "contrast_weight": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "intensity_weight": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                }
+            }
+        },
+        "top_down_weights": {
+            "type": "object",
+            "properties": {
+                "goal_relevance_weight": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "task_relevance_weight": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "expectation_weight": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "memory_relevance_weight": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "emotional_weight": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                }
+            }
+        },
+        "contextual_weights": {
+            "type": "object",
+            "properties": {
+                "spatial_context_weight": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "temporal_context_weight": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "semantic_context_weight": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "social_context_weight": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                }
+            }
+        },
+        "learning_parameters": {
+            "type": "object",
+            "properties": {
+                "weight_learning_rate": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "weight_decay_rate": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "adaptation_threshold": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                }
+            }
+        },
+        "weight_statistics": {
+            "type": "object",
+            "properties": {
+                "weight_usage_count": {
+                    "type": "object"
+                },
+                "average_salience_score": {
+                    "type": "number"
+                },
+                "prediction_accuracy": {
+                    "type": "number"
+                }
+            }
+        },
+        "last_updated": {
+            "type": "string",
+            "format": "date-time"
+        }
+    }
+}

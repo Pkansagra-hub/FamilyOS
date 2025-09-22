@@ -1,0 +1,15 @@
+collections:
+  decision_log:
+    schema: schemas/decision_log.schema.json
+    partition_by: ["space_id"]
+    indices:
+      - keys: ["space_id","ts"]
+      - keys: ["decision_id"]
+    retention: { ttl_days: 365 }
+  risk_assessment:
+    schema: schemas/risk_assessment.schema.json
+    partition_by: ["space_id"]
+    indices:
+      - keys: ["space_id","ts"]
+      - keys: ["context_id"]
+    retention: { ttl_days: 90 }

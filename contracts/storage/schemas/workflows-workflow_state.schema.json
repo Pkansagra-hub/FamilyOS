@@ -1,0 +1,16 @@
+{
+  "$schema":"https://json-schema.org/draft-07/schema#",
+  "$id":"https://familyos.local/contracts/workflows/schemas/workflow_state.schema.json",
+  "type":"object",
+  "required":["workflow_id","space_id","type","status","version","updated_at"],
+  "properties":{
+    "workflow_id":{"type":"string"},
+    "space_id":{"type":"string"},
+    "type":{"type":"string"},
+    "status":{"type":"string","enum":["started","running","paused","completed","failed"]},
+    "version":{"type":"integer","minimum":1},
+    "state":{"type":"object","additionalProperties":true},
+    "updated_at":{"type":"string","format":"date-time"}
+  },
+  "additionalProperties":false
+}

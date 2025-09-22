@@ -1,0 +1,1134 @@
+openapi: 3.0.3
+info:
+  title: "Family AI Agent Tools API"
+  description: |
+    Agent Tools API for Memory-Centric Family AI
+
+    This API provides specialized tool endpoints for LLM agents to perform
+    memory operations, recall functions, and cognitive projections. These tools
+    enable agents to interact with the memory backbone through structured,
+    purpose-built endpoints.
+
+    **Tool Categories:**
+    - `/tools/memory/*` - Memory manipulation and formation tools
+    - `/tools/recall/*` - Advanced memory recall and search tools
+    - `/tools/project/*` - Cognitive projection and prediction tools
+
+    **Memory-Centric Architecture:**
+    - All tools operate on the shared family memory backbone
+    - Tools respect family privacy boundaries and memory spaces
+    - Neuroscience-inspired cognitive processing pipelines
+    - Family intelligence through memory synchronization
+  version: "1.0.0"
+  contact:
+    name: "Family AI Development Team"
+    url: "https://github.com/pkansagra99/family_os"
+  license:
+    name: "MIT"
+    url: "https://opensource.org/licenses/MIT"
+
+servers:
+  - url: "http://localhost:8000/v1/agent/tools"
+    description: "Local development server"
+  - url: "https://api.familyos.local/v1/agent/tools"
+    description: "Production Family AI instance"
+
+security:
+  - FamilyAuth: []
+  - AgentAuth: []
+
+paths:
+  # =============================================================================
+  # MEMORY TOOLS - Memory manipulation and formation
+  # =============================================================================
+
+  /memory/encode:
+    post:
+      summary: "Encode memory with cognitive processing"
+      description: |
+        Advanced memory encoding tool that processes content through
+        hippocampal-inspired memory formation pipelines. Supports episodic,
+        semantic, and emotional memory types with family context awareness.
+      operationId: "encodeMemory"
+      tags: ["Memory Tools"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MemoryEncodeRequest"
+            examples:
+              family_conversation:
+                summary: "Encode family conversation"
+                value:
+                  content:
+                    text: "Mom and Dad discussed vacation plans for summer 2026. Emma wants to visit Disney World, but budget concerns were raised."
+                    participants: ["mom", "dad", "emma"]
+                    emotional_context:
+                      overall_tone: "concerned_but_hopeful"
+                      participant_emotions:
+                        mom: "excited"
+                        dad: "cautious"
+                        emma: "enthusiastic"
+                  encoding_parameters:
+                    memory_type: "episodic"
+                    consolidation_strategy: "family_coordination"
+                    emotional_weight: 0.7
+                    future_relevance: 0.9
+                  space_targeting:
+                    preferred_space: "shared:household"
+                    fallback_spaces: ["selective:parents"]
+                    privacy_level: "family_planning"
+      responses:
+        "200":
+          description: "Memory successfully encoded"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MemoryEncodeResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+
+  /memory/consolidate:
+    post:
+      summary: "Consolidate related memories"
+      description: |
+        Tool for consolidating related memories into coherent semantic knowledge.
+        Implements memory consolidation similar to hippocampal-neocortical transfer
+        in human cognition, strengthening important family memories.
+      operationId: "consolidateMemories"
+      tags: ["Memory Tools"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MemoryConsolidateRequest"
+            examples:
+              soccer_season_memories:
+                summary: "Consolidate soccer season memories"
+                value:
+                  consolidation_query:
+                    theme: "Emma's soccer activities"
+                    temporal_scope: "this_season"
+                    memory_types: ["episodic", "procedural"]
+                  consolidation_parameters:
+                    importance_threshold: 0.6
+                    relationship_strength_min: 0.4
+                    create_semantic_summary: true
+                  target_space: "shared:household"
+      responses:
+        "200":
+          description: "Memories successfully consolidated"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MemoryConsolidateResponse"
+
+  /memory/pattern-extract:
+    post:
+      summary: "Extract patterns from family memories"
+      description: |
+        Advanced pattern extraction tool that identifies recurring themes,
+        behavioral patterns, and family dynamics from memory stores.
+        Uses neural pattern completion and abstraction mechanisms.
+      operationId: "extractMemoryPatterns"
+      tags: ["Memory Tools"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PatternExtractionRequest"
+      responses:
+        "200":
+          description: "Patterns successfully extracted"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PatternExtractionResponse"
+
+  # =============================================================================
+  # RECALL TOOLS - Advanced memory recall and search
+  # =============================================================================
+
+  /recall/semantic-search:
+    post:
+      summary: "Advanced semantic memory search"
+      description: |
+        Sophisticated semantic search tool using neural embeddings and
+        contextual understanding. Supports multi-modal queries with
+        family relationship awareness and emotional context.
+      operationId: "semanticMemorySearch"
+      tags: ["Recall Tools"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SemanticSearchRequest"
+            examples:
+              emotional_context_search:
+                summary: "Search with emotional context"
+                value:
+                  query:
+                    text: "times when Emma felt overwhelmed with school"
+                    semantic_focus: "emotional_states"
+                    relationship_context: ["emma", "school", "stress"]
+                  search_parameters:
+                    embedding_model: "family_aware_v1"
+                    emotional_weight: 0.8
+                    temporal_decay: 0.1
+                    family_member_boost: {"emma": 1.5}
+                  response_format:
+                    include_emotional_analysis: true
+                    group_by_time_periods: true
+                    max_results: 15
+      responses:
+        "200":
+          description: "Semantic search completed"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SemanticSearchResponse"
+
+  /recall/temporal-correlation:
+    post:
+      summary: "Find temporally correlated memories"
+      description: |
+        Tool for discovering memories that are temporally related but may not
+        be semantically obvious. Useful for finding cause-effect relationships
+        and temporal patterns in family life.
+      operationId: "findTemporalCorrelations"
+      tags: ["Recall Tools"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/TemporalCorrelationRequest"
+      responses:
+        "200":
+          description: "Temporal correlations found"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TemporalCorrelationResponse"
+
+  /recall/associative-chain:
+    post:
+      summary: "Follow associative memory chains"
+      description: |
+        Tool that follows associative links between memories, similar to
+        how human memory retrieval works through associative networks.
+        Useful for understanding family relationship dynamics and histories.
+      operationId: "followAssociativeChain"
+      tags: ["Recall Tools"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AssociativeChainRequest"
+      responses:
+        "200":
+          description: "Associative chain traced"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AssociativeChainResponse"
+
+  # =============================================================================
+  # PROJECTION TOOLS - Cognitive projection and prediction
+  # =============================================================================
+
+  /project/family-trends:
+    post:
+      summary: "Project family behavioral trends"
+      description: |
+        Cognitive projection tool that analyzes family memory patterns to
+        predict future trends, needs, and potential conflicts. Uses
+        prospective memory mechanisms and predictive modeling.
+      operationId: "projectFamilyTrends"
+      tags: ["Projection Tools"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FamilyTrendsProjectionRequest"
+            examples:
+              school_stress_projection:
+                summary: "Project school stress trends"
+                value:
+                  projection_parameters:
+                    focus_area: "academic_stress"
+                    family_members: ["emma", "tommy"]
+                    projection_horizon: "next_quarter"
+                    confidence_threshold: 0.7
+                  historical_context:
+                    lookback_period: "last_year"
+                    include_seasonal_patterns: true
+                    weight_recent_events: 1.2
+                  intervention_modeling:
+                    suggest_preventive_measures: true
+                    family_resource_constraints: ["time", "budget"]
+      responses:
+        "200":
+          description: "Family trends projected"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FamilyTrendsProjectionResponse"
+
+  /project/schedule-optimization:
+    post:
+      summary: "Project optimal family scheduling"
+      description: |
+        Advanced scheduling projection tool that considers family preferences,
+        constraints, energy patterns, and historical success rates to suggest
+        optimal future schedules and activities.
+      operationId: "projectOptimalSchedule"
+      tags: ["Projection Tools"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ScheduleOptimizationRequest"
+      responses:
+        "200":
+          description: "Schedule optimization projected"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ScheduleOptimizationResponse"
+
+  /project/intervention-scenarios:
+    post:
+      summary: "Model family intervention scenarios"
+      description: |
+        Cognitive modeling tool that simulates potential family intervention
+        scenarios. Helps predict outcomes of different approaches to family
+        challenges, conflicts, or goal achievement.
+      operationId: "modelInterventionScenarios"
+      tags: ["Projection Tools"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/InterventionScenarioRequest"
+      responses:
+        "200":
+          description: "Intervention scenarios modeled"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InterventionScenarioResponse"
+
+components:
+  securitySchemes:
+    FamilyAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: "Family member authentication token"
+    AgentAuth:
+      type: apiKey
+      in: header
+      name: X-Agent-ID
+      description: "Agent identification for tool access"
+
+  schemas:
+    # =============================================================================
+    # MEMORY TOOL SCHEMAS
+    # =============================================================================
+
+    MemoryEncodeRequest:
+      type: object
+      required: ["content", "encoding_parameters"]
+      properties:
+        content:
+          type: object
+          required: ["text"]
+          properties:
+            text:
+              type: string
+              maxLength: 20000
+              description: "Primary content to encode"
+            participants:
+              type: array
+              items:
+                type: string
+              description: "Family members involved in the memory"
+            emotional_context:
+              type: object
+              properties:
+                overall_tone:
+                  type: string
+                  enum: ["joyful", "concerned", "excited", "worried", "neutral", "mixed"]
+                participant_emotions:
+                  type: object
+                  additionalProperties:
+                    type: string
+                intensity:
+                  type: number
+                  minimum: 0
+                  maximum: 1
+            multimodal_data:
+              type: object
+              properties:
+                images:
+                  type: array
+                  items:
+                    type: string
+                    format: uri
+                audio_transcripts:
+                  type: array
+                  items:
+                    type: string
+                location_context:
+                  type: object
+                  properties:
+                    place:
+                      type: string
+                    coordinates:
+                      type: object
+        encoding_parameters:
+          type: object
+          required: ["memory_type"]
+          properties:
+            memory_type:
+              type: string
+              enum: ["episodic", "semantic", "emotional", "procedural", "prospective"]
+            consolidation_strategy:
+              type: string
+              enum: ["immediate", "delayed", "family_coordination", "individual_focus"]
+            emotional_weight:
+              type: number
+              minimum: 0
+              maximum: 1
+              description: "Emotional significance for encoding strength"
+            future_relevance:
+              type: number
+              minimum: 0
+              maximum: 1
+              description: "Predicted future utility of this memory"
+            cognitive_tags:
+              type: array
+              items:
+                type: string
+              description: "Cognitive processing tags for pipeline routing"
+        space_targeting:
+          type: object
+          properties:
+            preferred_space:
+              type: string
+              pattern: "^(personal|selective|shared|extended|interfamily):[a-zA-Z0-9_-]+$"
+            fallback_spaces:
+              type: array
+              items:
+                type: string
+            privacy_level:
+              type: string
+              enum: ["private", "family_planning", "household_coordination", "community_visible"]
+
+    MemoryEncodeResponse:
+      type: object
+      required: ["success", "memory_id", "encoding_analysis"]
+      properties:
+        success:
+          type: boolean
+        memory_id:
+          type: string
+          format: uuid
+        encoding_analysis:
+          type: object
+          properties:
+            final_memory_type:
+              type: string
+            space_assignment:
+              type: string
+            importance_score:
+              type: number
+            emotional_significance:
+              type: number
+            consolidation_timeline:
+              type: string
+            family_context_detected:
+              type: object
+              properties:
+                relationships_identified:
+                  type: array
+                  items:
+                    type: string
+                dynamics_detected:
+                  type: array
+                  items:
+                    type: string
+        pipeline_routing:
+          type: object
+          properties:
+            immediate_processing:
+              type: array
+              items:
+                type: string
+            scheduled_processing:
+              type: array
+              items:
+                type: object
+                properties:
+                  pipeline:
+                    type: string
+                  schedule_time:
+                    type: string
+                    format: date-time
+
+    MemoryConsolidateRequest:
+      type: object
+      required: ["consolidation_query", "consolidation_parameters"]
+      properties:
+        consolidation_query:
+          type: object
+          required: ["theme"]
+          properties:
+            theme:
+              type: string
+              description: "Central theme for consolidation"
+            temporal_scope:
+              type: string
+              enum: ["last_week", "last_month", "this_season", "this_year", "all_time"]
+            memory_types:
+              type: array
+              items:
+                type: string
+                enum: ["episodic", "semantic", "emotional", "procedural"]
+            family_members:
+              type: array
+              items:
+                type: string
+        consolidation_parameters:
+          type: object
+          properties:
+            importance_threshold:
+              type: number
+              minimum: 0
+              maximum: 1
+            relationship_strength_min:
+              type: number
+              minimum: 0
+              maximum: 1
+            create_semantic_summary:
+              type: boolean
+              default: true
+            preserve_individual_memories:
+              type: boolean
+              default: true
+        target_space:
+          type: string
+          description: "Memory space for consolidated knowledge"
+
+    MemoryConsolidateResponse:
+      type: object
+      properties:
+        consolidation_summary:
+          type: object
+          properties:
+            memories_processed:
+              type: integer
+            memories_consolidated:
+              type: integer
+            semantic_knowledge_created:
+              type: boolean
+            consolidation_strength:
+              type: number
+        consolidated_knowledge:
+          type: object
+          properties:
+            summary:
+              type: string
+            key_patterns:
+              type: array
+              items:
+                type: string
+            relationship_insights:
+              type: array
+              items:
+                type: object
+        source_memories:
+          type: array
+          items:
+            type: object
+            properties:
+              memory_id:
+                type: string
+              contribution_weight:
+                type: number
+
+    # =============================================================================
+    # RECALL TOOL SCHEMAS
+    # =============================================================================
+
+    SemanticSearchRequest:
+      type: object
+      required: ["query", "search_parameters"]
+      properties:
+        query:
+          type: object
+          required: ["text"]
+          properties:
+            text:
+              type: string
+              maxLength: 1000
+            semantic_focus:
+              type: string
+              enum: ["emotional_states", "relationships", "activities", "decisions", "learning"]
+            relationship_context:
+              type: array
+              items:
+                type: string
+            temporal_hints:
+              type: array
+              items:
+                type: string
+        search_parameters:
+          type: object
+          properties:
+            embedding_model:
+              type: string
+              enum: ["family_aware_v1", "emotional_enhanced_v1", "general_v1"]
+              default: "family_aware_v1"
+            emotional_weight:
+              type: number
+              minimum: 0
+              maximum: 1
+              default: 0.3
+            temporal_decay:
+              type: number
+              minimum: 0
+              maximum: 1
+              default: 0.1
+            family_member_boost:
+              type: object
+              additionalProperties:
+                type: number
+            search_spaces:
+              type: array
+              items:
+                type: string
+        response_format:
+          type: object
+          properties:
+            include_emotional_analysis:
+              type: boolean
+              default: false
+            group_by_time_periods:
+              type: boolean
+              default: false
+            max_results:
+              type: integer
+              minimum: 1
+              maximum: 100
+              default: 10
+
+    SemanticSearchResponse:
+      type: object
+      properties:
+        search_results:
+          type: array
+          items:
+            type: object
+            properties:
+              memory_id:
+                type: string
+              content_snippet:
+                type: string
+              relevance_score:
+                type: number
+              semantic_similarity:
+                type: number
+              emotional_relevance:
+                type: number
+              temporal_relevance:
+                type: number
+              family_context:
+                type: object
+        search_analysis:
+          type: object
+          properties:
+            query_interpretation:
+              type: string
+            search_strategy_used:
+              type: string
+            emotional_context_applied:
+              type: boolean
+            family_relationships_considered:
+              type: array
+              items:
+                type: string
+        result_groupings:
+          type: array
+          items:
+            type: object
+            properties:
+              group_label:
+                type: string
+              group_theme:
+                type: string
+              memory_ids:
+                type: array
+                items:
+                  type: string
+
+    PatternExtractionRequest:
+      type: object
+      required: ["pattern_query", "extraction_parameters"]
+      properties:
+        pattern_query:
+          type: object
+          properties:
+            focus_area:
+              type: string
+              enum: ["behavioral_patterns", "emotional_cycles", "relationship_dynamics", "activity_preferences", "stress_indicators"]
+            family_members:
+              type: array
+              items:
+                type: string
+            temporal_scope:
+              type: string
+            pattern_granularity:
+              type: string
+              enum: ["daily", "weekly", "monthly", "seasonal"]
+        extraction_parameters:
+          type: object
+          properties:
+            minimum_pattern_strength:
+              type: number
+              minimum: 0
+              maximum: 1
+            confidence_threshold:
+              type: number
+              minimum: 0
+              maximum: 1
+            include_causal_analysis:
+              type: boolean
+              default: true
+
+    PatternExtractionResponse:
+      type: object
+      properties:
+        patterns_found:
+          type: array
+          items:
+            type: object
+            properties:
+              pattern_id:
+                type: string
+              pattern_description:
+                type: string
+              strength:
+                type: number
+              confidence:
+                type: number
+              temporal_frequency:
+                type: string
+              family_members_involved:
+                type: array
+                items:
+                  type: string
+              causal_factors:
+                type: array
+                items:
+                  type: object
+        pattern_analysis:
+          type: object
+          properties:
+            total_patterns_detected:
+              type: integer
+            strongest_pattern:
+              type: string
+            family_dynamics_insights:
+              type: array
+              items:
+                type: string
+
+    # =============================================================================
+    # PROJECTION TOOL SCHEMAS
+    # =============================================================================
+
+    FamilyTrendsProjectionRequest:
+      type: object
+      required: ["projection_parameters"]
+      properties:
+        projection_parameters:
+          type: object
+          required: ["focus_area", "projection_horizon"]
+          properties:
+            focus_area:
+              type: string
+              enum: ["academic_stress", "family_harmony", "activity_engagement", "emotional_wellbeing", "schedule_balance"]
+            family_members:
+              type: array
+              items:
+                type: string
+            projection_horizon:
+              type: string
+              enum: ["next_week", "next_month", "next_quarter", "next_year"]
+            confidence_threshold:
+              type: number
+              minimum: 0
+              maximum: 1
+              default: 0.6
+        historical_context:
+          type: object
+          properties:
+            lookback_period:
+              type: string
+            include_seasonal_patterns:
+              type: boolean
+              default: true
+            weight_recent_events:
+              type: number
+              minimum: 0.1
+              maximum: 2.0
+              default: 1.0
+        intervention_modeling:
+          type: object
+          properties:
+            suggest_preventive_measures:
+              type: boolean
+              default: false
+            family_resource_constraints:
+              type: array
+              items:
+                type: string
+                enum: ["time", "budget", "energy", "attention"]
+
+    FamilyTrendsProjectionResponse:
+      type: object
+      properties:
+        trend_projections:
+          type: array
+          items:
+            type: object
+            properties:
+              trend_id:
+                type: string
+              trend_description:
+                type: string
+              probability:
+                type: number
+              timeline:
+                type: string
+              impact_assessment:
+                type: object
+                properties:
+                  family_members_affected:
+                    type: array
+                    items:
+                      type: string
+                  severity:
+                    type: string
+                    enum: ["low", "medium", "high"]
+                  opportunity_level:
+                    type: string
+                    enum: ["low", "medium", "high"]
+        preventive_interventions:
+          type: array
+          items:
+            type: object
+            properties:
+              intervention_description:
+                type: string
+              target_trend:
+                type: string
+              resource_requirements:
+                type: array
+                items:
+                  type: string
+              effectiveness_prediction:
+                type: number
+        confidence_analysis:
+          type: object
+          properties:
+            overall_confidence:
+              type: number
+            data_quality_score:
+              type: number
+            historical_pattern_strength:
+              type: number
+
+    ScheduleOptimizationRequest:
+      type: object
+      required: ["optimization_parameters", "constraints"]
+      properties:
+        optimization_parameters:
+          type: object
+          properties:
+            optimization_goal:
+              type: string
+              enum: ["family_time_maximization", "stress_minimization", "activity_balance", "efficiency_maximization"]
+            time_horizon:
+              type: string
+              enum: ["next_week", "next_month", "next_quarter"]
+            family_members:
+              type: array
+              items:
+                type: string
+        constraints:
+          type: object
+          properties:
+            fixed_commitments:
+              type: array
+              items:
+                type: object
+            preferred_time_slots:
+              type: object
+            energy_patterns:
+              type: object
+            transportation_limits:
+              type: object
+        preferences:
+          type: object
+          properties:
+            family_priorities:
+              type: array
+              items:
+                type: string
+            individual_preferences:
+              type: object
+
+    ScheduleOptimizationResponse:
+      type: object
+      properties:
+        optimized_schedule:
+          type: object
+          properties:
+            schedule_overview:
+              type: string
+            weekly_structure:
+              type: array
+              items:
+                type: object
+            optimization_score:
+              type: number
+        schedule_analysis:
+          type: object
+          properties:
+            family_time_percentage:
+              type: number
+            stress_level_prediction:
+              type: string
+            activity_balance_score:
+              type: number
+        alternative_scenarios:
+          type: array
+          items:
+            type: object
+            properties:
+              scenario_name:
+                type: string
+              tradeoffs:
+                type: string
+              optimization_score:
+                type: number
+
+    # Common schemas used across multiple tools
+    TemporalCorrelationRequest:
+      type: object
+      required: ["anchor_memory", "correlation_parameters"]
+      properties:
+        anchor_memory:
+          type: object
+          properties:
+            memory_id:
+              type: string
+            memory_description:
+              type: string
+        correlation_parameters:
+          type: object
+          properties:
+            time_window_before:
+              type: string
+            time_window_after:
+              type: string
+            correlation_strength_threshold:
+              type: number
+
+    TemporalCorrelationResponse:
+      type: object
+      properties:
+        correlations_found:
+          type: array
+          items:
+            type: object
+            properties:
+              memory_id:
+                type: string
+              correlation_type:
+                type: string
+              correlation_strength:
+                type: number
+              temporal_relationship:
+                type: string
+
+    AssociativeChainRequest:
+      type: object
+      required: ["starting_memory", "chain_parameters"]
+      properties:
+        starting_memory:
+          type: object
+          properties:
+            memory_id:
+              type: string
+            memory_description:
+              type: string
+        chain_parameters:
+          type: object
+          properties:
+            max_chain_length:
+              type: integer
+              minimum: 1
+              maximum: 20
+              default: 10
+            association_strength_threshold:
+              type: number
+            follow_emotional_links:
+              type: boolean
+            follow_semantic_links:
+              type: boolean
+
+    AssociativeChainResponse:
+      type: object
+      properties:
+        memory_chain:
+          type: array
+          items:
+            type: object
+            properties:
+              position:
+                type: integer
+              memory_id:
+                type: string
+              memory_snippet:
+                type: string
+              association_type:
+                type: string
+              association_strength:
+                type: number
+        chain_analysis:
+          type: object
+          properties:
+            chain_theme:
+              type: string
+            strongest_associations:
+              type: array
+              items:
+                type: string
+
+    InterventionScenarioRequest:
+      type: object
+      required: ["scenario_context", "intervention_options"]
+      properties:
+        scenario_context:
+          type: object
+          properties:
+            current_situation:
+              type: string
+            family_members_involved:
+              type: array
+              items:
+                type: string
+            desired_outcome:
+              type: string
+        intervention_options:
+          type: array
+          items:
+            type: object
+            properties:
+              intervention_name:
+                type: string
+              intervention_description:
+                type: string
+              resource_requirements:
+                type: array
+                items:
+                  type: string
+
+    InterventionScenarioResponse:
+      type: object
+      properties:
+        scenario_modeling:
+          type: array
+          items:
+            type: object
+            properties:
+              intervention_name:
+                type: string
+              predicted_outcomes:
+                type: array
+                items:
+                  type: object
+              success_probability:
+                type: number
+              potential_risks:
+                type: array
+                items:
+                  type: string
+              resource_analysis:
+                type: object
+        recommendations:
+          type: object
+          properties:
+            preferred_intervention:
+              type: string
+            rationale:
+              type: string
+            implementation_steps:
+              type: array
+              items:
+                type: string
+
+  responses:
+    BadRequest:
+      description: "Invalid request format or parameters"
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+              details:
+                type: string
+              validation_errors:
+                type: array
+                items:
+                  type: string
+
+    Forbidden:
+      description: "Access denied - insufficient tool permissions"
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+              required_permissions:
+                type: array
+                items:
+                  type: string
+              family_policy_violation:
+                type: string
+
+tags:
+  - name: "Memory Tools"
+    description: "Advanced memory encoding, consolidation, and pattern extraction tools"
+  - name: "Recall Tools"
+    description: "Sophisticated memory recall and search capabilities"
+  - name: "Projection Tools"
+    description: "Cognitive projection and predictive modeling tools"

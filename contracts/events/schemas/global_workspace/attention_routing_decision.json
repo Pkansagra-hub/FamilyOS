@@ -1,0 +1,501 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://familyos.local/contracts/events/schemas/global_workspace/attention_routing_decision.schema.json",
+    "title": "Attention Routing Decision Event",
+    "description": "Event triggered when the global workspace makes decisions about routing attention resources based on conscious content and coalition dynamics.",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "timestamp",
+        "routing_id",
+        "routing_decision",
+        "attention_targets",
+        "routing_rationale",
+        "resource_allocation"
+    ],
+    "properties": {
+        "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "When the attention routing decision was made"
+        },
+        "routing_id": {
+            "type": "string",
+            "pattern": "^ar_[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+            "description": "Unique identifier for this routing decision"
+        },
+        "routing_decision": {
+            "type": "object",
+            "required": [
+                "decision_type",
+                "routing_strategy",
+                "confidence_level"
+            ],
+            "properties": {
+                "decision_type": {
+                    "type": "string",
+                    "enum": [
+                        "focus",
+                        "distribute",
+                        "switch",
+                        "maintain",
+                        "suppress",
+                        "enhance"
+                    ],
+                    "description": "Type of attention routing decision made"
+                },
+                "routing_strategy": {
+                    "type": "string",
+                    "enum": [
+                        "priority_based",
+                        "resource_optimal",
+                        "competitive_winner",
+                        "balanced_allocation",
+                        "adaptive_dynamic"
+                    ],
+                    "description": "Strategy used for attention routing"
+                },
+                "confidence_level": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Confidence in the routing decision"
+                },
+                "decision_urgency": {
+                    "type": "string",
+                    "enum": [
+                        "immediate",
+                        "high",
+                        "normal",
+                        "low",
+                        "deferred"
+                    ],
+                    "description": "Urgency level of the routing decision"
+                }
+            },
+            "description": "Details of the attention routing decision made"
+        },
+        "attention_targets": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "required": [
+                    "target_id",
+                    "target_type",
+                    "allocation_amount",
+                    "allocation_priority"
+                ],
+                "properties": {
+                    "target_id": {
+                        "type": "string",
+                        "description": "Identifier of the attention target"
+                    },
+                    "target_type": {
+                        "type": "string",
+                        "enum": [
+                            "perceptual_stream",
+                            "memory_content",
+                            "executive_process",
+                            "motor_preparation",
+                            "emotional_process",
+                            "social_cognition"
+                        ],
+                        "description": "Type of cognitive process receiving attention"
+                    },
+                    "allocation_amount": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1,
+                        "description": "Amount of attention allocated to this target (0-1 scale)"
+                    },
+                    "allocation_priority": {
+                        "type": "integer",
+                        "minimum": 1,
+                        "description": "Priority ranking of this allocation (1=highest)"
+                    },
+                    "allocation_duration": {
+                        "type": "object",
+                        "properties": {
+                            "duration_ms": {
+                                "type": "number",
+                                "minimum": 0
+                            },
+                            "duration_type": {
+                                "type": "string",
+                                "enum": [
+                                    "fixed",
+                                    "adaptive",
+                                    "indefinite"
+                                ]
+                            },
+                            "renewal_conditions": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "description": "Duration characteristics of attention allocation"
+                    },
+                    "modulation_parameters": {
+                        "type": "object",
+                        "properties": {
+                            "enhancement_factor": {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 2
+                            },
+                            "suppression_factor": {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 1
+                            },
+                            "selectivity_filter": {
+                                "type": "object"
+                            },
+                            "gain_control": {
+                                "type": "number"
+                            }
+                        },
+                        "description": "How attention modulates the target process"
+                    }
+                }
+            },
+            "description": "Specific targets and amounts of attention allocation"
+        },
+        "routing_rationale": {
+            "type": "object",
+            "required": [
+                "primary_factors",
+                "decision_logic",
+                "trade_offs"
+            ],
+            "properties": {
+                "primary_factors": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "factor_type": {
+                                "type": "string"
+                            },
+                            "factor_weight": {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 1
+                            },
+                            "factor_influence": {
+                                "type": "string",
+                                "enum": [
+                                    "promoting",
+                                    "inhibiting",
+                                    "neutral"
+                                ]
+                            }
+                        }
+                    },
+                    "description": "Primary factors influencing routing decision"
+                },
+                "decision_logic": {
+                    "type": "object",
+                    "properties": {
+                        "rule_based_components": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "optimization_criteria": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "constraint_satisfaction": {
+                            "type": "object"
+                        },
+                        "heuristic_shortcuts": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "description": "Logic and reasoning behind the routing decision"
+                },
+                "trade_offs": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "trade_off_type": {
+                                "type": "string"
+                            },
+                            "competing_options": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "resolution_approach": {
+                                "type": "string"
+                            },
+                            "compromise_level": {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 1
+                            }
+                        }
+                    },
+                    "description": "Trade-offs considered and resolved in routing decision"
+                }
+            },
+            "description": "Rationale and reasoning behind the routing decision"
+        },
+        "resource_allocation": {
+            "type": "object",
+            "required": [
+                "total_attention_budget",
+                "allocation_efficiency",
+                "resource_constraints"
+            ],
+            "properties": {
+                "total_attention_budget": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Total available attention resources for allocation"
+                },
+                "allocation_efficiency": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Efficiency of the resource allocation strategy"
+                },
+                "resource_constraints": {
+                    "type": "object",
+                    "properties": {
+                        "capacity_limits": {
+                            "type": "object"
+                        },
+                        "temporal_constraints": {
+                            "type": "object"
+                        },
+                        "competition_pressures": {
+                            "type": "object"
+                        },
+                        "energetic_costs": {
+                            "type": "object"
+                        }
+                    },
+                    "description": "Constraints affecting resource allocation"
+                },
+                "budget_distribution": {
+                    "type": "object",
+                    "properties": {
+                        "primary_allocation": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "secondary_allocation": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "reserve_allocation": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "overhead_allocation": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    },
+                    "description": "How attention budget is distributed across categories"
+                }
+            },
+            "description": "Resource allocation details for attention routing"
+        },
+        "coordination_with_systems": {
+            "type": "object",
+            "properties": {
+                "thalamic_coordination": {
+                    "type": "object",
+                    "properties": {
+                        "gate_adjustments": {
+                            "type": "object"
+                        },
+                        "relay_modifications": {
+                            "type": "object"
+                        },
+                        "salience_updates": {
+                            "type": "object"
+                        }
+                    },
+                    "description": "Coordination with thalamic attention systems"
+                },
+                "working_memory_coordination": {
+                    "type": "object",
+                    "properties": {
+                        "buffer_prioritization": {
+                            "type": "object"
+                        },
+                        "executive_alignment": {
+                            "type": "object"
+                        },
+                        "capacity_management": {
+                            "type": "object"
+                        }
+                    },
+                    "description": "Coordination with working memory systems"
+                },
+                "motor_system_coordination": {
+                    "type": "object",
+                    "properties": {
+                        "action_preparation": {
+                            "type": "object"
+                        },
+                        "motor_attention": {
+                            "type": "object"
+                        },
+                        "movement_planning": {
+                            "type": "object"
+                        }
+                    },
+                    "description": "Coordination with motor preparation systems"
+                }
+            },
+            "description": "How routing coordinates with other cognitive systems"
+        },
+        "contextual_factors": {
+            "type": "object",
+            "properties": {
+                "current_conscious_content": {
+                    "type": "object",
+                    "description": "Currently conscious content influencing routing"
+                },
+                "coalition_dynamics": {
+                    "type": "object",
+                    "properties": {
+                        "active_coalitions": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "coalition_strengths": {
+                            "type": "object"
+                        },
+                        "competitive_state": {
+                            "type": "string"
+                        }
+                    },
+                    "description": "Current coalition dynamics affecting routing"
+                },
+                "environmental_demands": {
+                    "type": "object",
+                    "properties": {
+                        "external_stimuli": {
+                            "type": "array"
+                        },
+                        "task_demands": {
+                            "type": "object"
+                        },
+                        "context_changes": {
+                            "type": "array"
+                        }
+                    },
+                    "description": "Environmental factors influencing routing decisions"
+                },
+                "temporal_context": {
+                    "type": "object",
+                    "properties": {
+                        "time_pressure": {
+                            "type": "number"
+                        },
+                        "temporal_expectations": {
+                            "type": "object"
+                        },
+                        "rhythmic_constraints": {
+                            "type": "object"
+                        }
+                    },
+                    "description": "Temporal factors affecting routing"
+                }
+            },
+            "description": "Contextual factors influencing attention routing"
+        },
+        "performance_predictions": {
+            "type": "object",
+            "properties": {
+                "expected_outcomes": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "target_system": {
+                                "type": "string"
+                            },
+                            "performance_change": {
+                                "type": "number"
+                            },
+                            "confidence": {
+                                "type": "number"
+                            }
+                        }
+                    },
+                    "description": "Expected performance outcomes from routing decision"
+                },
+                "risk_assessments": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "risk_type": {
+                                "type": "string"
+                            },
+                            "risk_probability": {
+                                "type": "number"
+                            },
+                            "risk_impact": {
+                                "type": "number"
+                            },
+                            "mitigation_strategies": {
+                                "type": "array"
+                            }
+                        }
+                    },
+                    "description": "Risks associated with routing decision"
+                },
+                "adaptation_monitoring": {
+                    "type": "object",
+                    "properties": {
+                        "monitoring_metrics": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "adaptation_triggers": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "feedback_mechanisms": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "description": "How routing decision will be monitored and adapted"
+                }
+            },
+            "description": "Predictions and monitoring for routing performance"
+        }
+    }
+}

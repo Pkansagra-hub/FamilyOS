@@ -1,0 +1,19 @@
+{
+  "$id": "storage.action.receipt.v1",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Action Receipt",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "receipt_id": {"type": "string"},
+    "decision_id": {"type": "string"},
+    "space_id": {"type": "string"},
+    "effect": {"type": "string"},
+    "resource": {"type": "string"},
+    "status": {"type": "string", "enum": ["ok","failed"]},
+    "policy_band": {"type": "string"},
+    "obligations": {"type": "array", "items": {"type": "string"}},
+    "executed_at": {"type":"string","format":"date-time"}
+  },
+  "required": ["receipt_id","decision_id","space_id","effect","status","executed_at"]
+}

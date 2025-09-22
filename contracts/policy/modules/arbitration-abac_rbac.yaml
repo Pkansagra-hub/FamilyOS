@@ -1,0 +1,13 @@
+roles:
+  agent: { can: ["propose","decide"] }
+  supervisor: { can: ["read_decisions"] }
+authorization:
+  decide:
+    allow_if:
+      - "actor.caps contains 'WRITE'"
+      - "risk_score < 0.8 or supervisor override"
+bands:
+  GREEN: {}
+  AMBER: { obligations: ["mls_required"] }
+  RED:   { obligations: ["mls_required","mask_rationale"] }
+  BLACK: { obligations: ["drop_event","audit_log"] }

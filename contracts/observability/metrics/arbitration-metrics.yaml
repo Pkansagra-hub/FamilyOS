@@ -1,0 +1,15 @@
+metrics:
+  - name: arbitration_latency_ms
+    type: histogram
+    unit: ms
+    labels: [space_id]
+  - name: arbitration_confidence
+    type: histogram
+    unit: "ratio"
+    labels: []
+  - name: arbitration_high_risk_total
+    type: counter
+    unit: "count"
+    labels: []
+slos:
+  p95_latency_ms: 60

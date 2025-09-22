@@ -1,0 +1,9 @@
+current: 1.0.0
+history:
+  - version: 1.0.0
+    date: 2025-09-10
+    notes: "Initial contract. Event-only surface; binds to global envelope v1.1."
+compatibility:
+  envelope: ">=1.1.0"
+  storage: "1.0.x"
+deprecations: []

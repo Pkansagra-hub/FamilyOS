@@ -1,0 +1,1511 @@
+openapi: 3.0.3
+info:
+  title: "Family AI App Connectors API"
+  description: |
+    App Connectors API for Memory-Centric Family AI
+
+    This API provides third-party app connector management for the App Plane,
+    enabling Family AI to integrate with external services while maintaining
+    strict privacy boundaries and family-appropriate access controls.
+
+    **App Plane Mission:**
+    The App Plane connects third-party applications to Family AI's memory
+    backbone through controlled, privacy-preserving connectors. Each connector
+    respects family memory spaces and provides memory-enhanced functionality.
+
+    **Connector Categories:**
+    - `/connectors` - Connector discovery and management
+    - `/connectors/{id}/auth` - OAuth2/OIDC authorization flows
+    - `/connectors/{id}/webhooks` - Webhook endpoint management
+    - `/connectors/{id}/capabilities` - Connector capability configuration
+
+    **Memory-Centric Integration:**
+    - All connectors serve the family memory backbone
+    - Family-aware data filtering and privacy enforcement
+    - Memory-enhanced app functionality (calendars know family patterns)
+    - Cross-device connector state synchronization
+  version: "1.0.0"
+  contact:
+    name: "Family AI Development Team"
+    url: "https://github.com/pkansagra99/family_os"
+  license:
+    name: "MIT"
+    url: "https://opensource.org/licenses/MIT"
+
+servers:
+  - url: "http://localhost:8000/v1/app/connectors"
+    description: "Local development server"
+  - url: "https://api.familyos.local/v1/app/connectors"
+    description: "Production Family AI instance"
+
+security:
+  - FamilyAuth: []
+  - DeviceAuth: []
+
+paths:
+  # =============================================================================
+  # CONNECTOR DISCOVERY AND MANAGEMENT
+  # =============================================================================
+
+  /:
+    get:
+      summary: "List available connectors"
+      description: |
+        Discover available third-party app connectors for Family AI integration.
+        Returns connectors filtered by family permissions, device compatibility,
+        and current authorization status.
+      operationId: "listConnectors"
+      tags: ["Connector Management"]
+      parameters:
+        - name: category
+          in: query
+          schema:
+            type: string
+            enum: ["productivity", "health", "finance", "home_automation", "entertainment", "communication", "education", "all"]
+          description: "Filter connectors by category"
+        - name: family_scope
+          in: query
+          schema:
+            type: string
+            enum: ["personal", "shared", "household", "all"]
+          description: "Filter by family memory scope compatibility"
+        - name: authorization_status
+          in: query
+          schema:
+            type: string
+            enum: ["connected", "available", "requires_auth", "all"]
+          description: "Filter by current authorization status"
+        - name: device_compatibility
+          in: query
+          schema:
+            type: string
+            enum: ["phone", "shared_device", "voice_device", "laptop", "all"]
+          description: "Filter by device type compatibility"
+        - name: include_beta
+          in: query
+          schema:
+            type: boolean
+            default: false
+          description: "Include beta/experimental connectors"
+      responses:
+        "200":
+          description: "Available connectors listed"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ConnectorListResponse"
+              examples:
+                family_productivity_connectors:
+                  summary: "Family productivity connectors"
+                  value:
+                    available_connectors:
+                      - connector_id: "google_calendar"
+                        connector_name: "Google Calendar"
+                        category: "productivity"
+                        description: "Sync family events and schedules with Google Calendar"
+                        provider: "Google"
+                        version: "2.1.0"
+                        authorization_status: "connected"
+                        family_scope_support: ["shared", "selective", "personal"]
+                        device_compatibility: ["phone", "laptop", "shared_device"]
+                        memory_enhancements:
+                          - "family_schedule_intelligence"
+                          - "conflict_detection"
+                          - "travel_time_optimization"
+                        privacy_level: "family_coordination"
+                        last_sync: "2024-01-15T10:30:00Z"
+                      - connector_id: "philips_hue"
+                        connector_name: "Philips Hue"
+                        category: "home_automation"
+                        description: "Family-aware smart lighting with mood and activity patterns"
+                        provider: "Philips"
+                        version: "1.8.2"
+                        authorization_status: "available"
+                        family_scope_support: ["shared"]
+                        device_compatibility: ["phone", "voice_device", "shared_device"]
+                        memory_enhancements:
+                          - "activity_based_lighting"
+                          - "emotional_ambiance"
+                          - "family_routine_automation"
+                        privacy_level: "household_coordination"
+                    discovery_metadata:
+                      total_connectors: 2
+                      filtered_by: ["category: productivity", "category: home_automation"]
+                      family_context: "shared:household"
+                      device_context: "phone"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+
+  /{connector_id}:
+    get:
+      summary: "Get connector details"
+      description: |
+        Retrieve detailed information about a specific connector including
+        capabilities, configuration options, and current family integration status.
+      operationId: "getConnectorDetails"
+      tags: ["Connector Management"]
+      parameters:
+        - name: connector_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: "Unique connector identifier"
+        - name: include_config
+          in: query
+          schema:
+            type: boolean
+            default: true
+          description: "Include current configuration details"
+        - name: include_capabilities
+          in: query
+          schema:
+            type: boolean
+            default: true
+          description: "Include detailed capability information"
+        - name: include_family_integration
+          in: query
+          schema:
+            type: boolean
+            default: true
+          description: "Include family-specific integration details"
+      responses:
+        "200":
+          description: "Connector details retrieved"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ConnectorDetailsResponse"
+        "404":
+          description: "Connector not found"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/responses/NotFound"
+
+    post:
+      summary: "Configure connector"
+      description: |
+        Configure a connector with family-specific settings, privacy boundaries,
+        and memory integration preferences.
+      operationId: "configureConnector"
+      tags: ["Connector Management"]
+      parameters:
+        - name: connector_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ConnectorConfigRequest"
+            examples:
+              google_calendar_family_config:
+                summary: "Google Calendar family configuration"
+                value:
+                  configuration:
+                    sync_settings:
+                      sync_frequency: "real_time"
+                      sync_direction: "bidirectional"
+                      conflict_resolution: "family_priority"
+                    family_integration:
+                      memory_scope: "shared:household"
+                      privacy_level: "family_coordination"
+                      family_members_access: ["mom", "dad", "emma", "tommy"]
+                      child_content_filtering: true
+                    memory_enhancements:
+                      enable_intelligence: true
+                      pattern_learning: true
+                      predictive_scheduling: true
+                      family_conflict_detection: true
+                  preferences:
+                    notification_preferences:
+                      family_reminders: true
+                      conflict_alerts: true
+                      sync_status_updates: false
+                    automation_preferences:
+                      auto_travel_time: true
+                      family_availability_optimization: true
+                      routine_pattern_suggestions: true
+      responses:
+        "200":
+          description: "Connector successfully configured"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ConnectorConfigResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "404":
+          description: "Connector not found"
+
+    delete:
+      summary: "Disconnect connector"
+      description: |
+        Disconnect and remove a connector from Family AI, including cleanup
+        of stored credentials and revocation of access permissions.
+      operationId: "disconnectConnector"
+      tags: ["Connector Management"]
+      parameters:
+        - name: connector_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: revoke_credentials
+          in: query
+          schema:
+            type: boolean
+            default: true
+          description: "Revoke stored credentials and tokens"
+        - name: cleanup_data
+          in: query
+          schema:
+            type: boolean
+            default: false
+          description: "Remove connector-related family data"
+      responses:
+        "204":
+          description: "Connector successfully disconnected"
+        "404":
+          description: "Connector not found"
+
+  # =============================================================================
+  # CONNECTOR AUTHORIZATION AND OAUTH FLOWS
+  # =============================================================================
+
+  /{connector_id}/auth:
+    get:
+      summary: "Get authorization status"
+      description: |
+        Check current authorization status for a connector including token
+        validity, scope permissions, and family access levels.
+      operationId: "getAuthorizationStatus"
+      tags: ["Authorization"]
+      parameters:
+        - name: connector_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: include_token_details
+          in: query
+          schema:
+            type: boolean
+            default: false
+          description: "Include token expiration and scope details"
+      responses:
+        "200":
+          description: "Authorization status retrieved"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthorizationStatusResponse"
+
+    post:
+      summary: "Initiate authorization flow"
+      description: |
+        Start OAuth2/OIDC authorization flow for connecting a third-party
+        app to Family AI with family-appropriate scopes and permissions.
+      operationId: "initiateAuthorization"
+      tags: ["Authorization"]
+      parameters:
+        - name: connector_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AuthorizationInitiateRequest"
+            examples:
+              google_calendar_auth:
+                summary: "Google Calendar authorization"
+                value:
+                  authorization_request:
+                    scopes: ["calendar.read", "calendar.write", "calendar.events"]
+                    family_scope: "shared:household"
+                    privacy_level: "family_coordination"
+                    redirect_uri: "https://familyos.local/auth/callback"
+                  family_context:
+                    authorizing_member: "mom"
+                    family_members_affected: ["mom", "dad", "emma", "tommy"]
+                    permission_level: "family_coordination"
+                    child_safety_required: true
+                  security_preferences:
+                    token_rotation_enabled: true
+                    session_timeout_minutes: 120
+                    require_device_confirmation: true
+      responses:
+        "200":
+          description: "Authorization flow initiated"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthorizationInitiateResponse"
+
+    put:
+      summary: "Complete authorization flow"
+      description: |
+        Complete OAuth2/OIDC authorization flow with authorization code
+        and establish secure connection with family-appropriate access controls.
+      operationId: "completeAuthorization"
+      tags: ["Authorization"]
+      parameters:
+        - name: connector_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AuthorizationCompleteRequest"
+      responses:
+        "200":
+          description: "Authorization completed successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AuthorizationCompleteResponse"
+        "400":
+          description: "Invalid authorization code or parameters"
+
+    delete:
+      summary: "Revoke authorization"
+      description: |
+        Revoke authorization for a connector, invalidate tokens, and
+        remove access permissions while preserving family data preferences.
+      operationId: "revokeAuthorization"
+      tags: ["Authorization"]
+      parameters:
+        - name: connector_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: preserve_config
+          in: query
+          schema:
+            type: boolean
+            default: true
+          description: "Preserve connector configuration for future re-authorization"
+      responses:
+        "204":
+          description: "Authorization successfully revoked"
+        "404":
+          description: "Connector not found or not authorized"
+
+  # =============================================================================
+  # WEBHOOK MANAGEMENT
+  # =============================================================================
+
+  /{connector_id}/webhooks:
+    get:
+      summary: "List connector webhooks"
+      description: |
+        List configured webhooks for a connector including endpoint URLs,
+        event types, and delivery status for family data synchronization.
+      operationId: "listConnectorWebhooks"
+      tags: ["Webhook Management"]
+      parameters:
+        - name: connector_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: ["active", "inactive", "error", "all"]
+          description: "Filter webhooks by status"
+        - name: event_type
+          in: query
+          schema:
+            type: string
+          description: "Filter by specific event type"
+      responses:
+        "200":
+          description: "Webhooks listed successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WebhookListResponse"
+
+    post:
+      summary: "Create webhook endpoint"
+      description: |
+        Create a new webhook endpoint for receiving events from third-party
+        apps with family-appropriate filtering and privacy protection.
+      operationId: "createWebhook"
+      tags: ["Webhook Management"]
+      parameters:
+        - name: connector_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/WebhookCreateRequest"
+      responses:
+        "201":
+          description: "Webhook successfully created"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WebhookCreateResponse"
+
+  /{connector_id}/webhooks/{webhook_id}:
+    get:
+      summary: "Get webhook details"
+      description: |
+        Retrieve details about a specific webhook including configuration,
+        delivery statistics, and family data filtering settings.
+      operationId: "getWebhookDetails"
+      tags: ["Webhook Management"]
+      parameters:
+        - name: connector_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: webhook_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: include_delivery_stats
+          in: query
+          schema:
+            type: boolean
+            default: true
+          description: "Include delivery statistics"
+      responses:
+        "200":
+          description: "Webhook details retrieved"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WebhookDetailsResponse"
+
+    put:
+      summary: "Update webhook configuration"
+      description: |
+        Update webhook endpoint configuration including event filters,
+        family data processing settings, and delivery preferences.
+      operationId: "updateWebhook"
+      tags: ["Webhook Management"]
+      parameters:
+        - name: connector_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: webhook_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/WebhookUpdateRequest"
+      responses:
+        "200":
+          description: "Webhook successfully updated"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/WebhookDetailsResponse"
+
+    delete:
+      summary: "Delete webhook endpoint"
+      description: |
+        Remove webhook endpoint and stop receiving events from the
+        third-party application for this connector.
+      operationId: "deleteWebhook"
+      tags: ["Webhook Management"]
+      parameters:
+        - name: connector_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: webhook_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: "Webhook successfully deleted"
+        "404":
+          description: "Webhook not found"
+
+  # =============================================================================
+  # CONNECTOR CAPABILITIES AND FAMILY INTEGRATION
+  # =============================================================================
+
+  /{connector_id}/capabilities:
+    get:
+      summary: "Get connector capabilities"
+      description: |
+        Retrieve available capabilities for a connector including memory
+        enhancement features, family integration options, and device support.
+      operationId: "getConnectorCapabilities"
+      tags: ["Capabilities"]
+      parameters:
+        - name: connector_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: family_context
+          in: query
+          schema:
+            type: string
+            enum: ["personal", "selective", "shared", "extended", "interfamily"]
+          description: "Family context for capability filtering"
+      responses:
+        "200":
+          description: "Connector capabilities retrieved"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ConnectorCapabilitiesResponse"
+
+    post:
+      summary: "Enable connector capabilities"
+      description: |
+        Enable specific capabilities for a connector with family-appropriate
+        configuration and memory integration settings.
+      operationId: "enableConnectorCapabilities"
+      tags: ["Capabilities"]
+      parameters:
+        - name: connector_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EnableCapabilitiesRequest"
+      responses:
+        "200":
+          description: "Capabilities successfully enabled"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EnableCapabilitiesResponse"
+
+  /{connector_id}/sync:
+    post:
+      summary: "Trigger connector sync"
+      description: |
+        Manually trigger synchronization between connector and Family AI
+        memory backend with family-aware data processing and privacy filtering.
+      operationId: "triggerConnectorSync"
+      tags: ["Sync Operations"]
+      parameters:
+        - name: connector_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SyncTriggerRequest"
+            examples:
+              full_family_calendar_sync:
+                summary: "Full family calendar synchronization"
+                value:
+                  sync_parameters:
+                    sync_type: "full"
+                    direction: "bidirectional"
+                    family_scope: "shared:household"
+                    priority: "standard"
+                  family_context:
+                    family_members: ["mom", "dad", "emma", "tommy"]
+                    include_child_events: true
+                    respect_privacy_boundaries: true
+                  processing_options:
+                    apply_intelligence: true
+                    update_patterns: true
+                    detect_conflicts: true
+                    generate_insights: true
+      responses:
+        "202":
+          description: "Sync operation initiated"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SyncTriggerResponse"
+
+    get:
+      summary: "Get sync status"
+      description: |
+        Check the status of ongoing or recent sync operations for a connector
+        including progress, errors, and family data processing results.
+      operationId: "getSyncStatus"
+      tags: ["Sync Operations"]
+      parameters:
+        - name: connector_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: sync_id
+          in: query
+          schema:
+            type: string
+          description: "Specific sync operation ID"
+        - name: include_details
+          in: query
+          schema:
+            type: boolean
+            default: true
+          description: "Include detailed sync progress and results"
+      responses:
+        "200":
+          description: "Sync status retrieved"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SyncStatusResponse"
+
+components:
+  securitySchemes:
+    FamilyAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: "Family member authentication token"
+    DeviceAuth:
+      type: apiKey
+      in: header
+      name: X-Device-ID
+      description: "Device identification for family ecosystem"
+
+  schemas:
+    # =============================================================================
+    # CONNECTOR MANAGEMENT SCHEMAS
+    # =============================================================================
+
+    ConnectorListResponse:
+      type: object
+      required: ["available_connectors", "discovery_metadata"]
+      properties:
+        available_connectors:
+          type: array
+          items:
+            type: object
+            properties:
+              connector_id:
+                type: string
+                description: "Unique connector identifier"
+              connector_name:
+                type: string
+                description: "Human-readable connector name"
+              category:
+                type: string
+                enum: ["productivity", "health", "finance", "home_automation", "entertainment", "communication", "education", "custom"]
+              description:
+                type: string
+                description: "Connector description and family benefits"
+              provider:
+                type: string
+                description: "Third-party service provider"
+              version:
+                type: string
+                description: "Connector version"
+              authorization_status:
+                type: string
+                enum: ["connected", "available", "requires_auth", "error", "suspended"]
+              family_scope_support:
+                type: array
+                items:
+                  type: string
+                  enum: ["personal", "selective", "shared", "extended", "interfamily"]
+              device_compatibility:
+                type: array
+                items:
+                  type: string
+                  enum: ["phone", "shared_device", "voice_device", "laptop"]
+              memory_enhancements:
+                type: array
+                items:
+                  type: string
+                description: "Memory-enhanced features this connector provides"
+              privacy_level:
+                type: string
+                enum: ["personal_private", "family_coordination", "household_coordination", "community_visible"]
+              last_sync:
+                type: string
+                format: date-time
+                description: "Last successful synchronization"
+              configuration_required:
+                type: boolean
+                description: "Whether connector requires additional configuration"
+        discovery_metadata:
+          type: object
+          properties:
+            total_connectors:
+              type: integer
+            connected_connectors:
+              type: integer
+            filtered_by:
+              type: array
+              items:
+                type: string
+            family_context:
+              type: string
+            device_context:
+              type: string
+
+    ConnectorDetailsResponse:
+      type: object
+      required: ["connector_info", "capabilities", "integration_status"]
+      properties:
+        connector_info:
+          type: object
+          properties:
+            connector_id:
+              type: string
+            connector_name:
+              type: string
+            category:
+              type: string
+            description:
+              type: string
+            provider:
+              type: string
+            version:
+              type: string
+            documentation_url:
+              type: string
+              format: uri
+            support_contact:
+              type: string
+        capabilities:
+          type: object
+          properties:
+            available_features:
+              type: array
+              items:
+                type: object
+                properties:
+                  feature_id:
+                    type: string
+                  feature_name:
+                    type: string
+                  description:
+                    type: string
+                  family_benefits:
+                    type: string
+                  memory_integration:
+                    type: boolean
+                  privacy_impact:
+                    type: string
+            memory_enhancements:
+              type: array
+              items:
+                type: object
+                properties:
+                  enhancement_id:
+                    type: string
+                  enhancement_name:
+                    type: string
+                  description:
+                    type: string
+                  family_value:
+                    type: string
+            data_types:
+              type: array
+              items:
+                type: object
+                properties:
+                  data_type:
+                    type: string
+                  description:
+                    type: string
+                  family_relevance:
+                    type: string
+                  privacy_considerations:
+                    type: string
+        integration_status:
+          type: object
+          properties:
+            authorization_status:
+              type: string
+            configuration_status:
+              type: string
+            last_activity:
+              type: string
+              format: date-time
+            family_members_using:
+              type: array
+              items:
+                type: string
+            sync_statistics:
+              type: object
+              properties:
+                total_syncs:
+                  type: integer
+                successful_syncs:
+                  type: integer
+                last_sync:
+                  type: string
+                  format: date-time
+                average_sync_duration:
+                  type: number
+        current_configuration:
+          type: object
+          description: "Current connector configuration (if include_config=true)"
+        family_integration_details:
+          type: object
+          description: "Family-specific integration information (if include_family_integration=true)"
+
+    ConnectorConfigRequest:
+      type: object
+      required: ["configuration"]
+      properties:
+        configuration:
+          type: object
+          required: ["family_integration"]
+          properties:
+            sync_settings:
+              type: object
+              properties:
+                sync_frequency:
+                  type: string
+                  enum: ["real_time", "hourly", "daily", "manual"]
+                sync_direction:
+                  type: string
+                  enum: ["to_familyai", "from_familyai", "bidirectional"]
+                conflict_resolution:
+                  type: string
+                  enum: ["family_priority", "app_priority", "manual_review", "latest_wins"]
+                batch_size:
+                  type: integer
+                  minimum: 1
+                  maximum: 1000
+            family_integration:
+              type: object
+              required: ["memory_scope", "privacy_level"]
+              properties:
+                memory_scope:
+                  type: string
+                  pattern: "^(personal|selective|shared|extended|interfamily):[a-zA-Z0-9_-]+$"
+                privacy_level:
+                  type: string
+                  enum: ["personal_private", "family_coordination", "household_coordination", "community_visible"]
+                family_members_access:
+                  type: array
+                  items:
+                    type: string
+                child_content_filtering:
+                  type: boolean
+                  default: true
+                age_appropriate_boundaries:
+                  type: object
+                  properties:
+                    min_age_access:
+                      type: integer
+                    content_restrictions:
+                      type: array
+                      items:
+                        type: string
+            memory_enhancements:
+              type: object
+              properties:
+                enable_intelligence:
+                  type: boolean
+                  default: true
+                pattern_learning:
+                  type: boolean
+                  default: true
+                predictive_features:
+                  type: boolean
+                  default: false
+                family_optimization:
+                  type: boolean
+                  default: true
+                cross_domain_insights:
+                  type: boolean
+                  default: false
+        preferences:
+          type: object
+          properties:
+            notification_preferences:
+              type: object
+              properties:
+                sync_notifications:
+                  type: boolean
+                error_notifications:
+                  type: boolean
+                insight_notifications:
+                  type: boolean
+                family_alerts:
+                  type: boolean
+            automation_preferences:
+              type: object
+              properties:
+                auto_categorization:
+                  type: boolean
+                auto_scheduling:
+                  type: boolean
+                family_coordination:
+                  type: boolean
+                routine_optimization:
+                  type: boolean
+
+    ConnectorConfigResponse:
+      type: object
+      required: ["success", "connector_id", "configuration_applied"]
+      properties:
+        success:
+          type: boolean
+        connector_id:
+          type: string
+        configuration_applied:
+          type: object
+          properties:
+            sync_settings:
+              type: object
+            family_integration:
+              type: object
+            memory_enhancements:
+              type: object
+            validation_results:
+              type: object
+              properties:
+                family_scope_valid:
+                  type: boolean
+                privacy_level_compatible:
+                  type: boolean
+                child_safety_verified:
+                  type: boolean
+        next_steps:
+          type: array
+          items:
+            type: string
+        family_impact_summary:
+          type: object
+          properties:
+            family_members_affected:
+              type: array
+              items:
+                type: string
+            memory_spaces_involved:
+              type: array
+              items:
+                type: string
+            expected_benefits:
+              type: array
+              items:
+                type: string
+
+    # =============================================================================
+    # AUTHORIZATION SCHEMAS
+    # =============================================================================
+
+    AuthorizationStatusResponse:
+      type: object
+      required: ["connector_id", "authorization_status"]
+      properties:
+        connector_id:
+          type: string
+        authorization_status:
+          type: string
+          enum: ["authorized", "expired", "revoked", "pending", "error", "not_authorized"]
+        token_info:
+          type: object
+          properties:
+            token_valid:
+              type: boolean
+            expires_at:
+              type: string
+              format: date-time
+            scopes_granted:
+              type: array
+              items:
+                type: string
+            family_permissions:
+              type: array
+              items:
+                type: string
+        family_context:
+          type: object
+          properties:
+            authorized_by:
+              type: string
+            family_members_affected:
+              type: array
+              items:
+                type: string
+            authorization_date:
+              type: string
+              format: date-time
+            last_used:
+              type: string
+              format: date-time
+
+    AuthorizationInitiateRequest:
+      type: object
+      required: ["authorization_request", "family_context"]
+      properties:
+        authorization_request:
+          type: object
+          required: ["scopes", "redirect_uri"]
+          properties:
+            scopes:
+              type: array
+              items:
+                type: string
+              description: "OAuth scopes requested for family integration"
+            family_scope:
+              type: string
+              pattern: "^(personal|selective|shared|extended|interfamily):[a-zA-Z0-9_-]+$"
+            privacy_level:
+              type: string
+              enum: ["personal_private", "family_coordination", "household_coordination", "community_visible"]
+            redirect_uri:
+              type: string
+              format: uri
+            state:
+              type: string
+              description: "OAuth state parameter for CSRF protection"
+        family_context:
+          type: object
+          required: ["authorizing_member"]
+          properties:
+            authorizing_member:
+              type: string
+              description: "Family member initiating authorization"
+            family_members_affected:
+              type: array
+              items:
+                type: string
+            permission_level:
+              type: string
+              enum: ["read_only", "family_coordination", "full_integration"]
+            child_safety_required:
+              type: boolean
+              default: true
+            temporary_access:
+              type: boolean
+              default: false
+        security_preferences:
+          type: object
+          properties:
+            token_rotation_enabled:
+              type: boolean
+              default: true
+            session_timeout_minutes:
+              type: integer
+              minimum: 5
+              maximum: 480
+              default: 60
+            require_device_confirmation:
+              type: boolean
+              default: false
+            restrict_to_device:
+              type: boolean
+              default: false
+
+    AuthorizationInitiateResponse:
+      type: object
+      required: ["authorization_url", "session_id"]
+      properties:
+        authorization_url:
+          type: string
+          format: uri
+          description: "URL to redirect user for authorization"
+        session_id:
+          type: string
+          description: "Session identifier for tracking authorization flow"
+        state:
+          type: string
+          description: "OAuth state parameter to include in authorization"
+        expires_at:
+          type: string
+          format: date-time
+          description: "When authorization session expires"
+        family_impact_summary:
+          type: object
+          properties:
+            data_access_description:
+              type: string
+            family_benefits:
+              type: array
+              items:
+                type: string
+            privacy_protections:
+              type: array
+              items:
+                type: string
+
+    AuthorizationCompleteRequest:
+      type: object
+      required: ["authorization_code", "state"]
+      properties:
+        authorization_code:
+          type: string
+          description: "OAuth authorization code from provider"
+        state:
+          type: string
+          description: "OAuth state parameter for verification"
+        session_id:
+          type: string
+          description: "Session ID from authorization initiation"
+
+    AuthorizationCompleteResponse:
+      type: object
+      required: ["success", "connector_status"]
+      properties:
+        success:
+          type: boolean
+        connector_status:
+          type: string
+          enum: ["connected", "configured", "ready_for_sync"]
+        authorization_details:
+          type: object
+          properties:
+            authorized_at:
+              type: string
+              format: date-time
+            scopes_granted:
+              type: array
+              items:
+                type: string
+            family_permissions:
+              type: array
+              items:
+                type: string
+            token_expires_at:
+              type: string
+              format: date-time
+        next_steps:
+          type: array
+          items:
+            type: string
+        family_integration_ready:
+          type: boolean
+
+    # =============================================================================
+    # WEBHOOK MANAGEMENT SCHEMAS
+    # =============================================================================
+
+    WebhookListResponse:
+      type: object
+      required: ["webhooks"]
+      properties:
+        webhooks:
+          type: array
+          items:
+            type: object
+            properties:
+              webhook_id:
+                type: string
+              webhook_url:
+                type: string
+                format: uri
+              event_types:
+                type: array
+                items:
+                  type: string
+              status:
+                type: string
+                enum: ["active", "inactive", "error", "suspended"]
+              created_at:
+                type: string
+                format: date-time
+              last_delivery:
+                type: string
+                format: date-time
+              delivery_statistics:
+                type: object
+                properties:
+                  total_deliveries:
+                    type: integer
+                  successful_deliveries:
+                    type: integer
+                  failed_deliveries:
+                    type: integer
+                  last_success:
+                    type: string
+                    format: date-time
+        webhook_summary:
+          type: object
+          properties:
+            total_webhooks:
+              type: integer
+            active_webhooks:
+              type: integer
+            total_deliveries_today:
+              type: integer
+
+    WebhookCreateRequest:
+      type: object
+      required: ["event_types", "family_filtering"]
+      properties:
+        event_types:
+          type: array
+          items:
+            type: string
+          description: "Types of events to receive from the connector"
+        family_filtering:
+          type: object
+          required: ["family_scope", "privacy_level"]
+          properties:
+            family_scope:
+              type: string
+              pattern: "^(personal|selective|shared|extended|interfamily):[a-zA-Z0-9_-]+$"
+            privacy_level:
+              type: string
+              enum: ["personal_private", "family_coordination", "household_coordination", "community_visible"]
+            family_members:
+              type: array
+              items:
+                type: string
+            content_filters:
+              type: array
+              items:
+                type: string
+        delivery_preferences:
+          type: object
+          properties:
+            delivery_mode:
+              type: string
+              enum: ["immediate", "batched", "scheduled"]
+            batch_size:
+              type: integer
+              minimum: 1
+              maximum: 100
+            retry_policy:
+              type: object
+              properties:
+                max_retries:
+                  type: integer
+                  minimum: 0
+                  maximum: 10
+                retry_interval_seconds:
+                  type: integer
+                  minimum: 1
+                  maximum: 3600
+
+    WebhookCreateResponse:
+      type: object
+      required: ["webhook_id", "webhook_url"]
+      properties:
+        webhook_id:
+          type: string
+        webhook_url:
+          type: string
+          format: uri
+        secret:
+          type: string
+          description: "Webhook secret for signature verification"
+        configuration_applied:
+          type: object
+        family_integration_summary:
+          type: object
+
+    WebhookDetailsResponse:
+      type: object
+      properties:
+        webhook_info:
+          type: object
+        configuration:
+          type: object
+        delivery_statistics:
+          type: object
+        recent_deliveries:
+          type: array
+          items:
+            type: object
+
+    WebhookUpdateRequest:
+      type: object
+      properties:
+        event_types:
+          type: array
+          items:
+            type: string
+        family_filtering:
+          type: object
+        delivery_preferences:
+          type: object
+        status:
+          type: string
+          enum: ["active", "inactive", "suspended"]
+
+    # =============================================================================
+    # ADDITIONAL SCHEMAS
+    # =============================================================================
+
+    ConnectorCapabilitiesResponse:
+      type: object
+      properties:
+        available_capabilities:
+          type: array
+          items:
+            type: object
+        family_integration_options:
+          type: object
+        memory_enhancement_features:
+          type: array
+          items:
+            type: object
+
+    EnableCapabilitiesRequest:
+      type: object
+      required: ["capabilities_to_enable"]
+      properties:
+        capabilities_to_enable:
+          type: array
+          items:
+            type: string
+        family_configuration:
+          type: object
+
+    EnableCapabilitiesResponse:
+      type: object
+      properties:
+        capabilities_enabled:
+          type: array
+          items:
+            type: string
+        family_impact:
+          type: object
+
+    SyncTriggerRequest:
+      type: object
+      required: ["sync_parameters"]
+      properties:
+        sync_parameters:
+          type: object
+          properties:
+            sync_type:
+              type: string
+              enum: ["incremental", "full", "specific_data"]
+            direction:
+              type: string
+              enum: ["to_familyai", "from_familyai", "bidirectional"]
+            family_scope:
+              type: string
+            priority:
+              type: string
+              enum: ["low", "standard", "high", "urgent"]
+        family_context:
+          type: object
+        processing_options:
+          type: object
+
+    SyncTriggerResponse:
+      type: object
+      required: ["sync_initiated", "sync_id"]
+      properties:
+        sync_initiated:
+          type: boolean
+        sync_id:
+          type: string
+        estimated_completion:
+          type: string
+          format: date-time
+
+    SyncStatusResponse:
+      type: object
+      properties:
+        sync_info:
+          type: object
+        progress:
+          type: object
+        results:
+          type: object
+        family_impact:
+          type: object
+
+  responses:
+    BadRequest:
+      description: "Invalid request format or parameters"
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+              details:
+                type: string
+              validation_errors:
+                type: array
+                items:
+                  type: string
+
+    Forbidden:
+      description: "Access denied - insufficient connector permissions"
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+              required_permissions:
+                type: array
+                items:
+                  type: string
+              family_policy_violation:
+                type: string
+
+    NotFound:
+      description: "Connector not found"
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+              connector_id:
+                type: string
+              available_connectors:
+                type: array
+                items:
+                  type: string
+
+tags:
+  - name: "Connector Management"
+    description: "Connector discovery, configuration, and lifecycle management"
+  - name: "Authorization"
+    description: "OAuth2/OIDC authorization flows and token management"
+  - name: "Webhook Management"
+    description: "Webhook endpoint configuration and delivery management"
+  - name: "Capabilities"
+    description: "Connector capability discovery and configuration"
+  - name: "Sync Operations"
+    description: "Data synchronization control and monitoring"

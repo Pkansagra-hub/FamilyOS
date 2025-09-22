@@ -1,0 +1,3 @@
+- API → services.*: check RBAC role + `actor.caps` (WRITE/RECALL).
+- Event ingestion: verify envelope.band + obligations; reject if band < required.
+- Storage write: verify `space_id` allowed for actor.

@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://familyos.local/contracts/storage/workspace_state.schema.json",
+  "title": "Workspace State",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "space_id",
+    "ts",
+    "focus",
+    "summary"
+  ],
+  "properties": {
+    "id": {
+      "$ref": "./common.schema.json#/$defs/ULID"
+    },
+    "space_id": {
+      "$ref": "./common.schema.json#/$defs/SpaceId"
+    },
+    "ts": {
+      "$ref": "./common.schema.json#/$defs/Timestamp"
+    },
+    "focus": {
+      "type": "array",
+      "items": {
+        "$ref": "./common.schema.json#/$defs/ULID"
+      }
+    },
+    "summary": {
+      "type": "string"
+    },
+    "band": {
+      "$ref": "./common.schema.json#/$defs/Band"
+    },
+    "salience": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "score"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "./common.schema.json#/$defs/ULID"
+          },
+          "score": {
+            "type": "number"
+          }
+        }
+      }
+    }
+  }
+}

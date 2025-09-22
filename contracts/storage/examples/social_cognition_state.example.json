@@ -1,0 +1,44 @@
+{
+  "person_id": "alice",
+  "space_id": "shared:household",
+  "beliefs": {
+    "belief:wants:should call grandma after dinner": {
+      "truth_prob": 0.72,
+      "confidence": 0.68,
+      "source": "evt-2025-09-05-001",
+      "updated_at": 1693872000.0
+    },
+    "belief:knows:grandma's phone number": {
+      "truth_prob": 0.85,
+      "confidence": 0.60,
+      "source": "historical_context",
+      "updated_at": 1693872000.0
+    }
+  },
+  "desires": {
+    "maintain family connections": {
+      "strength": 0.75,
+      "source": "social_pattern_inference",
+      "updated_at": 1693872000.0
+    }
+  },
+  "intentions": {
+    "call grandma after dinner": {
+      "commitment": 0.72,
+      "deadline": null,
+      "source": "evt-2025-09-05-001",
+      "updated_at": 1693872000.0
+    }
+  },
+  "affect_hint": {
+    "valence": 0.2,
+    "arousal": 0.35
+  },
+  "visibility": [
+    "evt-2025-09-04-010",
+    "evt-2025-09-04-011",
+    "evt-2025-09-05-001"
+  ],
+  "model_version": "tom-mvp",
+  "updated_at": 1693872000.0
+}

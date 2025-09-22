@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://memoryos.local/contracts/events/schemas/hippo_encode.schema.json",
+  "title": "HIPPO_ENCODE@1.0 payload",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "content",
+    "space_id",
+    "occurred_at"
+  ],
+  "properties": {
+    "content": {
+      "type": "object"
+    },
+    "space_id": {
+      "$ref": "_common.json#/definitions/SpaceRef"
+    },
+    "occurred_at": {
+      "$ref": "_common.json#/definitions/ISOInstant"
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "uniqueItems": true
+    },
+    "embeddings_hint": {
+      "type": "boolean",
+      "default": true
+    },
+    "trace": {
+      "$ref": "_common.json#/definitions/TraceContext"
+    }
+  }
+}

@@ -1,0 +1,611 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "$id": "reinforcement_learning.event.json",
+    "title": "Reinforcement Learning Event",
+    "description": "Event schema for reinforcement learning processes based on dopaminergic systems, basal ganglia circuits, and reward prediction mechanisms",
+    "type": "object",
+    "required": [
+        "event_id",
+        "timestamp",
+        "learning_context",
+        "reward_processing",
+        "value_learning",
+        "neural_reward_systems"
+    ],
+    "properties": {
+        "event_id": {
+            "type": "string",
+            "description": "Unique identifier for this reinforcement learning event"
+        },
+        "timestamp": {
+            "type": "string",
+            "format": "date-time"
+        },
+        "learning_context": {
+            "type": "object",
+            "properties": {
+                "environmental_state": {
+                    "type": "object",
+                    "properties": {
+                        "state_representation": {
+                            "type": "object"
+                        },
+                        "state_features": {
+                            "type": "array"
+                        },
+                        "state_uncertainty": {
+                            "type": "number"
+                        },
+                        "state_novelty": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "action_context": {
+                    "type": "object",
+                    "properties": {
+                        "available_actions": {
+                            "type": "array"
+                        },
+                        "action_constraints": {
+                            "type": "array"
+                        },
+                        "action_costs": {
+                            "type": "object"
+                        },
+                        "action_complexity": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "task_structure": {
+                    "type": "object",
+                    "properties": {
+                        "task_type": {
+                            "type": "string"
+                        },
+                        "reward_structure": {
+                            "type": "object"
+                        },
+                        "temporal_dynamics": {
+                            "type": "object"
+                        },
+                        "goal_hierarchy": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "learning_phase": {
+                    "type": "string",
+                    "enum": [
+                        "exploration",
+                        "exploitation",
+                        "consolidation",
+                        "transfer"
+                    ]
+                }
+            }
+        },
+        "reward_processing": {
+            "type": "object",
+            "properties": {
+                "reward_signals": {
+                    "type": "object",
+                    "properties": {
+                        "immediate_reward": {
+                            "type": "object",
+                            "properties": {
+                                "reward_magnitude": {
+                                    "type": "number"
+                                },
+                                "reward_valence": {
+                                    "type": "string",
+                                    "enum": [
+                                        "positive",
+                                        "negative",
+                                        "neutral"
+                                    ]
+                                },
+                                "reward_probability": {
+                                    "type": "number"
+                                },
+                                "reward_delay": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "delayed_reward": {
+                            "type": "object",
+                            "properties": {
+                                "expected_reward": {
+                                    "type": "number"
+                                },
+                                "reward_timing": {
+                                    "type": "number"
+                                },
+                                "discounting_factor": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "intrinsic_reward": {
+                            "type": "object",
+                            "properties": {
+                                "curiosity_reward": {
+                                    "type": "number"
+                                },
+                                "novelty_reward": {
+                                    "type": "number"
+                                },
+                                "competence_reward": {
+                                    "type": "number"
+                                },
+                                "autonomy_reward": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                },
+                "prediction_error_computation": {
+                    "type": "object",
+                    "properties": {
+                        "temporal_difference_error": {
+                            "type": "object",
+                            "properties": {
+                                "td_error_magnitude": {
+                                    "type": "number"
+                                },
+                                "td_error_sign": {
+                                    "type": "string",
+                                    "enum": [
+                                        "positive",
+                                        "negative",
+                                        "zero"
+                                    ]
+                                },
+                                "prediction_accuracy": {
+                                    "type": "number"
+                                },
+                                "surprise_level": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "reward_prediction_error": {
+                            "type": "object",
+                            "properties": {
+                                "predicted_reward": {
+                                    "type": "number"
+                                },
+                                "actual_reward": {
+                                    "type": "number"
+                                },
+                                "prediction_confidence": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "value_prediction_error": {
+                            "type": "object",
+                            "properties": {
+                                "state_value_error": {
+                                    "type": "number"
+                                },
+                                "action_value_error": {
+                                    "type": "number"
+                                },
+                                "policy_gradient_error": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                },
+                "reward_expectation": {
+                    "type": "object",
+                    "properties": {
+                        "value_function_estimates": {
+                            "type": "object",
+                            "properties": {
+                                "state_values": {
+                                    "type": "object"
+                                },
+                                "action_values": {
+                                    "type": "object"
+                                },
+                                "advantage_values": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "policy_estimates": {
+                            "type": "object",
+                            "properties": {
+                                "action_probabilities": {
+                                    "type": "object"
+                                },
+                                "policy_entropy": {
+                                    "type": "number"
+                                },
+                                "policy_confidence": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "value_learning": {
+            "type": "object",
+            "properties": {
+                "value_function_updates": {
+                    "type": "object",
+                    "properties": {
+                        "q_learning_updates": {
+                            "type": "object",
+                            "properties": {
+                                "q_value_changes": {
+                                    "type": "object"
+                                },
+                                "learning_rate": {
+                                    "type": "number"
+                                },
+                                "eligibility_traces": {
+                                    "type": "object"
+                                },
+                                "experience_replay": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "policy_gradient_updates": {
+                            "type": "object",
+                            "properties": {
+                                "policy_parameter_changes": {
+                                    "type": "object"
+                                },
+                                "gradient_direction": {
+                                    "type": "object"
+                                },
+                                "step_size_adaptation": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "actor_critic_updates": {
+                            "type": "object",
+                            "properties": {
+                                "actor_updates": {
+                                    "type": "object"
+                                },
+                                "critic_updates": {
+                                    "type": "object"
+                                },
+                                "advantage_estimation": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "exploration_strategies": {
+                    "type": "object",
+                    "properties": {
+                        "epsilon_greedy_exploration": {
+                            "type": "object",
+                            "properties": {
+                                "epsilon_value": {
+                                    "type": "number"
+                                },
+                                "exploration_rate_decay": {
+                                    "type": "number"
+                                },
+                                "random_action_selection": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "curiosity_driven_exploration": {
+                            "type": "object",
+                            "properties": {
+                                "information_gain_estimation": {
+                                    "type": "object"
+                                },
+                                "uncertainty_estimation": {
+                                    "type": "object"
+                                },
+                                "novelty_detection": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "upper_confidence_bound": {
+                            "type": "object",
+                            "properties": {
+                                "confidence_intervals": {
+                                    "type": "object"
+                                },
+                                "optimism_bias": {
+                                    "type": "number"
+                                },
+                                "uncertainty_weighting": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                },
+                "learning_dynamics": {
+                    "type": "object",
+                    "properties": {
+                        "learning_rate_adaptation": {
+                            "type": "object",
+                            "properties": {
+                                "adaptive_learning_rates": {
+                                    "type": "object"
+                                },
+                                "meta_learning_adjustments": {
+                                    "type": "object"
+                                },
+                                "performance_based_modulation": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "experience_prioritization": {
+                            "type": "object",
+                            "properties": {
+                                "priority_assignment": {
+                                    "type": "object"
+                                },
+                                "importance_sampling": {
+                                    "type": "object"
+                                },
+                                "replay_buffer_management": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "neural_reward_systems": {
+            "type": "object",
+            "properties": {
+                "dopaminergic_system_activity": {
+                    "type": "object",
+                    "properties": {
+                        "ventral_tegmental_area_vta": {
+                            "type": "object",
+                            "properties": {
+                                "dopamine_release_rate": {
+                                    "type": "number"
+                                },
+                                "phasic_dopamine_signals": {
+                                    "type": "object"
+                                },
+                                "tonic_dopamine_levels": {
+                                    "type": "number"
+                                },
+                                "reward_prediction_error_coding": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "substantia_nigra_pars_compacta": {
+                            "type": "object",
+                            "properties": {
+                                "motor_learning_modulation": {
+                                    "type": "object"
+                                },
+                                "action_value_signaling": {
+                                    "type": "object"
+                                },
+                                "habit_formation_contribution": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "dopamine_receptor_activity": {
+                            "type": "object",
+                            "properties": {
+                                "d1_receptor_activation": {
+                                    "type": "number"
+                                },
+                                "d2_receptor_activation": {
+                                    "type": "number"
+                                },
+                                "receptor_sensitivity_modulation": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "basal_ganglia_learning_circuits": {
+                    "type": "object",
+                    "properties": {
+                        "striatum_learning_activity": {
+                            "type": "object",
+                            "properties": {
+                                "dorsal_striatum_habit_learning": {
+                                    "type": "object"
+                                },
+                                "ventral_striatum_reward_learning": {
+                                    "type": "object"
+                                },
+                                "striatal_plasticity": {
+                                    "type": "object"
+                                },
+                                "cortico_striatal_learning": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "nucleus_accumbens_activity": {
+                            "type": "object",
+                            "properties": {
+                                "reward_valuation": {
+                                    "type": "object"
+                                },
+                                "motivation_enhancement": {
+                                    "type": "object"
+                                },
+                                "addiction_related_plasticity": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "prefrontal_learning_circuits": {
+                    "type": "object",
+                    "properties": {
+                        "orbitofrontal_cortex_activity": {
+                            "type": "object",
+                            "properties": {
+                                "outcome_value_learning": {
+                                    "type": "object"
+                                },
+                                "reversal_learning": {
+                                    "type": "object"
+                                },
+                                "flexible_value_updating": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "anterior_cingulate_cortex_activity": {
+                            "type": "object",
+                            "properties": {
+                                "effort_cost_learning": {
+                                    "type": "object"
+                                },
+                                "performance_monitoring_learning": {
+                                    "type": "object"
+                                },
+                                "social_learning_signals": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "learning_outcomes": {
+            "type": "object",
+            "properties": {
+                "behavioral_changes": {
+                    "type": "object",
+                    "properties": {
+                        "action_selection_changes": {
+                            "type": "object"
+                        },
+                        "policy_improvements": {
+                            "type": "object"
+                        },
+                        "performance_gains": {
+                            "type": "object"
+                        },
+                        "habit_formation": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "neural_adaptations": {
+                    "type": "object",
+                    "properties": {
+                        "synaptic_plasticity_changes": {
+                            "type": "object"
+                        },
+                        "network_connectivity_changes": {
+                            "type": "object"
+                        },
+                        "neurotransmitter_system_adaptations": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "learning_efficiency": {
+                    "type": "object",
+                    "properties": {
+                        "convergence_rate": {
+                            "type": "number"
+                        },
+                        "sample_efficiency": {
+                            "type": "number"
+                        },
+                        "generalization_capability": {
+                            "type": "number"
+                        },
+                        "transfer_learning_success": {
+                            "type": "number"
+                        }
+                    }
+                }
+            }
+        },
+        "system_integration": {
+            "type": "object",
+            "properties": {
+                "memory_integration": {
+                    "type": "object",
+                    "properties": {
+                        "episodic_memory_encoding": {
+                            "type": "object"
+                        },
+                        "semantic_memory_updating": {
+                            "type": "object"
+                        },
+                        "procedural_memory_formation": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "attention_integration": {
+                    "type": "object",
+                    "properties": {
+                        "attention_value_coupling": {
+                            "type": "object"
+                        },
+                        "reward_attention_modulation": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "executive_control_integration": {
+                    "type": "object",
+                    "properties": {
+                        "goal_directed_learning": {
+                            "type": "object"
+                        },
+                        "cognitive_control_learning": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "metadata": {
+            "type": "object",
+            "properties": {
+                "learning_duration": {
+                    "type": "number"
+                },
+                "computational_cost": {
+                    "type": "number"
+                },
+                "neural_resource_utilization": {
+                    "type": "object"
+                },
+                "learning_success_level": {
+                    "type": "number"
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,527 @@
+# User Creation Workflow Test Contracts
+# Comprehensive test validation for user management system
+# Following WARD testing framework and MemoryOS test standards
+
+metadata:
+  name: "User Creation Workflow Test Suite"
+  version: "1.0.0"
+  description: "Contract tests for complete user creation, role assignment, and space access workflow"
+  framework: "WARD"
+  test_type: "integration"
+  cognitive_coordination: true
+  
+test_scenarios:
+
+  # ===== HAPPY PATH SCENARIOS =====
+  
+  - name: "successful_user_creation_complete_workflow"
+    description: "End-to-end user creation with role assignment and space access"
+    type: "integration"
+    cognitive_validation: true
+    
+    setup:
+      admin_user:
+        user_id: "550e8400-e29b-41d4-a716-446655440000"
+        role: "admin"
+        space_id: "shared:household"
+        authentication: "mTLS_valid"
+      
+    request:
+      method: "POST"
+      endpoint: "/v1/admin/users"
+      headers:
+        Content-Type: "application/json"
+        Authorization: "Bearer admin_token_valid"
+        X-Request-ID: "test-req-001"
+        X-Trace-ID: "trace-001-user-creation"
+      body:
+        email: "new_user@example.com"
+        name: "Test Guardian"
+        initial_role: "guardian"
+        space_assignments:
+          - space_id: "shared:household" 
+            permissions: ["READ", "WRITE", "SHARE"]
+          - space_id: "private:test_guardian"
+            permissions: ["READ", "WRITE", "ADMIN"]
+        security_settings:
+          trust_level: "green"
+          mfa_required: false
+    
+    expected_response:
+      status_code: 201
+      headers:
+        Content-Type: "application/json"
+        X-Request-ID: "test-req-001"
+      body_schema: "UserCreated"
+      body_validation:
+        user_id: "uuid_format"
+        email: "new_user@example.com"
+        name: "Test Guardian"
+        status: "active"
+        created_ts: "iso_timestamp"
+        device_registration:
+          token_expires: "iso_timestamp"
+          registration_url: "url_format"
+    
+    expected_events:
+      - topic: "USER_CREATED@1.0"
+        pipeline: "P19"
+        validation:
+          user_id: "matches_response.user_id"
+          email: "new_user@example.com"
+          initial_role: "guardian"
+          space_assignments: "length:2"
+          trace_context:
+            trace_id: "trace-001-user-creation"
+      
+      - topic: "USER_ROLE_ASSIGNED@1.0"  
+        pipeline: "P16"
+        validation:
+          user_id: "matches_response.user_id"
+          role_name: "guardian"
+          scope:
+            type: "global"
+          capabilities: "contains:memory:read,memory:write"
+      
+      - topic: "USER_SPACE_ACCESS_GRANTED@1.0"
+        pipeline: "P16" 
+        count: 2  # Two space assignments
+        validation:
+          user_id: "matches_response.user_id"
+          permissions: "array_contains:READ,WRITE"
+    
+    expected_storage:
+      - table: "user_profile"
+        validation:
+          user_id: "matches_response.user_id"
+          email: "new_user@example.com"
+          security_settings:
+            trust_level: "green"
+            mfa_required: false
+      
+      - table: "user_role_assignment"
+        validation:
+          user_id: "matches_response.user_id"
+          role_name: "guardian"
+          scope_type: "global"
+      
+      - table: "user_space_assignment"
+        count: 2
+        validation:
+          user_id: "matches_response.user_id"
+          permissions: "array_type"
+    
+    cognitive_validation:
+      memory_steward:
+        user_model_initialized: true
+        personalization_profile_created: true
+      
+      working_memory:
+        user_context_cached: true
+        permission_cache_updated: true
+      
+      hippocampus:
+        user_space_patterns_recorded: true
+        memory_formation_policies_applied: true
+    
+    middleware_validation:
+      mw_auth:
+        admin_token_validated: true
+        mtls_verification_passed: true
+      
+      mw_pep:
+        policy_decision: "PERMIT"
+        rbac_check_passed: true
+        user_creation_authorized: true
+      
+      mw_sec:
+        threat_detection_passed: true
+        rate_limit_ok: true
+        input_validation_passed: true
+      
+      mw_qos:
+        latency_budget_met: true
+        resource_allocation_ok: true
+      
+      mw_saf:
+        safety_check_passed: true
+        content_validation_ok: true
+      
+      mw_obs:
+        metrics_recorded: true
+        traces_generated: true
+        logs_structured: true
+
+  # ===== VALIDATION ERROR SCENARIOS =====
+  
+  - name: "invalid_email_format"
+    description: "User creation fails with invalid email format"
+    type: "validation"
+    
+    request:
+      method: "POST"
+      endpoint: "/v1/admin/users"
+      headers:
+        Content-Type: "application/json"
+        Authorization: "Bearer admin_token_valid"
+      body:
+        email: "invalid-email-format"
+        name: "Test User"
+        initial_role: "member"
+    
+    expected_response:
+      status_code: 400
+      body_schema: "ErrorResponse"
+      body_validation:
+        error_code: "VALIDATION_ERROR"
+        message: "contains:email format"
+        details:
+          field: "email"
+          constraint: "email_format"
+    
+    expected_events: []  # No events should be generated
+    expected_storage: []  # No storage changes
+  
+  - name: "duplicate_email_conflict"
+    description: "User creation fails when email already exists"
+    type: "conflict"
+    
+    setup:
+      existing_user:
+        email: "existing@example.com"
+        user_id: "550e8400-e29b-41d4-a716-446655440001"
+    
+    request:
+      method: "POST"
+      endpoint: "/v1/admin/users"
+      headers:
+        Content-Type: "application/json"
+        Authorization: "Bearer admin_token_valid"
+      body:
+        email: "existing@example.com"
+        name: "Duplicate User"
+        initial_role: "member"
+    
+    expected_response:
+      status_code: 409
+      body_schema: "ErrorResponse" 
+      body_validation:
+        error_code: "EMAIL_ALREADY_EXISTS"
+        message: "contains:email already registered"
+    
+    expected_events: []
+    expected_storage: []
+
+  # ===== AUTHORIZATION ERROR SCENARIOS =====
+  
+  - name: "unauthorized_user_creation"
+    description: "Non-admin user cannot create users"
+    type: "authorization"
+    
+    setup:
+      requesting_user:
+        user_id: "550e8400-e29b-41d4-a716-446655440002"
+        role: "member"  # Not admin
+    
+    request:
+      method: "POST"
+      endpoint: "/v1/admin/users"
+      headers:
+        Content-Type: "application/json"
+        Authorization: "Bearer member_token_valid"
+      body:
+        email: "unauthorized@example.com"
+        name: "Unauthorized User"
+        initial_role: "member"
+    
+    expected_response:
+      status_code: 403
+      body_schema: "ErrorResponse"
+      body_validation:
+        error_code: "INSUFFICIENT_PERMISSIONS"
+        message: "contains:admin role required"
+    
+    middleware_validation:
+      mw_pep:
+        policy_decision: "DENY"
+        rbac_check_failed: true
+        missing_capability: "admin:user_mgmt"
+  
+  - name: "invalid_authentication_token"
+    description: "User creation fails with invalid token"
+    type: "authentication"
+    
+    request:
+      method: "POST"
+      endpoint: "/v1/admin/users"
+      headers:
+        Content-Type: "application/json"
+        Authorization: "Bearer invalid_token"
+      body:
+        email: "test@example.com"
+        name: "Test User"
+        initial_role: "member"
+    
+    expected_response:
+      status_code: 401
+      body_schema: "ErrorResponse"
+      body_validation:
+        error_code: "INVALID_TOKEN"
+        message: "contains:authentication failed"
+    
+    middleware_validation:
+      mw_auth:
+        token_validation_failed: true
+        mtls_verification_failed: false
+
+  # ===== SPACE ACCESS VALIDATION =====
+  
+  - name: "invalid_space_assignment"
+    description: "User creation fails with invalid space ID"
+    type: "validation"
+    
+    request:
+      method: "POST"
+      endpoint: "/v1/admin/users"
+      headers:
+        Content-Type: "application/json"
+        Authorization: "Bearer admin_token_valid"
+      body:
+        email: "test@example.com"
+        name: "Test User"
+        initial_role: "member"
+        space_assignments:
+          - space_id: "nonexistent:space"
+            permissions: ["READ"]
+    
+    expected_response:
+      status_code: 400
+      body_schema: "ErrorResponse"
+      body_validation:
+        error_code: "INVALID_SPACE_ID"
+        message: "contains:space does not exist"
+        details:
+          field: "space_assignments[0].space_id"
+          value: "nonexistent:space"
+
+  # ===== ROLE VALIDATION SCENARIOS =====
+  
+  - name: "invalid_role_assignment"
+    description: "User creation fails with invalid role"
+    type: "validation"
+    
+    request:
+      method: "POST"
+      endpoint: "/v1/admin/users"
+      headers:
+        Content-Type: "application/json"
+        Authorization: "Bearer admin_token_valid"
+      body:
+        email: "test@example.com"
+        name: "Test User"
+        initial_role: "invalid_role"
+    
+    expected_response:
+      status_code: 400
+      body_schema: "ErrorResponse"
+      body_validation:
+        error_code: "INVALID_ROLE"
+        message: "contains:role not recognized"
+        details:
+          field: "initial_role"
+          allowed_values: ["guardian", "member", "child", "guest"]
+
+  # ===== PERFORMANCE AND LOAD SCENARIOS =====
+  
+  - name: "concurrent_user_creation"
+    description: "Multiple concurrent user creation requests"
+    type: "performance"
+    concurrency: 10
+    
+    request_template:
+      method: "POST"
+      endpoint: "/v1/admin/users"
+      headers:
+        Content-Type: "application/json"
+        Authorization: "Bearer admin_token_valid"
+      body:
+        email: "user_{index}@example.com"
+        name: "Concurrent User {index}"
+        initial_role: "member"
+    
+    expected_response:
+      status_code: 201
+      response_time_p95: "< 500ms"
+      success_rate: "> 95%"
+    
+    cognitive_validation:
+      memory_steward:
+        concurrent_model_creation: true
+        no_resource_conflicts: true
+    
+    middleware_validation:
+      mw_qos:
+        latency_budget_met: true
+        concurrent_processing_ok: true
+
+  # ===== EVENT FLOW VALIDATION =====
+  
+  - name: "event_ordering_validation"
+    description: "Validate correct event ordering in user creation workflow"
+    type: "event_flow"
+    
+    request:
+      method: "POST"
+      endpoint: "/v1/admin/users"
+      headers:
+        Content-Type: "application/json"
+        Authorization: "Bearer admin_token_valid"
+      body:
+        email: "event_test@example.com"
+        name: "Event Test User"
+        initial_role: "guardian"
+        space_assignments:
+          - space_id: "shared:household"
+            permissions: ["READ", "WRITE"]
+    
+    expected_event_sequence:
+      - order: 1
+        topic: "USER_CREATED@1.0"
+        max_delay: "100ms"
+      
+      - order: 2
+        topic: "USER_ROLE_ASSIGNED@1.0"
+        max_delay: "200ms"
+        depends_on: "USER_CREATED"
+      
+      - order: 3
+        topic: "USER_SPACE_ACCESS_GRANTED@1.0"
+        max_delay: "300ms"
+        depends_on: "USER_ROLE_ASSIGNED"
+    
+    cognitive_coordination_validation:
+      pipeline_processing:
+        p19_personalization: "< 200ms"
+        p16_feature_flags: "< 100ms"
+        p18_safety_check: "< 150ms"
+      
+      event_correlation:
+        trace_id_consistency: true
+        span_hierarchy_correct: true
+
+  # ===== COGNITIVE ORCHESTRATION SCENARIOS =====
+  
+  - name: "cognitive_integration_validation"
+    description: "Validate complete cognitive system integration"
+    type: "cognitive"
+    
+    request:
+      method: "POST"
+      endpoint: "/v1/admin/users"
+      headers:
+        Content-Type: "application/json"
+        Authorization: "Bearer admin_token_valid"
+      body:
+        email: "cognitive_test@example.com"
+        name: "Cognitive Test User"
+        initial_role: "guardian"
+        space_assignments:
+          - space_id: "shared:household"
+            permissions: ["READ", "WRITE", "SHARE"]
+    
+    cognitive_validation:
+      memory_steward:
+        user_model_creation:
+          personalization_profile: "initialized"
+          memory_formation_policy: "applied"
+          space_awareness: "configured"
+        
+        coordination:
+          hippocampus_integration: "active"
+          working_memory_sync: "completed"
+          attention_gate_configured: "true"
+      
+      hippocampus:
+        memory_encoding:
+          user_pattern_recording: "active"
+          space_policy_integration: "applied"
+          dg_ca3_ca1_coordination: "functioning"
+        
+        consolidation:
+          user_space_mapping: "recorded"
+          permission_patterns: "consolidated"
+      
+      working_memory:
+        caching:
+          l1_user_context: "cached"
+          l2_permission_cache: "updated"
+          l3_space_policies: "preloaded"
+        
+        hierarchical_coordination:
+          cache_invalidation: "triggered"
+          consistency_maintained: "true"
+
+# ===== TEST FRAMEWORK CONFIGURATION =====
+
+test_configuration:
+  framework: "WARD"
+  parallel_execution: true
+  max_concurrent_tests: 5
+  timeout_per_test: "30s"
+  
+  database_isolation:
+    use_transactions: true
+    cleanup_after_test: true
+    seed_data_required: true
+  
+  event_validation:
+    event_timeout: "5s"
+    event_ordering_strict: true
+    trace_correlation_required: true
+  
+  cognitive_testing:
+    memory_steward_mock: false  # Use real components
+    hippocampus_integration: true
+    working_memory_validation: true
+  
+  middleware_testing:
+    full_middleware_chain: true
+    policy_engine_integration: true
+    security_validation: true
+  
+  performance_thresholds:
+    p95_latency: "500ms"
+    p99_latency: "1000ms"
+    throughput_min: "100 req/s"
+    success_rate_min: "99%"
+
+# ===== VALIDATION HELPERS =====
+
+validation_helpers:
+  uuid_format: "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$"
+  iso_timestamp: "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d{3})?Z$"
+  url_format: "^https?://[^\\s/$.?#].[^\\s]*$"
+  email_format: "^[^@]+@[^@]+\\.[^@]+$"
+  
+  event_validation:
+    envelope_structure: "required:id,ts,topic,payload,band,obligations,qos,hashes,signature"
+    signature_validation: "ed25519_verify"
+    hash_validation: "sha256_verify"
+  
+  storage_validation:
+    user_profile_required: "user_id,email,name,status,created_ts,security_settings"
+    role_assignment_required: "assignment_id,user_id,role_name,scope,assigned_ts"
+    space_assignment_required: "assignment_id,user_id,space_id,permissions,assigned_ts"
+
+# ===== ERROR CODE MAPPINGS =====
+
+error_code_mappings:
+  VALIDATION_ERROR: 400
+  EMAIL_ALREADY_EXISTS: 409
+  INVALID_SPACE_ID: 400
+  INVALID_ROLE: 400
+  INSUFFICIENT_PERMISSIONS: 403
+  INVALID_TOKEN: 401
+  RATE_LIMIT_EXCEEDED: 429
+  INTERNAL_SERVER_ERROR: 500
+  SERVICE_UNAVAILABLE: 503

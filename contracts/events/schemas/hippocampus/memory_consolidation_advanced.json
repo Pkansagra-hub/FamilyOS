@@ -1,0 +1,270 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "$id": "memory_consolidation_advanced.schema.json",
+    "title": "Advanced Memory Consolidation Event",
+    "description": "Enhanced event for hippocampal memory consolidation with systems consolidation, tagging, and cortical transfer coordination",
+    "type": "object",
+    "required": [
+        "timestamp",
+        "consolidation_type",
+        "memory_trace",
+        "consolidation_phase",
+        "cortical_target_regions",
+        "consolidation_strength"
+    ],
+    "properties": {
+        "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timing of consolidation event"
+        },
+        "consolidation_type": {
+            "type": "string",
+            "enum": [
+                "synaptic",
+                "systems",
+                "metaplastic",
+                "cross_modal"
+            ],
+            "description": "Type of memory consolidation process"
+        },
+        "memory_trace": {
+            "type": "object",
+            "required": [
+                "trace_id",
+                "encoding_strength",
+                "memory_type"
+            ],
+            "properties": {
+                "trace_id": {
+                    "type": "string"
+                },
+                "encoding_strength": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "memory_type": {
+                    "type": "string",
+                    "enum": [
+                        "episodic",
+                        "semantic",
+                        "spatial",
+                        "temporal",
+                        "procedural"
+                    ]
+                },
+                "associative_network": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "associated_trace_id": {
+                                "type": "string"
+                            },
+                            "association_strength": {
+                                "type": "number"
+                            },
+                            "association_type": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "contextual_features": {
+                    "type": "object",
+                    "properties": {
+                        "spatial_context": {
+                            "type": "object"
+                        },
+                        "temporal_context": {
+                            "type": "object"
+                        },
+                        "emotional_context": {
+                            "type": "object"
+                        },
+                        "social_context": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "consolidation_phase": {
+            "type": "object",
+            "required": [
+                "phase_type",
+                "phase_duration",
+                "molecular_mechanisms"
+            ],
+            "properties": {
+                "phase_type": {
+                    "type": "string",
+                    "enum": [
+                        "immediate_early",
+                        "early",
+                        "late",
+                        "maintenance",
+                        "reconsolidation"
+                    ]
+                },
+                "phase_duration": {
+                    "type": "number",
+                    "minimum": 0
+                },
+                "molecular_mechanisms": {
+                    "type": "object",
+                    "properties": {
+                        "protein_synthesis": {
+                            "type": "boolean"
+                        },
+                        "gene_expression_changes": {
+                            "type": "array"
+                        },
+                        "synaptic_plasticity_type": {
+                            "type": "string"
+                        },
+                        "neurotransmitter_systems": {
+                            "type": "array"
+                        }
+                    }
+                },
+                "sleep_dependency": {
+                    "type": "object",
+                    "properties": {
+                        "sleep_stage_requirement": {
+                            "type": "string"
+                        },
+                        "sharp_wave_ripples": {
+                            "type": "boolean"
+                        },
+                        "spindle_coupling": {
+                            "type": "boolean"
+                        }
+                    }
+                }
+            }
+        },
+        "cortical_target_regions": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "region_name": {
+                        "type": "string",
+                        "enum": [
+                            "prefrontal_cortex",
+                            "temporal_cortex",
+                            "parietal_cortex",
+                            "occipital_cortex",
+                            "cingulate_cortex"
+                        ]
+                    },
+                    "transfer_strength": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1
+                    },
+                    "specialization_role": {
+                        "type": "string"
+                    },
+                    "integration_timeline": {
+                        "type": "number"
+                    }
+                }
+            },
+            "description": "Cortical regions targeted for memory transfer"
+        },
+        "consolidation_strength": {
+            "type": "object",
+            "required": [
+                "initial_strength",
+                "final_strength",
+                "consolidation_efficiency"
+            ],
+            "properties": {
+                "initial_strength": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "final_strength": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "consolidation_efficiency": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "interference_resistance": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "retention_prediction": {
+                    "type": "object",
+                    "properties": {
+                        "short_term_retention": {
+                            "type": "number"
+                        },
+                        "long_term_retention": {
+                            "type": "number"
+                        },
+                        "forgetting_curve_parameters": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "systems_integration": {
+            "type": "object",
+            "properties": {
+                "working_memory_coordination": {
+                    "type": "object",
+                    "properties": {
+                        "buffer_allocation": {
+                            "type": "string"
+                        },
+                        "rehearsal_strategy": {
+                            "type": "string"
+                        },
+                        "interference_management": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "attention_modulation": {
+                    "type": "object",
+                    "properties": {
+                        "attention_gate_influence": {
+                            "type": "number"
+                        },
+                        "salience_adjustment": {
+                            "type": "number"
+                        },
+                        "focus_requirements": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "consciousness_integration": {
+                    "type": "object",
+                    "properties": {
+                        "global_workspace_broadcast": {
+                            "type": "boolean"
+                        },
+                        "conscious_accessibility": {
+                            "type": "number"
+                        },
+                        "reportability_level": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

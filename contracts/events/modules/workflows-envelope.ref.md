@@ -1,0 +1,2 @@
+- Transitions require AMBER band; read-only observers GREEN.
+- `obligations`: AUDIT_ACCESS on all transitions.

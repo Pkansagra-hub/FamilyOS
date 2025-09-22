@@ -1,0 +1,180 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "$id": "memory_interference_resolution.schema.json",
+    "title": "Memory Interference Resolution Event",
+    "description": "Event for resolving memory interference between similar memories through pattern separation and competitive dynamics",
+    "type": "object",
+    "required": [
+        "timestamp",
+        "interference_type",
+        "competing_memories",
+        "resolution_strategy",
+        "resolution_outcome"
+    ],
+    "properties": {
+        "timestamp": {
+            "type": "string",
+            "format": "date-time"
+        },
+        "interference_type": {
+            "type": "string",
+            "enum": [
+                "proactive_interference",
+                "retroactive_interference",
+                "similarity_based",
+                "temporal_overlap",
+                "contextual_confusion"
+            ]
+        },
+        "competing_memories": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "memory_id": {
+                        "type": "string"
+                    },
+                    "memory_strength": {
+                        "type": "number"
+                    },
+                    "similarity_score": {
+                        "type": "number"
+                    },
+                    "temporal_distance": {
+                        "type": "number"
+                    },
+                    "contextual_overlap": {
+                        "type": "number"
+                    }
+                }
+            }
+        },
+        "resolution_strategy": {
+            "type": "object",
+            "required": [
+                "strategy_type",
+                "mechanism"
+            ],
+            "properties": {
+                "strategy_type": {
+                    "type": "string",
+                    "enum": [
+                        "pattern_separation",
+                        "competitive_selection",
+                        "contextual_disambiguation",
+                        "temporal_tagging",
+                        "inhibitory_control"
+                    ]
+                },
+                "mechanism": {
+                    "type": "object",
+                    "properties": {
+                        "dentate_gyrus_separation": {
+                            "type": "object",
+                            "properties": {
+                                "neurogenesis_contribution": {
+                                    "type": "number"
+                                },
+                                "sparse_coding_level": {
+                                    "type": "number"
+                                },
+                                "orthogonalization_strength": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "ca3_competition": {
+                            "type": "object",
+                            "properties": {
+                                "lateral_inhibition": {
+                                    "type": "number"
+                                },
+                                "winner_take_all_dynamics": {
+                                    "type": "boolean"
+                                },
+                                "recurrent_strengthening": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "prefrontal_control": {
+                            "type": "object",
+                            "properties": {
+                                "cognitive_control_strength": {
+                                    "type": "number"
+                                },
+                                "attention_bias": {
+                                    "type": "number"
+                                },
+                                "goal_relevance_weighting": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "resolution_outcome": {
+            "type": "object",
+            "properties": {
+                "winning_memory": {
+                    "type": "string"
+                },
+                "suppressed_memories": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "resolution_confidence": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "distinctiveness_achieved": {
+                    "type": "number"
+                },
+                "future_interference_risk": {
+                    "type": "number"
+                }
+            }
+        },
+        "neuroplasticity_changes": {
+            "type": "object",
+            "properties": {
+                "synaptic_modifications": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "synapse_location": {
+                                "type": "string"
+                            },
+                            "modification_type": {
+                                "type": "string"
+                            },
+                            "strength_change": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                },
+                "circuit_reorganization": {
+                    "type": "object",
+                    "properties": {
+                        "new_pathways": {
+                            "type": "array"
+                        },
+                        "strengthened_connections": {
+                            "type": "array"
+                        },
+                        "weakened_connections": {
+                            "type": "array"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

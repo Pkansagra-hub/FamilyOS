@@ -1,0 +1,9 @@
+{
+  "events": [
+    "events/catalog.json"
+  ],
+  "storage": [
+    "storage/schemas/decision_log.schema.json",
+    "storage/schemas/risk_assessment.schema.json"
+  ]
+}

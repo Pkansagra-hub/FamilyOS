@@ -1,0 +1,40 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "$id": "executive_control_state.schema.json",
+    "title": "Executive Control State Storage",
+    "type": "object",
+    "required": [
+        "control_id",
+        "active_processes",
+        "resource_allocation",
+        "goal_stack"
+    ],
+    "properties": {
+        "control_id": {
+            "type": "string"
+        },
+        "active_processes": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        },
+        "resource_allocation": {
+            "type": "object"
+        },
+        "goal_stack": {
+            "type": "array",
+            "items": {
+                "type": "object"
+            }
+        },
+        "attention_focus": {
+            "type": "string"
+        },
+        "inhibition_level": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+        }
+    }
+}

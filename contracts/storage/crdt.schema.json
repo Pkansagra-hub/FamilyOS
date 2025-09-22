@@ -1,0 +1,69 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://familyos.local/contracts/storage/crdt.schema.json",
+    "title": "Conflict-Free Replicated Data Type Schema",
+    "type": "object",
+    "required": [
+        "id",
+        "type",
+        "value",
+        "vector_clock"
+    ],
+    "properties": {
+        "id": {
+            "$ref": "common.schema.json#/$defs/ULID",
+            "description": "Unique identifier for this CRDT instance"
+        },
+        "type": {
+            "type": "string",
+            "enum": [
+                "g-counter",
+                "pn-counter",
+                "g-set",
+                "2p-set",
+                "lww-register",
+                "or-set"
+            ],
+            "description": "Type of CRDT"
+        },
+        "value": {
+            "description": "Current value of the CRDT",
+            "oneOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "number"
+                },
+                {
+                    "type": "object"
+                },
+                {
+                    "type": "array"
+                }
+            ]
+        },
+        "vector_clock": {
+            "type": "object",
+            "additionalProperties": {
+                "type": "integer"
+            },
+            "description": "Vector clock for causality tracking"
+        },
+        "metadata": {
+            "type": "object",
+            "properties": {
+                "created_ts": {
+                    "$ref": "common.schema.json#/$defs/Timestamp"
+                },
+                "updated_ts": {
+                    "$ref": "common.schema.json#/$defs/Timestamp"
+                },
+                "replica_id": {
+                    "type": "string"
+                }
+            }
+        }
+    },
+    "additionalProperties": false
+}

@@ -1,0 +1,266 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://familyos.local/schemas/events/hippocampus/pattern_separation_applied.json",
+    "title": "Pattern Separation Applied Event",
+    "description": "Event emitted when the hippocampus applies pattern separation to distinguish between similar memories and reduce interference",
+    "type": "object",
+    "required": [
+        "event_type",
+        "timestamp",
+        "hippocampus_id",
+        "separation_session_id",
+        "input_patterns",
+        "separation_mechanism",
+        "output_patterns"
+    ],
+    "properties": {
+        "event_type": {
+            "type": "string",
+            "const": "pattern_separation_applied",
+            "description": "Event type identifier for pattern separation application"
+        },
+        "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "ISO 8601 timestamp when pattern separation was applied"
+        },
+        "hippocampus_id": {
+            "type": "string",
+            "pattern": "^hippocampus_[a-zA-Z0-9_-]+$",
+            "description": "Unique identifier for the hippocampus instance applying pattern separation"
+        },
+        "separation_session_id": {
+            "type": "string",
+            "pattern": "^separation_session_[a-zA-Z0-9_-]+$",
+            "description": "Unique identifier for this pattern separation session"
+        },
+        "input_patterns": {
+            "type": "object",
+            "required": [
+                "pattern_count",
+                "similarity_level",
+                "interference_risk"
+            ],
+            "properties": {
+                "pattern_count": {
+                    "type": "integer",
+                    "minimum": 2,
+                    "description": "Number of similar input patterns requiring separation"
+                },
+                "similarity_level": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Level of similarity between input patterns"
+                },
+                "interference_risk": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Risk of interference without pattern separation"
+                },
+                "pattern_details": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "pattern_id": {
+                                "type": "string"
+                            },
+                            "memory_id": {
+                                "type": "string"
+                            },
+                            "activation_vector": {
+                                "type": "array",
+                                "items": {
+                                    "type": "number"
+                                }
+                            },
+                            "pattern_strength": {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 1
+                            }
+                        }
+                    },
+                    "description": "Detailed information about input patterns"
+                }
+            },
+            "description": "Input patterns requiring separation"
+        },
+        "separation_mechanism": {
+            "type": "object",
+            "required": [
+                "mechanism_type",
+                "dentate_gyrus_activity",
+                "sparse_coding"
+            ],
+            "properties": {
+                "mechanism_type": {
+                    "type": "string",
+                    "enum": [
+                        "competitive_learning",
+                        "sparse_coding",
+                        "random_projection",
+                        "winner_take_all"
+                    ],
+                    "description": "Type of pattern separation mechanism employed"
+                },
+                "dentate_gyrus_activity": {
+                    "type": "object",
+                    "properties": {
+                        "granule_cell_activation": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "mossy_fiber_activity": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "sparsity_level": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "separation_strength": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    },
+                    "description": "Dentate gyrus activity during pattern separation"
+                },
+                "sparse_coding": {
+                    "type": "object",
+                    "properties": {
+                        "sparsity_ratio": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "active_neurons_percentage": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 100
+                        },
+                        "coding_efficiency": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    },
+                    "description": "Sparse coding parameters for pattern separation"
+                }
+            },
+            "description": "Mechanism used for pattern separation"
+        },
+        "output_patterns": {
+            "type": "object",
+            "required": [
+                "separated_patterns",
+                "separation_quality",
+                "distinctiveness_improvement"
+            ],
+            "properties": {
+                "separated_patterns": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "original_pattern_id": {
+                                "type": "string"
+                            },
+                            "separated_pattern_id": {
+                                "type": "string"
+                            },
+                            "separation_vector": {
+                                "type": "array",
+                                "items": {
+                                    "type": "number"
+                                }
+                            },
+                            "distinctiveness": {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 1
+                            }
+                        }
+                    },
+                    "description": "Patterns after separation processing"
+                },
+                "separation_quality": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Quality of the pattern separation process"
+                },
+                "distinctiveness_improvement": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Improvement in pattern distinctiveness after separation"
+                }
+            },
+            "description": "Output patterns after separation"
+        }
+    },
+    "additionalProperties": false,
+    "examples": [
+        {
+            "event_type": "pattern_separation_applied",
+            "timestamp": "2025-09-16T16:15:33.789Z",
+            "hippocampus_id": "hippocampus_primary_001",
+            "separation_session_id": "separation_session_20250916_161533",
+            "input_patterns": {
+                "pattern_count": 3,
+                "similarity_level": 0.8,
+                "interference_risk": 0.7,
+                "pattern_details": [
+                    {
+                        "pattern_id": "pattern_001",
+                        "memory_id": "mem_episode_20250916_143045",
+                        "activation_vector": [
+                            0.8,
+                            0.6,
+                            0.9,
+                            0.3
+                        ],
+                        "pattern_strength": 0.85
+                    }
+                ]
+            },
+            "separation_mechanism": {
+                "mechanism_type": "sparse_coding",
+                "dentate_gyrus_activity": {
+                    "granule_cell_activation": 0.3,
+                    "mossy_fiber_activity": 0.4,
+                    "sparsity_level": 0.95,
+                    "separation_strength": 0.8
+                },
+                "sparse_coding": {
+                    "sparsity_ratio": 0.05,
+                    "active_neurons_percentage": 5.0,
+                    "coding_efficiency": 0.9
+                }
+            },
+            "output_patterns": {
+                "separated_patterns": [
+                    {
+                        "original_pattern_id": "pattern_001",
+                        "separated_pattern_id": "separated_pattern_001",
+                        "separation_vector": [
+                            0.2,
+                            0.1,
+                            0.8,
+                            0.0
+                        ],
+                        "distinctiveness": 0.9
+                    }
+                ],
+                "separation_quality": 0.85,
+                "distinctiveness_improvement": 0.6
+            }
+        }
+    ]
+}

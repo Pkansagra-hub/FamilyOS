@@ -1,0 +1,635 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "$id": "global_system_coordination.event.json",
+    "title": "Global System Coordination Event",
+    "description": "Event schema for global cognitive system coordination based on thalamic nuclei, prefrontal networks, and global workspace mechanisms",
+    "type": "object",
+    "required": [
+        "event_id",
+        "timestamp",
+        "coordination_context",
+        "system_orchestration",
+        "resource_allocation",
+        "neural_coordination_networks"
+    ],
+    "properties": {
+        "event_id": {
+            "type": "string",
+            "description": "Unique identifier for this global coordination event"
+        },
+        "timestamp": {
+            "type": "string",
+            "format": "date-time"
+        },
+        "coordination_context": {
+            "type": "object",
+            "properties": {
+                "coordination_trigger": {
+                    "type": "string",
+                    "enum": [
+                        "task_switch",
+                        "conflict_resolution",
+                        "resource_competition",
+                        "goal_change",
+                        "environmental_change",
+                        "system_optimization"
+                    ]
+                },
+                "system_state": {
+                    "type": "object",
+                    "properties": {
+                        "cognitive_load": {
+                            "type": "number"
+                        },
+                        "arousal_level": {
+                            "type": "number"
+                        },
+                        "attention_demands": {
+                            "type": "object"
+                        },
+                        "competing_processes": {
+                            "type": "array"
+                        }
+                    }
+                },
+                "coordination_scope": {
+                    "type": "string",
+                    "enum": [
+                        "local",
+                        "regional",
+                        "global",
+                        "system_wide"
+                    ]
+                },
+                "urgency_level": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                }
+            }
+        },
+        "system_orchestration": {
+            "type": "object",
+            "properties": {
+                "subsystem_coordination": {
+                    "type": "object",
+                    "properties": {
+                        "attention_system_coordination": {
+                            "type": "object",
+                            "properties": {
+                                "attention_allocation_priorities": {
+                                    "type": "object"
+                                },
+                                "attention_switching_coordination": {
+                                    "type": "object"
+                                },
+                                "attention_resource_sharing": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "memory_system_coordination": {
+                            "type": "object",
+                            "properties": {
+                                "encoding_retrieval_coordination": {
+                                    "type": "object"
+                                },
+                                "memory_system_integration": {
+                                    "type": "object"
+                                },
+                                "consolidation_coordination": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "executive_control_coordination": {
+                            "type": "object",
+                            "properties": {
+                                "goal_management_coordination": {
+                                    "type": "object"
+                                },
+                                "cognitive_control_allocation": {
+                                    "type": "object"
+                                },
+                                "inhibitory_control_coordination": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "motor_system_coordination": {
+                            "type": "object",
+                            "properties": {
+                                "action_planning_coordination": {
+                                    "type": "object"
+                                },
+                                "motor_execution_coordination": {
+                                    "type": "object"
+                                },
+                                "sensorimotor_integration_coordination": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "language_system_coordination": {
+                            "type": "object",
+                            "properties": {
+                                "comprehension_production_coordination": {
+                                    "type": "object"
+                                },
+                                "language_attention_coordination": {
+                                    "type": "object"
+                                },
+                                "discourse_processing_coordination": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "learning_system_coordination": {
+                            "type": "object",
+                            "properties": {
+                                "learning_consolidation_coordination": {
+                                    "type": "object"
+                                },
+                                "plasticity_coordination": {
+                                    "type": "object"
+                                },
+                                "skill_acquisition_coordination": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "cross_system_integration": {
+                    "type": "object",
+                    "properties": {
+                        "information_flow_coordination": {
+                            "type": "object",
+                            "properties": {
+                                "bottom_up_integration": {
+                                    "type": "object"
+                                },
+                                "top_down_modulation": {
+                                    "type": "object"
+                                },
+                                "lateral_communication": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "temporal_coordination": {
+                            "type": "object",
+                            "properties": {
+                                "synchronized_processing": {
+                                    "type": "object"
+                                },
+                                "sequential_processing_coordination": {
+                                    "type": "object"
+                                },
+                                "parallel_processing_coordination": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "conflict_resolution": {
+                            "type": "object",
+                            "properties": {
+                                "resource_conflict_resolution": {
+                                    "type": "object"
+                                },
+                                "goal_conflict_resolution": {
+                                    "type": "object"
+                                },
+                                "processing_conflict_resolution": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "global_workspace_coordination": {
+                    "type": "object",
+                    "properties": {
+                        "conscious_access_coordination": {
+                            "type": "object",
+                            "properties": {
+                                "workspace_content_selection": {
+                                    "type": "object"
+                                },
+                                "global_broadcasting": {
+                                    "type": "object"
+                                },
+                                "conscious_integration": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "coalition_competition": {
+                            "type": "object",
+                            "properties": {
+                                "neural_coalition_formation": {
+                                    "type": "object"
+                                },
+                                "competition_dynamics": {
+                                    "type": "object"
+                                },
+                                "winner_take_all_mechanisms": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "resource_allocation": {
+            "type": "object",
+            "properties": {
+                "computational_resource_management": {
+                    "type": "object",
+                    "properties": {
+                        "processing_capacity_allocation": {
+                            "type": "object",
+                            "properties": {
+                                "total_capacity": {
+                                    "type": "number"
+                                },
+                                "allocated_capacity": {
+                                    "type": "object"
+                                },
+                                "reserved_capacity": {
+                                    "type": "number"
+                                },
+                                "dynamic_capacity_adjustment": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "neural_resource_distribution": {
+                            "type": "object",
+                            "properties": {
+                                "cortical_resource_allocation": {
+                                    "type": "object"
+                                },
+                                "subcortical_resource_allocation": {
+                                    "type": "object"
+                                },
+                                "network_bandwidth_allocation": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "energy_resource_management": {
+                            "type": "object",
+                            "properties": {
+                                "metabolic_cost_estimation": {
+                                    "type": "object"
+                                },
+                                "energy_efficient_allocation": {
+                                    "type": "object"
+                                },
+                                "fatigue_management": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "attention_resource_allocation": {
+                    "type": "object",
+                    "properties": {
+                        "spatial_attention_allocation": {
+                            "type": "object",
+                            "properties": {
+                                "attention_spotlight_coordination": {
+                                    "type": "object"
+                                },
+                                "multiple_attention_foci": {
+                                    "type": "object"
+                                },
+                                "attention_splitting_strategies": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "temporal_attention_allocation": {
+                            "type": "object",
+                            "properties": {
+                                "attention_scheduling": {
+                                    "type": "object"
+                                },
+                                "attention_switching_optimization": {
+                                    "type": "object"
+                                },
+                                "sustained_attention_management": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "feature_attention_allocation": {
+                            "type": "object",
+                            "properties": {
+                                "modality_specific_allocation": {
+                                    "type": "object"
+                                },
+                                "cross_modal_attention_coordination": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "memory_resource_allocation": {
+                    "type": "object",
+                    "properties": {
+                        "working_memory_allocation": {
+                            "type": "object",
+                            "properties": {
+                                "capacity_distribution": {
+                                    "type": "object"
+                                },
+                                "buffer_management": {
+                                    "type": "object"
+                                },
+                                "rehearsal_resource_allocation": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "long_term_memory_allocation": {
+                            "type": "object",
+                            "properties": {
+                                "encoding_resource_allocation": {
+                                    "type": "object"
+                                },
+                                "retrieval_resource_allocation": {
+                                    "type": "object"
+                                },
+                                "consolidation_resource_allocation": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "neural_coordination_networks": {
+            "type": "object",
+            "properties": {
+                "thalamic_coordination": {
+                    "type": "object",
+                    "properties": {
+                        "mediodorsal_nucleus_activity": {
+                            "type": "object",
+                            "properties": {
+                                "prefrontal_coordination": {
+                                    "type": "number"
+                                },
+                                "executive_control_modulation": {
+                                    "type": "number"
+                                },
+                                "working_memory_coordination": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "pulvinar_nucleus_activity": {
+                            "type": "object",
+                            "properties": {
+                                "attention_coordination": {
+                                    "type": "number"
+                                },
+                                "cortical_synchronization": {
+                                    "type": "number"
+                                },
+                                "visual_attention_control": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "anterior_nuclei_activity": {
+                            "type": "object",
+                            "properties": {
+                                "memory_circuit_coordination": {
+                                    "type": "number"
+                                },
+                                "limbic_system_integration": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "intralaminar_nuclei_activity": {
+                            "type": "object",
+                            "properties": {
+                                "arousal_regulation": {
+                                    "type": "number"
+                                },
+                                "consciousness_modulation": {
+                                    "type": "number"
+                                },
+                                "global_state_coordination": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                },
+                "prefrontal_coordination_networks": {
+                    "type": "object",
+                    "properties": {
+                        "dorsolateral_prefrontal_cortex": {
+                            "type": "object",
+                            "properties": {
+                                "cognitive_control_coordination": {
+                                    "type": "number"
+                                },
+                                "working_memory_coordination": {
+                                    "type": "number"
+                                },
+                                "executive_attention_control": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "ventromedial_prefrontal_cortex": {
+                            "type": "object",
+                            "properties": {
+                                "value_based_coordination": {
+                                    "type": "number"
+                                },
+                                "emotional_regulation_coordination": {
+                                    "type": "number"
+                                },
+                                "decision_making_coordination": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "anterior_cingulate_cortex": {
+                            "type": "object",
+                            "properties": {
+                                "conflict_monitoring_coordination": {
+                                    "type": "number"
+                                },
+                                "performance_monitoring_coordination": {
+                                    "type": "number"
+                                },
+                                "adaptive_control_coordination": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                },
+                "global_connectivity_patterns": {
+                    "type": "object",
+                    "properties": {
+                        "large_scale_network_coordination": {
+                            "type": "object",
+                            "properties": {
+                                "default_mode_network_coordination": {
+                                    "type": "object"
+                                },
+                                "central_executive_network_coordination": {
+                                    "type": "object"
+                                },
+                                "salience_network_coordination": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "inter_network_connectivity": {
+                            "type": "object",
+                            "properties": {
+                                "network_switching_mechanisms": {
+                                    "type": "object"
+                                },
+                                "network_competition_dynamics": {
+                                    "type": "object"
+                                },
+                                "network_cooperation_mechanisms": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "coordination_outcomes": {
+            "type": "object",
+            "properties": {
+                "system_performance": {
+                    "type": "object",
+                    "properties": {
+                        "overall_efficiency": {
+                            "type": "number"
+                        },
+                        "processing_speed": {
+                            "type": "number"
+                        },
+                        "accuracy_maintenance": {
+                            "type": "number"
+                        },
+                        "resource_utilization_efficiency": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "coordination_quality": {
+                    "type": "object",
+                    "properties": {
+                        "synchronization_quality": {
+                            "type": "number"
+                        },
+                        "integration_effectiveness": {
+                            "type": "number"
+                        },
+                        "conflict_resolution_success": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "adaptive_responses": {
+                    "type": "object",
+                    "properties": {
+                        "dynamic_resource_reallocation": {
+                            "type": "object"
+                        },
+                        "system_reconfiguration": {
+                            "type": "object"
+                        },
+                        "optimization_adjustments": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "monitoring_and_feedback": {
+            "type": "object",
+            "properties": {
+                "system_monitoring": {
+                    "type": "object",
+                    "properties": {
+                        "performance_monitoring": {
+                            "type": "object"
+                        },
+                        "resource_usage_monitoring": {
+                            "type": "object"
+                        },
+                        "coordination_quality_monitoring": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "feedback_mechanisms": {
+                    "type": "object",
+                    "properties": {
+                        "performance_feedback": {
+                            "type": "object"
+                        },
+                        "error_feedback": {
+                            "type": "object"
+                        },
+                        "optimization_feedback": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "adaptive_adjustments": {
+                    "type": "object",
+                    "properties": {
+                        "coordination_strategy_updates": {
+                            "type": "object"
+                        },
+                        "resource_allocation_adjustments": {
+                            "type": "object"
+                        },
+                        "system_parameter_tuning": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "metadata": {
+            "type": "object",
+            "properties": {
+                "coordination_duration": {
+                    "type": "number"
+                },
+                "coordination_complexity": {
+                    "type": "number"
+                },
+                "systems_involved": {
+                    "type": "array"
+                },
+                "coordination_success_level": {
+                    "type": "number"
+                }
+            }
+        }
+    }
+}

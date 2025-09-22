@@ -1,0 +1,161 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://familyos.local/contracts/storage/user_role_assignment.schema.json",
+    "title": "User Role Assignment",
+    "description": "Enhanced RBAC binding for user role assignments with audit trail",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "assignment_id",
+        "user_id",
+        "role_name",
+        "scope",
+        "assigned_ts"
+    ],
+    "properties": {
+        "assignment_id": {
+            "$ref": "./common.schema.json#/$defs/ULID",
+            "description": "Unique role assignment identifier"
+        },
+        "user_id": {
+            "$ref": "./common.schema.json#/$defs/UUID",
+            "description": "User being assigned the role"
+        },
+        "role_name": {
+            "type": "string",
+            "enum": [
+                "guardian",
+                "member",
+                "child",
+                "guest",
+                "admin",
+                "service"
+            ],
+            "description": "Name of the role being assigned"
+        },
+        "scope": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+                "type"
+            ],
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "global",
+                        "space",
+                        "resource"
+                    ]
+                },
+                "space_id": {
+                    "$ref": "./common.schema.json#/$defs/SpaceId",
+                    "description": "Space ID for space-scoped roles"
+                },
+                "resource_id": {
+                    "type": "string",
+                    "description": "Resource ID for resource-scoped roles"
+                }
+            },
+            "description": "Scope of the role assignment"
+        },
+        "capabilities": {
+            "type": "array",
+            "items": {
+                "type": "string",
+                "pattern": "^[a-z][a-z0-9_]*:[a-z0-9_*]+$"
+            },
+            "description": "Capabilities granted by this role (cached for performance)"
+        },
+        "conditions": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "time_limited": {
+                    "type": "boolean",
+                    "default": false
+                },
+                "valid_from": {
+                    "$ref": "./common.schema.json#/$defs/Timestamp"
+                },
+                "valid_until": {
+                    "$ref": "./common.schema.json#/$defs/Timestamp"
+                },
+                "device_restrictions": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "enum": [
+                            "ios",
+                            "android",
+                            "macos",
+                            "windows",
+                            "linux",
+                            "web",
+                            "edge"
+                        ]
+                    }
+                },
+                "ip_restrictions": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "format": "ipv4"
+                    }
+                },
+                "require_mfa": {
+                    "type": "boolean",
+                    "default": false
+                }
+            },
+            "description": "Conditions that must be met for role to be effective"
+        },
+        "assigned_ts": {
+            "$ref": "./common.schema.json#/$defs/Timestamp",
+            "description": "When this role was assigned"
+        },
+        "assigned_by": {
+            "$ref": "./common.schema.json#/$defs/UUID",
+            "description": "Admin user who assigned this role"
+        },
+        "assignment_reason": {
+            "type": "string",
+            "maxLength": 500,
+            "description": "Reason for this role assignment"
+        },
+        "last_used_ts": {
+            "$ref": "./common.schema.json#/$defs/Timestamp",
+            "description": "Last time this role was used for authorization"
+        },
+        "usage_count": {
+            "type": "integer",
+            "minimum": 0,
+            "default": 0,
+            "description": "Number of times this role was used"
+        },
+        "status": {
+            "type": "string",
+            "enum": [
+                "active",
+                "suspended",
+                "revoked",
+                "expired"
+            ],
+            "default": "active",
+            "description": "Current status of this role assignment"
+        },
+        "revoked_ts": {
+            "$ref": "./common.schema.json#/$defs/Timestamp",
+            "description": "When this role assignment was revoked"
+        },
+        "revoked_by": {
+            "$ref": "./common.schema.json#/$defs/UUID",
+            "description": "Admin user who revoked this role assignment"
+        },
+        "revocation_reason": {
+            "type": "string",
+            "maxLength": 500,
+            "description": "Reason for revoking this role assignment"
+        }
+    }
+}

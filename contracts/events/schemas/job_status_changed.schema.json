@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Job Status Changed",
+  "description": "UI tick for any long-running job (index, DSAR, action, model run, etc.).",
+  "type": "object",
+  "additionalProperties": true,
+  "properties": {
+    "job_id": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "queued",
+        "pending",
+        "running",
+        "succeeded",
+        "failed",
+        "canceled"
+      ]
+    },
+    "progress": {
+      "type": "object",
+      "additionalProperties": true,
+      "properties": {
+        "pct": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 100
+        },
+        "eta_ms": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "result_url": {
+      "type": "string",
+      "format": "uri"
+    },
+    "error": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  },
+  "required": [
+    "job_id",
+    "status"
+  ]
+}

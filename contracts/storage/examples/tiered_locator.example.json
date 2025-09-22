@@ -1,0 +1,17 @@
+{
+  "id": "084RJQFQ7JSTPNJETDKYMDPS30",
+  "tiers": [
+    {
+      "tier": "hot",
+      "ref": "hot-storage://bucket1/path"
+    },
+    {
+      "tier": "warm",
+      "ref": "warm-storage://bucket2/path"
+    },
+    {
+      "tier": "cold",
+      "ref": "cold-storage://bucket3/path"
+    }
+  ]
+}

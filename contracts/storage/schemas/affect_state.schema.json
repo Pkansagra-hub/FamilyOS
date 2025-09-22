@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://familyos.local/contracts/storage/affect_state.schema.json",
+  "title": "Affect State",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "space_id",
+    "ts",
+    "band",
+    "scores"
+  ],
+  "properties": {
+    "id": {
+      "$ref": "./common.schema.json#/$defs/ULID"
+    },
+    "space_id": {
+      "$ref": "./common.schema.json#/$defs/SpaceId"
+    },
+    "ts": {
+      "$ref": "./common.schema.json#/$defs/Timestamp"
+    },
+    "band": {
+      "$ref": "./common.schema.json#/$defs/Band"
+    },
+    "scores": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "number"
+      }
+    },
+    "features": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  }
+}

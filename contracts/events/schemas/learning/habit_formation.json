@@ -1,0 +1,617 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "$id": "habit_formation.event.json",
+    "title": "Habit Formation Event",
+    "description": "Event schema for habit formation and automatization based on dorsal striatal circuits, cortico-basal ganglia loops, and procedural learning systems",
+    "type": "object",
+    "required": [
+        "event_id",
+        "timestamp",
+        "habit_context",
+        "automatization_process",
+        "striatal_learning",
+        "neural_habit_circuits"
+    ],
+    "properties": {
+        "event_id": {
+            "type": "string",
+            "description": "Unique identifier for this habit formation event"
+        },
+        "timestamp": {
+            "type": "string",
+            "format": "date-time"
+        },
+        "habit_context": {
+            "type": "object",
+            "properties": {
+                "behavioral_pattern": {
+                    "type": "object",
+                    "properties": {
+                        "action_sequence": {
+                            "type": "array"
+                        },
+                        "trigger_stimuli": {
+                            "type": "array"
+                        },
+                        "contextual_cues": {
+                            "type": "array"
+                        },
+                        "outcome_contingencies": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "habit_type": {
+                    "type": "string",
+                    "enum": [
+                        "motor",
+                        "cognitive",
+                        "emotional",
+                        "social",
+                        "consumptive",
+                        "avoidance"
+                    ]
+                },
+                "habit_strength": {
+                    "type": "object",
+                    "properties": {
+                        "automaticity_level": {
+                            "type": "number"
+                        },
+                        "stimulus_response_strength": {
+                            "type": "number"
+                        },
+                        "resistance_to_change": {
+                            "type": "number"
+                        },
+                        "cognitive_effort_required": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "environmental_factors": {
+                    "type": "object",
+                    "properties": {
+                        "contextual_stability": {
+                            "type": "number"
+                        },
+                        "cue_consistency": {
+                            "type": "number"
+                        },
+                        "environmental_support": {
+                            "type": "number"
+                        },
+                        "competing_behaviors": {
+                            "type": "array"
+                        }
+                    }
+                }
+            }
+        },
+        "automatization_process": {
+            "type": "object",
+            "properties": {
+                "goal_directed_to_habitual_transition": {
+                    "type": "object",
+                    "properties": {
+                        "goal_sensitivity_reduction": {
+                            "type": "object",
+                            "properties": {
+                                "outcome_devaluation_insensitivity": {
+                                    "type": "object"
+                                },
+                                "reward_schedule_insensitivity": {
+                                    "type": "object"
+                                },
+                                "goal_change_resistance": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "stimulus_response_strengthening": {
+                            "type": "object",
+                            "properties": {
+                                "cue_response_binding": {
+                                    "type": "object"
+                                },
+                                "automatic_activation": {
+                                    "type": "object"
+                                },
+                                "response_fluency_increase": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "cognitive_control_reduction": {
+                            "type": "object",
+                            "properties": {
+                                "prefrontal_disengagement": {
+                                    "type": "object"
+                                },
+                                "working_memory_liberation": {
+                                    "type": "object"
+                                },
+                                "attention_resource_saving": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "chunking_mechanisms": {
+                    "type": "object",
+                    "properties": {
+                        "behavioral_chunking": {
+                            "type": "object",
+                            "properties": {
+                                "action_sequence_chunking": {
+                                    "type": "object"
+                                },
+                                "hierarchical_organization": {
+                                    "type": "object"
+                                },
+                                "chunk_boundaries": {
+                                    "type": "array"
+                                }
+                            }
+                        },
+                        "temporal_chunking": {
+                            "type": "object",
+                            "properties": {
+                                "timing_pattern_learning": {
+                                    "type": "object"
+                                },
+                                "rhythm_internalization": {
+                                    "type": "object"
+                                },
+                                "temporal_prediction": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "contextual_chunking": {
+                            "type": "object",
+                            "properties": {
+                                "situation_action_binding": {
+                                    "type": "object"
+                                },
+                                "context_dependent_automaticity": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "habit_learning_stages": {
+                    "type": "object",
+                    "properties": {
+                        "acquisition_stage": {
+                            "type": "object",
+                            "properties": {
+                                "initial_goal_directed_behavior": {
+                                    "type": "object"
+                                },
+                                "outcome_monitoring": {
+                                    "type": "object"
+                                },
+                                "flexible_responding": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "transition_stage": {
+                            "type": "object",
+                            "properties": {
+                                "gradual_automatization": {
+                                    "type": "object"
+                                },
+                                "reduced_outcome_sensitivity": {
+                                    "type": "object"
+                                },
+                                "increased_stimulus_control": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "maintenance_stage": {
+                            "type": "object",
+                            "properties": {
+                                "fully_automatic_execution": {
+                                    "type": "object"
+                                },
+                                "minimal_cognitive_effort": {
+                                    "type": "object"
+                                },
+                                "resistance_to_disruption": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "striatal_learning": {
+            "type": "object",
+            "properties": {
+                "dorsal_striatum_activity": {
+                    "type": "object",
+                    "properties": {
+                        "dorsolateral_striatum": {
+                            "type": "object",
+                            "properties": {
+                                "sensorimotor_habit_learning": {
+                                    "type": "object"
+                                },
+                                "stimulus_response_associations": {
+                                    "type": "object"
+                                },
+                                "automatic_behavior_control": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "dorsomedial_striatum": {
+                            "type": "object",
+                            "properties": {
+                                "goal_directed_learning": {
+                                    "type": "object"
+                                },
+                                "action_outcome_associations": {
+                                    "type": "object"
+                                },
+                                "flexible_behavior_control": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "striatal_gradient_shift": {
+                            "type": "object",
+                            "properties": {
+                                "ventral_to_dorsal_shift": {
+                                    "type": "object"
+                                },
+                                "goal_directed_to_habitual_shift": {
+                                    "type": "object"
+                                },
+                                "flexibility_to_automaticity_shift": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "corticostriatal_plasticity": {
+                    "type": "object",
+                    "properties": {
+                        "motor_cortex_striatum_connections": {
+                            "type": "object",
+                            "properties": {
+                                "m1_striatal_plasticity": {
+                                    "type": "object"
+                                },
+                                "motor_sequence_encoding": {
+                                    "type": "object"
+                                },
+                                "movement_automatization": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "prefrontal_striatum_connections": {
+                            "type": "object",
+                            "properties": {
+                                "cognitive_habit_circuits": {
+                                    "type": "object"
+                                },
+                                "executive_control_modulation": {
+                                    "type": "object"
+                                },
+                                "habit_override_mechanisms": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "associative_striatum_connections": {
+                            "type": "object",
+                            "properties": {
+                                "associative_learning_circuits": {
+                                    "type": "object"
+                                },
+                                "context_action_binding": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "dopaminergic_modulation": {
+                    "type": "object",
+                    "properties": {
+                        "habit_related_dopamine_changes": {
+                            "type": "object",
+                            "properties": {
+                                "reduced_outcome_dopamine": {
+                                    "type": "object"
+                                },
+                                "increased_cue_dopamine": {
+                                    "type": "object"
+                                },
+                                "dopamine_receptor_changes": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "neural_habit_circuits": {
+            "type": "object",
+            "properties": {
+                "basal_ganglia_habit_loops": {
+                    "type": "object",
+                    "properties": {
+                        "sensorimotor_loop": {
+                            "type": "object",
+                            "properties": {
+                                "motor_cortex_putamen_loop": {
+                                    "type": "object"
+                                },
+                                "automatic_motor_habits": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "associative_loop": {
+                            "type": "object",
+                            "properties": {
+                                "associative_cortex_caudate_loop": {
+                                    "type": "object"
+                                },
+                                "cognitive_habits": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "limbic_loop": {
+                            "type": "object",
+                            "properties": {
+                                "limbic_cortex_ventral_striatum_loop": {
+                                    "type": "object"
+                                },
+                                "motivational_habits": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "habit_control_networks": {
+                    "type": "object",
+                    "properties": {
+                        "habit_execution_network": {
+                            "type": "object",
+                            "properties": {
+                                "dorsal_striatum_activity": {
+                                    "type": "number"
+                                },
+                                "motor_cortex_activity": {
+                                    "type": "number"
+                                },
+                                "automatic_execution_strength": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "habit_inhibition_network": {
+                            "type": "object",
+                            "properties": {
+                                "prefrontal_cortex_activity": {
+                                    "type": "number"
+                                },
+                                "anterior_cingulate_activity": {
+                                    "type": "number"
+                                },
+                                "cognitive_control_strength": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "habit_conflict_resolution": {
+                            "type": "object",
+                            "properties": {
+                                "habit_goal_competition": {
+                                    "type": "object"
+                                },
+                                "conflict_detection_mechanisms": {
+                                    "type": "object"
+                                },
+                                "resolution_strategies": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "habit_memory_systems": {
+                    "type": "object",
+                    "properties": {
+                        "procedural_memory_formation": {
+                            "type": "object",
+                            "properties": {
+                                "implicit_learning_mechanisms": {
+                                    "type": "object"
+                                },
+                                "motor_memory_consolidation": {
+                                    "type": "object"
+                                },
+                                "skill_automatization": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "habit_memory_retrieval": {
+                            "type": "object",
+                            "properties": {
+                                "cue_triggered_retrieval": {
+                                    "type": "object"
+                                },
+                                "automatic_activation": {
+                                    "type": "object"
+                                },
+                                "context_dependent_retrieval": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "habit_outcomes": {
+            "type": "object",
+            "properties": {
+                "behavioral_changes": {
+                    "type": "object",
+                    "properties": {
+                        "response_speed_increase": {
+                            "type": "number"
+                        },
+                        "response_consistency_increase": {
+                            "type": "number"
+                        },
+                        "cognitive_effort_reduction": {
+                            "type": "number"
+                        },
+                        "outcome_sensitivity_reduction": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "neural_adaptations": {
+                    "type": "object",
+                    "properties": {
+                        "striatal_plasticity_changes": {
+                            "type": "object"
+                        },
+                        "corticostriatal_connectivity_changes": {
+                            "type": "object"
+                        },
+                        "neurotransmitter_system_adaptations": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "habit_strength_measures": {
+                    "type": "object",
+                    "properties": {
+                        "automaticity_index": {
+                            "type": "number"
+                        },
+                        "outcome_devaluation_resistance": {
+                            "type": "number"
+                        },
+                        "cognitive_load_independence": {
+                            "type": "number"
+                        }
+                    }
+                }
+            }
+        },
+        "habit_flexibility": {
+            "type": "object",
+            "properties": {
+                "habit_breaking_mechanisms": {
+                    "type": "object",
+                    "properties": {
+                        "cognitive_control_engagement": {
+                            "type": "object"
+                        },
+                        "context_change_strategies": {
+                            "type": "object"
+                        },
+                        "alternative_behavior_strengthening": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "habit_modification": {
+                    "type": "object",
+                    "properties": {
+                        "cue_modification": {
+                            "type": "object"
+                        },
+                        "routine_substitution": {
+                            "type": "object"
+                        },
+                        "reward_restructuring": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "system_integration": {
+            "type": "object",
+            "properties": {
+                "memory_integration": {
+                    "type": "object",
+                    "properties": {
+                        "procedural_memory_formation": {
+                            "type": "object"
+                        },
+                        "episodic_memory_interaction": {
+                            "type": "object"
+                        },
+                        "semantic_memory_influence": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "executive_control_interaction": {
+                    "type": "object",
+                    "properties": {
+                        "habit_executive_competition": {
+                            "type": "object"
+                        },
+                        "cognitive_control_override": {
+                            "type": "object"
+                        },
+                        "goal_habit_integration": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "motivation_integration": {
+                    "type": "object",
+                    "properties": {
+                        "reward_habit_interaction": {
+                            "type": "object"
+                        },
+                        "motivational_state_influence": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "metadata": {
+            "type": "object",
+            "properties": {
+                "habit_formation_duration": {
+                    "type": "number"
+                },
+                "automatization_level": {
+                    "type": "number"
+                },
+                "neural_resource_efficiency": {
+                    "type": "object"
+                },
+                "habit_strength_score": {
+                    "type": "number"
+                }
+            }
+        }
+    }
+}

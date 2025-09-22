@@ -1,0 +1,284 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "$id": "https://schemas.memoryos.ai/storage/transaction_failed.json",
+    "title": "Storage Transaction Failed Event Schema",
+    "description": "Schema for storage transaction failure events",
+    "type": "object",
+    "allOf": [
+        {
+            "$ref": "base_event.json"
+        },
+        {
+            "type": "object",
+            "required": [
+                "transaction_id",
+                "transaction_type",
+                "failure_reason",
+                "error_details"
+            ],
+            "properties": {
+                "event_type": {
+                    "const": "STORAGE_TRANSACTION_FAILED"
+                },
+                "transaction_id": {
+                    "type": "string",
+                    "description": "Transaction identifier",
+                    "pattern": "^(uow|single|mig|backup)_[a-z0-9]+_[0-9]{8}_[0-9]{6}$",
+                    "examples": [
+                        "uow_001_20250916_123456",
+                        "single_episodic_20250916_123457"
+                    ]
+                },
+                "transaction_type": {
+                    "type": "string",
+                    "description": "Type of transaction that failed",
+                    "enum": [
+                        "unit_of_work",
+                        "single_store",
+                        "migration",
+                        "backup",
+                        "bulk_operation",
+                        "maintenance"
+                    ],
+                    "examples": [
+                        "unit_of_work",
+                        "single_store"
+                    ]
+                },
+                "failure_reason": {
+                    "type": "string",
+                    "description": "High-level failure reason",
+                    "enum": [
+                        "timeout",
+                        "constraint_violation",
+                        "deadlock",
+                        "coordinator_failure",
+                        "network_partition",
+                        "resource_exhaustion",
+                        "corruption",
+                        "authorization_failure",
+                        "validation_failure",
+                        "user_abort"
+                    ],
+                    "examples": [
+                        "timeout",
+                        "deadlock",
+                        "constraint_violation"
+                    ]
+                },
+                "error_details": {
+                    "$ref": "error_details.json"
+                },
+                "failure_stage": {
+                    "type": "string",
+                    "description": "Stage where transaction failed",
+                    "enum": [
+                        "initialization",
+                        "preparation",
+                        "execution",
+                        "commit",
+                        "cleanup"
+                    ],
+                    "examples": [
+                        "preparation",
+                        "commit"
+                    ]
+                },
+                "stores_attempted": {
+                    "type": "array",
+                    "description": "Stores that were attempted in this transaction",
+                    "items": {
+                        "type": "object",
+                        "required": [
+                            "store_reference",
+                            "attempt_status"
+                        ],
+                        "properties": {
+                            "store_reference": {
+                                "$ref": "store_reference.json"
+                            },
+                            "attempt_status": {
+                                "type": "string",
+                                "enum": [
+                                    "not_started",
+                                    "in_progress",
+                                    "prepared",
+                                    "failed",
+                                    "rolled_back"
+                                ],
+                                "description": "Status of attempt for this store"
+                            },
+                            "failure_reason": {
+                                "type": "string",
+                                "description": "Store-specific failure reason",
+                                "examples": [
+                                    "connection_timeout",
+                                    "constraint_violation"
+                                ]
+                            },
+                            "error_details": {
+                                "$ref": "error_details.json"
+                            }
+                        }
+                    }
+                },
+                "rollback_status": {
+                    "type": "string",
+                    "description": "Status of rollback attempt",
+                    "enum": [
+                        "not_attempted",
+                        "in_progress",
+                        "completed",
+                        "failed"
+                    ],
+                    "examples": [
+                        "completed",
+                        "failed"
+                    ]
+                },
+                "rollback_details": {
+                    "type": "object",
+                    "description": "Rollback operation details",
+                    "properties": {
+                        "stores_rolled_back": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "store_reference": {
+                                        "$ref": "store_reference.json"
+                                    },
+                                    "rollback_status": {
+                                        "type": "string",
+                                        "enum": [
+                                            "success",
+                                            "failed",
+                                            "not_attempted"
+                                        ]
+                                    },
+                                    "rollback_duration_ms": {
+                                        "type": "integer",
+                                        "minimum": 0
+                                    }
+                                }
+                            }
+                        },
+                        "rollback_duration_ms": {
+                            "type": "integer",
+                            "description": "Total rollback duration",
+                            "minimum": 0,
+                            "examples": [
+                                100,
+                                500
+                            ]
+                        },
+                        "compensation_actions_taken": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "description": "Compensation actions performed",
+                            "examples": [
+                                [
+                                    "notify_admin",
+                                    "create_incident"
+                                ]
+                            ]
+                        }
+                    }
+                },
+                "recovery_action": {
+                    "type": "string",
+                    "description": "Recommended recovery action",
+                    "enum": [
+                        "retry",
+                        "retry_with_backoff",
+                        "manual_intervention",
+                        "escalate",
+                        "ignore"
+                    ],
+                    "examples": [
+                        "retry_with_backoff",
+                        "manual_intervention"
+                    ]
+                },
+                "transaction_duration_ms": {
+                    "type": "integer",
+                    "description": "Duration before failure occurred",
+                    "minimum": 0,
+                    "examples": [
+                        1500,
+                        30000
+                    ]
+                }
+            }
+        }
+    ],
+    "examples": [
+        {
+            "event_id": "evt_stor005_20250916_123500",
+            "timestamp": "2025-09-16T12:35:00.500Z",
+            "correlation_id": "req_fail123def456",
+            "source_service": "storage",
+            "event_type": "STORAGE_TRANSACTION_FAILED",
+            "event_version": "1.0.0",
+            "transaction_id": "uow_002_20250916_123500",
+            "transaction_type": "unit_of_work",
+            "failure_reason": "deadlock",
+            "error_details": {
+                "error_code": "STOR201",
+                "error_message": "Deadlock detected between EpisodicStore and SemanticStore",
+                "error_category": "constraint",
+                "error_severity": "medium",
+                "error_context": {
+                    "store_name": "EpisodicStore",
+                    "operation": "insert"
+                },
+                "recovery_suggestion": "retry_with_backoff"
+            },
+            "failure_stage": "execution",
+            "stores_attempted": [
+                {
+                    "store_reference": {
+                        "store_name": "EpisodicStore",
+                        "store_type": "postgresql"
+                    },
+                    "attempt_status": "failed",
+                    "failure_reason": "deadlock_victim",
+                    "error_details": {
+                        "error_code": "STOR201",
+                        "error_message": "Transaction was chosen as deadlock victim"
+                    }
+                },
+                {
+                    "store_reference": {
+                        "store_name": "SemanticStore",
+                        "store_type": "postgresql"
+                    },
+                    "attempt_status": "rolled_back"
+                }
+            ],
+            "rollback_status": "completed",
+            "rollback_details": {
+                "stores_rolled_back": [
+                    {
+                        "store_reference": {
+                            "store_name": "SemanticStore",
+                            "store_type": "postgresql"
+                        },
+                        "rollback_status": "success",
+                        "rollback_duration_ms": 50
+                    }
+                ],
+                "rollback_duration_ms": 100
+            },
+            "recovery_action": "retry_with_backoff",
+            "transaction_duration_ms": 1500,
+            "metadata": {
+                "environment": "production",
+                "service_version": "2.1.0",
+                "user_id": "user_12345"
+            }
+        }
+    ]
+}

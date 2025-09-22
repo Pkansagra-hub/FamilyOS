@@ -1,0 +1,426 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://familyos.local/contracts/events/schemas/working_memory/executive_control_engaged.schema.json",
+    "title": "Executive Control Engaged Event",
+    "description": "Event generated when executive control systems are activated in prefrontal cortex",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "timestamp",
+        "control_type",
+        "engagement_trigger",
+        "control_strength",
+        "target_systems",
+        "executive_context"
+    ],
+    "properties": {
+        "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Time when executive control was engaged"
+        },
+        "control_type": {
+            "type": "string",
+            "enum": [
+                "cognitive_inhibition",
+                "working_memory_updating",
+                "attention_switching",
+                "conflict_monitoring",
+                "performance_monitoring",
+                "strategic_control",
+                "task_switching",
+                "interference_resolution"
+            ],
+            "description": "Type of executive control being engaged"
+        },
+        "engagement_trigger": {
+            "type": "object",
+            "required": [
+                "trigger_type",
+                "trigger_strength"
+            ],
+            "properties": {
+                "trigger_type": {
+                    "type": "string",
+                    "enum": [
+                        "conflict_detected",
+                        "error_detected",
+                        "goal_mismatch",
+                        "attention_capture",
+                        "task_demand_change",
+                        "interference_surge",
+                        "performance_decline",
+                        "strategic_shift"
+                    ]
+                },
+                "trigger_strength": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "trigger_source": {
+                    "type": "string",
+                    "enum": [
+                        "anterior_cingulate",
+                        "dorsal_pfc",
+                        "ventral_pfc",
+                        "external_demand"
+                    ]
+                },
+                "trigger_content_id": {
+                    "type": "string"
+                },
+                "trigger_metadata": {
+                    "type": "object"
+                }
+            },
+            "description": "What triggered executive control engagement"
+        },
+        "control_strength": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "description": "Intensity of executive control engagement"
+        },
+        "target_systems": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "required": [
+                    "system_id",
+                    "control_influence"
+                ],
+                "properties": {
+                    "system_id": {
+                        "type": "string",
+                        "enum": [
+                            "working_memory",
+                            "attention_networks",
+                            "thalamic_gate",
+                            "long_term_memory",
+                            "motor_control",
+                            "emotional_regulation",
+                            "language_processing",
+                            "perceptual_systems"
+                        ]
+                    },
+                    "control_influence": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1,
+                        "description": "Strength of control influence on this system"
+                    },
+                    "control_mechanism": {
+                        "type": "string",
+                        "enum": [
+                            "enhancement",
+                            "suppression",
+                            "gating",
+                            "switching",
+                            "binding"
+                        ]
+                    },
+                    "expected_outcome": {
+                        "type": "string"
+                    }
+                }
+            },
+            "description": "Systems targeted by executive control"
+        },
+        "executive_context": {
+            "type": "object",
+            "required": [
+                "current_goal",
+                "goal_hierarchy",
+                "control_mode"
+            ],
+            "properties": {
+                "current_goal": {
+                    "type": "object",
+                    "properties": {
+                        "goal_id": {
+                            "type": "string"
+                        },
+                        "goal_type": {
+                            "type": "string"
+                        },
+                        "goal_priority": {
+                            "type": "number"
+                        },
+                        "goal_progress": {
+                            "type": "number"
+                        },
+                        "subgoals": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "goal_hierarchy": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "level": {
+                                "type": "integer"
+                            },
+                            "goal_id": {
+                                "type": "string"
+                            },
+                            "activation": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                },
+                "control_mode": {
+                    "type": "string",
+                    "enum": [
+                        "proactive",
+                        "reactive",
+                        "adaptive",
+                        "strategic"
+                    ]
+                },
+                "control_history": {
+                    "type": "array",
+                    "maxItems": 10,
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "timestamp": {
+                                "type": "string"
+                            },
+                            "control_type": {
+                                "type": "string"
+                            },
+                            "effectiveness": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                }
+            },
+            "description": "Context of executive control engagement"
+        },
+        "cognitive_load": {
+            "type": "object",
+            "required": [
+                "current_load",
+                "control_cost"
+            ],
+            "properties": {
+                "current_load": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "control_cost": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Cognitive cost of engaging control"
+                },
+                "load_distribution": {
+                    "type": "object",
+                    "properties": {
+                        "working_memory_load": {
+                            "type": "number"
+                        },
+                        "attention_load": {
+                            "type": "number"
+                        },
+                        "inhibition_load": {
+                            "type": "number"
+                        },
+                        "switching_load": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "resource_availability": {
+                    "type": "object",
+                    "properties": {
+                        "available_capacity": {
+                            "type": "number"
+                        },
+                        "reserved_capacity": {
+                            "type": "number"
+                        },
+                        "emergency_capacity": {
+                            "type": "number"
+                        }
+                    }
+                }
+            },
+            "description": "Cognitive load and resource considerations"
+        },
+        "neural_mechanisms": {
+            "type": "object",
+            "properties": {
+                "pfc_activation": {
+                    "type": "object",
+                    "properties": {
+                        "dorsolateral_pfc": {
+                            "type": "number"
+                        },
+                        "ventromedial_pfc": {
+                            "type": "number"
+                        },
+                        "anterior_cingulate": {
+                            "type": "number"
+                        },
+                        "orbitofrontal": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "neurotransmitter_modulation": {
+                    "type": "object",
+                    "properties": {
+                        "dopamine_level": {
+                            "type": "number"
+                        },
+                        "norepinephrine_level": {
+                            "type": "number"
+                        },
+                        "acetylcholine_level": {
+                            "type": "number"
+                        },
+                        "gaba_inhibition": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "oscillatory_patterns": {
+                    "type": "object",
+                    "properties": {
+                        "gamma_synchrony": {
+                            "type": "number"
+                        },
+                        "theta_rhythm": {
+                            "type": "number"
+                        },
+                        "alpha_suppression": {
+                            "type": "number"
+                        },
+                        "beta_coordination": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "connectivity_changes": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "from_region": {
+                                "type": "string"
+                            },
+                            "to_region": {
+                                "type": "string"
+                            },
+                            "connectivity_change": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                }
+            },
+            "description": "Neural mechanisms of executive control"
+        },
+        "performance_impact": {
+            "type": "object",
+            "properties": {
+                "expected_benefits": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "benefit_type": {
+                                "type": "string"
+                            },
+                            "magnitude": {
+                                "type": "number"
+                            },
+                            "timeframe_ms": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                },
+                "potential_costs": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "cost_type": {
+                                "type": "string"
+                            },
+                            "magnitude": {
+                                "type": "number"
+                            },
+                            "duration_ms": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                },
+                "trade_offs": {
+                    "type": "object",
+                    "properties": {
+                        "speed_accuracy_trade_off": {
+                            "type": "number"
+                        },
+                        "flexibility_stability_trade_off": {
+                            "type": "number"
+                        },
+                        "effort_efficiency_trade_off": {
+                            "type": "number"
+                        }
+                    }
+                }
+            },
+            "description": "Expected performance impact of control engagement"
+        },
+        "adaptation_learning": {
+            "type": "object",
+            "properties": {
+                "control_learning": {
+                    "type": "object",
+                    "properties": {
+                        "learning_rate": {
+                            "type": "number"
+                        },
+                        "adaptation_direction": {
+                            "type": "string"
+                        },
+                        "confidence_update": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "strategy_optimization": {
+                    "type": "object",
+                    "properties": {
+                        "strategy_effectiveness": {
+                            "type": "number"
+                        },
+                        "strategy_adjustments": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "exploration_exploitation": {
+                            "type": "number"
+                        }
+                    }
+                }
+            },
+            "description": "Learning and adaptation in executive control"
+        }
+    }
+}

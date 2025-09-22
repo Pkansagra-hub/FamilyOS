@@ -1,0 +1,6 @@
+module: retrieval
+current: 1.0.0
+history:
+  - version: 1.0.0
+    date: 2025-09-10
+    changes: ["Initial bundle; aligns with existing recall_* events."]

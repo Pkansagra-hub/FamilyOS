@@ -1,0 +1,1662 @@
+openapi: 3.0.3
+info:
+  title: "Family AI Control System API"
+  description: |
+    Control System API for Memory-Centric Family AI
+
+    This API provides comprehensive system monitoring, health diagnostics,
+    and family system oversight for the Control Plane. It enables family
+    administrators to monitor system health, diagnose issues, and maintain
+    optimal performance while ensuring family-appropriate system governance.
+
+    **Control System Mission:**
+    The Control System API manages family system health monitoring, performance
+    diagnostics, system maintenance coordination, and family infrastructure
+    oversight for Family AI deployments. All operations maintain system
+    reliability while respecting family privacy and autonomy.
+
+    **System Categories:**
+    - `/health` - Family system health monitoring and vitals
+    - `/diagnostics` - System diagnostics and troubleshooting
+    - `/performance` - Performance monitoring and optimization
+    - `/maintenance` - System maintenance coordination and scheduling
+    - `/infrastructure` - Family infrastructure monitoring and management
+
+    **Memory-Centric System Management:**
+    - System monitoring integrates with family memory patterns and usage
+    - Health diagnostics consider family workflow and coordination patterns
+    - Performance optimization respects family device coordination
+    - Maintenance scheduling coordinates with family routines and preferences
+  version: "1.0.0"
+  contact:
+    name: "Family AI Development Team"
+    url: "https://github.com/pkansagra99/family_os"
+  license:
+    name: "MIT"
+    url: "https://opensource.org/licenses/MIT"
+
+servers:
+  - url: "http://localhost:8000/v1/control/system"
+    description: "Local development server"
+  - url: "https://api.familyos.local/v1/control/system"
+    description: "Production Family AI instance"
+
+security:
+  - FamilyAdminAuth: []
+  - SystemAdminAuth: []
+
+paths:
+  # =============================================================================
+  # FAMILY SYSTEM HEALTH
+  # =============================================================================
+
+  /health:
+    get:
+      summary: "Get family system health"
+      description: |
+        Retrieve comprehensive family system health including all devices,
+        memory systems, AI coordination, and family workflow performance.
+      operationId: "getFamilySystemHealth"
+      tags: ["System Health"]
+      parameters:
+        - name: include_device_details
+          in: query
+          schema:
+            type: boolean
+            default: true
+          description: "Include individual family device health details"
+        - name: include_memory_status
+          in: query
+          schema:
+            type: boolean
+            default: true
+          description: "Include family memory system health status"
+        - name: include_coordination_health
+          in: query
+          schema:
+            type: boolean
+            default: true
+          description: "Include family coordination system health"
+        - name: health_timeframe
+          in: query
+          schema:
+            type: string
+            enum: ["current", "hourly", "daily", "weekly"]
+            default: "current"
+          description: "Health monitoring timeframe"
+      responses:
+        "200":
+          description: "Family system health retrieved successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FamilySystemHealthResponse"
+              examples:
+                healthy_family_system:
+                  summary: "Healthy family system with all components operational"
+                  value:
+                    overall_health_status: "healthy"
+                    health_score: 0.94
+                    last_health_check: "2024-01-15T10:30:00Z"
+                    system_components:
+                      memory_system:
+                        status: "healthy"
+                        health_score: 0.96
+                        memory_usage: "67%"
+                        sync_status: "synchronized"
+                        last_sync: "2024-01-15T10:25:00Z"
+                        cross_device_consistency: true
+                      ai_coordination:
+                        status: "healthy"
+                        health_score: 0.92
+                        active_agents: 4
+                        response_time_p95: "120ms"
+                        family_context_accuracy: 0.89
+                        emotional_intelligence_calibration: "optimal"
+                      family_devices:
+                        total_devices: 8
+                        healthy_devices: 8
+                        devices_needing_attention: 0
+                        device_summary:
+                          - device_id: "mom_phone_001"
+                            device_type: "smartphone"
+                            status: "healthy"
+                            battery_level: 78
+                            last_sync: "2024-01-15T10:28:00Z"
+                            memory_usage: "45%"
+                          - device_id: "family_tablet_001"
+                            device_type: "tablet"
+                            status: "healthy"
+                            battery_level: 92
+                            last_sync: "2024-01-15T10:30:00Z"
+                            memory_usage: "23%"
+                      family_coordination:
+                        status: "optimal"
+                        health_score: 0.95
+                        active_coordination_sessions: 12
+                        family_harmony_index: 0.87
+                        conflict_resolution_success_rate: 0.94
+                        schedule_coordination_accuracy: 0.96
+                    performance_metrics:
+                      family_response_time:
+                        p50: "85ms"
+                        p95: "180ms"
+                        p99: "320ms"
+                      memory_recall_accuracy: 0.94
+                      family_satisfaction_score: 0.91
+                      system_uptime: "99.7%"
+                    alerts_and_warnings:
+                      active_alerts: 0
+                      resolved_alerts_24h: 2
+                      warnings: []
+                    recommendations:
+                      - "Consider upgrading Emma's tablet battery - showing signs of degradation"
+                      - "Family memory usage is healthy but growing steadily - monitor for optimization opportunities"
+
+    post:
+      summary: "Trigger family system health check"
+      description: |
+        Trigger comprehensive family system health check including
+        all devices, memory systems, and family coordination verification.
+      operationId: "triggerFamilyHealthCheck"
+      tags: ["System Health"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/HealthCheckRequest"
+      responses:
+        "202":
+          description: "Family system health check initiated"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthCheckResponse"
+
+  /health/alerts:
+    get:
+      summary: "List family system alerts"
+      description: |
+        List family system alerts including health warnings,
+        performance issues, and family coordination problems.
+      operationId: "listFamilySystemAlerts"
+      tags: ["System Health"]
+      parameters:
+        - name: severity_filter
+          in: query
+          schema:
+            type: string
+            enum: ["info", "warning", "error", "critical", "all"]
+            default: "all"
+          description: "Filter alerts by severity level"
+        - name: category_filter
+          in: query
+          schema:
+            type: string
+            enum: ["memory", "devices", "coordination", "performance", "security", "all"]
+            default: "all"
+          description: "Filter alerts by category"
+        - name: status_filter
+          in: query
+          schema:
+            type: string
+            enum: ["active", "acknowledged", "resolved", "dismissed", "all"]
+            default: "active"
+          description: "Filter alerts by status"
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+          description: "Maximum number of alerts to return"
+      responses:
+        "200":
+          description: "Family system alerts listed successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SystemAlertsResponse"
+
+    post:
+      summary: "Create family system alert"
+      description: |
+        Create family system alert for manual reporting of
+        system issues or family coordination problems.
+      operationId: "createFamilySystemAlert"
+      tags: ["System Health"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateAlertRequest"
+      responses:
+        "201":
+          description: "Family system alert created successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AlertResponse"
+
+  /health/metrics:
+    get:
+      summary: "Get family system metrics"
+      description: |
+        Retrieve detailed family system metrics including performance,
+        usage patterns, and family coordination effectiveness.
+      operationId: "getFamilySystemMetrics"
+      tags: ["System Health"]
+      parameters:
+        - name: metric_categories
+          in: query
+          schema:
+            type: array
+            items:
+              type: string
+              enum: ["performance", "memory", "coordination", "devices", "usage", "satisfaction"]
+          description: "Specific metric categories to retrieve"
+        - name: time_range
+          in: query
+          schema:
+            type: string
+            enum: ["1h", "24h", "7d", "30d", "custom"]
+            default: "24h"
+          description: "Time range for metric aggregation"
+        - name: start_time
+          in: query
+          schema:
+            type: string
+            format: date-time
+          description: "Start time for custom time range"
+        - name: end_time
+          in: query
+          schema:
+            type: string
+            format: date-time
+          description: "End time for custom time range"
+      responses:
+        "200":
+          description: "Family system metrics retrieved successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SystemMetricsResponse"
+
+  # =============================================================================
+  # SYSTEM DIAGNOSTICS
+  # =============================================================================
+
+  /diagnostics:
+    get:
+      summary: "Get family system diagnostics"
+      description: |
+        Retrieve comprehensive family system diagnostics including
+        issue identification, root cause analysis, and resolution recommendations.
+      operationId: "getFamilySystemDiagnostics"
+      tags: ["System Diagnostics"]
+      parameters:
+        - name: diagnostic_scope
+          in: query
+          schema:
+            type: string
+            enum: ["comprehensive", "memory_focused", "device_focused", "coordination_focused"]
+            default: "comprehensive"
+          description: "Scope of diagnostic analysis"
+        - name: include_recommendations
+          in: query
+          schema:
+            type: boolean
+            default: true
+          description: "Include diagnostic recommendations and solutions"
+        - name: include_root_cause_analysis
+          in: query
+          schema:
+            type: boolean
+            default: true
+          description: "Include root cause analysis for identified issues"
+      responses:
+        "200":
+          description: "Family system diagnostics retrieved successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SystemDiagnosticsResponse"
+
+    post:
+      summary: "Run family system diagnostic"
+      description: |
+        Run specific family system diagnostic including targeted
+        analysis, issue detection, and family-appropriate troubleshooting.
+      operationId: "runFamilySystemDiagnostic"
+      tags: ["System Diagnostics"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RunDiagnosticRequest"
+      responses:
+        "202":
+          description: "Family system diagnostic initiated"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DiagnosticResponse"
+
+  /diagnostics/troubleshooting:
+    get:
+      summary: "Get troubleshooting guidance"
+      description: |
+        Get family-appropriate troubleshooting guidance including
+        step-by-step resolution instructions and family coordination help.
+      operationId: "getTroubleshootingGuidance"
+      tags: ["System Diagnostics"]
+      parameters:
+        - name: issue_category
+          in: query
+          schema:
+            type: string
+            enum: ["memory_sync", "device_connectivity", "ai_responsiveness", "family_coordination", "performance"]
+          description: "Category of issue requiring troubleshooting"
+        - name: family_technical_level
+          in: query
+          schema:
+            type: string
+            enum: ["beginner", "intermediate", "advanced"]
+            default: "intermediate"
+          description: "Family's technical comfort level for instructions"
+        - name: include_video_guides
+          in: query
+          schema:
+            type: boolean
+            default: false
+          description: "Include video troubleshooting guides"
+      responses:
+        "200":
+          description: "Troubleshooting guidance retrieved successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TroubleshootingResponse"
+
+  /diagnostics/remote-support:
+    post:
+      summary: "Request remote family support"
+      description: |
+        Request remote support session for family system issues
+        with privacy protection and family consent management.
+      operationId: "requestRemoteFamilySupport"
+      tags: ["System Diagnostics"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RemoteSupportRequest"
+      responses:
+        "201":
+          description: "Remote family support request created successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RemoteSupportResponse"
+
+  # =============================================================================
+  # SYSTEM PERFORMANCE
+  # =============================================================================
+
+  /performance:
+    get:
+      summary: "Get family system performance"
+      description: |
+        Retrieve family system performance metrics including response times,
+        memory efficiency, device coordination, and family satisfaction scores.
+      operationId: "getFamilySystemPerformance"
+      tags: ["System Performance"]
+      parameters:
+        - name: performance_timeframe
+          in: query
+          schema:
+            type: string
+            enum: ["real_time", "hourly", "daily", "weekly", "monthly"]
+            default: "daily"
+          description: "Performance metrics timeframe"
+        - name: include_benchmarks
+          in: query
+          schema:
+            type: boolean
+            default: true
+          description: "Include performance benchmarks and targets"
+        - name: include_optimization_suggestions
+          in: query
+          schema:
+            type: boolean
+            default: true
+          description: "Include performance optimization suggestions"
+      responses:
+        "200":
+          description: "Family system performance retrieved successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SystemPerformanceResponse"
+
+  /performance/optimization:
+    get:
+      summary: "Get performance optimization recommendations"
+      description: |
+        Generate family system performance optimization recommendations
+        including efficiency improvements and family experience enhancements.
+      operationId: "getPerformanceOptimization"
+      tags: ["System Performance"]
+      parameters:
+        - name: optimization_focus
+          in: query
+          schema:
+            type: string
+            enum: ["memory_efficiency", "response_time", "device_coordination", "family_satisfaction", "comprehensive"]
+            default: "comprehensive"
+          description: "Focus area for performance optimization"
+        - name: family_priorities
+          in: query
+          schema:
+            type: array
+            items:
+              type: string
+              enum: ["speed", "efficiency", "reliability", "family_harmony", "privacy"]
+          description: "Family priorities for optimization recommendations"
+      responses:
+        "200":
+          description: "Performance optimization recommendations retrieved successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PerformanceOptimizationResponse"
+
+    post:
+      summary: "Apply performance optimization"
+      description: |
+        Apply selected performance optimization recommendations
+        with family approval and change impact coordination.
+      operationId: "applyPerformanceOptimization"
+      tags: ["System Performance"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ApplyOptimizationRequest"
+      responses:
+        "200":
+          description: "Performance optimization applied successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OptimizationAppliedResponse"
+
+  /performance/benchmarking:
+    post:
+      summary: "Run family system benchmark"
+      description: |
+        Run comprehensive family system benchmark including performance
+        testing, stress testing, and family workflow simulation.
+      operationId: "runFamilySystemBenchmark"
+      tags: ["System Performance"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/BenchmarkRequest"
+      responses:
+        "202":
+          description: "Family system benchmark initiated"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BenchmarkResponse"
+
+  # =============================================================================
+  # SYSTEM MAINTENANCE
+  # =============================================================================
+
+  /maintenance:
+    get:
+      summary: "Get family system maintenance status"
+      description: |
+        Retrieve family system maintenance status including scheduled
+        maintenance, update availability, and family maintenance preferences.
+      operationId: "getFamilyMaintenanceStatus"
+      tags: ["System Maintenance"]
+      parameters:
+        - name: include_update_availability
+          in: query
+          schema:
+            type: boolean
+            default: true
+          description: "Include available system updates"
+        - name: include_maintenance_history
+          in: query
+          schema:
+            type: boolean
+            default: false
+          description: "Include recent maintenance history"
+        - name: include_family_preferences
+          in: query
+          schema:
+            type: boolean
+            default: true
+          description: "Include family maintenance preferences"
+      responses:
+        "200":
+          description: "Family system maintenance status retrieved successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MaintenanceStatusResponse"
+
+  /maintenance/schedule:
+    get:
+      summary: "Get family maintenance schedule"
+      description: |
+        Retrieve family maintenance schedule including planned updates,
+        system maintenance windows, and family-coordinated timing.
+      operationId: "getFamilyMaintenanceSchedule"
+      tags: ["System Maintenance"]
+      parameters:
+        - name: schedule_timeframe
+          in: query
+          schema:
+            type: string
+            enum: ["upcoming", "week", "month", "quarter"]
+            default: "month"
+          description: "Maintenance schedule timeframe"
+        - name: include_family_impact
+          in: query
+          schema:
+            type: boolean
+            default: true
+          description: "Include family impact assessment for scheduled maintenance"
+      responses:
+        "200":
+          description: "Family maintenance schedule retrieved successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MaintenanceScheduleResponse"
+
+    post:
+      summary: "Schedule family system maintenance"
+      description: |
+        Schedule family system maintenance including updates, optimization,
+        and maintenance coordination with family routines and preferences.
+      operationId: "scheduleFamilyMaintenance"
+      tags: ["System Maintenance"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ScheduleMaintenanceRequest"
+      responses:
+        "201":
+          description: "Family system maintenance scheduled successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MaintenanceScheduledResponse"
+
+  /maintenance/updates:
+    get:
+      summary: "List available family system updates"
+      description: |
+        List available family system updates including feature updates,
+        security patches, and family experience improvements.
+      operationId: "listFamilySystemUpdates"
+      tags: ["System Maintenance"]
+      parameters:
+        - name: update_type
+          in: query
+          schema:
+            type: string
+            enum: ["security", "feature", "performance", "family_experience", "all"]
+            default: "all"
+          description: "Filter updates by type"
+        - name: priority_filter
+          in: query
+          schema:
+            type: string
+            enum: ["critical", "high", "medium", "low", "all"]
+            default: "all"
+          description: "Filter updates by priority"
+        - name: include_family_impact
+          in: query
+          schema:
+            type: boolean
+            default: true
+          description: "Include family impact assessment for each update"
+      responses:
+        "200":
+          description: "Family system updates listed successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SystemUpdatesResponse"
+
+    post:
+      summary: "Apply family system updates"
+      description: |
+        Apply selected family system updates with family coordination,
+        backup management, and rollback preparation.
+      operationId: "applyFamilySystemUpdates"
+      tags: ["System Maintenance"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ApplyUpdatesRequest"
+      responses:
+        "202":
+          description: "Family system updates initiated"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UpdatesAppliedResponse"
+
+  # =============================================================================
+  # FAMILY INFRASTRUCTURE
+  # =============================================================================
+
+  /infrastructure:
+    get:
+      summary: "Get family infrastructure status"
+      description: |
+        Retrieve family infrastructure status including network connectivity,
+        device coordination, memory synchronization, and system resources.
+      operationId: "getFamilyInfrastructureStatus"
+      tags: ["Family Infrastructure"]
+      parameters:
+        - name: include_network_analysis
+          in: query
+          schema:
+            type: boolean
+            default: true
+          description: "Include family network connectivity analysis"
+        - name: include_device_topology
+          in: query
+          schema:
+            type: boolean
+            default: true
+          description: "Include family device topology and connections"
+        - name: include_resource_utilization
+          in: query
+          schema:
+            type: boolean
+            default: true
+          description: "Include system resource utilization across family devices"
+      responses:
+        "200":
+          description: "Family infrastructure status retrieved successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InfrastructureStatusResponse"
+
+  /infrastructure/capacity:
+    get:
+      summary: "Get family infrastructure capacity"
+      description: |
+        Retrieve family infrastructure capacity including current utilization,
+        growth projections, and capacity planning recommendations.
+      operationId: "getFamilyInfrastructureCapacity"
+      tags: ["Family Infrastructure"]
+      parameters:
+        - name: capacity_timeframe
+          in: query
+          schema:
+            type: string
+            enum: ["current", "1_month", "3_months", "6_months", "1_year"]
+            default: "current"
+          description: "Capacity analysis timeframe"
+        - name: include_growth_projections
+          in: query
+          schema:
+            type: boolean
+            default: true
+          description: "Include capacity growth projections"
+        - name: include_optimization_recommendations
+          in: query
+          schema:
+            type: boolean
+            default: true
+          description: "Include capacity optimization recommendations"
+      responses:
+        "200":
+          description: "Family infrastructure capacity retrieved successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InfrastructureCapacityResponse"
+
+  /infrastructure/topology:
+    get:
+      summary: "Get family device topology"
+      description: |
+        Retrieve family device topology including device connections,
+        network relationships, and communication pathways.
+      operationId: "getFamilyDeviceTopology"
+      tags: ["Family Infrastructure"]
+      parameters:
+        - name: include_connection_quality
+          in: query
+          schema:
+            type: boolean
+            default: true
+          description: "Include connection quality metrics"
+        - name: include_sync_pathways
+          in: query
+          schema:
+            type: boolean
+            default: true
+          description: "Include memory sync pathways between devices"
+        - name: topology_format
+          in: query
+          schema:
+            type: string
+            enum: ["hierarchical", "network_graph", "simplified"]
+            default: "hierarchical"
+          description: "Format for topology representation"
+      responses:
+        "200":
+          description: "Family device topology retrieved successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeviceTopologyResponse"
+
+  /infrastructure/optimization:
+    get:
+      summary: "Get infrastructure optimization recommendations"
+      description: |
+        Generate family infrastructure optimization recommendations including
+        network improvements, device upgrades, and coordination enhancements.
+      operationId: "getInfrastructureOptimization"
+      tags: ["Family Infrastructure"]
+      parameters:
+        - name: optimization_category
+          in: query
+          schema:
+            type: string
+            enum: ["network", "devices", "memory_sync", "performance", "comprehensive"]
+            default: "comprehensive"
+          description: "Category of infrastructure optimization"
+        - name: family_budget_considerations
+          in: query
+          schema:
+            type: boolean
+            default: true
+          description: "Include family budget considerations in recommendations"
+      responses:
+        "200":
+          description: "Infrastructure optimization recommendations retrieved successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/InfrastructureOptimizationResponse"
+
+components:
+  securitySchemes:
+    FamilyAdminAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: "Family administrator authentication token"
+    SystemAdminAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: "System administrator authentication token"
+
+  schemas:
+    # =============================================================================
+    # SYSTEM HEALTH SCHEMAS
+    # =============================================================================
+
+    FamilySystemHealthResponse:
+      type: object
+      required: ["overall_health_status", "health_score", "last_health_check"]
+      properties:
+        overall_health_status:
+          type: string
+          enum: ["healthy", "warning", "degraded", "critical", "offline"]
+        health_score:
+          type: number
+          minimum: 0
+          maximum: 1
+          description: "Overall family system health score (0-1)"
+        last_health_check:
+          type: string
+          format: date-time
+        system_components:
+          type: object
+          properties:
+            memory_system:
+              type: object
+              properties:
+                status:
+                  type: string
+                  enum: ["healthy", "warning", "degraded", "critical"]
+                health_score:
+                  type: number
+                  minimum: 0
+                  maximum: 1
+                memory_usage:
+                  type: string
+                  description: "Memory usage percentage"
+                sync_status:
+                  type: string
+                  enum: ["synchronized", "syncing", "out_of_sync", "sync_error"]
+                last_sync:
+                  type: string
+                  format: date-time
+                cross_device_consistency:
+                  type: boolean
+                sync_conflicts:
+                  type: integer
+                  description: "Number of unresolved sync conflicts"
+            ai_coordination:
+              type: object
+              properties:
+                status:
+                  type: string
+                  enum: ["healthy", "warning", "degraded", "critical"]
+                health_score:
+                  type: number
+                  minimum: 0
+                  maximum: 1
+                active_agents:
+                  type: integer
+                  description: "Number of active AI agents"
+                response_time_p95:
+                  type: string
+                  description: "95th percentile response time"
+                family_context_accuracy:
+                  type: number
+                  minimum: 0
+                  maximum: 1
+                  description: "Family context understanding accuracy"
+                emotional_intelligence_calibration:
+                  type: string
+                  enum: ["optimal", "good", "needs_calibration", "poor"]
+            family_devices:
+              type: object
+              properties:
+                total_devices:
+                  type: integer
+                healthy_devices:
+                  type: integer
+                devices_needing_attention:
+                  type: integer
+                device_summary:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      device_id:
+                        type: string
+                      device_type:
+                        type: string
+                        enum: ["smartphone", "tablet", "laptop", "desktop", "smart_speaker", "smart_display", "other"]
+                      status:
+                        type: string
+                        enum: ["healthy", "warning", "degraded", "critical", "offline"]
+                      battery_level:
+                        type: integer
+                        minimum: 0
+                        maximum: 100
+                      last_sync:
+                        type: string
+                        format: date-time
+                      memory_usage:
+                        type: string
+                      storage_available:
+                        type: string
+                      network_connectivity:
+                        type: string
+                        enum: ["excellent", "good", "fair", "poor", "none"]
+            family_coordination:
+              type: object
+              properties:
+                status:
+                  type: string
+                  enum: ["optimal", "good", "fair", "poor", "failing"]
+                health_score:
+                  type: number
+                  minimum: 0
+                  maximum: 1
+                active_coordination_sessions:
+                  type: integer
+                family_harmony_index:
+                  type: number
+                  minimum: 0
+                  maximum: 1
+                  description: "Family harmony and satisfaction index"
+                conflict_resolution_success_rate:
+                  type: number
+                  minimum: 0
+                  maximum: 1
+                schedule_coordination_accuracy:
+                  type: number
+                  minimum: 0
+                  maximum: 1
+                communication_effectiveness:
+                  type: number
+                  minimum: 0
+                  maximum: 1
+        performance_metrics:
+          type: object
+          properties:
+            family_response_time:
+              type: object
+              properties:
+                p50:
+                  type: string
+                  description: "50th percentile response time"
+                p95:
+                  type: string
+                  description: "95th percentile response time"
+                p99:
+                  type: string
+                  description: "99th percentile response time"
+            memory_recall_accuracy:
+              type: number
+              minimum: 0
+              maximum: 1
+              description: "Memory recall accuracy score"
+            family_satisfaction_score:
+              type: number
+              minimum: 0
+              maximum: 1
+              description: "Overall family satisfaction with system"
+            system_uptime:
+              type: string
+              description: "System uptime percentage"
+            error_rate:
+              type: number
+              minimum: 0
+              description: "System error rate (errors per hour)"
+        alerts_and_warnings:
+          type: object
+          properties:
+            active_alerts:
+              type: integer
+            critical_alerts:
+              type: integer
+            resolved_alerts_24h:
+              type: integer
+            warnings:
+              type: array
+              items:
+                type: object
+                properties:
+                  warning_id:
+                    type: string
+                  severity:
+                    type: string
+                    enum: ["info", "warning", "error", "critical"]
+                  category:
+                    type: string
+                  message:
+                    type: string
+                  timestamp:
+                    type: string
+                    format: date-time
+        recommendations:
+          type: array
+          items:
+            type: string
+          description: "System health improvement recommendations"
+
+    HealthCheckRequest:
+      type: object
+      properties:
+        check_scope:
+          type: string
+          enum: ["comprehensive", "quick", "memory_focused", "device_focused", "coordination_focused"]
+          default: "comprehensive"
+        include_performance_test:
+          type: boolean
+          default: false
+        family_impact_minimal:
+          type: boolean
+          default: true
+          description: "Minimize impact on family activities during health check"
+
+    HealthCheckResponse:
+      type: object
+      properties:
+        health_check_id:
+          type: string
+        check_scope:
+          type: string
+        estimated_completion_time:
+          type: string
+          format: date-time
+        family_impact_level:
+          type: string
+          enum: ["minimal", "low", "moderate", "high"]
+
+    SystemAlertsResponse:
+      type: object
+      properties:
+        alerts:
+          type: array
+          items:
+            type: object
+            properties:
+              alert_id:
+                type: string
+              severity:
+                type: string
+                enum: ["info", "warning", "error", "critical"]
+              category:
+                type: string
+                enum: ["memory", "devices", "coordination", "performance", "security", "other"]
+              title:
+                type: string
+              message:
+                type: string
+              timestamp:
+                type: string
+                format: date-time
+              status:
+                type: string
+                enum: ["active", "acknowledged", "resolved", "dismissed"]
+              affected_components:
+                type: array
+                items:
+                  type: string
+              recommended_actions:
+                type: array
+                items:
+                  type: string
+              family_impact:
+                type: string
+                enum: ["none", "minimal", "moderate", "significant"]
+        alert_summary:
+          type: object
+          properties:
+            total_alerts:
+              type: integer
+            critical_alerts:
+              type: integer
+            active_alerts:
+              type: integer
+            resolved_alerts_24h:
+              type: integer
+
+    CreateAlertRequest:
+      type: object
+      required: ["severity", "category", "title", "message"]
+      properties:
+        severity:
+          type: string
+          enum: ["info", "warning", "error", "critical"]
+        category:
+          type: string
+          enum: ["memory", "devices", "coordination", "performance", "security", "other"]
+        title:
+          type: string
+        message:
+          type: string
+        affected_components:
+          type: array
+          items:
+            type: string
+        manual_report:
+          type: boolean
+          default: true
+
+    AlertResponse:
+      type: object
+      properties:
+        alert_id:
+          type: string
+        alert_details:
+          type: object
+        family_notifications_sent:
+          type: boolean
+
+    SystemMetricsResponse:
+      type: object
+      properties:
+        metrics_summary:
+          type: object
+        performance_metrics:
+          type: object
+        memory_metrics:
+          type: object
+        coordination_metrics:
+          type: object
+        device_metrics:
+          type: object
+        usage_metrics:
+          type: object
+        satisfaction_metrics:
+          type: object
+
+    # =============================================================================
+    # SYSTEM DIAGNOSTICS SCHEMAS
+    # =============================================================================
+
+    SystemDiagnosticsResponse:
+      type: object
+      properties:
+        diagnostic_summary:
+          type: object
+          properties:
+            overall_system_status:
+              type: string
+              enum: ["healthy", "issues_detected", "critical_issues", "system_failure"]
+            issues_identified:
+              type: integer
+            critical_issues:
+              type: integer
+            diagnostic_confidence:
+              type: number
+              minimum: 0
+              maximum: 1
+        identified_issues:
+          type: array
+          items:
+            type: object
+            properties:
+              issue_id:
+                type: string
+              issue_category:
+                type: string
+                enum: ["memory_sync", "device_connectivity", "ai_responsiveness", "family_coordination", "performance", "security"]
+              severity:
+                type: string
+                enum: ["low", "medium", "high", "critical"]
+              description:
+                type: string
+              affected_components:
+                type: array
+                items:
+                  type: string
+              family_impact:
+                type: string
+                enum: ["none", "minimal", "moderate", "significant", "severe"]
+              first_detected:
+                type: string
+                format: date-time
+              frequency:
+                type: string
+                enum: ["once", "occasional", "frequent", "constant"]
+        root_cause_analysis:
+          type: array
+          items:
+            type: object
+            properties:
+              issue_id:
+                type: string
+              root_cause:
+                type: string
+              contributing_factors:
+                type: array
+                items:
+                  type: string
+              confidence_level:
+                type: number
+                minimum: 0
+                maximum: 1
+        recommendations:
+          type: array
+          items:
+            type: object
+            properties:
+              recommendation_id:
+                type: string
+              issue_id:
+                type: string
+              recommendation_type:
+                type: string
+                enum: ["immediate_action", "scheduled_maintenance", "configuration_change", "hardware_upgrade", "family_coordination"]
+              description:
+                type: string
+              implementation_steps:
+                type: array
+                items:
+                  type: string
+              estimated_resolution_time:
+                type: string
+              family_coordination_required:
+                type: boolean
+              technical_difficulty:
+                type: string
+                enum: ["easy", "moderate", "advanced", "expert_required"]
+
+    RunDiagnosticRequest:
+      type: object
+      required: ["diagnostic_type"]
+      properties:
+        diagnostic_type:
+          type: string
+          enum: ["comprehensive", "memory_sync", "device_connectivity", "ai_responsiveness", "family_coordination", "performance", "security"]
+        target_components:
+          type: array
+          items:
+            type: string
+          description: "Specific components to diagnose (optional)"
+        diagnostic_depth:
+          type: string
+          enum: ["surface", "standard", "deep", "exhaustive"]
+          default: "standard"
+        family_impact_tolerance:
+          type: string
+          enum: ["minimal", "low", "moderate", "high"]
+          default: "minimal"
+
+    DiagnosticResponse:
+      type: object
+      properties:
+        diagnostic_id:
+          type: string
+        diagnostic_type:
+          type: string
+        estimated_completion_time:
+          type: string
+          format: date-time
+        family_impact_level:
+          type: string
+
+    TroubleshootingResponse:
+      type: object
+      properties:
+        troubleshooting_guides:
+          type: array
+          items:
+            type: object
+            properties:
+              guide_id:
+                type: string
+              issue_category:
+                type: string
+              guide_title:
+                type: string
+              difficulty_level:
+                type: string
+                enum: ["beginner", "intermediate", "advanced"]
+              estimated_time:
+                type: string
+              steps:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    step_number:
+                      type: integer
+                    instruction:
+                      type: string
+                    expected_result:
+                      type: string
+                    troubleshooting_tips:
+                      type: array
+                      items:
+                        type: string
+              video_guide_url:
+                type: string
+                description: "URL to video troubleshooting guide (if available)"
+        family_coordination_tips:
+          type: array
+          items:
+            type: string
+        escalation_options:
+          type: object
+          properties:
+            remote_support_available:
+              type: boolean
+            expert_consultation_available:
+              type: boolean
+            family_priority_support:
+              type: boolean
+
+    RemoteSupportRequest:
+      type: object
+      required: ["issue_description", "family_consent"]
+      properties:
+        issue_description:
+          type: string
+        issue_category:
+          type: string
+          enum: ["memory_sync", "device_connectivity", "ai_responsiveness", "family_coordination", "performance", "other"]
+        family_consent:
+          type: object
+          properties:
+            data_access_consent:
+              type: boolean
+              description: "Consent for support team to access diagnostic data"
+            screen_sharing_consent:
+              type: boolean
+              description: "Consent for screen sharing during support session"
+            family_privacy_acknowledgment:
+              type: boolean
+              description: "Acknowledgment of family privacy protections during support"
+        preferred_support_time:
+          type: string
+          format: date-time
+        family_availability:
+          type: array
+          items:
+            type: object
+            properties:
+              family_member:
+                type: string
+              available_times:
+                type: array
+                items:
+                  type: string
+                  format: date-time
+        technical_comfort_level:
+          type: string
+          enum: ["beginner", "intermediate", "advanced"]
+        previous_troubleshooting_attempts:
+          type: array
+          items:
+            type: string
+
+    RemoteSupportResponse:
+      type: object
+      properties:
+        support_request_id:
+          type: string
+        estimated_response_time:
+          type: string
+        support_session_details:
+          type: object
+        privacy_protections:
+          type: array
+          items:
+            type: string
+        family_preparation_steps:
+          type: array
+          items:
+            type: string
+
+    # =============================================================================
+    # PERFORMANCE AND MAINTENANCE SCHEMAS (Simplified for brevity)
+    # =============================================================================
+
+    SystemPerformanceResponse:
+      type: object
+      properties:
+        performance_summary:
+          type: object
+        performance_metrics:
+          type: object
+        benchmarks:
+          type: object
+        optimization_suggestions:
+          type: array
+          items:
+            type: object
+
+    PerformanceOptimizationResponse:
+      type: object
+      properties:
+        optimization_recommendations:
+          type: array
+          items:
+            type: object
+        implementation_roadmap:
+          type: object
+        family_impact_assessment:
+          type: object
+
+    ApplyOptimizationRequest:
+      type: object
+      properties:
+        selected_optimizations:
+          type: array
+          items:
+            type: string
+        family_approval_token:
+          type: string
+        implementation_schedule:
+          type: object
+
+    OptimizationAppliedResponse:
+      type: object
+      properties:
+        optimization_id:
+          type: string
+        applied_optimizations:
+          type: array
+          items:
+            type: object
+        expected_improvements:
+          type: object
+
+    BenchmarkRequest:
+      type: object
+      properties:
+        benchmark_type:
+          type: string
+          enum: ["performance", "stress", "family_workflow", "comprehensive"]
+        benchmark_duration:
+          type: string
+        family_impact_tolerance:
+          type: string
+
+    BenchmarkResponse:
+      type: object
+      properties:
+        benchmark_id:
+          type: string
+        benchmark_schedule:
+          type: object
+        family_coordination_plan:
+          type: object
+
+    MaintenanceStatusResponse:
+      type: object
+      properties:
+        maintenance_summary:
+          type: object
+        scheduled_maintenance:
+          type: array
+          items:
+            type: object
+        update_availability:
+          type: object
+        family_maintenance_preferences:
+          type: object
+
+    MaintenanceScheduleResponse:
+      type: object
+      properties:
+        maintenance_schedule:
+          type: array
+          items:
+            type: object
+        family_impact_timeline:
+          type: object
+        coordination_requirements:
+          type: array
+          items:
+            type: string
+
+    ScheduleMaintenanceRequest:
+      type: object
+      properties:
+        maintenance_type:
+          type: string
+          enum: ["system_update", "performance_optimization", "security_patch", "feature_update", "comprehensive"]
+        preferred_schedule:
+          type: object
+        family_coordination_requirements:
+          type: object
+
+    MaintenanceScheduledResponse:
+      type: object
+      properties:
+        maintenance_id:
+          type: string
+        scheduled_time:
+          type: string
+          format: date-time
+        family_notifications:
+          type: object
+
+    SystemUpdatesResponse:
+      type: object
+      properties:
+        available_updates:
+          type: array
+          items:
+            type: object
+        update_summary:
+          type: object
+        family_impact_analysis:
+          type: object
+
+    ApplyUpdatesRequest:
+      type: object
+      properties:
+        selected_updates:
+          type: array
+          items:
+            type: string
+        update_schedule:
+          type: object
+        family_approval_token:
+          type: string
+
+    UpdatesAppliedResponse:
+      type: object
+      properties:
+        update_session_id:
+          type: string
+        applied_updates:
+          type: array
+          items:
+            type: object
+        rollback_plan:
+          type: object
+
+    # =============================================================================
+    # INFRASTRUCTURE SCHEMAS
+    # =============================================================================
+
+    InfrastructureStatusResponse:
+      type: object
+      properties:
+        infrastructure_summary:
+          type: object
+        network_status:
+          type: object
+        device_topology:
+          type: object
+        resource_utilization:
+          type: object
+
+    InfrastructureCapacityResponse:
+      type: object
+      properties:
+        capacity_summary:
+          type: object
+        current_utilization:
+          type: object
+        growth_projections:
+          type: object
+        optimization_recommendations:
+          type: array
+          items:
+            type: object
+
+    DeviceTopologyResponse:
+      type: object
+      properties:
+        topology_overview:
+          type: object
+        device_connections:
+          type: array
+          items:
+            type: object
+        sync_pathways:
+          type: object
+        connection_quality:
+          type: object
+
+    InfrastructureOptimizationResponse:
+      type: object
+      properties:
+        optimization_recommendations:
+          type: array
+          items:
+            type: object
+        implementation_plan:
+          type: object
+        budget_considerations:
+          type: object
+
+  responses:
+    BadRequest:
+      description: "Invalid request format or parameters"
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+              details:
+                type: string
+
+    Forbidden:
+      description: "Access denied - insufficient system administration privileges"
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+              required_role:
+                type: string
+              required_permissions:
+                type: array
+                items:
+                  type: string
+
+    ServiceUnavailable:
+      description: "System maintenance in progress or system temporarily unavailable"
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+              maintenance_window:
+                type: object
+              estimated_restoration:
+                type: string
+                format: date-time
+
+tags:
+  - name: "System Health"
+    description: "Family system health monitoring and vitals"
+  - name: "System Diagnostics"
+    description: "System diagnostics and troubleshooting"
+  - name: "System Performance"
+    description: "Performance monitoring and optimization"
+  - name: "System Maintenance"
+    description: "System maintenance coordination and scheduling"
+  - name: "Family Infrastructure"
+    description: "Family infrastructure monitoring and management"

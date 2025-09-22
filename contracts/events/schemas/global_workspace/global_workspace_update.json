@@ -1,0 +1,543 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://familyos.local/contracts/events/schemas/global_workspace/global_workspace_update.schema.json",
+    "title": "Global Workspace Update Event",
+    "description": "Event triggered when the global workspace state is updated, reflecting changes in conscious content, coalition dynamics, or system configuration.",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "timestamp",
+        "update_id",
+        "update_type",
+        "state_changes",
+        "update_trigger",
+        "impact_assessment"
+    ],
+    "properties": {
+        "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "When the workspace update occurred"
+        },
+        "update_id": {
+            "type": "string",
+            "pattern": "^gwu_[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+            "description": "Unique identifier for this workspace update"
+        },
+        "update_type": {
+            "type": "string",
+            "enum": [
+                "content_change",
+                "coalition_update",
+                "threshold_adjustment",
+                "resource_reallocation",
+                "configuration_change",
+                "performance_optimization"
+            ],
+            "description": "Type of workspace update that occurred"
+        },
+        "state_changes": {
+            "type": "object",
+            "required": [
+                "previous_state",
+                "new_state",
+                "change_magnitude"
+            ],
+            "properties": {
+                "previous_state": {
+                    "type": "object",
+                    "properties": {
+                        "conscious_content": {
+                            "type": "object"
+                        },
+                        "active_coalitions": {
+                            "type": "array"
+                        },
+                        "attention_allocation": {
+                            "type": "object"
+                        },
+                        "threshold_settings": {
+                            "type": "object"
+                        },
+                        "competition_state": {
+                            "type": "object"
+                        }
+                    },
+                    "description": "Previous state of the global workspace"
+                },
+                "new_state": {
+                    "type": "object",
+                    "properties": {
+                        "conscious_content": {
+                            "type": "object"
+                        },
+                        "active_coalitions": {
+                            "type": "array"
+                        },
+                        "attention_allocation": {
+                            "type": "object"
+                        },
+                        "threshold_settings": {
+                            "type": "object"
+                        },
+                        "competition_state": {
+                            "type": "object"
+                        }
+                    },
+                    "description": "New state of the global workspace after update"
+                },
+                "change_magnitude": {
+                    "type": "object",
+                    "properties": {
+                        "overall_change": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "content_change": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "coalition_change": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "attention_change": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "configuration_change": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    },
+                    "description": "Magnitude of changes across different workspace aspects"
+                }
+            },
+            "description": "Detailed changes in workspace state"
+        },
+        "update_trigger": {
+            "type": "object",
+            "required": [
+                "trigger_source",
+                "trigger_type",
+                "trigger_strength"
+            ],
+            "properties": {
+                "trigger_source": {
+                    "type": "string",
+                    "enum": [
+                        "external_stimulus",
+                        "coalition_competition",
+                        "attention_shift",
+                        "memory_activation",
+                        "executive_control",
+                        "system_optimization"
+                    ],
+                    "description": "Source that triggered the workspace update"
+                },
+                "trigger_type": {
+                    "type": "string",
+                    "enum": [
+                        "immediate",
+                        "gradual",
+                        "threshold_based",
+                        "scheduled",
+                        "adaptive",
+                        "emergency"
+                    ],
+                    "description": "Type of trigger that caused the update"
+                },
+                "trigger_strength": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Strength of the triggering event"
+                },
+                "trigger_context": {
+                    "type": "object",
+                    "properties": {
+                        "cognitive_context": {
+                            "type": "object"
+                        },
+                        "environmental_context": {
+                            "type": "object"
+                        },
+                        "temporal_context": {
+                            "type": "object"
+                        },
+                        "system_context": {
+                            "type": "object"
+                        }
+                    },
+                    "description": "Context in which update was triggered"
+                }
+            },
+            "description": "What triggered this workspace update"
+        },
+        "impact_assessment": {
+            "type": "object",
+            "required": [
+                "immediate_impacts",
+                "predicted_impacts",
+                "system_wide_effects"
+            ],
+            "properties": {
+                "immediate_impacts": {
+                    "type": "object",
+                    "properties": {
+                        "consciousness_level_change": {
+                            "type": "number",
+                            "minimum": -1,
+                            "maximum": 1
+                        },
+                        "attention_redistribution": {
+                            "type": "object"
+                        },
+                        "coalition_strength_changes": {
+                            "type": "object"
+                        },
+                        "processing_efficiency_change": {
+                            "type": "number",
+                            "minimum": -1,
+                            "maximum": 1
+                        }
+                    },
+                    "description": "Immediate impacts of the workspace update"
+                },
+                "predicted_impacts": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "impact_type": {
+                                "type": "string"
+                            },
+                            "impact_magnitude": {
+                                "type": "number"
+                            },
+                            "impact_probability": {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 1
+                            },
+                            "time_to_impact_ms": {
+                                "type": "number",
+                                "minimum": 0
+                            }
+                        }
+                    },
+                    "description": "Predicted future impacts of the update"
+                },
+                "system_wide_effects": {
+                    "type": "object",
+                    "properties": {
+                        "thalamic_system_effects": {
+                            "type": "object"
+                        },
+                        "working_memory_effects": {
+                            "type": "object"
+                        },
+                        "hippocampal_effects": {
+                            "type": "object"
+                        },
+                        "motor_system_effects": {
+                            "type": "object"
+                        },
+                        "emotional_system_effects": {
+                            "type": "object"
+                        }
+                    },
+                    "description": "Effects on other cognitive systems"
+                }
+            },
+            "description": "Assessment of update impacts across multiple timescales"
+        },
+        "content_dynamics": {
+            "type": "object",
+            "properties": {
+                "content_transitions": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "transition_type": {
+                                "type": "string",
+                                "enum": [
+                                    "entry",
+                                    "exit",
+                                    "modification",
+                                    "enhancement",
+                                    "suppression"
+                                ]
+                            },
+                            "content_id": {
+                                "type": "string"
+                            },
+                            "transition_strength": {
+                                "type": "number"
+                            },
+                            "transition_speed": {
+                                "type": "number"
+                            }
+                        }
+                    },
+                    "description": "Transitions in conscious content"
+                },
+                "content_integration": {
+                    "type": "object",
+                    "properties": {
+                        "integration_level": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "coherence_changes": {
+                            "type": "number",
+                            "minimum": -1,
+                            "maximum": 1
+                        },
+                        "binding_updates": {
+                            "type": "object"
+                        },
+                        "contextual_integration": {
+                            "type": "object"
+                        }
+                    },
+                    "description": "Changes in content integration"
+                },
+                "accessibility_changes": {
+                    "type": "object",
+                    "properties": {
+                        "reportability_changes": {
+                            "type": "object"
+                        },
+                        "controllability_changes": {
+                            "type": "object"
+                        },
+                        "availability_changes": {
+                            "type": "object"
+                        },
+                        "introspective_access_changes": {
+                            "type": "object"
+                        }
+                    },
+                    "description": "Changes in content accessibility"
+                }
+            },
+            "description": "Dynamics of conscious content during update"
+        },
+        "coalition_dynamics": {
+            "type": "object",
+            "properties": {
+                "coalition_changes": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "coalition_id": {
+                                "type": "string"
+                            },
+                            "change_type": {
+                                "type": "string",
+                                "enum": [
+                                    "formation",
+                                    "dissolution",
+                                    "strengthening",
+                                    "weakening",
+                                    "merger",
+                                    "split"
+                                ]
+                            },
+                            "change_magnitude": {
+                                "type": "number"
+                            },
+                            "change_causes": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "description": "Changes in coalition structure and strength"
+                },
+                "competition_dynamics": {
+                    "type": "object",
+                    "properties": {
+                        "competition_intensity_change": {
+                            "type": "number",
+                            "minimum": -1,
+                            "maximum": 1
+                        },
+                        "new_competitions": {
+                            "type": "array"
+                        },
+                        "resolved_competitions": {
+                            "type": "array"
+                        },
+                        "competition_strategy_changes": {
+                            "type": "object"
+                        }
+                    },
+                    "description": "Changes in coalition competition dynamics"
+                },
+                "cooperation_patterns": {
+                    "type": "object",
+                    "properties": {
+                        "alliance_formations": {
+                            "type": "array"
+                        },
+                        "cooperation_strength_changes": {
+                            "type": "object"
+                        },
+                        "resource_sharing_updates": {
+                            "type": "object"
+                        }
+                    },
+                    "description": "Changes in coalition cooperation patterns"
+                }
+            },
+            "description": "Dynamics of coalition changes during update"
+        },
+        "resource_management": {
+            "type": "object",
+            "properties": {
+                "resource_reallocations": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "resource_type": {
+                                "type": "string"
+                            },
+                            "from_allocation": {
+                                "type": "object"
+                            },
+                            "to_allocation": {
+                                "type": "object"
+                            },
+                            "reallocation_reason": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "description": "Reallocations of cognitive resources"
+                },
+                "efficiency_changes": {
+                    "type": "object",
+                    "properties": {
+                        "processing_efficiency": {
+                            "type": "number",
+                            "minimum": -1,
+                            "maximum": 1
+                        },
+                        "resource_utilization": {
+                            "type": "number",
+                            "minimum": -1,
+                            "maximum": 1
+                        },
+                        "energy_efficiency": {
+                            "type": "number",
+                            "minimum": -1,
+                            "maximum": 1
+                        }
+                    },
+                    "description": "Changes in resource utilization efficiency"
+                },
+                "capacity_adjustments": {
+                    "type": "object",
+                    "properties": {
+                        "attention_capacity": {
+                            "type": "number"
+                        },
+                        "processing_capacity": {
+                            "type": "number"
+                        },
+                        "memory_capacity": {
+                            "type": "number"
+                        },
+                        "integration_capacity": {
+                            "type": "number"
+                        }
+                    },
+                    "description": "Adjustments to various cognitive capacities"
+                }
+            },
+            "description": "Resource management changes during update"
+        },
+        "performance_metrics": {
+            "type": "object",
+            "properties": {
+                "update_performance": {
+                    "type": "object",
+                    "properties": {
+                        "update_latency_ms": {
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "update_completeness": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "update_accuracy": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "update_efficiency": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    },
+                    "description": "Performance metrics for the update process"
+                },
+                "post_update_performance": {
+                    "type": "object",
+                    "properties": {
+                        "processing_speed": {
+                            "type": "number"
+                        },
+                        "decision_quality": {
+                            "type": "number"
+                        },
+                        "integration_quality": {
+                            "type": "number"
+                        },
+                        "response_coherence": {
+                            "type": "number"
+                        }
+                    },
+                    "description": "Performance metrics after the update"
+                },
+                "system_stability": {
+                    "type": "object",
+                    "properties": {
+                        "stability_index": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "oscillation_metrics": {
+                            "type": "object"
+                        },
+                        "convergence_metrics": {
+                            "type": "object"
+                        },
+                        "robustness_measures": {
+                            "type": "object"
+                        }
+                    },
+                    "description": "System stability metrics after update"
+                }
+            },
+            "description": "Performance and stability metrics related to the update"
+        }
+    }
+}

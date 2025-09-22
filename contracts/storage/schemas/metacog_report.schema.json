@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://familyos.local/contracts/storage/metacog_report.schema.json",
+  "title": "Metacognition Report",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "ts",
+    "space_id",
+    "confidence",
+    "signals"
+  ],
+  "properties": {
+    "id": {
+      "$ref": "./common.schema.json#/$defs/ULID"
+    },
+    "ts": {
+      "$ref": "./common.schema.json#/$defs/Timestamp"
+    },
+    "space_id": {
+      "$ref": "./common.schema.json#/$defs/SpaceId"
+    },
+    "confidence": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "signals": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "number"
+      }
+    },
+    "notes": {
+      "type": "string"
+    }
+  }
+}

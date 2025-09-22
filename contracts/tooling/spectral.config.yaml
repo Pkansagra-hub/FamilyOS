@@ -1,0 +1,127 @@
+extends: ["spectral:oas"]
+
+rules:
+  # MemoryOS-specific rules
+  memoryos-ulid-format:
+    description: ULID fields should follow ULID pattern
+    given: "$..[?(@property.match(/.*_id$/) && @property !== 'request_id')]"
+    then:
+      field: "format"
+      function: "pattern"
+      functionOptions:
+        match: "ulid"
+
+  memoryos-timestamp-format:
+    description: Timestamp fields should use date-time format
+    given: "$..[?(@property.match(/.*_at$|timestamp/))]"
+    then:
+      field: "format"
+      function: "pattern"
+      functionOptions:
+        match: "date-time"
+
+  memoryos-security-bands:
+    description: Security band enums should use standard values
+    given: "$..[?(@property === 'security_band')]"
+    then:
+      field: "enum"
+      function: "enumeration"
+      functionOptions:
+        values: ["GREEN", "AMBER", "RED", "BLACK"]
+
+  # Enhanced OpenAPI rules
+  operation-description:
+    description: Operations must have descriptions
+    given: "$.paths[*][*]"
+    then:
+      field: "description"
+      function: "truthy"
+
+  operation-operationId:
+    description: Operations must have operationId
+    given: "$.paths[*][*]"
+    then:
+      field: "operationId"
+      function: "truthy"
+
+  operation-tags:
+    description: Operations must have tags
+    given: "$.paths[*][*]"
+    then:
+      field: "tags"
+      function: "truthy"
+
+  schema-description:
+    description: Schemas must have descriptions
+    given: "$.components.schemas[*]"
+    then:
+      field: "description"
+      function: "truthy"
+
+  parameter-description:
+    description: Parameters must have descriptions
+    given: "$..[?(@.in)]"
+    then:
+      field: "description"
+      function: "truthy"
+
+  # Security requirements
+  operation-security:
+    description: Operations should define security requirements
+    given: "$.paths[*][*]"
+    then:
+      field: "security"
+      function: "truthy"
+    severity: "warn"
+
+  # Response requirements
+  success-response:
+    description: Operations must define success responses
+    given: "$.paths[*][*].responses"
+    then:
+      function: "schema"
+      functionOptions:
+        schema:
+          type: "object"
+          anyOf:
+            - required: ["200"]
+            - required: ["201"]
+            - required: ["202"]
+            - required: ["204"]
+
+  # Error handling
+  error-responses:
+    description: Operations should define error responses
+    given: "$.paths[*][*].responses"
+    then:
+      function: "schema"
+      functionOptions:
+        schema:
+          type: "object"
+          anyOf:
+            - required: ["400"]
+            - required: ["401"]
+            - required: ["403"]
+            - required: ["404"]
+            - required: ["500"]
+    severity: "warn"
+
+  # Version consistency
+  info-version:
+    description: API version should follow SemVer
+    given: "$.info.version"
+    then:
+      function: "pattern"
+      functionOptions:
+        match: "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-((?:0|[1-9]\\d*|\\d*[a-zA-Z-][0-9a-zA-Z-]*)))*(?:\\+([0-9a-zA-Z-]+(?:\\.[0-9a-zA-Z-]+)*))?$"
+
+overrides:
+  - files: ["globals/api/openapi.common.yaml"]
+    rules:
+      # Common file is just components, different rules apply
+      operation-description: "off"
+      operation-operationId: "off"
+      operation-tags: "off"
+      operation-security: "off"
+      success-response: "off"
+      error-responses: "off"

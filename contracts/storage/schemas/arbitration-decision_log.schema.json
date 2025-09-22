@@ -1,0 +1,16 @@
+{
+  "$id": "urn:contracts:arbitration:storage:decision_log@1.0.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["decision_id","space_id","actor_id","context_id","selected","confidence","ts","band"],
+  "properties": {
+    "decision_id": { "type": "string" },
+    "space_id": { "type": "string" },
+    "actor_id": { "type": "string" },
+    "context_id": { "type": "string" },
+    "selected": { "type": "object" },
+    "confidence": { "type": "number" },
+    "ts": { "type": "string", "format": "date-time" },
+    "band": { "type": "string", "enum": ["GREEN","AMBER","RED","BLACK"] }
+  }
+}

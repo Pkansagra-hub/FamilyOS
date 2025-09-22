@@ -1,0 +1,537 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Control Plane Common Types - Memory-Centric Family AI",
+  "description": "Common type definitions for Control Plane API supporting family governance, subscription management, and system oversight with memory-centric intelligence",
+
+  "definitions": {
+    "FamilyGovernanceRole": {
+      "type": "string",
+      "enum": [
+        "family_admin",
+        "parent_guardian",
+        "adult_member",
+        "teen_member",
+        "child_member"
+      ],
+      "description": "Role within family governance structure with age-appropriate permissions"
+    },
+
+    "FamilyGovernancePermission": {
+      "type": "object",
+      "properties": {
+        "permission_id": {
+          "type": "string",
+          "description": "Unique identifier for governance permission"
+        },
+        "permission_name": {
+          "type": "string",
+          "description": "Human-readable permission name"
+        },
+        "description": {
+          "type": "string",
+          "description": "Clear explanation of what this permission allows"
+        },
+        "family_impact": {
+          "type": "string",
+          "description": "Explanation of how this permission affects family experience"
+        },
+        "child_safety_level": {
+          "type": "string",
+          "enum": ["safe", "supervised", "restricted", "prohibited"],
+          "description": "Child safety classification for this permission"
+        },
+        "required_family_approval": {
+          "type": "boolean",
+          "description": "Whether this permission requires democratic family approval"
+        }
+      },
+      "required": ["permission_id", "permission_name", "description", "child_safety_level"]
+    },
+
+    "FamilyPolicy": {
+      "type": "object",
+      "properties": {
+        "policy_id": {
+          "type": "string",
+          "description": "Unique identifier for family policy"
+        },
+        "policy_name": {
+          "type": "string",
+          "description": "Human-readable policy name"
+        },
+        "policy_description": {
+          "type": "string",
+          "description": "Clear explanation of policy purpose and impact"
+        },
+        "memory_integration": {
+          "type": "object",
+          "properties": {
+            "memory_space_scope": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": ["personal", "selective", "shared", "extended", "interfamily"]
+              },
+              "description": "Memory spaces affected by this policy"
+            },
+            "memory_access_controls": {
+              "type": "object",
+              "description": "Memory access controls enforced by this policy"
+            },
+            "memory_retention_rules": {
+              "type": "object",
+              "description": "Memory retention and deletion rules"
+            }
+          }
+        },
+        "family_safety_enforcement": {
+          "type": "object",
+          "properties": {
+            "child_protection_rules": {
+              "type": "array",
+              "items": {"type": "string"},
+              "description": "Child protection rules enforced by this policy"
+            },
+            "parental_oversight_requirements": {
+              "type": "array",
+              "items": {"type": "string"},
+              "description": "Parental oversight requirements"
+            },
+            "emergency_override_conditions": {
+              "type": "array",
+              "items": {"type": "string"},
+              "description": "Conditions under which policy can be emergency overridden"
+            }
+          }
+        },
+        "democratic_approval": {
+          "type": "object",
+          "properties": {
+            "requires_family_vote": {
+              "type": "boolean",
+              "description": "Whether policy changes require family democratic vote"
+            },
+            "minimum_approval_threshold": {
+              "type": "number",
+              "minimum": 0.5,
+              "maximum": 1.0,
+              "description": "Minimum approval percentage required (0.5-1.0)"
+            },
+            "age_weighted_voting": {
+              "type": "boolean",
+              "description": "Whether voting considers age-appropriate participation"
+            },
+            "policy_education_required": {
+              "type": "boolean",
+              "description": "Whether family education about policy is required before voting"
+            }
+          }
+        }
+      },
+      "required": ["policy_id", "policy_name", "policy_description", "memory_integration"]
+    },
+
+    "SubscriptionTier": {
+      "type": "object",
+      "properties": {
+        "tier_id": {
+          "type": "string",
+          "description": "Unique identifier for subscription tier"
+        },
+        "tier_name": {
+          "type": "string",
+          "description": "Human-readable tier name"
+        },
+        "family_size_limit": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Maximum number of family members supported"
+        },
+        "device_limit": {
+          "type": "integer",
+          "minimum": 1,
+          "description": "Maximum number of family devices supported"
+        },
+        "memory_capacity": {
+          "type": "object",
+          "properties": {
+            "family_memory_limit_gb": {
+              "type": "number",
+              "description": "Family memory storage limit in GB"
+            },
+            "memory_retention_days": {
+              "type": "integer",
+              "description": "Memory retention period in days"
+            },
+            "cross_device_sync": {
+              "type": "boolean",
+              "description": "Whether cross-device memory sync is included"
+            }
+          }
+        },
+        "family_features": {
+          "type": "object",
+          "properties": {
+            "advanced_emotional_intelligence": {
+              "type": "boolean",
+              "description": "Advanced emotional intelligence features"
+            },
+            "multi_generational_support": {
+              "type": "boolean",
+              "description": "Support for grandparents and extended family"
+            },
+            "professional_family_coordination": {
+              "type": "boolean",
+              "description": "Professional-grade family coordination features"
+            },
+            "enhanced_child_protection": {
+              "type": "boolean",
+              "description": "Enhanced child protection and safety features"
+            },
+            "family_analytics_insights": {
+              "type": "boolean",
+              "description": "Family analytics and insights features"
+            }
+          }
+        },
+        "pricing": {
+          "type": "object",
+          "properties": {
+            "monthly_price_usd": {
+              "type": "number",
+              "description": "Monthly subscription price in USD"
+            },
+            "annual_discount_percentage": {
+              "type": "number",
+              "description": "Annual payment discount percentage"
+            },
+            "family_transparency": {
+              "type": "object",
+              "properties": {
+                "no_hidden_fees": {
+                  "type": "boolean",
+                  "const": true,
+                  "description": "Guarantee of no hidden fees"
+                },
+                "family_budget_controls": {
+                  "type": "boolean",
+                  "const": true,
+                  "description": "Family budget control features included"
+                },
+                "billing_transparency": {
+                  "type": "boolean",
+                  "const": true,
+                  "description": "Complete billing transparency"
+                }
+              }
+            }
+          }
+        }
+      },
+      "required": ["tier_id", "tier_name", "family_size_limit", "device_limit", "memory_capacity"]
+    },
+
+    "SystemOversightMetric": {
+      "type": "object",
+      "properties": {
+        "metric_id": {
+          "type": "string",
+          "description": "Unique identifier for system metric"
+        },
+        "metric_name": {
+          "type": "string",
+          "description": "Human-readable metric name"
+        },
+        "metric_category": {
+          "type": "string",
+          "enum": [
+            "family_experience",
+            "child_safety",
+            "privacy_protection",
+            "memory_performance",
+            "device_coordination",
+            "system_reliability"
+          ],
+          "description": "Category of system metric"
+        },
+        "family_impact": {
+          "type": "string",
+          "description": "How this metric relates to family experience"
+        },
+        "measurement_frequency": {
+          "type": "string",
+          "enum": ["real_time", "hourly", "daily", "weekly", "monthly"],
+          "description": "How frequently this metric is measured"
+        },
+        "alert_thresholds": {
+          "type": "object",
+          "properties": {
+            "family_notification_threshold": {
+              "type": "number",
+              "description": "Threshold for notifying families"
+            },
+            "automatic_response_threshold": {
+              "type": "number",
+              "description": "Threshold for automatic system response"
+            },
+            "emergency_escalation_threshold": {
+              "type": "number",
+              "description": "Threshold for emergency escalation"
+            }
+          }
+        },
+        "privacy_considerations": {
+          "type": "object",
+          "properties": {
+            "pii_exposure_risk": {
+              "type": "string",
+              "enum": ["none", "low", "medium", "high"],
+              "description": "Risk of PII exposure through this metric"
+            },
+            "family_consent_required": {
+              "type": "boolean",
+              "description": "Whether family consent is required for this metric"
+            },
+            "child_data_protection": {
+              "type": "array",
+              "items": {"type": "string"},
+              "description": "Child data protection measures for this metric"
+            }
+          }
+        }
+      },
+      "required": ["metric_id", "metric_name", "metric_category", "family_impact"]
+    },
+
+    "EmergencyProtocol": {
+      "type": "object",
+      "properties": {
+        "protocol_id": {
+          "type": "string",
+          "description": "Unique identifier for emergency protocol"
+        },
+        "protocol_name": {
+          "type": "string",
+          "description": "Human-readable protocol name"
+        },
+        "trigger_conditions": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "condition_type": {
+                "type": "string",
+                "enum": [
+                  "child_safety_threat",
+                  "family_privacy_breach",
+                  "system_security_incident",
+                  "memory_corruption_detection",
+                  "device_compromise_detected"
+                ]
+              },
+              "severity_level": {
+                "type": "string",
+                "enum": ["low", "medium", "high", "critical"],
+                "description": "Severity level of the emergency condition"
+              },
+              "automatic_trigger": {
+                "type": "boolean",
+                "description": "Whether this condition automatically triggers the protocol"
+              }
+            }
+          }
+        },
+        "response_actions": {
+          "type": "object",
+          "properties": {
+            "immediate_family_protection": {
+              "type": "array",
+              "items": {"type": "string"},
+              "description": "Immediate actions to protect family"
+            },
+            "system_isolation_procedures": {
+              "type": "array",
+              "items": {"type": "string"},
+              "description": "Procedures to isolate affected systems"
+            },
+            "family_notification_protocol": {
+              "type": "object",
+              "properties": {
+                "notification_method": {
+                  "type": "string",
+                  "enum": ["in_app", "email", "sms", "phone_call"],
+                  "description": "Method for notifying family"
+                },
+                "notification_urgency": {
+                  "type": "string",
+                  "enum": ["immediate", "within_15_minutes", "within_1_hour"],
+                  "description": "Urgency of family notification"
+                },
+                "age_appropriate_messaging": {
+                  "type": "boolean",
+                  "description": "Whether notifications are age-appropriate for children"
+                }
+              }
+            },
+            "external_coordination": {
+              "type": "object",
+              "properties": {
+                "emergency_services_contact": {
+                  "type": "boolean",
+                  "description": "Whether emergency services should be contacted"
+                },
+                "child_protection_services": {
+                  "type": "boolean",
+                  "description": "Whether child protection services should be involved"
+                },
+                "cybersecurity_authorities": {
+                  "type": "boolean",
+                  "description": "Whether cybersecurity authorities should be notified"
+                }
+              }
+            }
+          }
+        },
+        "recovery_procedures": {
+          "type": "object",
+          "properties": {
+            "system_restoration_steps": {
+              "type": "array",
+              "items": {"type": "string"},
+              "description": "Steps to restore system functionality"
+            },
+            "family_data_recovery": {
+              "type": "array",
+              "items": {"type": "string"},
+              "description": "Procedures for recovering family data"
+            },
+            "family_trust_rebuilding": {
+              "type": "array",
+              "items": {"type": "string"},
+              "description": "Steps to rebuild family trust after incident"
+            },
+            "post_incident_monitoring": {
+              "type": "object",
+              "properties": {
+                "enhanced_monitoring_duration": {
+                  "type": "string",
+                  "description": "Duration of enhanced monitoring after incident"
+                },
+                "family_check_in_schedule": {
+                  "type": "string",
+                  "description": "Schedule for checking in with family after incident"
+                }
+              }
+            }
+          }
+        }
+      },
+      "required": ["protocol_id", "protocol_name", "trigger_conditions", "response_actions"]
+    },
+
+    "FamilyAdministrationCapability": {
+      "type": "object",
+      "properties": {
+        "capability_id": {
+          "type": "string",
+          "description": "Unique identifier for administration capability"
+        },
+        "capability_name": {
+          "type": "string",
+          "description": "Human-readable capability name"
+        },
+        "description": {
+          "type": "string",
+          "description": "Detailed description of what this capability enables"
+        },
+        "memory_integration": {
+          "type": "object",
+          "properties": {
+            "memory_administrative_actions": {
+              "type": "array",
+              "items": {"type": "string"},
+              "description": "Memory-related administrative actions enabled"
+            },
+            "family_memory_governance": {
+              "type": "boolean",
+              "description": "Whether this capability includes family memory governance"
+            },
+            "memory_space_administration": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": ["personal", "selective", "shared", "extended", "interfamily"]
+              },
+              "description": "Memory spaces this capability can administer"
+            }
+          }
+        },
+        "family_safety_features": {
+          "type": "object",
+          "properties": {
+            "child_protection_administration": {
+              "type": "boolean",
+              "description": "Whether this capability includes child protection administration"
+            },
+            "parental_control_management": {
+              "type": "boolean",
+              "description": "Whether this capability includes parental control management"
+            },
+            "emergency_response_authority": {
+              "type": "boolean",
+              "description": "Whether this capability includes emergency response authority"
+            }
+          }
+        },
+        "required_permissions": {
+          "type": "array",
+          "items": {"$ref": "#/definitions/FamilyGovernancePermission"},
+          "description": "Permissions required to use this capability"
+        },
+        "democratic_oversight": {
+          "type": "object",
+          "properties": {
+            "family_approval_required": {
+              "type": "boolean",
+              "description": "Whether using this capability requires family approval"
+            },
+            "transparent_audit_log": {
+              "type": "boolean",
+              "description": "Whether usage of this capability is transparently logged"
+            },
+            "family_review_process": {
+              "type": "string",
+              "description": "Process for family review of capability usage"
+            }
+          }
+        }
+      },
+      "required": ["capability_id", "capability_name", "description", "memory_integration"]
+    }
+  },
+
+  "family_governance_types": {
+    "description": "Core types supporting democratic family governance with memory-centric intelligence",
+    "includes": [
+      "FamilyGovernanceRole",
+      "FamilyGovernancePermission",
+      "FamilyPolicy",
+      "FamilyAdministrationCapability"
+    ]
+  },
+
+  "subscription_management_types": {
+    "description": "Types supporting transparent family subscription management with budget controls",
+    "includes": [
+      "SubscriptionTier"
+    ]
+  },
+
+  "system_oversight_types": {
+    "description": "Types supporting family-transparent system monitoring and oversight",
+    "includes": [
+      "SystemOversightMetric",
+      "EmergencyProtocol"
+    ]
+  }
+}

@@ -1,0 +1,428 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://familyos.local/contracts/events/schemas/global_workspace/conscious_access_granted.schema.json",
+    "title": "Conscious Access Granted Event",
+    "description": "Event triggered when content becomes consciously accessible through the global workspace, enabling reportability and cross-system integration.",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "timestamp",
+        "access_id",
+        "conscious_content",
+        "access_level",
+        "accessibility_metrics",
+        "integration_state"
+    ],
+    "properties": {
+        "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "When conscious access was granted"
+        },
+        "access_id": {
+            "type": "string",
+            "pattern": "^ca_[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+            "description": "Unique identifier for this conscious access event"
+        },
+        "conscious_content": {
+            "type": "object",
+            "required": [
+                "content_type",
+                "representation",
+                "source_coalition",
+                "semantic_features"
+            ],
+            "properties": {
+                "content_type": {
+                    "type": "string",
+                    "enum": [
+                        "perceptual",
+                        "memorial",
+                        "conceptual",
+                        "emotional",
+                        "intentional",
+                        "linguistic",
+                        "motor"
+                    ],
+                    "description": "Type of content becoming conscious"
+                },
+                "representation": {
+                    "type": "object",
+                    "properties": {
+                        "primary_modality": {
+                            "type": "string"
+                        },
+                        "cross_modal_features": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "abstract_features": {
+                            "type": "object"
+                        },
+                        "temporal_features": {
+                            "type": "object"
+                        }
+                    },
+                    "description": "Multi-modal representation of conscious content"
+                },
+                "source_coalition": {
+                    "type": "string",
+                    "description": "Coalition that generated this conscious content"
+                },
+                "semantic_features": {
+                    "type": "object",
+                    "properties": {
+                        "conceptual_content": {
+                            "type": "object"
+                        },
+                        "propositional_content": {
+                            "type": "array"
+                        },
+                        "categorical_assignments": {
+                            "type": "array"
+                        },
+                        "relational_structure": {
+                            "type": "object"
+                        }
+                    },
+                    "description": "Semantic structure of conscious content"
+                },
+                "phenomenal_properties": {
+                    "type": "object",
+                    "properties": {
+                        "qualitative_aspects": {
+                            "type": "object"
+                        },
+                        "subjective_intensity": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "experiential_richness": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "unified_character": {
+                            "type": "boolean"
+                        }
+                    },
+                    "description": "Phenomenal aspects of conscious experience"
+                }
+            },
+            "description": "The content that has become consciously accessible"
+        },
+        "access_level": {
+            "type": "object",
+            "required": [
+                "reportability",
+                "global_availability",
+                "integration_depth",
+                "control_accessibility"
+            ],
+            "properties": {
+                "reportability": {
+                    "type": "object",
+                    "properties": {
+                        "verbal_reportable": {
+                            "type": "boolean"
+                        },
+                        "behavioral_reportable": {
+                            "type": "boolean"
+                        },
+                        "introspective_accessible": {
+                            "type": "boolean"
+                        },
+                        "report_confidence": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    },
+                    "description": "Extent to which content can be reported"
+                },
+                "global_availability": {
+                    "type": "object",
+                    "properties": {
+                        "cross_system_access": {
+                            "type": "boolean"
+                        },
+                        "broadcast_reach": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "availability_duration_ms": {
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "persistence_strength": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    },
+                    "description": "Global availability of conscious content"
+                },
+                "integration_depth": {
+                    "type": "object",
+                    "properties": {
+                        "cross_modal_integration": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "temporal_integration": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "conceptual_integration": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "contextual_integration": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    },
+                    "description": "Depth of integration across cognitive systems"
+                },
+                "control_accessibility": {
+                    "type": "object",
+                    "properties": {
+                        "attentional_control": {
+                            "type": "boolean"
+                        },
+                        "memory_control": {
+                            "type": "boolean"
+                        },
+                        "action_control": {
+                            "type": "boolean"
+                        },
+                        "metacognitive_control": {
+                            "type": "boolean"
+                        }
+                    },
+                    "description": "Types of cognitive control accessible for this content"
+                }
+            },
+            "description": "Level and type of conscious access granted"
+        },
+        "accessibility_metrics": {
+            "type": "object",
+            "required": [
+                "threshold_exceeded",
+                "access_strength",
+                "clarity_level"
+            ],
+            "properties": {
+                "threshold_exceeded": {
+                    "type": "object",
+                    "properties": {
+                        "consciousness_threshold": {
+                            "type": "number"
+                        },
+                        "actual_activation": {
+                            "type": "number"
+                        },
+                        "threshold_margin": {
+                            "type": "number"
+                        }
+                    },
+                    "description": "How much content exceeded consciousness threshold"
+                },
+                "access_strength": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Strength of conscious access (0=barely accessible, 1=fully vivid)"
+                },
+                "clarity_level": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Clarity and distinctness of conscious content"
+                },
+                "stability_index": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Stability of conscious access over time"
+                },
+                "discriminability": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "How well content can be discriminated from other content"
+                }
+            },
+            "description": "Quantitative metrics of conscious accessibility"
+        },
+        "integration_state": {
+            "type": "object",
+            "properties": {
+                "activated_systems": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "system_id": {
+                                "type": "string"
+                            },
+                            "system_type": {
+                                "type": "string"
+                            },
+                            "activation_level": {
+                                "type": "number"
+                            },
+                            "integration_quality": {
+                                "type": "number"
+                            }
+                        }
+                    },
+                    "description": "Cognitive systems activated by conscious access"
+                },
+                "information_flow": {
+                    "type": "object",
+                    "properties": {
+                        "broadcast_targets": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "information_routing": {
+                            "type": "object"
+                        },
+                        "processing_priorities": {
+                            "type": "object"
+                        },
+                        "resource_allocation": {
+                            "type": "object"
+                        }
+                    },
+                    "description": "How information flows due to conscious access"
+                },
+                "coherence_measures": {
+                    "type": "object",
+                    "properties": {
+                        "binding_coherence": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "temporal_coherence": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "cross_system_coherence": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    },
+                    "description": "Coherence measures across integrated systems"
+                }
+            },
+            "description": "State of cross-system integration enabled by conscious access"
+        },
+        "cognitive_consequences": {
+            "type": "object",
+            "properties": {
+                "attention_effects": {
+                    "type": "object",
+                    "properties": {
+                        "attention_capture": {
+                            "type": "boolean"
+                        },
+                        "attention_allocation_changes": {
+                            "type": "object"
+                        },
+                        "focus_modulation": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "memory_effects": {
+                    "type": "object",
+                    "properties": {
+                        "encoding_enhancement": {
+                            "type": "boolean"
+                        },
+                        "retrieval_facilitation": {
+                            "type": "boolean"
+                        },
+                        "consolidation_promotion": {
+                            "type": "boolean"
+                        }
+                    }
+                },
+                "executive_effects": {
+                    "type": "object",
+                    "properties": {
+                        "cognitive_control_engagement": {
+                            "type": "boolean"
+                        },
+                        "strategy_modification": {
+                            "type": "boolean"
+                        },
+                        "goal_updating": {
+                            "type": "boolean"
+                        }
+                    }
+                },
+                "motor_effects": {
+                    "type": "object",
+                    "properties": {
+                        "action_preparation": {
+                            "type": "boolean"
+                        },
+                        "motor_imagery": {
+                            "type": "boolean"
+                        },
+                        "response_priming": {
+                            "type": "boolean"
+                        }
+                    }
+                }
+            },
+            "description": "Cognitive consequences of conscious access"
+        },
+        "temporal_dynamics": {
+            "type": "object",
+            "properties": {
+                "access_onset_ms": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Time from stimulus to conscious access"
+                },
+                "peak_accessibility_ms": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Time to peak conscious accessibility"
+                },
+                "decay_rate": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Rate of conscious access decay"
+                },
+                "maintenance_mechanisms": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Mechanisms maintaining conscious access"
+                }
+            },
+            "description": "Temporal dynamics of conscious access"
+        }
+    }
+}

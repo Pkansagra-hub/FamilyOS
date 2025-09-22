@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.1.0",
+  "id": "4a0a32b3-8da2-4b37-8830-012482c253a4",
+  "ts": "2025-09-09T04:20:40Z",
+  "topic": "AFFECT_UPDATE",
+  "band": "RED",
+  "actor": {
+    "user_id": "6334fab0-4245-408f-bb7b-f781f7e91f81",
+    "agent_id": "retriever.v1",
+    "caps": [
+      "WRITE",
+      "RECALL"
+    ]
+  },
+  "device": {
+    "device_id": "edge-jetson",
+    "platform": "android",
+    "app_version": "1.8.4",
+    "locale": "hi-IN"
+  },
+  "space_id": "extended:grandparents",
+  "policy_version": "1.3",
+  "abac": {
+    "role": "system",
+    "trust": "red",
+    "geo_precision": "region"
+  },
+  "qos": {
+    "routing": "fast-path",
+    "priority": 9,
+    "latency_budget_ms": 259,
+    "retries": 0
+  },
+  "trace": {
+    "trace_id": "ad4bfdf68ab8f0d43655b72dc35089e2",
+    "span_id": "76a6f4f342ade9de",
+    "sampled": true
+  },
+  "obligations": [
+    "REDACT_PII"
+  ],
+  "redaction_applied": false,
+  "hashes": {
+    "payload_sha256": "f878b1feacd92cda2c76d375394befa73d7220203b01630fa7f405fe0cfcc107"
+  },
+  "payload": {
+    "valence": 0.645,
+    "arousal": 0.106
+  },
+  "signature": {
+    "alg": "ed25519",
+    "key_id": "key_affect_update_red_2024",
+    "public_key": "cHVibGlj",
+    "signature": "c2ln"
+  },
+  "mls_group": "household-secure"
+}

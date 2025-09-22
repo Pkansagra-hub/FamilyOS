@@ -1,0 +1,54 @@
+{
+  "schema_version": "1.1.0",
+  "id": "64294b97-c2a5-4971-b614-286d9ee9fbd2",
+  "ts": "2025-09-09T04:20:40Z",
+  "topic": "HIPPO_ENCODED",
+  "band": "RED",
+  "actor": {
+    "user_id": "ee32af5a-bc2d-4921-b017-aeef0a54a207",
+    "agent_id": "system.v1",
+    "caps": [
+      "PROJECT"
+    ]
+  },
+  "device": {
+    "device_id": "edge-jetson",
+    "platform": "android",
+    "app_version": "1.7.6",
+    "locale": "hi-IN"
+  },
+  "space_id": "shared:household",
+  "policy_version": "1.3",
+  "abac": {
+    "role": "guest",
+    "trust": "amber",
+    "geo_precision": "city"
+  },
+  "qos": {
+    "routing": "gate-path",
+    "priority": 4,
+    "latency_budget_ms": 243,
+    "retries": 2
+  },
+  "trace": {
+    "trace_id": "ce6ffee92fd6076d645d78b93ea615a7",
+    "span_id": "a3b4de83394789ba",
+    "sampled": true
+  },
+  "obligations": [],
+  "redaction_applied": true,
+  "hashes": {
+    "payload_sha256": "1b539f7d32483802edadb8fbc167f4bd93d9109c1147df99f68895312b1c8131"
+  },
+  "payload": {
+    "text": "Meeting notes",
+    "tokens": 885
+  },
+  "signature": {
+    "alg": "ed25519",
+    "key_id": "key_hippo_encoded_red_2024",
+    "public_key": "cHVibGlj",
+    "signature": "c2ln"
+  },
+  "mls_group": "household-secure"
+}

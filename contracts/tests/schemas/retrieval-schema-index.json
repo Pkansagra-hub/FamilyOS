@@ -1,0 +1,55 @@
+{
+  "module": "retrieval",
+  "version": "1.0.0",
+  "events": {
+    "RECALL_REQUESTED@1.0": {
+      "schema": "events/catalog.json#/events/0/schema",
+      "description": "Query request with correlation tracking"
+    },
+    "RECALL_RESULT@1.0": {
+      "schema": "events/catalog.json#/events/1/schema",
+      "description": "Query results with performance metrics"
+    },
+    "RETRIEVAL_CACHE_UPDATE@1.0": {
+      "schema": "events/catalog.json#/events/2/schema",
+      "description": "Cache operation notifications"
+    }
+  },
+  "storage": {
+    "query_log@1.0.0": {
+      "schema": "storage/schemas/query_log.schema.json",
+      "description": "Privacy-preserving query audit log",
+      "retention": "7 days",
+      "compliance": ["GDPR", "CCPA"]
+    },
+    "cache_entry@1.0.0": {
+      "schema": "storage/schemas/cache_entry.schema.json",
+      "description": "Query result cache with LRU tracking",
+      "retention": "24 hours",
+      "max_size": "100MB"
+    }
+  },
+  "validation_rules": [
+    {
+      "rule": "query_hash_format",
+      "pattern": "^[a-f0-9]{64}$",
+      "applies_to": ["query_log.query_hash", "cache_entry.query_hash"]
+    },
+    {
+      "rule": "correlation_id_required",
+      "condition": "event_type == 'RECALL_REQUESTED'",
+      "requires": ["correlation_id"]
+    },
+    {
+      "rule": "band_consistency",
+      "condition": "band in ['AMBER', 'RED']",
+      "requires": ["policy_version", "audit_trail"]
+    }
+  ],
+  "test_coverage": {
+    "schemas": ["query_log", "cache_entry"],
+    "events": ["RECALL_REQUESTED", "RECALL_RESULT", "RETRIEVAL_CACHE_UPDATE"],
+    "policies": ["abac_rbac", "pii_redaction"],
+    "jobs": ["cache_maintenance", "query_log_rotation", "security_audit"]
+  }
+}

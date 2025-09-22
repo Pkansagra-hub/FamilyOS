@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://familyos.local/contracts/retrieval/cache_entry.schema.json",
+  "type": "object",
+  "properties": {
+    "query_hash": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "results": { "type": "array", "items": { "type": "object", "properties": {
+      "doc_id": { "type": "string" },
+      "score": { "type": "number" },
+      "source": { "type": "string", "enum": ["fts","vector","fusion"] }
+    }, "required": ["doc_id","score"] } },
+    "expires_at": { "type": "string", "format": "date-time" },
+    "ts": { "type": "string", "format": "date-time" }
+  },
+  "required": ["query_hash","results","ts"],
+  "additionalProperties": false
+}

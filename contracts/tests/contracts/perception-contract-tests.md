@@ -1,0 +1,4 @@
+- Validate schemas with `validate.sh`.
+- Event conformance: ensure `SENSORY_FRAME` examples (global) match `sensory_frame.schema.json`.
+- Idempotency: duplicate envelope.id must not create two records.
+- TTL: simulate expiry and verify deletion.

@@ -1,0 +1,7 @@
+jobs:
+  - name: perception_ttl_prune
+    schedule: "*/5 * * * *"
+    action: "delete expired from frame_records"
+    backoff: "exponential:1s..30s"
+    sla: { p95_ms: 50 }
+    emits_metrics: true

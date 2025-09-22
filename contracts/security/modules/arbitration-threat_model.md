@@ -1,0 +1,3 @@
+- Elevation of privilege: executing high-risk actions → require supervisor override if risk_score ≥ 0.8.
+- Tampering: candidate set manipulation → signed inputs, version pins.
+- Repudiation: decision logs retained 365d with envelope.id linkage.

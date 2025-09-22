@@ -1,0 +1,122 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "$id": "performance_metrics.schema.json",
+    "title": "Performance Metrics Storage",
+    "description": "Storage schema for thalamic circuit performance metrics and statistics.",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "circuit_id",
+        "current_metrics",
+        "historical_metrics",
+        "benchmark_comparisons",
+        "last_updated"
+    ],
+    "properties": {
+        "circuit_id": {
+            "type": "string",
+            "description": "Identifier for the thalamic circuit"
+        },
+        "current_metrics": {
+            "type": "object",
+            "properties": {
+                "decision_accuracy": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "response_latency_ms": {
+                    "type": "number",
+                    "minimum": 0
+                },
+                "throughput_per_second": {
+                    "type": "number",
+                    "minimum": 0
+                },
+                "error_rate": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "resource_efficiency": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "stability_index": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                }
+            }
+        },
+        "historical_metrics": {
+            "type": "object",
+            "properties": {
+                "accuracy_trend": {
+                    "type": "array",
+                    "items": {
+                        "type": "number"
+                    }
+                },
+                "latency_trend": {
+                    "type": "array",
+                    "items": {
+                        "type": "number"
+                    }
+                },
+                "throughput_trend": {
+                    "type": "array",
+                    "items": {
+                        "type": "number"
+                    }
+                },
+                "efficiency_trend": {
+                    "type": "array",
+                    "items": {
+                        "type": "number"
+                    }
+                }
+            }
+        },
+        "benchmark_comparisons": {
+            "type": "object",
+            "properties": {
+                "baseline_performance": {
+                    "type": "object"
+                },
+                "target_performance": {
+                    "type": "object"
+                },
+                "peer_comparison": {
+                    "type": "object"
+                }
+            }
+        },
+        "performance_alerts": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "alert_type": {
+                        "type": "string"
+                    },
+                    "severity": {
+                        "type": "string"
+                    },
+                    "threshold_violated": {
+                        "type": "number"
+                    },
+                    "timestamp": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                }
+            }
+        },
+        "last_updated": {
+            "type": "string",
+            "format": "date-time"
+        }
+    }
+}

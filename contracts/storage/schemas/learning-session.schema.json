@@ -1,0 +1,63 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "learning-session.schema.json",
+  "title": "Learning Session",
+  "description": "Learning episode metadata and outcomes",
+  "type": "object",
+  "properties": {
+    "session_id": {
+      "type": "string",
+      "format": "ulid",
+      "description": "Unique learning session identifier"
+    },
+    "space_id": {
+      "type": "string",
+      "format": "ulid",
+      "description": "Memory space context"
+    },
+    "learning_type": {
+      "type": "string",
+      "enum": ["outcome_analysis", "pattern_detection", "performance_monitoring", "neuromodulation"],
+      "description": "Type of learning process"
+    },
+    "trigger_event": {
+      "type": "object",
+      "properties": {
+        "event_type": { "type": "string" },
+        "event_id": { "type": "string", "format": "ulid" },
+        "correlation_id": { "type": "string", "format": "ulid" }
+      },
+      "required": ["event_type", "event_id"]
+    },
+    "input_features": {
+      "type": "object",
+      "description": "Input feature vector for learning",
+      "additionalProperties": true
+    },
+    "learning_outcome": {
+      "type": "object",
+      "properties": {
+        "adaptation_applied": { "type": "boolean" },
+        "performance_delta": { "type": "number" },
+        "confidence_score": { "type": "number", "minimum": 0, "maximum": 1 },
+        "adaptation_details": { "type": "object" }
+      },
+      "required": ["adaptation_applied", "confidence_score"]
+    },
+    "started_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "completed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "retention_policy": {
+      "type": "string",
+      "enum": ["P30D", "P90D", "P180D", "P365D"],
+      "default": "P90D"
+    }
+  },
+  "required": ["session_id", "space_id", "learning_type", "trigger_event", "started_at"],
+  "additionalProperties": false
+}

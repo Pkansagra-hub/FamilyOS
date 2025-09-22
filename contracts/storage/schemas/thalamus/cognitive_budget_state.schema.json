@@ -1,0 +1,575 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://familyos.local/contracts/storage/schemas/thalamus/cognitive_budget_state.schema.json",
+    "title": "Cognitive Budget State Storage Schema",
+    "description": "Storage schema for persistent cognitive budget management state in thalamic processing",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "budget_manager_id",
+        "budget_allocations",
+        "utilization_metrics",
+        "budget_policies",
+        "last_updated"
+    ],
+    "properties": {
+        "budget_manager_id": {
+            "type": "string",
+            "description": "Unique identifier for the cognitive budget manager"
+        },
+        "budget_allocations": {
+            "type": "object",
+            "required": [
+                "total_budget",
+                "category_budgets"
+            ],
+            "properties": {
+                "total_budget": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Total cognitive budget allocation"
+                },
+                "category_budgets": {
+                    "type": "object",
+                    "required": [
+                        "attention_budget",
+                        "processing_budget",
+                        "memory_budget"
+                    ],
+                    "properties": {
+                        "attention_budget": {
+                            "type": "object",
+                            "properties": {
+                                "allocated": {
+                                    "type": "number"
+                                },
+                                "utilized": {
+                                    "type": "number"
+                                },
+                                "reserved": {
+                                    "type": "number"
+                                },
+                                "available": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "processing_budget": {
+                            "type": "object",
+                            "properties": {
+                                "allocated": {
+                                    "type": "number"
+                                },
+                                "utilized": {
+                                    "type": "number"
+                                },
+                                "reserved": {
+                                    "type": "number"
+                                },
+                                "available": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "memory_budget": {
+                            "type": "object",
+                            "properties": {
+                                "allocated": {
+                                    "type": "number"
+                                },
+                                "utilized": {
+                                    "type": "number"
+                                },
+                                "reserved": {
+                                    "type": "number"
+                                },
+                                "available": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "energy_budget": {
+                            "type": "object",
+                            "properties": {
+                                "allocated": {
+                                    "type": "number"
+                                },
+                                "utilized": {
+                                    "type": "number"
+                                },
+                                "reserved": {
+                                    "type": "number"
+                                },
+                                "available": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "time_budget": {
+                            "type": "object",
+                            "properties": {
+                                "allocated": {
+                                    "type": "number"
+                                },
+                                "utilized": {
+                                    "type": "number"
+                                },
+                                "reserved": {
+                                    "type": "number"
+                                },
+                                "available": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                },
+                "circuit_allocations": {
+                    "type": "object",
+                    "properties": {
+                        "memory_circuit": {
+                            "type": "number"
+                        },
+                        "recall_circuit": {
+                            "type": "number"
+                        },
+                        "executive_circuit": {
+                            "type": "number"
+                        },
+                        "learning_circuit": {
+                            "type": "number"
+                        }
+                    }
+                }
+            },
+            "description": "Current budget allocations across categories"
+        },
+        "utilization_metrics": {
+            "type": "object",
+            "required": [
+                "current_utilization",
+                "utilization_history"
+            ],
+            "properties": {
+                "current_utilization": {
+                    "type": "object",
+                    "properties": {
+                        "total_utilization_rate": {
+                            "type": "number"
+                        },
+                        "attention_utilization": {
+                            "type": "number"
+                        },
+                        "processing_utilization": {
+                            "type": "number"
+                        },
+                        "memory_utilization": {
+                            "type": "number"
+                        },
+                        "energy_utilization": {
+                            "type": "number"
+                        },
+                        "time_utilization": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "utilization_history": {
+                    "type": "array",
+                    "maxItems": 1000,
+                    "items": {
+                        "type": "object",
+                        "required": [
+                            "timestamp",
+                            "utilization_snapshot"
+                        ],
+                        "properties": {
+                            "timestamp": {
+                                "type": "string"
+                            },
+                            "utilization_snapshot": {
+                                "type": "object",
+                                "properties": {
+                                    "total": {
+                                        "type": "number"
+                                    },
+                                    "attention": {
+                                        "type": "number"
+                                    },
+                                    "processing": {
+                                        "type": "number"
+                                    },
+                                    "memory": {
+                                        "type": "number"
+                                    },
+                                    "energy": {
+                                        "type": "number"
+                                    },
+                                    "time": {
+                                        "type": "number"
+                                    }
+                                }
+                            },
+                            "peak_utilization": {
+                                "type": "number"
+                            },
+                            "load_factor": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                },
+                "utilization_patterns": {
+                    "type": "object",
+                    "properties": {
+                        "daily_patterns": {
+                            "type": "array",
+                            "items": {
+                                "type": "number"
+                            }
+                        },
+                        "weekly_patterns": {
+                            "type": "array",
+                            "items": {
+                                "type": "number"
+                            }
+                        },
+                        "seasonal_trends": {
+                            "type": "object"
+                        },
+                        "anomaly_periods": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "start_time": {
+                                        "type": "string"
+                                    },
+                                    "end_time": {
+                                        "type": "string"
+                                    },
+                                    "anomaly_type": {
+                                        "type": "string"
+                                    },
+                                    "severity": {
+                                        "type": "number"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "description": "Utilization metrics and historical data"
+        },
+        "budget_policies": {
+            "type": "object",
+            "required": [
+                "allocation_policies",
+                "protection_policies"
+            ],
+            "properties": {
+                "allocation_policies": {
+                    "type": "object",
+                    "properties": {
+                        "dynamic_allocation": {
+                            "type": "boolean"
+                        },
+                        "allocation_algorithm": {
+                            "type": "string"
+                        },
+                        "priority_weights": {
+                            "type": "object",
+                            "properties": {
+                                "critical_weight": {
+                                    "type": "number"
+                                },
+                                "high_weight": {
+                                    "type": "number"
+                                },
+                                "normal_weight": {
+                                    "type": "number"
+                                },
+                                "low_weight": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "rebalancing_frequency": {
+                            "type": "string"
+                        },
+                        "emergency_reserves": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "protection_policies": {
+                    "type": "object",
+                    "properties": {
+                        "overload_thresholds": {
+                            "type": "object",
+                            "properties": {
+                                "warning_threshold": {
+                                    "type": "number"
+                                },
+                                "protection_threshold": {
+                                    "type": "number"
+                                },
+                                "emergency_threshold": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "protection_strategies": {
+                            "type": "array",
+                            "items": {
+                                "type": "string",
+                                "enum": [
+                                    "throttle_admission",
+                                    "increase_filtering",
+                                    "defer_processing",
+                                    "reduce_quality",
+                                    "shed_load",
+                                    "emergency_cache"
+                                ]
+                            }
+                        },
+                        "recovery_policies": {
+                            "type": "object",
+                            "properties": {
+                                "recovery_threshold": {
+                                    "type": "number"
+                                },
+                                "recovery_strategy": {
+                                    "type": "string"
+                                },
+                                "recovery_time_ms": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                },
+                "adaptation_policies": {
+                    "type": "object",
+                    "properties": {
+                        "learning_enabled": {
+                            "type": "boolean"
+                        },
+                        "adaptation_rate": {
+                            "type": "number"
+                        },
+                        "feedback_weight": {
+                            "type": "number"
+                        },
+                        "stability_requirement": {
+                            "type": "number"
+                        }
+                    }
+                }
+            },
+            "description": "Budget management policies and rules"
+        },
+        "exceedance_tracking": {
+            "type": "object",
+            "properties": {
+                "recent_exceedances": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "required": [
+                            "timestamp",
+                            "budget_type",
+                            "severity",
+                            "duration_ms"
+                        ],
+                        "properties": {
+                            "timestamp": {
+                                "type": "string"
+                            },
+                            "budget_type": {
+                                "type": "string",
+                                "enum": [
+                                    "attention_budget",
+                                    "processing_budget",
+                                    "memory_budget",
+                                    "energy_budget",
+                                    "time_budget"
+                                ]
+                            },
+                            "severity": {
+                                "type": "string",
+                                "enum": [
+                                    "minor",
+                                    "moderate",
+                                    "severe",
+                                    "critical"
+                                ]
+                            },
+                            "duration_ms": {
+                                "type": "number"
+                            },
+                            "overage_amount": {
+                                "type": "number"
+                            },
+                            "protective_actions": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "recovery_time_ms": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                },
+                "exceedance_statistics": {
+                    "type": "object",
+                    "properties": {
+                        "total_exceedances": {
+                            "type": "integer"
+                        },
+                        "exceedances_by_type": {
+                            "type": "object"
+                        },
+                        "average_overage": {
+                            "type": "number"
+                        },
+                        "average_duration": {
+                            "type": "number"
+                        },
+                        "recovery_success_rate": {
+                            "type": "number"
+                        }
+                    }
+                }
+            },
+            "description": "Tracking of budget exceedances"
+        },
+        "optimization_state": {
+            "type": "object",
+            "properties": {
+                "optimization_enabled": {
+                    "type": "boolean"
+                },
+                "optimization_targets": {
+                    "type": "object",
+                    "properties": {
+                        "target_utilization": {
+                            "type": "number"
+                        },
+                        "target_efficiency": {
+                            "type": "number"
+                        },
+                        "target_stability": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "optimization_history": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "timestamp": {
+                                "type": "string"
+                            },
+                            "optimization_type": {
+                                "type": "string"
+                            },
+                            "parameters_adjusted": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "performance_improvement": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                }
+            },
+            "description": "Budget optimization state and history"
+        },
+        "alert_configuration": {
+            "type": "object",
+            "properties": {
+                "alert_thresholds": {
+                    "type": "object",
+                    "properties": {
+                        "utilization_warning": {
+                            "type": "number"
+                        },
+                        "utilization_critical": {
+                            "type": "number"
+                        },
+                        "exceedance_frequency": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "alert_channels": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "alert_history": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "timestamp": {
+                                "type": "string"
+                            },
+                            "alert_type": {
+                                "type": "string"
+                            },
+                            "severity": {
+                                "type": "string"
+                            },
+                            "message": {
+                                "type": "string"
+                            },
+                            "resolved": {
+                                "type": "boolean"
+                            }
+                        }
+                    }
+                }
+            },
+            "description": "Alert configuration and history"
+        },
+        "last_updated": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp of last state update"
+        },
+        "metadata": {
+            "type": "object",
+            "properties": {
+                "creation_time": {
+                    "type": "string"
+                },
+                "budget_model_version": {
+                    "type": "string"
+                },
+                "manager_status": {
+                    "type": "string",
+                    "enum": [
+                        "active",
+                        "monitoring",
+                        "protective",
+                        "emergency"
+                    ]
+                },
+                "next_rebalancing": {
+                    "type": "string"
+                }
+            },
+            "description": "Metadata about the budget manager"
+        }
+    }
+}

@@ -1,0 +1,10 @@
+tables:
+  workflow_state:
+    pk: ["space_id","workflow_id"]
+    sk: ["version"]
+    secondary:
+      - name: by_status
+        pk: ["space_id","status"]
+        sk: ["updated_at"]
+    retention:
+      completed_ttl: "P14D"

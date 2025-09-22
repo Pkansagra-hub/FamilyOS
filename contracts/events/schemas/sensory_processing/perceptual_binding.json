@@ -1,0 +1,750 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "$id": "perceptual_binding.event.json",
+    "title": "Perceptual Binding Event",
+    "description": "Event schema for perceptual binding and feature integration based on visual cortex, temporal binding mechanisms, and attention-binding interactions",
+    "type": "object",
+    "required": [
+        "event_id",
+        "timestamp",
+        "feature_inputs",
+        "binding_mechanisms",
+        "bound_representations",
+        "neural_synchronization"
+    ],
+    "properties": {
+        "event_id": {
+            "type": "string",
+            "description": "Unique identifier for this perceptual binding event"
+        },
+        "timestamp": {
+            "type": "string",
+            "format": "date-time"
+        },
+        "feature_inputs": {
+            "type": "object",
+            "properties": {
+                "visual_features": {
+                    "type": "object",
+                    "properties": {
+                        "color_features": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "feature_id": {
+                                        "type": "string"
+                                    },
+                                    "color_value": {
+                                        "type": "object"
+                                    },
+                                    "spatial_location": {
+                                        "type": "object"
+                                    },
+                                    "temporal_dynamics": {
+                                        "type": "object"
+                                    },
+                                    "feature_strength": {
+                                        "type": "number"
+                                    }
+                                }
+                            }
+                        },
+                        "motion_features": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "feature_id": {
+                                        "type": "string"
+                                    },
+                                    "motion_vector": {
+                                        "type": "object"
+                                    },
+                                    "spatial_location": {
+                                        "type": "object"
+                                    },
+                                    "temporal_coherence": {
+                                        "type": "number"
+                                    },
+                                    "motion_strength": {
+                                        "type": "number"
+                                    }
+                                }
+                            }
+                        },
+                        "form_features": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "feature_id": {
+                                        "type": "string"
+                                    },
+                                    "shape_descriptors": {
+                                        "type": "object"
+                                    },
+                                    "orientation_data": {
+                                        "type": "object"
+                                    },
+                                    "spatial_frequency": {
+                                        "type": "object"
+                                    },
+                                    "contour_information": {
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        },
+                        "depth_features": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "feature_id": {
+                                        "type": "string"
+                                    },
+                                    "depth_value": {
+                                        "type": "number"
+                                    },
+                                    "depth_cues": {
+                                        "type": "array"
+                                    },
+                                    "binocular_disparity": {
+                                        "type": "object"
+                                    },
+                                    "monocular_cues": {
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        },
+                        "texture_features": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "feature_id": {
+                                        "type": "string"
+                                    },
+                                    "texture_descriptors": {
+                                        "type": "object"
+                                    },
+                                    "spatial_patterns": {
+                                        "type": "object"
+                                    },
+                                    "texture_gradients": {
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "auditory_features": {
+                    "type": "object",
+                    "properties": {
+                        "frequency_features": {
+                            "type": "array"
+                        },
+                        "temporal_features": {
+                            "type": "array"
+                        },
+                        "spatial_features": {
+                            "type": "array"
+                        },
+                        "timbre_features": {
+                            "type": "array"
+                        }
+                    }
+                },
+                "tactile_features": {
+                    "type": "object",
+                    "properties": {
+                        "pressure_features": {
+                            "type": "array"
+                        },
+                        "texture_features": {
+                            "type": "array"
+                        },
+                        "temperature_features": {
+                            "type": "array"
+                        },
+                        "vibration_features": {
+                            "type": "array"
+                        }
+                    }
+                }
+            }
+        },
+        "binding_mechanisms": {
+            "type": "object",
+            "properties": {
+                "temporal_binding": {
+                    "type": "object",
+                    "properties": {
+                        "neural_synchronization": {
+                            "type": "object",
+                            "properties": {
+                                "gamma_synchrony": {
+                                    "type": "object",
+                                    "properties": {
+                                        "frequency_range": {
+                                            "type": "object"
+                                        },
+                                        "synchrony_strength": {
+                                            "type": "number"
+                                        },
+                                        "phase_coupling": {
+                                            "type": "object"
+                                        },
+                                        "coherence_networks": {
+                                            "type": "array"
+                                        }
+                                    }
+                                },
+                                "beta_synchrony": {
+                                    "type": "object",
+                                    "properties": {
+                                        "frequency_range": {
+                                            "type": "object"
+                                        },
+                                        "top_down_modulation": {
+                                            "type": "object"
+                                        },
+                                        "prediction_signals": {
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "alpha_synchrony": {
+                                    "type": "object",
+                                    "properties": {
+                                        "frequency_range": {
+                                            "type": "object"
+                                        },
+                                        "attention_modulation": {
+                                            "type": "object"
+                                        },
+                                        "inhibitory_control": {
+                                            "type": "object"
+                                        }
+                                    }
+                                },
+                                "theta_synchrony": {
+                                    "type": "object",
+                                    "properties": {
+                                        "frequency_range": {
+                                            "type": "object"
+                                        },
+                                        "memory_binding": {
+                                            "type": "object"
+                                        },
+                                        "temporal_coordination": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "temporal_windows": {
+                            "type": "object",
+                            "properties": {
+                                "integration_window_duration": {
+                                    "type": "number"
+                                },
+                                "temporal_precision": {
+                                    "type": "number"
+                                },
+                                "window_adaptation": {
+                                    "type": "object"
+                                },
+                                "multi_timescale_integration": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "phase_relationships": {
+                            "type": "object",
+                            "properties": {
+                                "cross_frequency_coupling": {
+                                    "type": "object"
+                                },
+                                "phase_amplitude_coupling": {
+                                    "type": "object"
+                                },
+                                "phase_synchronization_index": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                },
+                "spatial_binding": {
+                    "type": "object",
+                    "properties": {
+                        "spatial_attention_mechanisms": {
+                            "type": "object",
+                            "properties": {
+                                "feature_based_attention": {
+                                    "type": "object"
+                                },
+                                "location_based_attention": {
+                                    "type": "object"
+                                },
+                                "object_based_attention": {
+                                    "type": "object"
+                                },
+                                "attention_spotlight_dynamics": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "spatial_grouping": {
+                            "type": "object",
+                            "properties": {
+                                "proximity_grouping": {
+                                    "type": "object"
+                                },
+                                "similarity_grouping": {
+                                    "type": "object"
+                                },
+                                "common_fate_grouping": {
+                                    "type": "object"
+                                },
+                                "good_continuation_grouping": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "coordinate_systems": {
+                            "type": "object",
+                            "properties": {
+                                "retinotopic_coordinates": {
+                                    "type": "object"
+                                },
+                                "spatiotopic_coordinates": {
+                                    "type": "object"
+                                },
+                                "object_centered_coordinates": {
+                                    "type": "object"
+                                },
+                                "coordinate_transformation_matrix": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "feature_binding": {
+                    "type": "object",
+                    "properties": {
+                        "feature_integration_theory": {
+                            "type": "object",
+                            "properties": {
+                                "attention_spotlight_role": {
+                                    "type": "object"
+                                },
+                                "preattentive_processing": {
+                                    "type": "object"
+                                },
+                                "focused_attention_binding": {
+                                    "type": "object"
+                                },
+                                "illusory_conjunctions_prevention": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "feature_maps_integration": {
+                            "type": "object",
+                            "properties": {
+                                "color_map_contribution": {
+                                    "type": "object"
+                                },
+                                "motion_map_contribution": {
+                                    "type": "object"
+                                },
+                                "form_map_contribution": {
+                                    "type": "object"
+                                },
+                                "master_map_construction": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "binding_resolution": {
+                            "type": "object",
+                            "properties": {
+                                "feature_conflict_resolution": {
+                                    "type": "object"
+                                },
+                                "binding_ambiguity_resolution": {
+                                    "type": "object"
+                                },
+                                "competitive_binding_dynamics": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "bound_representations": {
+            "type": "object",
+            "properties": {
+                "object_representations": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "object_id": {
+                                "type": "string"
+                            },
+                            "bound_features": {
+                                "type": "object",
+                                "properties": {
+                                    "color_properties": {
+                                        "type": "object"
+                                    },
+                                    "shape_properties": {
+                                        "type": "object"
+                                    },
+                                    "motion_properties": {
+                                        "type": "object"
+                                    },
+                                    "depth_properties": {
+                                        "type": "object"
+                                    },
+                                    "texture_properties": {
+                                        "type": "object"
+                                    }
+                                }
+                            },
+                            "spatial_properties": {
+                                "type": "object",
+                                "properties": {
+                                    "location": {
+                                        "type": "object"
+                                    },
+                                    "size": {
+                                        "type": "object"
+                                    },
+                                    "orientation": {
+                                        "type": "object"
+                                    },
+                                    "spatial_extent": {
+                                        "type": "object"
+                                    }
+                                }
+                            },
+                            "temporal_properties": {
+                                "type": "object",
+                                "properties": {
+                                    "duration": {
+                                        "type": "number"
+                                    },
+                                    "temporal_dynamics": {
+                                        "type": "object"
+                                    },
+                                    "change_patterns": {
+                                        "type": "object"
+                                    }
+                                }
+                            },
+                            "binding_confidence": {
+                                "type": "object",
+                                "properties": {
+                                    "overall_confidence": {
+                                        "type": "number"
+                                    },
+                                    "feature_binding_confidence": {
+                                        "type": "object"
+                                    },
+                                    "spatial_binding_confidence": {
+                                        "type": "number"
+                                    },
+                                    "temporal_binding_confidence": {
+                                        "type": "number"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "scene_representations": {
+                    "type": "object",
+                    "properties": {
+                        "object_relationships": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "relationship_type": {
+                                        "type": "string"
+                                    },
+                                    "object_pairs": {
+                                        "type": "array"
+                                    },
+                                    "relationship_strength": {
+                                        "type": "number"
+                                    }
+                                }
+                            }
+                        },
+                        "scene_layout": {
+                            "type": "object",
+                            "properties": {
+                                "spatial_layout": {
+                                    "type": "object"
+                                },
+                                "depth_layout": {
+                                    "type": "object"
+                                },
+                                "surface_representations": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "scene_semantics": {
+                            "type": "object",
+                            "properties": {
+                                "scene_category": {
+                                    "type": "string"
+                                },
+                                "scene_affordances": {
+                                    "type": "array"
+                                },
+                                "contextual_expectations": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "neural_synchronization": {
+            "type": "object",
+            "properties": {
+                "cortical_synchronization": {
+                    "type": "object",
+                    "properties": {
+                        "visual_cortex_synchrony": {
+                            "type": "object",
+                            "properties": {
+                                "v1_synchronization": {
+                                    "type": "object"
+                                },
+                                "v4_synchronization": {
+                                    "type": "object"
+                                },
+                                "mt_synchronization": {
+                                    "type": "object"
+                                },
+                                "it_synchronization": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "parietal_cortex_synchrony": {
+                            "type": "object",
+                            "properties": {
+                                "spatial_attention_synchrony": {
+                                    "type": "object"
+                                },
+                                "feature_integration_synchrony": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "frontal_cortex_synchrony": {
+                            "type": "object",
+                            "properties": {
+                                "attention_control_synchrony": {
+                                    "type": "object"
+                                },
+                                "working_memory_synchrony": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "thalamic_synchronization": {
+                    "type": "object",
+                    "properties": {
+                        "thalamic_relay_synchrony": {
+                            "type": "object"
+                        },
+                        "cortico_thalamic_loops": {
+                            "type": "object"
+                        },
+                        "thalamic_gating_mechanisms": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "synchronization_networks": {
+                    "type": "object",
+                    "properties": {
+                        "local_synchrony_networks": {
+                            "type": "array"
+                        },
+                        "long_range_synchrony_networks": {
+                            "type": "array"
+                        },
+                        "hierarchical_synchrony_organization": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "binding_quality_metrics": {
+            "type": "object",
+            "properties": {
+                "binding_strength": {
+                    "type": "object",
+                    "properties": {
+                        "temporal_binding_strength": {
+                            "type": "number"
+                        },
+                        "spatial_binding_strength": {
+                            "type": "number"
+                        },
+                        "feature_binding_strength": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "binding_stability": {
+                    "type": "object",
+                    "properties": {
+                        "temporal_stability": {
+                            "type": "number"
+                        },
+                        "robustness_to_noise": {
+                            "type": "number"
+                        },
+                        "persistence_duration": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "binding_accuracy": {
+                    "type": "object",
+                    "properties": {
+                        "correct_feature_bindings": {
+                            "type": "number"
+                        },
+                        "illusory_conjunctions_rate": {
+                            "type": "number"
+                        },
+                        "binding_error_rate": {
+                            "type": "number"
+                        }
+                    }
+                }
+            }
+        },
+        "attention_binding_interaction": {
+            "type": "object",
+            "properties": {
+                "attention_modulation_effects": {
+                    "type": "object",
+                    "properties": {
+                        "attention_enhanced_binding": {
+                            "type": "object"
+                        },
+                        "attention_selective_binding": {
+                            "type": "object"
+                        },
+                        "attention_binding_competition": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "binding_attention_feedback": {
+                    "type": "object",
+                    "properties": {
+                        "binding_guided_attention": {
+                            "type": "object"
+                        },
+                        "object_attention_capture": {
+                            "type": "object"
+                        },
+                        "binding_attention_maintenance": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "system_integration": {
+            "type": "object",
+            "properties": {
+                "memory_integration": {
+                    "type": "object",
+                    "properties": {
+                        "episodic_binding_contribution": {
+                            "type": "object"
+                        },
+                        "semantic_binding_facilitation": {
+                            "type": "object"
+                        },
+                        "memory_guided_binding": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "motor_integration": {
+                    "type": "object",
+                    "properties": {
+                        "action_oriented_binding": {
+                            "type": "object"
+                        },
+                        "affordance_binding": {
+                            "type": "object"
+                        },
+                        "visuomotor_binding": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "consciousness_integration": {
+                    "type": "object",
+                    "properties": {
+                        "conscious_binding_access": {
+                            "type": "object"
+                        },
+                        "global_workspace_binding": {
+                            "type": "object"
+                        },
+                        "binding_consciousness_threshold": {
+                            "type": "number"
+                        }
+                    }
+                }
+            }
+        },
+        "metadata": {
+            "type": "object",
+            "properties": {
+                "binding_duration": {
+                    "type": "number"
+                },
+                "computational_cost": {
+                    "type": "number"
+                },
+                "neural_resource_usage": {
+                    "type": "object"
+                },
+                "binding_complexity_level": {
+                    "type": "number"
+                }
+            }
+        }
+    }
+}

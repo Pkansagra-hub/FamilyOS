@@ -1,0 +1,247 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Family Administration Response Schema",
+  "description": "Response schema for family administration operations in Control Plane",
+
+  "type": "object",
+  "properties": {
+    "operation_result": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean",
+          "description": "Whether the operation was successful"
+        },
+        "operation_id": {
+          "type": "string",
+          "description": "Unique identifier for the completed operation"
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time",
+          "description": "When the operation was completed"
+        },
+        "family_impact_summary": {
+          "type": "string",
+          "description": "Summary of how this operation impacts the family"
+        }
+      },
+      "required": ["success", "operation_id", "timestamp"]
+    },
+    "democratic_validation": {
+      "type": "object",
+      "properties": {
+        "approval_process_completed": {
+          "type": "boolean",
+          "description": "Whether required approval process was completed"
+        },
+        "family_consensus_achieved": {
+          "type": "boolean",
+          "description": "Whether family consensus was achieved"
+        },
+        "voting_results": {
+          "type": "object",
+          "properties": {
+            "total_eligible_voters": {"type": "integer"},
+            "votes_cast": {"type": "integer"},
+            "approval_percentage": {"type": "number", "minimum": 0, "maximum": 1},
+            "consensus_threshold_met": {"type": "boolean"}
+          }
+        },
+        "democratic_transparency": {
+          "type": "object",
+          "properties": {
+            "decision_reasoning_provided": {
+              "type": "boolean",
+              "description": "Whether clear reasoning was provided for the decision"
+            },
+            "family_education_completed": {
+              "type": "boolean",
+              "description": "Whether family was educated about the operation before voting"
+            },
+            "ongoing_family_communication": {
+              "type": "boolean",
+              "description": "Whether ongoing communication about the operation is planned"
+            }
+          }
+        }
+      }
+    },
+    "memory_system_impact": {
+      "type": "object",
+      "properties": {
+        "memory_changes_applied": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "memory_space": {
+                "type": "string",
+                "enum": ["personal", "selective", "shared", "extended", "interfamily"]
+              },
+              "change_type": {
+                "type": "string",
+                "enum": ["access_modified", "permissions_updated", "structure_changed", "policies_applied"]
+              },
+              "change_description": {
+                "type": "string",
+                "description": "Description of the memory change"
+              },
+              "family_benefit": {
+                "type": "string",
+                "description": "How this memory change benefits the family"
+              }
+            }
+          }
+        },
+        "memory_integrity_validation": {
+          "type": "object",
+          "properties": {
+            "data_integrity_confirmed": {
+              "type": "boolean",
+              "description": "Whether memory data integrity was confirmed"
+            },
+            "family_privacy_maintained": {
+              "type": "boolean",
+              "description": "Whether family privacy was maintained during changes"
+            },
+            "child_data_protection_verified": {
+              "type": "boolean",
+              "description": "Whether child data protection was verified"
+            }
+          }
+        },
+        "memory_sync_coordination": {
+          "type": "object",
+          "properties": {
+            "cross_device_sync_completed": {
+              "type": "boolean",
+              "description": "Whether changes were synced across family devices"
+            },
+            "sync_conflicts_resolved": {
+              "type": "boolean",
+              "description": "Whether any sync conflicts were resolved"
+            },
+            "family_device_coordination": {
+              "type": "string",
+              "description": "Status of family device coordination after changes"
+            }
+          }
+        }
+      }
+    },
+    "child_safety_validation": {
+      "type": "object",
+      "properties": {
+        "child_protection_status": {
+          "type": "string",
+          "enum": ["enhanced", "maintained", "requires_attention"],
+          "description": "Status of child protection after operation"
+        },
+        "parental_oversight_changes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "oversight_type": {"type": "string"},
+              "change_description": {"type": "string"},
+              "family_benefit": {"type": "string"}
+            }
+          }
+        },
+        "age_appropriate_communication": {
+          "type": "object",
+          "properties": {
+            "children_notified": {
+              "type": "boolean",
+              "description": "Whether children were appropriately notified"
+            },
+            "notification_content": {
+              "type": "string",
+              "description": "Age-appropriate explanation provided to children"
+            },
+            "child_questions_addressed": {
+              "type": "boolean",
+              "description": "Whether children's questions about the operation were addressed"
+            }
+          }
+        }
+      }
+    },
+    "system_monitoring_updates": {
+      "type": "object",
+      "properties": {
+        "monitoring_configuration_updated": {
+          "type": "boolean",
+          "description": "Whether system monitoring was updated for the operation"
+        },
+        "new_oversight_metrics": {
+          "type": "array",
+          "items": {"$ref": "common/control_types.json#/definitions/SystemOversightMetric"},
+          "description": "New metrics added to monitor the impact of this operation"
+        },
+        "family_transparency_enhancements": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "description": "Enhancements to family transparency resulting from operation"
+          }
+        }
+      }
+    },
+    "rollback_information": {
+      "type": "object",
+      "properties": {
+        "rollback_available": {
+          "type": "boolean",
+          "description": "Whether this operation can be rolled back"
+        },
+        "rollback_deadline": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Deadline for rolling back this operation"
+        },
+        "rollback_impact_assessment": {
+          "type": "string",
+          "description": "Assessment of what rolling back would mean for the family"
+        },
+        "family_rollback_authority": {
+          "type": "object",
+          "properties": {
+            "family_can_initiate": {
+              "type": "boolean",
+              "description": "Whether family can initiate rollback themselves"
+            },
+            "rollback_approval_required": {
+              "type": "boolean",
+              "description": "Whether rollback requires family approval process"
+            }
+          }
+        }
+      }
+    },
+    "next_steps": {
+      "type": "object",
+      "properties": {
+        "family_communication_plan": {
+          "type": "string",
+          "description": "Plan for ongoing family communication about this operation"
+        },
+        "monitoring_schedule": {
+          "type": "string",
+          "description": "Schedule for monitoring the impact of this operation"
+        },
+        "family_feedback_collection": {
+          "type": "string",
+          "description": "Plan for collecting family feedback about the operation"
+        },
+        "optimization_opportunities": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "Opportunities to optimize family experience based on this operation"
+        }
+      }
+    }
+  },
+  "required": ["operation_result", "memory_system_impact", "child_safety_validation"]
+}

@@ -1,0 +1,155 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Retrieval Module Event Catalog",
+  "description": "Retrieval events for P01 broker with FTS+vector fusion and QoS gating",
+  "type": "object",
+  "properties": {
+    "events": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "event_type": { "type": "string" },
+          "version": { "type": "string" },
+          "direction": { "enum": ["input", "output"] },
+          "envelope": { "$ref": "../../globals/envelope.schema.json" },
+          "payload": { "type": "object" },
+          "description": { "type": "string" }
+        },
+        "required": ["event_type", "version", "direction", "envelope", "payload"]
+      }
+    }
+  },
+  "required": ["events"],
+  "additionalProperties": false,
+  "events": [
+    {
+      "event_type": "RETRIEVAL_QUERY_REQUEST",
+      "version": "1.0.0",
+      "direction": "input",
+      "envelope": { "$ref": "../../globals/envelope.schema.json" },
+      "payload": {
+        "type": "object",
+        "properties": {
+          "query": {
+            "type": "string",
+            "maxLength": 2048,
+            "description": "Natural language or keyword query"
+          },
+          "query_type": {
+            "enum": ["fts", "vector", "hybrid"],
+            "description": "Query execution strategy"
+          },
+          "space_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Scope retrieval to specific space"
+          },
+          "sync_mode": {
+            "type": "boolean",
+            "default": false,
+            "description": "If true, return results synchronously; if false, emit async event"
+          },
+          "max_results": {
+            "type": "integer",
+            "minimum": 1,
+            "maximum": 100,
+            "default": 20
+          },
+          "include_metadata": {
+            "type": "boolean",
+            "default": true,
+            "description": "Include relevance scores and timestamps"
+          }
+        },
+        "required": ["query", "space_id"],
+        "additionalProperties": false
+      },
+      "description": "Query request for memory retrieval with FTS+vector fusion"
+    },
+    {
+      "event_type": "RETRIEVAL_QUERY_RESPONSE",
+      "version": "1.0.0", 
+      "direction": "output",
+      "envelope": { "$ref": "../../globals/envelope.schema.json" },
+      "payload": {
+        "type": "object",
+        "properties": {
+          "query_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Correlation ID from request"
+          },
+          "results": {
+            "type": "array",
+            "maxItems": 100,
+            "items": {
+              "$ref": "../storage/retrieval_result.schema.json"
+            }
+          },
+          "execution_info": {
+            "type": "object",
+            "properties": {
+              "query_type_used": { "enum": ["fts", "vector", "hybrid"] },
+              "total_candidates": { "type": "integer", "minimum": 0 },
+              "fusion_applied": { "type": "boolean" },
+              "execution_time_ms": { "type": "integer", "minimum": 0 },
+              "qos_gating_applied": { "type": "boolean" }
+            },
+            "required": ["query_type_used", "total_candidates", "execution_time_ms"],
+            "additionalProperties": false
+          },
+          "status": {
+            "enum": ["success", "partial", "error", "denied"],
+            "description": "Query execution status"
+          },
+          "error_message": {
+            "type": "string",
+            "description": "Present if status is error"
+          }
+        },
+        "required": ["query_id", "results", "execution_info", "status"],
+        "additionalProperties": false
+      },
+      "description": "Query response with retrieval results and execution metadata"
+    },
+    {
+      "event_type": "RETRIEVAL_INDEX_UPDATE",
+      "version": "1.0.0",
+      "direction": "input",
+      "envelope": { "$ref": "../../globals/envelope.schema.json" },
+      "payload": {
+        "type": "object",
+        "properties": {
+          "operation": {
+            "enum": ["add", "update", "delete"],
+            "description": "Index operation type"
+          },
+          "memory_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Memory item identifier"
+          },
+          "content": {
+            "type": "string",
+            "description": "Text content for indexing (add/update only)"
+          },
+          "metadata": {
+            "type": "object",
+            "properties": {
+              "space_id": { "type": "string", "format": "uuid" },
+              "created_at": { "type": "string", "format": "date-time" },
+              "content_type": { "type": "string" },
+              "tags": { "type": "array", "items": { "type": "string" } }
+            },
+            "required": ["space_id", "created_at"],
+            "additionalProperties": false
+          }
+        },
+        "required": ["operation", "memory_id"],
+        "additionalProperties": false
+      },
+      "description": "Update retrieval indexes with new or modified memory content"
+    }
+  ]
+}

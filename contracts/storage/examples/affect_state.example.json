@@ -1,0 +1,14 @@
+{
+  "id": "01HX3V6MAFFNH188BDQSCTK7SA",
+  "space_id": "personal:11111111-2222-4333-8444-555555555555",
+  "ts": "2025-09-09T12:34:56Z",
+  "band": "GREEN",
+  "scores": {
+    "valence": 0.1,
+    "arousal": 0.6,
+    "dominance": 0.4
+  },
+  "features": {
+    "text_negation": 0.2
+  }
+}

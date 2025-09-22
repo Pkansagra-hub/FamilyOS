@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://familyos.local/contracts/storage/migration_record.schema.json",
+  "title": "Migration Record",
+  "description": "Database migration execution record for version control and audit trail",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "migration_id",
+    "version",
+    "applied_at",
+    "direction",
+    "status",
+    "execution_time_ms",
+    "checksum"
+  ],
+  "properties": {
+    "migration_id": {
+      "type": "string",
+      "pattern": "^[a-zA-Z0-9_-]+$",
+      "description": "Unique identifier for the migration"
+    },
+    "version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "description": "Semantic version of the migration"
+    },
+    "applied_at": {
+      "$ref": "./common.schema.json#/$defs/Timestamp",
+      "description": "When the migration was applied"
+    },
+    "direction": {
+      "type": "string",
+      "enum": ["up", "down"],
+      "description": "Direction of the migration (forward or rollback)"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["completed", "failed", "pending"],
+      "description": "Status of the migration execution"
+    },
+    "execution_time_ms": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Time taken to execute the migration in milliseconds"
+    },
+    "checksum": {
+      "type": "string",
+      "pattern": "^[a-fA-F0-9]{16}$",
+      "description": "16-character SHA-256 checksum of the migration SQL"
+    },
+    "name": {
+      "type": "string",
+      "description": "Human-readable name of the migration"
+    },
+    "description": {
+      "type": "string",
+      "description": "Description of what the migration does"
+    },
+    "rollback_data": {
+      "type": "string",
+      "description": "JSON-encoded data needed for rollback operations"
+    },
+    "error_message": {
+      "type": "string",
+      "description": "Error message if the migration failed"
+    },
+    "dependencies": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "List of migration IDs that this migration depends on"
+    }
+  }
+}

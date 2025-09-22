@@ -1,0 +1,7 @@
+metrics:
+  - name: workflows_in_flight
+    type: gauge
+    labels: [space_id, type]
+  - name: workflow_transition_total
+    type: counter
+    labels: [type, status]

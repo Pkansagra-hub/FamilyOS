@@ -1,0 +1,92 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "urn:contracts:retrieval:storage:cache_entry@1.0.0",
+  "title": "Retrieval Cache Entry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["query_hash", "results", "ts", "expires_at", "space_id"],
+  "properties": {
+    "query_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$",
+      "description": "SHA256 hash of the cached query"
+    },
+    "space_id": {
+      "type": "string",
+      "description": "Space context for cache isolation"
+    },
+    "query_type": {
+      "type": "string",
+      "enum": ["semantic", "episodic", "vector", "hybrid"]
+    },
+    "results": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["record_id", "score", "source"],
+        "properties": {
+          "record_id": {
+            "type": "string",
+            "description": "Unique identifier for the recalled record"
+          },
+          "score": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "description": "Relevance score (0-1)"
+          },
+          "source": {
+            "type": "string",
+            "enum": ["episodic", "semantic", "vector", "fusion"],
+            "description": "Source system that provided this result"
+          },
+          "snippet": {
+            "type": "string",
+            "maxLength": 500,
+            "description": "Text snippet (may be redacted based on band)"
+          },
+          "metadata": {
+            "type": "object",
+            "description": "Additional result metadata"
+          }
+        }
+      }
+    },
+    "result_count": {
+      "type": "integer",
+      "minimum": 0,
+      "description": "Total number of results returned"
+    },
+    "cache_hit": {
+      "type": "boolean",
+      "description": "Whether this was served from cache"
+    },
+    "processing_time_ms": {
+      "type": "number",
+      "minimum": 0,
+      "description": "Time taken to generate results"
+    },
+    "ts": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Cache entry creation timestamp"
+    },
+    "expires_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Cache expiration timestamp"
+    },
+    "access_count": {
+      "type": "integer",
+      "minimum": 0,
+      "default": 0,
+      "description": "Number of times this cache entry was accessed"
+    },
+    "last_accessed": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Last access timestamp for LRU eviction"
+    }
+  }
+}

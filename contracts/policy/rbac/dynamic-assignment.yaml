@@ -1,0 +1,148 @@
+# Issue #26.2: Dynamic role assignment contract
+# Contract-first approach for runtime role assignment and management
+
+apiVersion: policy/v1
+kind: DynamicRoleAssignment
+metadata:
+  name: rbac-dynamic-assignment
+  description: "Dynamic role assignment and lifecycle management"
+  version: "1.0.0"
+
+spec:
+  # Assignment strategies
+  assignment_strategies:
+    immediate:
+      description: "Immediate role assignment without approval"
+      use_cases:
+        - "authenticated_user assignment on login"
+        - "guest role for public access"
+
+    approval_required:
+      description: "Role assignment requiring explicit approval"
+      use_cases:
+        - "space_admin assignments"
+        - "system_operator promotions"
+      approval_workflow:
+        required_approvers: 1
+        approver_roles: ["system_admin", "space_admin"]
+        timeout: "24h"
+
+    conditional:
+      description: "Assignment based on runtime conditions"
+      use_cases:
+        - "temporary elevated permissions"
+        - "context-aware role assignments"
+
+    scheduled:
+      description: "Time-based role assignments"
+      use_cases:
+        - "shift-based operator roles"
+        - "maintenance windows"
+
+  # Assignment triggers
+  triggers:
+    authentication:
+      event: "user.authenticated"
+      action: "assign_base_roles"
+      roles: ["authenticated_user"]
+
+    space_access:
+      event: "space.access_requested"
+      action: "evaluate_space_roles"
+      conditions:
+        - "user.has_space_membership"
+        - "space.allows_user_role"
+
+    privilege_escalation:
+      event: "privilege.escalation_requested"
+      action: "initiate_approval_workflow"
+      requires:
+        - "justification"
+        - "time_limit"
+        - "approver_confirmation"
+
+  # Role lifecycle management
+  lifecycle:
+    assignment:
+      validation:
+        - "user_exists"
+        - "role_exists"
+        - "scope_valid"
+        - "prerequisites_met"
+
+      audit:
+        - "log_assignment_attempt"
+        - "record_assignment_success"
+        - "notify_stakeholders"
+
+    expiration:
+      policies:
+        - role: "system_admin"
+          max_duration: "8h"
+          renewal_policy: "explicit_approval"
+
+        - role: "space_operator"
+          max_duration: "24h"
+          renewal_policy: "automatic_if_active"
+
+        - role: "guest"
+          max_duration: "1h"
+          renewal_policy: "automatic"
+
+      cleanup:
+        - "revoke_expired_assignments"
+        - "archive_assignment_records"
+        - "notify_user_of_expiration"
+
+  # Context-aware assignment rules
+  context_rules:
+    location:
+      - condition: "user.location == 'secure_facility'"
+        allow_roles: ["space_admin", "system_operator"]
+
+      - condition: "user.location == 'remote'"
+        restrict_roles: ["system_admin"]
+        require_additional_auth: true
+
+    time:
+      - condition: "time.hour >= 09 AND time.hour <= 17"
+        allow_roles: ["*"]
+
+      - condition: "time.hour < 09 OR time.hour > 17"
+        restrict_roles: ["system_admin"]
+        require_justification: true
+
+    security_level:
+      - condition: "space.security_band == 'BLACK'"
+        require_roles: ["space_admin"]
+        additional_checks: ["mls_clearance", "background_verification"]
+
+# Integration with existing systems
+integration:
+  # PEP (Policy Enforcement Point) integration
+  pep_integration:
+    real_time_evaluation: true
+    cache_assignments: true
+    cache_ttl: "5m"
+
+  # Audit integration
+  audit_integration:
+    log_all_assignments: true
+    log_all_evaluations: false
+    log_failures: true
+    retention_period: "1y"
+
+  # Observability integration
+  observability:
+    metrics:
+      - "rbac.assignments.total"
+      - "rbac.assignments.failed"
+      - "rbac.evaluations.duration"
+      - "rbac.roles.active_count"
+
+    alerts:
+      - condition: "failed_assignments > 10/min"
+        severity: "warning"
+
+      - condition: "system_admin_assignments > 5/hour"
+        severity: "critical"

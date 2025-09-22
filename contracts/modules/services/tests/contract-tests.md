@@ -1,0 +1,3 @@
+- Validate events catalog JSON schemas compile (Draft 2020-12).
+- Validate storage records against schemas with sample fixtures.
+- Verify policy bands for health vs receipts.

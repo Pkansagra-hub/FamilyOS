@@ -1,0 +1,39 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Safety Band Changed",
+  "description": "Band transition (e.g., GREEN\u2192AMBER) for a space or context.",
+  "type": "object",
+  "additionalProperties": true,
+  "properties": {
+    "space_id": {
+      "type": "string"
+    },
+    "previous": {
+      "type": "string",
+      "enum": [
+        "GREEN",
+        "AMBER",
+        "RED",
+        "BLACK"
+      ]
+    },
+    "current": {
+      "type": "string",
+      "enum": [
+        "GREEN",
+        "AMBER",
+        "RED",
+        "BLACK"
+      ]
+    },
+    "reason": {
+      "type": "string"
+    },
+    "policy_rule_id": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "current"
+  ]
+}

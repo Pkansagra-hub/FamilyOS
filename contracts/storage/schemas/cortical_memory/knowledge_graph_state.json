@@ -1,0 +1,222 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "$id": "knowledge_graph_state.schema.json",
+    "title": "Knowledge Graph State Storage",
+    "description": "Storage schema for cortical knowledge graph state with semantic hierarchies and cross-modal integration",
+    "type": "object",
+    "required": [
+        "graph_id",
+        "concept_nodes",
+        "semantic_edges",
+        "hierarchical_structure",
+        "integration_metrics"
+    ],
+    "properties": {
+        "graph_id": {
+            "type": "string",
+            "description": "Unique identifier for the knowledge graph"
+        },
+        "concept_nodes": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "node_id": {
+                        "type": "string"
+                    },
+                    "concept_name": {
+                        "type": "string"
+                    },
+                    "concept_type": {
+                        "type": "string"
+                    },
+                    "activation_history": {
+                        "type": "array"
+                    },
+                    "cortical_representation": {
+                        "type": "object",
+                        "properties": {
+                            "primary_regions": {
+                                "type": "array"
+                            },
+                            "distributed_pattern": {
+                                "type": "object"
+                            },
+                            "connectivity_profile": {
+                                "type": "object"
+                            }
+                        }
+                    },
+                    "semantic_features": {
+                        "type": "object",
+                        "properties": {
+                            "feature_vector": {
+                                "type": "array"
+                            },
+                            "modality_weights": {
+                                "type": "object"
+                            },
+                            "abstraction_level": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "semantic_edges": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "edge_id": {
+                        "type": "string"
+                    },
+                    "source_node": {
+                        "type": "string"
+                    },
+                    "target_node": {
+                        "type": "string"
+                    },
+                    "relation_type": {
+                        "type": "string"
+                    },
+                    "relation_strength": {
+                        "type": "number"
+                    },
+                    "cortical_pathway": {
+                        "type": "object",
+                        "properties": {
+                            "pathway_regions": {
+                                "type": "array"
+                            },
+                            "pathway_strength": {
+                                "type": "number"
+                            },
+                            "bidirectional": {
+                                "type": "boolean"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "hierarchical_structure": {
+            "type": "object",
+            "properties": {
+                "taxonomic_levels": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "level_name": {
+                                "type": "string"
+                            },
+                            "level_depth": {
+                                "type": "number"
+                            },
+                            "concepts_at_level": {
+                                "type": "array"
+                            },
+                            "abstraction_degree": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                },
+                "cross_domain_links": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "domain_1": {
+                                "type": "string"
+                            },
+                            "domain_2": {
+                                "type": "string"
+                            },
+                            "link_concepts": {
+                                "type": "array"
+                            },
+                            "link_strength": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "integration_metrics": {
+            "type": "object",
+            "properties": {
+                "graph_coherence": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "connectivity_density": {
+                    "type": "number"
+                },
+                "clustering_coefficient": {
+                    "type": "number"
+                },
+                "path_length_distribution": {
+                    "type": "object"
+                },
+                "modular_structure": {
+                    "type": "object",
+                    "properties": {
+                        "detected_modules": {
+                            "type": "array"
+                        },
+                        "modularity_score": {
+                            "type": "number"
+                        },
+                        "inter_module_connectivity": {
+                            "type": "number"
+                        }
+                    }
+                }
+            }
+        },
+        "cortical_mapping": {
+            "type": "object",
+            "properties": {
+                "hub_regions": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "region_name": {
+                                "type": "string"
+                            },
+                            "hub_strength": {
+                                "type": "number"
+                            },
+                            "concepts_represented": {
+                                "type": "array"
+                            },
+                            "specialization_index": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                },
+                "distributed_patterns": {
+                    "type": "object",
+                    "properties": {
+                        "cross_modal_concepts": {
+                            "type": "array"
+                        },
+                        "unimodal_concepts": {
+                            "type": "array"
+                        },
+                        "integration_pathways": {
+                            "type": "array"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

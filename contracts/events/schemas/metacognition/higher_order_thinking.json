@@ -1,0 +1,617 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "$id": "higher_order_thinking.schema.json",
+    "title": "Higher-Order Thinking Event",
+    "description": "Event for abstract reasoning, meta-learning, and cognitive control of cognition with frontopolar cortex and higher-order network modeling",
+    "type": "object",
+    "required": [
+        "timestamp",
+        "thinking_type",
+        "abstract_reasoning",
+        "meta_learning",
+        "cognitive_architecture_awareness",
+        "neural_substrates"
+    ],
+    "properties": {
+        "timestamp": {
+            "type": "string",
+            "format": "date-time"
+        },
+        "thinking_type": {
+            "type": "string",
+            "enum": [
+                "abstract_reasoning",
+                "meta_learning",
+                "cognitive_architecture_reflection",
+                "system_optimization",
+                "conceptual_integration",
+                "paradigm_shifting"
+            ]
+        },
+        "abstract_reasoning": {
+            "type": "object",
+            "properties": {
+                "conceptual_abstraction": {
+                    "type": "object",
+                    "properties": {
+                        "abstraction_level": {
+                            "type": "number",
+                            "minimum": 1,
+                            "maximum": 10
+                        },
+                        "concept_generalization": {
+                            "type": "object",
+                            "properties": {
+                                "source_concepts": {
+                                    "type": "array"
+                                },
+                                "abstracted_principles": {
+                                    "type": "array"
+                                },
+                                "generalization_scope": {
+                                    "type": "string"
+                                },
+                                "abstraction_quality": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "pattern_abstraction": {
+                            "type": "object",
+                            "properties": {
+                                "identified_patterns": {
+                                    "type": "array"
+                                },
+                                "pattern_universality": {
+                                    "type": "number"
+                                },
+                                "pattern_applicability": {
+                                    "type": "array"
+                                }
+                            }
+                        },
+                        "principle_extraction": {
+                            "type": "object",
+                            "properties": {
+                                "underlying_principles": {
+                                    "type": "array"
+                                },
+                                "principle_hierarchy": {
+                                    "type": "object"
+                                },
+                                "principle_relationships": {
+                                    "type": "array"
+                                }
+                            }
+                        }
+                    }
+                },
+                "analogical_reasoning": {
+                    "type": "object",
+                    "properties": {
+                        "analogy_construction": {
+                            "type": "object",
+                            "properties": {
+                                "source_domain": {
+                                    "type": "object"
+                                },
+                                "target_domain": {
+                                    "type": "object"
+                                },
+                                "structural_alignment": {
+                                    "type": "object"
+                                },
+                                "analogy_quality": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "cross_domain_transfer": {
+                            "type": "object",
+                            "properties": {
+                                "transfer_success": {
+                                    "type": "number"
+                                },
+                                "adaptation_required": {
+                                    "type": "array"
+                                },
+                                "novel_insights_generated": {
+                                    "type": "array"
+                                }
+                            }
+                        },
+                        "metaphorical_thinking": {
+                            "type": "object",
+                            "properties": {
+                                "metaphor_construction": {
+                                    "type": "array"
+                                },
+                                "conceptual_blending": {
+                                    "type": "object"
+                                },
+                                "creative_insights": {
+                                    "type": "array"
+                                }
+                            }
+                        }
+                    }
+                },
+                "systematic_thinking": {
+                    "type": "object",
+                    "properties": {
+                        "system_level_analysis": {
+                            "type": "object",
+                            "properties": {
+                                "system_components": {
+                                    "type": "array"
+                                },
+                                "component_interactions": {
+                                    "type": "array"
+                                },
+                                "emergent_properties": {
+                                    "type": "array"
+                                },
+                                "system_dynamics": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "holistic_integration": {
+                            "type": "object",
+                            "properties": {
+                                "integration_completeness": {
+                                    "type": "number"
+                                },
+                                "perspective_synthesis": {
+                                    "type": "array"
+                                },
+                                "contradiction_resolution": {
+                                    "type": "array"
+                                }
+                            }
+                        },
+                        "complexity_management": {
+                            "type": "object",
+                            "properties": {
+                                "complexity_reduction_strategies": {
+                                    "type": "array"
+                                },
+                                "hierarchical_decomposition": {
+                                    "type": "object"
+                                },
+                                "simplification_effectiveness": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "meta_learning": {
+            "type": "object",
+            "properties": {
+                "learning_strategy_optimization": {
+                    "type": "object",
+                    "properties": {
+                        "strategy_effectiveness_analysis": {
+                            "type": "object",
+                            "properties": {
+                                "current_strategies": {
+                                    "type": "array"
+                                },
+                                "effectiveness_metrics": {
+                                    "type": "object"
+                                },
+                                "context_dependent_effectiveness": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "strategy_adaptation": {
+                            "type": "object",
+                            "properties": {
+                                "adaptation_triggers": {
+                                    "type": "array"
+                                },
+                                "strategy_modifications": {
+                                    "type": "array"
+                                },
+                                "new_strategy_synthesis": {
+                                    "type": "array"
+                                }
+                            }
+                        },
+                        "transfer_learning_optimization": {
+                            "type": "object",
+                            "properties": {
+                                "transfer_opportunities": {
+                                    "type": "array"
+                                },
+                                "transfer_strategies": {
+                                    "type": "array"
+                                },
+                                "transfer_effectiveness": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                },
+                "cognitive_skill_development": {
+                    "type": "object",
+                    "properties": {
+                        "skill_acquisition_optimization": {
+                            "type": "object",
+                            "properties": {
+                                "learning_curve_analysis": {
+                                    "type": "object"
+                                },
+                                "skill_building_sequence": {
+                                    "type": "array"
+                                },
+                                "practice_optimization": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "metacognitive_skill_enhancement": {
+                            "type": "object",
+                            "properties": {
+                                "monitoring_skill_improvement": {
+                                    "type": "number"
+                                },
+                                "evaluation_skill_enhancement": {
+                                    "type": "number"
+                                },
+                                "regulation_skill_development": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "expertise_development": {
+                            "type": "object",
+                            "properties": {
+                                "domain_expertise_progression": {
+                                    "type": "object"
+                                },
+                                "expert_pattern_recognition": {
+                                    "type": "number"
+                                },
+                                "intuitive_understanding_development": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                },
+                "learning_transfer_mastery": {
+                    "type": "object",
+                    "properties": {
+                        "near_transfer_optimization": {
+                            "type": "number"
+                        },
+                        "far_transfer_capability": {
+                            "type": "number"
+                        },
+                        "abstract_transfer_skill": {
+                            "type": "number"
+                        },
+                        "creative_transfer_ability": {
+                            "type": "number"
+                        }
+                    }
+                }
+            }
+        },
+        "cognitive_architecture_awareness": {
+            "type": "object",
+            "properties": {
+                "system_self_model": {
+                    "type": "object",
+                    "properties": {
+                        "architecture_understanding": {
+                            "type": "object",
+                            "properties": {
+                                "component_awareness": {
+                                    "type": "array"
+                                },
+                                "interaction_understanding": {
+                                    "type": "object"
+                                },
+                                "capability_assessment": {
+                                    "type": "object"
+                                },
+                                "limitation_awareness": {
+                                    "type": "array"
+                                }
+                            }
+                        },
+                        "processing_flow_awareness": {
+                            "type": "object",
+                            "properties": {
+                                "information_flow_understanding": {
+                                    "type": "object"
+                                },
+                                "bottleneck_identification": {
+                                    "type": "array"
+                                },
+                                "optimization_opportunities": {
+                                    "type": "array"
+                                }
+                            }
+                        },
+                        "resource_management_awareness": {
+                            "type": "object",
+                            "properties": {
+                                "resource_allocation_understanding": {
+                                    "type": "object"
+                                },
+                                "capacity_limitations_awareness": {
+                                    "type": "array"
+                                },
+                                "efficiency_optimization_strategies": {
+                                    "type": "array"
+                                }
+                            }
+                        }
+                    }
+                },
+                "cognitive_control_optimization": {
+                    "type": "object",
+                    "properties": {
+                        "control_strategy_refinement": {
+                            "type": "object",
+                            "properties": {
+                                "control_effectiveness_analysis": {
+                                    "type": "object"
+                                },
+                                "strategy_adjustment_recommendations": {
+                                    "type": "array"
+                                },
+                                "control_parameter_optimization": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "attention_management_optimization": {
+                            "type": "object",
+                            "properties": {
+                                "attention_allocation_strategies": {
+                                    "type": "array"
+                                },
+                                "focus_maintenance_techniques": {
+                                    "type": "array"
+                                },
+                                "distraction_management_approaches": {
+                                    "type": "array"
+                                }
+                            }
+                        },
+                        "memory_system_optimization": {
+                            "type": "object",
+                            "properties": {
+                                "encoding_strategy_optimization": {
+                                    "type": "array"
+                                },
+                                "retrieval_strategy_enhancement": {
+                                    "type": "array"
+                                },
+                                "memory_organization_improvements": {
+                                    "type": "array"
+                                }
+                            }
+                        }
+                    }
+                },
+                "adaptive_system_design": {
+                    "type": "object",
+                    "properties": {
+                        "self_modification_strategies": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "modification_target": {
+                                        "type": "string"
+                                    },
+                                    "modification_approach": {
+                                        "type": "string"
+                                    },
+                                    "expected_improvement": {
+                                        "type": "number"
+                                    },
+                                    "risk_assessment": {
+                                        "type": "number"
+                                    }
+                                }
+                            }
+                        },
+                        "capability_extension_planning": {
+                            "type": "object",
+                            "properties": {
+                                "new_capability_identification": {
+                                    "type": "array"
+                                },
+                                "development_pathways": {
+                                    "type": "array"
+                                },
+                                "integration_strategies": {
+                                    "type": "array"
+                                }
+                            }
+                        },
+                        "system_evolution_guidance": {
+                            "type": "object",
+                            "properties": {
+                                "evolution_direction": {
+                                    "type": "string"
+                                },
+                                "development_priorities": {
+                                    "type": "array"
+                                },
+                                "optimization_targets": {
+                                    "type": "array"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "neural_substrates": {
+            "type": "object",
+            "properties": {
+                "frontopolar_cortex": {
+                    "type": "object",
+                    "properties": {
+                        "cognitive_branching_activity": {
+                            "type": "number"
+                        },
+                        "higher_order_planning": {
+                            "type": "number"
+                        },
+                        "abstract_goal_processing": {
+                            "type": "number"
+                        },
+                        "meta_cognitive_control": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "lateral_prefrontal_cortex": {
+                    "type": "object",
+                    "properties": {
+                        "abstract_reasoning_activity": {
+                            "type": "number"
+                        },
+                        "working_memory_manipulation": {
+                            "type": "number"
+                        },
+                        "cognitive_flexibility": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "parietal_cortex": {
+                    "type": "object",
+                    "properties": {
+                        "spatial_reasoning": {
+                            "type": "number"
+                        },
+                        "attention_control": {
+                            "type": "number"
+                        },
+                        "mathematical_reasoning": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "anterior_temporal_lobe": {
+                    "type": "object",
+                    "properties": {
+                        "conceptual_knowledge_access": {
+                            "type": "number"
+                        },
+                        "semantic_integration": {
+                            "type": "number"
+                        },
+                        "abstract_concept_processing": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "higher_order_networks": {
+                    "type": "object",
+                    "properties": {
+                        "fronto_parietal_control_network": {
+                            "type": "number"
+                        },
+                        "default_mode_network_regulation": {
+                            "type": "number"
+                        },
+                        "salience_network_coordination": {
+                            "type": "number"
+                        }
+                    }
+                }
+            }
+        },
+        "thinking_outcomes": {
+            "type": "object",
+            "properties": {
+                "novel_insights": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "insight_content": {
+                                "type": "string"
+                            },
+                            "novelty_level": {
+                                "type": "number"
+                            },
+                            "potential_impact": {
+                                "type": "number"
+                            },
+                            "generalizability": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                },
+                "cognitive_optimizations": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "optimization_target": {
+                                "type": "string"
+                            },
+                            "optimization_strategy": {
+                                "type": "string"
+                            },
+                            "expected_benefit": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                },
+                "paradigm_shifts": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "old_paradigm": {
+                                "type": "string"
+                            },
+                            "new_paradigm": {
+                                "type": "string"
+                            },
+                            "shift_justification": {
+                                "type": "string"
+                            },
+                            "implications": {
+                                "type": "array"
+                            }
+                        }
+                    }
+                },
+                "system_improvements": {
+                    "type": "object",
+                    "properties": {
+                        "identified_improvements": {
+                            "type": "array"
+                        },
+                        "implementation_plans": {
+                            "type": "array"
+                        },
+                        "success_criteria": {
+                            "type": "array"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

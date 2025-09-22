@@ -1,0 +1,3 @@
+- API: before ingest → check role=device & device_trust; compute band.
+- Events: before publish → enforce band obligations; sign envelope.
+- Storage: before write → block RED/BLACK, apply TTL.

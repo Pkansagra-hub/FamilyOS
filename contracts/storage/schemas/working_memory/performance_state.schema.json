@@ -1,0 +1,753 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://familyos.local/contracts/storage/schemas/working_memory/performance_state.schema.json",
+    "title": "Performance Monitoring State Schema",
+    "description": "Schema for persistent storage of working memory performance monitoring state",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "performance_id",
+        "timestamp",
+        "current_metrics",
+        "monitoring_state",
+        "baseline_comparisons"
+    ],
+    "properties": {
+        "performance_id": {
+            "type": "string",
+            "description": "Unique identifier for performance state instance"
+        },
+        "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Last update timestamp"
+        },
+        "current_metrics": {
+            "type": "object",
+            "required": [
+                "accuracy_metrics",
+                "speed_metrics",
+                "efficiency_metrics"
+            ],
+            "properties": {
+                "accuracy_metrics": {
+                    "type": "object",
+                    "properties": {
+                        "overall_accuracy": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "maintenance_accuracy": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "updating_accuracy": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "retrieval_accuracy": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "manipulation_accuracy": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "error_rate": {
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "error_types": {
+                            "type": "object",
+                            "properties": {
+                                "maintenance_errors": {
+                                    "type": "number"
+                                },
+                                "updating_errors": {
+                                    "type": "number"
+                                },
+                                "interference_errors": {
+                                    "type": "number"
+                                },
+                                "capacity_errors": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                },
+                "speed_metrics": {
+                    "type": "object",
+                    "properties": {
+                        "overall_response_time": {
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "encoding_speed": {
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "maintenance_speed": {
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "updating_speed": {
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "retrieval_speed": {
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "manipulation_speed": {
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "processing_latency": {
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "response_variability": {
+                            "type": "number",
+                            "minimum": 0
+                        }
+                    }
+                },
+                "efficiency_metrics": {
+                    "type": "object",
+                    "properties": {
+                        "cognitive_efficiency": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "resource_utilization": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "capacity_efficiency": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "strategy_efficiency": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "energy_efficiency": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "time_efficiency": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    }
+                },
+                "load_metrics": {
+                    "type": "object",
+                    "properties": {
+                        "cognitive_load": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "mental_effort": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "task_difficulty": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "subjective_workload": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "fatigue_level": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    }
+                }
+            },
+            "description": "Current performance metrics"
+        },
+        "monitoring_state": {
+            "type": "object",
+            "required": [
+                "monitoring_active",
+                "monitoring_scope"
+            ],
+            "properties": {
+                "monitoring_active": {
+                    "type": "boolean",
+                    "description": "Whether performance monitoring is active"
+                },
+                "monitoring_scope": {
+                    "type": "object",
+                    "properties": {
+                        "global_monitoring": {
+                            "type": "boolean"
+                        },
+                        "task_specific_monitoring": {
+                            "type": "boolean"
+                        },
+                        "process_specific_monitoring": {
+                            "type": "boolean"
+                        },
+                        "real_time_monitoring": {
+                            "type": "boolean"
+                        }
+                    }
+                },
+                "monitoring_parameters": {
+                    "type": "object",
+                    "properties": {
+                        "sampling_frequency": {
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "monitoring_window": {
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "alert_thresholds": {
+                            "type": "object",
+                            "properties": {
+                                "accuracy_threshold": {
+                                    "type": "number"
+                                },
+                                "speed_threshold": {
+                                    "type": "number"
+                                },
+                                "efficiency_threshold": {
+                                    "type": "number"
+                                },
+                                "load_threshold": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "sensitivity_settings": {
+                            "type": "object",
+                            "properties": {
+                                "change_detection_sensitivity": {
+                                    "type": "number"
+                                },
+                                "trend_detection_sensitivity": {
+                                    "type": "number"
+                                },
+                                "anomaly_detection_sensitivity": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                },
+                "monitoring_targets": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "target_type": {
+                                "type": "string"
+                            },
+                            "target_id": {
+                                "type": "string"
+                            },
+                            "monitoring_level": {
+                                "type": "string"
+                            },
+                            "alert_conditions": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "description": "Performance monitoring system state"
+        },
+        "baseline_comparisons": {
+            "type": "object",
+            "required": [
+                "personal_baseline",
+                "normative_baseline"
+            ],
+            "properties": {
+                "personal_baseline": {
+                    "type": "object",
+                    "properties": {
+                        "baseline_metrics": {
+                            "type": "object"
+                        },
+                        "baseline_period": {
+                            "type": "string"
+                        },
+                        "baseline_confidence": {
+                            "type": "number"
+                        },
+                        "deviation_from_baseline": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "normative_baseline": {
+                    "type": "object",
+                    "properties": {
+                        "population_norms": {
+                            "type": "object"
+                        },
+                        "age_adjusted_norms": {
+                            "type": "object"
+                        },
+                        "task_specific_norms": {
+                            "type": "object"
+                        },
+                        "percentile_rank": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "contextual_baselines": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "context_type": {
+                                "type": "string"
+                            },
+                            "context_description": {
+                                "type": "string"
+                            },
+                            "baseline_metrics": {
+                                "type": "object"
+                            },
+                            "relative_performance": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                },
+                "adaptive_baselines": {
+                    "type": "object",
+                    "properties": {
+                        "learning_adjusted_baseline": {
+                            "type": "object"
+                        },
+                        "fatigue_adjusted_baseline": {
+                            "type": "object"
+                        },
+                        "context_adjusted_baseline": {
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "description": "Baseline comparisons for performance assessment"
+        },
+        "trend_analysis": {
+            "type": "object",
+            "properties": {
+                "performance_trends": {
+                    "type": "object",
+                    "properties": {
+                        "short_term_trends": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "metric": {
+                                        "type": "string"
+                                    },
+                                    "trend_direction": {
+                                        "type": "string"
+                                    },
+                                    "trend_magnitude": {
+                                        "type": "number"
+                                    },
+                                    "trend_confidence": {
+                                        "type": "number"
+                                    }
+                                }
+                            }
+                        },
+                        "long_term_trends": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "metric": {
+                                        "type": "string"
+                                    },
+                                    "trend_pattern": {
+                                        "type": "string"
+                                    },
+                                    "trend_stability": {
+                                        "type": "number"
+                                    },
+                                    "projected_trajectory": {
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "pattern_detection": {
+                    "type": "object",
+                    "properties": {
+                        "cyclical_patterns": {
+                            "type": "array",
+                            "items": {
+                                "type": "object"
+                            }
+                        },
+                        "learning_curves": {
+                            "type": "array",
+                            "items": {
+                                "type": "object"
+                            }
+                        },
+                        "fatigue_patterns": {
+                            "type": "array",
+                            "items": {
+                                "type": "object"
+                            }
+                        },
+                        "contextual_patterns": {
+                            "type": "array",
+                            "items": {
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "anomaly_detection": {
+                    "type": "object",
+                    "properties": {
+                        "detected_anomalies": {
+                            "type": "array",
+                            "items": {
+                                "type": "object"
+                            }
+                        },
+                        "anomaly_patterns": {
+                            "type": "object"
+                        },
+                        "anomaly_significance": {
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "description": "Trend analysis and pattern detection"
+        },
+        "alert_system": {
+            "type": "object",
+            "properties": {
+                "active_alerts": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "alert_id": {
+                                "type": "string"
+                            },
+                            "alert_type": {
+                                "type": "string"
+                            },
+                            "severity": {
+                                "type": "string"
+                            },
+                            "trigger_condition": {
+                                "type": "string"
+                            },
+                            "alert_time": {
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            "resolution_status": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "alert_history": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "alert_type": {
+                                "type": "string"
+                            },
+                            "frequency": {
+                                "type": "number"
+                            },
+                            "average_duration": {
+                                "type": "number"
+                            },
+                            "resolution_patterns": {
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "alert_configuration": {
+                    "type": "object",
+                    "properties": {
+                        "alert_rules": {
+                            "type": "array",
+                            "items": {
+                                "type": "object"
+                            }
+                        },
+                        "escalation_procedures": {
+                            "type": "object"
+                        },
+                        "notification_settings": {
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "description": "Performance alert system state"
+        },
+        "feedback_mechanisms": {
+            "type": "object",
+            "properties": {
+                "real_time_feedback": {
+                    "type": "object",
+                    "properties": {
+                        "feedback_active": {
+                            "type": "boolean"
+                        },
+                        "feedback_type": {
+                            "type": "string"
+                        },
+                        "feedback_frequency": {
+                            "type": "number"
+                        },
+                        "feedback_effectiveness": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "summary_feedback": {
+                    "type": "object",
+                    "properties": {
+                        "session_summaries": {
+                            "type": "array",
+                            "items": {
+                                "type": "object"
+                            }
+                        },
+                        "progress_reports": {
+                            "type": "array",
+                            "items": {
+                                "type": "object"
+                            }
+                        },
+                        "improvement_suggestions": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "adaptive_feedback": {
+                    "type": "object",
+                    "properties": {
+                        "personalized_feedback": {
+                            "type": "object"
+                        },
+                        "context_sensitive_feedback": {
+                            "type": "object"
+                        },
+                        "learning_oriented_feedback": {
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "description": "Performance feedback mechanisms"
+        },
+        "intervention_tracking": {
+            "type": "object",
+            "properties": {
+                "triggered_interventions": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "intervention_id": {
+                                "type": "string"
+                            },
+                            "intervention_type": {
+                                "type": "string"
+                            },
+                            "trigger_condition": {
+                                "type": "string"
+                            },
+                            "implementation_time": {
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            "effectiveness": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                },
+                "intervention_outcomes": {
+                    "type": "object",
+                    "properties": {
+                        "immediate_effects": {
+                            "type": "object"
+                        },
+                        "sustained_effects": {
+                            "type": "object"
+                        },
+                        "side_effects": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "intervention_optimization": {
+                    "type": "object",
+                    "properties": {
+                        "intervention_effectiveness": {
+                            "type": "object"
+                        },
+                        "optimal_timing": {
+                            "type": "object"
+                        },
+                        "personalization_factors": {
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "description": "Intervention tracking and optimization"
+        },
+        "learning_analytics": {
+            "type": "object",
+            "properties": {
+                "performance_learning": {
+                    "type": "object",
+                    "properties": {
+                        "skill_acquisition_rate": {
+                            "type": "number"
+                        },
+                        "learning_curve_parameters": {
+                            "type": "object"
+                        },
+                        "plateau_detection": {
+                            "type": "object"
+                        },
+                        "transfer_learning": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "meta_performance_learning": {
+                    "type": "object",
+                    "properties": {
+                        "self_monitoring_accuracy": {
+                            "type": "number"
+                        },
+                        "performance_prediction_accuracy": {
+                            "type": "number"
+                        },
+                        "strategy_effectiveness_awareness": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "adaptive_performance": {
+                    "type": "object",
+                    "properties": {
+                        "context_adaptation": {
+                            "type": "number"
+                        },
+                        "difficulty_adaptation": {
+                            "type": "number"
+                        },
+                        "strategy_adaptation": {
+                            "type": "number"
+                        }
+                    }
+                }
+            },
+            "description": "Performance learning analytics"
+        },
+        "integration_state": {
+            "type": "object",
+            "properties": {
+                "system_coordination": {
+                    "type": "object",
+                    "properties": {
+                        "executive_control_coordination": {
+                            "type": "object"
+                        },
+                        "attention_system_coordination": {
+                            "type": "object"
+                        },
+                        "memory_system_coordination": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "cross_system_metrics": {
+                    "type": "object",
+                    "properties": {
+                        "system_coherence": {
+                            "type": "number"
+                        },
+                        "integration_efficiency": {
+                            "type": "number"
+                        },
+                        "coordination_quality": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "holistic_performance": {
+                    "type": "object",
+                    "properties": {
+                        "overall_cognitive_performance": {
+                            "type": "number"
+                        },
+                        "system_level_optimization": {
+                            "type": "number"
+                        },
+                        "emergent_capabilities": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            },
+            "description": "Integration with other cognitive systems"
+        }
+    }
+}

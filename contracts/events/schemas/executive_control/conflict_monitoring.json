@@ -1,0 +1,374 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "$id": "conflict_monitoring.schema.json",
+    "title": "Conflict Monitoring Event",
+    "description": "Event for monitoring and resolving cognitive conflicts with anterior cingulate cortex modeling and system-wide coordination",
+    "type": "object",
+    "required": [
+        "timestamp",
+        "conflict_detection",
+        "conflict_resolution",
+        "monitoring_state",
+        "neural_circuits"
+    ],
+    "properties": {
+        "timestamp": {
+            "type": "string",
+            "format": "date-time"
+        },
+        "conflict_detection": {
+            "type": "object",
+            "required": [
+                "conflict_type",
+                "conflict_severity",
+                "detection_mechanisms"
+            ],
+            "properties": {
+                "conflict_type": {
+                    "type": "string",
+                    "enum": [
+                        "response_conflict",
+                        "information_conflict",
+                        "task_conflict",
+                        "goal_conflict",
+                        "value_conflict",
+                        "temporal_conflict"
+                    ]
+                },
+                "conflict_severity": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "conflict_duration": {
+                    "type": "number"
+                },
+                "conflict_frequency": {
+                    "type": "number"
+                },
+                "detection_mechanisms": {
+                    "type": "object",
+                    "properties": {
+                        "response_competition": {
+                            "type": "object",
+                            "properties": {
+                                "competing_responses": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "response_id": {
+                                                "type": "string"
+                                            },
+                                            "activation_strength": {
+                                                "type": "number"
+                                            },
+                                            "response_type": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                },
+                                "competition_strength": {
+                                    "type": "number"
+                                },
+                                "winner_margin": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "information_conflict": {
+                            "type": "object",
+                            "properties": {
+                                "conflicting_information": {
+                                    "type": "array"
+                                },
+                                "information_confidence": {
+                                    "type": "array"
+                                },
+                                "resolution_strategy": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "goal_competition": {
+                            "type": "object",
+                            "properties": {
+                                "competing_goals": {
+                                    "type": "array"
+                                },
+                                "goal_priorities": {
+                                    "type": "array"
+                                },
+                                "resource_conflicts": {
+                                    "type": "array"
+                                }
+                            }
+                        }
+                    }
+                },
+                "conflict_sources": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "source_system": {
+                                "type": "string"
+                            },
+                            "source_type": {
+                                "type": "string"
+                            },
+                            "contribution_weight": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "conflict_resolution": {
+            "type": "object",
+            "properties": {
+                "resolution_strategy": {
+                    "type": "string",
+                    "enum": [
+                        "inhibition",
+                        "biasing",
+                        "sequencing",
+                        "compromise",
+                        "escalation",
+                        "delegation"
+                    ]
+                },
+                "resolution_mechanisms": {
+                    "type": "object",
+                    "properties": {
+                        "cognitive_control_adjustment": {
+                            "type": "object",
+                            "properties": {
+                                "control_strength_increase": {
+                                    "type": "number"
+                                },
+                                "attention_focusing": {
+                                    "type": "number"
+                                },
+                                "interference_reduction": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "priority_reweighting": {
+                            "type": "object",
+                            "properties": {
+                                "goal_priority_adjustments": {
+                                    "type": "array"
+                                },
+                                "resource_reallocation": {
+                                    "type": "object"
+                                },
+                                "temporal_sequencing": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "inhibitory_control_engagement": {
+                            "type": "object",
+                            "properties": {
+                                "response_suppression": {
+                                    "type": "number"
+                                },
+                                "distractor_inhibition": {
+                                    "type": "number"
+                                },
+                                "interference_suppression": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                },
+                "resolution_outcome": {
+                    "type": "object",
+                    "properties": {
+                        "resolution_success": {
+                            "type": "boolean"
+                        },
+                        "resolution_time": {
+                            "type": "number"
+                        },
+                        "resolution_cost": {
+                            "type": "number"
+                        },
+                        "residual_conflict": {
+                            "type": "number"
+                        }
+                    }
+                }
+            }
+        },
+        "monitoring_state": {
+            "type": "object",
+            "properties": {
+                "performance_monitoring": {
+                    "type": "object",
+                    "properties": {
+                        "error_likelihood": {
+                            "type": "number"
+                        },
+                        "response_confidence": {
+                            "type": "number"
+                        },
+                        "performance_accuracy": {
+                            "type": "number"
+                        },
+                        "response_speed": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "meta_cognitive_awareness": {
+                    "type": "object",
+                    "properties": {
+                        "conflict_awareness": {
+                            "type": "number"
+                        },
+                        "control_necessity_judgment": {
+                            "type": "number"
+                        },
+                        "strategy_effectiveness_assessment": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "adaptive_control_state": {
+                    "type": "object",
+                    "properties": {
+                        "control_demand": {
+                            "type": "number"
+                        },
+                        "control_availability": {
+                            "type": "number"
+                        },
+                        "control_allocation": {
+                            "type": "object"
+                        },
+                        "learning_signals": {
+                            "type": "array"
+                        }
+                    }
+                }
+            }
+        },
+        "neural_circuits": {
+            "type": "object",
+            "properties": {
+                "anterior_cingulate_cortex": {
+                    "type": "object",
+                    "properties": {
+                        "conflict_detection_activation": {
+                            "type": "number"
+                        },
+                        "error_related_negativity": {
+                            "type": "number"
+                        },
+                        "feedback_related_negativity": {
+                            "type": "number"
+                        },
+                        "theta_oscillations": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "dorsolateral_prefrontal_cortex": {
+                    "type": "object",
+                    "properties": {
+                        "cognitive_control_implementation": {
+                            "type": "number"
+                        },
+                        "working_memory_control": {
+                            "type": "number"
+                        },
+                        "top_down_attention": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "medial_frontal_cortex": {
+                    "type": "object",
+                    "properties": {
+                        "performance_monitoring": {
+                            "type": "number"
+                        },
+                        "action_monitoring": {
+                            "type": "number"
+                        },
+                        "conflict_signaling": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "circuit_connectivity": {
+                    "type": "object",
+                    "properties": {
+                        "acc_dlpfc_coupling": {
+                            "type": "number"
+                        },
+                        "frontal_parietal_network": {
+                            "type": "number"
+                        },
+                        "cingulo_opercular_network": {
+                            "type": "number"
+                        }
+                    }
+                }
+            }
+        },
+        "system_wide_effects": {
+            "type": "object",
+            "properties": {
+                "attention_gate_adjustments": {
+                    "type": "object",
+                    "properties": {
+                        "gate_sensitivity_changes": {
+                            "type": "number"
+                        },
+                        "salience_threshold_adjustments": {
+                            "type": "number"
+                        },
+                        "interference_filtering_enhancement": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "working_memory_adaptations": {
+                    "type": "object",
+                    "properties": {
+                        "buffer_protection_strengthening": {
+                            "type": "number"
+                        },
+                        "updating_threshold_adjustments": {
+                            "type": "number"
+                        },
+                        "interference_resistance_enhancement": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "consciousness_system_impacts": {
+                    "type": "object",
+                    "properties": {
+                        "global_workspace_competition_modulation": {
+                            "type": "number"
+                        },
+                        "conscious_control_engagement": {
+                            "type": "number"
+                        },
+                        "meta_cognitive_awareness_enhancement": {
+                            "type": "number"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

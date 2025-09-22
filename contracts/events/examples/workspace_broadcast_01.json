@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.1.0",
+  "id": "e03a9ab8-3ae2-421b-93f1-3fb2d84279bc",
+  "ts": "2025-09-09T04:20:40Z",
+  "topic": "WORKSPACE_BROADCAST",
+  "band": "GREEN",
+  "actor": {
+    "user_id": "ccc25aa7-3ec4-4011-afcd-701136be3615",
+    "agent_id": "retriever.v1",
+    "caps": [
+      "RECALL"
+    ]
+  },
+  "device": {
+    "device_id": "srv-safety-01",
+    "platform": "windows",
+    "app_version": "1.7.1",
+    "locale": "en-US"
+  },
+  "space_id": "personal:048f86a7-7332-43a9-adc8-07e01dbad15a",
+  "policy_version": "1.3",
+  "abac": {
+    "role": "child",
+    "trust": "amber",
+    "geo_precision": "region"
+  },
+  "qos": {
+    "routing": "fast-path",
+    "priority": 7,
+    "latency_budget_ms": 123,
+    "retries": 1
+  },
+  "trace": {
+    "trace_id": "6607e95c1767e0a115f6456e36bd36c5",
+    "span_id": "4ac28fff9003095c",
+    "sampled": true
+  },
+  "obligations": [],
+  "redaction_applied": false,
+  "hashes": {
+    "payload_sha256": "c11da7aeb10db9214322574ca2f76f17409fadba56d903fe8cee872285342f19"
+  },
+  "payload": {
+    "note": "system-update",
+    "ts": "2025-09-09T04:20:40Z"
+  },
+  "signature": {
+    "alg": "ed25519",
+    "key_id": "key_workspace_broadcast_green_2024",
+    "public_key": "cHVibGlj",
+    "signature": "c2ln"
+  }
+}

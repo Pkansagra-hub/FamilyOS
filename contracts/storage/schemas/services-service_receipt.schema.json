@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "https://familyos.local/contracts/services/storage/service_receipt.schema.json",
+  "title": "Service Receipt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "ts", "service", "op", "payload_hash", "space_id"],
+  "properties": {
+    "id": { "type": "string" },
+    "ts": { "$ref": "../../events/schemas/_common.json#/definitions/ISOInstant" },
+    "service": { "type": "string" },
+    "op": { "type": "string", "enum": ["write.accepted","write.committed","index.started","index.completed"] },
+    "space_id": { "$ref": "../../events/schemas/_common.json#/definitions/SpaceRef" },
+    "payload_hash": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "obligations": { "type": "array", "items": { "type": "string" } },
+    "trace": { "$ref": "../../events/schemas/_common.json#/definitions/TraceContext" }
+  }
+}

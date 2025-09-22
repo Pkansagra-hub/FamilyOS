@@ -1,0 +1,14 @@
+current: 0.1.0
+history:
+  - version: 0.1.0
+    date: 2025-09-10
+    changes:
+      - "Initial core module contracts"
+      - "Core schemas and API definitions"
+    breaking_changes: []
+    migration_notes: "First release - no migration needed"
+
+versioning:
+  scheme: semver
+  deprecation_window: 90d
+  support_policy: "Last 2 major versions supported"

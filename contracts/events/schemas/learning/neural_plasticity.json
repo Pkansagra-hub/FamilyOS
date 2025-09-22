@@ -1,0 +1,692 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "$id": "neural_plasticity.event.json",
+    "title": "Neural Plasticity Event",
+    "description": "Event schema for neural plasticity mechanisms including synaptic plasticity, structural plasticity, and homeostatic plasticity based on cellular and molecular mechanisms",
+    "type": "object",
+    "required": [
+        "event_id",
+        "timestamp",
+        "plasticity_context",
+        "synaptic_plasticity",
+        "structural_plasticity",
+        "molecular_mechanisms"
+    ],
+    "properties": {
+        "event_id": {
+            "type": "string",
+            "description": "Unique identifier for this neural plasticity event"
+        },
+        "timestamp": {
+            "type": "string",
+            "format": "date-time"
+        },
+        "plasticity_context": {
+            "type": "object",
+            "properties": {
+                "plasticity_trigger": {
+                    "type": "string",
+                    "enum": [
+                        "learning",
+                        "experience",
+                        "injury",
+                        "development",
+                        "aging",
+                        "pharmacological"
+                    ]
+                },
+                "temporal_scale": {
+                    "type": "string",
+                    "enum": [
+                        "milliseconds",
+                        "seconds",
+                        "minutes",
+                        "hours",
+                        "days",
+                        "weeks",
+                        "months"
+                    ]
+                },
+                "spatial_scale": {
+                    "type": "string",
+                    "enum": [
+                        "molecular",
+                        "synaptic",
+                        "dendritic",
+                        "cellular",
+                        "circuit",
+                        "network",
+                        "system"
+                    ]
+                },
+                "plasticity_direction": {
+                    "type": "string",
+                    "enum": [
+                        "potentiation",
+                        "depression",
+                        "bidirectional",
+                        "homeostatic"
+                    ]
+                }
+            }
+        },
+        "synaptic_plasticity": {
+            "type": "object",
+            "properties": {
+                "long_term_potentiation_ltp": {
+                    "type": "object",
+                    "properties": {
+                        "nmda_receptor_dependent_ltp": {
+                            "type": "object",
+                            "properties": {
+                                "calcium_influx": {
+                                    "type": "object"
+                                },
+                                "camkii_activation": {
+                                    "type": "object"
+                                },
+                                "ampa_receptor_trafficking": {
+                                    "type": "object"
+                                },
+                                "synaptic_strength_increase": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "nmda_receptor_independent_ltp": {
+                            "type": "object",
+                            "properties": {
+                                "mglur_dependent_ltp": {
+                                    "type": "object"
+                                },
+                                "protein_kinase_a_activation": {
+                                    "type": "object"
+                                },
+                                "presynaptic_mechanisms": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "late_phase_ltp": {
+                            "type": "object",
+                            "properties": {
+                                "protein_synthesis_requirement": {
+                                    "type": "object"
+                                },
+                                "creb_activation": {
+                                    "type": "object"
+                                },
+                                "structural_changes": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "long_term_depression_ltd": {
+                    "type": "object",
+                    "properties": {
+                        "homosynaptic_ltd": {
+                            "type": "object",
+                            "properties": {
+                                "low_frequency_stimulation_ltd": {
+                                    "type": "object"
+                                },
+                                "nmda_receptor_dependent_ltd": {
+                                    "type": "object"
+                                },
+                                "calcium_dependent_mechanisms": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "heterosynaptic_ltd": {
+                            "type": "object",
+                            "properties": {
+                                "associative_ltd": {
+                                    "type": "object"
+                                },
+                                "depotentiation": {
+                                    "type": "object"
+                                },
+                                "competitive_mechanisms": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "cerebellar_ltd": {
+                            "type": "object",
+                            "properties": {
+                                "purkinje_cell_ltd": {
+                                    "type": "object"
+                                },
+                                "climbing_fiber_parallel_fiber_interaction": {
+                                    "type": "object"
+                                },
+                                "motor_learning_mechanisms": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "short_term_plasticity": {
+                    "type": "object",
+                    "properties": {
+                        "paired_pulse_facilitation": {
+                            "type": "object",
+                            "properties": {
+                                "calcium_dependent_facilitation": {
+                                    "type": "object"
+                                },
+                                "presynaptic_mechanisms": {
+                                    "type": "object"
+                                },
+                                "temporal_dynamics": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "paired_pulse_depression": {
+                            "type": "object",
+                            "properties": {
+                                "vesicle_depletion": {
+                                    "type": "object"
+                                },
+                                "release_probability_reduction": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "frequency_dependent_plasticity": {
+                            "type": "object",
+                            "properties": {
+                                "post_tetanic_potentiation": {
+                                    "type": "object"
+                                },
+                                "augmentation": {
+                                    "type": "object"
+                                },
+                                "facilitation": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "metaplasticity": {
+                    "type": "object",
+                    "properties": {
+                        "plasticity_threshold_modification": {
+                            "type": "object",
+                            "properties": {
+                                "bcm_rule_dynamics": {
+                                    "type": "object"
+                                },
+                                "sliding_threshold": {
+                                    "type": "object"
+                                },
+                                "homeostatic_scaling": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "priming_effects": {
+                            "type": "object",
+                            "properties": {
+                                "plasticity_priming": {
+                                    "type": "object"
+                                },
+                                "cross_modal_priming": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "structural_plasticity": {
+            "type": "object",
+            "properties": {
+                "dendritic_plasticity": {
+                    "type": "object",
+                    "properties": {
+                        "dendritic_spine_changes": {
+                            "type": "object",
+                            "properties": {
+                                "spine_formation": {
+                                    "type": "object"
+                                },
+                                "spine_elimination": {
+                                    "type": "object"
+                                },
+                                "spine_morphology_changes": {
+                                    "type": "object"
+                                },
+                                "spine_turnover_dynamics": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "dendritic_branch_remodeling": {
+                            "type": "object",
+                            "properties": {
+                                "branch_extension": {
+                                    "type": "object"
+                                },
+                                "branch_retraction": {
+                                    "type": "object"
+                                },
+                                "branching_complexity_changes": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "dendritic_length_changes": {
+                            "type": "object",
+                            "properties": {
+                                "total_dendritic_length": {
+                                    "type": "object"
+                                },
+                                "apical_vs_basal_changes": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "axonal_plasticity": {
+                    "type": "object",
+                    "properties": {
+                        "axonal_sprouting": {
+                            "type": "object",
+                            "properties": {
+                                "collateral_sprouting": {
+                                    "type": "object"
+                                },
+                                "terminal_sprouting": {
+                                    "type": "object"
+                                },
+                                "regenerative_sprouting": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "axonal_pruning": {
+                            "type": "object",
+                            "properties": {
+                                "developmental_pruning": {
+                                    "type": "object"
+                                },
+                                "activity_dependent_pruning": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "myelination_changes": {
+                            "type": "object",
+                            "properties": {
+                                "adaptive_myelination": {
+                                    "type": "object"
+                                },
+                                "myelin_thickness_changes": {
+                                    "type": "object"
+                                },
+                                "conduction_velocity_optimization": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "synaptic_structural_changes": {
+                    "type": "object",
+                    "properties": {
+                        "presynaptic_changes": {
+                            "type": "object",
+                            "properties": {
+                                "active_zone_remodeling": {
+                                    "type": "object"
+                                },
+                                "vesicle_pool_changes": {
+                                    "type": "object"
+                                },
+                                "bouton_size_changes": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "postsynaptic_changes": {
+                            "type": "object",
+                            "properties": {
+                                "postsynaptic_density_changes": {
+                                    "type": "object"
+                                },
+                                "receptor_clustering": {
+                                    "type": "object"
+                                },
+                                "scaffolding_protein_organization": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "synapse_formation_elimination": {
+                            "type": "object",
+                            "properties": {
+                                "synaptogenesis": {
+                                    "type": "object"
+                                },
+                                "synaptic_pruning": {
+                                    "type": "object"
+                                },
+                                "synapse_turnover": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "molecular_mechanisms": {
+            "type": "object",
+            "properties": {
+                "protein_synthesis_dependent_plasticity": {
+                    "type": "object",
+                    "properties": {
+                        "translation_regulation": {
+                            "type": "object",
+                            "properties": {
+                                "mtor_pathway_activation": {
+                                    "type": "object"
+                                },
+                                "local_protein_synthesis": {
+                                    "type": "object"
+                                },
+                                "ribosomal_protein_regulation": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "transcription_regulation": {
+                            "type": "object",
+                            "properties": {
+                                "immediate_early_gene_expression": {
+                                    "type": "object"
+                                },
+                                "creb_mediated_transcription": {
+                                    "type": "object"
+                                },
+                                "epigenetic_modifications": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "calcium_signaling": {
+                    "type": "object",
+                    "properties": {
+                        "calcium_sources": {
+                            "type": "object",
+                            "properties": {
+                                "nmda_receptor_calcium": {
+                                    "type": "object"
+                                },
+                                "voltage_gated_calcium_channels": {
+                                    "type": "object"
+                                },
+                                "internal_calcium_stores": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "calcium_dependent_signaling": {
+                            "type": "object",
+                            "properties": {
+                                "camkii_signaling": {
+                                    "type": "object"
+                                },
+                                "calcineurin_signaling": {
+                                    "type": "object"
+                                },
+                                "calcium_binding_proteins": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "neurotransmitter_system_plasticity": {
+                    "type": "object",
+                    "properties": {
+                        "glutamatergic_plasticity": {
+                            "type": "object",
+                            "properties": {
+                                "ampa_receptor_trafficking": {
+                                    "type": "object"
+                                },
+                                "nmda_receptor_modulation": {
+                                    "type": "object"
+                                },
+                                "glutamate_spillover": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "gabaergic_plasticity": {
+                            "type": "object",
+                            "properties": {
+                                "inhibitory_plasticity": {
+                                    "type": "object"
+                                },
+                                "gaba_receptor_plasticity": {
+                                    "type": "object"
+                                },
+                                "interneuron_plasticity": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "neuromodulator_plasticity": {
+                            "type": "object",
+                            "properties": {
+                                "dopaminergic_plasticity": {
+                                    "type": "object"
+                                },
+                                "cholinergic_plasticity": {
+                                    "type": "object"
+                                },
+                                "noradrenergic_plasticity": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "homeostatic_plasticity": {
+            "type": "object",
+            "properties": {
+                "synaptic_scaling": {
+                    "type": "object",
+                    "properties": {
+                        "multiplicative_scaling": {
+                            "type": "object",
+                            "properties": {
+                                "global_scaling_factor": {
+                                    "type": "number"
+                                },
+                                "uniform_synaptic_adjustment": {
+                                    "type": "object"
+                                },
+                                "activity_dependent_scaling": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "additive_scaling": {
+                            "type": "object",
+                            "properties": {
+                                "selective_synapse_modification": {
+                                    "type": "object"
+                                },
+                                "input_specific_scaling": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "intrinsic_excitability_changes": {
+                    "type": "object",
+                    "properties": {
+                        "ion_channel_regulation": {
+                            "type": "object",
+                            "properties": {
+                                "potassium_channel_modulation": {
+                                    "type": "object"
+                                },
+                                "sodium_channel_modulation": {
+                                    "type": "object"
+                                },
+                                "calcium_channel_modulation": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "firing_threshold_adjustment": {
+                            "type": "object",
+                            "properties": {
+                                "threshold_lowering": {
+                                    "type": "object"
+                                },
+                                "threshold_raising": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "inhibitory_homeostasis": {
+                    "type": "object",
+                    "properties": {
+                        "excitation_inhibition_balance": {
+                            "type": "object",
+                            "properties": {
+                                "inhibitory_strength_adjustment": {
+                                    "type": "object"
+                                },
+                                "interneuron_recruitment": {
+                                    "type": "object"
+                                },
+                                "gaba_system_regulation": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "plasticity_outcomes": {
+            "type": "object",
+            "properties": {
+                "functional_changes": {
+                    "type": "object",
+                    "properties": {
+                        "synaptic_efficacy_changes": {
+                            "type": "object"
+                        },
+                        "network_connectivity_changes": {
+                            "type": "object"
+                        },
+                        "computational_capacity_changes": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "behavioral_consequences": {
+                    "type": "object",
+                    "properties": {
+                        "learning_improvements": {
+                            "type": "object"
+                        },
+                        "memory_enhancements": {
+                            "type": "object"
+                        },
+                        "skill_acquisition_changes": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "adaptive_significance": {
+                    "type": "object",
+                    "properties": {
+                        "environmental_adaptation": {
+                            "type": "object"
+                        },
+                        "compensatory_mechanisms": {
+                            "type": "object"
+                        },
+                        "developmental_optimization": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "system_integration": {
+            "type": "object",
+            "properties": {
+                "cross_system_plasticity": {
+                    "type": "object",
+                    "properties": {
+                        "memory_plasticity_integration": {
+                            "type": "object"
+                        },
+                        "motor_plasticity_integration": {
+                            "type": "object"
+                        },
+                        "sensory_plasticity_integration": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "network_level_effects": {
+                    "type": "object",
+                    "properties": {
+                        "local_circuit_modifications": {
+                            "type": "object"
+                        },
+                        "long_range_connectivity_changes": {
+                            "type": "object"
+                        },
+                        "global_network_reorganization": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "metadata": {
+            "type": "object",
+            "properties": {
+                "plasticity_duration": {
+                    "type": "number"
+                },
+                "plasticity_magnitude": {
+                    "type": "number"
+                },
+                "molecular_resource_utilization": {
+                    "type": "object"
+                },
+                "plasticity_success_level": {
+                    "type": "number"
+                }
+            }
+        }
+    }
+}

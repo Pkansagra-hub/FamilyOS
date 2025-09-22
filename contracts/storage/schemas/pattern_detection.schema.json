@@ -1,0 +1,37 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://familyos.local/contracts/storage/pattern_detection.schema.json",
+  "title": "Pattern Detection",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "space_id",
+    "ts",
+    "pattern",
+    "score"
+  ],
+  "properties": {
+    "id": {
+      "$ref": "./common.schema.json#/$defs/ULID"
+    },
+    "space_id": {
+      "$ref": "./common.schema.json#/$defs/SpaceId"
+    },
+    "ts": {
+      "$ref": "./common.schema.json#/$defs/Timestamp"
+    },
+    "pattern": {
+      "type": "string"
+    },
+    "score": {
+      "type": "number"
+    },
+    "evidence": {
+      "type": "array",
+      "items": {
+        "$ref": "./common.schema.json#/$defs/ULID"
+      }
+    }
+  }
+}

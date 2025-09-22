@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://familyos.local/contracts/storage/crdt.schema.json",
+  "title": "CRDT Storage Contract",
+  "description": "Conflict-free replicated data type storage operations and synchronization.",
+  "type": "object",
+  "additionalProperties": false,
+
+  "definitions": {
+    "CRDTOperation": {
+      "type": "object",
+      "required": ["op_type", "timestamp", "actor_id", "data"],
+      "additionalProperties": false,
+      "properties": {
+        "op_type": {
+          "type": "string",
+          "enum": ["insert", "update", "delete", "tombstone"]
+        },
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "actor_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "vector_clock": {
+          "type": "object",
+          "additionalProperties": { "type": "integer", "minimum": 0 }
+        },
+        "data": {
+          "type": "object"
+        },
+        "causality": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      }
+    },
+
+    "SyncRequest": {
+      "type": "object",
+      "required": ["peer_id", "since_vector", "space_id"],
+      "additionalProperties": false,
+      "properties": {
+        "peer_id": { "type": "string", "format": "uuid" },
+        "since_vector": {
+          "type": "object",
+          "additionalProperties": { "type": "integer", "minimum": 0 }
+        },
+        "space_id": {
+          "type": "string",
+          "pattern": "^(personal|selective|shared|extended|interfamily):"
+        },
+        "max_operations": { "type": "integer", "minimum": 1, "maximum": 1000 }
+      }
+    },
+
+    "SyncResponse": {
+      "type": "object",
+      "required": ["operations", "vector_clock", "has_more"],
+      "additionalProperties": false,
+      "properties": {
+        "operations": {
+          "type": "array",
+          "items": { "$ref": "#/definitions/CRDTOperation" }
+        },
+        "vector_clock": {
+          "type": "object",
+          "additionalProperties": { "type": "integer", "minimum": 0 }
+        },
+        "has_more": { "type": "boolean" },
+        "next_token": { "type": "string" }
+      }
+    }
+  }
+}

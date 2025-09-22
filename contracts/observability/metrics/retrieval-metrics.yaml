@@ -1,0 +1,54 @@
+metrics:
+  - name: retrieval_e2e_latency_ms
+    type: histogram
+    unit: ms
+    labels: [space_id, query_type, cache_hit]
+    cardinality_notes: "space_id bounded; no raw query_text"
+    buckets_ms: [10, 25, 50, 100, 200, 500, 1000, 2000]
+  - name: retrieval_cache_hit_ratio
+    type: gauge
+    unit: "ratio"
+    labels: [space_id, query_type]
+    description: "Cache hit ratio per space and query type"
+  - name: retrieval_cache_size_mb
+    type: gauge
+    unit: "MB"
+    labels: [space_id]
+    description: "Current cache size in megabytes"
+  - name: retrieval_requests_total
+    type: counter
+    unit: "requests"
+    labels: [space_id, query_type, band, result_source]
+    description: "Total number of recall requests"
+  - name: retrieval_errors_total
+    type: counter
+    unit: "errors"
+    labels: [space_id, error_type, band]
+    description: "Total number of retrieval errors"
+  - name: retrieval_results_count
+    type: histogram
+    unit: "count"
+    labels: [query_type, source]
+    buckets: [0, 1, 5, 10, 20, 50, 100, 200]
+    description: "Number of results returned per query"
+  - name: retrieval_processing_time_ms
+    type: histogram
+    unit: ms
+    labels: [query_type, source]
+    buckets_ms: [5, 10, 25, 50, 100, 250, 500]
+    description: "Time spent processing query by source"
+  - name: retrieval_cache_operations_total
+    type: counter
+    unit: "operations"
+    labels: [operation, space_id]
+    description: "Cache operations (hit, miss, store, evict)"
+slos:
+  availability: ">= 99.9%"
+  p95_latency_ms: 120
+  p99_latency_ms: 250
+  cache_hit_ratio: ">= 0.7"
+  error_rate: "< 0.01"
+cardinality_limits:
+  max_spaces: 1000
+  max_query_types: 10
+  exclude_high_cardinality: ["raw_query", "snippet", "correlation_id"]

@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://familyos.local/contracts/storage/reward_event.schema.json",
+  "title": "Reward Event",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "ts",
+    "space_id",
+    "signal"
+  ],
+  "properties": {
+    "id": {
+      "$ref": "./common.schema.json#/$defs/ULID"
+    },
+    "ts": {
+      "$ref": "./common.schema.json#/$defs/Timestamp"
+    },
+    "space_id": {
+      "$ref": "./common.schema.json#/$defs/SpaceId"
+    },
+    "signal": {
+      "type": "number",
+      "minimum": -1,
+      "maximum": 1
+    },
+    "source": {
+      "type": "string",
+      "enum": [
+        "policy",
+        "outcome",
+        "user"
+      ]
+    },
+    "notes": {
+      "type": "string"
+    }
+  }
+}

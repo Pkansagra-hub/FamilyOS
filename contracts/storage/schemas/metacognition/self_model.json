@@ -1,0 +1,437 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "$id": "self_model.schema.json",
+    "title": "Self-Model Storage",
+    "description": "Storage schema for comprehensive self-model including cognitive, emotional, behavioral, and social self-representations",
+    "type": "object",
+    "required": [
+        "model_id",
+        "timestamp",
+        "cognitive_self_model",
+        "behavioral_self_model",
+        "social_self_model",
+        "temporal_self_model"
+    ],
+    "properties": {
+        "model_id": {
+            "type": "string",
+            "description": "Unique identifier for this self-model instance"
+        },
+        "timestamp": {
+            "type": "string",
+            "format": "date-time"
+        },
+        "cognitive_self_model": {
+            "type": "object",
+            "properties": {
+                "intellectual_self_concept": {
+                    "type": "object",
+                    "properties": {
+                        "intelligence_self_rating": {
+                            "type": "number"
+                        },
+                        "cognitive_strengths_inventory": {
+                            "type": "array"
+                        },
+                        "learning_capacity_assessment": {
+                            "type": "object"
+                        },
+                        "creative_potential_belief": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "cognitive_identity": {
+                    "type": "object",
+                    "properties": {
+                        "thinking_style_identity": {
+                            "type": "string"
+                        },
+                        "preferred_reasoning_modes": {
+                            "type": "array"
+                        },
+                        "cognitive_personality_traits": {
+                            "type": "object"
+                        },
+                        "intellectual_interests": {
+                            "type": "array"
+                        }
+                    }
+                },
+                "metacognitive_self_awareness": {
+                    "type": "object",
+                    "properties": {
+                        "self_monitoring_capability": {
+                            "type": "number"
+                        },
+                        "strategy_awareness_level": {
+                            "type": "number"
+                        },
+                        "cognitive_bias_awareness": {
+                            "type": "array"
+                        },
+                        "learning_style_understanding": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "behavioral_self_model": {
+            "type": "object",
+            "properties": {
+                "behavioral_tendencies": {
+                    "type": "object",
+                    "properties": {
+                        "typical_behavior_patterns": {
+                            "type": "array"
+                        },
+                        "decision_making_style": {
+                            "type": "string"
+                        },
+                        "response_patterns": {
+                            "type": "object"
+                        },
+                        "behavioral_consistency_level": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "action_self_efficacy": {
+                    "type": "object",
+                    "properties": {
+                        "goal_achievement_confidence": {
+                            "type": "number"
+                        },
+                        "problem_solving_confidence": {
+                            "type": "number"
+                        },
+                        "adaptation_capability_belief": {
+                            "type": "number"
+                        },
+                        "resilience_self_assessment": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "moral_self_concept": {
+                    "type": "object",
+                    "properties": {
+                        "moral_identity_strength": {
+                            "type": "number"
+                        },
+                        "ethical_principles": {
+                            "type": "array"
+                        },
+                        "moral_consistency_commitment": {
+                            "type": "number"
+                        },
+                        "value_behavior_alignment": {
+                            "type": "number"
+                        }
+                    }
+                }
+            }
+        },
+        "social_self_model": {
+            "type": "object",
+            "properties": {
+                "social_identity": {
+                    "type": "object",
+                    "properties": {
+                        "role_identities": {
+                            "type": "array"
+                        },
+                        "group_memberships": {
+                            "type": "array"
+                        },
+                        "social_position_awareness": {
+                            "type": "object"
+                        },
+                        "interpersonal_style": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "social_competence_beliefs": {
+                    "type": "object",
+                    "properties": {
+                        "communication_skill_assessment": {
+                            "type": "number"
+                        },
+                        "empathy_capability_belief": {
+                            "type": "number"
+                        },
+                        "social_influence_awareness": {
+                            "type": "number"
+                        },
+                        "collaboration_effectiveness": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "relationship_patterns": {
+                    "type": "object",
+                    "properties": {
+                        "attachment_style": {
+                            "type": "string"
+                        },
+                        "relationship_maintenance_patterns": {
+                            "type": "array"
+                        },
+                        "conflict_resolution_approach": {
+                            "type": "string"
+                        },
+                        "trust_disposition": {
+                            "type": "number"
+                        }
+                    }
+                }
+            }
+        },
+        "temporal_self_model": {
+            "type": "object",
+            "properties": {
+                "past_self_representation": {
+                    "type": "object",
+                    "properties": {
+                        "autobiographical_narrative": {
+                            "type": "object"
+                        },
+                        "personal_growth_trajectory": {
+                            "type": "array"
+                        },
+                        "significant_life_events": {
+                            "type": "array"
+                        },
+                        "identity_development_milestones": {
+                            "type": "array"
+                        }
+                    }
+                },
+                "present_self_representation": {
+                    "type": "object",
+                    "properties": {
+                        "current_identity_state": {
+                            "type": "object"
+                        },
+                        "active_roles_and_goals": {
+                            "type": "array"
+                        },
+                        "present_capabilities": {
+                            "type": "object"
+                        },
+                        "current_challenges": {
+                            "type": "array"
+                        }
+                    }
+                },
+                "future_self_representation": {
+                    "type": "object",
+                    "properties": {
+                        "aspirational_identity": {
+                            "type": "object"
+                        },
+                        "future_goals_and_plans": {
+                            "type": "array"
+                        },
+                        "anticipated_development": {
+                            "type": "object"
+                        },
+                        "feared_future_selves": {
+                            "type": "array"
+                        }
+                    }
+                },
+                "temporal_continuity": {
+                    "type": "object",
+                    "properties": {
+                        "identity_consistency_across_time": {
+                            "type": "number"
+                        },
+                        "narrative_coherence": {
+                            "type": "number"
+                        },
+                        "temporal_perspective_integration": {
+                            "type": "number"
+                        }
+                    }
+                }
+            }
+        },
+        "self_concept_dimensions": {
+            "type": "object",
+            "properties": {
+                "self_esteem_components": {
+                    "type": "object",
+                    "properties": {
+                        "global_self_worth": {
+                            "type": "number"
+                        },
+                        "competence_based_self_esteem": {
+                            "type": "number"
+                        },
+                        "worthiness_based_self_esteem": {
+                            "type": "number"
+                        },
+                        "conditional_vs_unconditional_self_worth": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "self_concept_clarity": {
+                    "type": "object",
+                    "properties": {
+                        "self_knowledge_confidence": {
+                            "type": "number"
+                        },
+                        "internal_consistency": {
+                            "type": "number"
+                        },
+                        "temporal_stability": {
+                            "type": "number"
+                        },
+                        "self_definition_clarity": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "self_complexity": {
+                    "type": "object",
+                    "properties": {
+                        "number_of_self_aspects": {
+                            "type": "number"
+                        },
+                        "differentiation_between_aspects": {
+                            "type": "number"
+                        },
+                        "integration_of_aspects": {
+                            "type": "number"
+                        }
+                    }
+                }
+            }
+        },
+        "self_regulatory_model": {
+            "type": "object",
+            "properties": {
+                "self_control_beliefs": {
+                    "type": "object",
+                    "properties": {
+                        "willpower_theory": {
+                            "type": "string"
+                        },
+                        "self_control_capacity": {
+                            "type": "number"
+                        },
+                        "ego_depletion_susceptibility": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "goal_regulation_patterns": {
+                    "type": "object",
+                    "properties": {
+                        "goal_commitment_strategies": {
+                            "type": "array"
+                        },
+                        "progress_monitoring_habits": {
+                            "type": "array"
+                        },
+                        "self_reward_systems": {
+                            "type": "array"
+                        }
+                    }
+                },
+                "emotional_regulation_model": {
+                    "type": "object",
+                    "properties": {
+                        "emotion_regulation_strategies": {
+                            "type": "array"
+                        },
+                        "emotional_intelligence_self_assessment": {
+                            "type": "object"
+                        },
+                        "stress_coping_mechanisms": {
+                            "type": "array"
+                        }
+                    }
+                }
+            }
+        },
+        "self_model_accuracy": {
+            "type": "object",
+            "properties": {
+                "self_insight_level": {
+                    "type": "number"
+                },
+                "blind_spot_awareness": {
+                    "type": "array"
+                },
+                "self_deception_indicators": {
+                    "type": "array"
+                },
+                "external_validation_integration": {
+                    "type": "number"
+                }
+            }
+        },
+        "model_updating_mechanisms": {
+            "type": "object",
+            "properties": {
+                "self_reflection_triggers": {
+                    "type": "array"
+                },
+                "feedback_integration_processes": {
+                    "type": "array"
+                },
+                "model_revision_criteria": {
+                    "type": "object"
+                },
+                "update_frequency_patterns": {
+                    "type": "object"
+                }
+            }
+        },
+        "validation_and_verification": {
+            "type": "object",
+            "properties": {
+                "last_validation_timestamp": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "validation_methods_used": {
+                    "type": "array"
+                },
+                "accuracy_assessment": {
+                    "type": "number"
+                },
+                "consistency_checks": {
+                    "type": "object"
+                }
+            }
+        },
+        "metadata": {
+            "type": "object",
+            "properties": {
+                "model_version": {
+                    "type": "string"
+                },
+                "creation_timestamp": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "last_major_revision": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "model_completeness_score": {
+                    "type": "number"
+                },
+                "confidence_in_model": {
+                    "type": "number"
+                }
+            }
+        }
+    }
+}

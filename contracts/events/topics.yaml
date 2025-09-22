@@ -1,0 +1,174 @@
+version: "1.0.0"
+strategy: semver
+topics:
+  - name: "SENSORY_FRAME@1.0"
+    description: "Raw sensory input from perception layer"
+    pipelines: ["P01", "P09"]
+    schema_ref: "contracts/events/schemas/sensory_frame.schema.json"
+    retention: "P7D"
+    canary: false
+
+  - name: "WORKSPACE_BROADCAST@1.0"
+    description: "Global workspace state broadcast"
+    pipelines: ["P01", "P04"]
+    schema_ref: "contracts/events/schemas/workspace_broadcast.schema.json"
+    retention: "P1D"
+    canary: false
+
+  - name: "HIPPO_ENCODE@1.0"
+    description: "Hippocampus encoding request"
+    pipelines: ["P02", "P08"]
+    schema_ref: "contracts/events/schemas/hippo_encode.schema.json"
+    retention: "P30D"
+    canary: false
+
+  - name: "ACTION_DECISION@1.0"
+    description: "Arbitration action decision"
+    pipelines: ["P04"]
+    schema_ref: "contracts/events/schemas/action_decision.schema.json"
+    retention: "P90D"
+    obligations: ["AUDIT_ACCESS"]
+    canary: true
+
+  - name: "ACTION_EXECUTED@1.0"
+    description: "Action execution completion"
+    pipelines: ["P04", "P06"]
+    schema_ref: "contracts/events/schemas/action_executed.schema.json"
+    retention: "P365D"
+    obligations: ["AUDIT_ACCESS", "SYNC_REQUIRED"]
+    canary: false
+
+  - name: "PROSPECTIVE_SCHEDULE@1.0"
+    description: "Prospective memory scheduling"
+    pipelines: ["P05"]
+    schema_ref: "contracts/events/schemas/prospective_schedule.schema.json"
+    retention: "P365D"
+    canary: false
+
+  - name: "LEARNING_TICK@1.0"
+    description: "Learning algorithm update"
+    pipelines: ["P06"]
+    schema_ref: "contracts/events/schemas/learning_tick.schema.json"
+    retention: "P30D"
+    canary: false
+
+  - name: "TOMBSTONE_PROPAGATE@1.0"
+    description: "Privacy tombstone propagation"
+    pipelines: ["P07", "P11"]
+    schema_ref: "contracts/events/schemas/tombstone_propagate.schema.json"
+    retention: "P9999D"
+    obligations: ["SYNC_REQUIRED"]
+    canary: false
+
+  - name: "DSAR_EXPORT@1.0"
+    description: "Data subject access request export"
+    pipelines: ["P11"]
+    schema_ref: "contracts/events/schemas/dsar_export.schema.json"
+    retention: "P2555D"
+    obligations: ["REDACT_PII", "AUDIT_ACCESS"]
+    canary: false
+
+  - name: "ML_RUN_EVENT@1.0"
+    description: "ML training/evaluation run"
+    pipelines: ["P16"]
+    schema_ref: "contracts/events/schemas/ml_run_event.schema.json"
+    retention: "P90D"
+    canary: true
+
+  # ------------------------------------------------------------------
+  # NEW TOPICS (added for UI ticks, IoT twins, presence, safety, etc.)
+  # ------------------------------------------------------------------
+
+  - name: "JOB_STATUS_CHANGED@1.0"
+    description: "Status/progress updates for long-running jobs (DSAR, index rebuild, actions, ML runs)"
+    pipelines: ["P11", "P13", "P04"]
+    schema_ref: "contracts/events/schemas/job_status_changed.schema.json"
+    retention: "P7D"
+    canary: false
+
+  - name: "MEMORY_RECEIPT_CREATED@1.0"
+    description: "Write receipt created after durable commit across stores"
+    pipelines: ["P02"]
+    schema_ref: "contracts/events/schemas/memory_receipt_created.schema.json"
+    retention: "P30D"
+    obligations: ["AUDIT_ACCESS"]
+    canary: false
+
+  - name: "INTEGRATION_THING_CHANGED@1.0"
+    description: "Digital twin (device/service) state change from integrations layer"
+    pipelines: ["P09"]
+    schema_ref: "contracts/events/schemas/integration_thing_changed.schema.json"
+    retention: "P30D"
+    canary: false
+
+  - name: "PRESENCE_DEVICE_CHANGED@1.0"
+    description: "Device/app presence and focus changes"
+    pipelines: ["P07", "P19"]
+    schema_ref: "contracts/events/schemas/presence_device_changed.schema.json"
+    retention: "P7D"
+    canary: false
+
+  - name: "SAFETY_BAND_CHANGED@1.0"
+    description: "Policy band transition for a space/context (e.g., GREEN→AMBER)"
+    pipelines: ["P18"]
+    schema_ref: "contracts/events/schemas/safety_band_changed.schema.json"
+    retention: "P365D"
+    obligations: ["AUDIT_ACCESS"]
+    canary: true
+
+  - name: "PROSPECTIVE_REMIND_TICK@1.0"
+    description: "Reminder occurrence tick (T-15 / T / T+5) separate from schedule creation"
+    pipelines: ["P05"]
+    schema_ref: "contracts/events/schemas/prospective_remind_tick.schema.json"
+    retention: "P30D"
+    canary: false
+
+  - name: "REINDEX_REQUEST@1.0"
+    description: "Explicit reindex request event"
+    pipelines: ["P13"]
+    schema_ref: "contracts/events/schemas/reindex_request.schema.json"
+    retention: "P90D"
+    canary: true
+
+  # ------------------------------------------------------------------
+  # USER MANAGEMENT EVENTS - User creation and management workflow
+  # ------------------------------------------------------------------
+
+  - name: "USER_CREATED@1.0"
+    description: "User account successfully created - triggers pipeline coordination"
+    pipelines: ["P10", "P12", "P16", "P17", "P18", "P19"]
+    schema_ref: "contracts/events/schemas/user_created.schema.json"
+    retention: "P365D"
+    obligations: ["AUDIT_ACCESS", "SYNC_REQUIRED"]
+    canary: false
+    pipeline_roles:
+      P10: "PII/Minimization - store minimal attributes, consent receipts"
+      P12: "Device/E2EE - create keys/MLS groups, device binding"
+      P16: "Feature Flags - assign entitlements/experiment buckets"
+      P17: "QoS/Cost - allocate quotas/plan"
+      P18: "Safety/Abuse - baseline security checks"
+      P19: "Personalization - initialize empty profile, default preferences"
+
+  - name: "USER_ROLE_ASSIGNED@1.0"
+    description: "Role assigned to user with scope and capabilities"
+    pipelines: ["P16", "P18"]
+    schema_ref: "contracts/events/schemas/user_role_assigned.schema.json"
+    retention: "P365D"
+    obligations: ["AUDIT_ACCESS"]
+    canary: false
+
+  - name: "USER_SPACE_ACCESS_GRANTED@1.0"
+    description: "User granted access to memory space with permissions"
+    pipelines: ["P16", "P18"]
+    schema_ref: "contracts/events/schemas/user_space_access_granted.schema.json"
+    retention: "P365D"
+    obligations: ["AUDIT_ACCESS"]
+    canary: false
+
+  - name: "USER_STATUS_CHANGED@1.0"
+    description: "User account status changed (activation, suspension, etc.)"
+    pipelines: ["P16", "P18"]
+    schema_ref: "contracts/events/schemas/user_status_changed.schema.json"
+    retention: "P365D"
+    obligations: ["AUDIT_ACCESS", "SYNC_REQUIRED"]
+    canary: true

@@ -1,0 +1,4 @@
+- Create schedule → expect `PROSPECTIVE_SCHEDULE`.
+- Tick ordering monotonic per id.
+- Ack transitions state.
+- Idempotent create with same id returns 200/201 without duplicates.

@@ -1,0 +1,887 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://familyos.local/contracts/storage/schemas/working_memory/learning_state.schema.json",
+    "title": "Working Memory Learning State Schema",
+    "description": "Schema for persistent storage of working memory learning and adaptation state",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "learning_id",
+        "timestamp",
+        "skill_development",
+        "adaptation_state",
+        "knowledge_base"
+    ],
+    "properties": {
+        "learning_id": {
+            "type": "string",
+            "description": "Unique identifier for learning state instance"
+        },
+        "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Last update timestamp"
+        },
+        "skill_development": {
+            "type": "object",
+            "required": [
+                "current_skills",
+                "skill_progression"
+            ],
+            "properties": {
+                "current_skills": {
+                    "type": "object",
+                    "properties": {
+                        "working_memory_skills": {
+                            "type": "object",
+                            "properties": {
+                                "maintenance_skill": {
+                                    "type": "number",
+                                    "minimum": 0,
+                                    "maximum": 1
+                                },
+                                "updating_skill": {
+                                    "type": "number",
+                                    "minimum": 0,
+                                    "maximum": 1
+                                },
+                                "manipulation_skill": {
+                                    "type": "number",
+                                    "minimum": 0,
+                                    "maximum": 1
+                                },
+                                "interference_management_skill": {
+                                    "type": "number",
+                                    "minimum": 0,
+                                    "maximum": 1
+                                },
+                                "capacity_management_skill": {
+                                    "type": "number",
+                                    "minimum": 0,
+                                    "maximum": 1
+                                }
+                            }
+                        },
+                        "strategy_skills": {
+                            "type": "object",
+                            "properties": {
+                                "chunking_skill": {
+                                    "type": "number",
+                                    "minimum": 0,
+                                    "maximum": 1
+                                },
+                                "rehearsal_skill": {
+                                    "type": "number",
+                                    "minimum": 0,
+                                    "maximum": 1
+                                },
+                                "elaboration_skill": {
+                                    "type": "number",
+                                    "minimum": 0,
+                                    "maximum": 1
+                                },
+                                "organization_skill": {
+                                    "type": "number",
+                                    "minimum": 0,
+                                    "maximum": 1
+                                },
+                                "dual_coding_skill": {
+                                    "type": "number",
+                                    "minimum": 0,
+                                    "maximum": 1
+                                }
+                            }
+                        },
+                        "meta_cognitive_skills": {
+                            "type": "object",
+                            "properties": {
+                                "monitoring_skill": {
+                                    "type": "number",
+                                    "minimum": 0,
+                                    "maximum": 1
+                                },
+                                "control_skill": {
+                                    "type": "number",
+                                    "minimum": 0,
+                                    "maximum": 1
+                                },
+                                "strategy_selection_skill": {
+                                    "type": "number",
+                                    "minimum": 0,
+                                    "maximum": 1
+                                },
+                                "adaptation_skill": {
+                                    "type": "number",
+                                    "minimum": 0,
+                                    "maximum": 1
+                                }
+                            }
+                        },
+                        "executive_control_skills": {
+                            "type": "object",
+                            "properties": {
+                                "inhibition_skill": {
+                                    "type": "number",
+                                    "minimum": 0,
+                                    "maximum": 1
+                                },
+                                "flexibility_skill": {
+                                    "type": "number",
+                                    "minimum": 0,
+                                    "maximum": 1
+                                },
+                                "attention_control_skill": {
+                                    "type": "number",
+                                    "minimum": 0,
+                                    "maximum": 1
+                                },
+                                "conflict_resolution_skill": {
+                                    "type": "number",
+                                    "minimum": 0,
+                                    "maximum": 1
+                                }
+                            }
+                        }
+                    }
+                },
+                "skill_progression": {
+                    "type": "object",
+                    "properties": {
+                        "learning_curves": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "skill_name": {
+                                        "type": "string"
+                                    },
+                                    "progression_data": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "object"
+                                        }
+                                    },
+                                    "learning_rate": {
+                                        "type": "number"
+                                    },
+                                    "current_phase": {
+                                        "type": "string"
+                                    },
+                                    "mastery_level": {
+                                        "type": "number"
+                                    }
+                                }
+                            }
+                        },
+                        "skill_interactions": {
+                            "type": "object",
+                            "properties": {
+                                "synergistic_skills": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "array"
+                                    }
+                                },
+                                "conflicting_skills": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "array"
+                                    }
+                                },
+                                "prerequisite_relationships": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "developmental_milestones": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "milestone_name": {
+                                        "type": "string"
+                                    },
+                                    "achievement_date": {
+                                        "type": "string",
+                                        "format": "date-time"
+                                    },
+                                    "milestone_significance": {
+                                        "type": "string"
+                                    },
+                                    "performance_impact": {
+                                        "type": "number"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "skill_transfer": {
+                    "type": "object",
+                    "properties": {
+                        "near_transfer": {
+                            "type": "object",
+                            "properties": {
+                                "transfer_effectiveness": {
+                                    "type": "number"
+                                },
+                                "transfer_domains": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                },
+                                "transfer_mechanisms": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        },
+                        "far_transfer": {
+                            "type": "object",
+                            "properties": {
+                                "transfer_potential": {
+                                    "type": "number"
+                                },
+                                "novel_domain_performance": {
+                                    "type": "object"
+                                },
+                                "generalization_ability": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "transfer_limitations": {
+                            "type": "object",
+                            "properties": {
+                                "context_specificity": {
+                                    "type": "number"
+                                },
+                                "skill_boundary_constraints": {
+                                    "type": "object"
+                                },
+                                "transfer_decay_rate": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "description": "Working memory skill development and progression"
+        },
+        "adaptation_state": {
+            "type": "object",
+            "required": [
+                "adaptation_mechanisms",
+                "adaptation_history"
+            ],
+            "properties": {
+                "adaptation_mechanisms": {
+                    "type": "object",
+                    "properties": {
+                        "performance_based_adaptation": {
+                            "type": "object",
+                            "properties": {
+                                "feedback_sensitivity": {
+                                    "type": "number"
+                                },
+                                "error_driven_learning": {
+                                    "type": "number"
+                                },
+                                "success_reinforcement": {
+                                    "type": "number"
+                                },
+                                "performance_tracking_accuracy": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "context_based_adaptation": {
+                            "type": "object",
+                            "properties": {
+                                "task_adaptation_speed": {
+                                    "type": "number"
+                                },
+                                "environmental_sensitivity": {
+                                    "type": "number"
+                                },
+                                "context_categorization_ability": {
+                                    "type": "number"
+                                },
+                                "contextual_memory": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "meta_adaptation": {
+                            "type": "object",
+                            "properties": {
+                                "adaptation_monitoring": {
+                                    "type": "number"
+                                },
+                                "adaptation_strategy_learning": {
+                                    "type": "number"
+                                },
+                                "meta_learning_rate": {
+                                    "type": "number"
+                                },
+                                "adaptation_transfer": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                },
+                "adaptation_history": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "adaptation_event": {
+                                "type": "string"
+                            },
+                            "adaptation_trigger": {
+                                "type": "string"
+                            },
+                            "adaptation_type": {
+                                "type": "string"
+                            },
+                            "adaptation_magnitude": {
+                                "type": "number"
+                            },
+                            "adaptation_success": {
+                                "type": "number"
+                            },
+                            "context": {
+                                "type": "object"
+                            },
+                            "timestamp": {
+                                "type": "string",
+                                "format": "date-time"
+                            }
+                        }
+                    }
+                },
+                "adaptation_patterns": {
+                    "type": "object",
+                    "properties": {
+                        "recurring_adaptations": {
+                            "type": "array",
+                            "items": {
+                                "type": "object"
+                            }
+                        },
+                        "adaptation_sequences": {
+                            "type": "array",
+                            "items": {
+                                "type": "object"
+                            }
+                        },
+                        "context_adaptation_mappings": {
+                            "type": "object"
+                        },
+                        "adaptation_efficiency_trends": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "plasticity_state": {
+                    "type": "object",
+                    "properties": {
+                        "neural_plasticity": {
+                            "type": "number"
+                        },
+                        "cognitive_plasticity": {
+                            "type": "number"
+                        },
+                        "learning_plasticity": {
+                            "type": "number"
+                        },
+                        "plasticity_constraints": {
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "description": "Adaptation mechanisms and learning state"
+        },
+        "knowledge_base": {
+            "type": "object",
+            "required": [
+                "procedural_knowledge",
+                "declarative_knowledge"
+            ],
+            "properties": {
+                "procedural_knowledge": {
+                    "type": "object",
+                    "properties": {
+                        "strategy_procedures": {
+                            "type": "object",
+                            "description": "Procedural knowledge for various strategies",
+                            "additionalProperties": {
+                                "type": "object",
+                                "properties": {
+                                    "procedure_steps": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "procedure_conditions": {
+                                        "type": "object"
+                                    },
+                                    "procedure_efficiency": {
+                                        "type": "number"
+                                    },
+                                    "automatization_level": {
+                                        "type": "number"
+                                    }
+                                }
+                            }
+                        },
+                        "control_procedures": {
+                            "type": "object",
+                            "properties": {
+                                "monitoring_procedures": {
+                                    "type": "object"
+                                },
+                                "regulation_procedures": {
+                                    "type": "object"
+                                },
+                                "coordination_procedures": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "adaptation_procedures": {
+                            "type": "object",
+                            "properties": {
+                                "context_recognition_procedures": {
+                                    "type": "object"
+                                },
+                                "strategy_selection_procedures": {
+                                    "type": "object"
+                                },
+                                "performance_adjustment_procedures": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "declarative_knowledge": {
+                    "type": "object",
+                    "properties": {
+                        "strategy_knowledge": {
+                            "type": "object",
+                            "properties": {
+                                "strategy_descriptions": {
+                                    "type": "object"
+                                },
+                                "strategy_effectiveness": {
+                                    "type": "object"
+                                },
+                                "strategy_limitations": {
+                                    "type": "object"
+                                },
+                                "strategy_combinations": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "task_knowledge": {
+                            "type": "object",
+                            "properties": {
+                                "task_characteristics": {
+                                    "type": "object"
+                                },
+                                "task_strategy_mappings": {
+                                    "type": "object"
+                                },
+                                "task_difficulty_assessments": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "self_knowledge": {
+                            "type": "object",
+                            "properties": {
+                                "capacity_awareness": {
+                                    "type": "object"
+                                },
+                                "strength_weakness_profile": {
+                                    "type": "object"
+                                },
+                                "learning_preferences": {
+                                    "type": "object"
+                                },
+                                "performance_patterns": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "contextual_knowledge": {
+                            "type": "object",
+                            "properties": {
+                                "context_categories": {
+                                    "type": "object"
+                                },
+                                "context_effects": {
+                                    "type": "object"
+                                },
+                                "context_strategy_interactions": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "conditional_knowledge": {
+                    "type": "object",
+                    "properties": {
+                        "when_to_use_strategies": {
+                            "type": "object"
+                        },
+                        "how_to_adapt_strategies": {
+                            "type": "object"
+                        },
+                        "context_appropriateness": {
+                            "type": "object"
+                        },
+                        "strategy_selection_rules": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "meta_knowledge": {
+                    "type": "object",
+                    "properties": {
+                        "knowledge_about_knowledge": {
+                            "type": "object"
+                        },
+                        "learning_about_learning": {
+                            "type": "object"
+                        },
+                        "knowledge_organization": {
+                            "type": "object"
+                        },
+                        "knowledge_validation": {
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "description": "Knowledge base for working memory operations"
+        },
+        "learning_mechanisms": {
+            "type": "object",
+            "properties": {
+                "explicit_learning": {
+                    "type": "object",
+                    "properties": {
+                        "instruction_based_learning": {
+                            "type": "number"
+                        },
+                        "deliberate_practice": {
+                            "type": "number"
+                        },
+                        "explicit_strategy_learning": {
+                            "type": "number"
+                        },
+                        "conscious_adaptation": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "implicit_learning": {
+                    "type": "object",
+                    "properties": {
+                        "statistical_learning": {
+                            "type": "number"
+                        },
+                        "pattern_extraction": {
+                            "type": "number"
+                        },
+                        "implicit_strategy_acquisition": {
+                            "type": "number"
+                        },
+                        "procedural_learning": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "reinforcement_learning": {
+                    "type": "object",
+                    "properties": {
+                        "reward_based_learning": {
+                            "type": "number"
+                        },
+                        "trial_and_error_learning": {
+                            "type": "number"
+                        },
+                        "exploration_exploitation_balance": {
+                            "type": "number"
+                        },
+                        "value_function_learning": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "social_learning": {
+                    "type": "object",
+                    "properties": {
+                        "observational_learning": {
+                            "type": "number"
+                        },
+                        "collaborative_learning": {
+                            "type": "number"
+                        },
+                        "peer_learning": {
+                            "type": "number"
+                        },
+                        "cultural_transmission": {
+                            "type": "number"
+                        }
+                    }
+                }
+            },
+            "description": "Different learning mechanisms in operation"
+        },
+        "memory_consolidation": {
+            "type": "object",
+            "properties": {
+                "working_memory_consolidation": {
+                    "type": "object",
+                    "properties": {
+                        "strategy_consolidation": {
+                            "type": "number"
+                        },
+                        "procedural_consolidation": {
+                            "type": "number"
+                        },
+                        "knowledge_integration": {
+                            "type": "number"
+                        },
+                        "consolidation_efficiency": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "long_term_memory_integration": {
+                    "type": "object",
+                    "properties": {
+                        "episodic_integration": {
+                            "type": "number"
+                        },
+                        "semantic_integration": {
+                            "type": "number"
+                        },
+                        "procedural_integration": {
+                            "type": "number"
+                        },
+                        "cross_modal_integration": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "reconsolidation_processes": {
+                    "type": "object",
+                    "properties": {
+                        "memory_updating": {
+                            "type": "number"
+                        },
+                        "knowledge_revision": {
+                            "type": "number"
+                        },
+                        "strategy_refinement": {
+                            "type": "number"
+                        }
+                    }
+                }
+            },
+            "description": "Memory consolidation and integration processes"
+        },
+        "individual_differences": {
+            "type": "object",
+            "properties": {
+                "learning_style": {
+                    "type": "object",
+                    "properties": {
+                        "preferred_learning_modalities": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "learning_pace_preferences": {
+                            "type": "object"
+                        },
+                        "feedback_preferences": {
+                            "type": "object"
+                        },
+                        "challenge_preferences": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "cognitive_profile": {
+                    "type": "object",
+                    "properties": {
+                        "working_memory_capacity": {
+                            "type": "number"
+                        },
+                        "processing_speed": {
+                            "type": "number"
+                        },
+                        "attention_span": {
+                            "type": "number"
+                        },
+                        "cognitive_flexibility": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "motivational_factors": {
+                    "type": "object",
+                    "properties": {
+                        "intrinsic_motivation": {
+                            "type": "number"
+                        },
+                        "achievement_motivation": {
+                            "type": "number"
+                        },
+                        "curiosity_level": {
+                            "type": "number"
+                        },
+                        "persistence": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "developmental_factors": {
+                    "type": "object",
+                    "properties": {
+                        "developmental_stage": {
+                            "type": "string"
+                        },
+                        "maturation_level": {
+                            "type": "number"
+                        },
+                        "experience_level": {
+                            "type": "number"
+                        },
+                        "expertise_domains": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            },
+            "description": "Individual differences affecting learning"
+        },
+        "optimization_state": {
+            "type": "object",
+            "properties": {
+                "learning_optimization": {
+                    "type": "object",
+                    "properties": {
+                        "optimal_learning_conditions": {
+                            "type": "object"
+                        },
+                        "learning_efficiency_optimization": {
+                            "type": "number"
+                        },
+                        "personalized_learning_paths": {
+                            "type": "object"
+                        },
+                        "adaptive_difficulty_adjustment": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "performance_optimization": {
+                    "type": "object",
+                    "properties": {
+                        "skill_performance_optimization": {
+                            "type": "object"
+                        },
+                        "strategy_performance_optimization": {
+                            "type": "object"
+                        },
+                        "resource_optimization": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "system_optimization": {
+                    "type": "object",
+                    "properties": {
+                        "integrated_system_optimization": {
+                            "type": "number"
+                        },
+                        "cross_system_learning": {
+                            "type": "number"
+                        },
+                        "emergent_optimization": {
+                            "type": "number"
+                        }
+                    }
+                }
+            },
+            "description": "Learning and performance optimization state"
+        },
+        "integration_interfaces": {
+            "type": "object",
+            "properties": {
+                "cognitive_system_interfaces": {
+                    "type": "object",
+                    "properties": {
+                        "attention_learning_interface": {
+                            "type": "object"
+                        },
+                        "memory_learning_interface": {
+                            "type": "object"
+                        },
+                        "executive_learning_interface": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "external_learning_interfaces": {
+                    "type": "object",
+                    "properties": {
+                        "instructional_interfaces": {
+                            "type": "object"
+                        },
+                        "assessment_interfaces": {
+                            "type": "object"
+                        },
+                        "feedback_interfaces": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "adaptive_interfaces": {
+                    "type": "object",
+                    "properties": {
+                        "personalization_interfaces": {
+                            "type": "object"
+                        },
+                        "context_adaptation_interfaces": {
+                            "type": "object"
+                        },
+                        "optimization_interfaces": {
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "description": "Integration with learning and cognitive systems"
+        }
+    }
+}

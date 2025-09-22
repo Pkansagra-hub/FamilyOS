@@ -1,0 +1,166 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "$id": "thalamic_relay_state.schema.json",
+    "title": "Thalamic Relay State Storage",
+    "description": "Storage schema for maintaining the current state of thalamic relay circuits including decision thresholds, activity levels, and processing queues.",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "circuit_id",
+        "circuit_type",
+        "current_state",
+        "decision_thresholds",
+        "activity_level",
+        "processing_queue",
+        "last_updated"
+    ],
+    "properties": {
+        "circuit_id": {
+            "type": "string",
+            "description": "Unique identifier for the thalamic relay circuit"
+        },
+        "circuit_type": {
+            "type": "string",
+            "enum": [
+                "memory",
+                "recall",
+                "executive",
+                "learning",
+                "perception",
+                "motor"
+            ],
+            "description": "Type of thalamic relay circuit"
+        },
+        "current_state": {
+            "type": "object",
+            "required": [
+                "operational_mode",
+                "cognitive_load",
+                "stability_level"
+            ],
+            "properties": {
+                "operational_mode": {
+                    "type": "string",
+                    "enum": [
+                        "active",
+                        "standby",
+                        "maintenance",
+                        "overloaded",
+                        "error"
+                    ],
+                    "description": "Current operational mode"
+                },
+                "cognitive_load": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Current cognitive load on the circuit"
+                },
+                "stability_level": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Current stability level of the circuit"
+                }
+            }
+        },
+        "decision_thresholds": {
+            "type": "object",
+            "required": [
+                "admit_threshold",
+                "defer_threshold",
+                "boost_threshold",
+                "drop_threshold"
+            ],
+            "properties": {
+                "admit_threshold": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "defer_threshold": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "boost_threshold": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "drop_threshold": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                }
+            }
+        },
+        "activity_level": {
+            "type": "object",
+            "properties": {
+                "current_activity": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "average_activity": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "peak_activity": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "activity_trend": {
+                    "type": "string",
+                    "enum": [
+                        "increasing",
+                        "decreasing",
+                        "stable"
+                    ]
+                }
+            }
+        },
+        "processing_queue": {
+            "type": "object",
+            "properties": {
+                "queue_length": {
+                    "type": "integer",
+                    "minimum": 0
+                },
+                "average_wait_time": {
+                    "type": "number",
+                    "minimum": 0
+                },
+                "priority_distribution": {
+                    "type": "object"
+                }
+            }
+        },
+        "performance_metrics": {
+            "type": "object",
+            "properties": {
+                "decision_accuracy": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "response_latency": {
+                    "type": "number",
+                    "minimum": 0
+                },
+                "throughput": {
+                    "type": "number",
+                    "minimum": 0
+                }
+            }
+        },
+        "last_updated": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp of last state update"
+        }
+    }
+}

@@ -1,0 +1,49 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://familyos.local/contracts/storage/hippocampus_trace.schema.json",
+  "title": "Hippocampus Trace (CA1 bridge)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "space_id",
+    "ts",
+    "simhash_hex",
+    "minhash32",
+    "novelty"
+  ],
+  "properties": {
+    "id": {
+      "$ref": "./common.schema.json#/$defs/ULID"
+    },
+    "envelope_id": {
+      "$ref": "./common.schema.json#/$defs/EnvelopeId"
+    },
+    "space_id": {
+      "$ref": "./common.schema.json#/$defs/SpaceId"
+    },
+    "ts": {
+      "$ref": "./common.schema.json#/$defs/Timestamp"
+    },
+    "simhash_hex": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{16}$"
+    },
+    "minhash32": {
+      "type": "array",
+      "items": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 2147483647
+      }
+    },
+    "novelty": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "canon_ref": {
+      "$ref": "./common.schema.json#/$defs/ULID"
+    }
+  }
+}

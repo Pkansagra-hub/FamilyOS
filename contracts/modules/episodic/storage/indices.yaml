@@ -1,0 +1,29 @@
+tables:
+  events:
+    primary_key: ["event_id"]
+    unique: []
+    indices:
+      - ["space_id", "ts"]
+  segments:
+    primary_key: ["episode_id"]
+    indices:
+      - ["space_id", "start_ts"]
+      - ["space_id", "end_ts"]
+  segment_events:
+    primary_key: ["space_id","episode_id","ord"]
+    indices:
+      - ["episode_id"]
+      - ["event_id"]
+  links:
+    primary_key: ["link_id"]
+    indices:
+      - ["space_id","src_kind","src_id"]
+      - ["space_id","dst_kind","dst_id"]
+retention:
+  events:
+    ttl: null
+    band_overrides:
+      BLACK: "project=false, export=false"
+      RED: "project=false"
+tombstones:
+  enabled: true

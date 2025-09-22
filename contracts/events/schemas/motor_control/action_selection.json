@@ -1,0 +1,445 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "$id": "action_selection.event.json",
+    "title": "Action Selection Event",
+    "description": "Event schema for action selection and motor decision-making based on basal ganglia circuits, prefrontal cortex, and reward systems",
+    "type": "object",
+    "required": [
+        "event_id",
+        "timestamp",
+        "selection_context",
+        "action_candidates",
+        "basal_ganglia_processing",
+        "selection_outcome"
+    ],
+    "properties": {
+        "event_id": {
+            "type": "string",
+            "description": "Unique identifier for this action selection event"
+        },
+        "timestamp": {
+            "type": "string",
+            "format": "date-time"
+        },
+        "selection_context": {
+            "type": "object",
+            "properties": {
+                "environmental_state": {
+                    "type": "object",
+                    "properties": {
+                        "perceived_affordances": {
+                            "type": "array"
+                        },
+                        "environmental_constraints": {
+                            "type": "array"
+                        },
+                        "temporal_urgency": {
+                            "type": "number"
+                        },
+                        "contextual_cues": {
+                            "type": "array"
+                        }
+                    }
+                },
+                "internal_state": {
+                    "type": "object",
+                    "properties": {
+                        "motivational_drives": {
+                            "type": "object"
+                        },
+                        "energy_resources": {
+                            "type": "number"
+                        },
+                        "cognitive_load": {
+                            "type": "number"
+                        },
+                        "emotional_state": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "goal_hierarchy": {
+                    "type": "object",
+                    "properties": {
+                        "primary_goals": {
+                            "type": "array"
+                        },
+                        "secondary_goals": {
+                            "type": "array"
+                        },
+                        "goal_conflicts": {
+                            "type": "array"
+                        },
+                        "goal_priorities": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "task_demands": {
+                    "type": "object",
+                    "properties": {
+                        "precision_requirements": {
+                            "type": "number"
+                        },
+                        "speed_requirements": {
+                            "type": "number"
+                        },
+                        "cognitive_complexity": {
+                            "type": "number"
+                        },
+                        "risk_assessment": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "action_candidates": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "action_id": {
+                        "type": "string"
+                    },
+                    "action_description": {
+                        "type": "string"
+                    },
+                    "action_type": {
+                        "type": "string",
+                        "enum": [
+                            "discrete",
+                            "continuous",
+                            "sequential",
+                            "parallel"
+                        ]
+                    },
+                    "expected_outcomes": {
+                        "type": "object",
+                        "properties": {
+                            "success_probability": {
+                                "type": "number"
+                            },
+                            "reward_expectation": {
+                                "type": "number"
+                            },
+                            "cost_estimation": {
+                                "type": "number"
+                            },
+                            "time_to_completion": {
+                                "type": "number"
+                            }
+                        }
+                    },
+                    "action_value": {
+                        "type": "object",
+                        "properties": {
+                            "immediate_value": {
+                                "type": "number"
+                            },
+                            "long_term_value": {
+                                "type": "number"
+                            },
+                            "uncertainty_factor": {
+                                "type": "number"
+                            },
+                            "learning_potential": {
+                                "type": "number"
+                            }
+                        }
+                    },
+                    "resource_requirements": {
+                        "type": "object",
+                        "properties": {
+                            "motor_complexity": {
+                                "type": "number"
+                            },
+                            "attention_demand": {
+                                "type": "number"
+                            },
+                            "energy_cost": {
+                                "type": "number"
+                            },
+                            "risk_level": {
+                                "type": "number"
+                            }
+                        }
+                    },
+                    "feasibility_assessment": {
+                        "type": "object",
+                        "properties": {
+                            "biomechanical_feasibility": {
+                                "type": "number"
+                            },
+                            "environmental_feasibility": {
+                                "type": "number"
+                            },
+                            "temporal_feasibility": {
+                                "type": "number"
+                            },
+                            "cognitive_feasibility": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "basal_ganglia_processing": {
+            "type": "object",
+            "properties": {
+                "striatum_activity": {
+                    "type": "object",
+                    "properties": {
+                        "dorsal_striatum_action_values": {
+                            "type": "object"
+                        },
+                        "ventral_striatum_reward_prediction": {
+                            "type": "object"
+                        },
+                        "action_value_computation": {
+                            "type": "object"
+                        },
+                        "habit_vs_goal_directed_balance": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "globus_pallidus_gating": {
+                    "type": "object",
+                    "properties": {
+                        "inhibitory_control_signals": {
+                            "type": "object"
+                        },
+                        "action_gating_mechanism": {
+                            "type": "object"
+                        },
+                        "competition_resolution": {
+                            "type": "object"
+                        },
+                        "motor_program_selection": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "substantia_nigra_modulation": {
+                    "type": "object",
+                    "properties": {
+                        "dopamine_reward_prediction_error": {
+                            "type": "number"
+                        },
+                        "action_value_updating": {
+                            "type": "object"
+                        },
+                        "motivation_enhancement": {
+                            "type": "number"
+                        },
+                        "learning_rate_modulation": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "subthalamic_nucleus_control": {
+                    "type": "object",
+                    "properties": {
+                        "action_stopping_signals": {
+                            "type": "object"
+                        },
+                        "conflict_detection": {
+                            "type": "object"
+                        },
+                        "response_threshold_adjustment": {
+                            "type": "number"
+                        }
+                    }
+                }
+            }
+        },
+        "cortical_decision_making": {
+            "type": "object",
+            "properties": {
+                "prefrontal_cortex_evaluation": {
+                    "type": "object",
+                    "properties": {
+                        "dlpfc_working_memory_integration": {
+                            "type": "object"
+                        },
+                        "orbitofrontal_value_computation": {
+                            "type": "object"
+                        },
+                        "anterior_cingulate_conflict_monitoring": {
+                            "type": "object"
+                        },
+                        "cognitive_control_signals": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "premotor_preparation": {
+                    "type": "object",
+                    "properties": {
+                        "action_readiness_potential": {
+                            "type": "number"
+                        },
+                        "motor_plan_activation": {
+                            "type": "object"
+                        },
+                        "competitive_dynamics": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "selection_outcome": {
+            "type": "object",
+            "properties": {
+                "selected_action": {
+                    "type": "object",
+                    "properties": {
+                        "action_id": {
+                            "type": "string"
+                        },
+                        "selection_confidence": {
+                            "type": "number"
+                        },
+                        "decision_time": {
+                            "type": "number"
+                        },
+                        "selection_rationale": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "alternative_actions": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "action_id": {
+                                "type": "string"
+                            },
+                            "relative_value": {
+                                "type": "number"
+                            },
+                            "rejection_reason": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "decision_quality": {
+                    "type": "object",
+                    "properties": {
+                        "optimality_estimate": {
+                            "type": "number"
+                        },
+                        "decision_consistency": {
+                            "type": "number"
+                        },
+                        "exploration_vs_exploitation": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "motor_program_activation": {
+                    "type": "object",
+                    "properties": {
+                        "motor_plan_reference": {
+                            "type": "string"
+                        },
+                        "activation_strength": {
+                            "type": "number"
+                        },
+                        "readiness_for_execution": {
+                            "type": "number"
+                        }
+                    }
+                }
+            }
+        },
+        "learning_updates": {
+            "type": "object",
+            "properties": {
+                "action_value_learning": {
+                    "type": "object",
+                    "properties": {
+                        "temporal_difference_error": {
+                            "type": "number"
+                        },
+                        "policy_gradient_updates": {
+                            "type": "object"
+                        },
+                        "exploration_bonus_updates": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "strategy_adaptation": {
+                    "type": "object",
+                    "properties": {
+                        "selection_strategy_updates": {
+                            "type": "object"
+                        },
+                        "risk_preference_adjustments": {
+                            "type": "object"
+                        },
+                        "decision_threshold_learning": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "integration_signals": {
+            "type": "object",
+            "properties": {
+                "cognitive_integration": {
+                    "type": "object",
+                    "properties": {
+                        "attention_action_coupling": {
+                            "type": "object"
+                        },
+                        "memory_action_integration": {
+                            "type": "object"
+                        },
+                        "executive_control_influence": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "motivational_integration": {
+                    "type": "object",
+                    "properties": {
+                        "drive_action_alignment": {
+                            "type": "object"
+                        },
+                        "emotion_action_modulation": {
+                            "type": "object"
+                        },
+                        "reward_action_coupling": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "metadata": {
+            "type": "object",
+            "properties": {
+                "selection_duration": {
+                    "type": "number"
+                },
+                "computational_complexity": {
+                    "type": "number"
+                },
+                "neural_resource_usage": {
+                    "type": "object"
+                },
+                "decision_context_type": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

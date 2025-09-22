@@ -1,0 +1,604 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://familyos.dev/contracts/storage/schemas/store_registry.schema.json",
+  "title": "Store Registry Schema",
+  "description": "Schema for store registry in MemoryOS infrastructure for storage discovery and management",
+  "type": "object",
+  "properties": {
+    "store_record": {
+      "type": "object",
+      "description": "Individual store record for registration and discovery",
+      "properties": {
+        "store_id": {
+          "type": "string",
+          "pattern": "^store-[a-f0-9]{16}$",
+          "description": "Unique store identifier"
+        },
+        "store_name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z][a-zA-Z0-9._-]*$",
+          "description": "Human-readable store name"
+        },
+        "store_type": {
+          "type": "string",
+          "enum": [
+            "cognitive",
+            "infrastructure",
+            "application",
+            "system",
+            "cache",
+            "index",
+            "archive",
+            "temporary"
+          ],
+          "description": "Type of store for categorization"
+        },
+        "storage_backend": {
+          "type": "string",
+          "enum": [
+            "sqlite",
+            "file_system",
+            "memory",
+            "redis",
+            "postgresql",
+            "custom"
+          ],
+          "description": "Underlying storage backend"
+        },
+        "store_class": {
+          "type": "string",
+          "description": "Python class name implementing the store"
+        },
+        "store_module": {
+          "type": "string",
+          "description": "Python module path containing the store class"
+        },
+        "base_store_version": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+$",
+          "description": "Version of BaseStore interface implemented"
+        },
+        "store_version": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+(?:-[a-zA-Z0-9.-]+)?$",
+          "description": "Semantic version of the store implementation"
+        },
+        "store_description": {
+          "type": "string",
+          "maxLength": 512,
+          "description": "Brief description of store functionality"
+        },
+        "configuration": {
+          "type": "object",
+          "properties": {
+            "default_config": {
+              "type": "object",
+              "description": "Default configuration for the store"
+            },
+            "config_schema": {
+              "type": "object",
+              "description": "JSON schema for store configuration validation"
+            },
+            "required_config": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Required configuration keys"
+            },
+            "connection_params": {
+              "type": "object",
+              "properties": {
+                "max_connections": {
+                  "type": "integer",
+                  "minimum": 1,
+                  "default": 10,
+                  "description": "Maximum number of concurrent connections"
+                },
+                "connection_timeout": {
+                  "type": "number",
+                  "minimum": 0,
+                  "default": 30.0,
+                  "description": "Connection timeout in seconds"
+                },
+                "retry_attempts": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "default": 3,
+                  "description": "Number of retry attempts for failed operations"
+                }
+              },
+              "additionalProperties": false,
+              "description": "Connection configuration parameters"
+            }
+          },
+          "additionalProperties": false,
+          "description": "Store configuration metadata"
+        },
+        "capabilities": {
+          "type": "object",
+          "properties": {
+            "supports_transactions": {
+              "type": "boolean",
+              "default": false,
+              "description": "Whether store supports ACID transactions"
+            },
+            "supports_indexing": {
+              "type": "boolean",
+              "default": false,
+              "description": "Whether store supports indexing"
+            },
+            "supports_search": {
+              "type": "boolean",
+              "default": false,
+              "description": "Whether store supports full-text search"
+            },
+            "supports_encryption": {
+              "type": "boolean",
+              "default": false,
+              "description": "Whether store supports encryption at rest"
+            },
+            "supports_compression": {
+              "type": "boolean",
+              "default": false,
+              "description": "Whether store supports data compression"
+            },
+            "supports_replication": {
+              "type": "boolean",
+              "default": false,
+              "description": "Whether store supports data replication"
+            },
+            "supports_backup": {
+              "type": "boolean",
+              "default": false,
+              "description": "Whether store supports backup operations"
+            },
+            "supports_schema_migration": {
+              "type": "boolean",
+              "default": false,
+              "description": "Whether store supports schema migrations"
+            },
+            "max_record_size": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "Maximum size of a single record in bytes (0 = unlimited)"
+            },
+            "max_records": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "Maximum number of records (0 = unlimited)"
+            }
+          },
+          "additionalProperties": false,
+          "description": "Store capability flags and limits"
+        },
+        "schemas": {
+          "type": "object",
+          "properties": {
+            "primary_schema": {
+              "type": "object",
+              "description": "Primary JSON schema for records stored"
+            },
+            "supported_schemas": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "schema_name": {
+                    "type": "string",
+                    "description": "Name of the schema"
+                  },
+                  "schema_version": {
+                    "type": "string",
+                    "description": "Version of the schema"
+                  },
+                  "schema_definition": {
+                    "type": "object",
+                    "description": "JSON schema definition"
+                  }
+                },
+                "required": ["schema_name", "schema_version", "schema_definition"],
+                "additionalProperties": false
+              },
+              "description": "All schemas supported by this store"
+            },
+            "migration_history": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "from_version": {
+                    "type": "string",
+                    "description": "Source schema version"
+                  },
+                  "to_version": {
+                    "type": "string",
+                    "description": "Target schema version"
+                  },
+                  "migration_script": {
+                    "type": "string",
+                    "description": "Migration script or function name"
+                  },
+                  "applied_at": {
+                    "type": "number",
+                    "description": "Timestamp when migration was applied"
+                  }
+                },
+                "required": ["from_version", "to_version", "migration_script"],
+                "additionalProperties": false
+              },
+              "description": "Schema migration history"
+            }
+          },
+          "additionalProperties": false,
+          "description": "Schema management information"
+        },
+        "performance": {
+          "type": "object",
+          "properties": {
+            "read_throughput": {
+              "type": "number",
+              "minimum": 0,
+              "description": "Expected read operations per second"
+            },
+            "write_throughput": {
+              "type": "number",
+              "minimum": 0,
+              "description": "Expected write operations per second"
+            },
+            "latency_p95": {
+              "type": "number",
+              "minimum": 0,
+              "description": "95th percentile latency in milliseconds"
+            },
+            "latency_p99": {
+              "type": "number",
+              "minimum": 0,
+              "description": "99th percentile latency in milliseconds"
+            },
+            "memory_usage": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "Typical memory usage in bytes"
+            },
+            "disk_usage": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "Typical disk usage in bytes"
+            },
+            "cache_hit_ratio": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1,
+              "description": "Cache hit ratio (0.0 to 1.0)"
+            }
+          },
+          "additionalProperties": false,
+          "description": "Performance characteristics and benchmarks"
+        },
+        "dependencies": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "dependency_type": {
+                "type": "string",
+                "enum": ["store", "module", "service", "library"],
+                "description": "Type of dependency"
+              },
+              "dependency_name": {
+                "type": "string",
+                "description": "Name of the dependency"
+              },
+              "dependency_version": {
+                "type": "string",
+                "description": "Required version or version range"
+              },
+              "optional": {
+                "type": "boolean",
+                "default": false,
+                "description": "Whether dependency is optional"
+              },
+              "purpose": {
+                "type": "string",
+                "description": "Purpose of the dependency"
+              }
+            },
+            "required": ["dependency_type", "dependency_name", "dependency_version"],
+            "additionalProperties": false
+          },
+          "description": "Store dependencies"
+        },
+        "registration_metadata": {
+          "type": "object",
+          "properties": {
+            "registered_at": {
+              "type": "number",
+              "description": "Timestamp when store was registered"
+            },
+            "registered_by": {
+              "type": "string",
+              "description": "Actor who registered the store"
+            },
+            "last_updated": {
+              "type": "number",
+              "description": "Timestamp of last update"
+            },
+            "update_count": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0,
+              "description": "Number of times store has been updated"
+            },
+            "tags": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Tags for store categorization and search"
+            },
+            "environment": {
+              "type": "string",
+              "enum": ["development", "testing", "staging", "production"],
+              "description": "Target environment for the store"
+            },
+            "priority": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 10,
+              "default": 5,
+              "description": "Store priority for resource allocation (1=lowest, 10=highest)"
+            }
+          },
+          "required": ["registered_at", "registered_by"],
+          "additionalProperties": false,
+          "description": "Store registration metadata"
+        },
+        "status": {
+          "type": "object",
+          "properties": {
+            "state": {
+              "type": "string",
+              "enum": [
+                "registered",
+                "initializing",
+                "ready",
+                "degraded",
+                "maintenance",
+                "error",
+                "offline",
+                "unregistered"
+              ],
+              "default": "registered",
+              "description": "Current store state"
+            },
+            "last_state_change": {
+              "type": "number",
+              "description": "Timestamp of last state change"
+            },
+            "error_message": {
+              "type": "string",
+              "description": "Error message if store is in error state"
+            },
+            "health_status": {
+              "type": "string",
+              "enum": ["healthy", "degraded", "unhealthy", "unknown"],
+              "default": "unknown",
+              "description": "Current health status"
+            },
+            "last_health_check": {
+              "type": "number",
+              "description": "Timestamp of last health check"
+            },
+            "connection_count": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0,
+              "description": "Current number of active connections"
+            },
+            "last_backup": {
+              "type": "number",
+              "description": "Timestamp of last backup"
+            }
+          },
+          "required": ["state"],
+          "additionalProperties": false,
+          "description": "Current store status"
+        },
+        "metrics": {
+          "type": "object",
+          "properties": {
+            "total_records": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0,
+              "description": "Total number of records stored"
+            },
+            "storage_size": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0,
+              "description": "Total storage size in bytes"
+            },
+            "read_operations": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0,
+              "description": "Total read operations performed"
+            },
+            "write_operations": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0,
+              "description": "Total write operations performed"
+            },
+            "error_count": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0,
+              "description": "Total number of errors encountered"
+            },
+            "last_activity": {
+              "type": "number",
+              "description": "Timestamp of last activity"
+            },
+            "average_response_time": {
+              "type": "number",
+              "minimum": 0,
+              "description": "Average response time in milliseconds"
+            },
+            "uptime": {
+              "type": "number",
+              "minimum": 0,
+              "description": "Store uptime in seconds"
+            }
+          },
+          "additionalProperties": false,
+          "description": "Store performance and usage metrics"
+        },
+        "security": {
+          "type": "object",
+          "properties": {
+            "encryption_at_rest": {
+              "type": "boolean",
+              "default": false,
+              "description": "Whether data is encrypted at rest"
+            },
+            "encryption_in_transit": {
+              "type": "boolean",
+              "default": false,
+              "description": "Whether data is encrypted in transit"
+            },
+            "access_control": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": ["rbac", "abac", "acl", "none"]
+              },
+              "description": "Access control mechanisms supported"
+            },
+            "audit_logging": {
+              "type": "boolean",
+              "default": false,
+              "description": "Whether store supports audit logging"
+            },
+            "pii_protection": {
+              "type": "boolean",
+              "default": false,
+              "description": "Whether store has PII protection capabilities"
+            },
+            "compliance_frameworks": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": ["GDPR", "CCPA", "HIPAA", "SOX", "PCI_DSS", "COPPA"]
+              },
+              "description": "Compliance frameworks supported"
+            }
+          },
+          "additionalProperties": false,
+          "description": "Security capabilities and compliance"
+        }
+      },
+      "required": [
+        "store_id",
+        "store_name",
+        "store_type",
+        "storage_backend",
+        "store_class",
+        "store_module",
+        "registration_metadata",
+        "status"
+      ],
+      "additionalProperties": false
+    },
+    "registry_metadata": {
+      "type": "object",
+      "description": "Registry-level metadata and configuration",
+      "properties": {
+        "registry_version": {
+          "type": "string",
+          "default": "1.0.0",
+          "description": "Version of the registry schema"
+        },
+        "created_at": {
+          "type": "number",
+          "description": "Timestamp when registry was created"
+        },
+        "last_updated": {
+          "type": "number",
+          "description": "Timestamp of last registry update"
+        },
+        "total_stores": {
+          "type": "integer",
+          "minimum": 0,
+          "default": 0,
+          "description": "Total number of registered stores"
+        },
+        "active_stores": {
+          "type": "integer",
+          "minimum": 0,
+          "default": 0,
+          "description": "Number of currently active stores"
+        },
+        "store_types": {
+          "type": "object",
+          "description": "Count of stores by type",
+          "additionalProperties": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "backend_distribution": {
+          "type": "object",
+          "description": "Count of stores by backend type",
+          "additionalProperties": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "configuration": {
+          "type": "object",
+          "properties": {
+            "auto_discovery": {
+              "type": "boolean",
+              "default": true,
+              "description": "Whether to enable automatic store discovery"
+            },
+            "health_check_interval": {
+              "type": "number",
+              "minimum": 1,
+              "default": 60,
+              "description": "Health check interval in seconds"
+            },
+            "cleanup_interval": {
+              "type": "number",
+              "minimum": 1,
+              "default": 3600,
+              "description": "Cleanup interval for stale entries in seconds"
+            },
+            "max_registered_stores": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 1000,
+              "description": "Maximum number of stores that can be registered"
+            },
+            "enable_metrics_collection": {
+              "type": "boolean",
+              "default": true,
+              "description": "Whether to collect store metrics"
+            }
+          },
+          "additionalProperties": false,
+          "description": "Registry configuration"
+        }
+      },
+      "required": ["registry_version", "created_at"],
+      "additionalProperties": false
+    }
+  },
+  "required": ["store_record"],
+  "additionalProperties": false
+}

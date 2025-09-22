@@ -1,0 +1,47 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://familyos.local/contracts/storage/tombstone_record.schema.json",
+  "title": "Tombstone Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "space_id",
+    "target_id",
+    "reason",
+    "ts",
+    "band"
+  ],
+  "properties": {
+    "id": {
+      "$ref": "./common.schema.json#/$defs/ULID"
+    },
+    "space_id": {
+      "$ref": "./common.schema.json#/$defs/SpaceId"
+    },
+    "target_id": {
+      "$ref": "./common.schema.json#/$defs/ULID"
+    },
+    "reason": {
+      "type": "string",
+      "enum": [
+        "erasure",
+        "undo",
+        "policy"
+      ]
+    },
+    "ts": {
+      "$ref": "./common.schema.json#/$defs/Timestamp"
+    },
+    "band": {
+      "$ref": "./common.schema.json#/$defs/Band"
+    },
+    "applied": {
+      "type": "boolean",
+      "default": false
+    },
+    "link_group_id": {
+      "$ref": "./common.schema.json#/$defs/ULID"
+    }
+  }
+}

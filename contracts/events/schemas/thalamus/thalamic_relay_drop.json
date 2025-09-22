@@ -1,0 +1,516 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "$id": "thalamic_relay_drop.schema.json",
+    "title": "Thalamic Relay DROP Filter Signal Event",
+    "description": "Event generated when thalamic relay circuits decide to DROP cognitive processing requests due to irrelevance, resource protection, or interference prevention. This implements cognitive filtering and protection mechanisms.",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "timestamp",
+        "relay_circuit",
+        "drop_reason",
+        "relevance_score",
+        "interference_assessment",
+        "protective_action"
+    ],
+    "properties": {
+        "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Precise timing of thalamic relay DROP decision"
+        },
+        "relay_circuit": {
+            "type": "string",
+            "enum": [
+                "memory",
+                "recall",
+                "executive",
+                "learning",
+                "perception",
+                "motor"
+            ],
+            "description": "Which thalamic relay circuit made the DROP decision"
+        },
+        "drop_reason": {
+            "type": "object",
+            "required": [
+                "primary_reason",
+                "confidence_level"
+            ],
+            "properties": {
+                "primary_reason": {
+                    "type": "string",
+                    "enum": [
+                        "irrelevance",
+                        "interference_risk",
+                        "resource_protection",
+                        "quality_threshold",
+                        "redundancy",
+                        "conflict_avoidance",
+                        "energy_conservation",
+                        "attention_overload"
+                    ],
+                    "description": "Primary reason for DROP decision"
+                },
+                "confidence_level": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Confidence in the DROP decision"
+                },
+                "secondary_factors": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "enum": [
+                            "timing_mismatch",
+                            "context_incongruence",
+                            "goal_misalignment",
+                            "capacity_exceeded",
+                            "noise_detection",
+                            "distractor_identification"
+                        ]
+                    },
+                    "description": "Additional factors supporting the DROP decision"
+                },
+                "threshold_violations": {
+                    "type": "object",
+                    "properties": {
+                        "relevance_threshold": {
+                            "type": "number",
+                            "description": "Minimum relevance threshold that was not met"
+                        },
+                        "quality_threshold": {
+                            "type": "number",
+                            "description": "Minimum quality threshold that was not met"
+                        },
+                        "resource_threshold": {
+                            "type": "number",
+                            "description": "Resource utilization threshold that was exceeded"
+                        }
+                    },
+                    "description": "Specific thresholds that led to the DROP decision"
+                }
+            },
+            "description": "Detailed reasoning for the DROP decision"
+        },
+        "relevance_score": {
+            "type": "object",
+            "required": [
+                "overall_relevance",
+                "relevance_components"
+            ],
+            "properties": {
+                "overall_relevance": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Overall computed relevance score"
+                },
+                "relevance_components": {
+                    "type": "object",
+                    "properties": {
+                        "goal_relevance": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "Relevance to current goals"
+                        },
+                        "context_relevance": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "Relevance to current context"
+                        },
+                        "temporal_relevance": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "Temporal relevance"
+                        },
+                        "task_relevance": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "Relevance to current task"
+                        }
+                    },
+                    "description": "Breakdown of relevance components"
+                },
+                "relevance_decay": {
+                    "type": "object",
+                    "properties": {
+                        "initial_relevance": {
+                            "type": "number",
+                            "description": "Initial relevance when first assessed"
+                        },
+                        "decay_rate": {
+                            "type": "number",
+                            "description": "Rate of relevance decay over time"
+                        },
+                        "decay_factors": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "description": "Factors contributing to relevance decay"
+                        }
+                    },
+                    "description": "Relevance decay analysis"
+                }
+            },
+            "description": "Comprehensive relevance assessment"
+        },
+        "interference_assessment": {
+            "type": "object",
+            "required": [
+                "interference_risk",
+                "interference_sources"
+            ],
+            "properties": {
+                "interference_risk": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Assessed risk of cognitive interference"
+                },
+                "interference_sources": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "source_type": {
+                                "type": "string",
+                                "enum": [
+                                    "memory_conflict",
+                                    "attention_competition",
+                                    "resource_contention",
+                                    "processing_conflict",
+                                    "temporal_interference"
+                                ]
+                            },
+                            "interference_strength": {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 1
+                            },
+                            "source_description": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "description": "Identified sources of potential interference"
+                },
+                "interference_mitigation": {
+                    "type": "object",
+                    "properties": {
+                        "mitigation_strategies": {
+                            "type": "array",
+                            "items": {
+                                "type": "string",
+                                "enum": [
+                                    "temporal_separation",
+                                    "resource_isolation",
+                                    "priority_adjustment",
+                                    "context_switching",
+                                    "selective_filtering"
+                                ]
+                            },
+                            "description": "Potential mitigation strategies considered"
+                        },
+                        "mitigation_cost": {
+                            "type": "number",
+                            "minimum": 0,
+                            "description": "Estimated cost of interference mitigation"
+                        },
+                        "mitigation_effectiveness": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "Estimated effectiveness of mitigation"
+                        }
+                    },
+                    "description": "Interference mitigation analysis"
+                }
+            },
+            "description": "Comprehensive interference risk assessment"
+        },
+        "protective_action": {
+            "type": "object",
+            "required": [
+                "protection_type",
+                "protected_resources"
+            ],
+            "properties": {
+                "protection_type": {
+                    "type": "string",
+                    "enum": [
+                        "resource_conservation",
+                        "attention_focus_protection",
+                        "memory_integrity_protection",
+                        "processing_stability_protection",
+                        "goal_pursuit_protection"
+                    ],
+                    "description": "Type of protective action taken"
+                },
+                "protected_resources": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "enum": [
+                            "attention",
+                            "working_memory",
+                            "long_term_memory",
+                            "executive_control",
+                            "processing_bandwidth",
+                            "energy_budget"
+                        ]
+                    },
+                    "description": "Cognitive resources being protected"
+                },
+                "protection_duration": {
+                    "type": "object",
+                    "properties": {
+                        "duration_ms": {
+                            "type": "number",
+                            "minimum": 0,
+                            "description": "Duration of protective action in milliseconds"
+                        },
+                        "protection_scope": {
+                            "type": "string",
+                            "enum": [
+                                "immediate",
+                                "short_term",
+                                "medium_term",
+                                "long_term",
+                                "permanent"
+                            ],
+                            "description": "Scope of protection"
+                        },
+                        "automatic_expiry": {
+                            "type": "boolean",
+                            "description": "Whether protection expires automatically"
+                        }
+                    },
+                    "description": "Duration and scope of protective action"
+                },
+                "protection_effectiveness": {
+                    "type": "object",
+                    "properties": {
+                        "resource_savings": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "Proportion of resources saved by protection"
+                        },
+                        "interference_prevention": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "Degree of interference prevented"
+                        },
+                        "stability_improvement": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "Improvement in cognitive stability"
+                        }
+                    },
+                    "description": "Effectiveness metrics of protective action"
+                }
+            },
+            "description": "Protective action details and effectiveness"
+        },
+        "filtering_criteria": {
+            "type": "object",
+            "properties": {
+                "content_filters": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "filter_type": {
+                                "type": "string",
+                                "enum": [
+                                    "semantic_filter",
+                                    "temporal_filter",
+                                    "spatial_filter",
+                                    "priority_filter",
+                                    "quality_filter"
+                                ]
+                            },
+                            "filter_threshold": {
+                                "type": "number"
+                            },
+                            "filter_strictness": {
+                                "type": "number"
+                            }
+                        }
+                    },
+                    "description": "Content-based filtering criteria applied"
+                },
+                "adaptive_thresholds": {
+                    "type": "object",
+                    "properties": {
+                        "current_threshold": {
+                            "type": "number"
+                        },
+                        "baseline_threshold": {
+                            "type": "number"
+                        },
+                        "threshold_adaptation_rate": {
+                            "type": "number"
+                        },
+                        "adaptation_triggers": {
+                            "type": "array"
+                        }
+                    },
+                    "description": "Adaptive threshold mechanisms"
+                },
+                "noise_detection": {
+                    "type": "object",
+                    "properties": {
+                        "noise_level": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "Detected noise level in the request"
+                        },
+                        "signal_to_noise_ratio": {
+                            "type": "number",
+                            "minimum": 0,
+                            "description": "Signal to noise ratio"
+                        },
+                        "noise_sources": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "description": "Identified sources of noise"
+                        }
+                    },
+                    "description": "Noise detection and analysis"
+                }
+            },
+            "description": "Filtering criteria and mechanisms used"
+        },
+        "cost_benefit_analysis": {
+            "type": "object",
+            "properties": {
+                "processing_cost": {
+                    "type": "object",
+                    "properties": {
+                        "resource_cost": {
+                            "type": "number"
+                        },
+                        "time_cost": {
+                            "type": "number"
+                        },
+                        "energy_cost": {
+                            "type": "number"
+                        },
+                        "opportunity_cost": {
+                            "type": "number"
+                        }
+                    },
+                    "description": "Estimated cost of processing the request"
+                },
+                "potential_benefit": {
+                    "type": "object",
+                    "properties": {
+                        "goal_advancement": {
+                            "type": "number"
+                        },
+                        "learning_value": {
+                            "type": "number"
+                        },
+                        "information_value": {
+                            "type": "number"
+                        },
+                        "strategic_value": {
+                            "type": "number"
+                        }
+                    },
+                    "description": "Estimated benefit of processing the request"
+                },
+                "cost_benefit_ratio": {
+                    "type": "number",
+                    "description": "Computed cost-benefit ratio"
+                },
+                "threshold_for_processing": {
+                    "type": "number",
+                    "description": "Minimum cost-benefit ratio required for processing"
+                }
+            },
+            "description": "Cost-benefit analysis for the processing request"
+        },
+        "request_metadata": {
+            "type": "object",
+            "properties": {
+                "request_id": {
+                    "type": "string",
+                    "description": "Unique identifier for the processing request"
+                },
+                "request_type": {
+                    "type": "string",
+                    "enum": [
+                        "memory_encoding",
+                        "memory_retrieval",
+                        "executive_control",
+                        "learning_update",
+                        "perceptual_processing",
+                        "motor_planning"
+                    ],
+                    "description": "Type of cognitive processing request"
+                },
+                "request_source": {
+                    "type": "string",
+                    "description": "Source module or system that initiated the request"
+                },
+                "drop_finality": {
+                    "type": "string",
+                    "enum": [
+                        "permanent",
+                        "temporary",
+                        "conditional",
+                        "reversible"
+                    ],
+                    "description": "Finality of the DROP decision"
+                },
+                "appeal_possibility": {
+                    "type": "boolean",
+                    "description": "Whether the DROP decision can be appealed or reconsidered"
+                }
+            },
+            "description": "Metadata about the dropped processing request"
+        },
+        "performance_metrics": {
+            "type": "object",
+            "properties": {
+                "drop_decision_latency_ms": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Time taken to make the DROP decision in milliseconds"
+                },
+                "filtering_accuracy": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Historical accuracy of DROP decisions"
+                },
+                "resource_savings": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Estimated resources saved by dropping the request"
+                },
+                "system_stability_improvement": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Improvement in system stability from filtering"
+                }
+            },
+            "description": "Performance metrics for the DROP decision"
+        }
+    }
+}

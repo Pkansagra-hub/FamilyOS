@@ -1,0 +1,301 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "$id": "thalamic_relay_admit.schema.json",
+    "title": "Thalamic Relay ADMIT Decision Event",
+    "description": "Event generated when thalamic relay circuits decide to ADMIT cognitive processing requests through the attention gate. This models the thalamus's role as a cognitive relay and gating mechanism.",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "timestamp",
+        "relay_circuit",
+        "cognitive_load",
+        "salience_score",
+        "hysteresis_state",
+        "admit_reason",
+        "processing_priority"
+    ],
+    "properties": {
+        "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Precise timing of thalamic relay ADMIT decision"
+        },
+        "relay_circuit": {
+            "type": "string",
+            "enum": [
+                "memory",
+                "recall",
+                "executive",
+                "learning",
+                "perception",
+                "motor"
+            ],
+            "description": "Which thalamic relay circuit made the ADMIT decision"
+        },
+        "cognitive_load": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "description": "Current cognitive load at time of decision (0=no load, 1=maximum capacity)"
+        },
+        "salience_score": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "description": "Computed salience importance score that justified admission"
+        },
+        "hysteresis_state": {
+            "type": "object",
+            "required": [
+                "previous_decision",
+                "stability_count"
+            ],
+            "properties": {
+                "previous_decision": {
+                    "type": "string",
+                    "enum": [
+                        "ADMIT",
+                        "DEFER",
+                        "BOOST",
+                        "DROP"
+                    ],
+                    "description": "Previous thalamic decision for anti-oscillation control"
+                },
+                "stability_count": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "description": "Number of consecutive decisions in same direction"
+                },
+                "oscillation_prevention": {
+                    "type": "boolean",
+                    "description": "Whether hysteresis is actively preventing oscillation"
+                },
+                "decision_confidence": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Confidence in the stability of this decision"
+                }
+            },
+            "description": "Anti-oscillation hysteresis control state"
+        },
+        "admit_reason": {
+            "type": "object",
+            "required": [
+                "primary_factor",
+                "contributing_factors"
+            ],
+            "properties": {
+                "primary_factor": {
+                    "type": "string",
+                    "enum": [
+                        "high_salience",
+                        "low_cognitive_load",
+                        "priority_override",
+                        "novelty_detection",
+                        "goal_relevance",
+                        "emotional_significance"
+                    ],
+                    "description": "Primary reason for ADMIT decision"
+                },
+                "contributing_factors": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "enum": [
+                            "attention_availability",
+                            "working_memory_capacity",
+                            "contextual_relevance",
+                            "temporal_urgency",
+                            "learning_opportunity"
+                        ]
+                    },
+                    "description": "Additional factors that supported the ADMIT decision"
+                },
+                "threshold_margin": {
+                    "type": "number",
+                    "description": "How much the request exceeded the admission threshold"
+                }
+            },
+            "description": "Detailed reasoning for the ADMIT decision"
+        },
+        "processing_priority": {
+            "type": "object",
+            "required": [
+                "priority_level",
+                "urgency_factor"
+            ],
+            "properties": {
+                "priority_level": {
+                    "type": "string",
+                    "enum": [
+                        "critical",
+                        "high",
+                        "normal",
+                        "low",
+                        "background"
+                    ],
+                    "description": "Assigned processing priority level"
+                },
+                "urgency_factor": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Temporal urgency factor (1=immediate, 0=no urgency)"
+                },
+                "resource_allocation": {
+                    "type": "object",
+                    "properties": {
+                        "attention_allocation": {
+                            "type": "number"
+                        },
+                        "working_memory_allocation": {
+                            "type": "number"
+                        },
+                        "processing_time_allocation": {
+                            "type": "number"
+                        }
+                    },
+                    "description": "Allocated cognitive resources for this admitted request"
+                }
+            },
+            "description": "Processing priority assignment for admitted request"
+        },
+        "attention_mechanisms": {
+            "type": "object",
+            "properties": {
+                "spatial_focus": {
+                    "type": "array",
+                    "items": {
+                        "type": "number"
+                    },
+                    "description": "Spatial coordinates of attention focus"
+                },
+                "temporal_window": {
+                    "type": "object",
+                    "properties": {
+                        "window_start": {
+                            "type": "string",
+                            "format": "date-time"
+                        },
+                        "window_duration": {
+                            "type": "number"
+                        },
+                        "window_precision": {
+                            "type": "number"
+                        }
+                    },
+                    "description": "Temporal attention window parameters"
+                },
+                "feature_weights": {
+                    "type": "object",
+                    "description": "Weights for different feature types in attention"
+                },
+                "object_bindings": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "object_id": {
+                                "type": "string"
+                            },
+                            "binding_strength": {
+                                "type": "number"
+                            }
+                        }
+                    },
+                    "description": "Object-based attention bindings"
+                }
+            },
+            "description": "Active attention mechanism states at time of admission"
+        },
+        "cognitive_context": {
+            "type": "object",
+            "properties": {
+                "current_task": {
+                    "type": "string",
+                    "description": "Current primary cognitive task"
+                },
+                "arousal_level": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Current physiological and cognitive arousal level"
+                },
+                "attention_state": {
+                    "type": "string",
+                    "enum": [
+                        "focused",
+                        "diffuse",
+                        "vigilant",
+                        "divided",
+                        "selective"
+                    ],
+                    "description": "Current attention state mode"
+                },
+                "working_memory_load": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Current working memory capacity utilization"
+                }
+            },
+            "description": "Current cognitive context at time of admission"
+        },
+        "request_metadata": {
+            "type": "object",
+            "properties": {
+                "request_id": {
+                    "type": "string",
+                    "description": "Unique identifier for the processing request"
+                },
+                "request_type": {
+                    "type": "string",
+                    "enum": [
+                        "memory_encoding",
+                        "memory_retrieval",
+                        "executive_control",
+                        "learning_update",
+                        "perceptual_processing",
+                        "motor_planning"
+                    ],
+                    "description": "Type of cognitive processing request"
+                },
+                "request_source": {
+                    "type": "string",
+                    "description": "Source module or system that initiated the request"
+                },
+                "request_complexity": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Estimated complexity of the processing request"
+                }
+            },
+            "description": "Metadata about the admitted processing request"
+        },
+        "performance_metrics": {
+            "type": "object",
+            "properties": {
+                "decision_latency_ms": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Time taken to make the ADMIT decision in milliseconds"
+                },
+                "confidence_score": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Confidence in the correctness of the ADMIT decision"
+                },
+                "prediction_accuracy": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Predicted accuracy of the decision based on historical data"
+                }
+            },
+            "description": "Performance metrics for the ADMIT decision"
+        }
+    }
+}

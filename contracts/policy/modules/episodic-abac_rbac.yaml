@@ -1,0 +1,16 @@
+roles:
+  device_owner: { can: ["episodic.append","episodic.read","episodic.export","episodic.tombstone"] }
+  adult:        { can: ["episodic.append","episodic.read"] }
+  teen:         { can: ["episodic.append","episodic.read"], denies: ["episodic.export"] }
+  child:        { can: ["episodic.read:green"], denies: ["episodic.append"] }
+  guest:        { can: [], denies: ["*"] }
+abac:
+  scope: ["space_id","band","device_trust","relationship"]
+bands:
+  GREEN: { obligations: [] }
+  AMBER: { obligations: ["UNDO_WINDOW:PT15M","AUDIT_ACCESS"] }
+  RED:   { obligations: ["REDACT_CONTENT","AUDIT_ACCESS"] }
+  BLACK: { obligations: ["REDACT_CONTENT","BLOCK_PROJECTION","AUDIT_ACCESS"] }
+authz:
+  append: { require: ["role in {device_owner,adult,teen}", "device_trust>=trusted"] }
+  export: { require: ["role==device_owner","band in {GREEN,AMBER}"] }

@@ -1,0 +1,153 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "$id": "circuit_memory.schema.json",
+    "title": "Circuit Memory Storage",
+    "description": "Storage schema for thalamic circuit memory including experience traces and learned patterns.",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "circuit_id",
+        "experience_traces",
+        "learned_patterns",
+        "decision_history",
+        "performance_history"
+    ],
+    "properties": {
+        "circuit_id": {
+            "type": "string",
+            "description": "Identifier for the thalamic circuit"
+        },
+        "experience_traces": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "trace_id": {
+                        "type": "string"
+                    },
+                    "stimulus_pattern": {
+                        "type": "object"
+                    },
+                    "response_pattern": {
+                        "type": "object"
+                    },
+                    "outcome": {
+                        "type": "string"
+                    },
+                    "trace_strength": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1
+                    },
+                    "timestamp": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                }
+            },
+            "description": "Stored experience traces"
+        },
+        "learned_patterns": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "pattern_id": {
+                        "type": "string"
+                    },
+                    "pattern_type": {
+                        "type": "string",
+                        "enum": [
+                            "stimulus",
+                            "response",
+                            "sequence",
+                            "context"
+                        ]
+                    },
+                    "pattern_data": {
+                        "type": "object"
+                    },
+                    "pattern_strength": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1
+                    },
+                    "usage_count": {
+                        "type": "integer",
+                        "minimum": 0
+                    }
+                }
+            },
+            "description": "Learned patterns and associations"
+        },
+        "decision_history": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "decision_id": {
+                        "type": "string"
+                    },
+                    "decision_type": {
+                        "type": "string",
+                        "enum": [
+                            "ADMIT",
+                            "DEFER",
+                            "BOOST",
+                            "DROP"
+                        ]
+                    },
+                    "decision_context": {
+                        "type": "object"
+                    },
+                    "decision_outcome": {
+                        "type": "string"
+                    },
+                    "correctness": {
+                        "type": "boolean"
+                    },
+                    "timestamp": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                }
+            },
+            "description": "History of decisions and their outcomes"
+        },
+        "performance_history": {
+            "type": "object",
+            "properties": {
+                "accuracy_over_time": {
+                    "type": "array"
+                },
+                "response_time_history": {
+                    "type": "array"
+                },
+                "load_handling_history": {
+                    "type": "array"
+                },
+                "adaptation_events": {
+                    "type": "array"
+                }
+            }
+        },
+        "memory_statistics": {
+            "type": "object",
+            "properties": {
+                "total_experiences": {
+                    "type": "integer",
+                    "minimum": 0
+                },
+                "active_patterns": {
+                    "type": "integer",
+                    "minimum": 0
+                },
+                "memory_utilization": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                }
+            }
+        }
+    }
+}

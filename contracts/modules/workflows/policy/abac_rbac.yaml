@@ -1,0 +1,3 @@
+bands:
+  AMBER:
+    allow: [events:WORKFLOW_*]

@@ -1,0 +1,515 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://familyos.local/contracts/storage/schemas/working_memory/buffer_state.schema.json",
+    "title": "Working Memory Buffer State Schema",
+    "description": "Schema for persistent storage of working memory buffer state",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "buffer_id",
+        "buffer_type",
+        "timestamp",
+        "content_items",
+        "capacity_metrics",
+        "maintenance_state"
+    ],
+    "properties": {
+        "buffer_id": {
+            "type": "string",
+            "description": "Unique identifier for the buffer instance"
+        },
+        "buffer_type": {
+            "type": "string",
+            "enum": [
+                "verbal",
+                "visuospatial",
+                "episodic",
+                "central_executive"
+            ],
+            "description": "Type of working memory buffer"
+        },
+        "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Last update timestamp for buffer state"
+        },
+        "content_items": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "required": [
+                    "item_id",
+                    "content_type",
+                    "activation_level",
+                    "entry_time"
+                ],
+                "properties": {
+                    "item_id": {
+                        "type": "string",
+                        "description": "Unique identifier for content item"
+                    },
+                    "content_type": {
+                        "type": "string",
+                        "enum": [
+                            "verbal",
+                            "visuospatial",
+                            "episodic",
+                            "semantic",
+                            "procedural",
+                            "affective"
+                        ]
+                    },
+                    "content_data": {
+                        "type": "object",
+                        "description": "Actual content data structure"
+                    },
+                    "activation_level": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1,
+                        "description": "Current activation strength"
+                    },
+                    "entry_time": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "When item entered buffer"
+                    },
+                    "last_rehearsal": {
+                        "type": "string",
+                        "format": "date-time",
+                        "description": "Last rehearsal timestamp"
+                    },
+                    "rehearsal_count": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "description": "Number of rehearsals performed"
+                    },
+                    "decay_rate": {
+                        "type": "number",
+                        "minimum": 0,
+                        "description": "Rate of activation decay"
+                    },
+                    "interference_accumulated": {
+                        "type": "number",
+                        "minimum": 0,
+                        "description": "Accumulated interference effects"
+                    },
+                    "priority_level": {
+                        "type": "string",
+                        "enum": [
+                            "low",
+                            "normal",
+                            "high",
+                            "critical"
+                        ],
+                        "description": "Priority for maintenance"
+                    },
+                    "source_system": {
+                        "type": "string",
+                        "description": "System that created this content"
+                    },
+                    "binding_strength": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1,
+                        "description": "Strength of feature bindings"
+                    },
+                    "contextual_cues": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "cue_type": {
+                                    "type": "string"
+                                },
+                                "cue_strength": {
+                                    "type": "number"
+                                },
+                                "cue_reliability": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "description": "Associated contextual retrieval cues"
+                    },
+                    "maintenance_quality": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1,
+                        "description": "Quality of content maintenance"
+                    }
+                }
+            },
+            "description": "Items currently in buffer"
+        },
+        "capacity_metrics": {
+            "type": "object",
+            "required": [
+                "current_load",
+                "maximum_capacity",
+                "utilization_rate"
+            ],
+            "properties": {
+                "current_load": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Current buffer load"
+                },
+                "maximum_capacity": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Maximum buffer capacity"
+                },
+                "utilization_rate": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Proportion of capacity used"
+                },
+                "available_capacity": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Remaining available capacity"
+                },
+                "capacity_flexibility": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Ability to expand capacity"
+                },
+                "peak_utilization": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Peak utilization in current session"
+                },
+                "capacity_history": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "timestamp": {
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            "utilization": {
+                                "type": "number"
+                            },
+                            "performance_impact": {
+                                "type": "number"
+                            }
+                        }
+                    },
+                    "description": "Historical capacity utilization"
+                }
+            },
+            "description": "Buffer capacity and utilization metrics"
+        },
+        "maintenance_state": {
+            "type": "object",
+            "required": [
+                "maintenance_strategy",
+                "rehearsal_state"
+            ],
+            "properties": {
+                "maintenance_strategy": {
+                    "type": "string",
+                    "enum": [
+                        "maintenance_rehearsal",
+                        "elaborative_rehearsal",
+                        "refreshing",
+                        "chunking",
+                        "dual_coding",
+                        "distributed_rehearsal",
+                        "strategic_allocation"
+                    ],
+                    "description": "Current maintenance strategy"
+                },
+                "rehearsal_state": {
+                    "type": "object",
+                    "properties": {
+                        "rehearsal_cycle_active": {
+                            "type": "boolean"
+                        },
+                        "current_rehearsal_target": {
+                            "type": "string"
+                        },
+                        "rehearsal_schedule": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "item_id": {
+                                        "type": "string"
+                                    },
+                                    "next_rehearsal": {
+                                        "type": "string",
+                                        "format": "date-time"
+                                    },
+                                    "rehearsal_priority": {
+                                        "type": "number"
+                                    }
+                                }
+                            }
+                        },
+                        "rehearsal_effectiveness": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    }
+                },
+                "interference_management": {
+                    "type": "object",
+                    "properties": {
+                        "interference_level": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "interference_sources": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "source_type": {
+                                        "type": "string"
+                                    },
+                                    "interference_strength": {
+                                        "type": "number"
+                                    },
+                                    "mitigation_active": {
+                                        "type": "boolean"
+                                    }
+                                }
+                            }
+                        },
+                        "protection_mechanisms": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "updating_state": {
+                    "type": "object",
+                    "properties": {
+                        "update_pending": {
+                            "type": "boolean"
+                        },
+                        "update_queue": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "update_type": {
+                                        "type": "string"
+                                    },
+                                    "target_item": {
+                                        "type": "string"
+                                    },
+                                    "update_data": {
+                                        "type": "object"
+                                    },
+                                    "update_priority": {
+                                        "type": "number"
+                                    }
+                                }
+                            }
+                        },
+                        "update_conflicts": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "conflict_type": {
+                                        "type": "string"
+                                    },
+                                    "conflicting_updates": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "resolution_strategy": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "description": "Current maintenance and updating state"
+        },
+        "performance_metrics": {
+            "type": "object",
+            "properties": {
+                "maintenance_efficiency": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Efficiency of content maintenance"
+                },
+                "retrieval_accuracy": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Accuracy of content retrieval"
+                },
+                "update_speed": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Speed of content updates"
+                },
+                "interference_resistance": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Resistance to interference"
+                },
+                "capacity_optimization": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "How well capacity is optimized"
+                },
+                "error_rates": {
+                    "type": "object",
+                    "properties": {
+                        "maintenance_errors": {
+                            "type": "number"
+                        },
+                        "retrieval_errors": {
+                            "type": "number"
+                        },
+                        "update_errors": {
+                            "type": "number"
+                        }
+                    }
+                }
+            },
+            "description": "Performance metrics for buffer operations"
+        },
+        "adaptation_state": {
+            "type": "object",
+            "properties": {
+                "adaptive_parameters": {
+                    "type": "object",
+                    "properties": {
+                        "rehearsal_frequency": {
+                            "type": "number"
+                        },
+                        "attention_allocation": {
+                            "type": "number"
+                        },
+                        "interference_threshold": {
+                            "type": "number"
+                        },
+                        "capacity_management_strategy": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "learning_history": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "timestamp": {
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            "adaptation_type": {
+                                "type": "string"
+                            },
+                            "effectiveness": {
+                                "type": "number"
+                            },
+                            "context": {
+                                "type": "object"
+                            }
+                        }
+                    },
+                    "description": "History of adaptive changes"
+                },
+                "optimization_opportunities": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "opportunity_type": {
+                                "type": "string"
+                            },
+                            "potential_benefit": {
+                                "type": "number"
+                            },
+                            "implementation_cost": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                }
+            },
+            "description": "Adaptive optimization state"
+        },
+        "integration_state": {
+            "type": "object",
+            "properties": {
+                "attention_coordination": {
+                    "type": "object",
+                    "properties": {
+                        "attention_focus": {
+                            "type": "string"
+                        },
+                        "attention_allocation": {
+                            "type": "number"
+                        },
+                        "attention_stability": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "executive_control_engagement": {
+                    "type": "object",
+                    "properties": {
+                        "control_level": {
+                            "type": "number"
+                        },
+                        "monitoring_active": {
+                            "type": "boolean"
+                        },
+                        "intervention_threshold": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "long_term_memory_interface": {
+                    "type": "object",
+                    "properties": {
+                        "encoding_queue": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "retrieval_requests": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "consolidation_candidates": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            },
+            "description": "Integration with other cognitive systems"
+        }
+    }
+}

@@ -1,0 +1,456 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://familyos.local/contracts/storage/schemas/thalamus/hysteresis_control_state.schema.json",
+    "title": "Hysteresis Control State Storage Schema",
+    "description": "Storage schema for persistent hysteresis control state in thalamic processing",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "control_system_id",
+        "control_state",
+        "oscillation_detection",
+        "control_parameters",
+        "last_updated"
+    ],
+    "properties": {
+        "control_system_id": {
+            "type": "string",
+            "description": "Unique identifier for the hysteresis control system"
+        },
+        "control_state": {
+            "type": "object",
+            "required": [
+                "active",
+                "control_mode",
+                "stability_level"
+            ],
+            "properties": {
+                "active": {
+                    "type": "boolean",
+                    "description": "Whether hysteresis control is currently active"
+                },
+                "control_mode": {
+                    "type": "string",
+                    "enum": [
+                        "preventive",
+                        "reactive",
+                        "adaptive",
+                        "emergency"
+                    ],
+                    "description": "Current mode of hysteresis control"
+                },
+                "stability_level": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Current system stability level"
+                },
+                "intervention_strength": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Strength of current intervention"
+                },
+                "control_duration_ms": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Duration control has been active"
+                }
+            },
+            "description": "Current state of hysteresis control"
+        },
+        "oscillation_detection": {
+            "type": "object",
+            "required": [
+                "detection_active",
+                "current_patterns"
+            ],
+            "properties": {
+                "detection_active": {
+                    "type": "boolean"
+                },
+                "current_patterns": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "required": [
+                            "pattern_type",
+                            "frequency",
+                            "amplitude"
+                        ],
+                        "properties": {
+                            "pattern_type": {
+                                "type": "string",
+                                "enum": [
+                                    "decision_oscillation",
+                                    "attention_flicker",
+                                    "threshold_hunting",
+                                    "resource_thrashing",
+                                    "feedback_loop"
+                                ]
+                            },
+                            "frequency": {
+                                "type": "number",
+                                "minimum": 0
+                            },
+                            "amplitude": {
+                                "type": "number",
+                                "minimum": 0
+                            },
+                            "confidence": {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 1
+                            },
+                            "first_detected": {
+                                "type": "string"
+                            },
+                            "pattern_stability": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                },
+                "detection_sensitivity": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Sensitivity of oscillation detection"
+                },
+                "detection_window_ms": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Time window for pattern detection"
+                },
+                "false_positive_rate": {
+                    "type": "number"
+                },
+                "false_negative_rate": {
+                    "type": "number"
+                }
+            },
+            "description": "Oscillation detection system state"
+        },
+        "control_parameters": {
+            "type": "object",
+            "required": [
+                "hysteresis_bands",
+                "dampening_factors"
+            ],
+            "properties": {
+                "hysteresis_bands": {
+                    "type": "object",
+                    "properties": {
+                        "admit_band_width": {
+                            "type": "number"
+                        },
+                        "defer_band_width": {
+                            "type": "number"
+                        },
+                        "boost_band_width": {
+                            "type": "number"
+                        },
+                        "drop_band_width": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "dampening_factors": {
+                    "type": "object",
+                    "properties": {
+                        "decision_dampening": {
+                            "type": "number"
+                        },
+                        "threshold_dampening": {
+                            "type": "number"
+                        },
+                        "confidence_dampening": {
+                            "type": "number"
+                        },
+                        "temporal_dampening": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "threshold_adjustments": {
+                    "type": "object",
+                    "properties": {
+                        "base_threshold_offset": {
+                            "type": "number"
+                        },
+                        "dynamic_threshold_range": {
+                            "type": "number"
+                        },
+                        "adaptation_rate": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "temporal_smoothing": {
+                    "type": "object",
+                    "properties": {
+                        "smoothing_window_ms": {
+                            "type": "number"
+                        },
+                        "smoothing_kernel": {
+                            "type": "string"
+                        },
+                        "edge_preservation": {
+                            "type": "boolean"
+                        }
+                    }
+                }
+            },
+            "description": "Control parameters for hysteresis system"
+        },
+        "decision_history": {
+            "type": "object",
+            "properties": {
+                "decision_sequence": {
+                    "type": "array",
+                    "maxItems": 200,
+                    "items": {
+                        "type": "object",
+                        "required": [
+                            "timestamp",
+                            "decision",
+                            "confidence"
+                        ],
+                        "properties": {
+                            "timestamp": {
+                                "type": "string"
+                            },
+                            "decision": {
+                                "type": "string",
+                                "enum": [
+                                    "ADMIT",
+                                    "DEFER",
+                                    "BOOST",
+                                    "DROP"
+                                ]
+                            },
+                            "confidence": {
+                                "type": "number"
+                            },
+                            "stability_metric": {
+                                "type": "number"
+                            },
+                            "oscillation_risk": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                },
+                "stability_metrics": {
+                    "type": "object",
+                    "properties": {
+                        "decision_variance": {
+                            "type": "number"
+                        },
+                        "temporal_consistency": {
+                            "type": "number"
+                        },
+                        "oscillation_count": {
+                            "type": "integer"
+                        },
+                        "stability_trend": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "description": "History of decisions and stability metrics"
+        },
+        "intervention_history": {
+            "type": "object",
+            "properties": {
+                "recent_interventions": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "required": [
+                            "timestamp",
+                            "intervention_type",
+                            "effectiveness"
+                        ],
+                        "properties": {
+                            "timestamp": {
+                                "type": "string"
+                            },
+                            "intervention_type": {
+                                "type": "string",
+                                "enum": [
+                                    "threshold_adjustment",
+                                    "decision_dampening",
+                                    "temporal_smoothing",
+                                    "confidence_boosting",
+                                    "decision_locking"
+                                ]
+                            },
+                            "trigger_pattern": {
+                                "type": "string"
+                            },
+                            "intervention_strength": {
+                                "type": "number"
+                            },
+                            "effectiveness": {
+                                "type": "number"
+                            },
+                            "side_effects": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "duration_ms": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                },
+                "intervention_statistics": {
+                    "type": "object",
+                    "properties": {
+                        "total_interventions": {
+                            "type": "integer"
+                        },
+                        "successful_interventions": {
+                            "type": "integer"
+                        },
+                        "average_effectiveness": {
+                            "type": "number"
+                        },
+                        "most_effective_type": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "description": "History of control interventions"
+        },
+        "learning_state": {
+            "type": "object",
+            "properties": {
+                "pattern_learning": {
+                    "type": "object",
+                    "properties": {
+                        "learned_patterns": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "pattern_signature": {
+                                        "type": "string"
+                                    },
+                                    "trigger_conditions": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "optimal_response": {
+                                        "type": "string"
+                                    },
+                                    "confidence": {
+                                        "type": "number"
+                                    }
+                                }
+                            }
+                        },
+                        "learning_rate": {
+                            "type": "number"
+                        },
+                        "pattern_recognition_accuracy": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "parameter_adaptation": {
+                    "type": "object",
+                    "properties": {
+                        "adaptive_parameters": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "adaptation_history": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "timestamp": {
+                                        "type": "string"
+                                    },
+                                    "parameter": {
+                                        "type": "string"
+                                    },
+                                    "old_value": {
+                                        "type": "number"
+                                    },
+                                    "new_value": {
+                                        "type": "number"
+                                    },
+                                    "adaptation_reason": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "description": "Learning and adaptation state"
+        },
+        "performance_metrics": {
+            "type": "object",
+            "properties": {
+                "oscillation_prevention_rate": {
+                    "type": "number"
+                },
+                "stability_improvement": {
+                    "type": "number"
+                },
+                "false_intervention_rate": {
+                    "type": "number"
+                },
+                "response_latency_ms": {
+                    "type": "number"
+                },
+                "system_overhead": {
+                    "type": "number"
+                }
+            },
+            "description": "Performance metrics for hysteresis control"
+        },
+        "last_updated": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp of last state update"
+        },
+        "metadata": {
+            "type": "object",
+            "properties": {
+                "creation_time": {
+                    "type": "string"
+                },
+                "control_version": {
+                    "type": "string"
+                },
+                "system_health": {
+                    "type": "string",
+                    "enum": [
+                        "optimal",
+                        "good",
+                        "degraded",
+                        "critical"
+                    ]
+                },
+                "maintenance_due": {
+                    "type": "string"
+                }
+            },
+            "description": "Metadata about the control system"
+        }
+    }
+}

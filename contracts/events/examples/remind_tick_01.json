@@ -1,0 +1,54 @@
+{
+  "schema_version": "1.1.0",
+  "id": "24c52623-834f-444c-9570-aeb00e16af27",
+  "ts": "2025-09-09T04:20:40Z",
+  "topic": "REMIND_TICK",
+  "band": "GREEN",
+  "actor": {
+    "user_id": "3eac52b4-c03a-4aa0-92a8-10ffc7c67460",
+    "agent_id": "retriever.v1",
+    "caps": [
+      "WRITE"
+    ]
+  },
+  "device": {
+    "device_id": "ios-iphone15",
+    "platform": "linux",
+    "app_version": "1.8.6",
+    "locale": "en-GB"
+  },
+  "space_id": "shared:household",
+  "policy_version": "1.3",
+  "abac": {
+    "role": "child",
+    "trust": "amber",
+    "geo_precision": "region"
+  },
+  "qos": {
+    "routing": "fast-path",
+    "priority": 6,
+    "latency_budget_ms": 113,
+    "retries": 0
+  },
+  "trace": {
+    "trace_id": "effbf33453355bd623e957b716e3d23f",
+    "span_id": "61ea25c9aed60c90",
+    "sampled": true
+  },
+  "obligations": [],
+  "redaction_applied": false,
+  "hashes": {
+    "payload_sha256": "c352b32944d521bfefa8cadb3e62f0c79b2cca3a11b56fe39165502208997965"
+  },
+  "payload": {
+    "when": "2025-09-09T04:20:40Z",
+    "note": "Reminder",
+    "jitter_ms": 50
+  },
+  "signature": {
+    "alg": "ed25519",
+    "key_id": "key_remind_tick_green_2024",
+    "public_key": "cHVibGlj",
+    "signature": "c2ln"
+  }
+}

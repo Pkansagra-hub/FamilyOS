@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "https://familyos.local/contracts/services/storage/service_status.schema.json",
+  "title": "Service Status (append-only)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "service_id", "status", "ts", "band"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^[A-Za-z0-9_-]{10,}$" },
+    "service_id": { "type": "string" },
+    "status": { "type": "string", "enum": ["healthy","degraded","starting","stopping","down"] },
+    "band": { "type": "string", "enum": ["GREEN","AMBER","RED","BLACK"] },
+    "ts": { "$ref": "../../events/schemas/_common.json#/definitions/ISOInstant" },
+    "details": { "type": "object" }
+  }
+}

@@ -1,0 +1,139 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "$id": "thalamic_global_coordination.schema.json",
+    "title": "Thalamic Global Coordination Event",
+    "description": "Event generated when thalamic circuits coordinate global cognitive states and inter-system communication.",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "timestamp",
+        "coordination_type",
+        "participating_systems",
+        "coordination_strength",
+        "global_state_change"
+    ],
+    "properties": {
+        "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timing of global coordination event"
+        },
+        "coordination_type": {
+            "type": "string",
+            "enum": [
+                "state_transition",
+                "resource_orchestration",
+                "attention_broadcast",
+                "memory_integration",
+                "executive_coordination"
+            ],
+            "description": "Type of global coordination"
+        },
+        "participating_systems": {
+            "type": "array",
+            "items": {
+                "type": "string",
+                "enum": [
+                    "working_memory",
+                    "attention_gate",
+                    "global_workspace",
+                    "hippocampus",
+                    "cortical_areas",
+                    "subcortical_areas"
+                ]
+            },
+            "description": "Systems participating in coordination"
+        },
+        "coordination_strength": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "description": "Strength of coordination signal"
+        },
+        "global_state_change": {
+            "type": "object",
+            "required": [
+                "previous_state",
+                "new_state"
+            ],
+            "properties": {
+                "previous_state": {
+                    "type": "string",
+                    "enum": [
+                        "focused",
+                        "diffuse",
+                        "vigilant",
+                        "resting",
+                        "learning",
+                        "consolidating"
+                    ]
+                },
+                "new_state": {
+                    "type": "string",
+                    "enum": [
+                        "focused",
+                        "diffuse",
+                        "vigilant",
+                        "resting",
+                        "learning",
+                        "consolidating"
+                    ]
+                },
+                "transition_smoothness": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                }
+            }
+        },
+        "coordination_messages": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "target_system": {
+                        "type": "string"
+                    },
+                    "message_type": {
+                        "type": "string"
+                    },
+                    "message_content": {
+                        "type": "object"
+                    },
+                    "priority": {
+                        "type": "number"
+                    }
+                }
+            },
+            "description": "Coordination messages sent to participating systems"
+        },
+        "synchronization_requirements": {
+            "type": "object",
+            "properties": {
+                "timing_precision_ms": {
+                    "type": "number"
+                },
+                "phase_alignment": {
+                    "type": "boolean"
+                },
+                "frequency_matching": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "coordination_outcome": {
+            "type": "object",
+            "properties": {
+                "success_rate": {
+                    "type": "number"
+                },
+                "response_latency_ms": {
+                    "type": "number"
+                },
+                "system_compliance": {
+                    "type": "array"
+                }
+            }
+        }
+    }
+}

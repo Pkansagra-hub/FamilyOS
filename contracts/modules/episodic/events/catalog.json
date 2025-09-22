@@ -1,0 +1,37 @@
+{
+  "version": "1.0.0",
+  "envelope_ref": "contracts/events/envelope.schema.json",
+  "events": [
+    {
+      "name": "WORKSPACE_BROADCAST",
+      "version": "1.0",
+      "schema_ref": "contracts/events/schemas/workspace_broadcast.schema.json",
+      "role": "consume",
+      "key": ["space_id", "envelope.event_id"],
+      "ordering": ["ts"],
+      "idempotency": { "dedupe_key": "envelope.event_id" },
+      "retry": { "policy": "exponential", "max_attempts": 5 },
+      "dlq": true
+    },
+    {
+      "name": "MEMORY_RECEIPT_CREATED",
+      "version": "1.0",
+      "schema_ref": "contracts/events/schemas/memory_receipt_created.schema.json",
+      "role": "emit",
+      "key": ["space_id", "receipt_id"],
+      "ordering": ["created_at"],
+      "idempotency": { "dedupe_key": "receipt_id" },
+      "dlq": true
+    },
+    {
+      "name": "HIPPO_ENCODE",
+      "version": "1.0",
+      "schema_ref": "contracts/events/schemas/hippo_encode.schema.json",
+      "role": "emit",
+      "key": ["space_id", "event_id"],
+      "ordering": ["ts"],
+      "idempotency": { "dedupe_key": "event_id" },
+      "dlq": true
+    }
+  ]
+}

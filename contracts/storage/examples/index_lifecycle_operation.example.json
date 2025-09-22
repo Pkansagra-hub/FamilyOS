@@ -1,0 +1,52 @@
+{
+  "operation_type": "index_lifecycle_operation",
+  "operation_id": "lifecycle-op-123",
+  "index_name": "memories_fts_main",
+  "operation": "create",
+  "requested_by": "system",
+  "space_id": "shared:household",
+  "config_reference": {
+    "index_name": "memories_fts_main",
+    "type": "fts",
+    "space_id": "shared:household",
+    "band_min": "GREEN"
+  },
+  "lifecycle_state": {
+    "current_state": "CREATING",
+    "previous_state": null,
+    "transition_timestamp": "2024-01-15T10:30:00Z",
+    "target_state": "ACTIVE",
+    "state_metadata": {
+      "creation_progress": 0.0,
+      "estimated_completion": "2024-01-15T10:35:00Z"
+    }
+  },
+  "automation_triggers": {
+    "size_threshold_mb": 1000,
+    "time_interval_hours": 24,
+    "config_change_trigger": true,
+    "manual_trigger": false
+  },
+  "operation_metadata": {
+    "priority": "normal",
+    "retry_count": 0,
+    "max_retries": 3,
+    "timeout_seconds": 300,
+    "dependencies": [],
+    "rollback_enabled": true
+  },
+  "timestamps": {
+    "requested_at": "2024-01-15T10:30:00Z",
+    "started_at": null,
+    "completed_at": null,
+    "failed_at": null
+  },
+  "result": {
+    "status": "pending",
+    "error_message": null,
+    "metrics": {
+      "processing_time_ms": null,
+      "resources_allocated": null
+    }
+  }
+}

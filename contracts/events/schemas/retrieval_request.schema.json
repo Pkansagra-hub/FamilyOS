@@ -1,0 +1,178 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "title": "Retrieval Request Event Schema",
+    "description": "Event schema for retrieval request received events",
+    "type": "object",
+    "allOf": [
+        {
+            "$ref": "../envelope.schema.json"
+        },
+        {
+            "properties": {
+                "event_type": {
+                    "const": "RETRIEVAL_REQUEST_RECEIVED"
+                },
+                "payload": {
+                    "type": "object",
+                    "properties": {
+                        "request_id": {
+                            "type": "string",
+                            "description": "Unique request identifier"
+                        },
+                        "user_id": {
+                            "type": "string",
+                            "description": "User making the request"
+                        },
+                        "query": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 1000,
+                            "description": "Search query text"
+                        },
+                        "space_id": {
+                            "type": "string",
+                            "pattern": "^(personal|selective|shared|extended|interfamily):[a-zA-Z0-9_.-]+$",
+                            "description": "Target space identifier"
+                        },
+                        "k": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "maximum": 200,
+                            "description": "Number of results requested"
+                        },
+                        "qos_budget_ms": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "maximum": 1000,
+                            "description": "QoS latency budget in milliseconds"
+                        },
+                        "filters": {
+                            "type": "object",
+                            "properties": {
+                                "bands": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string",
+                                        "enum": [
+                                            "GREEN",
+                                            "AMBER",
+                                            "RED",
+                                            "BLACK"
+                                        ]
+                                    },
+                                    "uniqueItems": true,
+                                    "description": "Requested security bands"
+                                },
+                                "topics": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string",
+                                        "pattern": "^[a-z][a-z0-9_]*$"
+                                    },
+                                    "maxItems": 10,
+                                    "uniqueItems": true,
+                                    "description": "Topic filters"
+                                },
+                                "space_types": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string",
+                                        "enum": [
+                                            "personal",
+                                            "selective",
+                                            "shared",
+                                            "extended",
+                                            "interfamily"
+                                        ]
+                                    },
+                                    "uniqueItems": true,
+                                    "description": "Space type filters"
+                                },
+                                "after": {
+                                    "type": "string",
+                                    "format": "date-time",
+                                    "description": "Temporal filter: after timestamp"
+                                },
+                                "before": {
+                                    "type": "string",
+                                    "format": "date-time",
+                                    "description": "Temporal filter: before timestamp"
+                                },
+                                "max_sensitivity": {
+                                    "type": "string",
+                                    "enum": [
+                                        "public",
+                                        "internal",
+                                        "confidential",
+                                        "restricted"
+                                    ],
+                                    "description": "Maximum sensitivity level"
+                                }
+                            },
+                            "additionalProperties": false
+                        },
+                        "return_trace": {
+                            "type": "boolean",
+                            "default": false,
+                            "description": "Whether to return detailed trace information"
+                        },
+                        "operation": {
+                            "type": "string",
+                            "enum": [
+                                "recall:read",
+                                "recall:trace",
+                                "recall:debug"
+                            ],
+                            "default": "recall:read",
+                            "description": "Type of retrieval operation"
+                        }
+                    },
+                    "required": [
+                        "request_id",
+                        "user_id",
+                        "query",
+                        "k",
+                        "qos_budget_ms"
+                    ],
+                    "additionalProperties": false
+                }
+            }
+        }
+    ],
+    "examples": [
+        {
+            "id": "evt_retrieval_req_001",
+            "event_type": "RETRIEVAL_REQUEST_RECEIVED",
+            "timestamp": "2025-09-16T10:30:00.123Z",
+            "source": "workspace.broadcast",
+            "space_id": "shared:research_team",
+            "user_id": "alice_researcher",
+            "trace_id": "a1b2c3d4e5f6789012345678deadbeef",
+            "version": "1.0.0",
+            "payload": {
+                "request_id": "req_20250916_001",
+                "user_id": "alice_researcher",
+                "query": "machine learning cognitive architecture research notes",
+                "space_id": "shared:research_team",
+                "k": 15,
+                "qos_budget_ms": 150,
+                "filters": {
+                    "bands": [
+                        "GREEN",
+                        "AMBER"
+                    ],
+                    "topics": [
+                        "machine_learning",
+                        "cognitive_architecture"
+                    ],
+                    "space_types": [
+                        "shared"
+                    ],
+                    "max_sensitivity": "confidential"
+                },
+                "return_trace": true,
+                "operation": "recall:read"
+            }
+        }
+    ]
+}

@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://memoryos.local/contracts/events/schemas/dsar_export.schema.json",
+  "title": "DSAR_EXPORT@1.0 payload",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "subject_id",
+    "space_id",
+    "export_uri",
+    "generated_at"
+  ],
+  "properties": {
+    "subject_id": {
+      "type": "string"
+    },
+    "space_id": {
+      "$ref": "_common.json#/definitions/SpaceRef"
+    },
+    "export_uri": {
+      "type": "string",
+      "format": "uri"
+    },
+    "generated_at": {
+      "$ref": "_common.json#/definitions/ISOInstant"
+    },
+    "redaction_policy_version": {
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+$"
+    },
+    "trace": {
+      "$ref": "_common.json#/definitions/TraceContext"
+    }
+  }
+}

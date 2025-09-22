@@ -1,0 +1,10 @@
+{
+  "id": "01HX3V6MDSAJKR2TPX6BF3QC9K",
+  "type": "export",
+  "status": "pending",
+  "filters": {
+    "after": "2025-09-01T00:00:00Z"
+  },
+  "ts": "2025-01-14T10:30:00.000Z",
+  "space_id": "personal:user123"
+}

@@ -1,0 +1,397 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "$id": "inhibitory_control_system.schema.json",
+    "title": "Inhibitory Control System Event",
+    "description": "Event for inhibitory control mechanisms including response inhibition, interference control, and cognitive inhibition with neural circuit coordination",
+    "type": "object",
+    "required": [
+        "timestamp",
+        "inhibition_type",
+        "inhibitory_mechanisms",
+        "neural_implementation",
+        "system_coordination"
+    ],
+    "properties": {
+        "timestamp": {
+            "type": "string",
+            "format": "date-time"
+        },
+        "inhibition_type": {
+            "type": "string",
+            "enum": [
+                "response_inhibition",
+                "interference_control",
+                "cognitive_inhibition",
+                "proactive_inhibition",
+                "reactive_inhibition"
+            ]
+        },
+        "inhibitory_mechanisms": {
+            "type": "object",
+            "properties": {
+                "response_inhibition": {
+                    "type": "object",
+                    "properties": {
+                        "prepotent_response_suppression": {
+                            "type": "object",
+                            "properties": {
+                                "suppression_strength": {
+                                    "type": "number",
+                                    "minimum": 0,
+                                    "maximum": 1
+                                },
+                                "suppression_latency": {
+                                    "type": "number"
+                                },
+                                "suppression_effectiveness": {
+                                    "type": "number"
+                                },
+                                "rebound_potential": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "action_cancellation": {
+                            "type": "object",
+                            "properties": {
+                                "cancellation_signal": {
+                                    "type": "string"
+                                },
+                                "cancellation_threshold": {
+                                    "type": "number"
+                                },
+                                "race_model_dynamics": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "interference_control": {
+                    "type": "object",
+                    "properties": {
+                        "stroop_like_interference": {
+                            "type": "object",
+                            "properties": {
+                                "interference_magnitude": {
+                                    "type": "number"
+                                },
+                                "resolution_strategy": {
+                                    "type": "string"
+                                },
+                                "resolution_effectiveness": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "flanker_interference": {
+                            "type": "object",
+                            "properties": {
+                                "spatial_interference": {
+                                    "type": "number"
+                                },
+                                "feature_interference": {
+                                    "type": "number"
+                                },
+                                "attention_focusing": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "working_memory_interference": {
+                            "type": "object",
+                            "properties": {
+                                "proactive_interference": {
+                                    "type": "number"
+                                },
+                                "retroactive_interference": {
+                                    "type": "number"
+                                },
+                                "interference_resolution": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "cognitive_inhibition": {
+                    "type": "object",
+                    "properties": {
+                        "memory_inhibition": {
+                            "type": "object",
+                            "properties": {
+                                "retrieval_induced_forgetting": {
+                                    "type": "number"
+                                },
+                                "directed_forgetting": {
+                                    "type": "number"
+                                },
+                                "inhibitory_aftereffects": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "attention_inhibition": {
+                            "type": "object",
+                            "properties": {
+                                "negative_priming": {
+                                    "type": "number"
+                                },
+                                "inhibition_of_return": {
+                                    "type": "number"
+                                },
+                                "attentional_suppression": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "neural_implementation": {
+            "type": "object",
+            "properties": {
+                "prefrontal_inhibitory_circuits": {
+                    "type": "object",
+                    "properties": {
+                        "right_inferior_frontal_gyrus": {
+                            "type": "object",
+                            "properties": {
+                                "stopping_signal_strength": {
+                                    "type": "number"
+                                },
+                                "inhibitory_control_activation": {
+                                    "type": "number"
+                                },
+                                "response_cancellation": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "pre_supplementary_motor_area": {
+                            "type": "object",
+                            "properties": {
+                                "conflict_detection": {
+                                    "type": "number"
+                                },
+                                "inhibitory_preparation": {
+                                    "type": "number"
+                                },
+                                "action_monitoring": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "anterior_cingulate_cortex": {
+                            "type": "object",
+                            "properties": {
+                                "conflict_monitoring": {
+                                    "type": "number"
+                                },
+                                "cognitive_control": {
+                                    "type": "number"
+                                },
+                                "error_detection": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                },
+                "subcortical_inhibitory_circuits": {
+                    "type": "object",
+                    "properties": {
+                        "subthalamic_nucleus": {
+                            "type": "object",
+                            "properties": {
+                                "global_stopping": {
+                                    "type": "number"
+                                },
+                                "response_threshold_adjustment": {
+                                    "type": "number"
+                                },
+                                "action_selection_control": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "striatal_circuits": {
+                            "type": "object",
+                            "properties": {
+                                "go_no_go_processing": {
+                                    "type": "number"
+                                },
+                                "habit_inhibition": {
+                                    "type": "number"
+                                },
+                                "action_value_suppression": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                },
+                "inhibitory_neurotransmitter_systems": {
+                    "type": "object",
+                    "properties": {
+                        "gaba_mediated_inhibition": {
+                            "type": "object",
+                            "properties": {
+                                "local_circuit_inhibition": {
+                                    "type": "number"
+                                },
+                                "long_range_inhibition": {
+                                    "type": "number"
+                                },
+                                "inhibitory_interneuron_activity": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "dopamine_modulation": {
+                            "type": "object",
+                            "properties": {
+                                "inhibitory_control_enhancement": {
+                                    "type": "number"
+                                },
+                                "reward_based_inhibition": {
+                                    "type": "number"
+                                },
+                                "motivational_inhibition": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "system_coordination": {
+            "type": "object",
+            "properties": {
+                "attention_gate_inhibitory_control": {
+                    "type": "object",
+                    "properties": {
+                        "gate_closure_signals": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "signal_type": {
+                                        "type": "string"
+                                    },
+                                    "inhibition_strength": {
+                                        "type": "number"
+                                    },
+                                    "target_circuit": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        },
+                        "distractor_suppression": {
+                            "type": "object",
+                            "properties": {
+                                "suppression_zones": {
+                                    "type": "array"
+                                },
+                                "suppression_effectiveness": {
+                                    "type": "number"
+                                },
+                                "rebound_monitoring": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "working_memory_inhibitory_control": {
+                    "type": "object",
+                    "properties": {
+                        "interference_resolution": {
+                            "type": "object",
+                            "properties": {
+                                "competing_item_suppression": {
+                                    "type": "number"
+                                },
+                                "updating_inhibition": {
+                                    "type": "number"
+                                },
+                                "maintenance_protection": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "executive_inhibitory_control": {
+                            "type": "object",
+                            "properties": {
+                                "task_set_inhibition": {
+                                    "type": "number"
+                                },
+                                "response_set_inhibition": {
+                                    "type": "number"
+                                },
+                                "goal_protection": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                },
+                "consciousness_inhibitory_integration": {
+                    "type": "object",
+                    "properties": {
+                        "conscious_control_of_inhibition": {
+                            "type": "object",
+                            "properties": {
+                                "intentional_suppression": {
+                                    "type": "number"
+                                },
+                                "meta_cognitive_control": {
+                                    "type": "number"
+                                },
+                                "strategic_inhibition": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "unconscious_inhibitory_processes": {
+                            "type": "object",
+                            "properties": {
+                                "automatic_suppression": {
+                                    "type": "number"
+                                },
+                                "subliminal_inhibition": {
+                                    "type": "number"
+                                },
+                                "implicit_control": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "performance_metrics": {
+            "type": "object",
+            "properties": {
+                "inhibition_effectiveness": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "inhibition_cost": {
+                    "type": "number"
+                },
+                "inhibition_sustainability": {
+                    "type": "number"
+                },
+                "inhibition_selectivity": {
+                    "type": "number"
+                }
+            }
+        }
+    }
+}

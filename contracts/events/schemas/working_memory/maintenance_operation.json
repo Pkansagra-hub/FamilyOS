@@ -1,0 +1,43 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "$id": "maintenance_operation.schema.json",
+    "title": "Working Memory Maintenance Operation Event",
+    "description": "Event for maintenance operations in working memory",
+    "type": "object",
+    "required": [
+        "timestamp",
+        "operation_type",
+        "target_content",
+        "success"
+    ],
+    "properties": {
+        "timestamp": {
+            "type": "string",
+            "format": "date-time"
+        },
+        "operation_type": {
+            "type": "string",
+            "enum": [
+                "rehearsal",
+                "refresh",
+                "chunking",
+                "elaboration"
+            ]
+        },
+        "target_content": {
+            "type": "string"
+        },
+        "success": {
+            "type": "boolean"
+        },
+        "duration_ms": {
+            "type": "number",
+            "minimum": 0
+        },
+        "effort_level": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+        }
+    }
+}

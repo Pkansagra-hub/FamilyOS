@@ -1,0 +1,357 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "$id": "thalamic_hysteresis_control.schema.json",
+    "title": "Thalamic Hysteresis Control Event",
+    "description": "Event generated when thalamic hysteresis mechanisms adjust decision thresholds to prevent oscillation and maintain stability in cognitive processing decisions.",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "timestamp",
+        "hysteresis_type",
+        "threshold_adjustment",
+        "stability_metrics",
+        "oscillation_detection",
+        "control_action"
+    ],
+    "properties": {
+        "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Precise timing of hysteresis control adjustment"
+        },
+        "hysteresis_type": {
+            "type": "string",
+            "enum": [
+                "decision_threshold",
+                "salience_threshold",
+                "attention_threshold",
+                "priority_threshold",
+                "resource_threshold"
+            ],
+            "description": "Type of hysteresis mechanism being controlled"
+        },
+        "threshold_adjustment": {
+            "type": "object",
+            "required": [
+                "adjustment_type",
+                "magnitude",
+                "direction"
+            ],
+            "properties": {
+                "adjustment_type": {
+                    "type": "string",
+                    "enum": [
+                        "increase_upper",
+                        "decrease_upper",
+                        "increase_lower",
+                        "decrease_lower",
+                        "widen_band",
+                        "narrow_band"
+                    ],
+                    "description": "Type of threshold adjustment"
+                },
+                "magnitude": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Magnitude of threshold adjustment"
+                },
+                "direction": {
+                    "type": "string",
+                    "enum": [
+                        "stabilizing",
+                        "destabilizing",
+                        "neutral"
+                    ],
+                    "description": "Direction of adjustment relative to stability"
+                },
+                "previous_threshold": {
+                    "type": "number",
+                    "description": "Previous threshold value"
+                },
+                "new_threshold": {
+                    "type": "number",
+                    "description": "New threshold value after adjustment"
+                },
+                "adjustment_rate": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Rate of threshold adjustment"
+                }
+            },
+            "description": "Details of threshold adjustment"
+        },
+        "stability_metrics": {
+            "type": "object",
+            "required": [
+                "current_stability",
+                "stability_trend"
+            ],
+            "properties": {
+                "current_stability": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Current system stability measure"
+                },
+                "stability_trend": {
+                    "type": "string",
+                    "enum": [
+                        "improving",
+                        "degrading",
+                        "stable",
+                        "oscillating"
+                    ],
+                    "description": "Trend in system stability"
+                },
+                "stability_history": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "timestamp": {
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            "stability_value": {
+                                "type": "number"
+                            }
+                        }
+                    },
+                    "description": "Historical stability measurements"
+                },
+                "variance_measure": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Variance in decision patterns"
+                },
+                "entropy_measure": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Entropy in decision sequences"
+                }
+            },
+            "description": "Comprehensive stability metrics"
+        },
+        "oscillation_detection": {
+            "type": "object",
+            "required": [
+                "oscillation_detected",
+                "oscillation_frequency"
+            ],
+            "properties": {
+                "oscillation_detected": {
+                    "type": "boolean",
+                    "description": "Whether oscillation is currently detected"
+                },
+                "oscillation_frequency": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Frequency of oscillation in Hz"
+                },
+                "oscillation_amplitude": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Amplitude of detected oscillation"
+                },
+                "oscillation_pattern": {
+                    "type": "string",
+                    "enum": [
+                        "regular",
+                        "irregular",
+                        "chaotic",
+                        "damped",
+                        "growing"
+                    ],
+                    "description": "Pattern of oscillation"
+                },
+                "decision_sequence": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "decision": {
+                                "type": "string"
+                            },
+                            "timestamp": {
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            "confidence": {
+                                "type": "number"
+                            }
+                        }
+                    },
+                    "description": "Recent sequence of decisions showing oscillation"
+                },
+                "phase_relationship": {
+                    "type": "object",
+                    "properties": {
+                        "phase_offset": {
+                            "type": "number"
+                        },
+                        "phase_coherence": {
+                            "type": "number"
+                        },
+                        "phase_stability": {
+                            "type": "number"
+                        }
+                    },
+                    "description": "Phase relationship analysis of oscillations"
+                }
+            },
+            "description": "Oscillation detection and analysis"
+        },
+        "control_action": {
+            "type": "object",
+            "required": [
+                "action_type",
+                "control_strength"
+            ],
+            "properties": {
+                "action_type": {
+                    "type": "string",
+                    "enum": [
+                        "damping",
+                        "stabilizing",
+                        "threshold_adjustment",
+                        "dead_zone_introduction",
+                        "filtering",
+                        "delay_introduction"
+                    ],
+                    "description": "Type of control action taken"
+                },
+                "control_strength": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Strength of control intervention"
+                },
+                "control_duration": {
+                    "type": "object",
+                    "properties": {
+                        "duration_ms": {
+                            "type": "number"
+                        },
+                        "decay_function": {
+                            "type": "string"
+                        },
+                        "persistence": {
+                            "type": "boolean"
+                        }
+                    },
+                    "description": "Duration and persistence of control action"
+                },
+                "affected_circuits": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "enum": [
+                            "memory",
+                            "recall",
+                            "executive",
+                            "learning",
+                            "perception",
+                            "motor"
+                        ]
+                    },
+                    "description": "Thalamic circuits affected by control action"
+                },
+                "control_parameters": {
+                    "type": "object",
+                    "properties": {
+                        "damping_coefficient": {
+                            "type": "number"
+                        },
+                        "time_constant": {
+                            "type": "number"
+                        },
+                        "dead_zone_width": {
+                            "type": "number"
+                        },
+                        "filter_cutoff": {
+                            "type": "number"
+                        }
+                    },
+                    "description": "Specific control parameters"
+                }
+            },
+            "description": "Control action details and parameters"
+        },
+        "adaptive_learning": {
+            "type": "object",
+            "properties": {
+                "learning_rate": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Rate of adaptive learning for hysteresis parameters"
+                },
+                "experience_integration": {
+                    "type": "object",
+                    "properties": {
+                        "successful_adjustments": {
+                            "type": "integer"
+                        },
+                        "failed_adjustments": {
+                            "type": "integer"
+                        },
+                        "learning_trajectory": {
+                            "type": "array"
+                        }
+                    },
+                    "description": "Integration of past experience"
+                },
+                "prediction_accuracy": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Accuracy of stability predictions"
+                },
+                "model_update": {
+                    "type": "object",
+                    "properties": {
+                        "model_version": {
+                            "type": "string"
+                        },
+                        "update_magnitude": {
+                            "type": "number"
+                        },
+                        "confidence_change": {
+                            "type": "number"
+                        }
+                    },
+                    "description": "Updates to hysteresis control model"
+                }
+            },
+            "description": "Adaptive learning mechanisms for hysteresis control"
+        },
+        "performance_metrics": {
+            "type": "object",
+            "properties": {
+                "control_effectiveness": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Effectiveness of hysteresis control"
+                },
+                "stability_improvement": {
+                    "type": "number",
+                    "description": "Improvement in stability from control action"
+                },
+                "oscillation_reduction": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Reduction in oscillation magnitude"
+                },
+                "response_latency": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Latency of control response in milliseconds"
+                }
+            },
+            "description": "Performance metrics for hysteresis control"
+        }
+    }
+}

@@ -1,0 +1,8 @@
+{
+  "events": {
+    "SENSORY_FRAME@1": "storage/schemas/sensory_frame.schema.json"
+  },
+  "records": {
+    "frame_record@1": "storage/schemas/frame_record.schema.json"
+  }
+}

@@ -1,0 +1,210 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Connector Execute Request",
+  "description": "Request to execute a connector action with family memory context",
+  "type": "object",
+  "required": ["connector_id", "action", "context"],
+  "properties": {
+    "connector_id": {
+      "type": "string",
+      "description": "Unique identifier of the connector to execute",
+      "examples": ["philips_hue", "bank_of_america", "google_calendar", "nest_thermostat"]
+    },
+    "action": {
+      "type": "object",
+      "description": "Action to execute with parameters",
+      "required": ["action_type"],
+      "properties": {
+        "action_type": {
+          "type": "string",
+          "description": "Type of action to perform",
+          "enum": ["read", "write", "subscribe", "unsubscribe", "query", "command"]
+        },
+        "parameters": {
+          "type": "object",
+          "description": "Action-specific parameters",
+          "additionalProperties": true
+        },
+        "target": {
+          "type": "string",
+          "description": "Target resource or device for the action",
+          "examples": ["living_room_lights", "main_thermostat", "family_calendar"]
+        }
+      }
+    },
+    "context": {
+      "type": "object",
+      "description": "Family and memory context for the action",
+      "required": ["family_member_id"],
+      "properties": {
+        "family_member_id": {
+          "type": "string",
+          "description": "ID of family member requesting the action",
+          "pattern": "^fam_[a-z]+_\\d+$"
+        },
+        "space_id": {
+          "type": "string",
+          "description": "Memory space context for the action",
+          "examples": ["shared:household", "personal:mom_private"]
+        },
+        "memory_context": {
+          "type": "object",
+          "description": "Memory retrieval for contextual awareness",
+          "properties": {
+            "query": {
+              "type": "string",
+              "description": "Memory query to inform the action"
+            },
+            "max_memories": {
+              "type": "integer",
+              "minimum": 1,
+              "maximum": 50,
+              "default": 10
+            },
+            "time_range": {
+              "type": "object",
+              "properties": {
+                "start": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "end": {
+                  "type": "string",
+                  "format": "date-time"
+                }
+              }
+            }
+          }
+        },
+        "family_context": {
+          "type": "object",
+          "description": "Current family situation context",
+          "properties": {
+            "participants": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^fam_[a-z]+_\\d+$"
+              },
+              "description": "Family members currently involved or affected"
+            },
+            "home_status": {
+              "type": "object",
+              "properties": {
+                "occupancy": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "description": "Family members currently at home"
+                },
+                "activity_level": {
+                  "type": "string",
+                  "enum": ["quiet", "normal", "active", "sleeping"],
+                  "description": "Current household activity level"
+                },
+                "emotional_state": {
+                  "type": "string",
+                  "enum": ["calm", "stressed", "excited", "tense", "celebratory"],
+                  "description": "Overall family emotional state"
+                }
+              }
+            }
+          }
+        },
+        "temporal_context": {
+          "type": "object",
+          "properties": {
+            "timestamp": {
+              "type": "string",
+              "format": "date-time",
+              "description": "When the action was requested"
+            },
+            "timezone": {
+              "type": "string",
+              "description": "Family timezone",
+              "examples": ["America/New_York", "Europe/London"]
+            }
+          }
+        }
+      }
+    },
+    "options": {
+      "type": "object",
+      "description": "Execution options and preferences",
+      "properties": {
+        "async_execution": {
+          "type": "boolean",
+          "default": false,
+          "description": "Whether to execute asynchronously"
+        },
+        "confirmation_required": {
+          "type": "boolean",
+          "default": false,
+          "description": "Whether user confirmation is required before execution"
+        },
+        "family_impact_analysis": {
+          "type": "boolean",
+          "default": true,
+          "description": "Whether to analyze impact on other family members"
+        },
+        "memory_integration": {
+          "type": "boolean",
+          "default": true,
+          "description": "Whether to use family memories to inform the action"
+        },
+        "privacy_level": {
+          "type": "string",
+          "enum": ["GREEN", "AMBER", "RED", "BLACK"],
+          "default": "GREEN",
+          "description": "Privacy level for action logging and sharing"
+        },
+        "timeout": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 300,
+          "default": 30,
+          "description": "Timeout in seconds for action execution"
+        }
+      }
+    }
+  },
+  "examples": [
+    {
+      "connector_id": "philips_hue",
+      "action": {
+        "action_type": "command",
+        "parameters": {
+          "brightness": 40,
+          "color_temperature": 3000,
+          "transition_time": 2
+        },
+        "target": "living_room_lights"
+      },
+      "context": {
+        "family_member_id": "fam_mom_001",
+        "space_id": "shared:household",
+        "memory_context": {
+          "query": "family lighting preferences for evening study time",
+          "max_memories": 5
+        },
+        "family_context": {
+          "participants": ["fam_emma_003"],
+          "home_status": {
+            "occupancy": ["fam_mom_001", "fam_emma_003"],
+            "activity_level": "quiet"
+          }
+        },
+        "temporal_context": {
+          "timestamp": "2025-09-21T19:30:00Z",
+          "timezone": "America/New_York"
+        }
+      },
+      "options": {
+        "family_impact_analysis": true,
+        "memory_integration": true,
+        "privacy_level": "GREEN"
+      }
+    }
+  ]
+}

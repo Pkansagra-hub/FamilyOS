@@ -1,0 +1,438 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://familyos.local/contracts/storage/schemas/thalamus/salience_map_state.schema.json",
+    "title": "Salience Map State Storage Schema",
+    "description": "Storage schema for persistent salience mapping state in thalamic processing",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "map_id",
+        "map_type",
+        "salience_data",
+        "computation_metadata",
+        "last_updated"
+    ],
+    "properties": {
+        "map_id": {
+            "type": "string",
+            "description": "Unique identifier for the salience map"
+        },
+        "map_type": {
+            "type": "string",
+            "enum": [
+                "spatial",
+                "temporal",
+                "feature",
+                "semantic",
+                "composite"
+            ],
+            "description": "Type of salience map"
+        },
+        "salience_data": {
+            "type": "object",
+            "required": [
+                "content_salience_scores",
+                "global_statistics"
+            ],
+            "properties": {
+                "content_salience_scores": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "required": [
+                            "content_id",
+                            "salience_score",
+                            "computation_time"
+                        ],
+                        "properties": {
+                            "content_id": {
+                                "type": "string"
+                            },
+                            "salience_score": {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 1
+                            },
+                            "computation_time": {
+                                "type": "string"
+                            },
+                            "factor_breakdown": {
+                                "type": "object",
+                                "properties": {
+                                    "recency": {
+                                        "type": "number"
+                                    },
+                                    "frequency": {
+                                        "type": "number"
+                                    },
+                                    "emotional_valence": {
+                                        "type": "number"
+                                    },
+                                    "goal_relevance": {
+                                        "type": "number"
+                                    },
+                                    "novelty": {
+                                        "type": "number"
+                                    },
+                                    "social_importance": {
+                                        "type": "number"
+                                    },
+                                    "urgency": {
+                                        "type": "number"
+                                    }
+                                }
+                            },
+                            "confidence_score": {
+                                "type": "number"
+                            },
+                            "uncertainty_factors": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "global_statistics": {
+                    "type": "object",
+                    "required": [
+                        "mean_salience",
+                        "std_deviation",
+                        "total_items"
+                    ],
+                    "properties": {
+                        "mean_salience": {
+                            "type": "number"
+                        },
+                        "std_deviation": {
+                            "type": "number"
+                        },
+                        "total_items": {
+                            "type": "integer"
+                        },
+                        "min_salience": {
+                            "type": "number"
+                        },
+                        "max_salience": {
+                            "type": "number"
+                        },
+                        "percentile_distribution": {
+                            "type": "object",
+                            "properties": {
+                                "p25": {
+                                    "type": "number"
+                                },
+                                "p50": {
+                                    "type": "number"
+                                },
+                                "p75": {
+                                    "type": "number"
+                                },
+                                "p90": {
+                                    "type": "number"
+                                },
+                                "p95": {
+                                    "type": "number"
+                                },
+                                "p99": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                },
+                "ranking_data": {
+                    "type": "object",
+                    "properties": {
+                        "ranked_content_ids": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "category_rankings": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "temporal_rankings": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "time_window": {
+                                        "type": "string"
+                                    },
+                                    "ranked_items": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "description": "Salience data and rankings"
+        },
+        "computation_metadata": {
+            "type": "object",
+            "required": [
+                "algorithm_version",
+                "last_computation_time"
+            ],
+            "properties": {
+                "algorithm_version": {
+                    "type": "string"
+                },
+                "last_computation_time": {
+                    "type": "string"
+                },
+                "computation_duration_ms": {
+                    "type": "number"
+                },
+                "feature_weights": {
+                    "type": "object",
+                    "properties": {
+                        "recency_weight": {
+                            "type": "number"
+                        },
+                        "frequency_weight": {
+                            "type": "number"
+                        },
+                        "emotional_weight": {
+                            "type": "number"
+                        },
+                        "goal_weight": {
+                            "type": "number"
+                        },
+                        "novelty_weight": {
+                            "type": "number"
+                        },
+                        "social_weight": {
+                            "type": "number"
+                        },
+                        "urgency_weight": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "normalization_parameters": {
+                    "type": "object",
+                    "properties": {
+                        "normalization_method": {
+                            "type": "string"
+                        },
+                        "scaling_factor": {
+                            "type": "number"
+                        },
+                        "offset": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "quality_metrics": {
+                    "type": "object",
+                    "properties": {
+                        "computation_accuracy": {
+                            "type": "number"
+                        },
+                        "coverage_completeness": {
+                            "type": "number"
+                        },
+                        "consistency_score": {
+                            "type": "number"
+                        }
+                    }
+                }
+            },
+            "description": "Metadata about salience computation"
+        },
+        "temporal_history": {
+            "type": "object",
+            "properties": {
+                "salience_evolution": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "timestamp": {
+                                "type": "string"
+                            },
+                            "content_id": {
+                                "type": "string"
+                            },
+                            "salience_score": {
+                                "type": "number"
+                            },
+                            "change_rate": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                },
+                "trend_analysis": {
+                    "type": "object",
+                    "properties": {
+                        "trending_up": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "trending_down": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "stable_items": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "volatile_items": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            },
+            "description": "Historical salience data and trends"
+        },
+        "spatial_mapping": {
+            "type": "object",
+            "properties": {
+                "coordinate_system": {
+                    "type": "string"
+                },
+                "spatial_distribution": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "content_id": {
+                                "type": "string"
+                            },
+                            "coordinates": {
+                                "type": "object"
+                            },
+                            "spatial_salience": {
+                                "type": "number"
+                            },
+                            "neighborhood_influence": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                },
+                "attention_hotspots": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "center": {
+                                "type": "object"
+                            },
+                            "radius": {
+                                "type": "number"
+                            },
+                            "peak_salience": {
+                                "type": "number"
+                            },
+                            "content_density": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                }
+            },
+            "description": "Spatial distribution of salience"
+        },
+        "adaptation_state": {
+            "type": "object",
+            "properties": {
+                "learning_rate": {
+                    "type": "number"
+                },
+                "adaptation_history": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "timestamp": {
+                                "type": "string"
+                            },
+                            "parameter_name": {
+                                "type": "string"
+                            },
+                            "old_value": {
+                                "type": "number"
+                            },
+                            "new_value": {
+                                "type": "number"
+                            },
+                            "adaptation_trigger": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "performance_feedback": {
+                    "type": "object",
+                    "properties": {
+                        "prediction_accuracy": {
+                            "type": "number"
+                        },
+                        "ranking_stability": {
+                            "type": "number"
+                        },
+                        "user_feedback_score": {
+                            "type": "number"
+                        }
+                    }
+                }
+            },
+            "description": "Learning and adaptation state"
+        },
+        "last_updated": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp of last state update"
+        },
+        "metadata": {
+            "type": "object",
+            "properties": {
+                "creation_time": {
+                    "type": "string"
+                },
+                "update_frequency": {
+                    "type": "string"
+                },
+                "data_freshness": {
+                    "type": "string"
+                },
+                "map_status": {
+                    "type": "string",
+                    "enum": [
+                        "current",
+                        "stale",
+                        "updating",
+                        "archived"
+                    ]
+                }
+            },
+            "description": "Metadata about the salience map"
+        }
+    }
+}

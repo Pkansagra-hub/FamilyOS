@@ -1,0 +1,6 @@
+{
+  "events": {
+    "PROSPECTIVE_SCHEDULE@1": "storage/schemas/schedule.schema.json",
+    "REMIND_TICK@1": "storage/schemas/reminder_state.schema.json"
+  }
+}

@@ -1,0 +1,145 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://familyos.local/contracts/storage/common.schema.json",
+  "title": "FamilyOS Storage Commons",
+  "description": "Common definitions shared by storage record schemas.",
+  "type": "object",
+  "$defs": {
+    "ULID": {
+      "type": "string",
+      "pattern": "^[0-7][0-9A-HJKMNP-TV-Z]{25}$",
+      "description": "Crockford Base32 ULID"
+    },
+    "UUID": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "EnvelopeId": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/UUID"
+        },
+        {
+          "$ref": "#/$defs/ULID"
+        }
+      ]
+    },
+    "Timestamp": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "SemVer": {
+      "type": "string",
+      "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:\\.(0|[1-9]\\d*))?(?:-[0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*)?(?:\\+[0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*)?$"
+    },
+    "SpaceId": {
+      "type": "string",
+      "pattern": "^(personal|selective|shared|extended|interfamily):[A-Za-z0-9_\\-\\.]+$"
+    },
+    "Band": {
+      "type": "string",
+      "enum": [
+        "GREEN",
+        "AMBER",
+        "RED",
+        "BLACK"
+      ]
+    },
+    "MLSGroup": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9._:-]{3,64}$"
+    },
+    "LanguageCode": {
+      "type": "string",
+      "pattern": "^[A-Za-z]{2}(-[A-Za-z]{2})?$"
+    },
+    "ActorRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "user_id"
+      ],
+      "properties": {
+        "user_id": {
+          "$ref": "#/$defs/UUID"
+        },
+        "agent_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9._:-]{3,64}$"
+        }
+      }
+    },
+    "DeviceRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "device_id"
+      ],
+      "properties": {
+        "device_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9._:-]{3,64}$"
+        },
+        "platform": {
+          "type": "string",
+          "enum": [
+            "ios",
+            "android",
+            "macos",
+            "windows",
+            "linux",
+            "web",
+            "edge"
+          ]
+        },
+        "app_version": {
+          "$ref": "#/$defs/SemVer"
+        }
+      }
+    },
+    "Hash256": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$"
+    },
+    "BlobRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "blob_id",
+        "sha256"
+      ],
+      "properties": {
+        "blob_id": {
+          "$ref": "#/$defs/ULID"
+        },
+        "sha256": {
+          "$ref": "#/$defs/Hash256"
+        },
+        "size_bytes": {
+          "type": "integer",
+          "minimum": 0
+        },
+        "content_type": {
+          "type": "string"
+        },
+        "url": {
+          "type": "string",
+          "format": "uri"
+        }
+      }
+    },
+    "EmbeddingModelId": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9._:-]{2,64}$"
+    },
+    "Dim": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 32768
+    },
+    "IndexName": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9._:-]{2,64}$"
+    }
+  }
+}

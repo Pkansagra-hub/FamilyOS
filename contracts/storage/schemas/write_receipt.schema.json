@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://familyos.local/contracts/storage/write_receipt.schema.json",
+  "title": "Write Receipt",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "envelope_id",
+    "committed",
+    "stores",
+    "uow_id",
+    "created_ts",
+    "receipt_hash"
+  ],
+  "properties": {
+    "envelope_id": {
+      "$ref": "./common.schema.json#/$defs/EnvelopeId"
+    },
+    "committed": {
+      "type": "boolean"
+    },
+    "stores": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "name",
+          "ts"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "ts": {
+            "$ref": "./common.schema.json#/$defs/Timestamp"
+          },
+          "record_id": {
+            "$ref": "./common.schema.json#/$defs/ULID"
+          }
+        }
+      }
+    },
+    "error": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "uow_id": {
+      "$ref": "./common.schema.json#/$defs/ULID"
+    },
+    "created_ts": {
+      "$ref": "./common.schema.json#/$defs/Timestamp"
+    },
+    "committed_ts": {
+      "$ref": "./common.schema.json#/$defs/Timestamp"
+    },
+    "receipt_hash": {
+      "type": "string",
+      "description": "SHA-256 hash for cryptographic integrity verification"
+    }
+  }
+}

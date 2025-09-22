@@ -1,0 +1,807 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://familyos.local/contracts/storage/schemas/working_memory/strategy_state.schema.json",
+    "title": "Working Memory Strategy State Schema",
+    "description": "Schema for persistent storage of working memory strategy management state",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "strategy_id",
+        "timestamp",
+        "active_strategies",
+        "strategy_selection",
+        "strategy_performance"
+    ],
+    "properties": {
+        "strategy_id": {
+            "type": "string",
+            "description": "Unique identifier for strategy state instance"
+        },
+        "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Last update timestamp"
+        },
+        "active_strategies": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "required": [
+                    "strategy_name",
+                    "strategy_type",
+                    "activation_level"
+                ],
+                "properties": {
+                    "strategy_name": {
+                        "type": "string",
+                        "description": "Name of the strategy"
+                    },
+                    "strategy_type": {
+                        "type": "string",
+                        "enum": [
+                            "maintenance_strategy",
+                            "encoding_strategy",
+                            "retrieval_strategy",
+                            "updating_strategy",
+                            "chunking_strategy",
+                            "rehearsal_strategy",
+                            "attention_strategy",
+                            "interference_management_strategy",
+                            "capacity_management_strategy",
+                            "meta_cognitive_strategy"
+                        ]
+                    },
+                    "activation_level": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1,
+                        "description": "Current activation level of strategy"
+                    },
+                    "strategy_parameters": {
+                        "type": "object",
+                        "properties": {
+                            "intensity": {
+                                "type": "number"
+                            },
+                            "frequency": {
+                                "type": "number"
+                            },
+                            "duration": {
+                                "type": "number"
+                            },
+                            "scope": {
+                                "type": "string"
+                            },
+                            "customization_level": {
+                                "type": "number"
+                            }
+                        }
+                    },
+                    "effectiveness_metrics": {
+                        "type": "object",
+                        "properties": {
+                            "success_rate": {
+                                "type": "number"
+                            },
+                            "efficiency": {
+                                "type": "number"
+                            },
+                            "resource_cost": {
+                                "type": "number"
+                            },
+                            "reliability": {
+                                "type": "number"
+                            }
+                        }
+                    },
+                    "context_suitability": {
+                        "type": "object",
+                        "properties": {
+                            "task_contexts": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "load_conditions": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "individual_fit": {
+                                "type": "number"
+                            }
+                        }
+                    },
+                    "strategy_components": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "component_name": {
+                                    "type": "string"
+                                },
+                                "component_type": {
+                                    "type": "string"
+                                },
+                                "component_weight": {
+                                    "type": "number"
+                                },
+                                "component_effectiveness": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "description": "Currently active working memory strategies"
+        },
+        "strategy_selection": {
+            "type": "object",
+            "required": [
+                "selection_mechanism",
+                "available_strategies"
+            ],
+            "properties": {
+                "selection_mechanism": {
+                    "type": "string",
+                    "enum": [
+                        "automatic_selection",
+                        "deliberate_selection",
+                        "adaptive_selection",
+                        "context_driven_selection",
+                        "performance_driven_selection",
+                        "meta_cognitive_selection",
+                        "hybrid_selection"
+                    ]
+                },
+                "available_strategies": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "strategy_name": {
+                                "type": "string"
+                            },
+                            "availability": {
+                                "type": "number"
+                            },
+                            "readiness": {
+                                "type": "number"
+                            },
+                            "preference_weight": {
+                                "type": "number"
+                            },
+                            "context_appropriateness": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                },
+                "selection_criteria": {
+                    "type": "object",
+                    "properties": {
+                        "effectiveness_weight": {
+                            "type": "number"
+                        },
+                        "efficiency_weight": {
+                            "type": "number"
+                        },
+                        "context_fit_weight": {
+                            "type": "number"
+                        },
+                        "resource_cost_weight": {
+                            "type": "number"
+                        },
+                        "familiarity_weight": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "selection_history": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "timestamp": {
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            "selected_strategy": {
+                                "type": "string"
+                            },
+                            "selection_reason": {
+                                "type": "string"
+                            },
+                            "context": {
+                                "type": "object"
+                            },
+                            "outcome": {
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "decision_process": {
+                    "type": "object",
+                    "properties": {
+                        "decision_speed": {
+                            "type": "number"
+                        },
+                        "decision_confidence": {
+                            "type": "number"
+                        },
+                        "decision_quality": {
+                            "type": "number"
+                        },
+                        "alternative_strategies_considered": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            },
+            "description": "Strategy selection mechanisms and state"
+        },
+        "strategy_performance": {
+            "type": "object",
+            "required": [
+                "performance_tracking",
+                "comparative_analysis"
+            ],
+            "properties": {
+                "performance_tracking": {
+                    "type": "object",
+                    "properties": {
+                        "strategy_effectiveness": {
+                            "type": "object",
+                            "description": "Effectiveness metrics for each strategy",
+                            "additionalProperties": {
+                                "type": "object",
+                                "properties": {
+                                    "success_rate": {
+                                        "type": "number"
+                                    },
+                                    "improvement_rate": {
+                                        "type": "number"
+                                    },
+                                    "consistency": {
+                                        "type": "number"
+                                    },
+                                    "reliability": {
+                                        "type": "number"
+                                    }
+                                }
+                            }
+                        },
+                        "strategy_efficiency": {
+                            "type": "object",
+                            "description": "Efficiency metrics for each strategy",
+                            "additionalProperties": {
+                                "type": "object",
+                                "properties": {
+                                    "time_efficiency": {
+                                        "type": "number"
+                                    },
+                                    "resource_efficiency": {
+                                        "type": "number"
+                                    },
+                                    "cognitive_load": {
+                                        "type": "number"
+                                    },
+                                    "effort_efficiency": {
+                                        "type": "number"
+                                    }
+                                }
+                            }
+                        },
+                        "context_performance": {
+                            "type": "object",
+                            "properties": {
+                                "task_specific_performance": {
+                                    "type": "object"
+                                },
+                                "load_specific_performance": {
+                                    "type": "object"
+                                },
+                                "domain_specific_performance": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "comparative_analysis": {
+                    "type": "object",
+                    "properties": {
+                        "strategy_rankings": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "strategy_name": {
+                                        "type": "string"
+                                    },
+                                    "overall_rank": {
+                                        "type": "integer"
+                                    },
+                                    "context_specific_ranks": {
+                                        "type": "object"
+                                    },
+                                    "ranking_confidence": {
+                                        "type": "number"
+                                    }
+                                }
+                            }
+                        },
+                        "pairwise_comparisons": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "strategy_a": {
+                                        "type": "string"
+                                    },
+                                    "strategy_b": {
+                                        "type": "string"
+                                    },
+                                    "comparison_result": {
+                                        "type": "string"
+                                    },
+                                    "significance": {
+                                        "type": "number"
+                                    },
+                                    "context_dependency": {
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        },
+                        "performance_gaps": {
+                            "type": "object",
+                            "properties": {
+                                "underperforming_strategies": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                },
+                                "improvement_opportunities": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object"
+                                    }
+                                },
+                                "performance_ceiling": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "optimization_opportunities": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "optimization_type": {
+                                "type": "string"
+                            },
+                            "target_strategy": {
+                                "type": "string"
+                            },
+                            "potential_improvement": {
+                                "type": "number"
+                            },
+                            "implementation_cost": {
+                                "type": "number"
+                            },
+                            "risk_assessment": {
+                                "type": "object"
+                            }
+                        }
+                    }
+                }
+            },
+            "description": "Strategy performance analysis and tracking"
+        },
+        "strategy_learning": {
+            "type": "object",
+            "properties": {
+                "acquisition_state": {
+                    "type": "object",
+                    "properties": {
+                        "learning_strategies": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "skill_level": {
+                            "type": "object"
+                        },
+                        "learning_progress": {
+                            "type": "object"
+                        },
+                        "mastery_indicators": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "refinement_state": {
+                    "type": "object",
+                    "properties": {
+                        "strategy_modifications": {
+                            "type": "array",
+                            "items": {
+                                "type": "object"
+                            }
+                        },
+                        "parameter_tuning": {
+                            "type": "object"
+                        },
+                        "component_optimization": {
+                            "type": "object"
+                        },
+                        "customization_level": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "discovery_state": {
+                    "type": "object",
+                    "properties": {
+                        "novel_strategies": {
+                            "type": "array",
+                            "items": {
+                                "type": "object"
+                            }
+                        },
+                        "strategy_innovation": {
+                            "type": "number"
+                        },
+                        "creative_combinations": {
+                            "type": "array",
+                            "items": {
+                                "type": "object"
+                            }
+                        },
+                        "exploration_tendency": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "transfer_state": {
+                    "type": "object",
+                    "properties": {
+                        "cross_task_transfer": {
+                            "type": "object"
+                        },
+                        "cross_domain_transfer": {
+                            "type": "object"
+                        },
+                        "generalization_ability": {
+                            "type": "number"
+                        },
+                        "transfer_effectiveness": {
+                            "type": "number"
+                        }
+                    }
+                }
+            },
+            "description": "Strategy learning and development state"
+        },
+        "meta_strategy_state": {
+            "type": "object",
+            "properties": {
+                "strategy_awareness": {
+                    "type": "object",
+                    "properties": {
+                        "strategy_repertoire_awareness": {
+                            "type": "number"
+                        },
+                        "strategy_effectiveness_awareness": {
+                            "type": "number"
+                        },
+                        "context_strategy_mapping": {
+                            "type": "object"
+                        },
+                        "strategy_limitation_awareness": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "strategy_monitoring": {
+                    "type": "object",
+                    "properties": {
+                        "real_time_monitoring": {
+                            "type": "boolean"
+                        },
+                        "monitoring_accuracy": {
+                            "type": "number"
+                        },
+                        "monitoring_frequency": {
+                            "type": "number"
+                        },
+                        "monitoring_scope": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "strategy_control": {
+                    "type": "object",
+                    "properties": {
+                        "strategy_switching_ability": {
+                            "type": "number"
+                        },
+                        "strategy_modification_ability": {
+                            "type": "number"
+                        },
+                        "strategy_coordination_ability": {
+                            "type": "number"
+                        },
+                        "adaptive_control": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "meta_strategy_knowledge": {
+                    "type": "object",
+                    "properties": {
+                        "conditional_knowledge": {
+                            "type": "object"
+                        },
+                        "procedural_knowledge": {
+                            "type": "object"
+                        },
+                        "declarative_knowledge": {
+                            "type": "object"
+                        },
+                        "strategic_knowledge_organization": {
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "description": "Meta-cognitive strategy management state"
+        },
+        "adaptation_mechanisms": {
+            "type": "object",
+            "properties": {
+                "context_adaptation": {
+                    "type": "object",
+                    "properties": {
+                        "task_adaptation": {
+                            "type": "number"
+                        },
+                        "load_adaptation": {
+                            "type": "number"
+                        },
+                        "environmental_adaptation": {
+                            "type": "number"
+                        },
+                        "individual_adaptation": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "performance_adaptation": {
+                    "type": "object",
+                    "properties": {
+                        "feedback_based_adaptation": {
+                            "type": "number"
+                        },
+                        "error_based_adaptation": {
+                            "type": "number"
+                        },
+                        "success_based_adaptation": {
+                            "type": "number"
+                        },
+                        "comparative_adaptation": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "dynamic_adaptation": {
+                    "type": "object",
+                    "properties": {
+                        "real_time_adaptation": {
+                            "type": "number"
+                        },
+                        "predictive_adaptation": {
+                            "type": "number"
+                        },
+                        "reactive_adaptation": {
+                            "type": "number"
+                        },
+                        "proactive_adaptation": {
+                            "type": "number"
+                        }
+                    }
+                }
+            },
+            "description": "Strategy adaptation mechanisms"
+        },
+        "strategy_coordination": {
+            "type": "object",
+            "properties": {
+                "multi_strategy_coordination": {
+                    "type": "object",
+                    "properties": {
+                        "concurrent_strategies": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "coordination_mechanisms": {
+                            "type": "object"
+                        },
+                        "interference_management": {
+                            "type": "object"
+                        },
+                        "synergy_optimization": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "hierarchical_organization": {
+                    "type": "object",
+                    "properties": {
+                        "primary_strategies": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "supporting_strategies": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "strategy_dependencies": {
+                            "type": "object"
+                        },
+                        "coordination_overhead": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "temporal_coordination": {
+                    "type": "object",
+                    "properties": {
+                        "strategy_sequencing": {
+                            "type": "object"
+                        },
+                        "timing_optimization": {
+                            "type": "object"
+                        },
+                        "phase_based_strategies": {
+                            "type": "object"
+                        },
+                        "temporal_efficiency": {
+                            "type": "number"
+                        }
+                    }
+                }
+            },
+            "description": "Strategy coordination and integration"
+        },
+        "personalization_state": {
+            "type": "object",
+            "properties": {
+                "individual_strategy_profile": {
+                    "type": "object",
+                    "properties": {
+                        "preferred_strategies": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "strategy_strengths": {
+                            "type": "object"
+                        },
+                        "strategy_weaknesses": {
+                            "type": "object"
+                        },
+                        "learning_style_alignment": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "adaptive_personalization": {
+                    "type": "object",
+                    "properties": {
+                        "personalization_level": {
+                            "type": "number"
+                        },
+                        "adaptation_history": {
+                            "type": "array",
+                            "items": {
+                                "type": "object"
+                            }
+                        },
+                        "personalization_effectiveness": {
+                            "type": "number"
+                        },
+                        "individual_difference_modeling": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "contextual_personalization": {
+                    "type": "object",
+                    "properties": {
+                        "context_specific_preferences": {
+                            "type": "object"
+                        },
+                        "situational_adaptations": {
+                            "type": "object"
+                        },
+                        "environmental_personalizations": {
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "description": "Personalization of strategy management"
+        },
+        "integration_interfaces": {
+            "type": "object",
+            "properties": {
+                "executive_control_interface": {
+                    "type": "object",
+                    "properties": {
+                        "strategy_control_coordination": {
+                            "type": "object"
+                        },
+                        "strategic_decision_making": {
+                            "type": "object"
+                        },
+                        "goal_strategy_alignment": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "attention_interface": {
+                    "type": "object",
+                    "properties": {
+                        "attention_strategy_coordination": {
+                            "type": "object"
+                        },
+                        "focus_management_strategies": {
+                            "type": "object"
+                        },
+                        "distraction_handling_strategies": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "memory_system_interface": {
+                    "type": "object",
+                    "properties": {
+                        "encoding_strategy_coordination": {
+                            "type": "object"
+                        },
+                        "retrieval_strategy_coordination": {
+                            "type": "object"
+                        },
+                        "consolidation_strategy_support": {
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "description": "Integration with other cognitive systems"
+        }
+    }
+}

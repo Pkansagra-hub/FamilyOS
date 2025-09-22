@@ -1,0 +1,487 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "$id": "thalamic_circuit_configuration.schema.json",
+    "title": "Thalamic Circuit Configuration Event",
+    "description": "Event generated when thalamic relay circuits are reconfigured to adapt to changing cognitive demands, task requirements, or environmental conditions.",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "timestamp",
+        "circuit_type",
+        "configuration_change",
+        "trigger_context",
+        "new_parameters",
+        "adaptation_strategy"
+    ],
+    "properties": {
+        "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Precise timing of circuit configuration change"
+        },
+        "circuit_type": {
+            "type": "string",
+            "enum": [
+                "memory",
+                "recall",
+                "executive",
+                "learning",
+                "perception",
+                "motor"
+            ],
+            "description": "Type of thalamic circuit being reconfigured"
+        },
+        "configuration_change": {
+            "type": "object",
+            "required": [
+                "change_type",
+                "scope",
+                "magnitude"
+            ],
+            "properties": {
+                "change_type": {
+                    "type": "string",
+                    "enum": [
+                        "threshold_adjustment",
+                        "weight_modification",
+                        "connectivity_change",
+                        "timing_adjustment",
+                        "filter_update",
+                        "routing_change"
+                    ],
+                    "description": "Type of configuration change"
+                },
+                "scope": {
+                    "type": "string",
+                    "enum": [
+                        "local",
+                        "circuit_wide",
+                        "multi_circuit",
+                        "global"
+                    ],
+                    "description": "Scope of configuration change"
+                },
+                "magnitude": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Magnitude of configuration change (0=minimal, 1=maximal)"
+                },
+                "change_direction": {
+                    "type": "string",
+                    "enum": [
+                        "increase",
+                        "decrease",
+                        "optimize",
+                        "reset",
+                        "randomize"
+                    ],
+                    "description": "Direction of parameter change"
+                },
+                "reversibility": {
+                    "type": "boolean",
+                    "description": "Whether the configuration change is reversible"
+                }
+            },
+            "description": "Details of the configuration change"
+        },
+        "trigger_context": {
+            "type": "object",
+            "required": [
+                "trigger_type",
+                "contextual_factors"
+            ],
+            "properties": {
+                "trigger_type": {
+                    "type": "string",
+                    "enum": [
+                        "task_change",
+                        "performance_degradation",
+                        "load_increase",
+                        "environmental_change",
+                        "learning_requirement",
+                        "error_correction",
+                        "optimization_opportunity"
+                    ],
+                    "description": "Type of trigger that initiated reconfiguration"
+                },
+                "contextual_factors": {
+                    "type": "object",
+                    "properties": {
+                        "task_demands": {
+                            "type": "object",
+                            "properties": {
+                                "cognitive_load": {
+                                    "type": "number"
+                                },
+                                "attention_requirements": {
+                                    "type": "number"
+                                },
+                                "memory_demands": {
+                                    "type": "number"
+                                },
+                                "processing_speed": {
+                                    "type": "number"
+                                }
+                            },
+                            "description": "Current task demands"
+                        },
+                        "performance_metrics": {
+                            "type": "object",
+                            "properties": {
+                                "accuracy": {
+                                    "type": "number"
+                                },
+                                "reaction_time": {
+                                    "type": "number"
+                                },
+                                "throughput": {
+                                    "type": "number"
+                                },
+                                "error_rate": {
+                                    "type": "number"
+                                }
+                            },
+                            "description": "Current performance metrics"
+                        },
+                        "environmental_conditions": {
+                            "type": "object",
+                            "properties": {
+                                "noise_level": {
+                                    "type": "number"
+                                },
+                                "distraction_level": {
+                                    "type": "number"
+                                },
+                                "time_pressure": {
+                                    "type": "number"
+                                },
+                                "complexity": {
+                                    "type": "number"
+                                }
+                            },
+                            "description": "Environmental conditions"
+                        }
+                    },
+                    "description": "Contextual factors influencing reconfiguration"
+                },
+                "urgency_level": {
+                    "type": "string",
+                    "enum": [
+                        "immediate",
+                        "urgent",
+                        "normal",
+                        "low"
+                    ],
+                    "description": "Urgency level of reconfiguration need"
+                }
+            },
+            "description": "Context and triggers for configuration change"
+        },
+        "new_parameters": {
+            "type": "object",
+            "required": [
+                "parameter_set",
+                "optimization_target"
+            ],
+            "properties": {
+                "parameter_set": {
+                    "type": "object",
+                    "properties": {
+                        "decision_thresholds": {
+                            "type": "object",
+                            "properties": {
+                                "admit_threshold": {
+                                    "type": "number"
+                                },
+                                "defer_threshold": {
+                                    "type": "number"
+                                },
+                                "drop_threshold": {
+                                    "type": "number"
+                                },
+                                "boost_threshold": {
+                                    "type": "number"
+                                }
+                            },
+                            "description": "Updated decision thresholds"
+                        },
+                        "timing_parameters": {
+                            "type": "object",
+                            "properties": {
+                                "processing_delay": {
+                                    "type": "number"
+                                },
+                                "response_latency": {
+                                    "type": "number"
+                                },
+                                "integration_window": {
+                                    "type": "number"
+                                },
+                                "refractory_period": {
+                                    "type": "number"
+                                }
+                            },
+                            "description": "Updated timing parameters"
+                        },
+                        "connectivity_weights": {
+                            "type": "object",
+                            "properties": {
+                                "cortical_input_weights": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "number"
+                                    }
+                                },
+                                "subcortical_input_weights": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "number"
+                                    }
+                                },
+                                "feedback_weights": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "number"
+                                    }
+                                },
+                                "lateral_weights": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "number"
+                                    }
+                                }
+                            },
+                            "description": "Updated connectivity weights"
+                        },
+                        "filter_settings": {
+                            "type": "object",
+                            "properties": {
+                                "frequency_filters": {
+                                    "type": "array"
+                                },
+                                "spatial_filters": {
+                                    "type": "array"
+                                },
+                                "temporal_filters": {
+                                    "type": "array"
+                                },
+                                "feature_filters": {
+                                    "type": "array"
+                                }
+                            },
+                            "description": "Updated filter settings"
+                        }
+                    },
+                    "description": "New parameter values"
+                },
+                "optimization_target": {
+                    "type": "object",
+                    "properties": {
+                        "primary_objective": {
+                            "type": "string",
+                            "enum": [
+                                "accuracy",
+                                "speed",
+                                "efficiency",
+                                "stability",
+                                "adaptability",
+                                "robustness"
+                            ],
+                            "description": "Primary optimization objective"
+                        },
+                        "secondary_objectives": {
+                            "type": "array",
+                            "items": {
+                                "type": "string",
+                                "enum": [
+                                    "energy_efficiency",
+                                    "noise_resilience",
+                                    "learning_speed",
+                                    "transfer_capability"
+                                ]
+                            },
+                            "description": "Secondary optimization objectives"
+                        },
+                        "optimization_constraints": {
+                            "type": "object",
+                            "properties": {
+                                "resource_limits": {
+                                    "type": "object"
+                                },
+                                "stability_requirements": {
+                                    "type": "object"
+                                },
+                                "compatibility_requirements": {
+                                    "type": "object"
+                                }
+                            },
+                            "description": "Constraints on optimization"
+                        }
+                    },
+                    "description": "Optimization targets and constraints"
+                },
+                "previous_parameters": {
+                    "type": "object",
+                    "description": "Previous parameter values for comparison"
+                }
+            },
+            "description": "New parameter configuration"
+        },
+        "adaptation_strategy": {
+            "type": "object",
+            "required": [
+                "strategy_type",
+                "learning_mechanism"
+            ],
+            "properties": {
+                "strategy_type": {
+                    "type": "string",
+                    "enum": [
+                        "gradual_adaptation",
+                        "step_change",
+                        "oscillatory_search",
+                        "random_exploration",
+                        "guided_optimization",
+                        "meta_learning"
+                    ],
+                    "description": "Type of adaptation strategy employed"
+                },
+                "learning_mechanism": {
+                    "type": "object",
+                    "properties": {
+                        "learning_rule": {
+                            "type": "string",
+                            "enum": [
+                                "hebbian",
+                                "reinforcement",
+                                "error_correction",
+                                "predictive",
+                                "competitive"
+                            ],
+                            "description": "Learning rule used for adaptation"
+                        },
+                        "learning_rate": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "Rate of learning/adaptation"
+                        },
+                        "forgetting_rate": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "Rate of forgetting previous configurations"
+                        },
+                        "exploration_rate": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "Rate of exploration of new configurations"
+                        }
+                    },
+                    "description": "Learning mechanism details"
+                },
+                "adaptation_timeline": {
+                    "type": "object",
+                    "properties": {
+                        "immediate_changes": {
+                            "type": "array"
+                        },
+                        "short_term_adaptations": {
+                            "type": "array"
+                        },
+                        "long_term_plasticity": {
+                            "type": "array"
+                        },
+                        "consolidation_schedule": {
+                            "type": "object"
+                        }
+                    },
+                    "description": "Timeline of adaptation phases"
+                }
+            },
+            "description": "Strategy and mechanisms for adaptation"
+        },
+        "validation_metrics": {
+            "type": "object",
+            "properties": {
+                "configuration_stability": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Stability of new configuration"
+                },
+                "performance_prediction": {
+                    "type": "object",
+                    "properties": {
+                        "predicted_improvement": {
+                            "type": "number"
+                        },
+                        "confidence_interval": {
+                            "type": "array"
+                        },
+                        "risk_assessment": {
+                            "type": "number"
+                        }
+                    },
+                    "description": "Predicted performance with new configuration"
+                },
+                "compatibility_check": {
+                    "type": "object",
+                    "properties": {
+                        "circuit_compatibility": {
+                            "type": "boolean"
+                        },
+                        "system_compatibility": {
+                            "type": "boolean"
+                        },
+                        "resource_compatibility": {
+                            "type": "boolean"
+                        }
+                    },
+                    "description": "Compatibility validation results"
+                },
+                "rollback_capability": {
+                    "type": "object",
+                    "properties": {
+                        "rollback_possible": {
+                            "type": "boolean"
+                        },
+                        "rollback_cost": {
+                            "type": "number"
+                        },
+                        "rollback_latency": {
+                            "type": "number"
+                        }
+                    },
+                    "description": "Rollback capabilities and costs"
+                }
+            },
+            "description": "Validation metrics for configuration change"
+        },
+        "performance_metrics": {
+            "type": "object",
+            "properties": {
+                "configuration_time": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Time taken to complete configuration in milliseconds"
+                },
+                "adaptation_efficiency": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Efficiency of the adaptation process"
+                },
+                "resource_utilization": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Resource utilization during reconfiguration"
+                }
+            },
+            "description": "Performance metrics for configuration process"
+        }
+    }
+}

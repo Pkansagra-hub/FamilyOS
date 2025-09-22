@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://familyos.local/contracts/storage/tiered_locator.schema.json",
+  "title": "Tiered Memory Locator",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "tiers"
+  ],
+  "properties": {
+    "id": {
+      "$ref": "./common.schema.json#/$defs/ULID"
+    },
+    "tiers": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "tier",
+          "ref"
+        ],
+        "properties": {
+          "tier": {
+            "type": "string",
+            "enum": [
+              "hot",
+              "warm",
+              "cold",
+              "archive"
+            ]
+          },
+          "ref": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

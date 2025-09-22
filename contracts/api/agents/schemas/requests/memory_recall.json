@@ -1,0 +1,130 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "MemoryRecallRequest",
+  "description": "Schema for querying memory content from the memory backbone",
+  "type": "object",
+  "required": ["query"],
+  "properties": {
+    "query": {
+      "description": "The memory query to execute",
+      "type": "object",
+      "required": ["text"],
+      "properties": {
+        "text": {
+          "type": "string",
+          "description": "Natural language query for memory retrieval",
+          "minLength": 1,
+          "maxLength": 1000
+        },
+        "query_type": {
+          "type": "string",
+          "enum": ["semantic", "episodic", "temporal", "emotional", "family"],
+          "description": "Type of memory query to execute"
+        },
+        "filters": {
+          "type": "object",
+          "description": "Query filters and constraints",
+          "properties": {
+            "time_range": {
+              "type": "object",
+              "properties": {
+                "start": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "end": {
+                  "type": "string",
+                  "format": "date-time"
+                }
+              }
+            },
+            "participants": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Filter by family member participants"
+            },
+            "tags": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Filter by content tags"
+            },
+            "content_types": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": ["conversation", "observation", "instruction", "reflection", "goal"]
+              }
+            },
+            "importance_threshold": {
+              "type": "number",
+              "minimum": 0.0,
+              "maximum": 1.0,
+              "description": "Minimum importance score"
+            }
+          }
+        }
+      }
+    },
+    "context": {
+      "description": "Query context and permissions",
+      "type": "object",
+      "required": ["space_id"],
+      "properties": {
+        "space_id": {
+          "type": "string",
+          "pattern": "^(personal|selective|shared|extended|interfamily):[a-zA-Z0-9_-]+$",
+          "description": "Memory space to query within"
+        },
+        "requester_id": {
+          "type": "string",
+          "description": "Family member making the request"
+        },
+        "family_context": {
+          "type": "object",
+          "description": "Family relationship context for access control",
+          "properties": {
+            "relationship_to_content": {
+              "type": "string",
+              "enum": ["owner", "participant", "family_member", "authorized"]
+            }
+          }
+        }
+      }
+    },
+    "options": {
+      "type": "object",
+      "description": "Query options and preferences",
+      "properties": {
+        "max_results": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 100,
+          "default": 10,
+          "description": "Maximum number of memories to return"
+        },
+        "similarity_threshold": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 1.0,
+          "default": 0.7,
+          "description": "Minimum similarity score for results"
+        },
+        "include_context": {
+          "type": "boolean",
+          "default": true,
+          "description": "Include contextual information in results"
+        },
+        "privacy_mode": {
+          "type": "string",
+          "enum": ["full", "redacted", "summary"],
+          "default": "full",
+          "description": "Privacy level for returned content"
+        }
+      }
+    }
+  }
+}

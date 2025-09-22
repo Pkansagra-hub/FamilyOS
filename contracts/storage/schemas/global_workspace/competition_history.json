@@ -1,0 +1,701 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://familyos.local/contracts/storage/schemas/global_workspace/competition_history.schema.json",
+    "title": "Competition History",
+    "description": "Storage schema for historical records of coalition competitions for global workspace access, including outcomes and performance metrics.",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "id",
+        "created_at",
+        "updated_at",
+        "competition_id",
+        "competition_type",
+        "participants",
+        "outcome",
+        "performance_metrics"
+    ],
+    "properties": {
+        "id": {
+            "oneOf": [
+                {
+                    "type": "string",
+                    "format": "uuid"
+                },
+                {
+                    "type": "string",
+                    "pattern": "^[0-7][0-9A-HJKMNP-TV-Z]{25}$"
+                }
+            ],
+            "description": "Unique identifier for this competition history record"
+        },
+        "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "When this competition started"
+        },
+        "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "When this competition record was last updated"
+        },
+        "competition_id": {
+            "type": "string",
+            "description": "Unique identifier for the competition instance"
+        },
+        "competition_type": {
+            "type": "string",
+            "enum": [
+                "standard",
+                "urgent",
+                "priority_override",
+                "resource_constrained",
+                "collaborative",
+                "emergency"
+            ],
+            "description": "Type of competition that occurred"
+        },
+        "participants": {
+            "type": "array",
+            "minItems": 2,
+            "items": {
+                "type": "object",
+                "required": [
+                    "coalition_id",
+                    "initial_strength",
+                    "final_strength",
+                    "competitive_strategy"
+                ],
+                "properties": {
+                    "coalition_id": {
+                        "type": "string",
+                        "description": "Identifier of participating coalition"
+                    },
+                    "initial_strength": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1,
+                        "description": "Initial competitive strength at competition start"
+                    },
+                    "final_strength": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1,
+                        "description": "Final competitive strength at competition end"
+                    },
+                    "competitive_strategy": {
+                        "type": "string",
+                        "enum": [
+                            "aggressive",
+                            "defensive",
+                            "collaborative",
+                            "opportunistic",
+                            "adaptive"
+                        ],
+                        "description": "Strategy employed during competition"
+                    },
+                    "member_processes": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "process_id": {
+                                    "type": "string"
+                                },
+                                "process_type": {
+                                    "type": "string"
+                                },
+                                "contribution": {
+                                    "type": "number"
+                                },
+                                "performance": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "description": "Processes that were part of this coalition during competition"
+                    },
+                    "performance_trajectory": {
+                        "type": "object",
+                        "properties": {
+                            "trajectory_type": {
+                                "type": "string",
+                                "enum": [
+                                    "ascending",
+                                    "descending",
+                                    "stable",
+                                    "volatile"
+                                ]
+                            },
+                            "peak_performance": {
+                                "type": "number"
+                            },
+                            "performance_variance": {
+                                "type": "number"
+                            },
+                            "momentum_changes": {
+                                "type": "array"
+                            }
+                        },
+                        "description": "Performance trajectory during competition"
+                    },
+                    "strategic_adaptations": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "adaptation_time": {
+                                    "type": "string",
+                                    "format": "date-time"
+                                },
+                                "adaptation_type": {
+                                    "type": "string"
+                                },
+                                "adaptation_trigger": {
+                                    "type": "string"
+                                },
+                                "effectiveness": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "description": "Strategic adaptations made during competition"
+                    }
+                }
+            },
+            "description": "Coalitions that participated in this competition"
+        },
+        "outcome": {
+            "type": "object",
+            "required": [
+                "winner",
+                "victory_margin",
+                "outcome_type",
+                "decision_factors"
+            ],
+            "properties": {
+                "winner": {
+                    "type": "string",
+                    "description": "Coalition ID of the competition winner"
+                },
+                "victory_margin": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Margin by which the winner exceeded the runner-up"
+                },
+                "outcome_type": {
+                    "type": "string",
+                    "enum": [
+                        "decisive",
+                        "narrow",
+                        "disputed",
+                        "default",
+                        "collaborative"
+                    ],
+                    "description": "Type of victory achieved"
+                },
+                "decision_factors": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "factor_type": {
+                                "type": "string"
+                            },
+                            "factor_weight": {
+                                "type": "number"
+                            },
+                            "factor_influence": {
+                                "type": "string",
+                                "enum": [
+                                    "positive",
+                                    "negative",
+                                    "neutral"
+                                ]
+                            }
+                        }
+                    },
+                    "description": "Factors that influenced the competition outcome"
+                },
+                "runner_up": {
+                    "type": "string",
+                    "description": "Coalition ID of the runner-up"
+                },
+                "eliminated_coalitions": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "coalition_id": {
+                                "type": "string"
+                            },
+                            "elimination_round": {
+                                "type": "integer"
+                            },
+                            "elimination_reason": {
+                                "type": "string"
+                            },
+                            "final_score": {
+                                "type": "number"
+                            }
+                        }
+                    },
+                    "description": "Coalitions eliminated during competition"
+                }
+            },
+            "description": "Outcome and results of the competition"
+        },
+        "performance_metrics": {
+            "type": "object",
+            "required": [
+                "competition_duration",
+                "efficiency_metrics",
+                "quality_metrics"
+            ],
+            "properties": {
+                "competition_duration": {
+                    "type": "object",
+                    "properties": {
+                        "total_duration_ms": {
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "decision_phase_duration": {
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "resolution_phase_duration": {
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "compared_to_average": {
+                            "type": "number"
+                        }
+                    },
+                    "description": "Duration metrics for the competition"
+                },
+                "efficiency_metrics": {
+                    "type": "object",
+                    "properties": {
+                        "resource_utilization": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "decision_efficiency": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "processing_efficiency": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "energy_efficiency": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    },
+                    "description": "Efficiency metrics for the competition process"
+                },
+                "quality_metrics": {
+                    "type": "object",
+                    "properties": {
+                        "outcome_quality": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "fairness_score": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "predictability": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "stability": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    },
+                    "description": "Quality metrics for the competition and its outcome"
+                }
+            },
+            "description": "Performance metrics for the competition"
+        },
+        "temporal_dynamics": {
+            "type": "object",
+            "properties": {
+                "competition_phases": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "phase_name": {
+                                "type": "string"
+                            },
+                            "start_time": {
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            "end_time": {
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            "phase_characteristics": {
+                                "type": "object"
+                            },
+                            "key_events": {
+                                "type": "array"
+                            }
+                        }
+                    },
+                    "description": "Different phases of the competition over time"
+                },
+                "turning_points": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "turning_point_time": {
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            "event_description": {
+                                "type": "string"
+                            },
+                            "impact_magnitude": {
+                                "type": "number"
+                            },
+                            "affected_coalitions": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    },
+                    "description": "Key turning points during the competition"
+                },
+                "momentum_shifts": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "shift_time": {
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            "from_coalition": {
+                                "type": "string"
+                            },
+                            "to_coalition": {
+                                "type": "string"
+                            },
+                            "shift_magnitude": {
+                                "type": "number"
+                            },
+                            "shift_cause": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "description": "Momentum shifts between coalitions during competition"
+                }
+            },
+            "description": "Temporal dynamics and evolution of the competition"
+        },
+        "environmental_context": {
+            "type": "object",
+            "properties": {
+                "cognitive_state": {
+                    "type": "object",
+                    "properties": {
+                        "attention_load": {
+                            "type": "number"
+                        },
+                        "working_memory_load": {
+                            "type": "number"
+                        },
+                        "arousal_level": {
+                            "type": "number"
+                        },
+                        "cognitive_mode": {
+                            "type": "string"
+                        }
+                    },
+                    "description": "Overall cognitive state during competition"
+                },
+                "system_state": {
+                    "type": "object",
+                    "properties": {
+                        "system_resources": {
+                            "type": "object"
+                        },
+                        "concurrent_processes": {
+                            "type": "array"
+                        },
+                        "system_load": {
+                            "type": "number"
+                        },
+                        "performance_baseline": {
+                            "type": "object"
+                        }
+                    },
+                    "description": "System state during competition"
+                },
+                "external_factors": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "factor_type": {
+                                "type": "string"
+                            },
+                            "factor_description": {
+                                "type": "string"
+                            },
+                            "influence_strength": {
+                                "type": "number"
+                            },
+                            "influence_direction": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "description": "External factors that influenced the competition"
+                }
+            },
+            "description": "Environmental context during the competition"
+        },
+        "learning_outcomes": {
+            "type": "object",
+            "properties": {
+                "successful_strategies": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "strategy_type": {
+                                "type": "string"
+                            },
+                            "success_factors": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "effectiveness_score": {
+                                "type": "number"
+                            },
+                            "reusability": {
+                                "type": "number"
+                            }
+                        }
+                    },
+                    "description": "Strategies that proved successful in this competition"
+                },
+                "failed_strategies": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "strategy_type": {
+                                "type": "string"
+                            },
+                            "failure_factors": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "ineffectiveness_score": {
+                                "type": "number"
+                            },
+                            "lessons_learned": {
+                                "type": "array"
+                            }
+                        }
+                    },
+                    "description": "Strategies that failed in this competition"
+                },
+                "adaptation_insights": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "insight_type": {
+                                "type": "string"
+                            },
+                            "insight_description": {
+                                "type": "string"
+                            },
+                            "applicability": {
+                                "type": "string"
+                            },
+                            "confidence": {
+                                "type": "number"
+                            }
+                        }
+                    },
+                    "description": "Insights gained about adaptation during competition"
+                },
+                "predictive_patterns": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "pattern_type": {
+                                "type": "string"
+                            },
+                            "pattern_description": {
+                                "type": "string"
+                            },
+                            "predictive_value": {
+                                "type": "number"
+                            },
+                            "pattern_confidence": {
+                                "type": "number"
+                            }
+                        }
+                    },
+                    "description": "Patterns that emerged with predictive value"
+                }
+            },
+            "description": "Learning outcomes and insights from the competition"
+        },
+        "impact_assessment": {
+            "type": "object",
+            "properties": {
+                "immediate_impacts": {
+                    "type": "object",
+                    "properties": {
+                        "consciousness_changes": {
+                            "type": "object"
+                        },
+                        "attention_reallocations": {
+                            "type": "object"
+                        },
+                        "system_state_changes": {
+                            "type": "object"
+                        },
+                        "resource_redistributions": {
+                            "type": "object"
+                        }
+                    },
+                    "description": "Immediate impacts of the competition outcome"
+                },
+                "long_term_effects": {
+                    "type": "object",
+                    "properties": {
+                        "coalition_evolution": {
+                            "type": "object"
+                        },
+                        "strategy_development": {
+                            "type": "object"
+                        },
+                        "system_adaptations": {
+                            "type": "object"
+                        },
+                        "performance_changes": {
+                            "type": "object"
+                        }
+                    },
+                    "description": "Long-term effects of the competition"
+                },
+                "system_wide_consequences": {
+                    "type": "object",
+                    "properties": {
+                        "thalamic_effects": {
+                            "type": "object"
+                        },
+                        "working_memory_effects": {
+                            "type": "object"
+                        },
+                        "hippocampal_effects": {
+                            "type": "object"
+                        },
+                        "emotional_effects": {
+                            "type": "object"
+                        }
+                    },
+                    "description": "Consequences for other cognitive systems"
+                }
+            },
+            "description": "Assessment of competition impacts across multiple scales"
+        },
+        "quality_assessment": {
+            "type": "object",
+            "properties": {
+                "competition_integrity": {
+                    "type": "object",
+                    "properties": {
+                        "fairness_score": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "transparency": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "procedural_correctness": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "bias_detection": {
+                            "type": "object"
+                        }
+                    },
+                    "description": "Assessment of competition integrity and fairness"
+                },
+                "outcome_validity": {
+                    "type": "object",
+                    "properties": {
+                        "outcome_consistency": {
+                            "type": "number"
+                        },
+                        "predictive_accuracy": {
+                            "type": "number"
+                        },
+                        "retrospective_validation": {
+                            "type": "number"
+                        },
+                        "stakeholder_satisfaction": {
+                            "type": "object"
+                        }
+                    },
+                    "description": "Validation of competition outcome quality"
+                },
+                "process_quality": {
+                    "type": "object",
+                    "properties": {
+                        "decision_quality": {
+                            "type": "number"
+                        },
+                        "process_efficiency": {
+                            "type": "number"
+                        },
+                        "error_rate": {
+                            "type": "number"
+                        },
+                        "improvement_opportunities": {
+                            "type": "array"
+                        }
+                    },
+                    "description": "Quality assessment of the competition process"
+                }
+            },
+            "description": "Quality assessment of the competition and its outcomes"
+        }
+    }
+}

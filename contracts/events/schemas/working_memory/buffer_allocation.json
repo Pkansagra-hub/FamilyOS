@@ -1,0 +1,57 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "$id": "buffer_allocation.schema.json",
+    "title": "Working Memory Buffer Allocation Event",
+    "description": "Event for allocating working memory buffer resources",
+    "type": "object",
+    "required": [
+        "timestamp",
+        "buffer_id",
+        "allocation_type",
+        "capacity",
+        "priority"
+    ],
+    "properties": {
+        "timestamp": {
+            "type": "string",
+            "format": "date-time"
+        },
+        "buffer_id": {
+            "type": "string"
+        },
+        "allocation_type": {
+            "type": "string",
+            "enum": [
+                "allocate",
+                "deallocate",
+                "resize"
+            ]
+        },
+        "capacity": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+        },
+        "priority": {
+            "type": "string",
+            "enum": [
+                "high",
+                "medium",
+                "low"
+            ]
+        },
+        "content_type": {
+            "type": "string",
+            "enum": [
+                "verbal",
+                "visuospatial",
+                "episodic",
+                "executive"
+            ]
+        },
+        "duration_ms": {
+            "type": "number",
+            "minimum": 0
+        }
+    }
+}

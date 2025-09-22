@@ -1,0 +1,73 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "module": "affect",
+  "events": [
+    {
+      "name": "SENSORY_FRAME",
+      "version": "1",
+      "payloadSchema": {
+        "$id": "affect.sensory_frame.v1",
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "frame_id": {"type": "string"},
+          "device_ts": {"type": "string", "format": "date-time"},
+          "modality": {"type": "string", "enum": ["text","audio","video","physio","other"]},
+          "ref": {"type": "string", "description": "Opaque on-device ref/URI"},
+          "features": {"type": "object", "additionalProperties": true}
+        },
+        "required": ["frame_id","device_ts","modality","ref"]
+      },
+      "subjectKey": ["envelope.space_id"],
+      "ordering": ["envelope.space_id","envelope.device_id","payload.device_ts"],
+      "idempotency": {"dedupeKey": ["envelope.id"]},
+      "retryPolicy": {"maxAttempts": 5, "backoff": "exponential"},
+      "dlq": {"topic": "DLQ.AFFECT.SENSORY_FRAME.v1"}
+    },
+    {
+      "name": "AFFECT_ANALYZE",
+      "version": "1",
+      "payloadSchema": {
+        "$id": "affect.analyze.v1",
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "frame_id": {"type": "string"},
+          "salience": {"type": "number", "minimum": 0, "maximum": 1},
+          "hint": {"type": "string"}
+        },
+        "required": ["frame_id"]
+      },
+      "subjectKey": ["envelope.space_id"],
+      "ordering": ["envelope.ts"],
+      "idempotency": {"dedupeKey": ["payload.frame_id"]},
+      "retryPolicy": {"maxAttempts": 5, "backoff": "exponential"},
+      "dlq": {"topic": "DLQ.AFFECT.ANALYZE.v1"}
+    },
+    {
+      "name": "AFFECT_UPDATE",
+      "version": "1",
+      "payloadSchema": {
+        "$id": "affect.update.v1",
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "state_id": {"type": "string"},
+          "computed_at": {"type": "string", "format": "date-time"},
+          "valence": {"type": "number", "minimum": -1, "maximum": 1},
+          "arousal": {"type": "number", "minimum": 0, "maximum": 1},
+          "tags": {"type": "array", "items": {"type": "string"}},
+          "confidence": {"type": "number", "minimum": 0, "maximum": 1},
+          "model_version": {"type": "string"},
+          "explanations": {"type": "array", "items": {"type": "object", "properties": {"text":{"type":"string"}}, "additionalProperties": false}}
+        },
+        "required": ["state_id","computed_at","valence","arousal","confidence","model_version"]
+      },
+      "subjectKey": ["envelope.space_id"],
+      "ordering": ["payload.computed_at"],
+      "idempotency": {"dedupeKey": ["payload.state_id"]},
+      "retryPolicy": {"maxAttempts": 3, "backoff": "exponential"},
+      "dlq": {"topic": "DLQ.AFFECT.UPDATE.v1"}
+    }
+  ]
+}

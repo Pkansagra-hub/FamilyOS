@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.1.0",
+  "id": "9bfac2d8-0cc2-4c17-8ee6-bf8947326f1f",
+  "ts": "2025-09-09T04:20:40Z",
+  "topic": "LEARNING_TICK",
+  "band": "GREEN",
+  "actor": {
+    "user_id": "a90774bc-e93f-483a-851b-219029c8a4fc",
+    "agent_id": "retriever.v1",
+    "caps": [
+      "PROJECT"
+    ]
+  },
+  "device": {
+    "device_id": "edge-jetson",
+    "platform": "macos",
+    "app_version": "1.1.4",
+    "locale": "en-GB"
+  },
+  "space_id": "selective:father_son",
+  "policy_version": "1.3",
+  "abac": {
+    "role": "guest",
+    "trust": "red",
+    "geo_precision": "city"
+  },
+  "qos": {
+    "routing": "fast-path",
+    "priority": 8,
+    "latency_budget_ms": 131,
+    "retries": 0
+  },
+  "trace": {
+    "trace_id": "d30182ca2563cff81c5b13893577e6e3",
+    "span_id": "f40b7db2a1fe3bc5",
+    "sampled": true
+  },
+  "obligations": [],
+  "redaction_applied": false,
+  "hashes": {
+    "payload_sha256": "c11da7aeb10db9214322574ca2f76f17409fadba56d903fe8cee872285342f19"
+  },
+  "payload": {
+    "note": "system-update",
+    "ts": "2025-09-09T04:20:40Z"
+  },
+  "signature": {
+    "alg": "ed25519",
+    "key_id": "key_learning_tick_green_2024",
+    "public_key": "cHVibGlj",
+    "signature": "c2ln"
+  }
+}

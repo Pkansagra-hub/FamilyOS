@@ -1,0 +1,145 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Family Administration Request Schema",
+  "description": "Request schema for family administration operations in Control Plane",
+
+  "type": "object",
+  "properties": {
+    "operation": {
+      "type": "string",
+      "enum": [
+        "add_family_member",
+        "remove_family_member",
+        "update_family_member_role",
+        "create_family_policy",
+        "update_family_policy",
+        "delete_family_policy",
+        "modify_family_permissions",
+        "initiate_emergency_protocol"
+      ],
+      "description": "Type of family administration operation to perform"
+    },
+    "family_context": {
+      "type": "object",
+      "properties": {
+        "family_id": {
+          "type": "string",
+          "description": "Unique identifier for the family"
+        },
+        "requesting_member_id": {
+          "type": "string",
+          "description": "ID of family member making the request"
+        },
+        "democratic_approval_status": {
+          "type": "object",
+          "properties": {
+            "approval_required": {
+              "type": "boolean",
+              "description": "Whether this operation requires family approval"
+            },
+            "approval_votes": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "member_id": {"type": "string"},
+                  "vote": {"type": "string", "enum": ["approve", "reject", "abstain"]},
+                  "timestamp": {"type": "string", "format": "date-time"}
+                }
+              },
+              "description": "Votes from family members if approval required"
+            }
+          }
+        }
+      },
+      "required": ["family_id", "requesting_member_id"]
+    },
+    "operation_details": {
+      "type": "object",
+      "description": "Specific details for the requested operation",
+      "oneOf": [
+        {
+          "title": "Add Family Member",
+          "properties": {
+            "new_member": {
+              "type": "object",
+              "properties": {
+                "name": {"type": "string"},
+                "age": {"type": "integer", "minimum": 0},
+                "role": {"$ref": "common/control_types.json#/definitions/FamilyGovernanceRole"},
+                "permissions": {
+                  "type": "array",
+                  "items": {"$ref": "common/control_types.json#/definitions/FamilyGovernancePermission"}
+                }
+              },
+              "required": ["name", "age", "role"]
+            }
+          }
+        },
+        {
+          "title": "Create Family Policy",
+          "properties": {
+            "policy": {"$ref": "common/control_types.json#/definitions/FamilyPolicy"}
+          }
+        },
+        {
+          "title": "Emergency Protocol",
+          "properties": {
+            "emergency_type": {
+              "type": "string",
+              "enum": ["child_safety", "privacy_breach", "system_security", "memory_corruption"]
+            },
+            "severity": {
+              "type": "string",
+              "enum": ["low", "medium", "high", "critical"]
+            },
+            "immediate_action_required": {
+              "type": "boolean",
+              "description": "Whether immediate action is required"
+            }
+          }
+        }
+      ]
+    },
+    "memory_integration": {
+      "type": "object",
+      "properties": {
+        "memory_space_impact": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["personal", "selective", "shared", "extended", "interfamily"]
+          },
+          "description": "Memory spaces affected by this operation"
+        },
+        "memory_preservation_required": {
+          "type": "boolean",
+          "description": "Whether family memory preservation is required during operation"
+        },
+        "memory_access_changes": {
+          "type": "object",
+          "description": "Changes to memory access patterns resulting from operation"
+        }
+      }
+    },
+    "child_safety_considerations": {
+      "type": "object",
+      "properties": {
+        "child_impact_assessment": {
+          "type": "string",
+          "description": "Assessment of how this operation impacts children in the family"
+        },
+        "parental_oversight_changes": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "Changes to parental oversight resulting from operation"
+        },
+        "age_appropriate_notifications": {
+          "type": "boolean",
+          "description": "Whether age-appropriate notifications should be sent to children"
+        }
+      }
+    }
+  },
+  "required": ["operation", "family_context", "operation_details"]
+}

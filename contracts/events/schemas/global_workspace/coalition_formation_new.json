@@ -1,0 +1,40 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "$id": "coalition_formation.schema.json",
+    "title": "Global Workspace Coalition Formation Event",
+    "type": "object",
+    "required": [
+        "timestamp",
+        "coalition_id",
+        "participants",
+        "formation_trigger"
+    ],
+    "properties": {
+        "timestamp": {
+            "type": "string",
+            "format": "date-time"
+        },
+        "coalition_id": {
+            "type": "string"
+        },
+        "participants": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        },
+        "formation_trigger": {
+            "type": "string",
+            "enum": [
+                "attention",
+                "novelty",
+                "goal_relevance"
+            ]
+        },
+        "strength": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+        }
+    }
+}

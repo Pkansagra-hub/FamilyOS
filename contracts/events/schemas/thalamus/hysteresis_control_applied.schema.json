@@ -1,0 +1,318 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://familyos.local/contracts/events/schemas/thalamus/hysteresis_control_applied.schema.json",
+    "title": "Hysteresis Control Applied Event",
+    "description": "Event generated when hysteresis control mechanisms are applied within thalamic processing to prevent oscillations",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "timestamp",
+        "control_trigger",
+        "hysteresis_state",
+        "control_action",
+        "stability_metrics"
+    ],
+    "properties": {
+        "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Time when hysteresis control was applied"
+        },
+        "control_trigger": {
+            "type": "object",
+            "required": [
+                "trigger_type",
+                "oscillation_detected"
+            ],
+            "properties": {
+                "trigger_type": {
+                    "type": "string",
+                    "enum": [
+                        "decision_oscillation",
+                        "attention_flicker",
+                        "threshold_crossing",
+                        "resource_thrashing",
+                        "feedback_loop",
+                        "instability_detected",
+                        "preventive_control"
+                    ]
+                },
+                "oscillation_detected": {
+                    "type": "boolean",
+                    "description": "Whether oscillating behavior was detected"
+                },
+                "oscillation_frequency": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Frequency of detected oscillation in Hz"
+                },
+                "oscillation_amplitude": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Amplitude of oscillation"
+                },
+                "trigger_threshold": {
+                    "type": "number"
+                }
+            },
+            "description": "What triggered the hysteresis control"
+        },
+        "hysteresis_state": {
+            "type": "object",
+            "required": [
+                "previous_decisions",
+                "stability_count",
+                "control_active"
+            ],
+            "properties": {
+                "previous_decisions": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "required": [
+                            "decision",
+                            "timestamp",
+                            "confidence"
+                        ],
+                        "properties": {
+                            "decision": {
+                                "type": "string",
+                                "enum": [
+                                    "ADMIT",
+                                    "DEFER",
+                                    "BOOST",
+                                    "DROP"
+                                ]
+                            },
+                            "timestamp": {
+                                "type": "string"
+                            },
+                            "confidence": {
+                                "type": "number"
+                            }
+                        }
+                    },
+                    "description": "History of recent decisions"
+                },
+                "stability_count": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "description": "Number of stable decisions in sequence"
+                },
+                "control_active": {
+                    "type": "boolean",
+                    "description": "Whether hysteresis control is currently active"
+                },
+                "hysteresis_width": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Width of hysteresis band"
+                },
+                "state_memory_depth": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "description": "How many previous states to remember"
+                }
+            },
+            "description": "Current state of hysteresis control system"
+        },
+        "control_action": {
+            "type": "object",
+            "required": [
+                "action_type",
+                "control_parameters"
+            ],
+            "properties": {
+                "action_type": {
+                    "type": "string",
+                    "enum": [
+                        "threshold_adjustment",
+                        "decision_dampening",
+                        "temporal_smoothing",
+                        "confidence_boosting",
+                        "decision_locking",
+                        "gradient_modification",
+                        "feedback_reduction"
+                    ]
+                },
+                "control_parameters": {
+                    "type": "object",
+                    "properties": {
+                        "dampening_factor": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "threshold_offset": {
+                            "type": "number"
+                        },
+                        "smoothing_window_ms": {
+                            "type": "number"
+                        },
+                        "lock_duration_ms": {
+                            "type": "number"
+                        },
+                        "confidence_boost": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "target_stability": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Target stability level"
+                }
+            },
+            "description": "Control action taken to prevent oscillation"
+        },
+        "stability_metrics": {
+            "type": "object",
+            "required": [
+                "stability_before",
+                "stability_after"
+            ],
+            "properties": {
+                "stability_before": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Stability measure before control"
+                },
+                "stability_after": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Expected stability after control"
+                },
+                "decision_variance": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Variance in recent decisions"
+                },
+                "temporal_consistency": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Temporal consistency of decisions"
+                },
+                "convergence_time_ms": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Expected time to stability"
+                }
+            },
+            "description": "Metrics measuring system stability"
+        },
+        "affected_systems": {
+            "type": "object",
+            "properties": {
+                "relay_circuits": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "enum": [
+                            "memory",
+                            "recall",
+                            "executive",
+                            "learning"
+                        ]
+                    }
+                },
+                "attention_mechanisms": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "downstream_effects": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "system_id": {
+                                "type": "string"
+                            },
+                            "effect_type": {
+                                "type": "string"
+                            },
+                            "effect_magnitude": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                }
+            },
+            "description": "Systems affected by hysteresis control"
+        },
+        "control_effectiveness": {
+            "type": "object",
+            "properties": {
+                "oscillation_suppressed": {
+                    "type": "boolean"
+                },
+                "stability_improvement": {
+                    "type": "number"
+                },
+                "performance_impact": {
+                    "type": "object",
+                    "properties": {
+                        "latency_increase_ms": {
+                            "type": "number"
+                        },
+                        "accuracy_change": {
+                            "type": "number"
+                        },
+                        "resource_overhead": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "side_effects": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            },
+            "description": "Effectiveness of the control action"
+        },
+        "adaptation_learning": {
+            "type": "object",
+            "properties": {
+                "control_history": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "timestamp": {
+                                "type": "string"
+                            },
+                            "trigger_pattern": {
+                                "type": "string"
+                            },
+                            "action_taken": {
+                                "type": "string"
+                            },
+                            "effectiveness": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                },
+                "parameter_updates": {
+                    "type": "object",
+                    "description": "Updates to control parameters based on effectiveness"
+                },
+                "pattern_recognition": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Recognized patterns in oscillation triggers"
+                }
+            },
+            "description": "Learning and adaptation in hysteresis control"
+        }
+    }
+}

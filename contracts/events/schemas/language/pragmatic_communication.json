@@ -1,0 +1,627 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "$id": "pragmatic_communication.event.json",
+    "title": "Pragmatic Communication Event",
+    "description": "Event schema for pragmatic communication processing based on right hemisphere language areas, frontal-parietal networks, and social brain regions",
+    "type": "object",
+    "required": [
+        "event_id",
+        "timestamp",
+        "communicative_context",
+        "pragmatic_processing",
+        "social_cognitive_processing",
+        "neural_pragmatic_networks"
+    ],
+    "properties": {
+        "event_id": {
+            "type": "string",
+            "description": "Unique identifier for this pragmatic communication event"
+        },
+        "timestamp": {
+            "type": "string",
+            "format": "date-time"
+        },
+        "communicative_context": {
+            "type": "object",
+            "properties": {
+                "social_context": {
+                    "type": "object",
+                    "properties": {
+                        "participant_roles": {
+                            "type": "object"
+                        },
+                        "social_relationships": {
+                            "type": "object"
+                        },
+                        "power_dynamics": {
+                            "type": "object"
+                        },
+                        "social_distance": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "cultural_context": {
+                    "type": "object",
+                    "properties": {
+                        "cultural_norms": {
+                            "type": "object"
+                        },
+                        "cultural_values": {
+                            "type": "object"
+                        },
+                        "communication_styles": {
+                            "type": "object"
+                        },
+                        "cultural_scripts": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "situational_context": {
+                    "type": "object",
+                    "properties": {
+                        "physical_setting": {
+                            "type": "object"
+                        },
+                        "temporal_setting": {
+                            "type": "object"
+                        },
+                        "activity_context": {
+                            "type": "object"
+                        },
+                        "formality_level": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "communicative_goals": {
+                    "type": "object",
+                    "properties": {
+                        "primary_goals": {
+                            "type": "array"
+                        },
+                        "secondary_goals": {
+                            "type": "array"
+                        },
+                        "hidden_agendas": {
+                            "type": "array"
+                        },
+                        "goal_conflicts": {
+                            "type": "array"
+                        }
+                    }
+                }
+            }
+        },
+        "pragmatic_processing": {
+            "type": "object",
+            "properties": {
+                "speech_act_processing": {
+                    "type": "object",
+                    "properties": {
+                        "speech_act_recognition": {
+                            "type": "object",
+                            "properties": {
+                                "direct_speech_acts": {
+                                    "type": "object"
+                                },
+                                "indirect_speech_acts": {
+                                    "type": "object"
+                                },
+                                "complex_speech_acts": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "illocutionary_force_analysis": {
+                            "type": "object",
+                            "properties": {
+                                "assertive_force": {
+                                    "type": "object"
+                                },
+                                "directive_force": {
+                                    "type": "object"
+                                },
+                                "commissive_force": {
+                                    "type": "object"
+                                },
+                                "expressive_force": {
+                                    "type": "object"
+                                },
+                                "declarative_force": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "perlocutionary_effect_prediction": {
+                            "type": "object",
+                            "properties": {
+                                "intended_effects": {
+                                    "type": "object"
+                                },
+                                "actual_effects": {
+                                    "type": "object"
+                                },
+                                "effect_monitoring": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "implicature_processing": {
+                    "type": "object",
+                    "properties": {
+                        "conversational_implicature": {
+                            "type": "object",
+                            "properties": {
+                                "gricean_maxim_violations": {
+                                    "type": "object"
+                                },
+                                "implicature_derivation": {
+                                    "type": "object"
+                                },
+                                "scalar_implicature_processing": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "conventional_implicature": {
+                            "type": "object",
+                            "properties": {
+                                "conventional_meaning_processing": {
+                                    "type": "object"
+                                },
+                                "expressive_content_processing": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "particularized_implicature": {
+                            "type": "object",
+                            "properties": {
+                                "context_specific_inference": {
+                                    "type": "object"
+                                },
+                                "relevance_based_inference": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "presupposition_processing": {
+                    "type": "object",
+                    "properties": {
+                        "presupposition_identification": {
+                            "type": "object",
+                            "properties": {
+                                "lexical_presuppositions": {
+                                    "type": "object"
+                                },
+                                "structural_presuppositions": {
+                                    "type": "object"
+                                },
+                                "factive_presuppositions": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "presupposition_accommodation": {
+                            "type": "object",
+                            "properties": {
+                                "accommodation_strategies": {
+                                    "type": "object"
+                                },
+                                "context_updating": {
+                                    "type": "object"
+                                },
+                                "common_ground_revision": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "presupposition_projection": {
+                            "type": "object",
+                            "properties": {
+                                "complex_sentence_presuppositions": {
+                                    "type": "object"
+                                },
+                                "projection_filtering": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "reference_resolution": {
+                    "type": "object",
+                    "properties": {
+                        "definite_reference_processing": {
+                            "type": "object",
+                            "properties": {
+                                "familiarity_presupposition": {
+                                    "type": "object"
+                                },
+                                "uniqueness_presupposition": {
+                                    "type": "object"
+                                },
+                                "accessibility_assessment": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "demonstrative_processing": {
+                            "type": "object",
+                            "properties": {
+                                "spatial_deixis_processing": {
+                                    "type": "object"
+                                },
+                                "temporal_deixis_processing": {
+                                    "type": "object"
+                                },
+                                "discourse_deixis_processing": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "pronoun_interpretation": {
+                            "type": "object",
+                            "properties": {
+                                "antecedent_identification": {
+                                    "type": "object"
+                                },
+                                "gender_agreement_processing": {
+                                    "type": "object"
+                                },
+                                "number_agreement_processing": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "social_cognitive_processing": {
+            "type": "object",
+            "properties": {
+                "theory_of_mind_application": {
+                    "type": "object",
+                    "properties": {
+                        "speaker_belief_modeling": {
+                            "type": "object",
+                            "properties": {
+                                "first_order_belief_attribution": {
+                                    "type": "object"
+                                },
+                                "second_order_belief_attribution": {
+                                    "type": "object"
+                                },
+                                "false_belief_reasoning": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "speaker_intention_modeling": {
+                            "type": "object",
+                            "properties": {
+                                "communicative_intention_recognition": {
+                                    "type": "object"
+                                },
+                                "informative_intention_recognition": {
+                                    "type": "object"
+                                },
+                                "social_intention_recognition": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "speaker_knowledge_modeling": {
+                            "type": "object",
+                            "properties": {
+                                "knowledge_state_assessment": {
+                                    "type": "object"
+                                },
+                                "common_ground_estimation": {
+                                    "type": "object"
+                                },
+                                "expertise_assessment": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "perspective_taking": {
+                    "type": "object",
+                    "properties": {
+                        "cognitive_perspective_taking": {
+                            "type": "object",
+                            "properties": {
+                                "knowledge_perspective_shift": {
+                                    "type": "object"
+                                },
+                                "belief_perspective_shift": {
+                                    "type": "object"
+                                },
+                                "conceptual_perspective_shift": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "affective_perspective_taking": {
+                            "type": "object",
+                            "properties": {
+                                "emotional_state_simulation": {
+                                    "type": "object"
+                                },
+                                "empathic_understanding": {
+                                    "type": "object"
+                                },
+                                "emotional_contagion": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "spatial_perspective_taking": {
+                            "type": "object",
+                            "properties": {
+                                "spatial_viewpoint_shift": {
+                                    "type": "object"
+                                },
+                                "egocentric_allocentric_transformation": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "social_inference": {
+                    "type": "object",
+                    "properties": {
+                        "personality_inference": {
+                            "type": "object",
+                            "properties": {
+                                "trait_attribution": {
+                                    "type": "object"
+                                },
+                                "personality_consistency_assessment": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "relationship_inference": {
+                            "type": "object",
+                            "properties": {
+                                "relationship_type_identification": {
+                                    "type": "object"
+                                },
+                                "relationship_quality_assessment": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "social_role_inference": {
+                            "type": "object",
+                            "properties": {
+                                "role_identification": {
+                                    "type": "object"
+                                },
+                                "role_expectation_activation": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "neural_pragmatic_networks": {
+            "type": "object",
+            "properties": {
+                "right_hemisphere_activity": {
+                    "type": "object",
+                    "properties": {
+                        "right_inferior_frontal_gyrus": {
+                            "type": "number"
+                        },
+                        "right_middle_temporal_gyrus": {
+                            "type": "number"
+                        },
+                        "right_superior_temporal_sulcus": {
+                            "type": "number"
+                        },
+                        "right_temporal_pole": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "frontal_control_networks": {
+                    "type": "object",
+                    "properties": {
+                        "dorsolateral_prefrontal_cortex": {
+                            "type": "number"
+                        },
+                        "ventromedial_prefrontal_cortex": {
+                            "type": "number"
+                        },
+                        "anterior_cingulate_cortex": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "social_brain_networks": {
+                    "type": "object",
+                    "properties": {
+                        "temporoparietal_junction": {
+                            "type": "number"
+                        },
+                        "medial_prefrontal_cortex": {
+                            "type": "number"
+                        },
+                        "superior_temporal_sulcus": {
+                            "type": "number"
+                        },
+                        "temporal_poles": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "mentalizing_networks": {
+                    "type": "object",
+                    "properties": {
+                        "theory_of_mind_network_activity": {
+                            "type": "number"
+                        },
+                        "perspective_taking_network_activity": {
+                            "type": "number"
+                        },
+                        "empathy_network_activity": {
+                            "type": "number"
+                        }
+                    }
+                }
+            }
+        },
+        "pragmatic_outcomes": {
+            "type": "object",
+            "properties": {
+                "communicative_understanding": {
+                    "type": "object",
+                    "properties": {
+                        "literal_meaning_understanding": {
+                            "type": "object"
+                        },
+                        "intended_meaning_understanding": {
+                            "type": "object"
+                        },
+                        "implied_meaning_understanding": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "social_meaning_extraction": {
+                    "type": "object",
+                    "properties": {
+                        "social_identity_information": {
+                            "type": "object"
+                        },
+                        "social_relationship_information": {
+                            "type": "object"
+                        },
+                        "social_context_information": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "response_planning": {
+                    "type": "object",
+                    "properties": {
+                        "appropriate_response_generation": {
+                            "type": "object"
+                        },
+                        "politeness_strategy_selection": {
+                            "type": "object"
+                        },
+                        "turn_taking_planning": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "context_updating": {
+            "type": "object",
+            "properties": {
+                "common_ground_updating": {
+                    "type": "object",
+                    "properties": {
+                        "shared_knowledge_updating": {
+                            "type": "object"
+                        },
+                        "mutual_belief_updating": {
+                            "type": "object"
+                        },
+                        "conversational_record_updating": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "discourse_context_updating": {
+                    "type": "object",
+                    "properties": {
+                        "topic_context_updating": {
+                            "type": "object"
+                        },
+                        "participant_model_updating": {
+                            "type": "object"
+                        },
+                        "conversational_goal_updating": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "system_integration": {
+            "type": "object",
+            "properties": {
+                "language_comprehension_integration": {
+                    "type": "object",
+                    "properties": {
+                        "semantic_pragmatic_interface": {
+                            "type": "object"
+                        },
+                        "syntactic_pragmatic_interface": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "memory_integration": {
+                    "type": "object",
+                    "properties": {
+                        "episodic_memory_integration": {
+                            "type": "object"
+                        },
+                        "semantic_memory_integration": {
+                            "type": "object"
+                        },
+                        "social_memory_integration": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "executive_control_integration": {
+                    "type": "object",
+                    "properties": {
+                        "cognitive_control_in_pragmatics": {
+                            "type": "object"
+                        },
+                        "attention_pragmatic_modulation": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "metadata": {
+            "type": "object",
+            "properties": {
+                "processing_duration": {
+                    "type": "number"
+                },
+                "pragmatic_complexity": {
+                    "type": "number"
+                },
+                "neural_resource_utilization": {
+                    "type": "object"
+                },
+                "understanding_success_level": {
+                    "type": "number"
+                }
+            }
+        }
+    }
+}

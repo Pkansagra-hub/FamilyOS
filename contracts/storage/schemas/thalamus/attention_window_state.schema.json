@@ -1,0 +1,313 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://familyos.local/contracts/storage/schemas/thalamus/attention_window_state.schema.json",
+    "title": "Attention Window State Storage Schema",
+    "description": "Storage schema for persistent attention window state in thalamic processing",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "window_id",
+        "window_type",
+        "spatial_properties",
+        "temporal_properties",
+        "attention_allocation",
+        "last_updated"
+    ],
+    "properties": {
+        "window_id": {
+            "type": "string",
+            "description": "Unique identifier for the attention window"
+        },
+        "window_type": {
+            "type": "string",
+            "enum": [
+                "spatial",
+                "temporal",
+                "feature",
+                "object",
+                "composite"
+            ],
+            "description": "Type of attention window"
+        },
+        "spatial_properties": {
+            "type": "object",
+            "properties": {
+                "center_coordinates": {
+                    "type": "object",
+                    "properties": {
+                        "x": {
+                            "type": "number"
+                        },
+                        "y": {
+                            "type": "number"
+                        },
+                        "z": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "window_dimensions": {
+                    "type": "object",
+                    "properties": {
+                        "width": {
+                            "type": "number"
+                        },
+                        "height": {
+                            "type": "number"
+                        },
+                        "depth": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "focus_radius": {
+                    "type": "number"
+                },
+                "peripheral_extent": {
+                    "type": "number"
+                },
+                "window_shape": {
+                    "type": "string",
+                    "enum": [
+                        "circular",
+                        "elliptical",
+                        "rectangular",
+                        "gradient"
+                    ]
+                }
+            },
+            "description": "Spatial characteristics of attention window"
+        },
+        "temporal_properties": {
+            "type": "object",
+            "properties": {
+                "start_time": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "end_time": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "duration_ms": {
+                    "type": "number"
+                },
+                "temporal_resolution": {
+                    "type": "number"
+                },
+                "decay_rate": {
+                    "type": "number"
+                },
+                "persistence_strength": {
+                    "type": "number"
+                }
+            },
+            "description": "Temporal characteristics of attention window"
+        },
+        "attention_allocation": {
+            "type": "object",
+            "required": [
+                "total_allocation",
+                "focus_intensity"
+            ],
+            "properties": {
+                "total_allocation": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Total attention resources allocated"
+                },
+                "focus_intensity": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Intensity of attention focus"
+                },
+                "peripheral_awareness": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Level of peripheral awareness"
+                },
+                "gradient_profile": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "distance": {
+                                "type": "number"
+                            },
+                            "attention_level": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                }
+            },
+            "description": "Attention resource allocation within window"
+        },
+        "content_mapping": {
+            "type": "object",
+            "properties": {
+                "attended_content_ids": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "content_positions": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "content_id": {
+                                "type": "string"
+                            },
+                            "position": {
+                                "type": "object"
+                            },
+                            "attention_weight": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                },
+                "priority_ordering": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            },
+            "description": "Mapping of content within attention window"
+        },
+        "window_relationships": {
+            "type": "object",
+            "properties": {
+                "parent_window_id": {
+                    "type": "string"
+                },
+                "child_window_ids": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "overlapping_windows": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "window_id": {
+                                "type": "string"
+                            },
+                            "overlap_area": {
+                                "type": "number"
+                            },
+                            "interaction_type": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "sequential_windows": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            },
+            "description": "Relationships with other attention windows"
+        },
+        "dynamics_state": {
+            "type": "object",
+            "properties": {
+                "movement_vector": {
+                    "type": "object",
+                    "properties": {
+                        "velocity_x": {
+                            "type": "number"
+                        },
+                        "velocity_y": {
+                            "type": "number"
+                        },
+                        "velocity_z": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "expansion_rate": {
+                    "type": "number"
+                },
+                "rotation_angular_velocity": {
+                    "type": "number"
+                },
+                "stability_metrics": {
+                    "type": "object",
+                    "properties": {
+                        "position_stability": {
+                            "type": "number"
+                        },
+                        "size_stability": {
+                            "type": "number"
+                        },
+                        "intensity_stability": {
+                            "type": "number"
+                        }
+                    }
+                }
+            },
+            "description": "Dynamic properties of attention window"
+        },
+        "performance_metrics": {
+            "type": "object",
+            "properties": {
+                "focus_efficiency": {
+                    "type": "number"
+                },
+                "attention_utilization": {
+                    "type": "number"
+                },
+                "content_coverage": {
+                    "type": "number"
+                },
+                "interference_level": {
+                    "type": "number"
+                },
+                "processing_enhancement": {
+                    "type": "number"
+                }
+            },
+            "description": "Performance metrics for attention window"
+        },
+        "last_updated": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp of last state update"
+        },
+        "metadata": {
+            "type": "object",
+            "properties": {
+                "creation_time": {
+                    "type": "string"
+                },
+                "creator_circuit": {
+                    "type": "string"
+                },
+                "purpose": {
+                    "type": "string"
+                },
+                "window_status": {
+                    "type": "string",
+                    "enum": [
+                        "active",
+                        "dormant",
+                        "decaying",
+                        "archived"
+                    ]
+                }
+            },
+            "description": "Metadata about the attention window"
+        }
+    }
+}

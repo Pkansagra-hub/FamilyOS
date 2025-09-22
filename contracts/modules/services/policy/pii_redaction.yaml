@@ -1,0 +1,5 @@
+fields:
+  service_status.details: { mask: "STRUCTURE_ONLY" }
+  service_receipt.payload_hash: { retain: "HASH_ONLY" }
+exports:
+  allow_fields: ["id","ts","service","op","space_id"]

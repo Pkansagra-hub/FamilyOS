@@ -1,0 +1,9 @@
+{
+  "name": "parent",
+  "caps": [
+    "WRITE",
+    "RECALL",
+    "PROJECT"
+  ],
+  "created_ts": "2025-01-14T10:30:00.000Z"
+}

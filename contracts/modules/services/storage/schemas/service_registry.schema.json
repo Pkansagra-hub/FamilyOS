@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://familyos.local/contracts/services/storage/service_registry.schema.json",
+  "title": "Service Registry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "name", "version", "caps", "status", "created_at", "updated_at"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^[a-z0-9._:-]{3,64}$" },
+    "name": { "type": "string" },
+    "version": { "type": "string" },
+    "caps": { "type": "array", "items": { "type": "string" } },
+    "status": { "type": "string", "enum": ["registered","retired"] },
+    "space_id": { "$ref": "../../events/schemas/_common.json#/definitions/SpaceRef" },
+    "created_at": { "$ref": "../../events/schemas/_common.json#/definitions/ISOInstant" },
+    "updated_at": { "$ref": "../../events/schemas/_common.json#/definitions/ISOInstant" },
+    "metadata": { "type": "object" }
+  }
+}

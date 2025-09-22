@@ -1,0 +1,85 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Drives Module Event Catalog",
+  "description": "Motivational drive and reward system events",
+  "type": "object",
+  "properties": {
+    "events": {
+      "type": "array",
+      "items": [
+        {
+          "name": "DRIVE_TICK",
+          "version": "1.0",
+          "description": "Periodic drive state update with current motivational levels",
+          "schema": {
+            "type": "object",
+            "properties": {
+              "tick_id": { "type": "string", "format": "ulid" },
+              "drive_levels": {
+                "type": "object",
+                "properties": {
+                  "survival": { "type": "number", "minimum": 0, "maximum": 1 },
+                  "social": { "type": "number", "minimum": 0, "maximum": 1 },
+                  "achievement": { "type": "number", "minimum": 0, "maximum": 1 },
+                  "exploration": { "type": "number", "minimum": 0, "maximum": 1 },
+                  "aesthetic": { "type": "number", "minimum": 0, "maximum": 1 },
+                  "autonomy": { "type": "number", "minimum": 0, "maximum": 1 }
+                },
+                "required": ["survival", "social", "achievement", "exploration", "aesthetic", "autonomy"]
+              },
+              "goal_priorities": { "type": "array", "items": { "type": "object" } },
+              "homeostatic_balance": { "type": "number", "minimum": 0, "maximum": 1 },
+              "motivation_changes": { "type": "array", "items": { "type": "string" } }
+            },
+            "required": ["tick_id", "drive_levels", "homeostatic_balance"]
+          },
+          "key": { "partition": "space_id", "ordering": "ts" },
+          "idempotency": { "dedupe_key": "tick_id", "window": "PT1M" },
+          "retention": "P90D"
+        },
+        {
+          "name": "REWARD_COMPUTED",
+          "version": "1.0",
+          "description": "Reward signal calculation for action outcomes",
+          "schema": {
+            "type": "object",
+            "properties": {
+              "reward_id": { "type": "string", "format": "ulid" },
+              "action_id": { "type": "string", "format": "ulid" },
+              "reward_value": { "type": "number" },
+              "reward_type": { "type": "string", "enum": ["intrinsic", "extrinsic", "social", "learning", "aesthetic"] },
+              "drive_contributions": { "type": "object", "additionalProperties": { "type": "number" } },
+              "goal_progress": { "type": "object", "additionalProperties": { "type": "number" } },
+              "satisfaction_impact": { "type": "object", "additionalProperties": { "type": "number" } }
+            },
+            "required": ["reward_id", "action_id", "reward_value", "reward_type", "drive_contributions"]
+          },
+          "key": { "partition": "reward_type", "ordering": "ts" },
+          "idempotency": { "dedupe_key": "reward_id", "window": "PT30S" },
+          "retention": "P180D"
+        },
+        {
+          "name": "HOMEOSTASIS_ALERT",
+          "version": "1.0",
+          "description": "Homeostatic imbalance detection and correction recommendations",
+          "schema": {
+            "type": "object",
+            "properties": {
+              "alert_id": { "type": "string", "format": "ulid" },
+              "imbalance_type": { "type": "string", "enum": ["cognitive_load", "emotional_state", "social_connection", "physical_resources", "information_flow", "security_status"] },
+              "severity": { "type": "string", "enum": ["minor", "moderate", "significant", "critical"] },
+              "current_level": { "type": "number", "minimum": 0, "maximum": 1 },
+              "target_range": { "type": "object", "properties": { "min": { "type": "number" }, "max": { "type": "number" } } },
+              "correction_recommendations": { "type": "array", "items": { "type": "string" } },
+              "automatic_correction_applied": { "type": "boolean" }
+            },
+            "required": ["alert_id", "imbalance_type", "severity", "current_level", "target_range"]
+          },
+          "key": { "partition": "imbalance_type", "ordering": "ts" },
+          "idempotency": { "dedupe_key": "alert_id", "window": "PT2M" },
+          "retention": "P90D"
+        }
+      ]
+    }
+  }
+}

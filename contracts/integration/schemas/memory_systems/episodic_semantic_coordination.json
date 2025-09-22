@@ -1,0 +1,938 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "episodic_semantic_coordination.schema.json",
+    "title": "Episodic-Semantic Memory Coordination Contract",
+    "description": "Defines coordination between hippocampal episodic memory and cortical semantic memory systems, including abstraction processes, generalization, and bidirectional knowledge transfer.",
+    "type": "object",
+    "required": [
+        "coordination_session_id",
+        "episodic_semantic_interaction",
+        "abstraction_processes",
+        "knowledge_transfer",
+        "semantic_consolidation",
+        "bidirectional_coordination",
+        "timestamp"
+    ],
+    "properties": {
+        "coordination_session_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Unique identifier for the episodic-semantic coordination session"
+        },
+        "episodic_semantic_interaction": {
+            "type": "object",
+            "required": [
+                "interaction_type",
+                "episodic_content",
+                "semantic_context"
+            ],
+            "properties": {
+                "interaction_type": {
+                    "type": "string",
+                    "enum": [
+                        "episodic_to_semantic_abstraction",
+                        "semantic_to_episodic_instantiation",
+                        "bidirectional_integration",
+                        "schema_updating",
+                        "concept_refinement"
+                    ],
+                    "description": "Type of episodic-semantic interaction"
+                },
+                "episodic_content": {
+                    "type": "object",
+                    "required": [
+                        "episodic_memories",
+                        "experiential_details"
+                    ],
+                    "properties": {
+                        "episodic_memories": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "required": [
+                                    "memory_id",
+                                    "episodic_specificity",
+                                    "contextual_richness"
+                                ],
+                                "properties": {
+                                    "memory_id": {
+                                        "type": "string",
+                                        "description": "Unique identifier for the episodic memory"
+                                    },
+                                    "episodic_specificity": {
+                                        "type": "number",
+                                        "minimum": 0,
+                                        "maximum": 1,
+                                        "description": "Level of episodic specificity (0=general, 1=highly specific)"
+                                    },
+                                    "contextual_richness": {
+                                        "type": "number",
+                                        "minimum": 0,
+                                        "maximum": 1,
+                                        "description": "Richness of contextual details in the episodic memory"
+                                    },
+                                    "what_when_where_details": {
+                                        "type": "object",
+                                        "properties": {
+                                            "what_specificity": {
+                                                "type": "number"
+                                            },
+                                            "when_precision": {
+                                                "type": "number"
+                                            },
+                                            "where_detail_level": {
+                                                "type": "number"
+                                            },
+                                            "who_involvement": {
+                                                "type": "number"
+                                            }
+                                        }
+                                    },
+                                    "phenomenological_aspects": {
+                                        "type": "object",
+                                        "properties": {
+                                            "subjective_experience_richness": {
+                                                "type": "number"
+                                            },
+                                            "emotional_intensity": {
+                                                "type": "number"
+                                            },
+                                            "sensory_vividness": {
+                                                "type": "number"
+                                            },
+                                            "personal_significance": {
+                                                "type": "number"
+                                            }
+                                        }
+                                    },
+                                    "abstraction_potential": {
+                                        "type": "object",
+                                        "properties": {
+                                            "generalizable_elements": {
+                                                "type": "array"
+                                            },
+                                            "pattern_extraction_potential": {
+                                                "type": "number"
+                                            },
+                                            "rule_derivation_potential": {
+                                                "type": "number"
+                                            },
+                                            "conceptual_contribution": {
+                                                "type": "number"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "experiential_details": {
+                            "type": "object",
+                            "properties": {
+                                "first_person_perspective": {
+                                    "type": "object",
+                                    "properties": {
+                                        "subjective_viewpoint": {
+                                            "type": "object"
+                                        },
+                                        "personal_involvement_level": {
+                                            "type": "number"
+                                        },
+                                        "autonoetic_consciousness": {
+                                            "type": "number"
+                                        }
+                                    }
+                                },
+                                "temporal_unfolding": {
+                                    "type": "object",
+                                    "properties": {
+                                        "event_sequence": {
+                                            "type": "array"
+                                        },
+                                        "temporal_dynamics": {
+                                            "type": "object"
+                                        },
+                                        "duration_experience": {
+                                            "type": "number"
+                                        }
+                                    }
+                                },
+                                "contextual_embedding": {
+                                    "type": "object",
+                                    "properties": {
+                                        "situational_context": {
+                                            "type": "object"
+                                        },
+                                        "social_context": {
+                                            "type": "object"
+                                        },
+                                        "environmental_context": {
+                                            "type": "object"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "semantic_context": {
+                    "type": "object",
+                    "required": [
+                        "relevant_concepts",
+                        "semantic_networks"
+                    ],
+                    "properties": {
+                        "relevant_concepts": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "required": [
+                                    "concept_id",
+                                    "concept_generality",
+                                    "abstraction_level"
+                                ],
+                                "properties": {
+                                    "concept_id": {
+                                        "type": "string",
+                                        "description": "Unique identifier for the semantic concept"
+                                    },
+                                    "concept_generality": {
+                                        "type": "number",
+                                        "minimum": 0,
+                                        "maximum": 1,
+                                        "description": "Level of concept generality (0=specific, 1=highly general)"
+                                    },
+                                    "abstraction_level": {
+                                        "type": "string",
+                                        "enum": [
+                                            "concrete",
+                                            "basic_level",
+                                            "superordinate",
+                                            "abstract",
+                                            "meta_conceptual"
+                                        ],
+                                        "description": "Level of conceptual abstraction"
+                                    },
+                                    "concept_strength": {
+                                        "type": "number",
+                                        "description": "Strength of the semantic concept"
+                                    },
+                                    "conceptual_features": {
+                                        "type": "object",
+                                        "properties": {
+                                            "defining_features": {
+                                                "type": "array"
+                                            },
+                                            "characteristic_features": {
+                                                "type": "array"
+                                            },
+                                            "relational_features": {
+                                                "type": "array"
+                                            }
+                                        }
+                                    },
+                                    "episodic_grounding": {
+                                        "type": "object",
+                                        "properties": {
+                                            "grounding_episodes": {
+                                                "type": "array"
+                                            },
+                                            "grounding_strength": {
+                                                "type": "number"
+                                            },
+                                            "experiential_basis": {
+                                                "type": "number"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "semantic_networks": {
+                            "type": "object",
+                            "properties": {
+                                "associative_networks": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "network_id": {
+                                                "type": "string"
+                                            },
+                                            "network_type": {
+                                                "type": "string"
+                                            },
+                                            "node_concepts": {
+                                                "type": "array"
+                                            },
+                                            "connection_strengths": {
+                                                "type": "object"
+                                            }
+                                        }
+                                    }
+                                },
+                                "hierarchical_structures": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "hierarchy_id": {
+                                                "type": "string"
+                                            },
+                                            "hierarchy_type": {
+                                                "type": "string"
+                                            },
+                                            "levels": {
+                                                "type": "array"
+                                            },
+                                            "taxonomic_relations": {
+                                                "type": "object"
+                                            }
+                                        }
+                                    }
+                                },
+                                "schema_structures": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "schema_id": {
+                                                "type": "string"
+                                            },
+                                            "schema_type": {
+                                                "type": "string"
+                                            },
+                                            "schema_elements": {
+                                                "type": "object"
+                                            },
+                                            "default_values": {
+                                                "type": "object"
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "conceptual_coherence": {
+                            "type": "object",
+                            "properties": {
+                                "internal_consistency": {
+                                    "type": "number"
+                                },
+                                "cross_concept_coherence": {
+                                    "type": "number"
+                                },
+                                "semantic_stability": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                },
+                "interaction_dynamics": {
+                    "type": "object",
+                    "properties": {
+                        "episodic_semantic_synchrony": {
+                            "type": "number",
+                            "description": "Level of synchrony between episodic and semantic processing"
+                        },
+                        "bidirectional_influence_strength": {
+                            "type": "object",
+                            "properties": {
+                                "episodic_to_semantic_influence": {
+                                    "type": "number"
+                                },
+                                "semantic_to_episodic_influence": {
+                                    "type": "number"
+                                },
+                                "mutual_constraint_satisfaction": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "integration_quality": {
+                            "type": "number",
+                            "description": "Quality of episodic-semantic integration"
+                        }
+                    }
+                }
+            }
+        },
+        "abstraction_processes": {
+            "type": "object",
+            "required": [
+                "abstraction_strategy",
+                "pattern_extraction",
+                "generalization_mechanisms"
+            ],
+            "properties": {
+                "abstraction_strategy": {
+                    "type": "string",
+                    "enum": [
+                        "bottom_up_abstraction",
+                        "top_down_refinement",
+                        "interactive_abstraction",
+                        "schema_based_abstraction",
+                        "analogical_abstraction"
+                    ],
+                    "description": "Strategy for abstracting semantic knowledge from episodic memories"
+                },
+                "pattern_extraction": {
+                    "type": "object",
+                    "properties": {
+                        "recurring_patterns": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "pattern_id": {
+                                        "type": "string"
+                                    },
+                                    "pattern_type": {
+                                        "type": "string"
+                                    },
+                                    "pattern_frequency": {
+                                        "type": "number"
+                                    },
+                                    "pattern_strength": {
+                                        "type": "number"
+                                    },
+                                    "supporting_episodes": {
+                                        "type": "array"
+                                    },
+                                    "abstraction_level": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        },
+                        "invariant_features": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "feature_id": {
+                                        "type": "string"
+                                    },
+                                    "feature_stability": {
+                                        "type": "number"
+                                    },
+                                    "cross_episode_consistency": {
+                                        "type": "number"
+                                    },
+                                    "generalization_potential": {
+                                        "type": "number"
+                                    }
+                                }
+                            }
+                        },
+                        "statistical_regularities": {
+                            "type": "object",
+                            "properties": {
+                                "co_occurrence_patterns": {
+                                    "type": "object"
+                                },
+                                "conditional_probabilities": {
+                                    "type": "object"
+                                },
+                                "distributional_statistics": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "generalization_mechanisms": {
+                    "type": "object",
+                    "properties": {
+                        "similarity_based_generalization": {
+                            "type": "object",
+                            "properties": {
+                                "similarity_metrics": {
+                                    "type": "array"
+                                },
+                                "similarity_thresholds": {
+                                    "type": "object"
+                                },
+                                "generalization_gradients": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "rule_based_generalization": {
+                            "type": "object",
+                            "properties": {
+                                "extracted_rules": {
+                                    "type": "array"
+                                },
+                                "rule_confidence": {
+                                    "type": "object"
+                                },
+                                "rule_scope": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "prototype_based_generalization": {
+                            "type": "object",
+                            "properties": {
+                                "prototype_formation": {
+                                    "type": "object"
+                                },
+                                "prototype_updating": {
+                                    "type": "object"
+                                },
+                                "prototype_strength": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "exemplar_based_generalization": {
+                            "type": "object",
+                            "properties": {
+                                "exemplar_selection": {
+                                    "type": "object"
+                                },
+                                "exemplar_weighting": {
+                                    "type": "object"
+                                },
+                                "exemplar_accessibility": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                },
+                "abstraction_quality_control": {
+                    "type": "object",
+                    "properties": {
+                        "abstraction_validity": {
+                            "type": "number",
+                            "description": "Validity of the abstraction process"
+                        },
+                        "generalization_accuracy": {
+                            "type": "number",
+                            "description": "Accuracy of generalization"
+                        },
+                        "overgeneralization_prevention": {
+                            "type": "number",
+                            "description": "Prevention of overgeneralization"
+                        },
+                        "undergeneralization_prevention": {
+                            "type": "number",
+                            "description": "Prevention of undergeneralization"
+                        }
+                    }
+                }
+            }
+        },
+        "knowledge_transfer": {
+            "type": "object",
+            "required": [
+                "transfer_direction",
+                "transfer_content",
+                "transfer_mechanisms"
+            ],
+            "properties": {
+                "transfer_direction": {
+                    "type": "string",
+                    "enum": [
+                        "episodic_to_semantic",
+                        "semantic_to_episodic",
+                        "bidirectional"
+                    ],
+                    "description": "Direction of knowledge transfer"
+                },
+                "transfer_content": {
+                    "type": "object",
+                    "properties": {
+                        "episodic_to_semantic_transfer": {
+                            "type": "object",
+                            "properties": {
+                                "extracted_concepts": {
+                                    "type": "array"
+                                },
+                                "derived_schemas": {
+                                    "type": "array"
+                                },
+                                "learned_associations": {
+                                    "type": "array"
+                                },
+                                "statistical_knowledge": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "semantic_to_episodic_transfer": {
+                            "type": "object",
+                            "properties": {
+                                "schema_instantiation": {
+                                    "type": "array"
+                                },
+                                "concept_grounding": {
+                                    "type": "array"
+                                },
+                                "expectation_formation": {
+                                    "type": "array"
+                                },
+                                "interpretation_frameworks": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "bidirectional_enrichment": {
+                            "type": "object",
+                            "properties": {
+                                "episodic_semantic_binding": {
+                                    "type": "array"
+                                },
+                                "cross_system_associations": {
+                                    "type": "array"
+                                },
+                                "integrated_representations": {
+                                    "type": "array"
+                                }
+                            }
+                        }
+                    }
+                },
+                "transfer_mechanisms": {
+                    "type": "object",
+                    "properties": {
+                        "hippocampal_cortical_dialogue": {
+                            "type": "object",
+                            "properties": {
+                                "hippocampal_indexing": {
+                                    "type": "number"
+                                },
+                                "cortical_storage": {
+                                    "type": "number"
+                                },
+                                "bidirectional_communication": {
+                                    "type": "number"
+                                },
+                                "systems_consolidation": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "complementary_learning_systems": {
+                            "type": "object",
+                            "properties": {
+                                "fast_hippocampal_learning": {
+                                    "type": "number"
+                                },
+                                "slow_cortical_learning": {
+                                    "type": "number"
+                                },
+                                "interleaved_learning": {
+                                    "type": "number"
+                                },
+                                "catastrophic_forgetting_avoidance": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "replay_based_transfer": {
+                            "type": "object",
+                            "properties": {
+                                "episodic_replay_for_abstraction": {
+                                    "type": "number"
+                                },
+                                "semantic_guided_replay": {
+                                    "type": "number"
+                                },
+                                "transfer_efficiency": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                },
+                "transfer_quality_metrics": {
+                    "type": "object",
+                    "properties": {
+                        "transfer_completeness": {
+                            "type": "number",
+                            "description": "Completeness of knowledge transfer"
+                        },
+                        "transfer_fidelity": {
+                            "type": "number",
+                            "description": "Fidelity of transferred knowledge"
+                        },
+                        "transfer_efficiency": {
+                            "type": "number",
+                            "description": "Efficiency of the transfer process"
+                        },
+                        "knowledge_integration_quality": {
+                            "type": "number",
+                            "description": "Quality of knowledge integration"
+                        }
+                    }
+                }
+            }
+        },
+        "semantic_consolidation": {
+            "type": "object",
+            "required": [
+                "consolidation_strategy",
+                "cortical_integration"
+            ],
+            "properties": {
+                "consolidation_strategy": {
+                    "type": "string",
+                    "enum": [
+                        "gradual_semantic_consolidation",
+                        "schema_based_consolidation",
+                        "network_integration_consolidation",
+                        "hierarchical_consolidation"
+                    ],
+                    "description": "Strategy for consolidating semantic knowledge"
+                },
+                "cortical_integration": {
+                    "type": "object",
+                    "properties": {
+                        "target_cortical_areas": {
+                            "type": "array",
+                            "items": {
+                                "type": "string",
+                                "enum": [
+                                    "temporal_cortex",
+                                    "frontal_cortex",
+                                    "parietal_cortex",
+                                    "occipital_cortex",
+                                    "association_areas"
+                                ]
+                            }
+                        },
+                        "cortical_network_integration": {
+                            "type": "object",
+                            "properties": {
+                                "within_area_integration": {
+                                    "type": "number"
+                                },
+                                "cross_area_integration": {
+                                    "type": "number"
+                                },
+                                "network_coherence": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "distributed_representation_formation": {
+                            "type": "object",
+                            "properties": {
+                                "representation_distribution": {
+                                    "type": "object"
+                                },
+                                "redundancy_level": {
+                                    "type": "number"
+                                },
+                                "robustness": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                },
+                "semantic_network_updating": {
+                    "type": "object",
+                    "properties": {
+                        "network_modification_type": {
+                            "type": "string",
+                            "enum": [
+                                "additive_updating",
+                                "modificative_updating",
+                                "restructuring",
+                                "pruning"
+                            ]
+                        },
+                        "updating_mechanisms": {
+                            "type": "object",
+                            "properties": {
+                                "weight_adjustment": {
+                                    "type": "number"
+                                },
+                                "connection_formation": {
+                                    "type": "number"
+                                },
+                                "connection_deletion": {
+                                    "type": "number"
+                                },
+                                "node_addition": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "network_stability_maintenance": {
+                            "type": "object",
+                            "properties": {
+                                "stability_preservation": {
+                                    "type": "number"
+                                },
+                                "plasticity_stability_balance": {
+                                    "type": "number"
+                                },
+                                "catastrophic_interference_prevention": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "bidirectional_coordination": {
+            "type": "object",
+            "required": [
+                "coordination_mechanisms",
+                "feedback_loops"
+            ],
+            "properties": {
+                "coordination_mechanisms": {
+                    "type": "object",
+                    "properties": {
+                        "hippocampal_cortical_loops": {
+                            "type": "object",
+                            "properties": {
+                                "hippocampus_to_cortex_projections": {
+                                    "type": "number"
+                                },
+                                "cortex_to_hippocampus_projections": {
+                                    "type": "number"
+                                },
+                                "loop_efficiency": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "temporal_coordination": {
+                            "type": "object",
+                            "properties": {
+                                "synchronized_oscillations": {
+                                    "type": "number"
+                                },
+                                "phase_coupling": {
+                                    "type": "number"
+                                },
+                                "temporal_binding": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "competitive_cooperative_dynamics": {
+                            "type": "object",
+                            "properties": {
+                                "competitive_selection": {
+                                    "type": "number"
+                                },
+                                "cooperative_integration": {
+                                    "type": "number"
+                                },
+                                "dynamic_balance": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                },
+                "feedback_loops": {
+                    "type": "object",
+                    "properties": {
+                        "episodic_semantic_feedback": {
+                            "type": "object",
+                            "properties": {
+                                "semantic_constraint_on_episodic": {
+                                    "type": "number"
+                                },
+                                "episodic_constraint_on_semantic": {
+                                    "type": "number"
+                                },
+                                "mutual_constraint_satisfaction": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "prediction_error_feedback": {
+                            "type": "object",
+                            "properties": {
+                                "semantic_prediction_errors": {
+                                    "type": "number"
+                                },
+                                "episodic_prediction_errors": {
+                                    "type": "number"
+                                },
+                                "error_driven_updating": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "coherence_maintenance_feedback": {
+                            "type": "object",
+                            "properties": {
+                                "cross_system_coherence_monitoring": {
+                                    "type": "number"
+                                },
+                                "coherence_restoration_mechanisms": {
+                                    "type": "number"
+                                },
+                                "consistency_maintenance": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                },
+                "coordination_quality": {
+                    "type": "object",
+                    "properties": {
+                        "coordination_efficiency": {
+                            "type": "number",
+                            "description": "Efficiency of episodic-semantic coordination"
+                        },
+                        "information_flow_quality": {
+                            "type": "number",
+                            "description": "Quality of bidirectional information flow"
+                        },
+                        "system_coherence": {
+                            "type": "number",
+                            "description": "Overall coherence between episodic and semantic systems"
+                        }
+                    }
+                }
+            }
+        },
+        "coordination_outcomes": {
+            "type": "object",
+            "properties": {
+                "knowledge_integration_success": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Success rate of episodic-semantic knowledge integration"
+                },
+                "abstraction_quality": {
+                    "type": "number",
+                    "description": "Quality of abstracted semantic knowledge"
+                },
+                "episodic_enrichment": {
+                    "type": "number",
+                    "description": "Enrichment of episodic memories through semantic knowledge"
+                },
+                "semantic_grounding_improvement": {
+                    "type": "number",
+                    "description": "Improvement in semantic knowledge grounding"
+                },
+                "cross_system_coherence_enhancement": {
+                    "type": "number",
+                    "description": "Enhancement of coherence between memory systems"
+                }
+            }
+        },
+        "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when episodic-semantic coordination was initiated"
+        }
+    },
+    "additionalProperties": false
+}

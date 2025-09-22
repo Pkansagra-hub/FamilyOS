@@ -1,0 +1,21 @@
+{
+  "version": "1.0.0",
+  "envelope_schema_ref": "../../events/envelope.schema.json",
+  "events": [
+    {
+      "name": "BELIEF_UPDATE@1.0",
+      "schema_ref": "schemas/belief_update.schema.json",
+      "key": { "partition": "subject_id", "ordering": "ts" },
+      "idempotency": { "dedupe_key": "subject_id+belief_key+ts", "window": "PT1M" },
+      "retention": "P180D"
+    },
+    {
+      "name": "INTENT_INFERRED@1.0",
+      "schema_ref": "schemas/intent_inferred.schema.json",
+      "key": { "partition": "subject_id", "ordering": "ts" },
+      "idempotency": { "dedupe_key": "subject_id+intent+ts", "window": "PT1M" },
+      "retention": "P90D",
+      "obligations": ["AUDIT_ACCESS"]
+    }
+  ]
+}

@@ -1,0 +1,82 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Retrieval Result",
+  "description": "Individual memory retrieval result with relevance and redaction controls",
+  "type": "object",
+  "properties": {
+    "memory_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique identifier for memory item"
+    },
+    "relevance_score": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "description": "Fusion relevance score (FTS + vector combined)"
+    },
+    "snippet_text": {
+      "type": "string",
+      "maxLength": 512,
+      "description": "Highlighted snippet (band-aware: RED=masked, BLACK=null)"
+    },
+    "source_uri": {
+      "type": "string",
+      "description": "Source reference (band-aware: RED=masked, BLACK=null)"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Memory creation timestamp"
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "space_id": {
+          "type": "string",
+          "format": "uuid"
+        },
+        "content_type": {
+          "type": "string",
+          "enum": ["text", "document", "conversation", "note", "email", "web", "other"]
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "maxLength": 64
+          },
+          "maxItems": 10
+        },
+        "embedding_model": {
+          "type": "string",
+          "description": "Model used for vector embedding"
+        },
+        "band": {
+          "type": "string",
+          "enum": ["GREEN", "AMBER", "RED", "BLACK"]
+        }
+      },
+      "required": ["space_id", "content_type", "band"],
+      "additionalProperties": false
+    },
+    "highlights": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "start_offset": { "type": "integer", "minimum": 0 },
+          "end_offset": { "type": "integer", "minimum": 0 },
+          "matched_term": { "type": "string" },
+          "highlight_type": { "enum": ["fts", "vector", "semantic"] }
+        },
+        "required": ["start_offset", "end_offset", "matched_term", "highlight_type"],
+        "additionalProperties": false
+      },
+      "maxItems": 20,
+      "description": "Query match highlights"
+    }
+  },
+  "required": ["memory_id", "relevance_score", "created_at", "metadata"],
+  "additionalProperties": false
+}

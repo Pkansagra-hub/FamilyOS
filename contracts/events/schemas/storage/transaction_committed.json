@@ -1,0 +1,416 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "$id": "https://schemas.memoryos.ai/storage/transaction_committed.json",
+    "title": "Storage Transaction Committed Event Schema",
+    "description": "Schema for successful storage transaction completion events",
+    "type": "object",
+    "allOf": [
+        {
+            "$ref": "base_event.json"
+        },
+        {
+            "type": "object",
+            "required": [
+                "transaction_id",
+                "transaction_type",
+                "stores_committed",
+                "receipt_id",
+                "duration_ms"
+            ],
+            "properties": {
+                "event_type": {
+                    "const": "STORAGE_TRANSACTION_COMMITTED"
+                },
+                "transaction_id": {
+                    "type": "string",
+                    "description": "Transaction identifier",
+                    "pattern": "^(uow|single|mig|backup)_[a-z0-9]+_[0-9]{8}_[0-9]{6}$",
+                    "examples": [
+                        "uow_001_20250916_123456",
+                        "single_episodic_20250916_123457"
+                    ]
+                },
+                "transaction_type": {
+                    "type": "string",
+                    "description": "Type of transaction that was committed",
+                    "enum": [
+                        "unit_of_work",
+                        "single_store",
+                        "migration",
+                        "backup",
+                        "bulk_operation",
+                        "maintenance"
+                    ],
+                    "examples": [
+                        "unit_of_work",
+                        "bulk_operation"
+                    ]
+                },
+                "stores_committed": {
+                    "type": "array",
+                    "description": "List of stores that committed successfully",
+                    "minItems": 1,
+                    "items": {
+                        "type": "object",
+                        "required": [
+                            "store_reference",
+                            "commit_status"
+                        ],
+                        "properties": {
+                            "store_reference": {
+                                "$ref": "store_reference.json"
+                            },
+                            "commit_status": {
+                                "type": "string",
+                                "enum": [
+                                    "success",
+                                    "partial"
+                                ],
+                                "description": "Status of commit for this store"
+                            },
+                            "records_affected": {
+                                "type": "integer",
+                                "description": "Number of records affected in this store",
+                                "minimum": 0,
+                                "examples": [
+                                    1,
+                                    100,
+                                    1000
+                                ]
+                            },
+                            "commit_duration_ms": {
+                                "type": "integer",
+                                "description": "Time taken to commit this store",
+                                "minimum": 1,
+                                "examples": [
+                                    15,
+                                    25
+                                ]
+                            },
+                            "commit_lsn": {
+                                "type": "string",
+                                "description": "Log sequence number for this commit (if applicable)",
+                                "examples": [
+                                    "0/1A2B3C4D",
+                                    "1234567890"
+                                ]
+                            },
+                            "checkpoint_id": {
+                                "type": "string",
+                                "description": "Checkpoint identifier for this commit",
+                                "examples": [
+                                    "ckpt_001_20250916_123456"
+                                ]
+                            }
+                        },
+                        "additionalProperties": false
+                    }
+                },
+                "receipt_id": {
+                    "type": "string",
+                    "description": "Receipt ID for this transaction",
+                    "pattern": "^receipt_[a-z0-9]{16}$",
+                    "examples": [
+                        "receipt_xyz789uvw012abc"
+                    ]
+                },
+                "duration_ms": {
+                    "type": "integer",
+                    "description": "Total transaction duration in milliseconds",
+                    "minimum": 1,
+                    "examples": [
+                        45,
+                        150,
+                        5000
+                    ]
+                },
+                "committed_at": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "When transaction was committed (UTC)",
+                    "examples": [
+                        "2025-09-16T12:34:56.834Z"
+                    ]
+                },
+                "commit_details": {
+                    "type": "object",
+                    "description": "Detailed commit information",
+                    "properties": {
+                        "total_records_affected": {
+                            "type": "integer",
+                            "description": "Total records affected across all stores",
+                            "minimum": 0,
+                            "examples": [
+                                1,
+                                150,
+                                2000
+                            ]
+                        },
+                        "total_size_bytes": {
+                            "type": "integer",
+                            "description": "Total size of committed data in bytes",
+                            "minimum": 0,
+                            "examples": [
+                                1024,
+                                50000
+                            ]
+                        },
+                        "prepare_duration_ms": {
+                            "type": "integer",
+                            "description": "Duration of prepare phase",
+                            "minimum": 0,
+                            "examples": [
+                                20,
+                                30
+                            ]
+                        },
+                        "commit_phase_duration_ms": {
+                            "type": "integer",
+                            "description": "Duration of commit phase",
+                            "minimum": 1,
+                            "examples": [
+                                25,
+                                40
+                            ]
+                        },
+                        "two_phase_commit": {
+                            "type": "boolean",
+                            "description": "Whether two-phase commit was used",
+                            "examples": [
+                                true,
+                                false
+                            ]
+                        },
+                        "coordinator_node": {
+                            "type": "string",
+                            "description": "Node that coordinated the transaction",
+                            "examples": [
+                                "storage-coordinator-1"
+                            ]
+                        }
+                    },
+                    "additionalProperties": true
+                },
+                "data_integrity": {
+                    "type": "object",
+                    "description": "Data integrity verification",
+                    "properties": {
+                        "data_integrity_hash": {
+                            "type": "string",
+                            "description": "Hash of committed data for integrity verification",
+                            "pattern": "^(sha256|sha512|md5):[a-f0-9]+$",
+                            "examples": [
+                                "sha256:abc123def456...",
+                                "sha512:xyz789uvw012..."
+                            ]
+                        },
+                        "integrity_check_passed": {
+                            "type": "boolean",
+                            "description": "Whether integrity check passed",
+                            "examples": [
+                                true,
+                                false
+                            ]
+                        },
+                        "checksums": {
+                            "type": "object",
+                            "description": "Per-store checksums",
+                            "patternProperties": {
+                                "^[A-Za-z]+Store$": {
+                                    "type": "string",
+                                    "description": "Checksum for specific store"
+                                }
+                            },
+                            "examples": [
+                                {
+                                    "EpisodicStore": "sha256:abc123...",
+                                    "SemanticStore": "sha256:def456..."
+                                }
+                            ]
+                        }
+                    }
+                },
+                "performance_metrics": {
+                    "type": "object",
+                    "description": "Transaction performance metrics",
+                    "properties": {
+                        "locks_acquired": {
+                            "type": "integer",
+                            "description": "Number of locks acquired",
+                            "minimum": 0,
+                            "examples": [
+                                5,
+                                10
+                            ]
+                        },
+                        "lock_wait_time_ms": {
+                            "type": "integer",
+                            "description": "Time spent waiting for locks",
+                            "minimum": 0,
+                            "examples": [
+                                0,
+                                10,
+                                100
+                            ]
+                        },
+                        "cpu_time_ms": {
+                            "type": "integer",
+                            "description": "CPU time consumed",
+                            "minimum": 0,
+                            "examples": [
+                                15,
+                                50
+                            ]
+                        },
+                        "io_read_bytes": {
+                            "type": "integer",
+                            "description": "Bytes read during transaction",
+                            "minimum": 0,
+                            "examples": [
+                                1024,
+                                50000
+                            ]
+                        },
+                        "io_write_bytes": {
+                            "type": "integer",
+                            "description": "Bytes written during transaction",
+                            "minimum": 0,
+                            "examples": [
+                                2048,
+                                100000
+                            ]
+                        }
+                    }
+                }
+            }
+        }
+    ],
+    "examples": [
+        {
+            "event_id": "evt_stor003_20250916_123456",
+            "timestamp": "2025-09-16T12:34:56.834Z",
+            "correlation_id": "req_abc123def456",
+            "source_service": "storage",
+            "event_type": "STORAGE_TRANSACTION_COMMITTED",
+            "event_version": "1.0.0",
+            "transaction_id": "uow_001_20250916_123456",
+            "transaction_type": "unit_of_work",
+            "stores_committed": [
+                {
+                    "store_reference": {
+                        "store_name": "EpisodicStore",
+                        "store_type": "postgresql",
+                        "store_instance": "episodic-primary"
+                    },
+                    "commit_status": "success",
+                    "records_affected": 1,
+                    "commit_duration_ms": 15,
+                    "commit_lsn": "0/1A2B3C4D",
+                    "checkpoint_id": "ckpt_001_20250916_123456"
+                },
+                {
+                    "store_reference": {
+                        "store_name": "SemanticStore",
+                        "store_type": "postgresql",
+                        "store_instance": "semantic-primary"
+                    },
+                    "commit_status": "success",
+                    "records_affected": 3,
+                    "commit_duration_ms": 20,
+                    "commit_lsn": "0/1A2B3C5E"
+                },
+                {
+                    "store_reference": {
+                        "store_name": "ReceiptsStore",
+                        "store_type": "postgresql",
+                        "store_instance": "receipts-primary"
+                    },
+                    "commit_status": "success",
+                    "records_affected": 1,
+                    "commit_duration_ms": 10
+                }
+            ],
+            "receipt_id": "receipt_xyz789uvw012abc",
+            "duration_ms": 45,
+            "committed_at": "2025-09-16T12:34:56.834Z",
+            "commit_details": {
+                "total_records_affected": 5,
+                "total_size_bytes": 2048,
+                "prepare_duration_ms": 20,
+                "commit_phase_duration_ms": 25,
+                "two_phase_commit": true,
+                "coordinator_node": "storage-coordinator-1"
+            },
+            "data_integrity": {
+                "data_integrity_hash": "sha256:abc123def456789...",
+                "integrity_check_passed": true,
+                "checksums": {
+                    "EpisodicStore": "sha256:abc123...",
+                    "SemanticStore": "sha256:def456...",
+                    "ReceiptsStore": "sha256:ghi789..."
+                }
+            },
+            "performance_metrics": {
+                "locks_acquired": 5,
+                "lock_wait_time_ms": 2,
+                "cpu_time_ms": 15,
+                "io_read_bytes": 1024,
+                "io_write_bytes": 2048
+            },
+            "metadata": {
+                "environment": "production",
+                "service_version": "2.1.0",
+                "user_id": "user_12345"
+            }
+        },
+        {
+            "event_id": "evt_stor004_20250916_123500",
+            "timestamp": "2025-09-16T12:35:05.234Z",
+            "correlation_id": "req_bulk789xyz012",
+            "source_service": "storage",
+            "event_type": "STORAGE_TRANSACTION_COMMITTED",
+            "event_version": "1.0.0",
+            "transaction_id": "bulk_consolidation_20250916_123500",
+            "transaction_type": "bulk_operation",
+            "stores_committed": [
+                {
+                    "store_reference": {
+                        "store_name": "ConsolidationStore",
+                        "store_type": "postgresql",
+                        "store_instance": "consolidation-primary"
+                    },
+                    "commit_status": "success",
+                    "records_affected": 1000,
+                    "commit_duration_ms": 150,
+                    "commit_lsn": "0/1B2C3D4E"
+                }
+            ],
+            "receipt_id": "receipt_bulk123abc456def",
+            "duration_ms": 5200,
+            "committed_at": "2025-09-16T12:35:05.234Z",
+            "commit_details": {
+                "total_records_affected": 1000,
+                "total_size_bytes": 1048576,
+                "prepare_duration_ms": 50,
+                "commit_phase_duration_ms": 150,
+                "two_phase_commit": false,
+                "coordinator_node": "storage-coordinator-2"
+            },
+            "data_integrity": {
+                "data_integrity_hash": "sha256:bulk789xyz012...",
+                "integrity_check_passed": true
+            },
+            "performance_metrics": {
+                "locks_acquired": 1,
+                "lock_wait_time_ms": 0,
+                "cpu_time_ms": 500,
+                "io_read_bytes": 50000,
+                "io_write_bytes": 1048576
+            },
+            "metadata": {
+                "environment": "production",
+                "service_version": "2.1.0"
+            }
+        }
+    ]
+}

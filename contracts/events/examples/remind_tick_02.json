@@ -1,0 +1,55 @@
+{
+  "schema_version": "1.1.0",
+  "id": "b800470e-2dc6-4956-8ec7-c8794405bf75",
+  "ts": "2025-09-09T04:20:40Z",
+  "topic": "REMIND_TICK",
+  "band": "AMBER",
+  "actor": {
+    "user_id": "787961f3-8e61-40de-9d68-757e87f7df9c",
+    "agent_id": "privacy.v1",
+    "caps": [
+      "RECALL"
+    ]
+  },
+  "device": {
+    "device_id": "edge-jetson",
+    "platform": "edge",
+    "app_version": "1.1.6",
+    "locale": "en-US"
+  },
+  "space_id": "extended:grandparents",
+  "policy_version": "1.3",
+  "abac": {
+    "role": "child",
+    "trust": "amber",
+    "geo_precision": "region"
+  },
+  "qos": {
+    "routing": "gate-path",
+    "priority": 7,
+    "latency_budget_ms": 75,
+    "retries": 1
+  },
+  "trace": {
+    "trace_id": "475c1dc057808949e31bdd7424a4b0b9",
+    "span_id": "31ea6af534167c02",
+    "sampled": true
+  },
+  "obligations": [],
+  "redaction_applied": true,
+  "hashes": {
+    "payload_sha256": "971fa63fe0c2ca3e881980e778dbc60a87d231e9b4e23204f433138d71119176"
+  },
+  "payload": {
+    "when": "2025-09-09T04:20:40Z",
+    "note": "Reminder",
+    "jitter_ms": 47
+  },
+  "signature": {
+    "alg": "ed25519",
+    "key_id": "key_remind_tick_amber_2024",
+    "public_key": "cHVibGlj",
+    "signature": "c2ln"
+  },
+  "mls_group": "household-secure"
+}

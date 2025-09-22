@@ -1,0 +1,8 @@
+jobs:
+  - name: episodic.compaction
+    schedule: "0 3 * * *"
+    sla: { p95_ms: 5000 }
+    backoff: { initial_ms: 500, factor: 2.0, max_ms: 60000 }
+  - name: episodic.tombstone_sweeper
+    schedule: "*/30 * * * *"
+    sla: { p95_ms: 1000 }

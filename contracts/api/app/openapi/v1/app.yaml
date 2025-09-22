@@ -1,0 +1,737 @@
+openapi: 3.0.3
+info:
+  title: "Family AI App Plane API"
+  description: |
+    Third-party apps ↔ Memory-enhanced actions API
+
+    The App Plane enables external applications and IoT devices to integrate with
+    the Memory-Centric Family AI system through memory-enhanced actions and family
+    context-aware automation.
+
+    **Memory-Enhanced Integrations:**
+    - Smart home devices with family pattern awareness
+    - Calendar apps with family coordination intelligence
+    - Health tracking with family wellness context
+    - Financial apps with family budget coordination
+    - IoT automation with family routine intelligence
+  version: "1.0.0"
+  contact:
+    name: "Family AI Development Team"
+    url: "https://github.com/pkansagra99/family_os"
+  license:
+    name: "MIT"
+    url: "https://opensource.org/licenses/MIT"
+
+servers:
+  - url: "http://localhost:8000/v1/app"
+    description: "Local development server"
+  - url: "https://api.familyos.local/v1/app"
+    description: "Production Family AI instance"
+
+security:
+  - AppAuth: []
+  - DeviceAuth: []
+
+paths:
+  /connectors/register:
+    post:
+      summary: "Register third-party app connector"
+      description: |
+        Register a new third-party application connector with Family AI.
+        Establishes authentication, permissions, and family integration scope.
+      operationId: "registerConnector"
+      tags: ["Connector Management"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ConnectorRegistrationRequest"
+            examples:
+              philips_hue:
+                summary: "Philips Hue smart lighting"
+                value:
+                  app_name: "Philips Hue"
+                  app_type: "smart_home"
+                  capabilities: ["lighting_control", "scene_management", "schedule_automation"]
+                  family_integration:
+                    memory_access_scope: ["shared:household", "personal:preferences"]
+                    family_member_permissions: ["mom", "dad"]
+                    device_coordination: true
+                  authentication:
+                    oauth_client_id: "hue_client_123"
+                    callback_url: "https://app.familyos.local/connectors/hue/callback"
+      responses:
+        "201":
+          description: "Connector successfully registered"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ConnectorRegistrationResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "409":
+          $ref: "#/components/responses/ConnectorExists"
+
+  /actions/smart-home:
+    post:
+      summary: "Execute smart home action with family context"
+      description: |
+        Execute smart home device actions enhanced with family memory context,
+        routine awareness, and emotional intelligence.
+      operationId: "executeSmartHomeAction"
+      tags: ["Smart Home"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SmartHomeActionRequest"
+            examples:
+              adaptive_lighting:
+                summary: "Adaptive lighting based on family activity"
+                value:
+                  device_type: "lighting"
+                  action: "adjust_for_activity"
+                  context:
+                    family_member: "dad"
+                    current_activity: "studying"
+                    room: "home_office"
+                    time_context: "evening"
+                  family_preferences:
+                    use_learned_patterns: true
+                    consider_other_members: true
+      responses:
+        "200":
+          description: "Smart home action executed successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SmartHomeActionResponse"
+
+  /actions/calendar:
+    post:
+      summary: "Calendar coordination with family intelligence"
+      description: |
+        Coordinate calendar events with family memory context, conflict detection,
+        and intelligent scheduling recommendations.
+      operationId: "executeCalendarAction"
+      tags: ["Calendar"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CalendarActionRequest"
+            examples:
+              family_event_scheduling:
+                summary: "Schedule family event with coordination"
+                value:
+                  action: "schedule_event"
+                  event:
+                    title: "Emma's Soccer Game"
+                    start_time: "2025-09-25T16:00:00Z"
+                    duration_minutes: 90
+                    location: "Central Park Soccer Fields"
+                  family_coordination:
+                    required_attendees: ["mom", "dad", "emma"]
+                    check_conflicts: true
+                    suggest_preparation_reminders: true
+                  memory_integration:
+                    link_to_soccer_memories: true
+                    update_routine_patterns: true
+      responses:
+        "200":
+          description: "Calendar action completed"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CalendarActionResponse"
+
+  /actions/health:
+    post:
+      summary: "Health tracking with family wellness context"
+      description: |
+        Process health data with family wellness context, pattern recognition,
+        and coordinated family health recommendations.
+      operationId: "executeHealthAction"
+      tags: ["Health & Wellness"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/HealthActionRequest"
+      responses:
+        "200":
+          description: "Health action processed"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthActionResponse"
+
+  /automation/routines:
+    get:
+      summary: "Get family routine automations"
+      description: |
+        Retrieve current family routine automations based on learned patterns
+        and family coordination intelligence.
+      operationId: "getFamilyRoutines"
+      tags: ["Automation"]
+      parameters:
+        - name: routine_type
+          in: query
+          schema:
+            type: string
+            enum: ["morning", "evening", "bedtime", "weekend", "custom"]
+        - name: family_member
+          in: query
+          schema:
+            type: string
+          description: "Filter routines for specific family member"
+      responses:
+        "200":
+          description: "Family routines retrieved"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FamilyRoutinesResponse"
+
+    post:
+      summary: "Create or update family routine automation"
+      description: |
+        Create or update family routine automation with memory-based learning
+        and family coordination logic.
+      operationId: "createFamilyRoutine"
+      tags: ["Automation"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FamilyRoutineRequest"
+      responses:
+        "201":
+          description: "Family routine created successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FamilyRoutineResponse"
+
+  /memory/context-query:
+    post:
+      summary: "Query family memory for app integration context"
+      description: |
+        Query family memory system to provide context for third-party app
+        integrations with appropriate privacy filtering.
+      operationId: "queryMemoryContext"
+      tags: ["Memory Integration"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MemoryContextQueryRequest"
+      responses:
+        "200":
+          description: "Memory context provided"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MemoryContextQueryResponse"
+
+components:
+  securitySchemes:
+    AppAuth:
+      type: oauth2
+      flows:
+        authorizationCode:
+          authorizationUrl: "https://auth.familyos.local/oauth/authorize"
+          tokenUrl: "https://auth.familyos.local/oauth/token"
+          scopes:
+            smart_home: "Control smart home devices with family context"
+            calendar: "Access and coordinate family calendar events"
+            health: "Access family health and wellness data"
+            automation: "Create and manage family routine automations"
+            memory_context: "Query family memory for app context"
+    DeviceAuth:
+      type: apiKey
+      in: header
+      name: X-Device-ID
+      description: "Device identification for family ecosystem"
+
+  schemas:
+    ConnectorRegistrationRequest:
+      type: object
+      required: ["app_name", "app_type", "capabilities", "family_integration"]
+      properties:
+        app_name:
+          type: string
+          maxLength: 100
+          description: "Human-readable application name"
+        app_type:
+          type: string
+          enum: ["smart_home", "calendar", "health", "finance", "entertainment", "security", "productivity"]
+        capabilities:
+          type: array
+          items:
+            type: string
+          description: "List of capabilities the app provides"
+        family_integration:
+          type: object
+          required: ["memory_access_scope"]
+          properties:
+            memory_access_scope:
+              type: array
+              items:
+                type: string
+                pattern: "^(personal|selective|shared|extended|interfamily):[a-zA-Z0-9_-]+$"
+              description: "Memory spaces this app can access"
+            family_member_permissions:
+              type: array
+              items:
+                type: string
+              description: "Which family members can authorize this app"
+            device_coordination:
+              type: boolean
+              description: "Whether app participates in family device coordination"
+            child_safe:
+              type: boolean
+              description: "Whether app is safe for children to use"
+        authentication:
+          type: object
+          properties:
+            oauth_client_id:
+              type: string
+            callback_url:
+              type: string
+              format: uri
+
+    ConnectorRegistrationResponse:
+      type: object
+      required: ["connector_id", "app_credentials", "family_permissions"]
+      properties:
+        connector_id:
+          type: string
+          format: uuid
+        app_credentials:
+          type: object
+          properties:
+            client_id:
+              type: string
+            client_secret:
+              type: string
+        family_permissions:
+          type: object
+          properties:
+            granted_scopes:
+              type: array
+              items:
+                type: string
+            memory_access_level:
+              type: string
+              enum: ["read", "write", "read_write"]
+            family_member_approvals:
+              type: array
+              items:
+                type: string
+
+    SmartHomeActionRequest:
+      type: object
+      required: ["device_type", "action", "context"]
+      properties:
+        device_type:
+          type: string
+          enum: ["lighting", "thermostat", "security", "entertainment", "appliances"]
+        action:
+          type: string
+          description: "Specific action to perform"
+        context:
+          type: object
+          required: ["family_member"]
+          properties:
+            family_member:
+              type: string
+            current_activity:
+              type: string
+            room:
+              type: string
+            time_context:
+              type: string
+              enum: ["morning", "afternoon", "evening", "night"]
+        family_preferences:
+          type: object
+          properties:
+            use_learned_patterns:
+              type: boolean
+              default: true
+            consider_other_members:
+              type: boolean
+              default: true
+            energy_efficiency_priority:
+              type: boolean
+              default: false
+
+    SmartHomeActionResponse:
+      type: object
+      required: ["success", "action_summary"]
+      properties:
+        success:
+          type: boolean
+        action_summary:
+          type: object
+          properties:
+            device_changes:
+              type: array
+              items:
+                type: object
+                properties:
+                  device:
+                    type: string
+                  action_taken:
+                    type: string
+                  previous_state:
+                    type: string
+                  new_state:
+                    type: string
+            family_context_applied:
+              type: object
+              description: "How family memory influenced the action"
+            learned_preferences:
+              type: object
+              description: "New preferences learned from this action"
+
+    CalendarActionRequest:
+      type: object
+      required: ["action"]
+      properties:
+        action:
+          type: string
+          enum: ["schedule_event", "update_event", "delete_event", "check_conflicts", "suggest_times"]
+        event:
+          type: object
+          properties:
+            title:
+              type: string
+            start_time:
+              type: string
+              format: date-time
+            duration_minutes:
+              type: integer
+            location:
+              type: string
+            description:
+              type: string
+        family_coordination:
+          type: object
+          properties:
+            required_attendees:
+              type: array
+              items:
+                type: string
+            optional_attendees:
+              type: array
+              items:
+                type: string
+            check_conflicts:
+              type: boolean
+              default: true
+            suggest_preparation_reminders:
+              type: boolean
+              default: true
+        memory_integration:
+          type: object
+          properties:
+            link_to_memories:
+              type: boolean
+              description: "Link event to related family memories"
+            update_routine_patterns:
+              type: boolean
+              description: "Update family routine patterns based on this event"
+
+    CalendarActionResponse:
+      type: object
+      required: ["success", "event_summary"]
+      properties:
+        success:
+          type: boolean
+        event_summary:
+          type: object
+          properties:
+            event_id:
+              type: string
+            final_schedule:
+              type: object
+            conflicts_detected:
+              type: array
+              items:
+                type: object
+                properties:
+                  conflict_type:
+                    type: string
+                  family_member:
+                    type: string
+                  conflicting_event:
+                    type: string
+                  suggested_resolution:
+                    type: string
+            preparation_reminders:
+              type: array
+              items:
+                type: object
+                properties:
+                  reminder_time:
+                    type: string
+                    format: date-time
+                  reminder_text:
+                    type: string
+                  family_member:
+                    type: string
+
+    HealthActionRequest:
+      type: object
+      required: ["action", "health_data"]
+      properties:
+        action:
+          type: string
+          enum: ["log_activity", "update_vitals", "track_mood", "medication_reminder", "family_wellness_check"]
+        health_data:
+          type: object
+          properties:
+            family_member:
+              type: string
+            data_type:
+              type: string
+              enum: ["activity", "vitals", "mood", "medication", "sleep", "nutrition"]
+            values:
+              type: object
+              description: "Health data values specific to data_type"
+            timestamp:
+              type: string
+              format: date-time
+        family_context:
+          type: object
+          properties:
+            share_with_family:
+              type: boolean
+              default: false
+            privacy_level:
+              type: string
+              enum: ["private", "family", "medical_authorized"]
+            correlate_family_patterns:
+              type: boolean
+              description: "Look for family health pattern correlations"
+
+    HealthActionResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+        health_insights:
+          type: object
+          properties:
+            personal_trends:
+              type: array
+              items:
+                type: string
+            family_correlations:
+              type: array
+              items:
+                type: string
+            recommendations:
+              type: array
+              items:
+                type: object
+                properties:
+                  recommendation:
+                    type: string
+                  priority:
+                    type: string
+                  family_impact:
+                    type: string
+
+    FamilyRoutineRequest:
+      type: object
+      required: ["routine_name", "routine_type", "triggers", "actions"]
+      properties:
+        routine_name:
+          type: string
+          maxLength: 100
+        routine_type:
+          type: string
+          enum: ["morning", "evening", "bedtime", "weekend", "custom"]
+        triggers:
+          type: array
+          items:
+            type: object
+            properties:
+              trigger_type:
+                type: string
+                enum: ["time", "location", "device_state", "family_activity", "emotional_state"]
+              conditions:
+                type: object
+                description: "Trigger-specific conditions"
+        actions:
+          type: array
+          items:
+            type: object
+            properties:
+              action_type:
+                type: string
+                enum: ["smart_home", "notification", "calendar", "memory", "family_coordination"]
+              action_config:
+                type: object
+                description: "Action-specific configuration"
+        family_scope:
+          type: object
+          properties:
+            applies_to_members:
+              type: array
+              items:
+                type: string
+            coordination_required:
+              type: boolean
+            child_safe:
+              type: boolean
+
+    FamilyRoutineResponse:
+      type: object
+      properties:
+        routine_id:
+          type: string
+          format: uuid
+        status:
+          type: string
+          enum: ["active", "paused", "learning"]
+        performance_metrics:
+          type: object
+          properties:
+            success_rate:
+              type: number
+            family_satisfaction:
+              type: number
+            adaptation_count:
+              type: integer
+
+    FamilyRoutinesResponse:
+      type: object
+      properties:
+        routines:
+          type: array
+          items:
+            allOf:
+              - $ref: "#/components/schemas/FamilyRoutineRequest"
+              - $ref: "#/components/schemas/FamilyRoutineResponse"
+
+    MemoryContextQueryRequest:
+      type: object
+      required: ["context_type", "query_scope"]
+      properties:
+        context_type:
+          type: string
+          enum: ["preferences", "schedules", "patterns", "relationships", "activities"]
+        query_scope:
+          type: object
+          properties:
+            family_members:
+              type: array
+              items:
+                type: string
+            time_range:
+              type: object
+              properties:
+                start:
+                  type: string
+                  format: date-time
+                end:
+                  type: string
+                  format: date-time
+            memory_spaces:
+              type: array
+              items:
+                type: string
+        privacy_filters:
+          type: object
+          properties:
+            max_sensitivity_level:
+              type: string
+              enum: ["public", "family", "selective", "private"]
+            exclude_emotional_data:
+              type: boolean
+            anonymize_personal_details:
+              type: boolean
+
+    MemoryContextQueryResponse:
+      type: object
+      properties:
+        context_summary:
+          type: object
+          description: "High-level context summary"
+        relevant_patterns:
+          type: array
+          items:
+            type: object
+            properties:
+              pattern_type:
+                type: string
+              description:
+                type: string
+              confidence:
+                type: number
+              family_members_involved:
+                type: array
+                items:
+                  type: string
+        preferences:
+          type: object
+          description: "Relevant family preferences for app integration"
+        temporal_context:
+          type: object
+          properties:
+            typical_schedules:
+              type: object
+            seasonal_patterns:
+              type: object
+            recent_changes:
+              type: array
+              items:
+                type: string
+
+  responses:
+    BadRequest:
+      description: "Invalid request format or parameters"
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+              details:
+                type: string
+
+    ConnectorExists:
+      description: "Connector already registered for this app"
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+              existing_connector_id:
+                type: string
+
+tags:
+  - name: "Connector Management"
+    description: "Register and manage third-party app connectors"
+  - name: "Smart Home"
+    description: "Smart home device control with family context"
+  - name: "Calendar"
+    description: "Family calendar coordination and scheduling"
+  - name: "Health & Wellness"
+    description: "Family health tracking and wellness coordination"
+  - name: "Automation"
+    description: "Family routine automation and intelligence"
+  - name: "Memory Integration"
+    description: "Memory context queries for app integration"

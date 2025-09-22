@@ -1,0 +1,414 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://familyos.local/schemas/storage/hippocampus/spatial_memory_map.json",
+    "title": "Spatial Memory Map",
+    "description": "Storage schema for cognitive maps and spatial memory representations including place fields, grid cells, and spatial navigation",
+    "type": "object",
+    "required": [
+        "map_id",
+        "hippocampus_id",
+        "spatial_environment",
+        "place_cell_map",
+        "grid_cell_patterns",
+        "spatial_boundaries",
+        "navigation_graph"
+    ],
+    "properties": {
+        "map_id": {
+            "type": "string",
+            "pattern": "^spatial_map_[a-zA-Z0-9_-]+$",
+            "description": "Unique identifier for spatial memory map"
+        },
+        "hippocampus_id": {
+            "type": "string",
+            "pattern": "^hippocampus_[a-zA-Z0-9_-]+$",
+            "description": "Hippocampus instance managing this spatial map"
+        },
+        "spatial_environment": {
+            "type": "object",
+            "required": [
+                "environment_id",
+                "environment_type",
+                "spatial_scale"
+            ],
+            "properties": {
+                "environment_id": {
+                    "type": "string"
+                },
+                "environment_type": {
+                    "type": "string",
+                    "enum": [
+                        "indoor",
+                        "outdoor",
+                        "virtual",
+                        "maze",
+                        "open_field"
+                    ]
+                },
+                "spatial_scale": {
+                    "type": "string",
+                    "enum": [
+                        "local",
+                        "room",
+                        "building",
+                        "neighborhood",
+                        "city"
+                    ]
+                },
+                "dimensions": {
+                    "type": "object",
+                    "properties": {
+                        "width": {
+                            "type": "number"
+                        },
+                        "height": {
+                            "type": "number"
+                        },
+                        "depth": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "reference_frame": {
+                    "type": "string"
+                },
+                "coordinate_system": {
+                    "type": "string"
+                }
+            }
+        },
+        "place_cell_map": {
+            "type": "object",
+            "required": [
+                "place_fields",
+                "coverage_density",
+                "field_stability"
+            ],
+            "properties": {
+                "place_fields": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "cell_id": {
+                                "type": "string"
+                            },
+                            "field_center": {
+                                "type": "array",
+                                "items": {
+                                    "type": "number"
+                                }
+                            },
+                            "field_size": {
+                                "type": "number",
+                                "minimum": 0
+                            },
+                            "peak_firing_rate": {
+                                "type": "number",
+                                "minimum": 0
+                            },
+                            "field_shape": {
+                                "type": "string"
+                            },
+                            "stability_score": {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 1
+                            },
+                            "spatial_information": {
+                                "type": "number",
+                                "minimum": 0
+                            }
+                        }
+                    }
+                },
+                "coverage_density": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "field_stability": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "remapping_events": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "event_id": {
+                                "type": "string"
+                            },
+                            "timestamp": {
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            "remapping_type": {
+                                "type": "string",
+                                "enum": [
+                                    "global",
+                                    "partial",
+                                    "rate"
+                                ]
+                            },
+                            "affected_cells": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "grid_cell_patterns": {
+            "type": "object",
+            "properties": {
+                "grid_modules": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "module_id": {
+                                "type": "string"
+                            },
+                            "grid_spacing": {
+                                "type": "number",
+                                "minimum": 0
+                            },
+                            "grid_orientation": {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 6.28318
+                            },
+                            "grid_phase": {
+                                "type": "array",
+                                "items": {
+                                    "type": "number"
+                                }
+                            },
+                            "spatial_frequency": {
+                                "type": "number",
+                                "minimum": 0
+                            },
+                            "module_coherence": {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 1
+                            }
+                        }
+                    }
+                },
+                "border_cells": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "cell_id": {
+                                "type": "string"
+                            },
+                            "border_direction": {
+                                "type": "string",
+                                "enum": [
+                                    "north",
+                                    "south",
+                                    "east",
+                                    "west"
+                                ]
+                            },
+                            "distance_tuning": {
+                                "type": "number",
+                                "minimum": 0
+                            },
+                            "boundary_sensitivity": {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 1
+                            }
+                        }
+                    }
+                },
+                "head_direction_cells": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "cell_id": {
+                                "type": "string"
+                            },
+                            "preferred_direction": {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 6.28318
+                            },
+                            "directional_tuning_width": {
+                                "type": "number",
+                                "minimum": 0
+                            },
+                            "angular_stability": {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 1
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "spatial_boundaries": {
+            "type": "object",
+            "properties": {
+                "environmental_boundaries": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "boundary_id": {
+                                "type": "string"
+                            },
+                            "boundary_type": {
+                                "type": "string",
+                                "enum": [
+                                    "wall",
+                                    "barrier",
+                                    "edge",
+                                    "landmark"
+                                ]
+                            },
+                            "boundary_coordinates": {
+                                "type": "array",
+                                "items": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "number"
+                                    }
+                                }
+                            },
+                            "permeability": {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 1
+                            }
+                        }
+                    }
+                },
+                "functional_boundaries": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "region_name": {
+                                "type": "string"
+                            },
+                            "region_function": {
+                                "type": "string"
+                            },
+                            "region_coordinates": {
+                                "type": "object"
+                            },
+                            "accessibility": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "navigation_graph": {
+            "type": "object",
+            "required": [
+                "nodes",
+                "edges",
+                "path_efficiency"
+            ],
+            "properties": {
+                "nodes": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "node_id": {
+                                "type": "string"
+                            },
+                            "coordinates": {
+                                "type": "array",
+                                "items": {
+                                    "type": "number"
+                                }
+                            },
+                            "node_type": {
+                                "type": "string",
+                                "enum": [
+                                    "landmark",
+                                    "decision_point",
+                                    "goal",
+                                    "waypoint"
+                                ]
+                            },
+                            "importance": {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 1
+                            },
+                            "visit_frequency": {
+                                "type": "integer",
+                                "minimum": 0
+                            }
+                        }
+                    }
+                },
+                "edges": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "edge_id": {
+                                "type": "string"
+                            },
+                            "source_node": {
+                                "type": "string"
+                            },
+                            "target_node": {
+                                "type": "string"
+                            },
+                            "path_distance": {
+                                "type": "number",
+                                "minimum": 0
+                            },
+                            "traversal_cost": {
+                                "type": "number",
+                                "minimum": 0
+                            },
+                            "usage_frequency": {
+                                "type": "integer",
+                                "minimum": 0
+                            }
+                        }
+                    }
+                },
+                "path_efficiency": {
+                    "type": "object",
+                    "properties": {
+                        "average_path_length": {
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "path_optimality": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "navigation_accuracy": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "additionalProperties": false
+}

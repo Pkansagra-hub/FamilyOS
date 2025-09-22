@@ -1,0 +1,771 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://familyos.local/contracts/storage/schemas/global_workspace/workspace_configuration.schema.json",
+    "title": "Workspace Configuration",
+    "description": "Storage schema for global workspace system configuration, including operational parameters, policy settings, and integration specifications.",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "id",
+        "created_at",
+        "updated_at",
+        "configuration_name",
+        "operational_parameters",
+        "consciousness_settings",
+        "coalition_settings",
+        "attention_settings"
+    ],
+    "properties": {
+        "id": {
+            "oneOf": [
+                {
+                    "type": "string",
+                    "format": "uuid"
+                },
+                {
+                    "type": "string",
+                    "pattern": "^[0-7][0-9A-HJKMNP-TV-Z]{25}$"
+                }
+            ],
+            "description": "Unique identifier for this workspace configuration"
+        },
+        "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "When this configuration was created"
+        },
+        "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "When this configuration was last updated"
+        },
+        "configuration_name": {
+            "type": "string",
+            "description": "Human-readable name for this configuration"
+        },
+        "operational_parameters": {
+            "type": "object",
+            "required": [
+                "operation_mode",
+                "performance_targets",
+                "resource_limits",
+                "update_frequencies"
+            ],
+            "properties": {
+                "operation_mode": {
+                    "type": "string",
+                    "enum": [
+                        "normal",
+                        "high_performance",
+                        "energy_saving",
+                        "debug",
+                        "safe_mode",
+                        "learning"
+                    ],
+                    "description": "Overall operational mode of the workspace"
+                },
+                "performance_targets": {
+                    "type": "object",
+                    "properties": {
+                        "consciousness_latency_ms": {
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "decision_accuracy": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "resource_efficiency": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "adaptation_speed": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "stability_index": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    },
+                    "description": "Target performance metrics for workspace operation"
+                },
+                "resource_limits": {
+                    "type": "object",
+                    "properties": {
+                        "max_concurrent_coalitions": {
+                            "type": "integer",
+                            "minimum": 1
+                        },
+                        "max_conscious_content_items": {
+                            "type": "integer",
+                            "minimum": 1
+                        },
+                        "attention_budget": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "processing_capacity": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "memory_allocation": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    },
+                    "description": "Resource limits for workspace operation"
+                },
+                "update_frequencies": {
+                    "type": "object",
+                    "properties": {
+                        "state_update_hz": {
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "coalition_evaluation_hz": {
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "attention_routing_hz": {
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "consciousness_monitoring_hz": {
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "adaptation_update_hz": {
+                            "type": "number",
+                            "minimum": 0
+                        }
+                    },
+                    "description": "Update frequencies for different workspace processes"
+                }
+            },
+            "description": "Core operational parameters for the workspace"
+        },
+        "consciousness_settings": {
+            "type": "object",
+            "required": [
+                "consciousness_model",
+                "threshold_settings",
+                "integration_settings"
+            ],
+            "properties": {
+                "consciousness_model": {
+                    "type": "string",
+                    "enum": [
+                        "global_workspace_theory",
+                        "integrated_information_theory",
+                        "attention_schema_theory",
+                        "higher_order_thought",
+                        "recurrent_processing"
+                    ],
+                    "description": "Theoretical model of consciousness being implemented"
+                },
+                "threshold_settings": {
+                    "type": "object",
+                    "properties": {
+                        "default_consciousness_threshold": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "adaptive_thresholds": {
+                            "type": "boolean"
+                        },
+                        "threshold_adaptation_rate": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "context_sensitivity": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "individual_differences": {
+                            "type": "boolean"
+                        }
+                    },
+                    "description": "Settings for consciousness thresholds"
+                },
+                "integration_settings": {
+                    "type": "object",
+                    "properties": {
+                        "integration_mechanisms": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "binding_algorithms": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "coherence_requirements": {
+                            "type": "object"
+                        },
+                        "temporal_integration_window": {
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "cross_modal_integration": {
+                            "type": "boolean"
+                        }
+                    },
+                    "description": "Settings for consciousness integration processes"
+                },
+                "phenomenal_properties": {
+                    "type": "object",
+                    "properties": {
+                        "qualia_modeling": {
+                            "type": "boolean"
+                        },
+                        "subjective_experience": {
+                            "type": "boolean"
+                        },
+                        "first_person_perspective": {
+                            "type": "boolean"
+                        },
+                        "phenomenal_concepts": {
+                            "type": "boolean"
+                        }
+                    },
+                    "description": "Settings for modeling phenomenal properties"
+                }
+            },
+            "description": "Configuration settings for consciousness modeling"
+        },
+        "coalition_settings": {
+            "type": "object",
+            "required": [
+                "formation_rules",
+                "competition_rules",
+                "dissolution_rules"
+            ],
+            "properties": {
+                "formation_rules": {
+                    "type": "object",
+                    "properties": {
+                        "minimum_coalition_size": {
+                            "type": "integer",
+                            "minimum": 1
+                        },
+                        "maximum_coalition_size": {
+                            "type": "integer",
+                            "minimum": 1
+                        },
+                        "formation_criteria": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "synergy_requirements": {
+                            "type": "object"
+                        },
+                        "coherence_thresholds": {
+                            "type": "object"
+                        }
+                    },
+                    "description": "Rules governing coalition formation"
+                },
+                "competition_rules": {
+                    "type": "object",
+                    "properties": {
+                        "competition_algorithms": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "evaluation_criteria": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "winner_selection_method": {
+                            "type": "string"
+                        },
+                        "tie_breaking_rules": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "competition_timeout_ms": {
+                            "type": "number",
+                            "minimum": 0
+                        }
+                    },
+                    "description": "Rules governing coalition competition"
+                },
+                "dissolution_rules": {
+                    "type": "object",
+                    "properties": {
+                        "automatic_dissolution": {
+                            "type": "boolean"
+                        },
+                        "dissolution_criteria": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "grace_period_ms": {
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "dissolution_procedures": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "description": "Rules governing coalition dissolution"
+                },
+                "coalition_lifecycle": {
+                    "type": "object",
+                    "properties": {
+                        "lifecycle_stages": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "stage_transitions": {
+                            "type": "object"
+                        },
+                        "lifecycle_monitoring": {
+                            "type": "boolean"
+                        },
+                        "performance_tracking": {
+                            "type": "boolean"
+                        }
+                    },
+                    "description": "Configuration for coalition lifecycle management"
+                }
+            },
+            "description": "Configuration settings for coalition management"
+        },
+        "attention_settings": {
+            "type": "object",
+            "required": [
+                "routing_algorithms",
+                "allocation_strategies",
+                "coordination_settings"
+            ],
+            "properties": {
+                "routing_algorithms": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "algorithm_name": {
+                                "type": "string"
+                            },
+                            "algorithm_parameters": {
+                                "type": "object"
+                            },
+                            "application_conditions": {
+                                "type": "object"
+                            },
+                            "algorithm_priority": {
+                                "type": "integer"
+                            }
+                        }
+                    },
+                    "description": "Algorithms used for attention routing"
+                },
+                "allocation_strategies": {
+                    "type": "object",
+                    "properties": {
+                        "default_strategy": {
+                            "type": "string"
+                        },
+                        "strategy_selection_criteria": {
+                            "type": "object"
+                        },
+                        "dynamic_strategy_switching": {
+                            "type": "boolean"
+                        },
+                        "resource_optimization": {
+                            "type": "boolean"
+                        },
+                        "fairness_constraints": {
+                            "type": "object"
+                        }
+                    },
+                    "description": "Strategies for attention allocation"
+                },
+                "coordination_settings": {
+                    "type": "object",
+                    "properties": {
+                        "thalamic_coordination": {
+                            "type": "boolean"
+                        },
+                        "working_memory_coordination": {
+                            "type": "boolean"
+                        },
+                        "hippocampal_coordination": {
+                            "type": "boolean"
+                        },
+                        "motor_coordination": {
+                            "type": "boolean"
+                        },
+                        "coordination_protocols": {
+                            "type": "array"
+                        }
+                    },
+                    "description": "Settings for coordinating attention with other systems"
+                },
+                "attention_control": {
+                    "type": "object",
+                    "properties": {
+                        "top_down_control": {
+                            "type": "boolean"
+                        },
+                        "bottom_up_capture": {
+                            "type": "boolean"
+                        },
+                        "control_mechanisms": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "control_strength": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    },
+                    "description": "Settings for attention control mechanisms"
+                }
+            },
+            "description": "Configuration settings for attention management"
+        },
+        "integration_specifications": {
+            "type": "object",
+            "properties": {
+                "system_connections": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "system_id": {
+                                "type": "string"
+                            },
+                            "system_type": {
+                                "type": "string"
+                            },
+                            "connection_type": {
+                                "type": "string"
+                            },
+                            "connection_strength": {
+                                "type": "number"
+                            },
+                            "bidirectional": {
+                                "type": "boolean"
+                            },
+                            "communication_protocol": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "description": "Specifications for connections to other cognitive systems"
+                },
+                "information_flow": {
+                    "type": "object",
+                    "properties": {
+                        "input_processing": {
+                            "type": "object"
+                        },
+                        "output_generation": {
+                            "type": "object"
+                        },
+                        "information_transformation": {
+                            "type": "object"
+                        },
+                        "flow_control": {
+                            "type": "object"
+                        }
+                    },
+                    "description": "Configuration for information flow"
+                },
+                "synchronization_settings": {
+                    "type": "object",
+                    "properties": {
+                        "temporal_synchronization": {
+                            "type": "boolean"
+                        },
+                        "phase_locking": {
+                            "type": "boolean"
+                        },
+                        "rhythm_coordination": {
+                            "type": "object"
+                        },
+                        "timing_precision": {
+                            "type": "number"
+                        }
+                    },
+                    "description": "Settings for temporal synchronization"
+                }
+            },
+            "description": "Specifications for integrating with other cognitive systems"
+        },
+        "learning_settings": {
+            "type": "object",
+            "properties": {
+                "adaptation_mechanisms": {
+                    "type": "object",
+                    "properties": {
+                        "online_learning": {
+                            "type": "boolean"
+                        },
+                        "offline_learning": {
+                            "type": "boolean"
+                        },
+                        "meta_learning": {
+                            "type": "boolean"
+                        },
+                        "transfer_learning": {
+                            "type": "boolean"
+                        }
+                    }
+                },
+                "learning_algorithms": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "algorithm_name": {
+                                "type": "string"
+                            },
+                            "learning_rate": {
+                                "type": "number"
+                            },
+                            "adaptation_scope": {
+                                "type": "string"
+                            },
+                            "learning_objectives": {
+                                "type": "array"
+                            }
+                        }
+                    },
+                    "description": "Algorithms used for workspace learning"
+                },
+                "feedback_systems": {
+                    "type": "object",
+                    "properties": {
+                        "performance_feedback": {
+                            "type": "boolean"
+                        },
+                        "error_feedback": {
+                            "type": "boolean"
+                        },
+                        "reward_feedback": {
+                            "type": "boolean"
+                        },
+                        "feedback_integration": {
+                            "type": "string"
+                        }
+                    },
+                    "description": "Configuration for feedback-based learning"
+                }
+            },
+            "description": "Configuration settings for learning and adaptation"
+        },
+        "monitoring_settings": {
+            "type": "object",
+            "properties": {
+                "performance_monitoring": {
+                    "type": "object",
+                    "properties": {
+                        "real_time_monitoring": {
+                            "type": "boolean"
+                        },
+                        "performance_metrics": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "monitoring_frequency": {
+                            "type": "number"
+                        },
+                        "alert_thresholds": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "health_monitoring": {
+                    "type": "object",
+                    "properties": {
+                        "system_health_checks": {
+                            "type": "boolean"
+                        },
+                        "anomaly_detection": {
+                            "type": "boolean"
+                        },
+                        "degradation_monitoring": {
+                            "type": "boolean"
+                        },
+                        "recovery_procedures": {
+                            "type": "array"
+                        }
+                    }
+                },
+                "diagnostic_settings": {
+                    "type": "object",
+                    "properties": {
+                        "diagnostic_logging": {
+                            "type": "boolean"
+                        },
+                        "trace_collection": {
+                            "type": "boolean"
+                        },
+                        "debug_information": {
+                            "type": "boolean"
+                        },
+                        "diagnostic_depth": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "description": "Configuration for monitoring and diagnostics"
+        },
+        "security_settings": {
+            "type": "object",
+            "properties": {
+                "access_control": {
+                    "type": "object",
+                    "properties": {
+                        "consciousness_access_control": {
+                            "type": "boolean"
+                        },
+                        "coalition_access_control": {
+                            "type": "boolean"
+                        },
+                        "attention_access_control": {
+                            "type": "boolean"
+                        },
+                        "access_permissions": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "privacy_protection": {
+                    "type": "object",
+                    "properties": {
+                        "content_privacy": {
+                            "type": "boolean"
+                        },
+                        "process_privacy": {
+                            "type": "boolean"
+                        },
+                        "communication_privacy": {
+                            "type": "boolean"
+                        },
+                        "privacy_levels": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "integrity_protection": {
+                    "type": "object",
+                    "properties": {
+                        "state_integrity": {
+                            "type": "boolean"
+                        },
+                        "decision_integrity": {
+                            "type": "boolean"
+                        },
+                        "communication_integrity": {
+                            "type": "boolean"
+                        },
+                        "integrity_verification": {
+                            "type": "array"
+                        }
+                    }
+                }
+            },
+            "description": "Security and privacy configuration settings"
+        },
+        "experimental_settings": {
+            "type": "object",
+            "properties": {
+                "experimental_features": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "feature_name": {
+                                "type": "string"
+                            },
+                            "feature_description": {
+                                "type": "string"
+                            },
+                            "experimental_status": {
+                                "type": "string"
+                            },
+                            "feature_parameters": {
+                                "type": "object"
+                            }
+                        }
+                    },
+                    "description": "Experimental features and their configurations"
+                },
+                "research_mode": {
+                    "type": "object",
+                    "properties": {
+                        "data_collection": {
+                            "type": "boolean"
+                        },
+                        "experimental_paradigms": {
+                            "type": "array"
+                        },
+                        "research_protocols": {
+                            "type": "array"
+                        },
+                        "data_anonymization": {
+                            "type": "boolean"
+                        }
+                    }
+                },
+                "debugging_features": {
+                    "type": "object",
+                    "properties": {
+                        "step_by_step_execution": {
+                            "type": "boolean"
+                        },
+                        "state_inspection": {
+                            "type": "boolean"
+                        },
+                        "decision_tracing": {
+                            "type": "boolean"
+                        },
+                        "performance_profiling": {
+                            "type": "boolean"
+                        }
+                    }
+                }
+            },
+            "description": "Configuration for experimental and research features"
+        }
+    }
+}

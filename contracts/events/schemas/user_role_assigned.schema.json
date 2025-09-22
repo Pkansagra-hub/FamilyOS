@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "User Role Assigned Event",
+  "description": "Event fired when a role is assigned to a user",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "assignment_id",
+    "user_id",
+    "role_name",
+    "scope",
+    "assigned_by",
+    "assigned_ts"
+  ],
+  "properties": {
+    "assignment_id": {
+      "type": "string",
+      "pattern": "^[0-7][0-9A-HJKMNP-TV-Z]{25}$",
+      "description": "ULID for this role assignment"
+    },
+    "user_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "User receiving the role assignment"
+    },
+    "role_name": {
+      "type": "string",
+      "enum": ["guardian", "member", "child", "guest", "admin", "service"],
+      "description": "Name of the role being assigned"
+    },
+    "scope": {
+      "type": "object",
+      "required": ["type"],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": ["global", "space", "resource"]
+        },
+        "space_id": {
+          "type": "string",
+          "pattern": "^(personal|selective|shared|extended|interfamily):"
+        },
+        "resource_id": {
+          "type": "string"
+        }
+      },
+      "description": "Scope of the role assignment"
+    },
+    "capabilities": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "pattern": "^[a-z][a-z0-9_]*:[a-z0-9_*]+$"
+      },
+      "description": "Capabilities granted by this role"
+    },
+    "conditions": {
+      "type": "object",
+      "properties": {
+        "time_limited": {
+          "type": "boolean"
+        },
+        "valid_from": {
+          "$ref": "./_common.json#/definitions/ISOInstant"
+        },
+        "valid_until": {
+          "$ref": "./_common.json#/definitions/ISOInstant"
+        },
+        "require_mfa": {
+          "type": "boolean"
+        }
+      },
+      "description": "Conditions for role effectiveness"
+    },
+    "assigned_by": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Admin user who assigned the role"
+    },
+    "assignment_reason": {
+      "type": "string",
+      "description": "Reason for the role assignment"
+    },
+    "assigned_ts": {
+      "$ref": "./_common.json#/definitions/ISOInstant",
+      "description": "When the role was assigned"
+    },
+    "trace_context": {
+      "$ref": "./_common.json#/definitions/TraceContext",
+      "description": "Distributed tracing context"
+    }
+  }
+}

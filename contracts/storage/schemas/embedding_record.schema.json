@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://familyos.local/contracts/storage/embedding_record.schema.json",
+  "title": "Embedding Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "embedding_id",
+    "doc_id",
+    "model_id",
+    "dim",
+    "sha256",
+    "vector_ref"
+  ],
+  "properties": {
+    "embedding_id": {
+      "$ref": "./common.schema.json#/$defs/ULID"
+    },
+    "doc_id": {
+      "$ref": "./common.schema.json#/$defs/ULID"
+    },
+    "model_id": {
+      "$ref": "./common.schema.json#/$defs/EmbeddingModelId"
+    },
+    "dim": {
+      "$ref": "./common.schema.json#/$defs/Dim"
+    },
+    "sha256": {
+      "$ref": "./common.schema.json#/$defs/Hash256"
+    },
+    "vector_ref": {
+      "$ref": "./common.schema.json#/$defs/ULID"
+    },
+    "quantized": {
+      "type": "boolean",
+      "default": false
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  }
+}

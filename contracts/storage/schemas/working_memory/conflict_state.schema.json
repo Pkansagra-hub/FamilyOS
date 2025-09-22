@@ -1,0 +1,674 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://familyos.local/contracts/storage/schemas/working_memory/conflict_state.schema.json",
+    "title": "Cognitive Conflict State Schema",
+    "description": "Schema for persistent storage of cognitive conflict detection and resolution state",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "conflict_id",
+        "timestamp",
+        "conflict_status",
+        "detection_state",
+        "resolution_state"
+    ],
+    "properties": {
+        "conflict_id": {
+            "type": "string",
+            "description": "Unique identifier for conflict state instance"
+        },
+        "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Last update timestamp"
+        },
+        "conflict_status": {
+            "type": "object",
+            "required": [
+                "current_conflicts",
+                "conflict_severity",
+                "system_impact"
+            ],
+            "properties": {
+                "current_conflicts": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "conflict_id": {
+                                "type": "string"
+                            },
+                            "conflict_type": {
+                                "type": "string",
+                                "enum": [
+                                    "response_conflict",
+                                    "stimulus_conflict",
+                                    "task_conflict",
+                                    "goal_conflict",
+                                    "semantic_conflict",
+                                    "temporal_conflict",
+                                    "spatial_conflict",
+                                    "priority_conflict",
+                                    "resource_conflict",
+                                    "strategic_conflict"
+                                ]
+                            },
+                            "activation_level": {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 1
+                            },
+                            "duration": {
+                                "type": "number",
+                                "minimum": 0
+                            },
+                            "stability": {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 1
+                            },
+                            "resolution_progress": {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 1
+                            }
+                        }
+                    }
+                },
+                "conflict_severity": {
+                    "type": "object",
+                    "properties": {
+                        "overall_severity": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "peak_severity": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "severity_trend": {
+                            "type": "string",
+                            "enum": [
+                                "increasing",
+                                "decreasing",
+                                "stable",
+                                "oscillating"
+                            ]
+                        },
+                        "critical_threshold": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    }
+                },
+                "system_impact": {
+                    "type": "object",
+                    "properties": {
+                        "performance_degradation": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "processing_interference": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "resource_consumption": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "cognitive_load_increase": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    }
+                }
+            },
+            "description": "Current status of cognitive conflicts"
+        },
+        "detection_state": {
+            "type": "object",
+            "required": [
+                "monitoring_active",
+                "detection_parameters"
+            ],
+            "properties": {
+                "monitoring_active": {
+                    "type": "boolean",
+                    "description": "Whether conflict monitoring is currently active"
+                },
+                "detection_parameters": {
+                    "type": "object",
+                    "properties": {
+                        "sensitivity_threshold": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "detection_window": {
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "confidence_threshold": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "false_positive_tolerance": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    }
+                },
+                "monitoring_mechanisms": {
+                    "type": "object",
+                    "properties": {
+                        "anterior_cingulate_monitoring": {
+                            "type": "object",
+                            "properties": {
+                                "activation_level": {
+                                    "type": "number"
+                                },
+                                "sensitivity": {
+                                    "type": "number"
+                                },
+                                "response_threshold": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "response_competition_detection": {
+                            "type": "object",
+                            "properties": {
+                                "competition_strength": {
+                                    "type": "number"
+                                },
+                                "activation_overlap": {
+                                    "type": "number"
+                                },
+                                "temporal_dynamics": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "error_likelihood_assessment": {
+                            "type": "object",
+                            "properties": {
+                                "error_probability": {
+                                    "type": "number"
+                                },
+                                "confidence_assessment": {
+                                    "type": "number"
+                                },
+                                "prediction_accuracy": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                },
+                "detection_history": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "detection_time": {
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            "conflict_type": {
+                                "type": "string"
+                            },
+                            "detection_confidence": {
+                                "type": "number"
+                            },
+                            "false_positive": {
+                                "type": "boolean"
+                            },
+                            "resolution_outcome": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "calibration_state": {
+                    "type": "object",
+                    "properties": {
+                        "detection_accuracy": {
+                            "type": "number"
+                        },
+                        "false_positive_rate": {
+                            "type": "number"
+                        },
+                        "false_negative_rate": {
+                            "type": "number"
+                        },
+                        "calibration_adjustments": {
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "description": "Conflict detection system state"
+        },
+        "resolution_state": {
+            "type": "object",
+            "required": [
+                "resolution_strategies",
+                "control_engagement"
+            ],
+            "properties": {
+                "resolution_strategies": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "strategy_id": {
+                                "type": "string"
+                            },
+                            "strategy_type": {
+                                "type": "string",
+                                "enum": [
+                                    "inhibitory_control",
+                                    "cognitive_flexibility",
+                                    "attention_shifting",
+                                    "goal_prioritization",
+                                    "interference_resolution",
+                                    "strategy_switching",
+                                    "resource_reallocation",
+                                    "temporal_separation"
+                                ]
+                            },
+                            "activation_level": {
+                                "type": "number"
+                            },
+                            "effectiveness": {
+                                "type": "number"
+                            },
+                            "resource_cost": {
+                                "type": "number"
+                            },
+                            "implementation_time": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                },
+                "control_engagement": {
+                    "type": "object",
+                    "properties": {
+                        "cognitive_control_level": {
+                            "type": "number"
+                        },
+                        "executive_override": {
+                            "type": "boolean"
+                        },
+                        "automatic_resolution": {
+                            "type": "boolean"
+                        },
+                        "controlled_resolution": {
+                            "type": "boolean"
+                        }
+                    }
+                },
+                "resolution_progress": {
+                    "type": "object",
+                    "properties": {
+                        "conflicts_resolved": {
+                            "type": "integer",
+                            "minimum": 0
+                        },
+                        "average_resolution_time": {
+                            "type": "number"
+                        },
+                        "resolution_success_rate": {
+                            "type": "number"
+                        },
+                        "ongoing_resolutions": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "intervention_queue": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "intervention_type": {
+                                "type": "string"
+                            },
+                            "priority": {
+                                "type": "number"
+                            },
+                            "scheduled_time": {
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            "resource_requirements": {
+                                "type": "object"
+                            }
+                        }
+                    }
+                }
+            },
+            "description": "Conflict resolution mechanisms and state"
+        },
+        "conflict_patterns": {
+            "type": "object",
+            "properties": {
+                "recurring_conflicts": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "pattern_id": {
+                                "type": "string"
+                            },
+                            "conflict_signature": {
+                                "type": "object"
+                            },
+                            "frequency": {
+                                "type": "number"
+                            },
+                            "context_dependency": {
+                                "type": "object"
+                            },
+                            "predictability": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                },
+                "conflict_sequences": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "sequence_pattern": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "transition_probabilities": {
+                                "type": "object"
+                            },
+                            "sequence_length": {
+                                "type": "integer"
+                            }
+                        }
+                    }
+                },
+                "temporal_patterns": {
+                    "type": "object",
+                    "properties": {
+                        "conflict_rhythms": {
+                            "type": "object"
+                        },
+                        "peak_conflict_times": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "conflict_duration_patterns": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "context_associations": {
+                    "type": "object",
+                    "properties": {
+                        "task_specific_conflicts": {
+                            "type": "object"
+                        },
+                        "environmental_triggers": {
+                            "type": "object"
+                        },
+                        "state_dependent_conflicts": {
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "description": "Patterns and regularities in conflict occurrence"
+        },
+        "learning_state": {
+            "type": "object",
+            "properties": {
+                "conflict_learning": {
+                    "type": "object",
+                    "properties": {
+                        "pattern_recognition": {
+                            "type": "number"
+                        },
+                        "prediction_accuracy": {
+                            "type": "number"
+                        },
+                        "avoidance_learning": {
+                            "type": "number"
+                        },
+                        "resolution_skill": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "strategy_learning": {
+                    "type": "object",
+                    "properties": {
+                        "strategy_effectiveness_learning": {
+                            "type": "object"
+                        },
+                        "context_strategy_mapping": {
+                            "type": "object"
+                        },
+                        "adaptive_strategy_selection": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "meta_conflict_learning": {
+                    "type": "object",
+                    "properties": {
+                        "conflict_monitoring_skill": {
+                            "type": "number"
+                        },
+                        "resolution_timing_optimization": {
+                            "type": "number"
+                        },
+                        "resource_management_learning": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "transfer_learning": {
+                    "type": "object",
+                    "properties": {
+                        "cross_domain_transfer": {
+                            "type": "number"
+                        },
+                        "generalization_ability": {
+                            "type": "number"
+                        },
+                        "abstraction_level": {
+                            "type": "number"
+                        }
+                    }
+                }
+            },
+            "description": "Learning from conflict experiences"
+        },
+        "adaptation_mechanisms": {
+            "type": "object",
+            "properties": {
+                "threshold_adaptation": {
+                    "type": "object",
+                    "properties": {
+                        "sensitivity_adjustment": {
+                            "type": "number"
+                        },
+                        "adaptive_thresholds": {
+                            "type": "object"
+                        },
+                        "context_dependent_thresholds": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "strategy_adaptation": {
+                    "type": "object",
+                    "properties": {
+                        "strategy_repertoire": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "strategy_selection_adaptation": {
+                            "type": "object"
+                        },
+                        "novel_strategy_development": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "system_adaptation": {
+                    "type": "object",
+                    "properties": {
+                        "architecture_adjustments": {
+                            "type": "object"
+                        },
+                        "parameter_optimization": {
+                            "type": "object"
+                        },
+                        "emergent_capabilities": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            },
+            "description": "Adaptive mechanisms for conflict management"
+        },
+        "performance_metrics": {
+            "type": "object",
+            "properties": {
+                "detection_performance": {
+                    "type": "object",
+                    "properties": {
+                        "detection_accuracy": {
+                            "type": "number"
+                        },
+                        "detection_speed": {
+                            "type": "number"
+                        },
+                        "false_alarm_rate": {
+                            "type": "number"
+                        },
+                        "miss_rate": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "resolution_performance": {
+                    "type": "object",
+                    "properties": {
+                        "resolution_success_rate": {
+                            "type": "number"
+                        },
+                        "average_resolution_time": {
+                            "type": "number"
+                        },
+                        "resolution_efficiency": {
+                            "type": "number"
+                        },
+                        "resource_efficiency": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "system_performance": {
+                    "type": "object",
+                    "properties": {
+                        "overall_conflict_management": {
+                            "type": "number"
+                        },
+                        "system_stability": {
+                            "type": "number"
+                        },
+                        "adaptive_capability": {
+                            "type": "number"
+                        },
+                        "robustness": {
+                            "type": "number"
+                        }
+                    }
+                }
+            },
+            "description": "Performance metrics for conflict management"
+        },
+        "integration_interfaces": {
+            "type": "object",
+            "properties": {
+                "executive_control_interface": {
+                    "type": "object",
+                    "properties": {
+                        "control_signals": {
+                            "type": "object"
+                        },
+                        "intervention_requests": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "feedback_loops": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "attention_interface": {
+                    "type": "object",
+                    "properties": {
+                        "attention_conflicts": {
+                            "type": "object"
+                        },
+                        "attention_coordination": {
+                            "type": "object"
+                        },
+                        "distraction_management": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "working_memory_interface": {
+                    "type": "object",
+                    "properties": {
+                        "buffer_conflicts": {
+                            "type": "object"
+                        },
+                        "maintenance_conflicts": {
+                            "type": "object"
+                        },
+                        "updating_conflicts": {
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "description": "Integration with other cognitive systems"
+        }
+    }
+}

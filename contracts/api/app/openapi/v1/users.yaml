@@ -1,0 +1,1895 @@
+openapi: 3.0.3
+info:
+  title: "Family AI App Users API"
+  description: |
+    App Users API for Memory-Centric Family AI
+
+    This API provides user management, device coordination, and family space
+    administration for the App Plane. It enables comprehensive family member
+    management while maintaining privacy boundaries and memory-aware user experiences.
+
+    **User Management Mission:**
+    The App Users API manages family members, their devices, memory spaces,
+    presence states, and profile information within the Family AI ecosystem.
+    All operations respect family privacy boundaries and enhance memory-driven
+    family coordination.
+
+    **Management Categories:**
+    - `/users` - Family member management and profiles
+    - `/users/{id}/devices` - Device registration and coordination
+    - `/users/{id}/spaces` - Memory space access and permissions
+    - `/users/{id}/presence` - Family presence and availability
+    - `/family` - Family structure and relationship management
+
+    **Memory-Centric User Experience:**
+    - User profiles integrate with family memory patterns
+    - Device coordination enables cross-device memory sync
+    - Presence awareness enhances family intelligence
+    - Privacy-first family relationship management
+  version: "1.0.0"
+  contact:
+    name: "Family AI Development Team"
+    url: "https://github.com/pkansagra99/family_os"
+  license:
+    name: "MIT"
+    url: "https://opensource.org/licenses/MIT"
+
+servers:
+  - url: "http://localhost:8000/v1/app/users"
+    description: "Local development server"
+  - url: "https://api.familyos.local/v1/app/users"
+    description: "Production Family AI instance"
+
+security:
+  - FamilyAuth: []
+  - DeviceAuth: []
+
+paths:
+  # =============================================================================
+  # USER MANAGEMENT
+  # =============================================================================
+
+  /:
+    get:
+      summary: "List family members"
+      description: |
+        List family members with their current status, device information,
+        and memory space access levels. Respects family privacy boundaries
+        and returns information appropriate for the requesting family member.
+      operationId: "listFamilyMembers"
+      tags: ["User Management"]
+      parameters:
+        - name: include_devices
+          in: query
+          schema:
+            type: boolean
+            default: false
+          description: "Include device information for each family member"
+        - name: include_presence
+          in: query
+          schema:
+            type: boolean
+            default: true
+          description: "Include current presence status"
+        - name: include_spaces
+          in: query
+          schema:
+            type: boolean
+            default: false
+          description: "Include memory space access information"
+        - name: status_filter
+          in: query
+          schema:
+            type: string
+            enum: ["active", "inactive", "invited", "all"]
+          description: "Filter by user status"
+        - name: role_filter
+          in: query
+          schema:
+            type: string
+            enum: ["parent", "child", "teen", "guest", "all"]
+          description: "Filter by family role"
+      responses:
+        "200":
+          description: "Family members listed successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FamilyMembersResponse"
+              examples:
+                active_family_members:
+                  summary: "Active family members with presence"
+                  value:
+                    family_members:
+                      - user_id: "mom_001"
+                        display_name: "Mom"
+                        family_role: "parent"
+                        status: "active"
+                        presence:
+                          availability: "available"
+                          location_context: "home"
+                          current_activity: "working"
+                          last_seen: "2024-01-15T10:30:00Z"
+                        profile_summary:
+                          age_group: "adult"
+                          preferences_configured: true
+                          memory_spaces_active: 5
+                        family_permissions:
+                          - "family_coordination"
+                          - "child_supervision"
+                          - "memory_management"
+                      - user_id: "dad_001"
+                        display_name: "Dad"
+                        family_role: "parent"
+                        status: "active"
+                        presence:
+                          availability: "busy"
+                          location_context: "office"
+                          current_activity: "meeting"
+                          last_seen: "2024-01-15T10:25:00Z"
+                        profile_summary:
+                          age_group: "adult"
+                          preferences_configured: true
+                          memory_spaces_active: 4
+                        family_permissions:
+                          - "family_coordination"
+                          - "child_supervision"
+                      - user_id: "emma_001"
+                        display_name: "Emma"
+                        family_role: "child"
+                        status: "active"
+                        presence:
+                          availability: "at_school"
+                          location_context: "school"
+                          current_activity: "classes"
+                          last_seen: "2024-01-15T08:00:00Z"
+                        profile_summary:
+                          age_group: "school_age"
+                          parental_controls_active: true
+                          memory_spaces_active: 2
+                        family_permissions:
+                          - "personal_memory"
+                          - "family_activities"
+                    family_metadata:
+                      total_members: 3
+                      active_members: 3
+                      family_structure: "nuclear_family"
+                      privacy_model: "parent_supervised"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+
+    post:
+      summary: "Add family member"
+      description: |
+        Add a new family member to the Family AI system with appropriate
+        role-based permissions, privacy settings, and memory space access.
+      operationId: "addFamilyMember"
+      tags: ["User Management"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AddFamilyMemberRequest"
+            examples:
+              add_child_member:
+                summary: "Add child family member"
+                value:
+                  user_info:
+                    display_name: "Tommy"
+                    family_role: "child"
+                    age_group: "elementary"
+                    relationship_to_requester: "son"
+                  family_integration:
+                    memory_spaces_access: ["personal:tommy", "shared:household"]
+                    privacy_level: "child_safe"
+                    parental_supervision: true
+                    content_filtering: "strict"
+                  permissions:
+                    family_permissions: ["personal_memory", "family_activities"]
+                    device_permissions: ["supervised_access"]
+                    interaction_permissions: ["family_chat", "supervised_external"]
+                  initial_setup:
+                    create_personal_space: true
+                    setup_parental_controls: true
+                    invite_method: "family_device_setup"
+                    require_parent_approval: true
+      responses:
+        "201":
+          description: "Family member successfully added"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AddFamilyMemberResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "403":
+          description: "Insufficient permissions to add family members"
+
+  /{user_id}:
+    get:
+      summary: "Get user profile"
+      description: |
+        Retrieve detailed profile information for a specific family member
+        including preferences, memory patterns, and family relationships.
+      operationId: "getUserProfile"
+      tags: ["User Management"]
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: "Family member identifier"
+        - name: include_preferences
+          in: query
+          schema:
+            type: boolean
+            default: true
+          description: "Include user preferences and settings"
+        - name: include_memory_patterns
+          in: query
+          schema:
+            type: boolean
+            default: false
+          description: "Include memory usage patterns (if authorized)"
+        - name: include_family_relationships
+          in: query
+          schema:
+            type: boolean
+            default: true
+          description: "Include family relationship information"
+      responses:
+        "200":
+          description: "User profile retrieved successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserProfileResponse"
+        "404":
+          description: "User not found"
+        "403":
+          description: "Access denied to user profile"
+
+    put:
+      summary: "Update user profile"
+      description: |
+        Update user profile information including preferences, family settings,
+        and memory configuration with appropriate privacy protections.
+      operationId: "updateUserProfile"
+      tags: ["User Management"]
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateUserProfileRequest"
+      responses:
+        "200":
+          description: "User profile updated successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserProfileResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "403":
+          description: "Insufficient permissions to update profile"
+
+    delete:
+      summary: "Remove family member"
+      description: |
+        Remove a family member from the Family AI system with proper
+        data cleanup and memory space reassignment options.
+      operationId: "removeFamilyMember"
+      tags: ["User Management"]
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: cleanup_strategy
+          in: query
+          schema:
+            type: string
+            enum: ["preserve_shared", "transfer_to_family", "full_cleanup"]
+            default: "preserve_shared"
+          description: "How to handle user's data and memories"
+        - name: confirm_removal
+          in: query
+          required: true
+          schema:
+            type: boolean
+          description: "Confirmation flag required for safety"
+      responses:
+        "204":
+          description: "Family member successfully removed"
+        "400":
+          description: "Invalid removal request or missing confirmation"
+        "403":
+          description: "Insufficient permissions to remove family member"
+
+  # =============================================================================
+  # DEVICE MANAGEMENT
+  # =============================================================================
+
+  /{user_id}/devices:
+    get:
+      summary: "List user devices"
+      description: |
+        List all devices associated with a family member including device type,
+        capabilities, sync status, and memory access configurations.
+      operationId: "listUserDevices"
+      tags: ["Device Management"]
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: include_capabilities
+          in: query
+          schema:
+            type: boolean
+            default: true
+          description: "Include device capability information"
+        - name: include_sync_status
+          in: query
+          schema:
+            type: boolean
+            default: true
+          description: "Include memory sync status"
+        - name: status_filter
+          in: query
+          schema:
+            type: string
+            enum: ["online", "offline", "syncing", "error", "all"]
+          description: "Filter devices by status"
+      responses:
+        "200":
+          description: "User devices listed successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserDevicesResponse"
+
+    post:
+      summary: "Register new device"
+      description: |
+        Register a new device for a family member with appropriate
+        memory sync capabilities and family network integration.
+      operationId: "registerDevice"
+      tags: ["Device Management"]
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RegisterDeviceRequest"
+      responses:
+        "201":
+          description: "Device successfully registered"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RegisterDeviceResponse"
+
+  /{user_id}/devices/{device_id}:
+    get:
+      summary: "Get device details"
+      description: |
+        Retrieve detailed information about a specific device including
+        memory sync status, capabilities, and family network integration.
+      operationId: "getDeviceDetails"
+      tags: ["Device Management"]
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: device_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: include_sync_details
+          in: query
+          schema:
+            type: boolean
+            default: true
+          description: "Include detailed sync information"
+      responses:
+        "200":
+          description: "Device details retrieved successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeviceDetailsResponse"
+
+    put:
+      summary: "Update device configuration"
+      description: |
+        Update device configuration including memory sync settings,
+        family network preferences, and capability enablement.
+      operationId: "updateDeviceConfiguration"
+      tags: ["Device Management"]
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: device_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateDeviceRequest"
+      responses:
+        "200":
+          description: "Device configuration updated successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeviceDetailsResponse"
+
+    delete:
+      summary: "Unregister device"
+      description: |
+        Remove device registration and clean up associated memory sync
+        and family network configurations.
+      operationId: "unregisterDevice"
+      tags: ["Device Management"]
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: device_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: cleanup_local_data
+          in: query
+          schema:
+            type: boolean
+            default: false
+          description: "Request cleanup of local data on device"
+      responses:
+        "204":
+          description: "Device successfully unregistered"
+
+  # =============================================================================
+  # MEMORY SPACE MANAGEMENT
+  # =============================================================================
+
+  /{user_id}/spaces:
+    get:
+      summary: "List user memory spaces"
+      description: |
+        List memory spaces accessible to a family member including
+        access levels, sharing permissions, and usage statistics.
+      operationId: "listUserMemorySpaces"
+      tags: ["Memory Spaces"]
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: include_usage_stats
+          in: query
+          schema:
+            type: boolean
+            default: false
+          description: "Include memory usage statistics"
+        - name: access_level_filter
+          in: query
+          schema:
+            type: string
+            enum: ["owner", "read_write", "read_only", "invited", "all"]
+          description: "Filter by access level"
+        - name: space_type_filter
+          in: query
+          schema:
+            type: string
+            enum: ["personal", "selective", "shared", "extended", "interfamily", "all"]
+          description: "Filter by space type"
+      responses:
+        "200":
+          description: "User memory spaces listed successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserMemorySpacesResponse"
+
+    post:
+      summary: "Create memory space"
+      description: |
+        Create a new memory space with specified privacy boundaries,
+        family access permissions, and integration settings.
+      operationId: "createMemorySpace"
+      tags: ["Memory Spaces"]
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateMemorySpaceRequest"
+      responses:
+        "201":
+          description: "Memory space successfully created"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreateMemorySpaceResponse"
+
+  /{user_id}/spaces/{space_id}:
+    get:
+      summary: "Get memory space details"
+      description: |
+        Retrieve detailed information about a specific memory space
+        including permissions, sharing settings, and content overview.
+      operationId: "getMemorySpaceDetails"
+      tags: ["Memory Spaces"]
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: space_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: include_content_overview
+          in: query
+          schema:
+            type: boolean
+            default: false
+          description: "Include content overview (if authorized)"
+      responses:
+        "200":
+          description: "Memory space details retrieved successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MemorySpaceDetailsResponse"
+
+    put:
+      summary: "Update memory space"
+      description: |
+        Update memory space configuration including access permissions,
+        sharing settings, and family integration preferences.
+      operationId: "updateMemorySpace"
+      tags: ["Memory Spaces"]
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: space_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateMemorySpaceRequest"
+      responses:
+        "200":
+          description: "Memory space updated successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MemorySpaceDetailsResponse"
+
+    delete:
+      summary: "Delete memory space"
+      description: |
+        Delete a memory space with proper data cleanup and sharing
+        impact notifications to affected family members.
+      operationId: "deleteMemorySpace"
+      tags: ["Memory Spaces"]
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: space_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: notify_affected_members
+          in: query
+          schema:
+            type: boolean
+            default: true
+          description: "Notify family members affected by deletion"
+      responses:
+        "204":
+          description: "Memory space successfully deleted"
+
+  # =============================================================================
+  # PRESENCE AND AVAILABILITY
+  # =============================================================================
+
+  /{user_id}/presence:
+    get:
+      summary: "Get user presence status"
+      description: |
+        Retrieve current presence and availability status for a family member
+        including location context, activity, and family visibility settings.
+      operationId: "getUserPresence"
+      tags: ["Presence Management"]
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: include_location_context
+          in: query
+          schema:
+            type: boolean
+            default: true
+          description: "Include location context information"
+        - name: include_activity_context
+          in: query
+          schema:
+            type: boolean
+            default: true
+          description: "Include current activity information"
+      responses:
+        "200":
+          description: "User presence retrieved successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserPresenceResponse"
+
+    put:
+      summary: "Update user presence"
+      description: |
+        Update presence status, availability, and activity context
+        with family-appropriate visibility and privacy controls.
+      operationId: "updateUserPresence"
+      tags: ["Presence Management"]
+      parameters:
+        - name: user_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateUserPresenceRequest"
+      responses:
+        "200":
+          description: "User presence updated successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserPresenceResponse"
+
+  /presence/family:
+    get:
+      summary: "Get family presence overview"
+      description: |
+        Get presence overview for all family members with appropriate
+        privacy filtering and relationship-based visibility.
+      operationId: "getFamilyPresence"
+      tags: ["Presence Management"]
+      parameters:
+        - name: include_location_summary
+          in: query
+          schema:
+            type: boolean
+            default: true
+          description: "Include family location summary"
+        - name: include_activity_summary
+          in: query
+          schema:
+            type: boolean
+            default: true
+          description: "Include family activity summary"
+      responses:
+        "200":
+          description: "Family presence overview retrieved successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FamilyPresenceResponse"
+
+  # =============================================================================
+  # FAMILY STRUCTURE AND RELATIONSHIPS
+  # =============================================================================
+
+  /family/structure:
+    get:
+      summary: "Get family structure"
+      description: |
+        Retrieve family structure including relationships, roles,
+        and family configuration for memory and privacy management.
+      operationId: "getFamilyStructure"
+      tags: ["Family Management"]
+      responses:
+        "200":
+          description: "Family structure retrieved successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FamilyStructureResponse"
+
+    put:
+      summary: "Update family structure"
+      description: |
+        Update family structure including member roles, relationships,
+        and family governance settings with proper authorization.
+      operationId: "updateFamilyStructure"
+      tags: ["Family Management"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateFamilyStructureRequest"
+      responses:
+        "200":
+          description: "Family structure updated successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FamilyStructureResponse"
+
+  /family/invitations:
+    get:
+      summary: "List family invitations"
+      description: |
+        List pending family invitations including status, expiration,
+        and invitation details for family member onboarding.
+      operationId: "listFamilyInvitations"
+      tags: ["Family Management"]
+      parameters:
+        - name: status_filter
+          in: query
+          schema:
+            type: string
+            enum: ["pending", "accepted", "declined", "expired", "all"]
+          description: "Filter invitations by status"
+      responses:
+        "200":
+          description: "Family invitations listed successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FamilyInvitationsResponse"
+
+    post:
+      summary: "Create family invitation"
+      description: |
+        Create invitation for new family member with role-appropriate
+        permissions and onboarding configuration.
+      operationId: "createFamilyInvitation"
+      tags: ["Family Management"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateFamilyInvitationRequest"
+      responses:
+        "201":
+          description: "Family invitation created successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreateFamilyInvitationResponse"
+
+components:
+  securitySchemes:
+    FamilyAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: "Family member authentication token"
+    DeviceAuth:
+      type: apiKey
+      in: header
+      name: X-Device-ID
+      description: "Device identification for family ecosystem"
+
+  schemas:
+    # =============================================================================
+    # USER MANAGEMENT SCHEMAS
+    # =============================================================================
+
+    FamilyMembersResponse:
+      type: object
+      required: ["family_members", "family_metadata"]
+      properties:
+        family_members:
+          type: array
+          items:
+            type: object
+            properties:
+              user_id:
+                type: string
+                description: "Unique family member identifier"
+              display_name:
+                type: string
+                description: "Display name for family member"
+              family_role:
+                type: string
+                enum: ["parent", "child", "teen", "guest", "caregiver"]
+              status:
+                type: string
+                enum: ["active", "inactive", "invited", "suspended"]
+              presence:
+                type: object
+                properties:
+                  availability:
+                    type: string
+                    enum: ["available", "busy", "away", "at_school", "at_work", "sleeping", "offline"]
+                  location_context:
+                    type: string
+                    enum: ["home", "work", "school", "out", "traveling", "unknown"]
+                  current_activity:
+                    type: string
+                  last_seen:
+                    type: string
+                    format: date-time
+              profile_summary:
+                type: object
+                properties:
+                  age_group:
+                    type: string
+                    enum: ["toddler", "preschool", "elementary", "middle_school", "high_school", "adult"]
+                  preferences_configured:
+                    type: boolean
+                  memory_spaces_active:
+                    type: integer
+                  parental_controls_active:
+                    type: boolean
+              family_permissions:
+                type: array
+                items:
+                  type: string
+              devices:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    device_id:
+                      type: string
+                    device_type:
+                      type: string
+                    status:
+                      type: string
+        family_metadata:
+          type: object
+          properties:
+            total_members:
+              type: integer
+            active_members:
+              type: integer
+            invited_members:
+              type: integer
+            family_structure:
+              type: string
+              enum: ["nuclear_family", "extended_family", "single_parent", "blended_family", "custom"]
+            privacy_model:
+              type: string
+              enum: ["open_family", "parent_supervised", "individual_privacy", "custom"]
+
+    AddFamilyMemberRequest:
+      type: object
+      required: ["user_info", "family_integration"]
+      properties:
+        user_info:
+          type: object
+          required: ["display_name", "family_role"]
+          properties:
+            display_name:
+              type: string
+              maxLength: 50
+            family_role:
+              type: string
+              enum: ["parent", "child", "teen", "guest", "caregiver"]
+            age_group:
+              type: string
+              enum: ["toddler", "preschool", "elementary", "middle_school", "high_school", "adult"]
+            relationship_to_requester:
+              type: string
+              enum: ["spouse", "child", "parent", "sibling", "grandparent", "grandchild", "friend", "caregiver"]
+            email:
+              type: string
+              format: email
+            phone:
+              type: string
+        family_integration:
+          type: object
+          required: ["privacy_level"]
+          properties:
+            memory_spaces_access:
+              type: array
+              items:
+                type: string
+                pattern: "^(personal|selective|shared|extended|interfamily):[a-zA-Z0-9_-]+$"
+            privacy_level:
+              type: string
+              enum: ["child_safe", "teen_appropriate", "adult_full", "guest_limited"]
+            parental_supervision:
+              type: boolean
+              default: false
+            content_filtering:
+              type: string
+              enum: ["none", "basic", "moderate", "strict"]
+              default: "basic"
+        permissions:
+          type: object
+          properties:
+            family_permissions:
+              type: array
+              items:
+                type: string
+                enum: ["personal_memory", "family_activities", "family_coordination", "child_supervision", "memory_management", "device_management"]
+            device_permissions:
+              type: array
+              items:
+                type: string
+                enum: ["full_access", "supervised_access", "limited_access", "guest_access"]
+            interaction_permissions:
+              type: array
+              items:
+                type: string
+                enum: ["family_chat", "external_contact", "supervised_external", "emergency_only"]
+        initial_setup:
+          type: object
+          properties:
+            create_personal_space:
+              type: boolean
+              default: true
+            setup_parental_controls:
+              type: boolean
+              default: false
+            invite_method:
+              type: string
+              enum: ["email_invitation", "sms_invitation", "family_device_setup", "in_person_setup"]
+            require_parent_approval:
+              type: boolean
+              default: false
+
+    AddFamilyMemberResponse:
+      type: object
+      required: ["success", "user_id", "setup_details"]
+      properties:
+        success:
+          type: boolean
+        user_id:
+          type: string
+        setup_details:
+          type: object
+          properties:
+            personal_space_created:
+              type: boolean
+            invitation_sent:
+              type: boolean
+            invitation_method:
+              type: string
+            invitation_expires_at:
+              type: string
+              format: date-time
+            setup_url:
+              type: string
+              format: uri
+            parental_controls_configured:
+              type: boolean
+        family_impact:
+          type: object
+          properties:
+            family_structure_updated:
+              type: boolean
+            memory_spaces_affected:
+              type: array
+              items:
+                type: string
+            permissions_granted:
+              type: array
+              items:
+                type: string
+        next_steps:
+          type: array
+          items:
+            type: string
+
+    UserProfileResponse:
+      type: object
+      required: ["user_info", "family_context"]
+      properties:
+        user_info:
+          type: object
+          properties:
+            user_id:
+              type: string
+            display_name:
+              type: string
+            family_role:
+              type: string
+            age_group:
+              type: string
+            status:
+              type: string
+            created_at:
+              type: string
+              format: date-time
+            last_active:
+              type: string
+              format: date-time
+        family_context:
+          type: object
+          properties:
+            family_relationships:
+              type: array
+              items:
+                type: object
+                properties:
+                  related_member:
+                    type: string
+                  relationship_type:
+                    type: string
+                  relationship_strength:
+                    type: string
+                    enum: ["primary", "secondary", "extended"]
+            family_permissions:
+              type: array
+              items:
+                type: string
+            memory_spaces_access:
+              type: array
+              items:
+                type: object
+                properties:
+                  space_id:
+                    type: string
+                  access_level:
+                    type: string
+                    enum: ["owner", "read_write", "read_only", "invited"]
+                  space_type:
+                    type: string
+        preferences:
+          type: object
+          properties:
+            privacy_preferences:
+              type: object
+              properties:
+                presence_visibility:
+                  type: string
+                  enum: ["family", "parents_only", "private"]
+                location_sharing:
+                  type: string
+                  enum: ["always", "family_only", "emergency_only", "never"]
+                activity_sharing:
+                  type: string
+                  enum: ["detailed", "basic", "private"]
+            notification_preferences:
+              type: object
+              properties:
+                family_updates:
+                  type: boolean
+                memory_insights:
+                  type: boolean
+                system_notifications:
+                  type: boolean
+                emergency_alerts:
+                  type: boolean
+            memory_preferences:
+              type: object
+              properties:
+                auto_memory_formation:
+                  type: boolean
+                cross_device_sync:
+                  type: boolean
+                intelligent_categorization:
+                  type: boolean
+                family_pattern_learning:
+                  type: boolean
+        memory_patterns:
+          type: object
+          description: "Memory usage patterns (included if authorized and requested)"
+          properties:
+            total_memories:
+              type: integer
+            memory_categories:
+              type: object
+            usage_frequency:
+              type: object
+            family_interaction_patterns:
+              type: object
+
+    UpdateUserProfileRequest:
+      type: object
+      properties:
+        user_info_updates:
+          type: object
+          properties:
+            display_name:
+              type: string
+            contact_info:
+              type: object
+              properties:
+                email:
+                  type: string
+                  format: email
+                phone:
+                  type: string
+        preference_updates:
+          type: object
+          properties:
+            privacy_preferences:
+              type: object
+            notification_preferences:
+              type: object
+            memory_preferences:
+              type: object
+        family_context_updates:
+          type: object
+          properties:
+            relationship_updates:
+              type: array
+              items:
+                type: object
+            permission_requests:
+              type: array
+              items:
+                type: string
+
+    # =============================================================================
+    # DEVICE MANAGEMENT SCHEMAS
+    # =============================================================================
+
+    UserDevicesResponse:
+      type: object
+      required: ["devices", "device_summary"]
+      properties:
+        devices:
+          type: array
+          items:
+            type: object
+            properties:
+              device_id:
+                type: string
+              device_name:
+                type: string
+              device_type:
+                type: string
+                enum: ["phone", "tablet", "laptop", "desktop", "smart_speaker", "tv", "shared_device"]
+              status:
+                type: string
+                enum: ["online", "offline", "syncing", "error", "setup_required"]
+              capabilities:
+                type: object
+                properties:
+                  memory_sync:
+                    type: boolean
+                  voice_interaction:
+                    type: boolean
+                  family_coordination:
+                    type: boolean
+                  offline_operation:
+                    type: boolean
+              sync_status:
+                type: object
+                properties:
+                  last_sync:
+                    type: string
+                    format: date-time
+                  sync_progress:
+                    type: number
+                    minimum: 0
+                    maximum: 1
+                  pending_operations:
+                    type: integer
+              family_network_status:
+                type: object
+                properties:
+                  network_role:
+                    type: string
+                    enum: ["primary", "secondary", "shared", "guest"]
+                  coordination_enabled:
+                    type: boolean
+                  family_visibility:
+                    type: string
+                    enum: ["visible", "family_only", "private"]
+              registered_at:
+                type: string
+                format: date-time
+              last_seen:
+                type: string
+                format: date-time
+        device_summary:
+          type: object
+          properties:
+            total_devices:
+              type: integer
+            online_devices:
+              type: integer
+            syncing_devices:
+              type: integer
+            primary_device:
+              type: string
+
+    RegisterDeviceRequest:
+      type: object
+      required: ["device_info", "capabilities"]
+      properties:
+        device_info:
+          type: object
+          required: ["device_name", "device_type"]
+          properties:
+            device_name:
+              type: string
+              maxLength: 50
+            device_type:
+              type: string
+              enum: ["phone", "tablet", "laptop", "desktop", "smart_speaker", "tv", "shared_device"]
+            device_model:
+              type: string
+            operating_system:
+              type: string
+            family_ai_version:
+              type: string
+        capabilities:
+          type: object
+          properties:
+            memory_sync:
+              type: boolean
+              default: true
+            voice_interaction:
+              type: boolean
+              default: false
+            family_coordination:
+              type: boolean
+              default: true
+            offline_operation:
+              type: boolean
+              default: false
+            processing_capabilities:
+              type: object
+              properties:
+                cognitive_processing:
+                  type: boolean
+                local_ai_inference:
+                  type: boolean
+                voice_processing:
+                  type: boolean
+        family_integration:
+          type: object
+          properties:
+            network_role:
+              type: string
+              enum: ["primary", "secondary", "shared", "guest"]
+              default: "secondary"
+            family_visibility:
+              type: string
+              enum: ["visible", "family_only", "private"]
+              default: "family_only"
+            sync_preferences:
+              type: object
+              properties:
+                auto_sync:
+                  type: boolean
+                  default: true
+                sync_frequency:
+                  type: string
+                  enum: ["real_time", "frequent", "moderate", "minimal"]
+                  default: "moderate"
+                background_sync:
+                  type: boolean
+                  default: true
+
+    RegisterDeviceResponse:
+      type: object
+      required: ["success", "device_id", "setup_details"]
+      properties:
+        success:
+          type: boolean
+        device_id:
+          type: string
+        setup_details:
+          type: object
+          properties:
+            device_token:
+              type: string
+              description: "Device authentication token"
+            sync_endpoint:
+              type: string
+              format: uri
+            family_network_key:
+              type: string
+              description: "Encrypted family network key"
+            initial_sync_required:
+              type: boolean
+        family_network_integration:
+          type: object
+          properties:
+            network_position:
+              type: string
+            coordination_capabilities:
+              type: array
+              items:
+                type: string
+            family_devices_discovered:
+              type: integer
+        next_steps:
+          type: array
+          items:
+            type: string
+
+    DeviceDetailsResponse:
+      type: object
+      properties:
+        device_info:
+          type: object
+        capabilities:
+          type: object
+        sync_status:
+          type: object
+        family_integration:
+          type: object
+        performance_metrics:
+          type: object
+          properties:
+            uptime:
+              type: string
+            memory_usage:
+              type: object
+            sync_performance:
+              type: object
+
+    UpdateDeviceRequest:
+      type: object
+      properties:
+        device_info_updates:
+          type: object
+        capability_updates:
+          type: object
+        family_integration_updates:
+          type: object
+        sync_preference_updates:
+          type: object
+
+    # =============================================================================
+    # MEMORY SPACE SCHEMAS
+    # =============================================================================
+
+    UserMemorySpacesResponse:
+      type: object
+      required: ["memory_spaces", "space_summary"]
+      properties:
+        memory_spaces:
+          type: array
+          items:
+            type: object
+            properties:
+              space_id:
+                type: string
+              space_name:
+                type: string
+              space_type:
+                type: string
+                enum: ["personal", "selective", "shared", "extended", "interfamily"]
+              access_level:
+                type: string
+                enum: ["owner", "read_write", "read_only", "invited"]
+              privacy_level:
+                type: string
+                enum: ["private", "family_coordination", "household_coordination", "community_visible"]
+              family_members_access:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    member_id:
+                      type: string
+                    access_level:
+                      type: string
+              created_at:
+                type: string
+                format: date-time
+              last_accessed:
+                type: string
+                format: date-time
+              usage_stats:
+                type: object
+                properties:
+                  total_memories:
+                    type: integer
+                  memory_categories:
+                    type: object
+                  daily_activity:
+                    type: integer
+        space_summary:
+          type: object
+          properties:
+            total_spaces:
+              type: integer
+            owned_spaces:
+              type: integer
+            shared_spaces:
+              type: integer
+            total_memories:
+              type: integer
+
+    CreateMemorySpaceRequest:
+      type: object
+      required: ["space_definition", "access_control"]
+      properties:
+        space_definition:
+          type: object
+          required: ["space_name", "space_type"]
+          properties:
+            space_name:
+              type: string
+              maxLength: 100
+            space_type:
+              type: string
+              enum: ["personal", "selective", "shared"]
+            description:
+              type: string
+              maxLength: 500
+            privacy_level:
+              type: string
+              enum: ["private", "family_coordination", "household_coordination"]
+        access_control:
+          type: object
+          properties:
+            family_members_access:
+              type: array
+              items:
+                type: object
+                properties:
+                  member_id:
+                    type: string
+                  access_level:
+                    type: string
+                    enum: ["read_write", "read_only", "invited"]
+            inheritance_settings:
+              type: object
+              properties:
+                inherit_from_parent:
+                  type: boolean
+                child_access_policy:
+                  type: string
+                  enum: ["inherit", "restricted", "supervised"]
+        integration_settings:
+          type: object
+          properties:
+            enable_ai_processing:
+              type: boolean
+              default: true
+            cross_device_sync:
+              type: boolean
+              default: true
+            family_intelligence:
+              type: boolean
+              default: false
+
+    CreateMemorySpaceResponse:
+      type: object
+      required: ["success", "space_id"]
+      properties:
+        success:
+          type: boolean
+        space_id:
+          type: string
+        space_details:
+          type: object
+        family_impact:
+          type: object
+          properties:
+            members_notified:
+              type: array
+              items:
+                type: string
+            access_granted:
+              type: array
+              items:
+                type: object
+
+    MemorySpaceDetailsResponse:
+      type: object
+      properties:
+        space_info:
+          type: object
+        access_control:
+          type: object
+        integration_settings:
+          type: object
+        content_overview:
+          type: object
+        usage_analytics:
+          type: object
+
+    UpdateMemorySpaceRequest:
+      type: object
+      properties:
+        space_definition_updates:
+          type: object
+        access_control_updates:
+          type: object
+        integration_settings_updates:
+          type: object
+
+    # =============================================================================
+    # PRESENCE SCHEMAS
+    # =============================================================================
+
+    UserPresenceResponse:
+      type: object
+      required: ["presence_status"]
+      properties:
+        presence_status:
+          type: object
+          properties:
+            availability:
+              type: string
+              enum: ["available", "busy", "away", "at_school", "at_work", "sleeping", "offline"]
+            location_context:
+              type: string
+              enum: ["home", "work", "school", "out", "traveling", "unknown"]
+            current_activity:
+              type: string
+            activity_confidence:
+              type: number
+              minimum: 0
+              maximum: 1
+            last_updated:
+              type: string
+              format: date-time
+        location_details:
+          type: object
+          properties:
+            general_location:
+              type: string
+            location_sharing_level:
+              type: string
+              enum: ["precise", "general", "none"]
+            family_visibility:
+              type: boolean
+        activity_context:
+          type: object
+          properties:
+            activity_type:
+              type: string
+            activity_duration:
+              type: string
+            expected_availability:
+              type: string
+              format: date-time
+        family_coordination:
+          type: object
+          properties:
+            coordinated_activities:
+              type: array
+              items:
+                type: object
+            next_family_event:
+              type: object
+
+    UpdateUserPresenceRequest:
+      type: object
+      properties:
+        presence_updates:
+          type: object
+          properties:
+            availability:
+              type: string
+              enum: ["available", "busy", "away", "at_school", "at_work", "sleeping"]
+            current_activity:
+              type: string
+            expected_availability:
+              type: string
+              format: date-time
+        location_updates:
+          type: object
+          properties:
+            location_context:
+              type: string
+            location_sharing_level:
+              type: string
+        family_coordination_updates:
+          type: object
+          properties:
+            coordinate_with_family:
+              type: boolean
+            notify_availability_changes:
+              type: boolean
+
+    FamilyPresenceResponse:
+      type: object
+      required: ["family_overview", "member_presence"]
+      properties:
+        family_overview:
+          type: object
+          properties:
+            family_activity_level:
+              type: string
+              enum: ["quiet", "moderate", "active", "busy"]
+            members_at_home:
+              type: integer
+            members_away:
+              type: integer
+            coordinated_activities:
+              type: integer
+        member_presence:
+          type: array
+          items:
+            type: object
+            properties:
+              member_id:
+                type: string
+              display_name:
+                type: string
+              availability:
+                type: string
+              location_context:
+                type: string
+              current_activity:
+                type: string
+              visibility_level:
+                type: string
+                enum: ["full", "limited", "private"]
+        location_summary:
+          type: object
+          properties:
+            home_occupancy:
+              type: string
+            family_locations:
+              type: array
+              items:
+                type: object
+        activity_summary:
+          type: object
+          properties:
+            shared_activities:
+              type: array
+              items:
+                type: object
+            upcoming_family_events:
+              type: array
+              items:
+                type: object
+
+    # =============================================================================
+    # FAMILY STRUCTURE SCHEMAS
+    # =============================================================================
+
+    FamilyStructureResponse:
+      type: object
+      required: ["family_info", "member_relationships"]
+      properties:
+        family_info:
+          type: object
+          properties:
+            family_id:
+              type: string
+            family_name:
+              type: string
+            family_type:
+              type: string
+              enum: ["nuclear_family", "extended_family", "single_parent", "blended_family", "custom"]
+            created_at:
+              type: string
+              format: date-time
+            total_members:
+              type: integer
+        member_relationships:
+          type: array
+          items:
+            type: object
+            properties:
+              member_id:
+                type: string
+              member_name:
+                type: string
+              family_role:
+                type: string
+              relationships:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    related_member:
+                      type: string
+                    relationship_type:
+                      type: string
+                    relationship_strength:
+                      type: string
+        family_governance:
+          type: object
+          properties:
+            decision_making_model:
+              type: string
+              enum: ["parent_led", "democratic", "consensus", "individual_autonomy"]
+            privacy_model:
+              type: string
+            supervision_model:
+              type: string
+        family_spaces:
+          type: object
+          properties:
+            shared_spaces:
+              type: array
+              items:
+                type: object
+            family_coordination_spaces:
+              type: array
+              items:
+                type: object
+
+    UpdateFamilyStructureRequest:
+      type: object
+      properties:
+        family_info_updates:
+          type: object
+        relationship_updates:
+          type: array
+          items:
+            type: object
+        governance_updates:
+          type: object
+
+    FamilyInvitationsResponse:
+      type: object
+      properties:
+        invitations:
+          type: array
+          items:
+            type: object
+            properties:
+              invitation_id:
+                type: string
+              invited_name:
+                type: string
+              invited_role:
+                type: string
+              status:
+                type: string
+                enum: ["pending", "accepted", "declined", "expired"]
+              created_at:
+                type: string
+                format: date-time
+              expires_at:
+                type: string
+                format: date-time
+              invited_by:
+                type: string
+
+    CreateFamilyInvitationRequest:
+      type: object
+      required: ["invitation_details"]
+      properties:
+        invitation_details:
+          type: object
+          required: ["invited_name", "family_role"]
+          properties:
+            invited_name:
+              type: string
+            invited_email:
+              type: string
+              format: email
+            family_role:
+              type: string
+            relationship_type:
+              type: string
+            invitation_message:
+              type: string
+        invitation_settings:
+          type: object
+          properties:
+            expires_in_days:
+              type: integer
+              minimum: 1
+              maximum: 30
+              default: 7
+            require_approval:
+              type: boolean
+              default: false
+
+    CreateFamilyInvitationResponse:
+      type: object
+      required: ["invitation_id", "invitation_url"]
+      properties:
+        invitation_id:
+          type: string
+        invitation_url:
+          type: string
+          format: uri
+        invitation_details:
+          type: object
+        expires_at:
+          type: string
+          format: date-time
+
+  responses:
+    BadRequest:
+      description: "Invalid request format or parameters"
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+              details:
+                type: string
+              validation_errors:
+                type: array
+                items:
+                  type: string
+
+    Forbidden:
+      description: "Access denied - insufficient family permissions"
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+              required_permissions:
+                type: array
+                items:
+                  type: string
+              family_policy_violation:
+                type: string
+
+tags:
+  - name: "User Management"
+    description: "Family member management and profile operations"
+  - name: "Device Management"
+    description: "Device registration and coordination for family network"
+  - name: "Memory Spaces"
+    description: "Memory space creation and access management"
+  - name: "Presence Management"
+    description: "Family presence and availability coordination"
+  - name: "Family Management"
+    description: "Family structure and relationship management"

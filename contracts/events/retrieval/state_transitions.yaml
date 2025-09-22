@@ -1,0 +1,741 @@
+# Retrieval Service State Transition Contracts
+# Defines comprehensive state machine with transitions, guards, and actions
+# Version: 2.0.0 - Complete state management with error recovery
+
+metadata:
+  version: "2.0.0"
+  title: "Retrieval Service State Transitions"
+  description: "Comprehensive state machine for retrieval request lifecycle"
+  created: "2025-09-16"
+  contract_type: "state_machine_specification"
+
+# =============================================================================
+# State Machine Configuration
+# =============================================================================
+
+state_machine:
+  name: "RetrievalRequestStateMachine"
+  version: "2.0.0"
+  description: "Complete state machine for retrieval operations"
+
+  configuration:
+    initial_state: "received"
+    final_states: ["completed", "failed", "denied", "timeout"]
+    allow_self_transitions: true
+    strict_validation: true
+    timeout_handling: "graceful"
+
+  global_timeouts:
+    total_request_timeout: "PT5M" # 5 minutes max
+    state_timeout_default: "PT30S" # 30 seconds per state
+    transition_timeout: "PT5S" # 5 seconds for transitions
+
+  global_guards:
+    system_healthy:
+      description: "System is in healthy state"
+      condition: "system.health == 'healthy'"
+
+    budget_available:
+      description: "QoS budget is available"
+      condition: "qos.remainingBudgetMs > 0"
+
+    user_authorized:
+      description: "User has valid authorization"
+      condition: "auth.valid && auth.notExpired"
+
+# =============================================================================
+# State Definitions
+# =============================================================================
+
+states:
+  received:
+    description: "Request received and queued for processing"
+    type: "initial"
+    timeout: "PT10S"
+
+    entry_actions:
+      - name: "log_request_received"
+        type: "event"
+        event_type: "com.familyos.retrieval.request.received"
+
+      - name: "assign_request_id"
+        type: "context_update"
+        update: "context.requestId = generateUniqueId()"
+
+      - name: "start_qos_timer"
+        type: "timer"
+        timer_name: "qos_budget_timer"
+
+    exit_actions:
+      - name: "validate_request_format"
+        type: "validation"
+        schema: "request_validation_schema"
+
+    invariants:
+      - "context.requestId != null"
+      - "context.request != null"
+      - "context.qos.budgetMs > 0"
+
+    transitions:
+      - trigger: "validate"
+        target: "validating"
+        guard: "request.valid && system_healthy"
+        priority: 1
+
+      - trigger: "validation_failed"
+        target: "failed"
+        guard: "!request.valid"
+        priority: 2
+
+      - trigger: "timeout"
+        target: "timeout"
+        guard: "timer.expired"
+        priority: 3
+
+  validating:
+    description: "Request validation and sanitization in progress"
+    type: "processing"
+    timeout: "PT15S"
+
+    entry_actions:
+      - name: "start_validation"
+        type: "service_call"
+        service: "validation_service"
+        method: "validateRequest"
+
+      - name: "emit_validation_started"
+        type: "event"
+        event_type: "com.familyos.retrieval.request.validation.started"
+
+    processing_actions:
+      - name: "sanitize_query"
+        type: "transformation"
+        transformer: "query_sanitizer"
+
+      - name: "validate_filters"
+        type: "validation"
+        validator: "filter_validator"
+
+      - name: "check_rate_limits"
+        type: "guard"
+        condition: "rateLimiter.checkAllowed(userId)"
+
+    exit_actions:
+      - name: "emit_validation_result"
+        type: "event"
+        event_type: "com.familyos.retrieval.request.validated"
+
+    transitions:
+      - trigger: "validation_success"
+        target: "policy_evaluation"
+        guard: "validation.passed && !validation.errors"
+        actions:
+          - "updateContext(validation.result)"
+        priority: 1
+
+      - trigger: "validation_failed"
+        target: "failed"
+        guard: "validation.failed || validation.errors"
+        actions:
+          - "logValidationErrors(validation.errors)"
+        priority: 2
+
+      - trigger: "rate_limit_exceeded"
+        target: "failed"
+        guard: "rateLimiter.exceeded"
+        actions:
+          - "logRateLimitViolation(userId)"
+        priority: 3
+
+  policy_evaluation:
+    description: "Policy evaluation and authorization check"
+    type: "processing"
+    timeout: "PT20S"
+
+    entry_actions:
+      - name: "start_policy_evaluation"
+        type: "service_call"
+        service: "policy_engine"
+        method: "evaluatePolicy"
+
+      - name: "emit_policy_started"
+        type: "event"
+        event_type: "com.familyos.retrieval.policy.evaluation.started"
+
+    processing_actions:
+      - name: "check_clearance"
+        type: "policy_check"
+        policy: "clearance_policy"
+
+      - name: "check_space_access"
+        type: "policy_check"
+        policy: "space_access_policy"
+
+      - name: "apply_filters"
+        type: "policy_enforcement"
+        policy: "filter_policy"
+
+    exit_actions:
+      - name: "emit_policy_decision"
+        type: "event"
+        event_type: "com.familyos.retrieval.policy.decision.made"
+
+    transitions:
+      - trigger: "access_granted"
+        target: "processing"
+        guard: "policy.decision == 'PERMIT'"
+        actions:
+          - "applyPolicyConstraints(policy.constraints)"
+          - "emitAccessGranted()"
+        priority: 1
+
+      - trigger: "access_denied"
+        target: "denied"
+        guard: "policy.decision == 'DENY'"
+        actions:
+          - "logAccessDenial(policy.reasons)"
+          - "emitAccessDenied()"
+        priority: 2
+
+      - trigger: "policy_error"
+        target: "failed"
+        guard: "policy.decision == 'INDETERMINATE' || policy.error"
+        actions:
+          - "logPolicyError(policy.error)"
+        priority: 3
+
+  processing:
+    description: "Retrieval processing with pipeline execution"
+    type: "composite"
+    timeout: "PT3M"
+
+    entry_actions:
+      - name: "start_processing"
+        type: "event"
+        event_type: "com.familyos.retrieval.request.started"
+
+      - name: "allocate_resources"
+        type: "resource_allocation"
+        resources: ["cpu", "memory", "network"]
+
+      - name: "initialize_pipeline"
+        type: "pipeline_init"
+        pipelines: ["fts", "vector", "kg"]
+
+    sub_states:
+      candidate_generation:
+        description: "Generate initial candidate set"
+        type: "parallel"
+
+        parallel_states:
+          fts_search:
+            description: "Full-text search pipeline"
+            timeout: "PT30S"
+
+            entry_actions:
+              - name: "start_fts"
+                type: "pipeline_start"
+                pipeline: "fts"
+
+            processing_actions:
+              - name: "execute_fts_query"
+                type: "search"
+                engine: "elasticsearch"
+
+            exit_actions:
+              - name: "collect_fts_results"
+                type: "result_collection"
+
+            transitions:
+              - trigger: "fts_complete"
+                target: "../ranking"
+                guard: "fts.results.count > 0"
+
+              - trigger: "fts_failed"
+                target: "../../failed"
+                guard: "fts.error && !fts.retryable"
+
+          vector_search:
+            description: "Vector similarity search pipeline"
+            timeout: "PT45S"
+
+            entry_actions:
+              - name: "start_vector_search"
+                type: "pipeline_start"
+                pipeline: "vector"
+
+            processing_actions:
+              - name: "generate_query_embedding"
+                type: "embedding"
+                model: "sentence_transformer"
+
+              - name: "similarity_search"
+                type: "vector_search"
+                index: "memory_embeddings"
+
+            transitions:
+              - trigger: "vector_complete"
+                target: "../ranking"
+                guard: "vector.results.count > 0"
+
+              - trigger: "vector_failed"
+                target: "../../degraded_processing"
+                guard: "vector.error && system.allowDegraded"
+
+          kg_search:
+            description: "Knowledge graph traversal"
+            timeout: "PT60S"
+            optional: true
+
+            entry_actions:
+              - name: "start_kg_search"
+                type: "pipeline_start"
+                pipeline: "kg"
+
+            processing_actions:
+              - name: "parse_entities"
+                type: "ner"
+                model: "entity_extractor"
+
+              - name: "traverse_graph"
+                type: "graph_traversal"
+                database: "neo4j"
+
+            transitions:
+              - trigger: "kg_complete"
+                target: "../ranking"
+
+              - trigger: "kg_timeout"
+                target: "../ranking"
+                guard: "kg.timeout && other_pipelines.complete"
+
+        completion_condition: "fts.complete && vector.complete"
+
+      ranking:
+        description: "Rank and score candidates"
+        timeout: "PT30S"
+
+        entry_actions:
+          - name: "start_ranking"
+            type: "event"
+            event_type: "com.familyos.retrieval.pipeline.stage.started"
+
+        processing_actions:
+          - name: "compute_features"
+            type: "feature_computation"
+            features: ["bm25", "tfidf", "recency", "personalization"]
+
+          - name: "apply_ranker"
+            type: "ranking"
+            algorithm: "learning_to_rank"
+
+        exit_actions:
+          - name: "emit_ranking_complete"
+            type: "event"
+            event_type: "com.familyos.retrieval.ranking.completed"
+
+        transitions:
+          - trigger: "ranking_complete"
+            target: "fusion"
+            guard: "ranking.success && ranking.results.count > 0"
+
+          - trigger: "ranking_failed"
+            target: "../failed"
+            guard: "ranking.error"
+
+      fusion:
+        description: "Fuse results and apply final filtering"
+        timeout: "PT20S"
+
+        entry_actions:
+          - name: "start_fusion"
+            type: "event"
+            event_type: "com.familyos.retrieval.pipeline.stage.started"
+
+        processing_actions:
+          - name: "reciprocal_rank_fusion"
+            type: "fusion"
+            algorithm: "rrf"
+
+          - name: "apply_mmr"
+            type: "diversification"
+            algorithm: "mmr"
+            lambda: 0.7
+
+          - name: "final_filtering"
+            type: "filtering"
+            filters: "policy_constraints"
+
+        exit_actions:
+          - name: "emit_fusion_complete"
+            type: "event"
+            event_type: "com.familyos.retrieval.fusion.completed"
+
+        transitions:
+          - trigger: "fusion_complete"
+            target: "../response_ready"
+            guard: "fusion.success"
+
+          - trigger: "fusion_failed"
+            target: "../failed"
+            guard: "fusion.error"
+
+    exit_actions:
+      - name: "release_resources"
+        type: "resource_deallocation"
+
+      - name: "emit_processing_complete"
+        type: "event"
+        event_type: "com.familyos.retrieval.pipeline.completed"
+
+    transitions:
+      - trigger: "processing_complete"
+        target: "response_ready"
+        guard: "processing.success && results.available"
+        priority: 1
+
+      - trigger: "qos_budget_exceeded"
+        target: "degraded_processing"
+        guard: "qos.budgetExceeded && partial_results.available"
+        priority: 2
+
+      - trigger: "processing_failed"
+        target: "failed"
+        guard: "processing.error && !processing.retryable"
+        priority: 3
+
+      - trigger: "circuit_breaker_tripped"
+        target: "failed"
+        guard: "circuitBreaker.open"
+        priority: 4
+
+  degraded_processing:
+    description: "Processing in degraded mode with reduced functionality"
+    type: "processing"
+    timeout: "PT1M"
+
+    entry_actions:
+      - name: "activate_degraded_mode"
+        type: "event"
+        event_type: "com.familyos.retrieval.degraded.mode.activated"
+
+      - name: "disable_optional_features"
+        type: "feature_toggle"
+        features: ["kg_search", "advanced_ranking", "personalization"]
+
+    processing_actions:
+      - name: "basic_search_only"
+        type: "simplified_pipeline"
+        pipelines: ["fts"]
+
+      - name: "simple_ranking"
+        type: "ranking"
+        algorithm: "bm25_only"
+
+    transitions:
+      - trigger: "degraded_complete"
+        target: "response_ready"
+        guard: "degraded.results.available"
+
+      - trigger: "degraded_failed"
+        target: "failed"
+        guard: "degraded.failed"
+
+  response_ready:
+    description: "Response prepared and ready for delivery"
+    type: "intermediate"
+    timeout: "PT10S"
+
+    entry_actions:
+      - name: "prepare_response"
+        type: "response_preparation"
+
+      - name: "emit_response_ready"
+        type: "event"
+        event_type: "com.familyos.retrieval.response.ready"
+
+    processing_actions:
+      - name: "serialize_response"
+        type: "serialization"
+        format: "json"
+
+      - name: "add_trace_info"
+        type: "tracing"
+        include_trace: "context.returnTrace"
+
+    transitions:
+      - trigger: "start_delivery"
+        target: "delivering"
+        guard: "response.ready"
+
+      - trigger: "delivery_error"
+        target: "failed"
+        guard: "response.error"
+
+  delivering:
+    description: "Delivering response to client"
+    type: "processing"
+    timeout: "PT15S"
+
+    entry_actions:
+      - name: "start_delivery"
+        type: "delivery_start"
+
+    processing_actions:
+      - name: "send_response"
+        type: "http_response"
+
+      - name: "update_metrics"
+        type: "metrics_update"
+
+    exit_actions:
+      - name: "emit_response_delivered"
+        type: "event"
+        event_type: "com.familyos.retrieval.response.delivered"
+
+    transitions:
+      - trigger: "delivery_complete"
+        target: "completed"
+        guard: "delivery.success"
+
+      - trigger: "delivery_failed"
+        target: "failed"
+        guard: "delivery.error"
+
+  completed:
+    description: "Request successfully completed"
+    type: "final"
+
+    entry_actions:
+      - name: "emit_request_completed"
+        type: "event"
+        event_type: "com.familyos.retrieval.request.completed"
+
+      - name: "cleanup_resources"
+        type: "cleanup"
+
+      - name: "update_success_metrics"
+        type: "metrics_update"
+        metrics: ["success_count", "latency", "throughput"]
+
+  failed:
+    description: "Request failed with error"
+    type: "final"
+
+    entry_actions:
+      - name: "emit_error"
+        type: "event"
+        event_type: "com.familyos.retrieval.error"
+
+      - name: "cleanup_resources"
+        type: "cleanup"
+
+      - name: "update_error_metrics"
+        type: "metrics_update"
+        metrics: ["error_count", "error_rate"]
+
+    transitions:
+      - trigger: "retry_requested"
+        target: "retrying"
+        guard: "error.retryable && retry.count < retry.maxAttempts"
+
+  denied:
+    description: "Request denied by policy engine"
+    type: "final"
+
+    entry_actions:
+      - name: "emit_access_denied"
+        type: "event"
+        event_type: "com.familyos.retrieval.access.denied"
+
+      - name: "log_denial"
+        type: "audit_log"
+
+      - name: "update_denial_metrics"
+        type: "metrics_update"
+        metrics: ["denial_count", "denial_rate"]
+
+  timeout:
+    description: "Request timed out"
+    type: "final"
+
+    entry_actions:
+      - name: "emit_timeout"
+        type: "event"
+        event_type: "com.familyos.retrieval.timeout"
+
+      - name: "cleanup_resources"
+        type: "cleanup"
+
+      - name: "update_timeout_metrics"
+        type: "metrics_update"
+        metrics: ["timeout_count"]
+
+  retrying:
+    description: "Retry attempt in progress"
+    type: "processing"
+    timeout: "PT30S"
+
+    entry_actions:
+      - name: "emit_retry_attempted"
+        type: "event"
+        event_type: "com.familyos.retrieval.retry.attempted"
+
+      - name: "increment_retry_count"
+        type: "context_update"
+        update: "context.retry.count += 1"
+
+      - name: "apply_backoff"
+        type: "delay"
+        duration: "exponentialBackoff(retry.count)"
+
+    transitions:
+      - trigger: "retry_validation"
+        target: "validating"
+        guard: "retry.stage == 'validation'"
+
+      - trigger: "retry_policy"
+        target: "policy_evaluation"
+        guard: "retry.stage == 'policy'"
+
+      - trigger: "retry_processing"
+        target: "processing"
+        guard: "retry.stage == 'processing'"
+
+      - trigger: "retry_exhausted"
+        target: "failed"
+        guard: "retry.count >= retry.maxAttempts"
+
+# =============================================================================
+# Transition Actions and Guards
+# =============================================================================
+
+actions:
+  generateUniqueId:
+    type: "function"
+    description: "Generate unique request identifier"
+    implementation: "uuid.uuid4().hex"
+
+  applyPolicyConstraints:
+    type: "function"
+    description: "Apply policy constraints to request context"
+    parameters: ["constraints"]
+
+  logValidationErrors:
+    type: "logging"
+    description: "Log validation errors"
+    level: "warn"
+
+  exponentialBackoff:
+    type: "function"
+    description: "Calculate exponential backoff delay"
+    parameters: ["attempt"]
+    formula: "min(baseDelay * (2 ^ attempt), maxDelay)"
+
+guards:
+  system_healthy:
+    description: "Check if system is healthy"
+    condition: "system.status == 'healthy'"
+
+  budget_available:
+    description: "Check if QoS budget is available"
+    condition: "qos.remainingMs > qos.minimumReserve"
+
+  user_authorized:
+    description: "Check user authorization"
+    condition: "auth.valid && !auth.expired"
+
+  request_valid:
+    description: "Check request validity"
+    condition: "validation.passed && !validation.errors"
+
+# =============================================================================
+# Error Recovery Strategies
+# =============================================================================
+
+error_recovery:
+  strategies:
+    transient_errors:
+      description: "Handle transient system errors"
+      applicable_errors: ["timeout", "service_unavailable", "rate_limit"]
+      strategy: "exponential_backoff_retry"
+      max_attempts: 3
+      base_delay: "PT1S"
+      max_delay: "PT10S"
+
+    validation_errors:
+      description: "Handle request validation errors"
+      applicable_errors: ["invalid_query", "malformed_filters"]
+      strategy: "immediate_failure"
+      retryable: false
+
+    policy_errors:
+      description: "Handle policy evaluation errors"
+      applicable_errors: ["policy_service_down", "policy_timeout"]
+      strategy: "fallback_to_default_policy"
+      fallback_decision: "DENY"
+
+    resource_errors:
+      description: "Handle resource exhaustion"
+      applicable_errors: ["memory_exhausted", "cpu_overload"]
+      strategy: "activate_degraded_mode"
+      degraded_features: ["kg_search", "advanced_ranking"]
+
+  circuit_breakers:
+    policy_service:
+      failure_threshold: 5
+      timeout: "PT30S"
+      reset_timeout: "PT60S"
+
+    search_indices:
+      failure_threshold: 3
+      timeout: "PT15S"
+      reset_timeout: "PT45S"
+
+    ranking_service:
+      failure_threshold: 10
+      timeout: "PT10S"
+      reset_timeout: "PT30S"
+
+# =============================================================================
+# Monitoring and Observability
+# =============================================================================
+
+monitoring:
+  state_metrics:
+    - "state_entry_count"
+    - "state_duration"
+    - "state_exit_count"
+    - "transition_count"
+    - "transition_duration"
+
+  transition_metrics:
+    - "successful_transitions"
+    - "failed_transitions"
+    - "guard_failures"
+    - "action_failures"
+
+  error_metrics:
+    - "error_rate_by_state"
+    - "retry_rate"
+    - "timeout_rate"
+    - "circuit_breaker_trips"
+
+  alerts:
+    high_error_rate:
+      condition: "error_rate > 0.05" # 5%
+      severity: "warning"
+
+    frequent_timeouts:
+      condition: "timeout_rate > 0.02" # 2%
+      severity: "critical"
+
+    circuit_breaker_open:
+      condition: "circuit_breaker.state == 'open'"
+      severity: "critical"
+
+  dashboards:
+    - "retrieval_state_machine_overview"
+    - "transition_flow_analysis"
+    - "error_recovery_effectiveness"
+    - "qos_budget_utilization"

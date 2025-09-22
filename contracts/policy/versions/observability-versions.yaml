@@ -1,0 +1,10 @@
+module: observability
+current: 1.0.0
+history:
+  - version: 1.0.0
+    date: 2025-09-10
+    changes: ["Initial module contract bundle (additive)."]
+compatibility:
+  api: { requires: "contracts/api >=1.0.0" }
+  events_envelope: { requires: ">=1.0.0" }
+deprecations: []

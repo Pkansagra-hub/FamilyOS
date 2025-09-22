@@ -1,0 +1,222 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "MemorySubmitResponse",
+  "description": "Response schema for memory submission operations",
+  "type": "object",
+  "required": ["memory_id", "status", "processing_info"],
+  "properties": {
+    "memory_id": {
+      "type": "string",
+      "pattern": "^mem_[a-zA-Z0-9]{24}$",
+      "description": "Unique identifier for the stored memory"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["stored", "processing", "consolidated", "failed"],
+      "description": "Current status of the memory storage operation"
+    },
+    "processing_info": {
+      "type": "object",
+      "description": "Information about memory processing",
+      "properties": {
+        "pipeline_results": {
+          "type": "object",
+          "description": "Results from cognitive processing pipelines",
+          "properties": {
+            "P01_recall_check": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "enum": ["success", "failed", "skipped"]
+                },
+                "duplicates_found": {
+                  "type": "integer",
+                  "description": "Number of similar memories found"
+                },
+                "similarity_scores": {
+                  "type": "array",
+                  "items": {
+                    "type": "number"
+                  }
+                }
+              }
+            },
+            "P02_formation": {
+              "type": "object",
+              "properties": {
+                "status": {
+                  "type": "string",
+                  "enum": ["success", "failed", "skipped"]
+                },
+                "encoding_strength": {
+                  "type": "number",
+                  "minimum": 0.0,
+                  "maximum": 1.0
+                },
+                "hippocampal_trace": {
+                  "type": "string",
+                  "description": "Hippocampal trace identifier"
+                }
+              }
+            },
+            "affect_analysis": {
+              "type": "object",
+              "properties": {
+                "emotional_classification": {
+                  "type": "object",
+                  "properties": {
+                    "valence": {
+                      "type": "number"
+                    },
+                    "arousal": {
+                      "type": "number"
+                    },
+                    "dominant_emotion": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "family_impact_score": {
+                  "type": "number",
+                  "description": "Predicted impact on family dynamics"
+                }
+              }
+            }
+          }
+        },
+        "space_assignment": {
+          "type": "object",
+          "description": "Memory space classification results",
+          "properties": {
+            "assigned_space": {
+              "type": "string"
+            },
+            "confidence": {
+              "type": "number",
+              "minimum": 0.0,
+              "maximum": 1.0
+            },
+            "privacy_classification": {
+              "type": "string",
+              "enum": ["GREEN", "AMBER", "RED", "BLACK"]
+            }
+          }
+        },
+        "indexing_results": {
+          "type": "object",
+          "description": "Memory indexing and retrieval preparation",
+          "properties": {
+            "vector_embedding": {
+              "type": "object",
+              "properties": {
+                "model": {
+                  "type": "string"
+                },
+                "dimensions": {
+                  "type": "integer"
+                },
+                "embedding_id": {
+                  "type": "string"
+                }
+              }
+            },
+            "semantic_tags": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "relationship_links": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "related_memory_id": {
+                    "type": "string"
+                  },
+                  "relationship_type": {
+                    "type": "string"
+                  },
+                  "strength": {
+                    "type": "number"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "family_context": {
+      "type": "object",
+      "description": "Family coordination information",
+      "properties": {
+        "sync_status": {
+          "type": "object",
+          "description": "Cross-device synchronization status",
+          "properties": {
+            "pending_devices": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "sync_conflicts": {
+              "type": "array",
+              "items": {
+                "type": "object",
+                "properties": {
+                  "device_id": {
+                    "type": "string"
+                  },
+                  "conflict_type": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "family_notifications": {
+          "type": "array",
+          "description": "Notifications to send to family members",
+          "items": {
+            "type": "object",
+            "properties": {
+              "recipient_id": {
+                "type": "string"
+              },
+              "notification_type": {
+                "type": "string",
+                "enum": ["memory_shared", "context_update", "coordination_needed"]
+              },
+              "message": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "description": "Response metadata",
+      "properties": {
+        "timestamp": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "processing_duration_ms": {
+          "type": "integer"
+        },
+        "api_version": {
+          "type": "string"
+        },
+        "request_id": {
+          "type": "string"
+        }
+      }
+    }
+  }
+}

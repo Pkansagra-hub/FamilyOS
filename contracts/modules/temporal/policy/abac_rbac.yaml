@@ -1,0 +1,19 @@
+roles:
+  - name: owner
+  - name: guardian
+  - name: agent
+abac:
+  attributes:
+    - name: space_id
+    - name: device_trust
+bands:
+  GREEN:
+    allow:
+      - events:TEMPORAL_RANGE_REQUEST
+      - events:TEMPORAL_RANGE_RESPONSE
+  AMBER:
+    allow:
+      - storage:time_index.write
+obligations:
+  - AUDIT_ACCESS
+  - LOG_DECISION

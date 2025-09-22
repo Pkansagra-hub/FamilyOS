@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.1.0",
+  "id": "60c611ad-d7b4-43d3-a490-b64b2d27419b",
+  "ts": "2025-09-09T04:20:40Z",
+  "topic": "DSAR_EXPORT",
+  "band": "GREEN",
+  "actor": {
+    "user_id": "9e6d4276-adfa-4aeb-8516-8b516141eaef",
+    "agent_id": "encoder.v1",
+    "caps": [
+      "RECALL"
+    ]
+  },
+  "device": {
+    "device_id": "srv-safety-01",
+    "platform": "linux",
+    "app_version": "1.4.7",
+    "locale": "en-US"
+  },
+  "space_id": "shared:household",
+  "policy_version": "1.3",
+  "abac": {
+    "role": "guest",
+    "trust": "amber",
+    "geo_precision": "region"
+  },
+  "qos": {
+    "routing": "fast-path",
+    "priority": 7,
+    "latency_budget_ms": 118,
+    "retries": 2
+  },
+  "trace": {
+    "trace_id": "5e6a3806726e321c2e65cd64f5b9c972",
+    "span_id": "472c7edabc8223c5",
+    "sampled": true
+  },
+  "obligations": [
+    "AUDIT_ACCESS"
+  ],
+  "redaction_applied": false,
+  "hashes": {
+    "payload_sha256": "572c44cecdd018a6f0a54c11bf0c466b61ef09c033dd293cedb933cca8638459"
+  },
+  "payload": {
+    "type": "export",
+    "subject": {
+      "user_id": "cbb7432f-c5fc-46e3-9de4-a55897252d55"
+    }
+  },
+  "signature": {
+    "alg": "ed25519",
+    "key_id": "key_dsar_export_green_2024",
+    "public_key": "cHVibGlj",
+    "signature": "c2ln"
+  }
+}

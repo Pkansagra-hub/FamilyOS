@@ -1,0 +1,164 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://familyos.local/contracts/storage/user_profile.schema.json",
+    "title": "User Profile",
+    "description": "Core user profile storage schema with identity, preferences, and security settings",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "user_id",
+        "email",
+        "name",
+        "status",
+        "created_ts",
+        "updated_ts"
+    ],
+    "properties": {
+        "user_id": {
+            "$ref": "./common.schema.json#/$defs/UUID",
+            "description": "Unique user identifier"
+        },
+        "email": {
+            "type": "string",
+            "format": "email",
+            "maxLength": 255,
+            "description": "User's email address (unique constraint)"
+        },
+        "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 100,
+            "description": "User's display name"
+        },
+        "status": {
+            "type": "string",
+            "enum": [
+                "active",
+                "pending_verification",
+                "inactive",
+                "suspended"
+            ],
+            "description": "Current user account status"
+        },
+        "profile_data": {
+            "type": "object",
+            "additionalProperties": false,
+            "properties": {
+                "timezone": {
+                    "type": "string",
+                    "format": "timezone",
+                    "description": "User's timezone preference"
+                },
+                "language": {
+                    "$ref": "./common.schema.json#/$defs/LanguageCode",
+                    "description": "User's language preference"
+                },
+                "avatar_blob": {
+                    "$ref": "./common.schema.json#/$defs/BlobRef",
+                    "description": "User's avatar image reference"
+                },
+                "preferences": {
+                    "type": "object",
+                    "additionalProperties": true,
+                    "description": "User-defined preferences (theme, notifications, etc.)"
+                }
+            },
+            "description": "Optional profile data and preferences"
+        },
+        "security_settings": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+                "trust_level"
+            ],
+            "properties": {
+                "trust_level": {
+                    "type": "string",
+                    "enum": [
+                        "green",
+                        "amber",
+                        "red"
+                    ],
+                    "default": "green",
+                    "description": "User's trust level classification"
+                },
+                "mfa_required": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Whether multi-factor authentication is required"
+                },
+                "session_timeout_hours": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 168,
+                    "default": 24,
+                    "description": "Session timeout in hours"
+                },
+                "allowed_device_platforms": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "enum": [
+                            "ios",
+                            "android",
+                            "macos",
+                            "windows",
+                            "linux",
+                            "web",
+                            "edge"
+                        ]
+                    },
+                    "description": "Platforms this user is allowed to use"
+                },
+                "security_band": {
+                    "$ref": "./common.schema.json#/$defs/Band",
+                    "default": "GREEN",
+                    "description": "Default security band for user operations"
+                }
+            },
+            "description": "Security configuration for the user"
+        },
+        "mls_groups": {
+            "type": "array",
+            "items": {
+                "$ref": "./common.schema.json#/$defs/MLSGroup"
+            },
+            "description": "MLS encryption groups this user belongs to"
+        },
+        "device_registration_token": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9+/]{32,}={0,2}$",
+            "description": "Temporary token for device registration (base64 encoded)"
+        },
+        "device_registration_expires": {
+            "$ref": "./common.schema.json#/$defs/Timestamp",
+            "description": "Expiration time for device registration token"
+        },
+        "created_ts": {
+            "$ref": "./common.schema.json#/$defs/Timestamp",
+            "description": "User creation timestamp"
+        },
+        "updated_ts": {
+            "$ref": "./common.schema.json#/$defs/Timestamp",
+            "description": "Last update timestamp"
+        },
+        "created_by": {
+            "$ref": "./common.schema.json#/$defs/UUID",
+            "description": "Admin user who created this account"
+        },
+        "last_login_ts": {
+            "$ref": "./common.schema.json#/$defs/Timestamp",
+            "description": "Timestamp of last successful login"
+        },
+        "login_failure_count": {
+            "type": "integer",
+            "minimum": 0,
+            "default": 0,
+            "description": "Count of consecutive failed login attempts"
+        },
+        "account_locked_until": {
+            "$ref": "./common.schema.json#/$defs/Timestamp",
+            "description": "Account lock expiration timestamp (if locked)"
+        }
+    }
+}

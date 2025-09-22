@@ -1,0 +1,290 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://familyos.local/contracts/events/schemas/thalamus/spatial_attention_shift.schema.json",
+    "title": "Spatial Attention Shift Event",
+    "description": "Event generated when spatial attention mechanisms shift focus within thalamic processing",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "timestamp",
+        "attention_shift_type",
+        "source_location",
+        "target_location",
+        "shift_trigger",
+        "attention_window"
+    ],
+    "properties": {
+        "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Time when spatial attention shift occurred"
+        },
+        "attention_shift_type": {
+            "type": "string",
+            "enum": [
+                "endogenous",
+                "exogenous",
+                "inhibition_of_return",
+                "zoom_in",
+                "zoom_out",
+                "parallel_split",
+                "sequential_scan"
+            ],
+            "description": "Type of spatial attention shift"
+        },
+        "source_location": {
+            "type": "object",
+            "required": [
+                "coordinates",
+                "attention_level"
+            ],
+            "properties": {
+                "coordinates": {
+                    "type": "object",
+                    "required": [
+                        "x",
+                        "y"
+                    ],
+                    "properties": {
+                        "x": {
+                            "type": "number"
+                        },
+                        "y": {
+                            "type": "number"
+                        },
+                        "z": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "attention_level": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "focus_radius": {
+                    "type": "number"
+                },
+                "content_type": {
+                    "type": "string"
+                }
+            },
+            "description": "Previous attention focus location"
+        },
+        "target_location": {
+            "type": "object",
+            "required": [
+                "coordinates",
+                "attention_level"
+            ],
+            "properties": {
+                "coordinates": {
+                    "type": "object",
+                    "required": [
+                        "x",
+                        "y"
+                    ],
+                    "properties": {
+                        "x": {
+                            "type": "number"
+                        },
+                        "y": {
+                            "type": "number"
+                        },
+                        "z": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "attention_level": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "focus_radius": {
+                    "type": "number"
+                },
+                "content_type": {
+                    "type": "string"
+                }
+            },
+            "description": "New attention focus location"
+        },
+        "shift_trigger": {
+            "type": "object",
+            "required": [
+                "trigger_type"
+            ],
+            "properties": {
+                "trigger_type": {
+                    "type": "string",
+                    "enum": [
+                        "salience_gradient",
+                        "goal_directed",
+                        "surprise_detection",
+                        "temporal_cue",
+                        "social_signal",
+                        "novelty_detection",
+                        "threat_assessment"
+                    ]
+                },
+                "trigger_strength": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "trigger_content_id": {
+                    "type": "string"
+                },
+                "trigger_metadata": {
+                    "type": "object"
+                }
+            },
+            "description": "What triggered the attention shift"
+        },
+        "attention_window": {
+            "type": "object",
+            "required": [
+                "window_size",
+                "focus_intensity"
+            ],
+            "properties": {
+                "window_size": {
+                    "type": "object",
+                    "properties": {
+                        "width": {
+                            "type": "number"
+                        },
+                        "height": {
+                            "type": "number"
+                        },
+                        "depth": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "focus_intensity": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "peripheral_awareness": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "window_shape": {
+                    "type": "string",
+                    "enum": [
+                        "circular",
+                        "elliptical",
+                        "rectangular",
+                        "gradient"
+                    ]
+                }
+            },
+            "description": "Spatial characteristics of attention window"
+        },
+        "shift_dynamics": {
+            "type": "object",
+            "properties": {
+                "shift_duration_ms": {
+                    "type": "number"
+                },
+                "shift_velocity": {
+                    "type": "number"
+                },
+                "attention_decay_rate": {
+                    "type": "number"
+                },
+                "inhibition_strength": {
+                    "type": "number"
+                },
+                "facilitation_effects": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            },
+            "description": "Temporal dynamics of the attention shift"
+        },
+        "cognitive_impact": {
+            "type": "object",
+            "properties": {
+                "processing_enhancement": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "resource_reallocation": {
+                    "type": "object",
+                    "properties": {
+                        "from_regions": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "to_regions": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "reallocation_amount": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "interference_effects": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "affected_region": {
+                                "type": "string"
+                            },
+                            "interference_level": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                }
+            },
+            "description": "Impact of attention shift on cognitive processing"
+        },
+        "spatial_memory": {
+            "type": "object",
+            "properties": {
+                "location_history": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "location": {
+                                "type": "object"
+                            },
+                            "timestamp": {
+                                "type": "string"
+                            },
+                            "duration_ms": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                },
+                "return_probability": {
+                    "type": "number"
+                },
+                "spatial_priming": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            },
+            "description": "Spatial memory effects of attention patterns"
+        }
+    }
+}

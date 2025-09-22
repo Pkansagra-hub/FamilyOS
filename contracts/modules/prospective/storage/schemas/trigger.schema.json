@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "https://familyos.local/contracts/prospective/storage/trigger.schema.json",
+  "title": "Prospective Trigger",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id","space_id","title","schedule","action","conditions","revision","created_at","updated_at","status"],
+  "properties": {
+    "id": { "type": "string", "pattern": "^[A-Za-z0-9_-]{6,64}$" },
+    "space_id": { "$ref": "../../events/schemas/_common.json#/definitions/SpaceRef" },
+    "title": { "type": "string", "maxLength": 120 },
+    "schedule": { "$ref": "../../events/schemas/prospective_schedule.schema.json#/properties/when" },
+    "action": { "$ref": "../../api/openapi.yaml#/components/schemas/Trigger/properties/action" },
+    "conditions": { "$ref": "../../api/openapi.yaml#/components/schemas/Trigger/properties/conditions" },
+    "status": { "type": "string", "enum": ["active","paused","deleted"] },
+    "next_fire_at": { "$ref": "../../events/schemas/_common.json#/definitions/ISOInstant" },
+    "revision": { "type": "integer", "minimum": 1 },
+    "created_at": { "$ref": "../../events/schemas/_common.json#/definitions/ISOInstant" },
+    "updated_at": { "$ref": "../../events/schemas/_common.json#/definitions/ISOInstant" },
+    "metadata": { "type": "object" }
+  }
+}

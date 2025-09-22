@@ -1,0 +1,56 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://memoryos/contracts/storage/index_lifecycle.schema.json",
+  "title": "Index Lifecycle Operations",
+  "description": "Operations for managing index lifecycle",
+  "type": "object",
+  "required": ["operation", "index_name", "space_id"],
+  "properties": {
+    "operation": {
+      "enum": ["create", "update", "rotate", "delete", "health_check"],
+      "description": "Lifecycle operation type"
+    },
+    "index_name": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9._:-]{2,64}$"
+    },
+    "space_id": {
+      "type": "string",
+      "description": "Space scope for the operation"
+    },
+    "config": {
+      "$ref": "index_config.schema.json",
+      "description": "Configuration for create/update operations"
+    },
+    "reason": {
+      "type": "string",
+      "description": "Reason for the operation (audit trail)"
+    },
+    "trigger_event_id": {
+      "type": "string",
+      "description": "Event ID that triggered this operation (for correlation)"
+    },
+    "expected_duration": {
+      "type": "integer",
+      "description": "Expected duration in seconds for the operation"
+    },
+    "rollback_plan": {
+      "type": "string",
+      "description": "Rollback strategy for the operation"
+    }
+  },
+  "if": {
+    "properties": {
+      "operation": {"const": "delete"}
+    }
+  },
+  "then": {
+    "required": ["tombstone_id"],
+    "properties": {
+      "tombstone_id": {
+        "type": "string",
+        "description": "Tombstone ID for undo capability"
+      }
+    }
+  }
+}

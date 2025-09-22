@@ -1,0 +1,45 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://familyos.local/contracts/storage/secure_item.schema.json",
+  "title": "Secure Secret",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "owner_space",
+    "created_ts",
+    "wrapped_key",
+    "ciphertext_sha256"
+  ],
+  "properties": {
+    "id": {
+      "$ref": "./common.schema.json#/$defs/ULID"
+    },
+    "owner_space": {
+      "$ref": "./common.schema.json#/$defs/SpaceId"
+    },
+    "created_ts": {
+      "$ref": "./common.schema.json#/$defs/Timestamp"
+    },
+    "wrapped_key": {
+      "type": "string",
+      "contentEncoding": "base64"
+    },
+    "ciphertext_sha256": {
+      "$ref": "./common.schema.json#/$defs/Hash256"
+    },
+    "purpose": {
+      "type": "string",
+      "enum": [
+        "blob",
+        "embedding",
+        "session",
+        "other"
+      ]
+    },
+    "meta": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  }
+}

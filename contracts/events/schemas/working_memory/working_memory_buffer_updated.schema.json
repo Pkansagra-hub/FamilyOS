@@ -1,0 +1,365 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://familyos.local/contracts/events/schemas/working_memory/working_memory_buffer_updated.schema.json",
+    "title": "Working Memory Buffer Updated Event",
+    "description": "Event generated when working memory buffer contents are updated in prefrontal cortex",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "timestamp",
+        "buffer_id",
+        "update_type",
+        "content_changes",
+        "buffer_state",
+        "executive_control"
+    ],
+    "properties": {
+        "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Time when buffer update occurred"
+        },
+        "buffer_id": {
+            "type": "string",
+            "description": "Unique identifier for the working memory buffer"
+        },
+        "update_type": {
+            "type": "string",
+            "enum": [
+                "content_addition",
+                "content_removal",
+                "content_modification",
+                "rehearsal_refresh",
+                "interference_resolution",
+                "capacity_adjustment",
+                "priority_reordering"
+            ],
+            "description": "Type of update operation performed"
+        },
+        "content_changes": {
+            "type": "object",
+            "required": [
+                "added_items",
+                "removed_items",
+                "modified_items"
+            ],
+            "properties": {
+                "added_items": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "required": [
+                            "content_id",
+                            "content_type",
+                            "activation_level"
+                        ],
+                        "properties": {
+                            "content_id": {
+                                "type": "string"
+                            },
+                            "content_type": {
+                                "type": "string",
+                                "enum": [
+                                    "verbal",
+                                    "visuospatial",
+                                    "episodic",
+                                    "semantic",
+                                    "procedural",
+                                    "affective"
+                                ]
+                            },
+                            "activation_level": {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 1
+                            },
+                            "priority": {
+                                "type": "string",
+                                "enum": [
+                                    "low",
+                                    "normal",
+                                    "high",
+                                    "critical"
+                                ]
+                            },
+                            "rehearsal_strength": {
+                                "type": "number"
+                            },
+                            "interference_resistance": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                },
+                "removed_items": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "required": [
+                            "content_id",
+                            "removal_reason"
+                        ],
+                        "properties": {
+                            "content_id": {
+                                "type": "string"
+                            },
+                            "removal_reason": {
+                                "type": "string",
+                                "enum": [
+                                    "decay",
+                                    "interference",
+                                    "capacity_limit",
+                                    "executive_eviction",
+                                    "task_completion"
+                                ]
+                            },
+                            "final_activation": {
+                                "type": "number"
+                            },
+                            "duration_ms": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                },
+                "modified_items": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "required": [
+                            "content_id",
+                            "modification_type"
+                        ],
+                        "properties": {
+                            "content_id": {
+                                "type": "string"
+                            },
+                            "modification_type": {
+                                "type": "string",
+                                "enum": [
+                                    "activation_change",
+                                    "priority_change",
+                                    "content_transformation",
+                                    "binding_update"
+                                ]
+                            },
+                            "old_state": {
+                                "type": "object"
+                            },
+                            "new_state": {
+                                "type": "object"
+                            }
+                        }
+                    }
+                }
+            },
+            "description": "Detailed changes to buffer contents"
+        },
+        "buffer_state": {
+            "type": "object",
+            "required": [
+                "capacity_utilization",
+                "active_items_count",
+                "total_activation"
+            ],
+            "properties": {
+                "capacity_utilization": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Proportion of buffer capacity in use"
+                },
+                "active_items_count": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "description": "Number of actively maintained items"
+                },
+                "total_activation": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Sum of all item activation levels"
+                },
+                "interference_level": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Level of inter-item interference"
+                },
+                "maintenance_quality": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Quality of active maintenance"
+                },
+                "rehearsal_efficiency": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Efficiency of rehearsal processes"
+                }
+            },
+            "description": "Current state of the working memory buffer"
+        },
+        "executive_control": {
+            "type": "object",
+            "required": [
+                "control_signal",
+                "control_strength"
+            ],
+            "properties": {
+                "control_signal": {
+                    "type": "string",
+                    "enum": [
+                        "maintain",
+                        "update",
+                        "switch",
+                        "inhibit",
+                        "focus",
+                        "refresh"
+                    ]
+                },
+                "control_strength": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "control_source": {
+                    "type": "string",
+                    "enum": [
+                        "anterior_cingulate",
+                        "dorsolateral_pfc",
+                        "ventromedial_pfc",
+                        "orbitofrontal"
+                    ]
+                },
+                "attention_modulation": {
+                    "type": "object",
+                    "properties": {
+                        "focus_enhancement": {
+                            "type": "number"
+                        },
+                        "distractor_suppression": {
+                            "type": "number"
+                        },
+                        "gate_control": {
+                            "type": "number"
+                        }
+                    }
+                }
+            },
+            "description": "Executive control signals influencing the update"
+        },
+        "task_context": {
+            "type": "object",
+            "properties": {
+                "current_task": {
+                    "type": "string"
+                },
+                "task_phase": {
+                    "type": "string"
+                },
+                "cognitive_demands": {
+                    "type": "object",
+                    "properties": {
+                        "maintenance_load": {
+                            "type": "number"
+                        },
+                        "manipulation_load": {
+                            "type": "number"
+                        },
+                        "updating_load": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "performance_metrics": {
+                    "type": "object",
+                    "properties": {
+                        "accuracy": {
+                            "type": "number"
+                        },
+                        "reaction_time_ms": {
+                            "type": "number"
+                        },
+                        "error_rate": {
+                            "type": "number"
+                        }
+                    }
+                }
+            },
+            "description": "Task context during buffer update"
+        },
+        "neural_activity": {
+            "type": "object",
+            "properties": {
+                "gamma_power": {
+                    "type": "number"
+                },
+                "theta_power": {
+                    "type": "number"
+                },
+                "alpha_suppression": {
+                    "type": "number"
+                },
+                "network_connectivity": {
+                    "type": "object",
+                    "properties": {
+                        "pfc_parietal": {
+                            "type": "number"
+                        },
+                        "pfc_thalamic": {
+                            "type": "number"
+                        },
+                        "pfc_hippocampal": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "firing_rate_patterns": {
+                    "type": "array",
+                    "items": {
+                        "type": "number"
+                    }
+                }
+            },
+            "description": "Neural activity patterns during update"
+        },
+        "learning_adaptation": {
+            "type": "object",
+            "properties": {
+                "strategy_updates": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "strategy_type": {
+                                "type": "string"
+                            },
+                            "effectiveness_change": {
+                                "type": "number"
+                            },
+                            "usage_frequency": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                },
+                "capacity_adaptation": {
+                    "type": "object",
+                    "properties": {
+                        "capacity_change": {
+                            "type": "number"
+                        },
+                        "adaptation_trigger": {
+                            "type": "string"
+                        },
+                        "learning_rate": {
+                            "type": "number"
+                        }
+                    }
+                }
+            },
+            "description": "Learning and adaptation occurring during update"
+        }
+    }
+}

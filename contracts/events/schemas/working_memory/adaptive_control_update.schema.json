@@ -1,0 +1,612 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://familyos.local/contracts/events/schemas/working_memory/adaptive_control_update.schema.json",
+    "title": "Adaptive Control Update Event",
+    "description": "Event generated when adaptive control parameters are updated based on performance feedback",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "timestamp",
+        "update_trigger",
+        "parameter_changes",
+        "expected_impact"
+    ],
+    "properties": {
+        "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Time when adaptive control update occurred"
+        },
+        "update_trigger": {
+            "type": "object",
+            "required": [
+                "trigger_type",
+                "trigger_evidence"
+            ],
+            "properties": {
+                "trigger_type": {
+                    "type": "string",
+                    "enum": [
+                        "performance_decline",
+                        "performance_improvement",
+                        "context_change",
+                        "learning_progress",
+                        "error_pattern_change",
+                        "strategy_effectiveness_change",
+                        "resource_availability_change",
+                        "task_demand_change",
+                        "individual_difference_detection",
+                        "environmental_adaptation"
+                    ]
+                },
+                "trigger_evidence": {
+                    "type": "object",
+                    "properties": {
+                        "performance_data": {
+                            "type": "object",
+                            "properties": {
+                                "accuracy_trend": {
+                                    "type": "number"
+                                },
+                                "response_time_trend": {
+                                    "type": "number"
+                                },
+                                "error_rate_trend": {
+                                    "type": "number"
+                                },
+                                "efficiency_trend": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "learning_indicators": {
+                            "type": "object",
+                            "properties": {
+                                "skill_acquisition_rate": {
+                                    "type": "number"
+                                },
+                                "strategy_optimization_progress": {
+                                    "type": "number"
+                                },
+                                "meta_cognitive_improvement": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "context_indicators": {
+                            "type": "object",
+                            "properties": {
+                                "task_complexity_change": {
+                                    "type": "number"
+                                },
+                                "environmental_demand_change": {
+                                    "type": "number"
+                                },
+                                "resource_constraint_change": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                },
+                "trigger_confidence": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "trigger_urgency": {
+                    "type": "string",
+                    "enum": [
+                        "low",
+                        "normal",
+                        "high",
+                        "critical"
+                    ]
+                }
+            },
+            "description": "What triggered the adaptive control update"
+        },
+        "parameter_changes": {
+            "type": "object",
+            "properties": {
+                "attention_parameters": {
+                    "type": "object",
+                    "properties": {
+                        "focus_threshold": {
+                            "type": "object",
+                            "properties": {
+                                "old_value": {
+                                    "type": "number"
+                                },
+                                "new_value": {
+                                    "type": "number"
+                                },
+                                "change_magnitude": {
+                                    "type": "number"
+                                },
+                                "change_direction": {
+                                    "type": "string",
+                                    "enum": [
+                                        "increase",
+                                        "decrease"
+                                    ]
+                                }
+                            }
+                        },
+                        "attention_switching_cost": {
+                            "type": "object",
+                            "properties": {
+                                "old_value": {
+                                    "type": "number"
+                                },
+                                "new_value": {
+                                    "type": "number"
+                                },
+                                "adjustment_reason": {
+                                    "type": "string"
+                                }
+                            }
+                        },
+                        "distractor_filtering_strength": {
+                            "type": "object",
+                            "properties": {
+                                "old_value": {
+                                    "type": "number"
+                                },
+                                "new_value": {
+                                    "type": "number"
+                                },
+                                "context_sensitivity": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                },
+                "working_memory_parameters": {
+                    "type": "object",
+                    "properties": {
+                        "capacity_allocation": {
+                            "type": "object",
+                            "properties": {
+                                "verbal_buffer_allocation": {
+                                    "type": "number"
+                                },
+                                "visuospatial_buffer_allocation": {
+                                    "type": "number"
+                                },
+                                "episodic_buffer_allocation": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "maintenance_strategy": {
+                            "type": "object",
+                            "properties": {
+                                "rehearsal_frequency": {
+                                    "type": "number"
+                                },
+                                "rehearsal_intensity": {
+                                    "type": "number"
+                                },
+                                "strategy_selection_weights": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "updating_parameters": {
+                            "type": "object",
+                            "properties": {
+                                "update_threshold": {
+                                    "type": "number"
+                                },
+                                "update_speed": {
+                                    "type": "number"
+                                },
+                                "interference_tolerance": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                },
+                "executive_control_parameters": {
+                    "type": "object",
+                    "properties": {
+                        "inhibition_parameters": {
+                            "type": "object",
+                            "properties": {
+                                "inhibition_strength": {
+                                    "type": "number"
+                                },
+                                "inhibition_duration": {
+                                    "type": "number"
+                                },
+                                "inhibition_selectivity": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "cognitive_flexibility_parameters": {
+                            "type": "object",
+                            "properties": {
+                                "switching_threshold": {
+                                    "type": "number"
+                                },
+                                "switching_cost": {
+                                    "type": "number"
+                                },
+                                "flexibility_adaptation_rate": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "monitoring_parameters": {
+                            "type": "object",
+                            "properties": {
+                                "monitoring_sensitivity": {
+                                    "type": "number"
+                                },
+                                "monitoring_frequency": {
+                                    "type": "number"
+                                },
+                                "error_detection_threshold": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                },
+                "learning_parameters": {
+                    "type": "object",
+                    "properties": {
+                        "learning_rate": {
+                            "type": "object",
+                            "properties": {
+                                "strategy_learning_rate": {
+                                    "type": "number"
+                                },
+                                "parameter_learning_rate": {
+                                    "type": "number"
+                                },
+                                "meta_learning_rate": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "adaptation_speed": {
+                            "type": "object",
+                            "properties": {
+                                "fast_adaptation_rate": {
+                                    "type": "number"
+                                },
+                                "slow_adaptation_rate": {
+                                    "type": "number"
+                                },
+                                "adaptation_decay_rate": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "description": "Specific parameter changes made"
+        },
+        "expected_impact": {
+            "type": "object",
+            "required": [
+                "performance_predictions",
+                "confidence_estimates"
+            ],
+            "properties": {
+                "performance_predictions": {
+                    "type": "object",
+                    "properties": {
+                        "accuracy_impact": {
+                            "type": "object",
+                            "properties": {
+                                "expected_change": {
+                                    "type": "number"
+                                },
+                                "confidence_interval": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "number"
+                                    }
+                                },
+                                "time_to_effect": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "response_time_impact": {
+                            "type": "object",
+                            "properties": {
+                                "expected_change": {
+                                    "type": "number"
+                                },
+                                "variability_change": {
+                                    "type": "number"
+                                },
+                                "stability_improvement": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "cognitive_load_impact": {
+                            "type": "object",
+                            "properties": {
+                                "load_reduction": {
+                                    "type": "number"
+                                },
+                                "efficiency_improvement": {
+                                    "type": "number"
+                                },
+                                "resource_optimization": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                },
+                "confidence_estimates": {
+                    "type": "object",
+                    "properties": {
+                        "prediction_confidence": {
+                            "type": "number"
+                        },
+                        "parameter_stability": {
+                            "type": "number"
+                        },
+                        "adaptation_success_probability": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "risk_assessment": {
+                    "type": "object",
+                    "properties": {
+                        "over_adaptation_risk": {
+                            "type": "number"
+                        },
+                        "under_adaptation_risk": {
+                            "type": "number"
+                        },
+                        "instability_risk": {
+                            "type": "number"
+                        },
+                        "transfer_risk": {
+                            "type": "number"
+                        }
+                    }
+                }
+            },
+            "description": "Expected impact of parameter changes"
+        },
+        "adaptation_strategy": {
+            "type": "object",
+            "properties": {
+                "adaptation_algorithm": {
+                    "type": "string",
+                    "enum": [
+                        "gradient_descent",
+                        "evolutionary_optimization",
+                        "reinforcement_learning",
+                        "bayesian_optimization",
+                        "meta_learning",
+                        "multi_objective_optimization",
+                        "adaptive_control_theory",
+                        "dual_process_adaptation"
+                    ]
+                },
+                "adaptation_scope": {
+                    "type": "string",
+                    "enum": [
+                        "local",
+                        "global",
+                        "hierarchical",
+                        "distributed"
+                    ]
+                },
+                "adaptation_timeline": {
+                    "type": "object",
+                    "properties": {
+                        "immediate_changes": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "gradual_changes": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "long_term_changes": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "stability_mechanisms": {
+                    "type": "object",
+                    "properties": {
+                        "change_dampening": {
+                            "type": "number"
+                        },
+                        "oscillation_prevention": {
+                            "type": "number"
+                        },
+                        "convergence_criteria": {
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "description": "Strategy used for adaptive control"
+        },
+        "context_consideration": {
+            "type": "object",
+            "properties": {
+                "task_context": {
+                    "type": "object",
+                    "properties": {
+                        "task_type": {
+                            "type": "string"
+                        },
+                        "task_phase": {
+                            "type": "string"
+                        },
+                        "task_difficulty": {
+                            "type": "number"
+                        },
+                        "task_familiarity": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "individual_context": {
+                    "type": "object",
+                    "properties": {
+                        "expertise_level": {
+                            "type": "number"
+                        },
+                        "cognitive_style": {
+                            "type": "string"
+                        },
+                        "learning_history": {
+                            "type": "object"
+                        },
+                        "current_state": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "environmental_context": {
+                    "type": "object",
+                    "properties": {
+                        "distraction_level": {
+                            "type": "number"
+                        },
+                        "time_pressure": {
+                            "type": "number"
+                        },
+                        "resource_availability": {
+                            "type": "number"
+                        },
+                        "social_context": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "description": "Contextual factors considered in adaptation"
+        },
+        "validation_mechanisms": {
+            "type": "object",
+            "properties": {
+                "pre_adaptation_validation": {
+                    "type": "object",
+                    "properties": {
+                        "parameter_bounds_check": {
+                            "type": "boolean"
+                        },
+                        "stability_analysis": {
+                            "type": "boolean"
+                        },
+                        "impact_simulation": {
+                            "type": "boolean"
+                        }
+                    }
+                },
+                "post_adaptation_monitoring": {
+                    "type": "object",
+                    "properties": {
+                        "performance_tracking": {
+                            "type": "boolean"
+                        },
+                        "stability_monitoring": {
+                            "type": "boolean"
+                        },
+                        "convergence_monitoring": {
+                            "type": "boolean"
+                        }
+                    }
+                },
+                "rollback_mechanisms": {
+                    "type": "object",
+                    "properties": {
+                        "rollback_triggers": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "rollback_strategy": {
+                            "type": "string"
+                        },
+                        "recovery_procedures": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            },
+            "description": "Mechanisms for validating adaptation"
+        },
+        "learning_integration": {
+            "type": "object",
+            "properties": {
+                "meta_learning_updates": {
+                    "type": "object",
+                    "properties": {
+                        "adaptation_strategy_learning": {
+                            "type": "number"
+                        },
+                        "parameter_sensitivity_learning": {
+                            "type": "number"
+                        },
+                        "context_dependency_learning": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "transfer_learning": {
+                    "type": "object",
+                    "properties": {
+                        "cross_task_transfer": {
+                            "type": "number"
+                        },
+                        "cross_context_transfer": {
+                            "type": "number"
+                        },
+                        "generalization_strength": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "knowledge_consolidation": {
+                    "type": "object",
+                    "properties": {
+                        "adaptation_rule_extraction": {
+                            "type": "number"
+                        },
+                        "pattern_recognition_improvement": {
+                            "type": "number"
+                        },
+                        "predictive_model_updates": {
+                            "type": "number"
+                        }
+                    }
+                }
+            },
+            "description": "Integration with learning systems"
+        }
+    }
+}

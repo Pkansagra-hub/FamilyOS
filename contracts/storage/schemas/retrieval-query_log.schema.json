@@ -1,0 +1,84 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "urn:contracts:retrieval:storage:query_log@1.0.0",
+  "title": "Retrieval Query Log Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["query_hash", "space_id", "actor_user_id", "ts", "band", "correlation_id"],
+  "properties": {
+    "query_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$",
+      "description": "SHA256 hash of the query for privacy-preserving logging"
+    },
+    "raw_query": {
+      "type": "string",
+      "description": "Original query text (only stored for GREEN band with explicit policy)"
+    },
+    "query_type": {
+      "type": "string",
+      "enum": ["semantic", "episodic", "vector", "hybrid"],
+      "description": "Type of recall query performed"
+    },
+    "filters": {
+      "type": "object",
+      "properties": {
+        "time_range": {
+          "type": "object",
+          "properties": {
+            "start": { "type": "string", "format": "date-time" },
+            "end": { "type": "string", "format": "date-time" }
+          }
+        },
+        "content_types": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "sources": {
+          "type": "array",
+          "items": { "type": "string", "enum": ["episodic", "semantic", "vector"] }
+        }
+      }
+    },
+    "space_id": {
+      "type": "string",
+      "description": "Space context for the query"
+    },
+    "actor_user_id": {
+      "type": "string",
+      "description": "User who initiated the query"
+    },
+    "device_id": {
+      "type": "string",
+      "description": "Device from which query originated"
+    },
+    "correlation_id": {
+      "type": "string",
+      "description": "Links query to result for tracing"
+    },
+    "ts": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Query initiation timestamp"
+    },
+    "latency_budget_ms": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "QoS latency budget for this query"
+    },
+    "band": {
+      "type": "string",
+      "enum": ["GREEN", "AMBER", "RED"],
+      "description": "Security band classification"
+    },
+    "policy_version": {
+      "type": "string",
+      "description": "Policy version at time of query"
+    },
+    "expires_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "TTL expiration for this log entry"
+    }
+  }
+}

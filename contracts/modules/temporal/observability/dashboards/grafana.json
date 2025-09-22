@@ -1,0 +1,4 @@
+{"__comment":"minimal stub","title":"Temporal","panels":[
+  {"type":"graph","title":"Range Latency p95","targets":[{"expr":"histogram_quantile(0.95, sum(rate(temporal_range_latency_ms_bucket[5m])) by (le))"}]},
+  {"type":"graph","title":"Index Writes","targets":[{"expr":"sum(rate(time_index_records_written_total[5m]))"}]}
+]}

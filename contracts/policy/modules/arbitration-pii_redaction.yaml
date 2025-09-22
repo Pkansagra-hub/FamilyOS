@@ -1,0 +1,6 @@
+fields:
+  selected:
+    transmit:
+      RED: "structure_only"
+logs:
+  drop_fields: ["selected.details"]

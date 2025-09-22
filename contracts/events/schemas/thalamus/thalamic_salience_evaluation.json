@@ -1,0 +1,499 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "$id": "thalamic_salience_evaluation.schema.json",
+    "title": "Thalamic Salience Evaluation Event",
+    "description": "Event generated when thalamic circuits evaluate the salience (importance/relevance) of cognitive stimuli or processing requests. This models bottom-up and top-down salience computation.",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "timestamp",
+        "stimulus_id",
+        "salience_score",
+        "evaluation_components",
+        "processing_pathway",
+        "attention_recommendation"
+    ],
+    "properties": {
+        "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Precise timing of salience evaluation"
+        },
+        "stimulus_id": {
+            "type": "string",
+            "description": "Unique identifier for the stimulus being evaluated"
+        },
+        "salience_score": {
+            "type": "object",
+            "required": [
+                "overall_salience",
+                "confidence_level"
+            ],
+            "properties": {
+                "overall_salience": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Overall computed salience score (0=not salient, 1=maximally salient)"
+                },
+                "confidence_level": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Confidence in the salience assessment"
+                },
+                "salience_distribution": {
+                    "type": "object",
+                    "properties": {
+                        "mean": {
+                            "type": "number"
+                        },
+                        "variance": {
+                            "type": "number"
+                        },
+                        "skewness": {
+                            "type": "number"
+                        },
+                        "peak_intensity": {
+                            "type": "number"
+                        }
+                    },
+                    "description": "Statistical distribution of salience across features"
+                },
+                "temporal_dynamics": {
+                    "type": "object",
+                    "properties": {
+                        "salience_trajectory": {
+                            "type": "array",
+                            "items": {
+                                "type": "number"
+                            },
+                            "description": "Salience values over time"
+                        },
+                        "peak_latency_ms": {
+                            "type": "number"
+                        },
+                        "decay_rate": {
+                            "type": "number"
+                        },
+                        "stability_duration_ms": {
+                            "type": "number"
+                        }
+                    },
+                    "description": "Temporal dynamics of salience"
+                }
+            },
+            "description": "Comprehensive salience score assessment"
+        },
+        "evaluation_components": {
+            "type": "object",
+            "required": [
+                "bottom_up_salience",
+                "top_down_salience"
+            ],
+            "properties": {
+                "bottom_up_salience": {
+                    "type": "object",
+                    "properties": {
+                        "sensory_salience": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "Stimulus-driven sensory salience"
+                        },
+                        "novelty_salience": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "Novelty-based salience"
+                        },
+                        "surprise_salience": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "Surprise or prediction error salience"
+                        },
+                        "contrast_salience": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "Contrast with background or context"
+                        },
+                        "intensity_salience": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "Absolute intensity or magnitude salience"
+                        }
+                    },
+                    "description": "Bottom-up, stimulus-driven salience components"
+                },
+                "top_down_salience": {
+                    "type": "object",
+                    "properties": {
+                        "goal_relevance": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "Relevance to current goals"
+                        },
+                        "task_relevance": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "Relevance to current task"
+                        },
+                        "expectation_match": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "Match with current expectations"
+                        },
+                        "memory_relevance": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "Relevance to stored memories"
+                        },
+                        "emotional_significance": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "Emotional significance or valence"
+                        }
+                    },
+                    "description": "Top-down, goal-driven salience components"
+                },
+                "contextual_salience": {
+                    "type": "object",
+                    "properties": {
+                        "spatial_context": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "Spatial contextual salience"
+                        },
+                        "temporal_context": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "Temporal contextual salience"
+                        },
+                        "semantic_context": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "Semantic contextual salience"
+                        },
+                        "social_context": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "Social contextual salience"
+                        }
+                    },
+                    "description": "Context-dependent salience factors"
+                },
+                "learned_salience": {
+                    "type": "object",
+                    "properties": {
+                        "associative_strength": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "Strength of learned associations"
+                        },
+                        "reward_prediction": {
+                            "type": "number",
+                            "minimum": -1,
+                            "maximum": 1,
+                            "description": "Predicted reward value"
+                        },
+                        "punishment_prediction": {
+                            "type": "number",
+                            "minimum": -1,
+                            "maximum": 1,
+                            "description": "Predicted punishment value"
+                        },
+                        "learning_opportunity": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "Potential for learning"
+                        }
+                    },
+                    "description": "Learned and predicted salience components"
+                }
+            },
+            "description": "Detailed breakdown of salience evaluation components"
+        },
+        "processing_pathway": {
+            "type": "object",
+            "required": [
+                "pathway_type",
+                "relay_nuclei"
+            ],
+            "properties": {
+                "pathway_type": {
+                    "type": "string",
+                    "enum": [
+                        "cortical_thalamic",
+                        "thalamic_cortical",
+                        "cortico_thalamic_cortical",
+                        "subcortical_thalamic",
+                        "thalamic_subcortical"
+                    ],
+                    "description": "Type of neural pathway involved in evaluation"
+                },
+                "relay_nuclei": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "enum": [
+                            "VPL",
+                            "VPM",
+                            "LGN",
+                            "MGN",
+                            "VA",
+                            "VL",
+                            "MD",
+                            "LP",
+                            "pulvinar",
+                            "intralaminar",
+                            "reticular"
+                        ]
+                    },
+                    "description": "Thalamic nuclei involved in the evaluation"
+                },
+                "cortical_areas": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "enum": [
+                            "prefrontal",
+                            "parietal",
+                            "temporal",
+                            "occipital",
+                            "cingulate",
+                            "insular"
+                        ]
+                    },
+                    "description": "Cortical areas contributing to salience evaluation"
+                },
+                "subcortical_structures": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "enum": [
+                            "amygdala",
+                            "hippocampus",
+                            "striatum",
+                            "brainstem",
+                            "hypothalamus"
+                        ]
+                    },
+                    "description": "Subcortical structures involved in evaluation"
+                },
+                "pathway_latency_ms": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Processing latency through the pathway"
+                }
+            },
+            "description": "Neural pathway information for salience evaluation"
+        },
+        "attention_recommendation": {
+            "type": "object",
+            "required": [
+                "attention_action",
+                "priority_level"
+            ],
+            "properties": {
+                "attention_action": {
+                    "type": "string",
+                    "enum": [
+                        "focus",
+                        "monitor",
+                        "ignore",
+                        "inhibit",
+                        "enhance",
+                        "suppress"
+                    ],
+                    "description": "Recommended attention action based on salience"
+                },
+                "priority_level": {
+                    "type": "string",
+                    "enum": [
+                        "critical",
+                        "high",
+                        "moderate",
+                        "low",
+                        "minimal"
+                    ],
+                    "description": "Recommended priority level for attention allocation"
+                },
+                "attention_duration": {
+                    "type": "object",
+                    "properties": {
+                        "recommended_duration_ms": {
+                            "type": "number"
+                        },
+                        "minimum_duration_ms": {
+                            "type": "number"
+                        },
+                        "maximum_duration_ms": {
+                            "type": "number"
+                        }
+                    },
+                    "description": "Recommended attention duration parameters"
+                },
+                "attention_intensity": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Recommended attention intensity (0=minimal, 1=maximum)"
+                },
+                "resource_allocation": {
+                    "type": "object",
+                    "properties": {
+                        "attention_resources": {
+                            "type": "number"
+                        },
+                        "working_memory_resources": {
+                            "type": "number"
+                        },
+                        "processing_resources": {
+                            "type": "number"
+                        }
+                    },
+                    "description": "Recommended resource allocation"
+                }
+            },
+            "description": "Attention recommendations based on salience evaluation"
+        },
+        "competition_analysis": {
+            "type": "object",
+            "properties": {
+                "competing_stimuli": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "stimulus_id": {
+                                "type": "string"
+                            },
+                            "relative_salience": {
+                                "type": "number"
+                            },
+                            "competition_strength": {
+                                "type": "number"
+                            }
+                        }
+                    },
+                    "description": "Other stimuli competing for attention"
+                },
+                "winner_take_all": {
+                    "type": "boolean",
+                    "description": "Whether winner-take-all dynamics apply"
+                },
+                "suppression_effects": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "suppressed_stimulus": {
+                                "type": "string"
+                            },
+                            "suppression_strength": {
+                                "type": "number"
+                            }
+                        }
+                    },
+                    "description": "Competitive suppression effects"
+                }
+            },
+            "description": "Analysis of competitive dynamics between stimuli"
+        },
+        "adaptive_mechanisms": {
+            "type": "object",
+            "properties": {
+                "adaptation_state": {
+                    "type": "object",
+                    "properties": {
+                        "current_sensitivity": {
+                            "type": "number"
+                        },
+                        "baseline_sensitivity": {
+                            "type": "number"
+                        },
+                        "adaptation_rate": {
+                            "type": "number"
+                        },
+                        "recovery_rate": {
+                            "type": "number"
+                        }
+                    },
+                    "description": "Current adaptation state of salience mechanisms"
+                },
+                "habituation_effects": {
+                    "type": "object",
+                    "properties": {
+                        "habituation_level": {
+                            "type": "number"
+                        },
+                        "exposure_count": {
+                            "type": "integer"
+                        },
+                        "time_since_last_exposure_ms": {
+                            "type": "number"
+                        }
+                    },
+                    "description": "Habituation effects on salience"
+                },
+                "sensitization_effects": {
+                    "type": "object",
+                    "properties": {
+                        "sensitization_level": {
+                            "type": "number"
+                        },
+                        "priming_strength": {
+                            "type": "number"
+                        },
+                        "facilitation_duration_ms": {
+                            "type": "number"
+                        }
+                    },
+                    "description": "Sensitization effects on salience"
+                }
+            },
+            "description": "Adaptive mechanisms affecting salience evaluation"
+        },
+        "performance_metrics": {
+            "type": "object",
+            "properties": {
+                "evaluation_latency_ms": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Time taken for salience evaluation"
+                },
+                "prediction_accuracy": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Accuracy of salience prediction"
+                },
+                "computational_cost": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Computational resources used for evaluation"
+                },
+                "update_frequency_hz": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Frequency of salience updates"
+                }
+            },
+            "description": "Performance metrics for salience evaluation"
+        }
+    }
+}

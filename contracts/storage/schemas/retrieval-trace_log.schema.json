@@ -1,0 +1,24 @@
+{
+  "$schema":"http://json-schema.org/draft-07/schema#",
+  "$id":"https://familyos/contracts/retrieval/trace_log.schema.json",
+  "title":"RetrievalTraceLog",
+  "type":"object",
+  "additionalProperties": false,
+  "required":["trace_id","space_id","ts","used_time_ms","topk"],
+  "properties":{
+    "trace_id":{"type":"string"},
+    "space_id":{"type":"string"},
+    "actor_id":{"type":"string"},
+    "band":{"type":"string","enum":["GREEN","AMBER","RED","BLACK"]},
+    "ts":{"type":"string","format":"date-time"},
+    "query_hash":{"type":"string"},
+    "topk":{"type":"array","items":{
+      "type":"object",
+      "required":["id","score"],
+      "additionalProperties": false,
+      "properties":{"id":{"type":"string"},"score":{"type":"number"},"source":{"type":"string"}}
+    }},
+    "reasons":{"type":"array","items":{"type":"string"}, "maxItems": 10},
+    "used_time_ms":{"type":"integer","minimum":0}
+  }
+}

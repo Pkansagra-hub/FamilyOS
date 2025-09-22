@@ -1,0 +1,38 @@
+{
+  "module": "prospective",
+  "events": [
+    {
+      "name": "prospective_schedule",
+      "version": "1.0.0",
+      "envelope": "contracts/events/envelope.schema.json",
+      "idempotency_key": "schedule_id",
+      "ordering_key": "schedule_id",
+      "retry": {"max_attempts": 5, "backoff_ms": [100,200,400,800,1600]},
+      "payload_schema": {
+        "required": ["schedule_id","due_at","subject","space_id"],
+        "properties": {
+          "schedule_id": {"type":"string"},
+          "due_at": {"type":"string","format":"date-time"},
+          "subject": {"type":"string"},
+          "payload": {"type":"object"},
+          "space_id": {"type":"string"}
+        }
+      }
+    },
+    {
+      "name": "remind_tick",
+      "version": "1.0.0",
+      "envelope": "contracts/events/envelope.schema.json",
+      "ordering_key": "schedule_id",
+      "dedupe_key": "schedule_id|tick_at",
+      "payload_schema": {
+        "required": ["schedule_id","tick_at","status"],
+        "properties": {
+          "schedule_id": {"type":"string"},
+          "tick_at": {"type":"string","format":"date-time"},
+          "status": {"type":"string","enum":["PRE","AT","POST"]}
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,322 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://familyos.local/contracts/events/schemas/thalamus/object_attention_binding.schema.json",
+    "title": "Object Attention Binding Event",
+    "description": "Event generated when object-based attention binding mechanisms operate within thalamic processing",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "timestamp",
+        "binding_operation",
+        "object_representation",
+        "binding_context",
+        "attention_allocation"
+    ],
+    "properties": {
+        "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Time when object attention binding occurred"
+        },
+        "binding_operation": {
+            "type": "string",
+            "enum": [
+                "create_binding",
+                "strengthen_binding",
+                "weaken_binding",
+                "dissolve_binding",
+                "transfer_binding",
+                "split_binding",
+                "merge_bindings"
+            ],
+            "description": "Type of object binding operation"
+        },
+        "object_representation": {
+            "type": "object",
+            "required": [
+                "object_id",
+                "object_type",
+                "feature_bundle"
+            ],
+            "properties": {
+                "object_id": {
+                    "type": "string",
+                    "description": "Unique identifier for the object"
+                },
+                "object_type": {
+                    "type": "string",
+                    "enum": [
+                        "perceptual_object",
+                        "conceptual_object",
+                        "memory_object",
+                        "abstract_object",
+                        "composite_object",
+                        "dynamic_object"
+                    ]
+                },
+                "feature_bundle": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "required": [
+                            "feature_type",
+                            "feature_value",
+                            "binding_strength"
+                        ],
+                        "properties": {
+                            "feature_type": {
+                                "type": "string"
+                            },
+                            "feature_value": {
+                                "type": "string"
+                            },
+                            "binding_strength": {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 1
+                            },
+                            "temporal_stability": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                },
+                "object_coherence": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Overall coherence of object representation"
+                }
+            },
+            "description": "Representation of the object being attended"
+        },
+        "binding_context": {
+            "type": "object",
+            "required": [
+                "spatial_context",
+                "temporal_context"
+            ],
+            "properties": {
+                "spatial_context": {
+                    "type": "object",
+                    "properties": {
+                        "location": {
+                            "type": "object",
+                            "properties": {
+                                "x": {
+                                    "type": "number"
+                                },
+                                "y": {
+                                    "type": "number"
+                                },
+                                "z": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "spatial_extent": {
+                            "type": "number"
+                        },
+                        "spatial_relations": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "relation_type": {
+                                        "type": "string"
+                                    },
+                                    "related_object_id": {
+                                        "type": "string"
+                                    },
+                                    "relation_strength": {
+                                        "type": "number"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "temporal_context": {
+                    "type": "object",
+                    "properties": {
+                        "creation_time": {
+                            "type": "string"
+                        },
+                        "duration_bound_ms": {
+                            "type": "number"
+                        },
+                        "temporal_coherence": {
+                            "type": "number"
+                        },
+                        "temporal_persistence": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "semantic_context": {
+                    "type": "object",
+                    "properties": {
+                        "semantic_category": {
+                            "type": "string"
+                        },
+                        "conceptual_relations": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "goal_relevance": {
+                            "type": "number"
+                        }
+                    }
+                }
+            },
+            "description": "Context within which object binding occurs"
+        },
+        "attention_allocation": {
+            "type": "object",
+            "required": [
+                "allocation_type",
+                "attention_resources"
+            ],
+            "properties": {
+                "allocation_type": {
+                    "type": "string",
+                    "enum": [
+                        "focused_attention",
+                        "distributed_attention",
+                        "divided_attention",
+                        "sustained_attention",
+                        "selective_attention"
+                    ]
+                },
+                "attention_resources": {
+                    "type": "object",
+                    "required": [
+                        "total_allocation",
+                        "feature_allocations"
+                    ],
+                    "properties": {
+                        "total_allocation": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "feature_allocations": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "feature_type": {
+                                        "type": "string"
+                                    },
+                                    "allocation_amount": {
+                                        "type": "number"
+                                    }
+                                }
+                            }
+                        },
+                        "priority_level": {
+                            "type": "string",
+                            "enum": [
+                                "low",
+                                "normal",
+                                "high",
+                                "critical"
+                            ]
+                        }
+                    }
+                },
+                "competition_effects": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "competing_object_id": {
+                                "type": "string"
+                            },
+                            "competition_strength": {
+                                "type": "number"
+                            },
+                            "resolution_strategy": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            },
+            "description": "How attention is allocated to the object"
+        },
+        "binding_dynamics": {
+            "type": "object",
+            "properties": {
+                "binding_formation_time_ms": {
+                    "type": "number"
+                },
+                "binding_stability": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "binding_decay_rate": {
+                    "type": "number"
+                },
+                "interference_factors": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "facilitation_factors": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            },
+            "description": "Temporal dynamics of object binding"
+        },
+        "cognitive_effects": {
+            "type": "object",
+            "properties": {
+                "recognition_enhancement": {
+                    "type": "number"
+                },
+                "memory_encoding_boost": {
+                    "type": "number"
+                },
+                "processing_efficiency_gain": {
+                    "type": "number"
+                },
+                "cross_modal_integration": {
+                    "type": "number"
+                }
+            },
+            "description": "Cognitive effects of object attention binding"
+        },
+        "binding_hierarchy": {
+            "type": "object",
+            "properties": {
+                "parent_object_id": {
+                    "type": "string"
+                },
+                "child_object_ids": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "hierarchical_level": {
+                    "type": "integer"
+                },
+                "inheritance_properties": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            },
+            "description": "Hierarchical relationships in object binding"
+        }
+    }
+}

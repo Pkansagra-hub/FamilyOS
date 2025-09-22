@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://familyos.local/contracts/storage/prospective_task.schema.json",
+  "title": "Prospective Task",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "space_id",
+    "due_ts",
+    "state",
+    "payload"
+  ],
+  "properties": {
+    "id": {
+      "$ref": "./common.schema.json#/$defs/ULID"
+    },
+    "space_id": {
+      "$ref": "./common.schema.json#/$defs/SpaceId"
+    },
+    "created_ts": {
+      "$ref": "./common.schema.json#/$defs/Timestamp"
+    },
+    "due_ts": {
+      "$ref": "./common.schema.json#/$defs/Timestamp"
+    },
+    "state": {
+      "type": "string",
+      "enum": [
+        "scheduled",
+        "deferred",
+        "fired",
+        "completed",
+        "cancelled"
+      ]
+    },
+    "band": {
+      "$ref": "./common.schema.json#/$defs/Band"
+    },
+    "payload": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "repeat": {
+      "type": "string",
+      "description": "cron or RRULE"
+    },
+    "ttl": {
+      "type": "string"
+    }
+  }
+}

@@ -1,0 +1,12 @@
+current: "1.0.0"
+history:
+  - version: "1.0.0"
+    date: "2025-09-10"
+    changes:
+      - "Add push/pull OpenAPI."
+      - "Add peer/vector/op storage schemas."
+      - "Add SYNC_* events."
+compatibility:
+  envelope_major: 1
+  events_major: 1
+  api_major: 1

@@ -1,0 +1,194 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "$id": "https://schemas.memoryos.ai/storage/error_details.json",
+    "title": "Storage Error Details Schema",
+    "description": "Standard error detail structure for storage events",
+    "type": "object",
+    "required": [
+        "error_code",
+        "error_message"
+    ],
+    "properties": {
+        "error_code": {
+            "type": "string",
+            "description": "Standardized storage error code",
+            "pattern": "^STOR[0-9]{3}$",
+            "examples": [
+                "STOR001",
+                "STOR105",
+                "STOR403",
+                "STOR503"
+            ]
+        },
+        "error_message": {
+            "type": "string",
+            "description": "Human-readable error description",
+            "minLength": 1,
+            "maxLength": 500,
+            "examples": [
+                "Transaction timeout exceeded",
+                "Unique constraint violation",
+                "Access denied: insufficient permissions",
+                "Storage capacity exceeded"
+            ]
+        },
+        "error_category": {
+            "type": "string",
+            "description": "High-level error classification",
+            "enum": [
+                "validation",
+                "authorization",
+                "constraint",
+                "timeout",
+                "capacity",
+                "corruption",
+                "network",
+                "system"
+            ],
+            "examples": [
+                "validation",
+                "authorization"
+            ]
+        },
+        "error_severity": {
+            "type": "string",
+            "description": "Error severity level",
+            "enum": [
+                "low",
+                "medium",
+                "high",
+                "critical"
+            ],
+            "examples": [
+                "high",
+                "critical"
+            ]
+        },
+        "error_context": {
+            "type": "object",
+            "description": "Additional error context",
+            "properties": {
+                "store_name": {
+                    "type": "string",
+                    "description": "Store where error occurred",
+                    "examples": [
+                        "EpisodicStore",
+                        "SemanticStore"
+                    ]
+                },
+                "operation": {
+                    "type": "string",
+                    "description": "Operation that caused error",
+                    "examples": [
+                        "insert",
+                        "update",
+                        "delete",
+                        "query"
+                    ]
+                },
+                "resource_id": {
+                    "type": "string",
+                    "description": "Resource identifier related to error",
+                    "examples": [
+                        "record_12345",
+                        "index_abc"
+                    ]
+                },
+                "constraint_name": {
+                    "type": "string",
+                    "description": "Database constraint that was violated",
+                    "examples": [
+                        "unique_episode_id",
+                        "fk_semantic_reference"
+                    ]
+                },
+                "table_name": {
+                    "type": "string",
+                    "description": "Database table involved in error",
+                    "examples": [
+                        "episodes",
+                        "semantic_nodes"
+                    ]
+                },
+                "field_name": {
+                    "type": "string",
+                    "description": "Field that caused validation error",
+                    "examples": [
+                        "episode_id",
+                        "timestamp"
+                    ]
+                }
+            },
+            "additionalProperties": true
+        },
+        "stack_trace": {
+            "type": "string",
+            "description": "Error stack trace for debugging (development only)",
+            "examples": [
+                "Traceback (most recent call last):\n  File \"storage.py\", line 123..."
+            ]
+        },
+        "recovery_suggestion": {
+            "type": "string",
+            "description": "Suggested recovery action",
+            "enum": [
+                "retry",
+                "retry_with_backoff",
+                "manual_intervention",
+                "escalate",
+                "ignore",
+                "rollback"
+            ],
+            "examples": [
+                "retry_with_backoff",
+                "manual_intervention"
+            ]
+        },
+        "related_errors": {
+            "type": "array",
+            "description": "Related or cascading errors",
+            "items": {
+                "type": "string",
+                "description": "Related error code",
+                "pattern": "^STOR[0-9]{3}$"
+            },
+            "examples": [
+                [
+                    "STOR002",
+                    "STOR003"
+                ]
+            ]
+        }
+    },
+    "additionalProperties": false,
+    "examples": [
+        {
+            "error_code": "STOR403",
+            "error_message": "Unique constraint violation on episode_id",
+            "error_category": "constraint",
+            "error_severity": "medium",
+            "error_context": {
+                "store_name": "EpisodicStore",
+                "operation": "insert",
+                "constraint_name": "unique_episode_id",
+                "table_name": "episodes",
+                "field_name": "episode_id"
+            },
+            "recovery_suggestion": "retry"
+        },
+        {
+            "error_code": "STOR105",
+            "error_message": "Distributed transaction coordinator failed",
+            "error_category": "system",
+            "error_severity": "critical",
+            "error_context": {
+                "operation": "commit"
+            },
+            "recovery_suggestion": "retry_with_backoff",
+            "related_errors": [
+                "STOR106",
+                "STOR107"
+            ]
+        }
+    ]
+}

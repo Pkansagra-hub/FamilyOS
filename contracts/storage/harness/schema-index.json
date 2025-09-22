@@ -1,0 +1,160 @@
+{
+  "mappings": [
+    {
+      "example": "episodic_item.example.json",
+      "schema": "episodic_record.schema.json"
+    },
+    {
+      "example": "episodic_sequence.example.json",
+      "schema": "episodic_sequence.schema.json"
+    },
+    {
+      "example": "vector_row.example.json",
+      "schema": "vector_row.schema.json"
+    },
+    {
+      "example": "embedding_record.example.json",
+      "schema": "embedding_record.schema.json"
+    },
+    {
+      "example": "fts_document.example.json",
+      "schema": "fts_document.schema.json"
+    },
+    {
+      "example": "semantic_item.example.json",
+      "schema": "semantic_item.schema.json"
+    },
+    {
+      "example": "blob_manifest.example.json",
+      "schema": "blob_manifest.schema.json"
+    },
+    {
+      "example": "write_receipt.example.json",
+      "schema": "write_receipt.schema.json"
+    },
+    {
+      "example": "crdt_log_entry.example.json",
+      "schema": "crdt_log_entry.schema.json"
+    },
+    {
+      "example": "kg_entity.example.json",
+      "schema": "kg_entity.schema.json"
+    },
+    {
+      "example": "kg_edge.example.json",
+      "schema": "kg_edge.schema.json"
+    },
+    {
+      "example": "workspace_state.example.json",
+      "schema": "workspace_state.schema.json"
+    },
+    {
+      "example": "metacog_report.example.json",
+      "schema": "metacog_report.schema.json"
+    },
+    {
+      "example": "prospective_task.example.json",
+      "schema": "prospective_task.schema.json"
+    },
+    {
+      "example": "drives_state.example.json",
+      "schema": "drives_state.schema.json"
+    },
+    {
+      "example": "reward_event.example.json",
+      "schema": "reward_event.schema.json"
+    },
+    {
+      "example": "imagination_snapshot.example.json",
+      "schema": "imagination_snapshot.schema.json"
+    },
+    {
+      "example": "affect_state.example.json",
+      "schema": "affect_state.schema.json"
+    },
+    {
+      "example": "hippocampus_trace.example.json",
+      "schema": "hippocampus_trace.schema.json"
+    },
+    {
+      "example": "privacy_request.example.json",
+      "schema": "privacy_request.schema.json"
+    },
+    {
+      "example": "tombstone_record.example.json",
+      "schema": "tombstone_record.schema.json"
+    },
+    {
+      "example": "ml_run.example.json",
+      "schema": "ml_run.schema.json"
+    },
+    {
+      "example": "metric_point.example.json",
+      "schema": "metric_point.schema.json"
+    },
+    {
+      "example": "registry_tool.example.json",
+      "schema": "registry_tool.schema.json"
+    },
+    {
+      "example": "registry_prompt.example.json",
+      "schema": "registry_prompt.schema.json"
+    },
+    {
+      "example": "rbac_role.example.json",
+      "schema": "rbac_role.schema.json"
+    },
+    {
+      "example": "rbac_binding.example.json",
+      "schema": "rbac_binding.schema.json"
+    },
+    {
+      "example": "tiered_locator.example.json",
+      "schema": "tiered_locator.schema.json"
+    },
+    {
+      "example": "index_checkpoint.example.json",
+      "schema": "index_checkpoint.schema.json"
+    },
+    {
+      "example": "unit_of_work.example.json",
+      "schema": "unit_of_work.schema.json"
+    },
+    {
+      "example": "pattern_detection.example.json",
+      "schema": "pattern_detection.schema.json"
+    }
+  ],
+  "smoke": {
+    "required_sets": [
+      {
+        "example": "write_receipt.example.json",
+        "keys": [
+          "envelope_id",
+          "committed",
+          "stores"
+        ]
+      },
+      {
+        "example": "vector_row.example.json",
+        "keys": [
+          "id",
+          "space_id",
+          "emb_model",
+          "vector",
+          "doc_ref"
+        ]
+      },
+      {
+        "example": "episodic_item.example.json",
+        "keys": [
+          "id",
+          "space_id",
+          "ts",
+          "content",
+          "band"
+        ]
+      }
+    ]
+  }
+}

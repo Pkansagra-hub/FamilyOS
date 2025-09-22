@@ -1,0 +1,18 @@
+metrics:
+  - name: episodic_append_total
+    type: counter
+    unit: "events"
+    labels: ["space_id","band"]
+  - name: episodic_tombstone_total
+    type: counter
+    unit: "records"
+    labels: ["space_id","band"]
+  - name: episodic_append_latency_ms
+    type: histogram
+    unit: "ms"
+    buckets: [5,10,20,50,100,200,500,1000]
+slo:
+  availability: ">= 99.9%"
+  append_p95_ms: 50
+cardinality_guidance:
+  tags: "do not label metrics by tag value; use samples in logs"

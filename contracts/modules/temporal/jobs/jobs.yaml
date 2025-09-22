@@ -1,0 +1,9 @@
+jobs:
+  - name: temporal.index.rebuild
+    schedule: "0 */6 * * *"   # every 6h
+    backoff: { kind: "exponential", base_ms: 200, max_retries: 5 }
+    inputs: ["space_id","g","window"]
+    sla: { p95_ms: 2500 }
+  - name: temporal.index.gc
+    schedule: "0 3 * * *"     # daily
+    ttl: "P180D"

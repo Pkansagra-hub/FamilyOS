@@ -1,0 +1,146 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "$id": "attention_gate_configuration.schema.json",
+    "title": "Attention Gate Configuration Storage",
+    "description": "Storage schema for attention gate configuration parameters and policies.",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "gate_id",
+        "gate_policies",
+        "threshold_settings",
+        "filter_settings",
+        "priority_rules",
+        "configuration_version"
+    ],
+    "properties": {
+        "gate_id": {
+            "type": "string",
+            "description": "Unique identifier for the attention gate"
+        },
+        "gate_policies": {
+            "type": "object",
+            "required": [
+                "default_action",
+                "overload_behavior",
+                "error_handling"
+            ],
+            "properties": {
+                "default_action": {
+                    "type": "string",
+                    "enum": [
+                        "ADMIT",
+                        "DEFER",
+                        "DROP"
+                    ],
+                    "description": "Default action when no clear decision can be made"
+                },
+                "overload_behavior": {
+                    "type": "string",
+                    "enum": [
+                        "queue",
+                        "drop_low_priority",
+                        "boost_high_priority",
+                        "shed_load"
+                    ],
+                    "description": "Behavior when system is overloaded"
+                },
+                "error_handling": {
+                    "type": "string",
+                    "enum": [
+                        "retry",
+                        "fallback",
+                        "escalate",
+                        "ignore"
+                    ],
+                    "description": "How to handle processing errors"
+                }
+            }
+        },
+        "threshold_settings": {
+            "type": "object",
+            "properties": {
+                "salience_threshold": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "load_threshold": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "priority_threshold": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "quality_threshold": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                }
+            }
+        },
+        "filter_settings": {
+            "type": "object",
+            "properties": {
+                "noise_filter_enabled": {
+                    "type": "boolean"
+                },
+                "redundancy_filter_enabled": {
+                    "type": "boolean"
+                },
+                "temporal_filter_window": {
+                    "type": "number",
+                    "minimum": 0
+                },
+                "spatial_filter_radius": {
+                    "type": "number",
+                    "minimum": 0
+                }
+            }
+        },
+        "priority_rules": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "condition": {
+                        "type": "string"
+                    },
+                    "priority_adjustment": {
+                        "type": "number"
+                    },
+                    "rule_weight": {
+                        "type": "number"
+                    }
+                }
+            }
+        },
+        "adaptive_parameters": {
+            "type": "object",
+            "properties": {
+                "learning_rate": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "adaptation_enabled": {
+                    "type": "boolean"
+                },
+                "feedback_weight": {
+                    "type": "number"
+                }
+            }
+        },
+        "configuration_version": {
+            "type": "string",
+            "description": "Version identifier for configuration"
+        },
+        "last_modified": {
+            "type": "string",
+            "format": "date-time"
+        }
+    }
+}

@@ -1,0 +1,504 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://familyos.local/contracts/storage/schemas/thalamus/feature_binding_state.schema.json",
+    "title": "Feature Binding State Storage Schema",
+    "description": "Storage schema for persistent feature binding state in thalamic processing",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "binding_system_id",
+        "active_bindings",
+        "binding_rules",
+        "performance_metrics",
+        "last_updated"
+    ],
+    "properties": {
+        "binding_system_id": {
+            "type": "string",
+            "description": "Unique identifier for the feature binding system"
+        },
+        "active_bindings": {
+            "type": "object",
+            "required": [
+                "object_bindings",
+                "feature_bindings"
+            ],
+            "properties": {
+                "object_bindings": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "required": [
+                            "binding_id",
+                            "object_id",
+                            "bound_features",
+                            "binding_strength"
+                        ],
+                        "properties": {
+                            "binding_id": {
+                                "type": "string"
+                            },
+                            "object_id": {
+                                "type": "string"
+                            },
+                            "bound_features": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "required": [
+                                        "feature_type",
+                                        "feature_value",
+                                        "binding_weight"
+                                    ],
+                                    "properties": {
+                                        "feature_type": {
+                                            "type": "string",
+                                            "enum": [
+                                                "semantic",
+                                                "syntactic",
+                                                "phonetic",
+                                                "visual",
+                                                "spatial",
+                                                "temporal",
+                                                "emotional",
+                                                "social",
+                                                "motor",
+                                                "abstract"
+                                            ]
+                                        },
+                                        "feature_value": {
+                                            "type": "string"
+                                        },
+                                        "binding_weight": {
+                                            "type": "number",
+                                            "minimum": 0,
+                                            "maximum": 1
+                                        },
+                                        "temporal_stability": {
+                                            "type": "number"
+                                        },
+                                        "last_activation": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            },
+                            "binding_strength": {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 1
+                            },
+                            "creation_time": {
+                                "type": "string"
+                            },
+                            "last_access": {
+                                "type": "string"
+                            },
+                            "access_count": {
+                                "type": "integer"
+                            },
+                            "decay_rate": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                },
+                "feature_bindings": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "required": [
+                            "feature_pair",
+                            "binding_type",
+                            "binding_strength"
+                        ],
+                        "properties": {
+                            "feature_pair": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                },
+                                "minItems": 2,
+                                "maxItems": 2
+                            },
+                            "binding_type": {
+                                "type": "string",
+                                "enum": [
+                                    "associative",
+                                    "causal",
+                                    "temporal",
+                                    "spatial",
+                                    "hierarchical",
+                                    "competitive",
+                                    "cooperative"
+                                ]
+                            },
+                            "binding_strength": {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 1
+                            },
+                            "directionality": {
+                                "type": "string",
+                                "enum": [
+                                    "bidirectional",
+                                    "forward",
+                                    "reverse"
+                                ]
+                            },
+                            "confidence": {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 1
+                            },
+                            "evidence_count": {
+                                "type": "integer"
+                            },
+                            "last_reinforcement": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            },
+            "description": "Currently active feature and object bindings"
+        },
+        "binding_rules": {
+            "type": "object",
+            "required": [
+                "formation_rules",
+                "maintenance_rules",
+                "dissolution_rules"
+            ],
+            "properties": {
+                "formation_rules": {
+                    "type": "object",
+                    "properties": {
+                        "minimum_co_occurrence": {
+                            "type": "number"
+                        },
+                        "temporal_window_ms": {
+                            "type": "number"
+                        },
+                        "spatial_proximity_threshold": {
+                            "type": "number"
+                        },
+                        "semantic_similarity_threshold": {
+                            "type": "number"
+                        },
+                        "attention_requirement": {
+                            "type": "number"
+                        },
+                        "novelty_bonus": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "maintenance_rules": {
+                    "type": "object",
+                    "properties": {
+                        "reinforcement_schedule": {
+                            "type": "string"
+                        },
+                        "decay_rate_base": {
+                            "type": "number"
+                        },
+                        "access_boost_factor": {
+                            "type": "number"
+                        },
+                        "stability_threshold": {
+                            "type": "number"
+                        },
+                        "maintenance_frequency": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "dissolution_rules": {
+                    "type": "object",
+                    "properties": {
+                        "inactivity_threshold_ms": {
+                            "type": "number"
+                        },
+                        "weakness_threshold": {
+                            "type": "number"
+                        },
+                        "interference_threshold": {
+                            "type": "number"
+                        },
+                        "contradiction_sensitivity": {
+                            "type": "number"
+                        },
+                        "cleanup_frequency": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "competition_rules": {
+                    "type": "object",
+                    "properties": {
+                        "winner_take_all": {
+                            "type": "boolean"
+                        },
+                        "competition_strength": {
+                            "type": "number"
+                        },
+                        "mutual_inhibition": {
+                            "type": "number"
+                        },
+                        "resource_sharing": {
+                            "type": "boolean"
+                        }
+                    }
+                }
+            },
+            "description": "Rules governing binding formation, maintenance, and dissolution"
+        },
+        "binding_statistics": {
+            "type": "object",
+            "properties": {
+                "total_bindings": {
+                    "type": "integer"
+                },
+                "active_bindings": {
+                    "type": "integer"
+                },
+                "dormant_bindings": {
+                    "type": "integer"
+                },
+                "binding_density": {
+                    "type": "number"
+                },
+                "average_binding_strength": {
+                    "type": "number"
+                },
+                "binding_distribution": {
+                    "type": "object",
+                    "properties": {
+                        "by_type": {
+                            "type": "object"
+                        },
+                        "by_strength": {
+                            "type": "array",
+                            "items": {
+                                "type": "integer"
+                            }
+                        },
+                        "by_age": {
+                            "type": "array",
+                            "items": {
+                                "type": "integer"
+                            }
+                        }
+                    }
+                },
+                "formation_rate": {
+                    "type": "number"
+                },
+                "dissolution_rate": {
+                    "type": "number"
+                }
+            },
+            "description": "Statistical information about bindings"
+        },
+        "binding_network": {
+            "type": "object",
+            "properties": {
+                "network_topology": {
+                    "type": "object",
+                    "properties": {
+                        "node_count": {
+                            "type": "integer"
+                        },
+                        "edge_count": {
+                            "type": "integer"
+                        },
+                        "clustering_coefficient": {
+                            "type": "number"
+                        },
+                        "average_path_length": {
+                            "type": "number"
+                        },
+                        "network_density": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "central_features": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "feature_id": {
+                                "type": "string"
+                            },
+                            "centrality_score": {
+                                "type": "number"
+                            },
+                            "connection_count": {
+                                "type": "integer"
+                            }
+                        }
+                    }
+                },
+                "community_structure": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "community_id": {
+                                "type": "string"
+                            },
+                            "member_features": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "internal_density": {
+                                "type": "number"
+                            },
+                            "community_strength": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                }
+            },
+            "description": "Network structure of feature bindings"
+        },
+        "performance_metrics": {
+            "type": "object",
+            "required": [
+                "binding_accuracy",
+                "retrieval_speed",
+                "memory_efficiency"
+            ],
+            "properties": {
+                "binding_accuracy": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "retrieval_speed": {
+                    "type": "number",
+                    "description": "Average retrieval time in ms"
+                },
+                "memory_efficiency": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "binding_stability": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "interference_resistance": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "adaptation_speed": {
+                    "type": "number"
+                },
+                "resource_utilization": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                }
+            },
+            "description": "Performance metrics for the binding system"
+        },
+        "learning_state": {
+            "type": "object",
+            "properties": {
+                "learning_enabled": {
+                    "type": "boolean"
+                },
+                "learning_rate": {
+                    "type": "number"
+                },
+                "experience_replay": {
+                    "type": "object",
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean"
+                        },
+                        "replay_buffer_size": {
+                            "type": "integer"
+                        },
+                        "replay_frequency": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "meta_learning": {
+                    "type": "object",
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean"
+                        },
+                        "rule_adaptation": {
+                            "type": "boolean"
+                        },
+                        "parameter_optimization": {
+                            "type": "boolean"
+                        }
+                    }
+                }
+            },
+            "description": "Learning and adaptation state"
+        },
+        "maintenance_schedule": {
+            "type": "object",
+            "properties": {
+                "last_cleanup": {
+                    "type": "string"
+                },
+                "next_cleanup": {
+                    "type": "string"
+                },
+                "cleanup_frequency": {
+                    "type": "string"
+                },
+                "defragmentation_needed": {
+                    "type": "boolean"
+                },
+                "optimization_pending": {
+                    "type": "boolean"
+                }
+            },
+            "description": "Maintenance scheduling information"
+        },
+        "last_updated": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp of last state update"
+        },
+        "metadata": {
+            "type": "object",
+            "properties": {
+                "creation_time": {
+                    "type": "string"
+                },
+                "binding_model_version": {
+                    "type": "string"
+                },
+                "system_health": {
+                    "type": "string",
+                    "enum": [
+                        "optimal",
+                        "good",
+                        "degraded",
+                        "critical"
+                    ]
+                },
+                "configuration_checksum": {
+                    "type": "string"
+                }
+            },
+            "description": "Metadata about the binding system"
+        }
+    }
+}

@@ -1,0 +1,10 @@
+current: "1.0.0"
+history:
+  - version: "1.0.0"
+    date: "2025-09-10"
+    changes:
+      - "Add BELIEF_UPDATE@1.0 and INTENT_INFERRED@1.0 event schemas."
+      - "Add beliefs/intentions/relations storage."
+compatibility:
+  envelope_major: 1
+  events_major: 1

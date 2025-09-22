@@ -1,0 +1,119 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://familyos.local/contracts/storage/episodic_record.schema.json",
+  "title": "Episodic Memory Record",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "envelope_id",
+    "space_id",
+    "ts",
+    "band",
+    "author",
+    "content",
+    "features",
+    "mls_group"
+  ],
+  "properties": {
+    "id": {
+      "$ref": "./common.schema.json#/$defs/ULID"
+    },
+    "envelope_id": {
+      "$ref": "./common.schema.json#/$defs/EnvelopeId"
+    },
+    "space_id": {
+      "$ref": "./common.schema.json#/$defs/SpaceId"
+    },
+    "ts": {
+      "$ref": "./common.schema.json#/$defs/Timestamp"
+    },
+    "band": {
+      "$ref": "./common.schema.json#/$defs/Band"
+    },
+    "mls_group": {
+      "$ref": "./common.schema.json#/$defs/MLSGroup"
+    },
+    "author": {
+      "$ref": "./common.schema.json#/$defs/ActorRef"
+    },
+    "device": {
+      "$ref": "./common.schema.json#/$defs/DeviceRef"
+    },
+    "content": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "text": {
+          "type": "string"
+        },
+        "lang": {
+          "$ref": "./common.schema.json#/$defs/LanguageCode"
+        },
+        "attachments": {
+          "type": "array",
+          "items": {
+            "$ref": "./common.schema.json#/$defs/BlobRef"
+          },
+          "default": []
+        }
+      }
+    },
+    "features": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "keywords": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": []
+        },
+        "simhash_hex": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{16}$"
+        },
+        "minhash32": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 2147483647
+          },
+          "minItems": 0
+        },
+        "novelty": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        },
+        "embedding_id": {
+          "$ref": "./common.schema.json#/$defs/ULID"
+        },
+        "vector_norm": {
+          "type": "number"
+        }
+      }
+    },
+    "links": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "sequence_id": {
+          "$ref": "./common.schema.json#/$defs/ULID"
+        },
+        "parent_id": {
+          "$ref": "./common.schema.json#/$defs/ULID"
+        },
+        "link_group_id": {
+          "$ref": "./common.schema.json#/$defs/ULID"
+        }
+      }
+    },
+    "meta": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  }
+}

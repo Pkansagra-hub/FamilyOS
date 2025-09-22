@@ -1,0 +1,54 @@
+{
+  "schema_version": "1.1.0",
+  "id": "e1ab32a1-d791-4c84-9575-c9d4d3251d4f",
+  "ts": "2025-09-09T04:20:40Z",
+  "topic": "RECALL_REQUEST",
+  "band": "GREEN",
+  "actor": {
+    "user_id": "70b151d8-4ec9-4f65-b055-a0adfeab6168",
+    "agent_id": "retriever.v1",
+    "caps": [
+      "WRITE",
+      "RECALL"
+    ]
+  },
+  "device": {
+    "device_id": "srv-privacy-01",
+    "platform": "android",
+    "app_version": "1.7.6",
+    "locale": "en-GB"
+  },
+  "space_id": "personal:0248e2c8-4678-4fc8-921a-14768ee376d1",
+  "policy_version": "1.3",
+  "abac": {
+    "role": "parent",
+    "trust": "black",
+    "geo_precision": "region"
+  },
+  "qos": {
+    "routing": "gate-path",
+    "priority": 5,
+    "latency_budget_ms": 134,
+    "retries": 1
+  },
+  "trace": {
+    "trace_id": "872d0640e3cfb95fec197c2d35c1050f",
+    "span_id": "4c5507938552018a",
+    "sampled": true
+  },
+  "obligations": [],
+  "redaction_applied": false,
+  "hashes": {
+    "payload_sha256": "4878d13ac773cae9df5fa91af8ce65d3d8385f24920032c454cb33d21dcd97ce"
+  },
+  "payload": {
+    "query": "ssn appointment",
+    "k": 15
+  },
+  "signature": {
+    "alg": "ed25519",
+    "key_id": "key_recall_request_green_2024",
+    "public_key": "cHVibGlj",
+    "signature": "c2ln"
+  }
+}

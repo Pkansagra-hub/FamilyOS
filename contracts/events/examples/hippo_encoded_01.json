@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.1.0",
+  "id": "0c55eff5-e406-4c31-8b1b-a82cb109d677",
+  "ts": "2025-09-09T04:20:40Z",
+  "topic": "HIPPO_ENCODED",
+  "band": "GREEN",
+  "actor": {
+    "user_id": "a61b3009-3b8f-4030-9a97-ed02392184a3",
+    "agent_id": "encoder.v1",
+    "caps": [
+      "RECALL"
+    ]
+  },
+  "device": {
+    "device_id": "android-pixel8",
+    "platform": "edge",
+    "app_version": "1.4.1",
+    "locale": "en-GB"
+  },
+  "space_id": "personal:9e3536db-2e57-46fe-9226-5ba7b4b9900a",
+  "policy_version": "1.3",
+  "abac": {
+    "role": "system",
+    "trust": "red",
+    "geo_precision": "region"
+  },
+  "qos": {
+    "routing": "gate-path",
+    "priority": 9,
+    "latency_budget_ms": 104,
+    "retries": 0
+  },
+  "trace": {
+    "trace_id": "3f2316927ea8fa3a53b49f015e2b3640",
+    "span_id": "6d27c5eb37b2607c",
+    "sampled": true
+  },
+  "obligations": [],
+  "redaction_applied": false,
+  "hashes": {
+    "payload_sha256": "e3b2b30f7bc4f4e766d4a0bcb78e5576752284c60644cc48010c135aee204f2b"
+  },
+  "payload": {
+    "text": "Meeting notes",
+    "tokens": 1246
+  },
+  "signature": {
+    "alg": "ed25519",
+    "key_id": "key_hippo_encoded_green_2024",
+    "public_key": "cHVibGlj",
+    "signature": "c2ln"
+  }
+}

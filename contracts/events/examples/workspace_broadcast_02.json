@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.1.0",
+  "id": "e2d16055-61e4-4df4-a984-4cec1c479c3e",
+  "ts": "2025-09-09T04:20:40Z",
+  "topic": "WORKSPACE_BROADCAST",
+  "band": "AMBER",
+  "actor": {
+    "user_id": "eb028d96-4826-47f2-ba95-e93ebe333eca",
+    "agent_id": "system.v1",
+    "caps": [
+      "PROJECT"
+    ]
+  },
+  "device": {
+    "device_id": "srv-privacy-01",
+    "platform": "windows",
+    "app_version": "1.0.1",
+    "locale": "de-DE"
+  },
+  "space_id": "selective:father_son",
+  "policy_version": "1.3",
+  "abac": {
+    "role": "parent",
+    "trust": "red",
+    "geo_precision": "region"
+  },
+  "qos": {
+    "routing": "fast-path",
+    "priority": 8,
+    "latency_budget_ms": 89,
+    "retries": 1
+  },
+  "trace": {
+    "trace_id": "6f2fc0e821fcf97deed5653c88532cd0",
+    "span_id": "b1cc367f40a13d2d",
+    "sampled": true
+  },
+  "obligations": [
+    "REDACT_PII"
+  ],
+  "redaction_applied": false,
+  "hashes": {
+    "payload_sha256": "c11da7aeb10db9214322574ca2f76f17409fadba56d903fe8cee872285342f19"
+  },
+  "payload": {
+    "note": "system-update",
+    "ts": "2025-09-09T04:20:40Z"
+  },
+  "signature": {
+    "alg": "ed25519",
+    "key_id": "key_workspace_broadcast_amber_2024",
+    "public_key": "cHVibGlj",
+    "signature": "c2ln"
+  },
+  "mls_group": "household-secure"
+}

@@ -1,0 +1,573 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://familyos.local/contracts/events/schemas/working_memory/working_memory_capacity_limit.schema.json",
+    "title": "Working Memory Capacity Limit Event",
+    "description": "Event generated when working memory capacity limits are reached or exceeded",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "timestamp",
+        "limit_type",
+        "capacity_state",
+        "limiting_factors"
+    ],
+    "properties": {
+        "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Time when capacity limit was reached"
+        },
+        "limit_type": {
+            "type": "string",
+            "enum": [
+                "absolute_capacity_limit",
+                "functional_capacity_limit",
+                "interference_induced_limit",
+                "resource_competition_limit",
+                "attention_bandwidth_limit",
+                "processing_speed_limit",
+                "maintenance_failure_limit",
+                "strategic_capacity_limit",
+                "individual_difference_limit",
+                "task_specific_limit"
+            ],
+            "description": "Type of capacity limit encountered"
+        },
+        "capacity_state": {
+            "type": "object",
+            "required": [
+                "current_load",
+                "maximum_capacity",
+                "utilization_rate"
+            ],
+            "properties": {
+                "current_load": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Current working memory load"
+                },
+                "maximum_capacity": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Maximum determined capacity"
+                },
+                "utilization_rate": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Proportion of capacity being used"
+                },
+                "buffer_breakdown": {
+                    "type": "object",
+                    "properties": {
+                        "verbal_buffer": {
+                            "type": "object",
+                            "properties": {
+                                "current_items": {
+                                    "type": "integer"
+                                },
+                                "capacity_limit": {
+                                    "type": "integer"
+                                },
+                                "utilization": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "visuospatial_buffer": {
+                            "type": "object",
+                            "properties": {
+                                "current_items": {
+                                    "type": "integer"
+                                },
+                                "capacity_limit": {
+                                    "type": "integer"
+                                },
+                                "utilization": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "episodic_buffer": {
+                            "type": "object",
+                            "properties": {
+                                "current_chunks": {
+                                    "type": "integer"
+                                },
+                                "capacity_limit": {
+                                    "type": "integer"
+                                },
+                                "utilization": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "central_executive": {
+                            "type": "object",
+                            "properties": {
+                                "control_processes": {
+                                    "type": "integer"
+                                },
+                                "attention_allocation": {
+                                    "type": "number"
+                                },
+                                "resource_availability": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                },
+                "capacity_dynamics": {
+                    "type": "object",
+                    "properties": {
+                        "capacity_fluctuation": {
+                            "type": "number"
+                        },
+                        "peak_capacity_achieved": {
+                            "type": "number"
+                        },
+                        "capacity_stability": {
+                            "type": "number"
+                        },
+                        "fatigue_impact": {
+                            "type": "number"
+                        }
+                    }
+                }
+            },
+            "description": "Current state of working memory capacity"
+        },
+        "limiting_factors": {
+            "type": "object",
+            "properties": {
+                "structural_limitations": {
+                    "type": "object",
+                    "properties": {
+                        "neural_capacity_constraints": {
+                            "type": "number"
+                        },
+                        "activation_maintenance_limits": {
+                            "type": "number"
+                        },
+                        "binding_capacity_limits": {
+                            "type": "number"
+                        },
+                        "temporal_decay_constraints": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "functional_limitations": {
+                    "type": "object",
+                    "properties": {
+                        "attention_bottleneck": {
+                            "type": "number"
+                        },
+                        "interference_accumulation": {
+                            "type": "number"
+                        },
+                        "processing_speed_limitations": {
+                            "type": "number"
+                        },
+                        "strategic_limitations": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "resource_limitations": {
+                    "type": "object",
+                    "properties": {
+                        "cognitive_resources": {
+                            "type": "number"
+                        },
+                        "metabolic_constraints": {
+                            "type": "number"
+                        },
+                        "neural_efficiency": {
+                            "type": "number"
+                        },
+                        "concurrent_task_demands": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "individual_limitations": {
+                    "type": "object",
+                    "properties": {
+                        "baseline_capacity": {
+                            "type": "number"
+                        },
+                        "skill_level": {
+                            "type": "number"
+                        },
+                        "strategy_effectiveness": {
+                            "type": "number"
+                        },
+                        "cognitive_style": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "description": "Factors limiting working memory capacity"
+        },
+        "impact_assessment": {
+            "type": "object",
+            "properties": {
+                "performance_degradation": {
+                    "type": "object",
+                    "properties": {
+                        "accuracy_decline": {
+                            "type": "number"
+                        },
+                        "response_time_increase": {
+                            "type": "number"
+                        },
+                        "error_rate_increase": {
+                            "type": "number"
+                        },
+                        "strategy_breakdown": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "cognitive_consequences": {
+                    "type": "object",
+                    "properties": {
+                        "attention_fragmentation": {
+                            "type": "number"
+                        },
+                        "executive_control_failure": {
+                            "type": "number"
+                        },
+                        "interference_susceptibility": {
+                            "type": "number"
+                        },
+                        "cognitive_load_overflow": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "behavioral_manifestations": {
+                    "type": "object",
+                    "properties": {
+                        "task_switching_difficulty": {
+                            "type": "number"
+                        },
+                        "information_loss": {
+                            "type": "number"
+                        },
+                        "strategy_simplification": {
+                            "type": "number"
+                        },
+                        "external_aid_seeking": {
+                            "type": "number"
+                        }
+                    }
+                }
+            },
+            "description": "Impact of reaching capacity limits"
+        },
+        "adaptive_responses": {
+            "type": "object",
+            "properties": {
+                "immediate_adaptations": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "adaptation_type": {
+                                "type": "string"
+                            },
+                            "implementation_speed": {
+                                "type": "number"
+                            },
+                            "effectiveness": {
+                                "type": "number"
+                            },
+                            "resource_cost": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                },
+                "strategic_adaptations": {
+                    "type": "object",
+                    "properties": {
+                        "chunking_strategies": {
+                            "type": "object",
+                            "properties": {
+                                "chunk_formation": {
+                                    "type": "number"
+                                },
+                                "chunk_efficiency": {
+                                    "type": "number"
+                                },
+                                "chunk_stability": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "offloading_strategies": {
+                            "type": "object",
+                            "properties": {
+                                "external_memory_use": {
+                                    "type": "number"
+                                },
+                                "environmental_structuring": {
+                                    "type": "number"
+                                },
+                                "cognitive_offloading": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "prioritization_strategies": {
+                            "type": "object",
+                            "properties": {
+                                "goal_prioritization": {
+                                    "type": "number"
+                                },
+                                "information_selection": {
+                                    "type": "number"
+                                },
+                                "resource_allocation": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                },
+                "system_adjustments": {
+                    "type": "object",
+                    "properties": {
+                        "capacity_reallocation": {
+                            "type": "number"
+                        },
+                        "processing_mode_change": {
+                            "type": "number"
+                        },
+                        "attention_focusing": {
+                            "type": "number"
+                        },
+                        "interference_reduction": {
+                            "type": "number"
+                        }
+                    }
+                }
+            },
+            "description": "Adaptive responses to capacity limitations"
+        },
+        "capacity_optimization": {
+            "type": "object",
+            "properties": {
+                "efficiency_improvements": {
+                    "type": "object",
+                    "properties": {
+                        "processing_efficiency": {
+                            "type": "number"
+                        },
+                        "maintenance_efficiency": {
+                            "type": "number"
+                        },
+                        "updating_efficiency": {
+                            "type": "number"
+                        },
+                        "retrieval_efficiency": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "strategy_optimization": {
+                    "type": "object",
+                    "properties": {
+                        "strategy_selection": {
+                            "type": "number"
+                        },
+                        "strategy_execution": {
+                            "type": "number"
+                        },
+                        "strategy_switching": {
+                            "type": "number"
+                        },
+                        "meta_strategy_use": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "resource_optimization": {
+                    "type": "object",
+                    "properties": {
+                        "attention_optimization": {
+                            "type": "number"
+                        },
+                        "memory_optimization": {
+                            "type": "number"
+                        },
+                        "processing_optimization": {
+                            "type": "number"
+                        },
+                        "control_optimization": {
+                            "type": "number"
+                        }
+                    }
+                }
+            },
+            "description": "Optimization strategies for capacity management"
+        },
+        "learning_implications": {
+            "type": "object",
+            "properties": {
+                "capacity_learning": {
+                    "type": "object",
+                    "properties": {
+                        "capacity_estimation_improvement": {
+                            "type": "number"
+                        },
+                        "limit_prediction_accuracy": {
+                            "type": "number"
+                        },
+                        "capacity_boundary_awareness": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "strategy_learning": {
+                    "type": "object",
+                    "properties": {
+                        "adaptive_strategy_development": {
+                            "type": "number"
+                        },
+                        "strategy_effectiveness_learning": {
+                            "type": "number"
+                        },
+                        "context_strategy_mapping": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "meta_cognitive_learning": {
+                    "type": "object",
+                    "properties": {
+                        "capacity_monitoring_skill": {
+                            "type": "number"
+                        },
+                        "load_management_skill": {
+                            "type": "number"
+                        },
+                        "optimization_skill": {
+                            "type": "number"
+                        }
+                    }
+                }
+            },
+            "description": "Learning from capacity limit experiences"
+        },
+        "intervention_triggers": {
+            "type": "object",
+            "properties": {
+                "automatic_interventions": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "intervention_type": {
+                                "type": "string"
+                            },
+                            "trigger_threshold": {
+                                "type": "number"
+                            },
+                            "intervention_strength": {
+                                "type": "number"
+                            },
+                            "expected_benefit": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                },
+                "user_notifications": {
+                    "type": "object",
+                    "properties": {
+                        "capacity_warning": {
+                            "type": "boolean"
+                        },
+                        "strategy_suggestion": {
+                            "type": "boolean"
+                        },
+                        "break_recommendation": {
+                            "type": "boolean"
+                        },
+                        "task_modification_suggestion": {
+                            "type": "boolean"
+                        }
+                    }
+                },
+                "system_adjustments": {
+                    "type": "object",
+                    "properties": {
+                        "difficulty_adjustment": {
+                            "type": "number"
+                        },
+                        "pacing_adjustment": {
+                            "type": "number"
+                        },
+                        "support_activation": {
+                            "type": "number"
+                        }
+                    }
+                }
+            },
+            "description": "Interventions triggered by capacity limits"
+        },
+        "recovery_mechanisms": {
+            "type": "object",
+            "properties": {
+                "natural_recovery": {
+                    "type": "object",
+                    "properties": {
+                        "rest_requirements": {
+                            "type": "number"
+                        },
+                        "recovery_timeline": {
+                            "type": "number"
+                        },
+                        "recovery_quality": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "assisted_recovery": {
+                    "type": "object",
+                    "properties": {
+                        "intervention_effectiveness": {
+                            "type": "number"
+                        },
+                        "recovery_acceleration": {
+                            "type": "number"
+                        },
+                        "residual_impairment": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "preventive_measures": {
+                    "type": "object",
+                    "properties": {
+                        "capacity_management": {
+                            "type": "number"
+                        },
+                        "load_balancing": {
+                            "type": "number"
+                        },
+                        "proactive_adaptation": {
+                            "type": "number"
+                        }
+                    }
+                }
+            },
+            "description": "Mechanisms for recovery from capacity limits"
+        }
+    }
+}

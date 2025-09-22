@@ -1,0 +1,427 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://familyos.local/contracts/events/schemas/working_memory/attentional_control_applied.schema.json",
+    "title": "Attentional Control Applied Event",
+    "description": "Event generated when attentional control mechanisms are applied to working memory systems",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "timestamp",
+        "control_operation",
+        "attention_target",
+        "control_parameters",
+        "working_memory_state"
+    ],
+    "properties": {
+        "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Time when attentional control was applied"
+        },
+        "control_operation": {
+            "type": "string",
+            "enum": [
+                "focus_enhancement",
+                "distractor_suppression",
+                "attention_switching",
+                "attention_division",
+                "attention_binding",
+                "priority_modulation",
+                "gating_control",
+                "maintenance_refresh"
+            ],
+            "description": "Type of attentional control operation"
+        },
+        "attention_target": {
+            "type": "object",
+            "required": [
+                "target_type",
+                "target_id"
+            ],
+            "properties": {
+                "target_type": {
+                    "type": "string",
+                    "enum": [
+                        "working_memory_item",
+                        "buffer_region",
+                        "cognitive_process",
+                        "external_stimulus",
+                        "internal_representation",
+                        "goal_state",
+                        "memory_trace"
+                    ]
+                },
+                "target_id": {
+                    "type": "string"
+                },
+                "target_properties": {
+                    "type": "object",
+                    "properties": {
+                        "modality": {
+                            "type": "string"
+                        },
+                        "priority": {
+                            "type": "number"
+                        },
+                        "activation_level": {
+                            "type": "number"
+                        },
+                        "interference_level": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "spatial_location": {
+                    "type": "object",
+                    "properties": {
+                        "coordinates": {
+                            "type": "array",
+                            "items": {
+                                "type": "number"
+                            }
+                        },
+                        "reference_frame": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "description": "Target of attentional control"
+        },
+        "control_parameters": {
+            "type": "object",
+            "required": [
+                "control_strength",
+                "control_duration_ms"
+            ],
+            "properties": {
+                "control_strength": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Intensity of attentional control"
+                },
+                "control_duration_ms": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Duration of control application"
+                },
+                "control_selectivity": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Selectivity of attentional focus"
+                },
+                "control_gradient": {
+                    "type": "object",
+                    "properties": {
+                        "center_intensity": {
+                            "type": "number"
+                        },
+                        "falloff_rate": {
+                            "type": "number"
+                        },
+                        "spatial_extent": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "temporal_dynamics": {
+                    "type": "object",
+                    "properties": {
+                        "onset_latency_ms": {
+                            "type": "number"
+                        },
+                        "rise_time_ms": {
+                            "type": "number"
+                        },
+                        "decay_time_ms": {
+                            "type": "number"
+                        },
+                        "sustained_phase_ms": {
+                            "type": "number"
+                        }
+                    }
+                }
+            },
+            "description": "Parameters of attentional control application"
+        },
+        "working_memory_state": {
+            "type": "object",
+            "required": [
+                "buffer_contents",
+                "attention_allocation"
+            ],
+            "properties": {
+                "buffer_contents": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "item_id": {
+                                "type": "string"
+                            },
+                            "activation_before": {
+                                "type": "number"
+                            },
+                            "activation_after": {
+                                "type": "number"
+                            },
+                            "attention_weight": {
+                                "type": "number"
+                            },
+                            "interference_status": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "attention_allocation": {
+                    "type": "object",
+                    "properties": {
+                        "total_capacity": {
+                            "type": "number"
+                        },
+                        "allocated_capacity": {
+                            "type": "number"
+                        },
+                        "available_capacity": {
+                            "type": "number"
+                        },
+                        "allocation_efficiency": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "maintenance_quality": {
+                    "type": "object",
+                    "properties": {
+                        "fidelity_score": {
+                            "type": "number"
+                        },
+                        "stability_score": {
+                            "type": "number"
+                        },
+                        "accessibility_score": {
+                            "type": "number"
+                        }
+                    }
+                }
+            },
+            "description": "State of working memory during control application"
+        },
+        "integration_with_thalamus": {
+            "type": "object",
+            "properties": {
+                "thalamic_gate_influence": {
+                    "type": "object",
+                    "properties": {
+                        "gate_state": {
+                            "type": "string"
+                        },
+                        "salience_modulation": {
+                            "type": "number"
+                        },
+                        "admission_bias": {
+                            "type": "number"
+                        },
+                        "filtering_threshold": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "attention_routing": {
+                    "type": "object",
+                    "properties": {
+                        "routing_weights": {
+                            "type": "array",
+                            "items": {
+                                "type": "number"
+                            }
+                        },
+                        "circuit_preferences": {
+                            "type": "object"
+                        },
+                        "dynamic_routing": {
+                            "type": "boolean"
+                        }
+                    }
+                },
+                "coordination_signals": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "signal_type": {
+                                "type": "string"
+                            },
+                            "signal_strength": {
+                                "type": "number"
+                            },
+                            "target_system": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            },
+            "description": "Integration with thalamic attention systems"
+        },
+        "neural_correlates": {
+            "type": "object",
+            "properties": {
+                "eeg_patterns": {
+                    "type": "object",
+                    "properties": {
+                        "p300_amplitude": {
+                            "type": "number"
+                        },
+                        "n200_latency": {
+                            "type": "number"
+                        },
+                        "alpha_desynchronization": {
+                            "type": "number"
+                        },
+                        "gamma_entrainment": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "fmri_activation": {
+                    "type": "object",
+                    "properties": {
+                        "parietal_cortex": {
+                            "type": "number"
+                        },
+                        "frontal_eye_fields": {
+                            "type": "number"
+                        },
+                        "supplementary_eye_fields": {
+                            "type": "number"
+                        },
+                        "intraparietal_sulcus": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "connectivity_patterns": {
+                    "type": "object",
+                    "properties": {
+                        "frontoparietal_network": {
+                            "type": "number"
+                        },
+                        "dorsal_attention_network": {
+                            "type": "number"
+                        },
+                        "ventral_attention_network": {
+                            "type": "number"
+                        },
+                        "default_mode_suppression": {
+                            "type": "number"
+                        }
+                    }
+                }
+            },
+            "description": "Neural correlates of attentional control"
+        },
+        "performance_outcomes": {
+            "type": "object",
+            "properties": {
+                "target_enhancement": {
+                    "type": "object",
+                    "properties": {
+                        "signal_boost": {
+                            "type": "number"
+                        },
+                        "noise_reduction": {
+                            "type": "number"
+                        },
+                        "discrimination_improvement": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "distractor_suppression": {
+                    "type": "object",
+                    "properties": {
+                        "interference_reduction": {
+                            "type": "number"
+                        },
+                        "irrelevant_activation_suppression": {
+                            "type": "number"
+                        },
+                        "focus_maintenance": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "overall_efficiency": {
+                    "type": "object",
+                    "properties": {
+                        "speed_improvement": {
+                            "type": "number"
+                        },
+                        "accuracy_improvement": {
+                            "type": "number"
+                        },
+                        "resource_efficiency": {
+                            "type": "number"
+                        }
+                    }
+                }
+            },
+            "description": "Performance outcomes of attentional control"
+        },
+        "adaptation_mechanisms": {
+            "type": "object",
+            "properties": {
+                "control_adaptation": {
+                    "type": "object",
+                    "properties": {
+                        "learning_rate": {
+                            "type": "number"
+                        },
+                        "adaptation_direction": {
+                            "type": "string"
+                        },
+                        "stability_vs_flexibility": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "threshold_updates": {
+                    "type": "object",
+                    "properties": {
+                        "attention_threshold": {
+                            "type": "number"
+                        },
+                        "distraction_threshold": {
+                            "type": "number"
+                        },
+                        "switching_threshold": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "strategy_optimization": {
+                    "type": "object",
+                    "properties": {
+                        "current_strategy": {
+                            "type": "string"
+                        },
+                        "strategy_effectiveness": {
+                            "type": "number"
+                        },
+                        "alternative_strategies": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            },
+            "description": "Adaptation mechanisms in attentional control"
+        }
+    }
+}

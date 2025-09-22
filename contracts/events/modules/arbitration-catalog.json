@@ -1,0 +1,61 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "x-contract-version": "1.0.0",
+  "module": "arbitration",
+  "events": [
+    {
+      "name": "ACTION_CANDIDATES",
+      "version": "1.0",
+      "subject": "space:{space_id}",
+      "key": "context_id",
+      "ordering": "by ts",
+      "schema": {
+        "$id": "urn:contracts:arbitration:ACTION_CANDIDATES@1.0",
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["context_id","candidates"],
+        "properties": {
+          "context_id": { "type": "string" },
+          "candidates": { "type": "array", "items": { "type": "object" } }
+        }
+      }
+    },
+    {
+      "name": "RISK_ASSESSMENT",
+      "version": "1.0",
+      "subject": "space:{space_id}",
+      "key": "context_id",
+      "ordering": "by ts",
+      "schema": {
+        "$id": "urn:contracts:arbitration:RISK_ASSESSMENT@1.0",
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["context_id","risk_score","notes_band"],
+        "properties": {
+          "context_id": { "type": "string" },
+          "risk_score": { "type": "number", "minimum": 0, "maximum": 1 },
+          "notes_band": { "type": "string", "enum": ["GREEN","AMBER","RED"] }
+        }
+      }
+    },
+    {
+      "name": "ACTION_DECISION",
+      "version": "1.0",
+      "subject": "space:{space_id}",
+      "key": "decision_id",
+      "ordering": "by ts",
+      "schema": {
+        "$id": "urn:contracts:arbitration:ACTION_DECISION@1.0",
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["decision_id","context_id","selected","confidence"],
+        "properties": {
+          "decision_id": { "type": "string" },
+          "context_id": { "type": "string" },
+          "selected": { "type": "object" },
+          "confidence": { "type": "number", "minimum": 0, "maximum": 1 }
+        }
+      }
+    }
+  ]
+}

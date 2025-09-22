@@ -1,0 +1,229 @@
+# Issue #26.3: Role-based endpoint access control contract
+# Contract-first approach for RBAC-based API endpoint protection
+
+apiVersion: policy/v1
+kind: EndpointAccessControl
+metadata:
+  name: rbac-endpoint-access
+  description: "Role-based access control for API endpoints"
+  version: "1.0.0"
+
+spec:
+  # Endpoint protection rules
+  endpoint_protection:
+    # Control plane (mTLS + RBAC)
+    control_plane:
+      base_path: "/v1"
+      security_requirements:
+        - "mtls_authentication"
+        - "rbac_authorization"
+
+      endpoints:
+        # System administration
+        - path: "/v1/system/*"
+          methods: ["GET", "POST", "PUT", "DELETE"]
+          required_roles: ["system_admin"]
+          required_capabilities: ["system:admin"]
+
+        - path: "/v1/system/health"
+          methods: ["GET"]
+          required_roles: ["system_operator", "system_admin"]
+          required_capabilities: ["system:health"]
+
+        # RBAC management
+        - path: "/v1/rbac/roles"
+          methods: ["GET"]
+          required_roles: ["system_admin", "space_admin"]
+          required_capabilities: ["rbac:read"]
+
+        - path: "/v1/rbac/roles"
+          methods: ["POST", "PUT", "DELETE"]
+          required_roles: ["system_admin"]
+          required_capabilities: ["rbac:admin"]
+
+        - path: "/v1/rbac/bindings"
+          methods: ["GET"]
+          required_roles: ["system_admin", "space_admin"]
+          required_capabilities: ["rbac:read"]
+          scope_aware: true
+
+        - path: "/v1/rbac/bindings"
+          methods: ["POST", "PUT", "DELETE"]
+          required_roles: ["system_admin", "space_admin"]
+          required_capabilities: ["rbac:admin"]
+          scope_aware: true
+
+        # Memory operations
+        - path: "/v1/memory/*"
+          methods: ["GET"]
+          required_roles: ["space_user", "space_operator", "space_admin"]
+          required_capabilities: ["memory:read"]
+          scope_aware: true
+
+        - path: "/v1/memory/*"
+          methods: ["POST", "PUT"]
+          required_roles: ["space_user", "space_operator", "space_admin"]
+          required_capabilities: ["memory:write"]
+          scope_aware: true
+          resource_ownership_check: true
+
+        - path: "/v1/memory/*"
+          methods: ["DELETE"]
+          required_roles: ["space_operator", "space_admin"]
+          required_capabilities: ["memory:delete"]
+          scope_aware: true
+
+        # Observability
+        - path: "/v1/metrics"
+          methods: ["GET"]
+          required_roles: ["system_operator", "system_admin"]
+          required_capabilities: ["observability:metrics"]
+
+        - path: "/v1/healthz"
+          methods: ["GET"]
+          required_roles: ["*"]  # Public health check
+
+        - path: "/v1/readyz"
+          methods: ["GET"]
+          required_roles: ["*"]  # Public readiness check
+
+    # Data plane (Bearer token + RBAC)
+    data_plane:
+      base_path: "/api/v1"
+      security_requirements:
+        - "bearer_token_authentication"
+        - "rbac_authorization"
+
+      endpoints:
+        # User self-service
+        - path: "/api/v1/user/profile"
+          methods: ["GET", "PUT"]
+          required_roles: ["authenticated_user"]
+          required_capabilities: ["user:self_read", "user:self_write"]
+          resource_ownership_required: true
+
+        # Space operations
+        - path: "/api/v1/spaces/{space_id}/memories"
+          methods: ["GET"]
+          required_roles: ["space_user"]
+          required_capabilities: ["memory:read"]
+          scope_parameter: "space_id"
+
+        - path: "/api/v1/spaces/{space_id}/memories"
+          methods: ["POST"]
+          required_roles: ["space_user"]
+          required_capabilities: ["memory:write"]
+          scope_parameter: "space_id"
+
+    # Public plane (no authentication)
+    public_plane:
+      base_path: "/public"
+      security_requirements: []
+
+      endpoints:
+        - path: "/public/docs"
+          methods: ["GET"]
+          required_roles: ["guest"]
+
+        - path: "/public/status"
+          methods: ["GET"]
+          required_roles: ["guest"]
+
+  # Access control evaluation
+  evaluation:
+    # Evaluation strategy
+    strategy: "deny_by_default"
+
+    # Evaluation steps
+    steps:
+      1: "authenticate_user"
+      2: "resolve_user_roles"
+      3: "expand_inherited_capabilities"
+      4: "evaluate_endpoint_requirements"
+      5: "check_scope_constraints"
+      6: "validate_resource_ownership"
+      7: "apply_context_restrictions"
+      8: "render_decision"
+
+    # Caching strategy
+    caching:
+      cache_evaluations: true
+      cache_ttl: "5m"
+      cache_key_components:
+        - "user_id"
+        - "endpoint_path"
+        - "method"
+        - "scope"
+
+    # Performance targets
+    performance:
+      max_evaluation_time: "50ms"
+      cache_hit_ratio_target: "95%"
+
+  # Scope and context handling
+  scope_handling:
+    # Scope extraction from requests
+    scope_extraction:
+      path_parameters:
+        - name: "space_id"
+          extraction_pattern: "/spaces/([^/]+)"
+
+      headers:
+        - name: "X-Space-ID"
+          required: false
+
+      query_parameters:
+        - name: "space"
+          required: false
+
+    # Context enrichment
+    context_enrichment:
+      user_context:
+        - "user.id"
+        - "user.roles"
+        - "user.capabilities"
+        - "user.space_memberships"
+
+      request_context:
+        - "request.method"
+        - "request.path"
+        - "request.headers"
+        - "request.source_ip"
+
+      temporal_context:
+        - "time.current"
+        - "time.hour"
+        - "time.day_of_week"
+
+  # Integration points
+  integration:
+    # Policy Enforcement Point (PEP) integration
+    pep:
+      interface: "http_middleware"
+      failure_mode: "deny"
+      fallback_policy: "emergency_read_only"
+
+    # Policy Decision Point (PDP) integration
+    pdp:
+      interface: "grpc"
+      timeout: "100ms"
+      retry_policy: "exponential_backoff"
+
+    # Audit integration
+    audit:
+      log_all_decisions: true
+      log_denied_requests: true
+      log_successful_requests: false
+      include_context: true
+
+    # Observability integration
+    observability:
+      metrics:
+        - "rbac.endpoint_evaluations.total"
+        - "rbac.endpoint_evaluations.denied"
+        - "rbac.endpoint_evaluations.duration"
+        - "rbac.cache.hit_ratio"
+
+      tracing:
+        trace_all_evaluations: true
+        include_decision_path: true

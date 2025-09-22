@@ -1,0 +1,672 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://familyos.local/contracts/storage/schemas/global_workspace/conscious_content.schema.json",
+    "title": "Conscious Content",
+    "description": "Storage schema for content that is currently conscious or has achieved conscious access in the global workspace.",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "id",
+        "created_at",
+        "updated_at",
+        "content_id",
+        "content_type",
+        "consciousness_status",
+        "activation_level",
+        "accessibility_features"
+    ],
+    "properties": {
+        "id": {
+            "oneOf": [
+                {
+                    "type": "string",
+                    "format": "uuid"
+                },
+                {
+                    "type": "string",
+                    "pattern": "^[0-7][0-9A-HJKMNP-TV-Z]{25}$"
+                }
+            ],
+            "description": "Unique identifier for this conscious content record"
+        },
+        "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "When this content first became conscious"
+        },
+        "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "When this conscious content was last updated"
+        },
+        "content_id": {
+            "type": "string",
+            "description": "Unique identifier for the underlying content"
+        },
+        "content_type": {
+            "type": "string",
+            "enum": [
+                "perceptual",
+                "memorial",
+                "conceptual",
+                "emotional",
+                "intentional",
+                "linguistic",
+                "abstract",
+                "motor"
+            ],
+            "description": "Type of content that has become conscious"
+        },
+        "consciousness_status": {
+            "type": "string",
+            "enum": [
+                "emerging",
+                "fully_conscious",
+                "fading",
+                "maintained",
+                "suppressed",
+                "integrated"
+            ],
+            "description": "Current consciousness status of this content"
+        },
+        "activation_level": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "description": "Current activation level of the conscious content"
+        },
+        "accessibility_features": {
+            "type": "object",
+            "required": [
+                "reportability",
+                "global_availability",
+                "controllability",
+                "introspective_access"
+            ],
+            "properties": {
+                "reportability": {
+                    "type": "object",
+                    "properties": {
+                        "verbal_reportable": {
+                            "type": "boolean"
+                        },
+                        "behavioral_reportable": {
+                            "type": "boolean"
+                        },
+                        "subjective_reportable": {
+                            "type": "boolean"
+                        },
+                        "report_confidence": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    },
+                    "description": "Extent to which content can be reported"
+                },
+                "global_availability": {
+                    "type": "object",
+                    "properties": {
+                        "cross_system_access": {
+                            "type": "boolean"
+                        },
+                        "broadcast_reach": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "availability_strength": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "access_restrictions": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "description": "Global availability of conscious content across systems"
+                },
+                "controllability": {
+                    "type": "object",
+                    "properties": {
+                        "attentional_control": {
+                            "type": "boolean"
+                        },
+                        "memory_control": {
+                            "type": "boolean"
+                        },
+                        "action_control": {
+                            "type": "boolean"
+                        },
+                        "metacognitive_control": {
+                            "type": "boolean"
+                        },
+                        "control_strength": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    },
+                    "description": "Types and strength of cognitive control available"
+                },
+                "introspective_access": {
+                    "type": "object",
+                    "properties": {
+                        "self_monitoring": {
+                            "type": "boolean"
+                        },
+                        "quality_assessment": {
+                            "type": "boolean"
+                        },
+                        "source_attribution": {
+                            "type": "boolean"
+                        },
+                        "metacognitive_awareness": {
+                            "type": "boolean"
+                        }
+                    },
+                    "description": "Introspective accessibility of conscious content"
+                }
+            },
+            "description": "Accessibility features of the conscious content"
+        },
+        "content_representation": {
+            "type": "object",
+            "properties": {
+                "semantic_content": {
+                    "type": "object",
+                    "properties": {
+                        "primary_concepts": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "conceptual_relations": {
+                            "type": "object"
+                        },
+                        "propositional_structure": {
+                            "type": "object"
+                        },
+                        "semantic_features": {
+                            "type": "object"
+                        }
+                    },
+                    "description": "Semantic representation of conscious content"
+                },
+                "perceptual_features": {
+                    "type": "object",
+                    "properties": {
+                        "sensory_modalities": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "perceptual_qualities": {
+                            "type": "object"
+                        },
+                        "spatial_features": {
+                            "type": "object"
+                        },
+                        "temporal_features": {
+                            "type": "object"
+                        }
+                    },
+                    "description": "Perceptual features of conscious content"
+                },
+                "emotional_features": {
+                    "type": "object",
+                    "properties": {
+                        "emotional_valence": {
+                            "type": "number",
+                            "minimum": -1,
+                            "maximum": 1
+                        },
+                        "emotional_arousal": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "emotional_categories": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "emotional_intensity": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    },
+                    "description": "Emotional features of conscious content"
+                },
+                "motor_features": {
+                    "type": "object",
+                    "properties": {
+                        "action_affordances": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "motor_intentions": {
+                            "type": "object"
+                        },
+                        "movement_parameters": {
+                            "type": "object"
+                        },
+                        "action_consequences": {
+                            "type": "object"
+                        }
+                    },
+                    "description": "Motor-related features of conscious content"
+                }
+            },
+            "description": "Multi-modal representation of the conscious content"
+        },
+        "consciousness_metrics": {
+            "type": "object",
+            "properties": {
+                "consciousness_level": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Overall level of consciousness for this content"
+                },
+                "clarity": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Clarity and distinctness of conscious experience"
+                },
+                "vividness": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Vividness and intensity of conscious experience"
+                },
+                "stability": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Stability of conscious access over time"
+                },
+                "coherence": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Coherence and integration of conscious content"
+                },
+                "discriminability": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "How well content can be discriminated from other content"
+                }
+            },
+            "description": "Quantitative metrics of consciousness for this content"
+        },
+        "temporal_dynamics": {
+            "type": "object",
+            "properties": {
+                "consciousness_timeline": {
+                    "type": "object",
+                    "properties": {
+                        "emergence_time": {
+                            "type": "string",
+                            "format": "date-time"
+                        },
+                        "peak_consciousness_time": {
+                            "type": "string",
+                            "format": "date-time"
+                        },
+                        "duration_ms": {
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "decay_onset_time": {
+                            "type": "string",
+                            "format": "date-time"
+                        }
+                    },
+                    "description": "Timeline of consciousness for this content"
+                },
+                "activation_dynamics": {
+                    "type": "object",
+                    "properties": {
+                        "peak_activation": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "activation_trajectory": {
+                            "type": "string",
+                            "enum": [
+                                "linear",
+                                "exponential",
+                                "step",
+                                "oscillatory"
+                            ]
+                        },
+                        "decay_rate": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "maintenance_strength": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    },
+                    "description": "Dynamics of activation changes over time"
+                },
+                "consciousness_cycles": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "cycle_start": {
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            "cycle_end": {
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            "peak_intensity": {
+                                "type": "number"
+                            },
+                            "cycle_quality": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "description": "Cycles of consciousness for recurring content"
+                }
+            },
+            "description": "Temporal dynamics of consciousness for this content"
+        },
+        "source_information": {
+            "type": "object",
+            "properties": {
+                "generating_coalition": {
+                    "type": "object",
+                    "properties": {
+                        "coalition_id": {
+                            "type": "string"
+                        },
+                        "coalition_strength": {
+                            "type": "number"
+                        },
+                        "member_contributions": {
+                            "type": "object"
+                        }
+                    },
+                    "description": "Coalition that generated this conscious content"
+                },
+                "originating_systems": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "system_id": {
+                                "type": "string"
+                            },
+                            "system_type": {
+                                "type": "string"
+                            },
+                            "contribution_type": {
+                                "type": "string"
+                            },
+                            "contribution_strength": {
+                                "type": "number"
+                            }
+                        }
+                    },
+                    "description": "Systems that contributed to generating this content"
+                },
+                "triggering_events": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "event_id": {
+                                "type": "string"
+                            },
+                            "event_type": {
+                                "type": "string"
+                            },
+                            "causal_influence": {
+                                "type": "number"
+                            },
+                            "temporal_relation": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "description": "Events that triggered consciousness of this content"
+                }
+            },
+            "description": "Information about the sources and origins of conscious content"
+        },
+        "integration_state": {
+            "type": "object",
+            "properties": {
+                "cross_modal_integration": {
+                    "type": "object",
+                    "properties": {
+                        "integrated_modalities": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "integration_strength": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "binding_mechanisms": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "description": "Integration across sensory modalities"
+                },
+                "temporal_integration": {
+                    "type": "object",
+                    "properties": {
+                        "temporal_binding": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "episodic_integration": {
+                            "type": "boolean"
+                        },
+                        "narrative_coherence": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    },
+                    "description": "Integration across temporal dimensions"
+                },
+                "conceptual_integration": {
+                    "type": "object",
+                    "properties": {
+                        "conceptual_coherence": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "knowledge_integration": {
+                            "type": "boolean"
+                        },
+                        "semantic_binding": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    },
+                    "description": "Integration with conceptual knowledge"
+                },
+                "contextual_integration": {
+                    "type": "object",
+                    "properties": {
+                        "context_sensitivity": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "situational_awareness": {
+                            "type": "boolean"
+                        },
+                        "environmental_integration": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    },
+                    "description": "Integration with current context"
+                }
+            },
+            "description": "State of integration across different dimensions"
+        },
+        "influence_effects": {
+            "type": "object",
+            "properties": {
+                "attention_effects": {
+                    "type": "object",
+                    "properties": {
+                        "attention_capture": {
+                            "type": "boolean"
+                        },
+                        "attention_direction": {
+                            "type": "object"
+                        },
+                        "attention_modulation": {
+                            "type": "number"
+                        }
+                    },
+                    "description": "Effects on attention systems"
+                },
+                "memory_effects": {
+                    "type": "object",
+                    "properties": {
+                        "encoding_enhancement": {
+                            "type": "boolean"
+                        },
+                        "retrieval_facilitation": {
+                            "type": "boolean"
+                        },
+                        "consolidation_effects": {
+                            "type": "object"
+                        }
+                    },
+                    "description": "Effects on memory systems"
+                },
+                "motor_effects": {
+                    "type": "object",
+                    "properties": {
+                        "action_preparation": {
+                            "type": "boolean"
+                        },
+                        "motor_priming": {
+                            "type": "object"
+                        },
+                        "movement_modulation": {
+                            "type": "number"
+                        }
+                    },
+                    "description": "Effects on motor systems"
+                },
+                "emotional_effects": {
+                    "type": "object",
+                    "properties": {
+                        "emotional_response": {
+                            "type": "object"
+                        },
+                        "mood_influence": {
+                            "type": "number"
+                        },
+                        "motivation_effects": {
+                            "type": "object"
+                        }
+                    },
+                    "description": "Effects on emotional systems"
+                }
+            },
+            "description": "Effects of conscious content on other cognitive systems"
+        },
+        "maintenance_mechanisms": {
+            "type": "object",
+            "properties": {
+                "active_maintenance": {
+                    "type": "object",
+                    "properties": {
+                        "rehearsal_processes": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "attention_allocation": {
+                            "type": "number"
+                        },
+                        "working_memory_engagement": {
+                            "type": "boolean"
+                        }
+                    },
+                    "description": "Active mechanisms maintaining consciousness"
+                },
+                "passive_maintenance": {
+                    "type": "object",
+                    "properties": {
+                        "resonance_mechanisms": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "structural_stability": {
+                            "type": "number"
+                        },
+                        "default_activation": {
+                            "type": "number"
+                        }
+                    },
+                    "description": "Passive mechanisms maintaining consciousness"
+                },
+                "external_support": {
+                    "type": "object",
+                    "properties": {
+                        "environmental_cues": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "social_reinforcement": {
+                            "type": "boolean"
+                        },
+                        "task_demands": {
+                            "type": "object"
+                        }
+                    },
+                    "description": "External factors supporting consciousness maintenance"
+                }
+            },
+            "description": "Mechanisms maintaining consciousness of this content"
+        }
+    }
+}

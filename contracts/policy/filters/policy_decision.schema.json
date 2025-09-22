@@ -1,0 +1,234 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "title": "Policy Decision Response Schema",
+    "description": "Standard format for policy evaluation responses",
+    "type": "object",
+    "properties": {
+        "decision": {
+            "type": "string",
+            "enum": [
+                "PERMIT",
+                "DENY",
+                "INDETERMINATE"
+            ],
+            "description": "Policy evaluation result"
+        },
+        "reasons": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            },
+            "minItems": 1,
+            "description": "Human-readable reasons for the decision"
+        },
+        "constraints": {
+            "type": "object",
+            "description": "Additional constraints for PERMIT decisions",
+            "properties": {
+                "max_results": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 1000,
+                    "description": "Maximum number of results to return"
+                },
+                "allowed_bands": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "enum": [
+                            "GREEN",
+                            "AMBER",
+                            "RED",
+                            "BLACK"
+                        ]
+                    },
+                    "uniqueItems": true,
+                    "description": "Bands user is allowed to access"
+                },
+                "allowed_spaces": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Space IDs user can access"
+                },
+                "redaction_required": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Whether sensitive data should be redacted"
+                },
+                "redaction_fields": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Specific fields to redact from responses"
+                },
+                "audit_required": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Whether this access should be logged for audit"
+                },
+                "time_restrictions": {
+                    "type": "object",
+                    "properties": {
+                        "start_time": {
+                            "type": "string",
+                            "format": "time",
+                            "description": "Earliest time of day access is allowed"
+                        },
+                        "end_time": {
+                            "type": "string",
+                            "format": "time",
+                            "description": "Latest time of day access is allowed"
+                        },
+                        "allowed_days": {
+                            "type": "array",
+                            "items": {
+                                "type": "string",
+                                "enum": [
+                                    "monday",
+                                    "tuesday",
+                                    "wednesday",
+                                    "thursday",
+                                    "friday",
+                                    "saturday",
+                                    "sunday"
+                                ]
+                            },
+                            "description": "Days of week access is allowed"
+                        }
+                    },
+                    "additionalProperties": false
+                }
+            },
+            "additionalProperties": false
+        },
+        "errors": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "code": {
+                        "type": "string",
+                        "description": "Error code for denied access"
+                    },
+                    "message": {
+                        "type": "string",
+                        "description": "Human-readable error message"
+                    },
+                    "field": {
+                        "type": "string",
+                        "description": "Field that caused the error (if applicable)"
+                    }
+                },
+                "required": [
+                    "code",
+                    "message"
+                ],
+                "additionalProperties": false
+            },
+            "description": "Detailed error information for DENY decisions"
+        },
+        "metadata": {
+            "type": "object",
+            "properties": {
+                "policy_version": {
+                    "type": "string",
+                    "description": "Version of policy used for evaluation"
+                },
+                "evaluation_time": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "When the policy was evaluated"
+                },
+                "evaluation_duration_ms": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Time taken to evaluate policy"
+                },
+                "policies_evaluated": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "List of policies that were evaluated"
+                }
+            },
+            "additionalProperties": false
+        }
+    },
+    "required": [
+        "decision",
+        "reasons"
+    ],
+    "if": {
+        "properties": {
+            "decision": {
+                "const": "DENY"
+            }
+        }
+    },
+    "then": {
+        "required": [
+            "errors"
+        ]
+    },
+    "additionalProperties": false,
+    "examples": [
+        {
+            "decision": "PERMIT",
+            "reasons": [
+                "User role 'memory_analyst' has recall:read permission",
+                "User is member of target space 'shared:research'",
+                "Requested bands within role allowance"
+            ],
+            "constraints": {
+                "max_results": 50,
+                "allowed_bands": [
+                    "GREEN",
+                    "AMBER",
+                    "RED"
+                ],
+                "allowed_spaces": [
+                    "shared:research",
+                    "personal:alice"
+                ],
+                "redaction_required": false,
+                "audit_required": true
+            },
+            "metadata": {
+                "policy_version": "retrieval_v1.0.0",
+                "evaluation_time": "2025-09-16T10:30:00Z",
+                "evaluation_duration_ms": 2.4,
+                "policies_evaluated": [
+                    "rbac_base",
+                    "space_membership",
+                    "band_access"
+                ]
+            }
+        },
+        {
+            "decision": "DENY",
+            "reasons": [
+                "Insufficient role for requested operation",
+                "BLACK band access requires memory_admin role"
+            ],
+            "errors": [
+                {
+                    "code": "INSUFFICIENT_ROLE",
+                    "message": "Role 'memory_reader' cannot access BLACK band items",
+                    "field": "bands"
+                }
+            ],
+            "metadata": {
+                "policy_version": "retrieval_v1.0.0",
+                "evaluation_time": "2025-09-16T10:30:00Z",
+                "evaluation_duration_ms": 1.8,
+                "policies_evaluated": [
+                    "rbac_base"
+                ]
+            }
+        }
+    ]
+}

@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Integration Thing Changed",
+  "description": "Normalized twin state change for devices/services (Hue, SmartThings, etc.).",
+  "type": "object",
+  "additionalProperties": true,
+  "properties": {
+    "thing_id": {
+      "type": "string"
+    },
+    "connector_id": {
+      "type": "string"
+    },
+    "cap": {
+      "type": "string",
+      "description": "Normalized capability (e.g., light.on_off)"
+    },
+    "state": {
+      "type": "object",
+      "description": "Capability-specific state payload",
+      "additionalProperties": true
+    },
+    "traits": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "source": {
+      "type": "string"
+    },
+    "seen_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "thing_id",
+    "cap",
+    "state"
+  ]
+}

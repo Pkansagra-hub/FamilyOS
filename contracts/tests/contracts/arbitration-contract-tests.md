@@ -1,0 +1,3 @@
+- Validate schemas.
+- High-risk decision requires supervisor override.
+- RED band masks rationale in events/logs.

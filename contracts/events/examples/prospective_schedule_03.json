@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.1.0",
+  "id": "e5bf61f2-7deb-4cf3-8f72-9fdf9d82fa22",
+  "ts": "2025-09-09T04:20:40Z",
+  "topic": "PROSPECTIVE_SCHEDULE",
+  "band": "RED",
+  "actor": {
+    "user_id": "dcf60b1d-08b5-4eab-bc89-4fd1eaf49d90",
+    "agent_id": "system.v1",
+    "caps": [
+      "WRITE"
+    ]
+  },
+  "device": {
+    "device_id": "srv-privacy-01",
+    "platform": "ios",
+    "app_version": "1.1.2",
+    "locale": "en-US"
+  },
+  "space_id": "selective:father_son",
+  "policy_version": "1.3",
+  "abac": {
+    "role": "service",
+    "trust": "amber",
+    "geo_precision": "region"
+  },
+  "qos": {
+    "routing": "fast-path",
+    "priority": 8,
+    "latency_budget_ms": 257,
+    "retries": 0
+  },
+  "trace": {
+    "trace_id": "5fd8f44a92c41f003e5b99ee5a8d3899",
+    "span_id": "fc27423f577e226e",
+    "sampled": true
+  },
+  "obligations": [
+    "REDACT_PII"
+  ],
+  "redaction_applied": false,
+  "hashes": {
+    "payload_sha256": "e6a851d94e6f5363ddcd626586eef6843539d82fef5617790b624d3a44f40618"
+  },
+  "payload": {
+    "when": "2025-09-09T04:20:40Z",
+    "note": "Reminder",
+    "jitter_ms": 10
+  },
+  "signature": {
+    "alg": "ed25519",
+    "key_id": "key_prospective_schedule_red_2024",
+    "public_key": "cHVibGlj",
+    "signature": "c2ln"
+  },
+  "mls_group": "household-secure"
+}

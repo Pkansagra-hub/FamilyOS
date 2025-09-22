@@ -1,0 +1,42 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "$id": "updating_mechanism.schema.json",
+    "title": "Working Memory Updating Mechanism Event",
+    "description": "Event for updating mechanisms in working memory",
+    "type": "object",
+    "required": [
+        "timestamp",
+        "update_type",
+        "old_content",
+        "new_content"
+    ],
+    "properties": {
+        "timestamp": {
+            "type": "string",
+            "format": "date-time"
+        },
+        "update_type": {
+            "type": "string",
+            "enum": [
+                "replace",
+                "merge",
+                "append",
+                "modify"
+            ]
+        },
+        "old_content": {
+            "type": "object"
+        },
+        "new_content": {
+            "type": "object"
+        },
+        "update_trigger": {
+            "type": "string",
+            "enum": [
+                "new_information",
+                "goal_change",
+                "error_correction"
+            ]
+        }
+    }
+}

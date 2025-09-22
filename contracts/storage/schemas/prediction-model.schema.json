@@ -1,0 +1,71 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "prediction-model.schema.json",
+  "title": "Prediction Model",
+  "description": "Predictive model parameters and metadata",
+  "type": "object",
+  "properties": {
+    "model_id": {
+      "type": "string",
+      "format": "ulid",
+      "description": "Unique model identifier"
+    },
+    "space_id": {
+      "type": "string",
+      "format": "ulid",
+      "description": "Memory space context"
+    },
+    "model_type": {
+      "type": "string",
+      "enum": ["action_outcome", "retrieval_relevance", "intent_classification", "resource_forecasting"],
+      "description": "Type of prediction model"
+    },
+    "algorithm": {
+      "type": "string",
+      "enum": ["gradient_boosting", "neural_ranking", "transformer", "time_series"],
+      "description": "Machine learning algorithm used"
+    },
+    "parameters": {
+      "type": "object",
+      "description": "Model-specific parameters",
+      "additionalProperties": true
+    },
+    "feature_schema": {
+      "type": "object",
+      "description": "Expected input feature structure",
+      "additionalProperties": true
+    },
+    "performance_metrics": {
+      "type": "object",
+      "properties": {
+        "accuracy": { "type": "number", "minimum": 0, "maximum": 1 },
+        "auc_score": { "type": "number", "minimum": 0, "maximum": 1 },
+        "calibration_error": { "type": "number", "minimum": 0, "maximum": 1 },
+        "prediction_count": { "type": "integer", "minimum": 0 }
+      }
+    },
+    "training_data": {
+      "type": "object",
+      "properties": {
+        "sample_count": { "type": "integer", "minimum": 0 },
+        "last_trained": { "type": "string", "format": "date-time" },
+        "data_version": { "type": "string" }
+      }
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "retention_policy": {
+      "type": "string",
+      "enum": ["P90D", "P180D", "P365D"],
+      "default": "P180D"
+    }
+  },
+  "required": ["model_id", "space_id", "model_type", "algorithm", "created_at"],
+  "additionalProperties": false
+}

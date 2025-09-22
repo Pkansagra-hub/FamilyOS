@@ -1,0 +1,1128 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://familyos.local/schemas/events/hippocampus/episodic_memory_encoded.json",
+    "title": "Episodic Memory Encoded Event",
+    "description": "Event emitted when a new episodic memory is successfully encoded in the hippocampus, capturing the rich contextual and temporal information that characterizes episodic memories",
+    "type": "object",
+    "required": [
+        "event_type",
+        "timestamp",
+        "hippocampus_id",
+        "memory_id",
+        "encoding_context",
+        "episodic_content",
+        "encoding_strength",
+        "consolidation_priority"
+    ],
+    "properties": {
+        "event_type": {
+            "type": "string",
+            "const": "episodic_memory_encoded",
+            "description": "Event type identifier for episodic memory encoding"
+        },
+        "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "ISO 8601 timestamp when the episodic memory was encoded"
+        },
+        "hippocampus_id": {
+            "type": "string",
+            "pattern": "^hippocampus_[a-zA-Z0-9_-]+$",
+            "description": "Unique identifier for the hippocampus instance performing encoding"
+        },
+        "memory_id": {
+            "type": "string",
+            "pattern": "^mem_[a-zA-Z0-9_-]+$",
+            "description": "Unique identifier for the newly encoded episodic memory"
+        },
+        "encoding_context": {
+            "type": "object",
+            "required": [
+                "spatial_context",
+                "temporal_context",
+                "emotional_context",
+                "attention_state"
+            ],
+            "properties": {
+                "spatial_context": {
+                    "type": "object",
+                    "required": [
+                        "location_encoding",
+                        "spatial_features"
+                    ],
+                    "properties": {
+                        "location_encoding": {
+                            "type": "string",
+                            "description": "Encoded spatial location information"
+                        },
+                        "spatial_features": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "feature_type": {
+                                        "type": "string",
+                                        "enum": [
+                                            "place_cell",
+                                            "grid_cell",
+                                            "border_cell",
+                                            "head_direction"
+                                        ]
+                                    },
+                                    "activation_pattern": {
+                                        "type": "string"
+                                    },
+                                    "spatial_resolution": {
+                                        "type": "number",
+                                        "minimum": 0
+                                    }
+                                }
+                            },
+                            "description": "Spatial feature activations during encoding"
+                        },
+                        "place_field_activity": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "cell_id": {
+                                        "type": "string"
+                                    },
+                                    "firing_rate": {
+                                        "type": "number",
+                                        "minimum": 0
+                                    },
+                                    "place_field_center": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "number"
+                                        }
+                                    },
+                                    "field_size": {
+                                        "type": "number",
+                                        "minimum": 0
+                                    }
+                                }
+                            },
+                            "description": "Place cell firing patterns during encoding"
+                        }
+                    },
+                    "description": "Spatial context information for the episodic memory"
+                },
+                "temporal_context": {
+                    "type": "object",
+                    "required": [
+                        "encoding_time",
+                        "sequence_position"
+                    ],
+                    "properties": {
+                        "encoding_time": {
+                            "type": "string",
+                            "format": "date-time",
+                            "description": "Precise time when encoding occurred"
+                        },
+                        "sequence_position": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "description": "Position within temporal sequence of events"
+                        },
+                        "temporal_order_signal": {
+                            "type": "string",
+                            "description": "Neural signal encoding temporal order information"
+                        },
+                        "time_cell_activity": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "cell_id": {
+                                        "type": "string"
+                                    },
+                                    "temporal_field": {
+                                        "type": "number",
+                                        "minimum": 0
+                                    },
+                                    "firing_pattern": {
+                                        "type": "string"
+                                    },
+                                    "sequence_coding": {
+                                        "type": "string"
+                                    }
+                                }
+                            },
+                            "description": "Time cell activations encoding temporal context"
+                        },
+                        "theta_rhythm_phase": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 6.28318,
+                            "description": "Theta rhythm phase during encoding (0-2π radians)"
+                        }
+                    },
+                    "description": "Temporal context information for the episodic memory"
+                },
+                "emotional_context": {
+                    "type": "object",
+                    "required": [
+                        "valence",
+                        "arousal"
+                    ],
+                    "properties": {
+                        "valence": {
+                            "type": "number",
+                            "minimum": -1,
+                            "maximum": 1,
+                            "description": "Emotional valence (-1 negative to +1 positive)"
+                        },
+                        "arousal": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "Emotional arousal level (0 low to 1 high)"
+                        },
+                        "emotional_tags": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "description": "Categorical emotional labels associated with the memory"
+                        },
+                        "amygdala_modulation": {
+                            "type": "object",
+                            "properties": {
+                                "modulation_strength": {
+                                    "type": "number",
+                                    "minimum": 0,
+                                    "maximum": 1
+                                },
+                                "emotional_significance": {
+                                    "type": "string",
+                                    "enum": [
+                                        "low",
+                                        "moderate",
+                                        "high",
+                                        "critical"
+                                    ]
+                                },
+                                "stress_hormone_level": {
+                                    "type": "number",
+                                    "minimum": 0
+                                }
+                            },
+                            "description": "Amygdala modulation of hippocampal encoding"
+                        }
+                    },
+                    "description": "Emotional context affecting memory encoding strength"
+                },
+                "attention_state": {
+                    "type": "object",
+                    "required": [
+                        "attention_level",
+                        "focus_type"
+                    ],
+                    "properties": {
+                        "attention_level": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "Level of attention during encoding (0-1)"
+                        },
+                        "focus_type": {
+                            "type": "string",
+                            "enum": [
+                                "focused",
+                                "divided",
+                                "selective",
+                                "sustained",
+                                "executive"
+                            ],
+                            "description": "Type of attention deployed during encoding"
+                        },
+                        "attentional_networks": {
+                            "type": "object",
+                            "properties": {
+                                "alerting": {
+                                    "type": "number",
+                                    "minimum": 0,
+                                    "maximum": 1
+                                },
+                                "orienting": {
+                                    "type": "number",
+                                    "minimum": 0,
+                                    "maximum": 1
+                                },
+                                "executive": {
+                                    "type": "number",
+                                    "minimum": 0,
+                                    "maximum": 1
+                                }
+                            },
+                            "description": "Attention network activation levels"
+                        },
+                        "working_memory_load": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "Working memory load during encoding"
+                        }
+                    },
+                    "description": "Attentional state during memory encoding"
+                },
+                "cognitive_state": {
+                    "type": "object",
+                    "properties": {
+                        "consciousness_level": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "metacognitive_awareness": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "intentional_encoding": {
+                            "type": "boolean"
+                        },
+                        "processing_mode": {
+                            "type": "string",
+                            "enum": [
+                                "automatic",
+                                "controlled",
+                                "dual_process"
+                            ]
+                        }
+                    },
+                    "description": "Cognitive state during encoding"
+                }
+            },
+            "description": "Rich contextual information captured during episodic encoding"
+        },
+        "episodic_content": {
+            "type": "object",
+            "required": [
+                "content_type",
+                "sensory_modalities",
+                "semantic_content",
+                "episodic_details"
+            ],
+            "properties": {
+                "content_type": {
+                    "type": "string",
+                    "enum": [
+                        "experience",
+                        "event",
+                        "episode",
+                        "autobiographical",
+                        "personal_semantic"
+                    ],
+                    "description": "Type of episodic content being encoded"
+                },
+                "sensory_modalities": {
+                    "type": "object",
+                    "properties": {
+                        "visual": {
+                            "type": "object",
+                            "properties": {
+                                "visual_features": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                },
+                                "spatial_layout": {
+                                    "type": "string"
+                                },
+                                "color_information": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                },
+                                "motion_patterns": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                }
+                            },
+                            "description": "Visual sensory information"
+                        },
+                        "auditory": {
+                            "type": "object",
+                            "properties": {
+                                "sounds": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                },
+                                "speech_content": {
+                                    "type": "string"
+                                },
+                                "acoustic_features": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                },
+                                "temporal_patterns": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                }
+                            },
+                            "description": "Auditory sensory information"
+                        },
+                        "tactile": {
+                            "type": "object",
+                            "properties": {
+                                "textures": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                },
+                                "temperatures": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "number"
+                                    }
+                                },
+                                "pressure_patterns": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                }
+                            },
+                            "description": "Tactile sensory information"
+                        },
+                        "olfactory": {
+                            "type": "object",
+                            "properties": {
+                                "odors": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                },
+                                "intensity_levels": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "number"
+                                    }
+                                }
+                            },
+                            "description": "Olfactory sensory information"
+                        }
+                    },
+                    "description": "Multi-modal sensory content of the episodic memory"
+                },
+                "semantic_content": {
+                    "type": "object",
+                    "required": [
+                        "conceptual_elements",
+                        "relational_structure"
+                    ],
+                    "properties": {
+                        "conceptual_elements": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "concept_id": {
+                                        "type": "string"
+                                    },
+                                    "concept_type": {
+                                        "type": "string"
+                                    },
+                                    "activation_strength": {
+                                        "type": "number",
+                                        "minimum": 0,
+                                        "maximum": 1
+                                    },
+                                    "semantic_associations": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            },
+                            "description": "Semantic concepts activated during encoding"
+                        },
+                        "relational_structure": {
+                            "type": "object",
+                            "properties": {
+                                "temporal_relations": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                },
+                                "causal_relations": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                },
+                                "spatial_relations": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                },
+                                "social_relations": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                }
+                            },
+                            "description": "Relational structure of semantic content"
+                        },
+                        "narrative_structure": {
+                            "type": "object",
+                            "properties": {
+                                "story_elements": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                },
+                                "narrative_coherence": {
+                                    "type": "number",
+                                    "minimum": 0,
+                                    "maximum": 1
+                                },
+                                "causal_chain": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                }
+                            },
+                            "description": "Narrative organization of episodic content"
+                        }
+                    },
+                    "description": "Semantic and conceptual content of the episodic memory"
+                },
+                "episodic_details": {
+                    "type": "object",
+                    "required": [
+                        "what",
+                        "when",
+                        "where"
+                    ],
+                    "properties": {
+                        "what": {
+                            "type": "string",
+                            "description": "What happened - the central event or experience"
+                        },
+                        "when": {
+                            "type": "string",
+                            "format": "date-time",
+                            "description": "When it happened - temporal information"
+                        },
+                        "where": {
+                            "type": "string",
+                            "description": "Where it happened - spatial/location information"
+                        },
+                        "who": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "description": "Who was involved - people, agents, or entities"
+                        },
+                        "why": {
+                            "type": "string",
+                            "description": "Why it happened - causal or motivational context"
+                        },
+                        "how": {
+                            "type": "string",
+                            "description": "How it happened - process or method"
+                        },
+                        "personal_significance": {
+                            "type": "object",
+                            "properties": {
+                                "self_relevance": {
+                                    "type": "number",
+                                    "minimum": 0,
+                                    "maximum": 1
+                                },
+                                "goal_relevance": {
+                                    "type": "number",
+                                    "minimum": 0,
+                                    "maximum": 1
+                                },
+                                "autobiographical_importance": {
+                                    "type": "number",
+                                    "minimum": 0,
+                                    "maximum": 1
+                                }
+                            },
+                            "description": "Personal significance of the episodic memory"
+                        }
+                    },
+                    "description": "Core episodic details (what, when, where, who, why, how)"
+                },
+                "source_monitoring": {
+                    "type": "object",
+                    "properties": {
+                        "source_type": {
+                            "type": "string",
+                            "enum": [
+                                "external",
+                                "internal",
+                                "imagined",
+                                "remembered"
+                            ]
+                        },
+                        "source_confidence": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "source_details": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "reality_monitoring": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    },
+                    "description": "Source monitoring information for reality testing"
+                }
+            },
+            "description": "Rich episodic content being encoded into memory"
+        },
+        "encoding_strength": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "description": "Strength of the encoding process (0 weak to 1 strong)"
+        },
+        "consolidation_priority": {
+            "type": "string",
+            "enum": [
+                "critical",
+                "high",
+                "normal",
+                "low",
+                "deferred"
+            ],
+            "description": "Priority level for memory consolidation scheduling"
+        },
+        "encoding_mechanisms": {
+            "type": "object",
+            "properties": {
+                "pattern_separation": {
+                    "type": "object",
+                    "properties": {
+                        "separation_strength": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "dentate_gyrus_activity": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "sparse_coding": {
+                            "type": "boolean"
+                        },
+                        "interference_reduction": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    },
+                    "description": "Pattern separation mechanisms during encoding"
+                },
+                "binding_processes": {
+                    "type": "object",
+                    "properties": {
+                        "feature_binding": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "temporal_binding": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "contextual_binding": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "binding_strength": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    },
+                    "description": "Binding processes linking different memory components"
+                },
+                "long_term_potentiation": {
+                    "type": "object",
+                    "properties": {
+                        "ltp_strength": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "synaptic_regions": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "nmda_activation": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "protein_synthesis": {
+                            "type": "boolean"
+                        }
+                    },
+                    "description": "Long-term potentiation mechanisms supporting encoding"
+                }
+            },
+            "description": "Neural mechanisms underlying the encoding process"
+        },
+        "integration_signals": {
+            "type": "object",
+            "properties": {
+                "working_memory_transfer": {
+                    "type": "object",
+                    "properties": {
+                        "transfer_success": {
+                            "type": "boolean"
+                        },
+                        "working_memory_id": {
+                            "type": "string"
+                        },
+                        "buffer_source": {
+                            "type": "string",
+                            "enum": [
+                                "phonological",
+                                "visuospatial",
+                                "episodic",
+                                "central_executive"
+                            ]
+                        },
+                        "transfer_fidelity": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    },
+                    "description": "Transfer from working memory to long-term memory"
+                },
+                "consciousness_coordination": {
+                    "type": "object",
+                    "properties": {
+                        "consciousness_involvement": {
+                            "type": "boolean"
+                        },
+                        "global_workspace_id": {
+                            "type": "string"
+                        },
+                        "conscious_encoding": {
+                            "type": "boolean"
+                        },
+                        "awareness_level": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    },
+                    "description": "Coordination with consciousness systems"
+                },
+                "attention_coordination": {
+                    "type": "object",
+                    "properties": {
+                        "attention_gate_id": {
+                            "type": "string"
+                        },
+                        "attention_modulation": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "focus_allocation": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "attention_enhancement": {
+                            "type": "boolean"
+                        }
+                    },
+                    "description": "Coordination with attention systems"
+                }
+            },
+            "description": "Integration signals with other cognitive systems"
+        },
+        "encoding_metadata": {
+            "type": "object",
+            "properties": {
+                "encoding_duration_ms": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "description": "Duration of the encoding process in milliseconds"
+                },
+                "hippocampal_subregions": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "enum": [
+                            "CA1",
+                            "CA2",
+                            "CA3",
+                            "dentate_gyrus",
+                            "subiculum",
+                            "entorhinal_cortex"
+                        ]
+                    },
+                    "description": "Hippocampal subregions involved in encoding"
+                },
+                "oscillatory_patterns": {
+                    "type": "object",
+                    "properties": {
+                        "theta_power": {
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "gamma_power": {
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "theta_gamma_coupling": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "sharp_wave_ripples": {
+                            "type": "boolean"
+                        }
+                    },
+                    "description": "Oscillatory brain patterns during encoding"
+                },
+                "encoding_quality": {
+                    "type": "object",
+                    "properties": {
+                        "completeness": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "distinctiveness": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "elaboration": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "organization": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    },
+                    "description": "Quality metrics of the encoding process"
+                },
+                "prediction_confidence": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Confidence in successful future retrieval"
+                }
+            },
+            "description": "Metadata about the encoding process and quality"
+        }
+    },
+    "additionalProperties": false,
+    "examples": [
+        {
+            "event_type": "episodic_memory_encoded",
+            "timestamp": "2025-09-16T14:30:45.123Z",
+            "hippocampus_id": "hippocampus_primary_001",
+            "memory_id": "mem_episode_20250916_143045",
+            "encoding_context": {
+                "spatial_context": {
+                    "location_encoding": "kitchen_home_coordinates_40.7589_-73.9851",
+                    "spatial_features": [
+                        {
+                            "feature_type": "place_cell",
+                            "activation_pattern": "high_frequency_burst",
+                            "spatial_resolution": 0.95
+                        }
+                    ],
+                    "place_field_activity": [
+                        {
+                            "cell_id": "place_cell_001",
+                            "firing_rate": 45.2,
+                            "place_field_center": [
+                                2.3,
+                                1.7
+                            ],
+                            "field_size": 0.8
+                        }
+                    ]
+                },
+                "temporal_context": {
+                    "encoding_time": "2025-09-16T14:30:45.123Z",
+                    "sequence_position": 3,
+                    "temporal_order_signal": "theta_phase_precession",
+                    "time_cell_activity": [
+                        {
+                            "cell_id": "time_cell_007",
+                            "temporal_field": 2.5,
+                            "firing_pattern": "ramping_activity",
+                            "sequence_coding": "forward_sequence"
+                        }
+                    ],
+                    "theta_rhythm_phase": 1.57
+                },
+                "emotional_context": {
+                    "valence": 0.8,
+                    "arousal": 0.6,
+                    "emotional_tags": [
+                        "joy",
+                        "satisfaction",
+                        "accomplishment"
+                    ],
+                    "amygdala_modulation": {
+                        "modulation_strength": 0.7,
+                        "emotional_significance": "high",
+                        "stress_hormone_level": 0.2
+                    }
+                },
+                "attention_state": {
+                    "attention_level": 0.85,
+                    "focus_type": "focused",
+                    "attentional_networks": {
+                        "alerting": 0.8,
+                        "orienting": 0.9,
+                        "executive": 0.7
+                    },
+                    "working_memory_load": 0.6
+                },
+                "cognitive_state": {
+                    "consciousness_level": 0.9,
+                    "metacognitive_awareness": 0.75,
+                    "intentional_encoding": true,
+                    "processing_mode": "controlled"
+                }
+            },
+            "episodic_content": {
+                "content_type": "experience",
+                "sensory_modalities": {
+                    "visual": {
+                        "visual_features": [
+                            "bright_sunlight",
+                            "wooden_table",
+                            "steaming_coffee"
+                        ],
+                        "spatial_layout": "kitchen_morning_setup",
+                        "color_information": [
+                            "warm_brown",
+                            "golden_yellow",
+                            "cream_white"
+                        ],
+                        "motion_patterns": [
+                            "steam_rising",
+                            "gentle_stirring"
+                        ]
+                    },
+                    "auditory": {
+                        "sounds": [
+                            "coffee_brewing",
+                            "birds_chirping",
+                            "gentle_music"
+                        ],
+                        "acoustic_features": [
+                            "low_frequency_rumble",
+                            "high_frequency_chirps"
+                        ],
+                        "temporal_patterns": [
+                            "rhythmic_dripping",
+                            "intermittent_chirping"
+                        ]
+                    },
+                    "olfactory": {
+                        "odors": [
+                            "fresh_coffee",
+                            "morning_air"
+                        ],
+                        "intensity_levels": [
+                            0.9,
+                            0.6
+                        ]
+                    }
+                },
+                "semantic_content": {
+                    "conceptual_elements": [
+                        {
+                            "concept_id": "coffee_brewing",
+                            "concept_type": "action",
+                            "activation_strength": 0.95,
+                            "semantic_associations": [
+                                "morning_ritual",
+                                "comfort",
+                                "energy"
+                            ]
+                        }
+                    ],
+                    "relational_structure": {
+                        "temporal_relations": [
+                            "before_work",
+                            "after_waking"
+                        ],
+                        "causal_relations": [
+                            "brewing_causes_aroma"
+                        ],
+                        "spatial_relations": [
+                            "in_kitchen",
+                            "near_window"
+                        ]
+                    },
+                    "narrative_structure": {
+                        "story_elements": [
+                            "morning_routine",
+                            "coffee_preparation",
+                            "peaceful_moment"
+                        ],
+                        "narrative_coherence": 0.9,
+                        "causal_chain": [
+                            "wake_up",
+                            "go_to_kitchen",
+                            "make_coffee",
+                            "enjoy_moment"
+                        ]
+                    }
+                },
+                "episodic_details": {
+                    "what": "Making morning coffee in sunny kitchen",
+                    "when": "2025-09-16T14:30:45.123Z",
+                    "where": "Home kitchen",
+                    "who": [
+                        "self"
+                    ],
+                    "why": "Morning routine and energy preparation",
+                    "how": "Using drip coffee maker with fresh beans",
+                    "personal_significance": {
+                        "self_relevance": 0.8,
+                        "goal_relevance": 0.7,
+                        "autobiographical_importance": 0.6
+                    }
+                },
+                "source_monitoring": {
+                    "source_type": "external",
+                    "source_confidence": 0.95,
+                    "source_details": [
+                        "direct_experience",
+                        "sensory_rich",
+                        "personally_lived"
+                    ],
+                    "reality_monitoring": 0.98
+                }
+            },
+            "encoding_strength": 0.85,
+            "consolidation_priority": "normal",
+            "encoding_mechanisms": {
+                "pattern_separation": {
+                    "separation_strength": 0.8,
+                    "dentate_gyrus_activity": 0.9,
+                    "sparse_coding": true,
+                    "interference_reduction": 0.85
+                },
+                "binding_processes": {
+                    "feature_binding": [
+                        "visual_olfactory",
+                        "temporal_spatial"
+                    ],
+                    "temporal_binding": [
+                        "sequence_order",
+                        "duration_coding"
+                    ],
+                    "contextual_binding": [
+                        "emotional_spatial",
+                        "attention_content"
+                    ],
+                    "binding_strength": 0.82
+                },
+                "long_term_potentiation": {
+                    "ltp_strength": 0.75,
+                    "synaptic_regions": [
+                        "CA1",
+                        "CA3",
+                        "dentate_gyrus"
+                    ],
+                    "nmda_activation": 0.8,
+                    "protein_synthesis": true
+                }
+            },
+            "integration_signals": {
+                "working_memory_transfer": {
+                    "transfer_success": true,
+                    "working_memory_id": "wm_buffer_episodic_001",
+                    "buffer_source": "episodic",
+                    "transfer_fidelity": 0.9
+                },
+                "consciousness_coordination": {
+                    "consciousness_involvement": true,
+                    "global_workspace_id": "gws_primary_001",
+                    "conscious_encoding": true,
+                    "awareness_level": 0.85
+                },
+                "attention_coordination": {
+                    "attention_gate_id": "thalamic_gate_001",
+                    "attention_modulation": 0.8,
+                    "focus_allocation": 0.9,
+                    "attention_enhancement": true
+                }
+            },
+            "encoding_metadata": {
+                "encoding_duration_ms": 2500,
+                "hippocampal_subregions": [
+                    "CA1",
+                    "CA3",
+                    "dentate_gyrus",
+                    "entorhinal_cortex"
+                ],
+                "oscillatory_patterns": {
+                    "theta_power": 0.85,
+                    "gamma_power": 0.7,
+                    "theta_gamma_coupling": 0.75,
+                    "sharp_wave_ripples": false
+                },
+                "encoding_quality": {
+                    "completeness": 0.9,
+                    "distinctiveness": 0.85,
+                    "elaboration": 0.8,
+                    "organization": 0.88
+                },
+                "prediction_confidence": 0.82
+            }
+        }
+    ]
+}

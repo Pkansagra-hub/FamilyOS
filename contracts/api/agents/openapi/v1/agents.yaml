@@ -1,0 +1,1202 @@
+openapi: 3.0.3
+info:
+  title: "Family AI Agent Plane API"
+  description: |
+    LLM conversational agents ↔ Memory Module API
+
+    The Agent Plane enables LLM agents to interact with the Memory-Centric Family AI system.
+    This API provides memory operations, contextual recall, family intelligence queries,
+    and emotional context processing capabilities.
+
+    **Memory-Centric Architecture:**
+    - All operations serve the memory backbone
+    - Family intelligence through memory sync
+    - Neuroscience-inspired cognitive processing
+    - Privacy-first with E2EE family coordination
+  version: "1.0.0"
+  contact:
+    name: "Family AI Development Team"
+    url: "https://github.com/pkansagra99/family_os"
+  license:
+    name: "MIT"
+    url: "https://opensource.org/licenses/MIT"
+
+servers:
+  - url: "http://localhost:8000/v1/agent"
+    description: "Local development server"
+  - url: "https://api.familyos.local/v1/agent"
+    description: "Production Family AI instance"
+
+security:
+  - FamilyAuth: []
+  - DeviceAuth: []
+
+paths:
+  /memory/submit:
+    post:
+      summary: "Submit memory to Family AI"
+      description: |
+        Submit new memory content to the Memory Module for family intelligence processing.
+        Supports episodic, semantic, and emotional memory formation with family context.
+      operationId: "submitMemory"
+      tags: ["Memory Operations"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MemorySubmissionRequest"
+            examples:
+              family_schedule:
+                summary: "Family schedule memory"
+                value:
+                  content:
+                    text: "Emma has soccer practice Wednesday at 4 PM at Central Park"
+                    metadata:
+                      importance: 0.8
+                      emotional_tone: "neutral"
+                  context:
+                    space_id: "shared:household"
+                    tags: ["soccer", "schedule", "emma"]
+                    family_members: ["mom", "dad", "emma"]
+                  cognitive_flags:
+                    memory_type: "episodic"
+                    consolidation_priority: "high"
+                    affect_weight: 0.3
+      responses:
+        "200":
+          description: "Memory successfully submitted and processed"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MemorySubmissionResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+        "429":
+          $ref: "#/components/responses/RateLimited"
+
+  /memory/recall:
+    post:
+      summary: "Recall memories from Family AI"
+      description: |
+        Query the Memory Module for relevant family memories using semantic search,
+        temporal filters, and family relationship context.
+      operationId: "recallMemory"
+      tags: ["Memory Operations"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MemoryRecallRequest"
+            examples:
+              semantic_query:
+                summary: "Semantic memory recall"
+                value:
+                  query: "When is Emma's soccer practice this week?"
+                  context:
+                    space_id: "shared:household"
+                    requester: "dad"
+                    temporal_scope: "this_week"
+                  filters:
+                    memory_types: ["episodic", "semantic"]
+                    min_importance: 0.5
+                    include_emotional_context: true
+      responses:
+        "200":
+          description: "Memories successfully recalled"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MemoryRecallResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+
+  /conversation/chat:
+    post:
+      summary: "Conversational interaction with Family AI"
+      description: |
+        Engage in family-aware conversational interaction with memory-enhanced responses.
+        Supports emotional intelligence, family context, and multi-turn conversations.
+      operationId: "chatInteraction"
+      tags: ["Conversation"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ChatRequest"
+            examples:
+              family_question:
+                summary: "Family scheduling question"
+                value:
+                  message: "What do I need to prepare for Emma's activities this week?"
+                  context:
+                    family_member: "mom"
+                    conversation_id: "conv_123"
+                    emotional_state: "busy"
+                  memory_context:
+                    include_schedule: true
+                    temporal_scope: "this_week"
+                    family_scope: ["emma"]
+      responses:
+        "200":
+          description: "Chat response with family intelligence"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ChatResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+
+  /intelligence/family-advisory:
+    post:
+      summary: "Get family advisory intelligence"
+      description: |
+        Request family-specific advisory intelligence based on memory patterns,
+        emotional states, and family coordination needs.
+      operationId: "getFamilyAdvisory"
+      tags: ["Intelligence"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/FamilyAdvisoryRequest"
+      responses:
+        "200":
+          description: "Family advisory intelligence provided"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FamilyAdvisoryResponse"
+
+  /cognitive/emotional-state:
+    get:
+      summary: "Get current family emotional state"
+      description: |
+        Retrieve current emotional state analysis for family members based on
+        recent interactions and behavioral patterns.
+      operationId: "getFamilyEmotionalState"
+      tags: ["Cognitive"]
+      parameters:
+        - name: family_member
+          in: query
+          schema:
+            type: string
+          description: "Specific family member or 'all' for family overview"
+        - name: timeframe
+          in: query
+          schema:
+            type: string
+            enum: ["last_hour", "today", "this_week"]
+          description: "Timeframe for emotional analysis"
+      responses:
+        "200":
+          description: "Emotional state analysis"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EmotionalStateResponse"
+
+  /cognitive/affect-analysis:
+    post:
+      summary: "Analyze emotional content and context"
+      description: |
+        Advanced affect analysis endpoint for processing emotional content
+        with family context awareness. Used by agents to understand emotional
+        nuances in family communications and memories.
+      operationId: "analyzeAffect"
+      tags: ["Cognitive"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AffectAnalysisRequest"
+            examples:
+              family_conversation_analysis:
+                summary: "Analyze family conversation affect"
+                value:
+                  content:
+                    text: "I'm really stressed about Emma's grades and Tommy won't listen to anything I say anymore"
+                    context: "parent_expressing_frustration"
+                    participants: ["mom"]
+                  analysis_parameters:
+                    detect_emotions: true
+                    analyze_stress_indicators: true
+                    family_context_aware: true
+                    suggest_interventions: false
+                  family_context:
+                    speaker: "mom"
+                    family_relationships: ["mother-daughter", "mother-son"]
+                    current_family_situation: "school_challenges"
+      responses:
+        "200":
+          description: "Affect analysis completed"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AffectAnalysisResponse"
+
+  /processing/pipeline-status:
+    get:
+      summary: "Get cognitive processing pipeline status"
+      description: |
+        Monitor the status of the 20-pipeline cognitive engine processing
+        family memories and intelligence. Provides transparency into system
+        operations for family members and agent coordination.
+      operationId: "getPipelineStatus"
+      tags: ["Processing"]
+      parameters:
+        - name: pipeline_category
+          in: query
+          schema:
+            type: string
+            enum: ["memory", "intelligence", "sync", "safety", "experience", "operations"]
+          description: "Filter by pipeline category"
+        - name: family_scope
+          in: query
+          schema:
+            type: string
+            enum: ["personal", "shared", "all"]
+          description: "Scope of pipeline status to include"
+      responses:
+        "200":
+          description: "Pipeline status retrieved"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PipelineStatusResponse"
+
+  /processing/trigger-pipeline:
+    post:
+      summary: "Trigger specific cognitive pipeline"
+      description: |
+        Manually trigger specific cognitive processing pipelines for
+        family memories or intelligence operations. Used for priority
+        processing or troubleshooting.
+      operationId: "triggerPipeline"
+      tags: ["Processing"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PipelineTriggerRequest"
+      responses:
+        "202":
+          description: "Pipeline trigger accepted"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PipelineTriggerResponse"
+
+  /session/context:
+    get:
+      summary: "Get current agent session context"
+      description: |
+        Retrieve current agent session context including family state,
+        active memories, and cognitive workspace for conversation continuity.
+      operationId: "getSessionContext"
+      tags: ["Session Management"]
+      parameters:
+        - name: session_id
+          in: query
+          schema:
+            type: string
+          description: "Specific session ID or current session"
+        - name: include_memory_workspace
+          in: query
+          schema:
+            type: boolean
+            default: true
+          description: "Include active memory workspace"
+        - name: include_family_state
+          in: query
+          schema:
+            type: boolean
+            default: true
+          description: "Include current family state context"
+      responses:
+        "200":
+          description: "Session context retrieved"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SessionContextResponse"
+
+    post:
+      summary: "Update agent session context"
+      description: |
+        Update agent session context with new family state, memory updates,
+        or cognitive workspace changes for enhanced conversation continuity.
+      operationId: "updateSessionContext"
+      tags: ["Session Management"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SessionContextUpdateRequest"
+      responses:
+        "200":
+          description: "Session context updated"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SessionContextResponse"
+
+components:
+  securitySchemes:
+    FamilyAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: "Family member authentication token"
+    DeviceAuth:
+      type: apiKey
+      in: header
+      name: X-Device-ID
+      description: "Device identification for family ecosystem"
+
+  schemas:
+    MemorySubmissionRequest:
+      type: object
+      required: ["content", "context"]
+      properties:
+        content:
+          type: object
+          required: ["text"]
+          properties:
+            text:
+              type: string
+              description: "Primary memory content"
+              maxLength: 10000
+            metadata:
+              type: object
+              properties:
+                importance:
+                  type: number
+                  minimum: 0
+                  maximum: 1
+                  description: "Memory importance score (0-1)"
+                emotional_tone:
+                  type: string
+                  enum: ["positive", "neutral", "negative", "mixed"]
+                source_type:
+                  type: string
+                  enum: ["conversation", "observation", "external", "system"]
+        context:
+          type: object
+          required: ["space_id"]
+          properties:
+            space_id:
+              type: string
+              pattern: "^(personal|selective|shared|extended|interfamily):[a-zA-Z0-9_-]+$"
+              description: "Memory space identifier following family privacy boundaries"
+            tags:
+              type: array
+              items:
+                type: string
+                maxLength: 50
+              maxItems: 10
+              description: "Memory categorization tags"
+            family_members:
+              type: array
+              items:
+                type: string
+              description: "Relevant family members for this memory"
+            temporal_context:
+              type: object
+              properties:
+                event_time:
+                  type: string
+                  format: date-time
+                duration:
+                  type: integer
+                  description: "Event duration in minutes"
+        cognitive_flags:
+          type: object
+          properties:
+            memory_type:
+              type: string
+              enum: ["episodic", "semantic", "emotional", "procedural"]
+            consolidation_priority:
+              type: string
+              enum: ["low", "medium", "high", "critical"]
+            affect_weight:
+              type: number
+              minimum: 0
+              maximum: 1
+              description: "Emotional significance weight"
+
+    MemorySubmissionResponse:
+      type: object
+      required: ["success", "memory_id", "processing_summary"]
+      properties:
+        success:
+          type: boolean
+        memory_id:
+          type: string
+          format: uuid
+          description: "Unique identifier for submitted memory"
+        processing_summary:
+          type: object
+          properties:
+            space_assigned:
+              type: string
+              description: "Final memory space assignment"
+            importance_score:
+              type: number
+              description: "Computed importance score"
+            tags_extracted:
+              type: array
+              items:
+                type: string
+              description: "Automatically extracted tags"
+            family_context:
+              type: object
+              description: "Family relationship context detected"
+        pipeline_routing:
+          type: object
+          description: "Which cognitive pipelines will process this memory"
+
+    MemoryRecallRequest:
+      type: object
+      required: ["query", "context"]
+      properties:
+        query:
+          type: string
+          maxLength: 500
+          description: "Natural language memory query"
+        context:
+          type: object
+          required: ["space_id", "requester"]
+          properties:
+            space_id:
+              type: string
+              description: "Memory space to search within"
+            requester:
+              type: string
+              description: "Family member making the request"
+            temporal_scope:
+              type: string
+              enum: ["today", "this_week", "this_month", "this_year", "all_time"]
+            emotional_context:
+              type: string
+              description: "Current emotional context of requester"
+        filters:
+          type: object
+          properties:
+            memory_types:
+              type: array
+              items:
+                type: string
+                enum: ["episodic", "semantic", "emotional", "procedural"]
+            min_importance:
+              type: number
+              minimum: 0
+              maximum: 1
+            max_results:
+              type: integer
+              minimum: 1
+              maximum: 50
+              default: 10
+            include_emotional_context:
+              type: boolean
+              default: true
+
+    MemoryRecallResponse:
+      type: object
+      required: ["success", "memories", "query_analysis"]
+      properties:
+        success:
+          type: boolean
+        memories:
+          type: array
+          items:
+            type: object
+            properties:
+              memory_id:
+                type: string
+                format: uuid
+              content:
+                type: string
+                description: "Memory content (may be filtered based on permissions)"
+              relevance_score:
+                type: number
+                minimum: 0
+                maximum: 1
+              timestamp:
+                type: string
+                format: date-time
+              tags:
+                type: array
+                items:
+                  type: string
+              emotional_context:
+                type: object
+                properties:
+                  tone:
+                    type: string
+                  intensity:
+                    type: number
+              family_context:
+                type: object
+                description: "Family members and relationships involved"
+        query_analysis:
+          type: object
+          properties:
+            intent_detected:
+              type: string
+            temporal_scope_used:
+              type: string
+            family_members_inferred:
+              type: array
+              items:
+                type: string
+            emotional_context_applied:
+              type: boolean
+
+    ChatRequest:
+      type: object
+      required: ["message", "context"]
+      properties:
+        message:
+          type: string
+          maxLength: 2000
+          description: "User message to Family AI"
+        context:
+          type: object
+          required: ["family_member"]
+          properties:
+            family_member:
+              type: string
+              description: "Family member identifier"
+            conversation_id:
+              type: string
+              description: "Conversation session identifier"
+            emotional_state:
+              type: string
+              enum: ["happy", "sad", "angry", "frustrated", "excited", "calm", "busy", "stressed"]
+            current_activity:
+              type: string
+              description: "What the family member is currently doing"
+        memory_context:
+          type: object
+          properties:
+            include_schedule:
+              type: boolean
+              default: true
+            temporal_scope:
+              type: string
+              enum: ["today", "this_week", "this_month"]
+              default: "today"
+            family_scope:
+              type: array
+              items:
+                type: string
+              description: "Which family members to include in context"
+
+    ChatResponse:
+      type: object
+      required: ["response", "conversation_id", "memory_integration"]
+      properties:
+        response:
+          type: string
+          description: "Family AI response message"
+        conversation_id:
+          type: string
+          description: "Conversation session identifier"
+        memory_integration:
+          type: object
+          properties:
+            memories_accessed:
+              type: integer
+              description: "Number of memories used in response"
+            family_context_applied:
+              type: boolean
+              description: "Whether family context influenced response"
+            emotional_adaptation:
+              type: string
+              description: "How response was adapted based on emotional state"
+        suggested_actions:
+          type: array
+          items:
+            type: object
+            properties:
+              action:
+                type: string
+              priority:
+                type: string
+                enum: ["low", "medium", "high"]
+              family_members_involved:
+                type: array
+                items:
+                  type: string
+
+    FamilyAdvisoryRequest:
+      type: object
+      required: ["advisory_type", "context"]
+      properties:
+        advisory_type:
+          type: string
+          enum: ["schedule_optimization", "emotional_support", "conflict_resolution", "health_wellness", "family_coordination"]
+        context:
+          type: object
+          properties:
+            family_members:
+              type: array
+              items:
+                type: string
+            timeframe:
+              type: string
+            specific_concerns:
+              type: array
+              items:
+                type: string
+
+    FamilyAdvisoryResponse:
+      type: object
+      properties:
+        advisory_summary:
+          type: string
+        recommendations:
+          type: array
+          items:
+            type: object
+            properties:
+              recommendation:
+                type: string
+              rationale:
+                type: string
+              priority:
+                type: string
+                enum: ["low", "medium", "high", "urgent"]
+              implementation_steps:
+                type: array
+                items:
+                  type: string
+
+    EmotionalStateResponse:
+      type: object
+      properties:
+        family_overview:
+          type: object
+          properties:
+            overall_mood:
+              type: string
+            stress_level:
+              type: string
+              enum: ["low", "medium", "high"]
+            harmony_index:
+              type: number
+              minimum: 0
+              maximum: 1
+        individual_states:
+          type: array
+          items:
+            type: object
+            properties:
+              family_member:
+                type: string
+              emotional_state:
+                type: string
+              confidence:
+                type: number
+              recent_indicators:
+                type: array
+                items:
+                  type: string
+
+    AffectAnalysisRequest:
+      type: object
+      required: ["content", "analysis_parameters"]
+      properties:
+        content:
+          type: object
+          required: ["text"]
+          properties:
+            text:
+              type: string
+              maxLength: 5000
+              description: "Content to analyze for emotional context"
+            context:
+              type: string
+              description: "Situational context for affect analysis"
+            participants:
+              type: array
+              items:
+                type: string
+              description: "Family members involved in the content"
+            media_type:
+              type: string
+              enum: ["text", "audio_transcript", "multimodal"]
+              default: "text"
+        analysis_parameters:
+          type: object
+          properties:
+            detect_emotions:
+              type: boolean
+              default: true
+            analyze_stress_indicators:
+              type: boolean
+              default: true
+            family_context_aware:
+              type: boolean
+              default: true
+            suggest_interventions:
+              type: boolean
+              default: false
+            emotional_granularity:
+              type: string
+              enum: ["basic", "detailed", "clinical"]
+              default: "detailed"
+        family_context:
+          type: object
+          properties:
+            speaker:
+              type: string
+            family_relationships:
+              type: array
+              items:
+                type: string
+            current_family_situation:
+              type: string
+            recent_family_events:
+              type: array
+              items:
+                type: string
+
+    AffectAnalysisResponse:
+      type: object
+      required: ["emotional_analysis", "confidence_scores"]
+      properties:
+        emotional_analysis:
+          type: object
+          properties:
+            primary_emotion:
+              type: string
+            secondary_emotions:
+              type: array
+              items:
+                type: string
+            emotional_intensity:
+              type: number
+              minimum: 0
+              maximum: 1
+            emotional_valence:
+              type: number
+              minimum: -1
+              maximum: 1
+              description: "Positive/negative emotional valence"
+            stress_indicators:
+              type: array
+              items:
+                type: object
+                properties:
+                  indicator:
+                    type: string
+                  confidence:
+                    type: number
+                  severity:
+                    type: string
+                    enum: ["low", "medium", "high"]
+        family_context_analysis:
+          type: object
+          properties:
+            relationship_dynamics:
+              type: array
+              items:
+                type: object
+                properties:
+                  relationship:
+                    type: string
+                  dynamic_detected:
+                    type: string
+                  emotional_impact:
+                    type: string
+            family_situation_assessment:
+              type: string
+            recommended_response_tone:
+              type: string
+              enum: ["supportive", "calming", "encouraging", "celebratory", "informational"]
+        confidence_scores:
+          type: object
+          properties:
+            overall_confidence:
+              type: number
+              minimum: 0
+              maximum: 1
+            emotion_detection_confidence:
+              type: number
+            family_context_confidence:
+              type: number
+            intervention_recommendation_confidence:
+              type: number
+        suggested_interventions:
+          type: array
+          items:
+            type: object
+            properties:
+              intervention_type:
+                type: string
+              description:
+                type: string
+              urgency:
+                type: string
+                enum: ["low", "medium", "high", "immediate"]
+
+    PipelineStatusResponse:
+      type: object
+      required: ["pipeline_overview", "active_pipelines"]
+      properties:
+        pipeline_overview:
+          type: object
+          properties:
+            total_pipelines:
+              type: integer
+            active_pipelines:
+              type: integer
+            average_load:
+              type: number
+              minimum: 0
+              maximum: 1
+            system_health:
+              type: string
+              enum: ["healthy", "degraded", "critical"]
+        active_pipelines:
+          type: array
+          items:
+            type: object
+            properties:
+              pipeline_id:
+                type: string
+                enum: ["P01", "P02", "P03", "P04", "P05", "P06", "P07", "P08", "P09", "P10", "P11", "P12", "P13", "P14", "P15", "P16", "P17", "P18", "P19", "P20"]
+              pipeline_name:
+                type: string
+              category:
+                type: string
+                enum: ["memory", "intelligence", "sync", "safety", "experience", "operations"]
+              status:
+                type: string
+                enum: ["idle", "processing", "queued", "error", "maintenance"]
+              current_load:
+                type: number
+                minimum: 0
+                maximum: 1
+              queue_length:
+                type: integer
+              last_activity:
+                type: string
+                format: date-time
+              family_scope:
+                type: string
+              processing_summary:
+                type: object
+                properties:
+                  total_processed_today:
+                    type: integer
+                  average_processing_time:
+                    type: number
+                  error_rate:
+                    type: number
+        family_processing_metrics:
+          type: object
+          properties:
+            memories_processed_today:
+              type: integer
+            family_intelligence_queries:
+              type: integer
+            sync_operations_completed:
+              type: integer
+            emotional_contexts_analyzed:
+              type: integer
+
+    PipelineTriggerRequest:
+      type: object
+      required: ["pipeline_id", "trigger_reason"]
+      properties:
+        pipeline_id:
+          type: string
+          enum: ["P01", "P02", "P03", "P04", "P05", "P06", "P07", "P08", "P09", "P10", "P11", "P12", "P13", "P14", "P15", "P16", "P17", "P18", "P19", "P20"]
+        trigger_reason:
+          type: string
+          enum: ["manual_request", "priority_processing", "error_recovery", "maintenance", "family_emergency"]
+        processing_parameters:
+          type: object
+          properties:
+            priority_level:
+              type: string
+              enum: ["low", "medium", "high", "critical"]
+            family_scope:
+              type: string
+              enum: ["personal", "selective", "shared", "extended", "interfamily"]
+            processing_mode:
+              type: string
+              enum: ["standard", "expedited", "comprehensive"]
+        target_content:
+          type: object
+          properties:
+            memory_ids:
+              type: array
+              items:
+                type: string
+            family_members:
+              type: array
+              items:
+                type: string
+            content_filter:
+              type: object
+
+    PipelineTriggerResponse:
+      type: object
+      required: ["trigger_accepted", "processing_id"]
+      properties:
+        trigger_accepted:
+          type: boolean
+        processing_id:
+          type: string
+          format: uuid
+          description: "Unique identifier for tracking pipeline processing"
+        estimated_completion:
+          type: string
+          format: date-time
+        pipeline_queue_position:
+          type: integer
+        processing_details:
+          type: object
+          properties:
+            pipeline_name:
+              type: string
+            estimated_duration:
+              type: string
+            family_scope_processing:
+              type: string
+            priority_level:
+              type: string
+
+    SessionContextResponse:
+      type: object
+      required: ["session_info", "family_state", "memory_workspace"]
+      properties:
+        session_info:
+          type: object
+          properties:
+            session_id:
+              type: string
+            family_member:
+              type: string
+            device_context:
+              type: string
+            session_duration:
+              type: string
+            conversation_turns:
+              type: integer
+        family_state:
+          type: object
+          properties:
+            current_family_mood:
+              type: string
+            active_family_members:
+              type: array
+              items:
+                type: string
+            family_activities:
+              type: array
+              items:
+                type: object
+                properties:
+                  activity:
+                    type: string
+                  participants:
+                    type: array
+                    items:
+                      type: string
+                  status:
+                    type: string
+            recent_family_events:
+              type: array
+              items:
+                type: object
+                properties:
+                  event:
+                    type: string
+                  timestamp:
+                    type: string
+                    format: date-time
+                  emotional_impact:
+                    type: string
+        memory_workspace:
+          type: object
+          properties:
+            active_memories:
+              type: array
+              items:
+                type: object
+                properties:
+                  memory_id:
+                    type: string
+                  relevance_score:
+                    type: number
+                  content_summary:
+                    type: string
+            memory_patterns:
+              type: array
+              items:
+                type: object
+                properties:
+                  pattern_type:
+                    type: string
+                  strength:
+                    type: number
+                  description:
+                    type: string
+            contextual_insights:
+              type: array
+              items:
+                type: object
+                properties:
+                  insight_type:
+                    type: string
+                  confidence:
+                    type: number
+                  description:
+                    type: string
+        conversation_context:
+          type: object
+          properties:
+            conversation_theme:
+              type: string
+            emotional_trajectory:
+              type: string
+            key_topics:
+              type: array
+              items:
+                type: string
+            suggested_responses:
+              type: array
+              items:
+                type: object
+                properties:
+                  response_type:
+                    type: string
+                  preview:
+                    type: string
+                  confidence:
+                    type: number
+
+    SessionContextUpdateRequest:
+      type: object
+      properties:
+        family_state_updates:
+          type: object
+          properties:
+            mood_change:
+              type: string
+            new_activities:
+              type: array
+              items:
+                type: object
+            family_member_status_changes:
+              type: object
+              additionalProperties:
+                type: string
+        memory_workspace_updates:
+          type: object
+          properties:
+            add_memories:
+              type: array
+              items:
+                type: string
+            remove_memories:
+              type: array
+              items:
+                type: string
+            update_relevance_scores:
+              type: object
+              additionalProperties:
+                type: number
+        conversation_updates:
+          type: object
+          properties:
+            new_theme:
+              type: string
+            emotional_shift:
+              type: string
+            topics_resolved:
+              type: array
+              items:
+                type: string
+            topics_added:
+              type: array
+              items:
+                type: string
+
+  responses:
+    BadRequest:
+      description: "Invalid request format or parameters"
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+              details:
+                type: string
+              validation_errors:
+                type: array
+                items:
+                  type: string
+
+    Forbidden:
+      description: "Access denied - insufficient family permissions"
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+              family_policy_violation:
+                type: string
+              required_permissions:
+                type: array
+                items:
+                  type: string
+
+    RateLimited:
+      description: "Too many requests - rate limit exceeded"
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+              retry_after_seconds:
+                type: integer
+              daily_limit:
+                type: integer
+              requests_remaining:
+                type: integer
+
+tags:
+  - name: "Memory Operations"
+    description: "Core memory submission and recall operations"
+  - name: "Conversation"
+    description: "Family-aware conversational interactions"
+  - name: "Intelligence"
+    description: "Family advisory and intelligence services"
+  - name: "Cognitive"
+    description: "Cognitive state and emotional intelligence"
+  - name: "Processing"
+    description: "Cognitive pipeline monitoring and control"
+  - name: "Session Management"
+    description: "Agent session context and state management"

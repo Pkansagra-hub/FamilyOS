@@ -1,0 +1,54 @@
+{
+  "schema_version": "1.1.0",
+  "id": "30e978f3-47f2-48be-a6a3-cb1fb5cf77f7",
+  "ts": "2025-09-09T04:20:40Z",
+  "topic": "BELIEF_UPDATE",
+  "band": "GREEN",
+  "actor": {
+    "user_id": "fa8f30db-5efa-4267-aa6b-071c0fdbdeb2",
+    "agent_id": "safety.v1",
+    "caps": [
+      "WRITE",
+      "RECALL"
+    ]
+  },
+  "device": {
+    "device_id": "srv-privacy-01",
+    "platform": "ios",
+    "app_version": "1.9.0",
+    "locale": "en-GB"
+  },
+  "space_id": "shared:household",
+  "policy_version": "1.3",
+  "abac": {
+    "role": "service",
+    "trust": "red",
+    "geo_precision": "city"
+  },
+  "qos": {
+    "routing": "fast-path",
+    "priority": 4,
+    "latency_budget_ms": 104,
+    "retries": 0
+  },
+  "trace": {
+    "trace_id": "a9d373a68f1b1b55b8d7729b9c419f48",
+    "span_id": "3f8a3ca163a89518",
+    "sampled": true
+  },
+  "obligations": [],
+  "redaction_applied": false,
+  "hashes": {
+    "payload_sha256": "c11da7aeb10db9214322574ca2f76f17409fadba56d903fe8cee872285342f19"
+  },
+  "payload": {
+    "note": "system-update",
+    "ts": "2025-09-09T04:20:40Z"
+  },
+  "signature": {
+    "alg": "ed25519",
+    "key_id": "key_belief_update_green_2024",
+    "public_key": "cHVibGlj",
+    "signature": "c2ln"
+  }
+}

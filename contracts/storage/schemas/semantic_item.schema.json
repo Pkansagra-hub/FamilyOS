@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://familyos.local/contracts/storage/semantic_item.schema.json",
+  "title": "Semantic Item",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "space_id",
+    "ts",
+    "type",
+    "keys"
+  ],
+  "properties": {
+    "id": {
+      "$ref": "./common.schema.json#/$defs/ULID"
+    },
+    "space_id": {
+      "$ref": "./common.schema.json#/$defs/SpaceId"
+    },
+    "ts": {
+      "$ref": "./common.schema.json#/$defs/Timestamp"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "note",
+        "task",
+        "contact",
+        "event",
+        "fact",
+        "triple",
+        "entity"
+      ]
+    },
+    "keys": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "payload": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "band": {
+      "$ref": "./common.schema.json#/$defs/Band"
+    },
+    "ttl": {
+      "type": "string",
+      "description": "ISO 8601 duration for expiry (e.g., P30D)"
+    }
+  }
+}

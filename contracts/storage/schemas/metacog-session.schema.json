@@ -1,0 +1,80 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "metacog-session.schema.json",
+  "title": "Metacognitive Session",
+  "description": "Metacognitive monitoring and reflection session",
+  "type": "object",
+  "properties": {
+    "session_id": {
+      "type": "string",
+      "format": "ulid",
+      "description": "Unique metacognitive session identifier"
+    },
+    "space_id": {
+      "type": "string",
+      "format": "ulid",
+      "description": "Memory space context"
+    },
+    "metacog_type": {
+      "type": "string",
+      "enum": ["confidence_estimation", "error_detection", "performance_reflection", "strategy_selection"],
+      "description": "Type of metacognitive process"
+    },
+    "trigger_context": {
+      "type": "object",
+      "properties": {
+        "decision_id": { "type": "string", "format": "ulid" },
+        "process_trace": { "type": "array", "items": { "type": "string" } },
+        "performance_metrics": { "type": "object" }
+      }
+    },
+    "confidence_estimates": {
+      "type": "object",
+      "properties": {
+        "decision_confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+        "outcome_uncertainty": { "type": "number", "minimum": 0, "maximum": 1 },
+        "calibration_score": { "type": "number", "minimum": 0, "maximum": 1 }
+      }
+    },
+    "error_analysis": {
+      "type": "object",
+      "properties": {
+        "errors_detected": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "error_type": { "type": "string", "enum": ["logical", "knowledge", "strategy", "confidence", "goal"] },
+              "severity": { "type": "string", "enum": ["low", "medium", "high", "critical"] },
+              "correction_suggested": { "type": "string" }
+            }
+          }
+        },
+        "correction_applied": { "type": "boolean" }
+      }
+    },
+    "reflection_insights": {
+      "type": "object",
+      "properties": {
+        "performance_patterns": { "type": "array", "items": { "type": "string" } },
+        "strategy_effectiveness": { "type": "object" },
+        "improvement_recommendations": { "type": "array", "items": { "type": "string" } }
+      }
+    },
+    "started_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "completed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "retention_policy": {
+      "type": "string",
+      "enum": ["P30D", "P60D", "P90D"],
+      "default": "P60D"
+    }
+  },
+  "required": ["session_id", "space_id", "metacog_type", "started_at"],
+  "additionalProperties": false
+}

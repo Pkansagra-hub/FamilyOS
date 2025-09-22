@@ -1,0 +1,531 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "$id": "thalamic_attention_state_change.schema.json",
+    "title": "Thalamic Attention State Change Event",
+    "description": "Event generated when thalamic attention mechanisms transition between different attention states. This models thalamic control of attention modes and transitions.",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "timestamp",
+        "previous_state",
+        "new_state",
+        "transition_trigger",
+        "state_parameters",
+        "transition_dynamics"
+    ],
+    "properties": {
+        "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Precise timing of attention state change"
+        },
+        "previous_state": {
+            "type": "object",
+            "required": [
+                "state_type",
+                "duration_ms",
+                "stability_measure"
+            ],
+            "properties": {
+                "state_type": {
+                    "type": "string",
+                    "enum": [
+                        "focused",
+                        "diffuse",
+                        "vigilant",
+                        "divided",
+                        "selective",
+                        "sustained",
+                        "executive",
+                        "orienting"
+                    ],
+                    "description": "Type of previous attention state"
+                },
+                "duration_ms": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Duration of previous state in milliseconds"
+                },
+                "stability_measure": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Stability of previous state (0=unstable, 1=stable)"
+                },
+                "performance_metrics": {
+                    "type": "object",
+                    "properties": {
+                        "accuracy": {
+                            "type": "number"
+                        },
+                        "reaction_time_ms": {
+                            "type": "number"
+                        },
+                        "resource_efficiency": {
+                            "type": "number"
+                        }
+                    },
+                    "description": "Performance metrics in previous state"
+                }
+            },
+            "description": "Previous attention state characteristics"
+        },
+        "new_state": {
+            "type": "object",
+            "required": [
+                "state_type",
+                "predicted_duration_ms",
+                "confidence_level"
+            ],
+            "properties": {
+                "state_type": {
+                    "type": "string",
+                    "enum": [
+                        "focused",
+                        "diffuse",
+                        "vigilant",
+                        "divided",
+                        "selective",
+                        "sustained",
+                        "executive",
+                        "orienting"
+                    ],
+                    "description": "Type of new attention state"
+                },
+                "predicted_duration_ms": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Predicted duration of new state in milliseconds"
+                },
+                "confidence_level": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Confidence in state transition appropriateness"
+                },
+                "initialization_parameters": {
+                    "type": "object",
+                    "properties": {
+                        "focus_intensity": {
+                            "type": "number"
+                        },
+                        "spatial_scope": {
+                            "type": "number"
+                        },
+                        "temporal_scope": {
+                            "type": "number"
+                        },
+                        "feature_selectivity": {
+                            "type": "number"
+                        }
+                    },
+                    "description": "Initial parameters for new attention state"
+                }
+            },
+            "description": "New attention state characteristics"
+        },
+        "transition_trigger": {
+            "type": "object",
+            "required": [
+                "trigger_type",
+                "trigger_strength"
+            ],
+            "properties": {
+                "trigger_type": {
+                    "type": "string",
+                    "enum": [
+                        "task_demand",
+                        "stimulus_change",
+                        "goal_update",
+                        "fatigue",
+                        "arousal_change",
+                        "context_switch",
+                        "error_detection",
+                        "resource_depletion"
+                    ],
+                    "description": "Type of trigger that initiated state change"
+                },
+                "trigger_strength": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Strength of the transition trigger"
+                },
+                "trigger_details": {
+                    "type": "object",
+                    "properties": {
+                        "external_stimulus": {
+                            "type": "object",
+                            "properties": {
+                                "stimulus_id": {
+                                    "type": "string"
+                                },
+                                "stimulus_salience": {
+                                    "type": "number"
+                                },
+                                "stimulus_novelty": {
+                                    "type": "number"
+                                }
+                            },
+                            "description": "External stimulus trigger details"
+                        },
+                        "internal_state": {
+                            "type": "object",
+                            "properties": {
+                                "cognitive_load": {
+                                    "type": "number"
+                                },
+                                "arousal_level": {
+                                    "type": "number"
+                                },
+                                "fatigue_level": {
+                                    "type": "number"
+                                },
+                                "motivation_level": {
+                                    "type": "number"
+                                }
+                            },
+                            "description": "Internal state trigger details"
+                        },
+                        "task_requirements": {
+                            "type": "object",
+                            "properties": {
+                                "task_complexity": {
+                                    "type": "number"
+                                },
+                                "attention_demands": {
+                                    "type": "number"
+                                },
+                                "multitasking_required": {
+                                    "type": "boolean"
+                                }
+                            },
+                            "description": "Task requirement trigger details"
+                        }
+                    },
+                    "description": "Detailed information about transition triggers"
+                }
+            },
+            "description": "Trigger that initiated the attention state change"
+        },
+        "state_parameters": {
+            "type": "object",
+            "required": [
+                "attention_scope",
+                "resource_allocation",
+                "control_settings"
+            ],
+            "properties": {
+                "attention_scope": {
+                    "type": "object",
+                    "properties": {
+                        "spatial_extent": {
+                            "type": "object",
+                            "properties": {
+                                "focus_width": {
+                                    "type": "number"
+                                },
+                                "focus_height": {
+                                    "type": "number"
+                                },
+                                "focus_depth": {
+                                    "type": "number"
+                                },
+                                "peripheral_awareness": {
+                                    "type": "number"
+                                }
+                            },
+                            "description": "Spatial extent of attention"
+                        },
+                        "temporal_extent": {
+                            "type": "object",
+                            "properties": {
+                                "temporal_window_ms": {
+                                    "type": "number"
+                                },
+                                "temporal_resolution_ms": {
+                                    "type": "number"
+                                },
+                                "temporal_integration_ms": {
+                                    "type": "number"
+                                }
+                            },
+                            "description": "Temporal extent of attention"
+                        },
+                        "feature_selectivity": {
+                            "type": "object",
+                            "properties": {
+                                "color_selectivity": {
+                                    "type": "number"
+                                },
+                                "motion_selectivity": {
+                                    "type": "number"
+                                },
+                                "orientation_selectivity": {
+                                    "type": "number"
+                                },
+                                "semantic_selectivity": {
+                                    "type": "number"
+                                }
+                            },
+                            "description": "Feature-based attention selectivity"
+                        }
+                    },
+                    "description": "Scope and extent parameters of attention"
+                },
+                "resource_allocation": {
+                    "type": "object",
+                    "properties": {
+                        "attention_capacity": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "Proportion of total attention capacity allocated"
+                        },
+                        "working_memory_allocation": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "Working memory resources allocated"
+                        },
+                        "executive_control_allocation": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "Executive control resources allocated"
+                        },
+                        "sensory_processing_allocation": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "Sensory processing resources allocated"
+                        }
+                    },
+                    "description": "Resource allocation in new attention state"
+                },
+                "control_settings": {
+                    "type": "object",
+                    "properties": {
+                        "top_down_control": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "Strength of top-down attentional control"
+                        },
+                        "bottom_up_sensitivity": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "Sensitivity to bottom-up attention capture"
+                        },
+                        "inhibition_strength": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "Strength of attentional inhibition"
+                        },
+                        "flexibility": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "Flexibility of attention switching"
+                        }
+                    },
+                    "description": "Control parameter settings for attention state"
+                }
+            },
+            "description": "Detailed parameters of the attention state"
+        },
+        "transition_dynamics": {
+            "type": "object",
+            "required": [
+                "transition_time_ms",
+                "transition_smoothness"
+            ],
+            "properties": {
+                "transition_time_ms": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Time taken for the state transition"
+                },
+                "transition_smoothness": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Smoothness of the transition (0=abrupt, 1=smooth)"
+                },
+                "transition_trajectory": {
+                    "type": "object",
+                    "properties": {
+                        "trajectory_type": {
+                            "type": "string",
+                            "enum": [
+                                "linear",
+                                "exponential",
+                                "sigmoid",
+                                "step",
+                                "oscillatory"
+                            ],
+                            "description": "Type of transition trajectory"
+                        },
+                        "transition_phases": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "phase_name": {
+                                        "type": "string"
+                                    },
+                                    "phase_duration_ms": {
+                                        "type": "number"
+                                    },
+                                    "phase_characteristics": {
+                                        "type": "object"
+                                    }
+                                }
+                            },
+                            "description": "Distinct phases of the transition"
+                        }
+                    },
+                    "description": "Detailed transition trajectory information"
+                },
+                "stability_prediction": {
+                    "type": "object",
+                    "properties": {
+                        "predicted_stability": {
+                            "type": "number"
+                        },
+                        "stability_factors": {
+                            "type": "array"
+                        },
+                        "instability_risks": {
+                            "type": "array"
+                        }
+                    },
+                    "description": "Prediction of new state stability"
+                }
+            },
+            "description": "Dynamics of the attention state transition"
+        },
+        "neural_correlates": {
+            "type": "object",
+            "properties": {
+                "thalamic_nuclei_activity": {
+                    "type": "object",
+                    "properties": {
+                        "reticular_nucleus": {
+                            "type": "number"
+                        },
+                        "intralaminar_nuclei": {
+                            "type": "number"
+                        },
+                        "pulvinar": {
+                            "type": "number"
+                        },
+                        "mediodorsal": {
+                            "type": "number"
+                        }
+                    },
+                    "description": "Activity levels in key thalamic nuclei"
+                },
+                "cortical_synchrony": {
+                    "type": "object",
+                    "properties": {
+                        "alpha_power": {
+                            "type": "number"
+                        },
+                        "beta_power": {
+                            "type": "number"
+                        },
+                        "gamma_power": {
+                            "type": "number"
+                        },
+                        "theta_power": {
+                            "type": "number"
+                        }
+                    },
+                    "description": "Cortical oscillatory activity"
+                },
+                "connectivity_patterns": {
+                    "type": "object",
+                    "properties": {
+                        "thalamo_cortical_connectivity": {
+                            "type": "number"
+                        },
+                        "cortico_thalamic_connectivity": {
+                            "type": "number"
+                        },
+                        "intracortical_connectivity": {
+                            "type": "number"
+                        }
+                    },
+                    "description": "Neural connectivity patterns"
+                }
+            },
+            "description": "Neural correlates of attention state change"
+        },
+        "performance_predictions": {
+            "type": "object",
+            "properties": {
+                "predicted_performance": {
+                    "type": "object",
+                    "properties": {
+                        "accuracy_prediction": {
+                            "type": "number"
+                        },
+                        "reaction_time_prediction": {
+                            "type": "number"
+                        },
+                        "efficiency_prediction": {
+                            "type": "number"
+                        }
+                    },
+                    "description": "Predicted performance in new state"
+                },
+                "adaptation_timeline": {
+                    "type": "object",
+                    "properties": {
+                        "initial_performance": {
+                            "type": "number"
+                        },
+                        "asymptotic_performance": {
+                            "type": "number"
+                        },
+                        "adaptation_rate": {
+                            "type": "number"
+                        },
+                        "time_to_asymptote_ms": {
+                            "type": "number"
+                        }
+                    },
+                    "description": "Predicted adaptation timeline"
+                }
+            },
+            "description": "Performance predictions for new attention state"
+        },
+        "performance_metrics": {
+            "type": "object",
+            "properties": {
+                "transition_efficiency": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Efficiency of the state transition"
+                },
+                "state_appropriateness": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Appropriateness of new state for current demands"
+                },
+                "resource_optimization": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Optimization of resource allocation"
+                }
+            },
+            "description": "Performance metrics for attention state transition"
+        }
+    }
+}

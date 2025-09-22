@@ -1,0 +1,2 @@
+- Before each transition event, verify ownership/space membership.
+- Audit log written on all transitions.

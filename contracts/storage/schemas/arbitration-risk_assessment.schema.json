@@ -1,0 +1,13 @@
+{
+  "$id": "urn:contracts:arbitration:storage:risk_assessment@1.0.0",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["context_id","space_id","risk_score","notes_band","ts"],
+  "properties": {
+    "context_id": { "type": "string" },
+    "space_id": { "type": "string" },
+    "risk_score": { "type": "number" },
+    "notes_band": { "type": "string", "enum": ["GREEN","AMBER","RED"] },
+    "ts": { "type": "string", "format": "date-time" }
+  }
+}

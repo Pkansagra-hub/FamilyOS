@@ -1,0 +1,1077 @@
+openapi: 3.0.3
+info:
+  title: "Family AI Control Plane API"
+  description: |
+    Family management ↔ Memory coordination API
+
+    The Control Plane provides family administration, subscription management,
+    emergency protocols, privacy settings, and memory coordination controls.
+    This API is used by family administrators to manage the Family AI system.
+
+    **Family-First Administration:**
+    - Add/remove family members with memory updates
+    - Family subscription and device management
+    - Emergency access protocols and safety overrides
+    - Privacy boundaries and memory sharing controls
+    - Child safety and parental controls
+  version: "1.0.0"
+  contact:
+    name: "Family AI Development Team"
+    url: "https://github.com/pkansagra99/family_os"
+  license:
+    name: "MIT"
+    url: "https://opensource.org/licenses/MIT"
+
+servers:
+  - url: "http://localhost:8000/v1/control"
+    description: "Local development server"
+  - url: "https://api.familyos.local/v1/control"
+    description: "Production Family AI instance"
+
+security:
+  - AdminAuth: []
+  - ParentAuth: []
+
+paths:
+  /family/members:
+    get:
+      summary: "List family members"
+      description: |
+        Retrieve list of all family members with their roles, permissions,
+        and memory access configurations.
+      operationId: "listFamilyMembers"
+      tags: ["Family Management"]
+      responses:
+        "200":
+          description: "Family members retrieved successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FamilyMembersResponse"
+        "403":
+          $ref: "#/components/responses/InsufficientPermissions"
+
+    post:
+      summary: "Add new family member"
+      description: |
+        Add a new family member to the Family AI system with appropriate
+        memory spaces, permissions, and device access configurations.
+      operationId: "addFamilyMember"
+      tags: ["Family Management"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AddFamilyMemberRequest"
+            examples:
+              add_child:
+                summary: "Add child with parental controls"
+                value:
+                  member_info:
+                    name: "Sarah"
+                    role: "child"
+                    age: 8
+                    relationship: "daughter"
+                  permissions:
+                    memory_access: ["personal:sarah", "shared:household"]
+                    device_access: ["shared_tablet", "voice_assistant"]
+                    parental_controls: true
+                  privacy_settings:
+                    data_retention: "until_18"
+                    external_sharing: "never"
+                    ai_learning: "family_only"
+      responses:
+        "201":
+          description: "Family member added successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AddFamilyMemberResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "409":
+          $ref: "#/components/responses/MemberExists"
+
+  /family/members/{member_id}:
+    put:
+      summary: "Update family member settings"
+      description: |
+        Update family member permissions, privacy settings, and memory access.
+        Triggers memory space reorganization and access control updates.
+      operationId: "updateFamilyMember"
+      tags: ["Family Management"]
+      parameters:
+        - name: member_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateFamilyMemberRequest"
+      responses:
+        "200":
+          description: "Family member updated successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UpdateFamilyMemberResponse"
+
+    delete:
+      summary: "Remove family member"
+      description: |
+        Remove family member from Family AI system with memory cleanup
+        and data retention policy enforcement.
+      operationId: "removeFamilyMember"
+      tags: ["Family Management"]
+      parameters:
+        - name: member_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+        - name: data_retention
+          in: query
+          schema:
+            type: string
+            enum: ["delete_all", "anonymize", "archive", "transfer"]
+          description: "How to handle the member's data"
+      responses:
+        "200":
+          description: "Family member removed successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RemoveFamilyMemberResponse"
+
+  /family/subscription:
+    get:
+      summary: "Get family subscription details"
+      description: |
+        Retrieve current family subscription status, device limits,
+        feature access, and billing information.
+      operationId: "getFamilySubscription"
+      tags: ["Subscription Management"]
+      responses:
+        "200":
+          description: "Subscription details retrieved"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FamilySubscriptionResponse"
+
+    put:
+      summary: "Update family subscription"
+      description: |
+        Update family subscription tier, add device slots, or modify
+        feature access for the family account.
+      operationId: "updateFamilySubscription"
+      tags: ["Subscription Management"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateSubscriptionRequest"
+      responses:
+        "200":
+          description: "Subscription updated successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UpdateSubscriptionResponse"
+
+  /devices:
+    get:
+      summary: "List family devices"
+      description: |
+        Retrieve all devices in the family ecosystem with their capabilities,
+        memory sync status, and family member associations.
+      operationId: "listFamilyDevices"
+      tags: ["Device Management"]
+      responses:
+        "200":
+          description: "Family devices retrieved"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FamilyDevicesResponse"
+
+    post:
+      summary: "Register new family device"
+      description: |
+        Register a new device in the family ecosystem with memory sync
+        configuration and family member access permissions.
+      operationId: "registerFamilyDevice"
+      tags: ["Device Management"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RegisterDeviceRequest"
+      responses:
+        "201":
+          description: "Device registered successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RegisterDeviceResponse"
+
+  /devices/{device_id}:
+    delete:
+      summary: "Remove family device"
+      description: |
+        Remove device from family ecosystem with memory cleanup and
+        access revocation.
+      operationId: "removeFamilyDevice"
+      tags: ["Device Management"]
+      parameters:
+        - name: device_id
+          in: path
+          required: true
+          schema:
+            type: string
+            format: uuid
+      responses:
+        "200":
+          description: "Device removed successfully"
+
+  /privacy/memory-spaces:
+    get:
+      summary: "Get family memory space configuration"
+      description: |
+        Retrieve current memory space boundaries, sharing permissions,
+        and family privacy settings.
+      operationId: "getMemorySpaceConfig"
+      tags: ["Privacy Management"]
+      responses:
+        "200":
+          description: "Memory space configuration retrieved"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MemorySpaceConfigResponse"
+
+    put:
+      summary: "Update memory space configuration"
+      description: |
+        Update family memory space boundaries, privacy policies,
+        and sharing permissions.
+      operationId: "updateMemorySpaceConfig"
+      tags: ["Privacy Management"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateMemorySpaceConfigRequest"
+      responses:
+        "200":
+          description: "Memory space configuration updated"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UpdateMemorySpaceConfigResponse"
+
+  /emergency/access:
+    post:
+      summary: "Emergency family access override"
+      description: |
+        Emergency access protocol for family safety situations.
+        Provides temporary override of privacy restrictions.
+      operationId: "emergencyAccess"
+      tags: ["Emergency Protocols"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EmergencyAccessRequest"
+      responses:
+        "200":
+          description: "Emergency access granted"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EmergencyAccessResponse"
+        "403":
+          description: "Emergency access denied - insufficient authorization"
+
+  /child-safety/controls:
+    get:
+      summary: "Get child safety controls"
+      description: |
+        Retrieve current child safety settings, parental controls,
+        and content filtering configurations.
+      operationId: "getChildSafetyControls"
+      tags: ["Child Safety"]
+      responses:
+        "200":
+          description: "Child safety controls retrieved"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ChildSafetyControlsResponse"
+
+    put:
+      summary: "Update child safety controls"
+      description: |
+        Update parental controls, content filtering, and child safety
+        settings for family members under 18.
+      operationId: "updateChildSafetyControls"
+      tags: ["Child Safety"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateChildSafetyControlsRequest"
+      responses:
+        "200":
+          description: "Child safety controls updated"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UpdateChildSafetyControlsResponse"
+
+  /analytics/family-insights:
+    get:
+      summary: "Get family analytics and insights"
+      description: |
+        Retrieve family analytics, usage patterns, and system health
+        metrics with privacy-preserving aggregation.
+      operationId: "getFamilyInsights"
+      tags: ["Analytics"]
+      parameters:
+        - name: time_period
+          in: query
+          schema:
+            type: string
+            enum: ["week", "month", "quarter", "year"]
+          description: "Time period for analytics"
+        - name: include_predictions
+          in: query
+          schema:
+            type: boolean
+            default: false
+          description: "Include predictive insights"
+      responses:
+        "200":
+          description: "Family insights retrieved"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FamilyInsightsResponse"
+
+  /system/health:
+    get:
+      summary: "Get Family AI system health"
+      description: |
+        Retrieve system health metrics, memory sync status,
+        and operational performance indicators.
+      operationId: "getSystemHealth"
+      tags: ["System Management"]
+      responses:
+        "200":
+          description: "System health retrieved"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SystemHealthResponse"
+
+components:
+  securitySchemes:
+    AdminAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: "Family administrator authentication"
+    ParentAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: "Parent/guardian authentication"
+
+  schemas:
+    FamilyMembersResponse:
+      type: object
+      properties:
+        family_members:
+          type: array
+          items:
+            type: object
+            properties:
+              member_id:
+                type: string
+                format: uuid
+              name:
+                type: string
+              role:
+                type: string
+                enum: ["parent", "guardian", "adult", "teen", "child"]
+              age:
+                type: integer
+              relationship:
+                type: string
+              permissions:
+                type: object
+                properties:
+                  memory_access:
+                    type: array
+                    items:
+                      type: string
+                  device_access:
+                    type: array
+                    items:
+                      type: string
+                  admin_capabilities:
+                    type: array
+                    items:
+                      type: string
+              privacy_settings:
+                type: object
+              last_active:
+                type: string
+                format: date-time
+
+    AddFamilyMemberRequest:
+      type: object
+      required: ["member_info", "permissions"]
+      properties:
+        member_info:
+          type: object
+          required: ["name", "role"]
+          properties:
+            name:
+              type: string
+              maxLength: 100
+            role:
+              type: string
+              enum: ["parent", "guardian", "adult", "teen", "child"]
+            age:
+              type: integer
+              minimum: 0
+              maximum: 120
+            relationship:
+              type: string
+              enum: ["parent", "spouse", "partner", "child", "sibling", "grandparent", "relative", "guardian"]
+            email:
+              type: string
+              format: email
+        permissions:
+          type: object
+          properties:
+            memory_access:
+              type: array
+              items:
+                type: string
+                pattern: "^(personal|selective|shared|extended|interfamily):[a-zA-Z0-9_-]+$"
+            device_access:
+              type: array
+              items:
+                type: string
+            admin_capabilities:
+              type: array
+              items:
+                type: string
+                enum: ["manage_family", "manage_devices", "emergency_access", "child_controls", "billing"]
+            parental_controls:
+              type: boolean
+              description: "Enable parental controls (for minors)"
+        privacy_settings:
+          type: object
+          properties:
+            data_retention:
+              type: string
+              enum: ["standard", "until_18", "extended", "minimal"]
+            external_sharing:
+              type: string
+              enum: ["never", "family_only", "limited", "standard"]
+            ai_learning:
+              type: string
+              enum: ["disabled", "family_only", "anonymized", "full"]
+
+    AddFamilyMemberResponse:
+      type: object
+      required: ["member_id", "setup_instructions"]
+      properties:
+        member_id:
+          type: string
+          format: uuid
+        setup_instructions:
+          type: object
+          properties:
+            device_setup_url:
+              type: string
+              format: uri
+            family_invitation_code:
+              type: string
+            memory_spaces_created:
+              type: array
+              items:
+                type: string
+        memory_integration:
+          type: object
+          properties:
+            personal_space_id:
+              type: string
+            accessible_shared_spaces:
+              type: array
+              items:
+                type: string
+
+    UpdateFamilyMemberRequest:
+      type: object
+      properties:
+        permissions:
+          type: object
+          properties:
+            memory_access:
+              type: array
+              items:
+                type: string
+            device_access:
+              type: array
+              items:
+                type: string
+            admin_capabilities:
+              type: array
+              items:
+                type: string
+        privacy_settings:
+          type: object
+        parental_controls:
+          type: object
+          properties:
+            enabled:
+              type: boolean
+            content_filtering:
+              type: string
+              enum: ["strict", "moderate", "minimal"]
+            time_restrictions:
+              type: object
+            app_restrictions:
+              type: array
+              items:
+                type: string
+
+    UpdateFamilyMemberResponse:
+      type: object
+      properties:
+        updated_fields:
+          type: array
+          items:
+            type: string
+        memory_space_changes:
+          type: object
+          properties:
+            spaces_added:
+              type: array
+              items:
+                type: string
+            spaces_removed:
+              type: array
+              items:
+                type: string
+            access_level_changes:
+              type: object
+
+    RemoveFamilyMemberResponse:
+      type: object
+      properties:
+        removal_summary:
+          type: object
+          properties:
+            member_removed:
+              type: boolean
+            data_action_taken:
+              type: string
+              enum: ["deleted", "anonymized", "archived", "transferred"]
+            memory_spaces_affected:
+              type: array
+              items:
+                type: string
+            devices_deauthorized:
+              type: array
+              items:
+                type: string
+
+    FamilySubscriptionResponse:
+      type: object
+      properties:
+        subscription_tier:
+          type: string
+          enum: ["basic", "family", "premium", "enterprise"]
+        billing_cycle:
+          type: string
+          enum: ["monthly", "yearly"]
+        current_usage:
+          type: object
+          properties:
+            family_members:
+              type: object
+              properties:
+                current:
+                  type: integer
+                limit:
+                  type: integer
+            devices:
+              type: object
+              properties:
+                current:
+                  type: integer
+                limit:
+                  type: integer
+            memory_storage_gb:
+              type: object
+              properties:
+                used:
+                  type: number
+                limit:
+                  type: number
+        features:
+          type: object
+          properties:
+            ai_interactions_per_month:
+              type: integer
+            cross_device_sync:
+              type: boolean
+            advanced_analytics:
+              type: boolean
+            priority_support:
+              type: boolean
+
+    UpdateSubscriptionRequest:
+      type: object
+      properties:
+        new_tier:
+          type: string
+          enum: ["basic", "family", "premium", "enterprise"]
+        billing_cycle:
+          type: string
+          enum: ["monthly", "yearly"]
+        additional_devices:
+          type: integer
+          minimum: 0
+        additional_storage_gb:
+          type: number
+          minimum: 0
+
+    UpdateSubscriptionResponse:
+      type: object
+      properties:
+        subscription_updated:
+          type: boolean
+        effective_date:
+          type: string
+          format: date-time
+        billing_changes:
+          type: object
+          properties:
+            new_monthly_cost:
+              type: number
+            prorated_amount:
+              type: number
+        feature_changes:
+          type: object
+
+    FamilyDevicesResponse:
+      type: object
+      properties:
+        devices:
+          type: array
+          items:
+            type: object
+            properties:
+              device_id:
+                type: string
+                format: uuid
+              device_name:
+                type: string
+              device_type:
+                type: string
+                enum: ["phone", "tablet", "laptop", "smart_speaker", "smart_display", "tv", "wearable"]
+              owner:
+                type: string
+                description: "Family member who owns this device"
+              shared_access:
+                type: array
+                items:
+                  type: string
+                description: "Other family members with access"
+              capabilities:
+                type: array
+                items:
+                  type: string
+              memory_sync_status:
+                type: object
+                properties:
+                  last_sync:
+                    type: string
+                    format: date-time
+                  sync_health:
+                    type: string
+                    enum: ["healthy", "delayed", "error", "offline"]
+              privacy_mode:
+                type: string
+                enum: ["full_access", "shared_only", "guest_mode"]
+
+    RegisterDeviceRequest:
+      type: object
+      required: ["device_info", "owner", "capabilities"]
+      properties:
+        device_info:
+          type: object
+          required: ["name", "type"]
+          properties:
+            name:
+              type: string
+              maxLength: 100
+            type:
+              type: string
+              enum: ["phone", "tablet", "laptop", "smart_speaker", "smart_display", "tv", "wearable"]
+            model:
+              type: string
+            os_version:
+              type: string
+        owner:
+          type: string
+          description: "Family member ID who owns this device"
+        capabilities:
+          type: array
+          items:
+            type: string
+            enum: ["memory_full", "memory_limited", "voice_interface", "display_interface", "app_connector", "smart_home_hub"]
+        sharing_permissions:
+          type: object
+          properties:
+            allow_family_access:
+              type: boolean
+            shared_with:
+              type: array
+              items:
+                type: string
+            guest_mode_available:
+              type: boolean
+
+    RegisterDeviceResponse:
+      type: object
+      properties:
+        device_id:
+          type: string
+          format: uuid
+        device_credentials:
+          type: object
+          properties:
+            device_token:
+              type: string
+            sync_encryption_key:
+              type: string
+        memory_sync_config:
+          type: object
+          properties:
+            sync_spaces:
+              type: array
+              items:
+                type: string
+            sync_frequency:
+              type: string
+            offline_capability:
+              type: boolean
+
+    MemorySpaceConfigResponse:
+      type: object
+      properties:
+        family_spaces:
+          type: object
+          properties:
+            personal_spaces:
+              type: array
+              items:
+                type: object
+                properties:
+                  space_id:
+                    type: string
+                  owner:
+                    type: string
+                  privacy_level:
+                    type: string
+            shared_spaces:
+              type: array
+              items:
+                type: object
+                properties:
+                  space_id:
+                    type: string
+                  participants:
+                    type: array
+                    items:
+                      type: string
+                  purpose:
+                    type: string
+        privacy_policies:
+          type: object
+          properties:
+            default_sharing_policy:
+              type: string
+            child_protection_level:
+              type: string
+            external_access_policy:
+              type: string
+        memory_retention:
+          type: object
+          properties:
+            default_retention_days:
+              type: integer
+            sensitive_data_retention_days:
+              type: integer
+            child_data_retention_policy:
+              type: string
+
+    EmergencyAccessRequest:
+      type: object
+      required: ["emergency_type", "requester", "justification"]
+      properties:
+        emergency_type:
+          type: string
+          enum: ["medical", "safety", "missing_person", "family_crisis", "legal"]
+        requester:
+          type: string
+          description: "Family member requesting emergency access"
+        target_member:
+          type: string
+          description: "Family member whose data access is needed"
+        justification:
+          type: string
+          maxLength: 500
+        emergency_contacts_notified:
+          type: boolean
+        duration_hours:
+          type: integer
+          minimum: 1
+          maximum: 72
+          description: "How long emergency access is needed"
+
+    EmergencyAccessResponse:
+      type: object
+      properties:
+        access_granted:
+          type: boolean
+        emergency_session_id:
+          type: string
+          format: uuid
+        access_expires:
+          type: string
+          format: date-time
+        accessible_data:
+          type: object
+          properties:
+            memory_spaces:
+              type: array
+              items:
+                type: string
+            device_locations:
+              type: boolean
+            communication_history:
+              type: boolean
+        audit_trail:
+          type: object
+          properties:
+            logged_access_attempts:
+              type: boolean
+            family_notifications_sent:
+              type: array
+              items:
+                type: string
+
+    ChildSafetyControlsResponse:
+      type: object
+      properties:
+        child_members:
+          type: array
+          items:
+            type: object
+            properties:
+              member_id:
+                type: string
+                format: uuid
+              name:
+                type: string
+              age:
+                type: integer
+              safety_settings:
+                type: object
+                properties:
+                  content_filtering:
+                    type: string
+                    enum: ["strict", "moderate", "minimal"]
+                  app_restrictions:
+                    type: array
+                    items:
+                      type: string
+                  time_restrictions:
+                    type: object
+                    properties:
+                      school_nights_bedtime:
+                        type: string
+                      weekend_bedtime:
+                        type: string
+                      max_screen_time_minutes:
+                        type: integer
+                  location_tracking:
+                    type: boolean
+                  communication_monitoring:
+                    type: string
+                    enum: ["none", "keywords", "full"]
+
+    FamilyInsightsResponse:
+      type: object
+      properties:
+        family_dynamics:
+          type: object
+          properties:
+            interaction_frequency:
+              type: object
+            emotional_trends:
+              type: object
+            coordination_effectiveness:
+              type: number
+        memory_usage:
+          type: object
+          properties:
+            total_memories_stored:
+              type: integer
+            memory_types_distribution:
+              type: object
+            family_sharing_patterns:
+              type: object
+        device_usage:
+          type: object
+          properties:
+            most_active_devices:
+              type: array
+              items:
+                type: string
+            sync_performance:
+              type: object
+            offline_usage_patterns:
+              type: object
+        ai_interaction_patterns:
+          type: object
+          properties:
+            most_common_queries:
+              type: array
+              items:
+                type: string
+            family_satisfaction_score:
+              type: number
+            feature_adoption_rates:
+              type: object
+
+    SystemHealthResponse:
+      type: object
+      properties:
+        overall_health:
+          type: string
+          enum: ["healthy", "warning", "critical"]
+        memory_system:
+          type: object
+          properties:
+            storage_usage_percent:
+              type: number
+            sync_performance:
+              type: object
+              properties:
+                average_sync_time_ms:
+                  type: number
+                failed_sync_rate:
+                  type: number
+            memory_integrity:
+              type: string
+              enum: ["good", "needs_attention", "corrupted"]
+        device_ecosystem:
+          type: object
+          properties:
+            devices_online:
+              type: integer
+            devices_total:
+              type: integer
+            connectivity_issues:
+              type: array
+              items:
+                type: string
+        ai_processing:
+          type: object
+          properties:
+            average_response_time_ms:
+              type: number
+            success_rate:
+              type: number
+            cognitive_pipeline_health:
+              type: object
+
+  responses:
+    BadRequest:
+      description: "Invalid request format or parameters"
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+              details:
+                type: string
+
+    InsufficientPermissions:
+      description: "Insufficient permissions for this operation"
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+              required_role:
+                type: string
+              current_permissions:
+                type: array
+                items:
+                  type: string
+
+    MemberExists:
+      description: "Family member already exists"
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+              existing_member_id:
+                type: string
+
+tags:
+  - name: "Family Management"
+    description: "Add, update, and remove family members"
+  - name: "Subscription Management"
+    description: "Manage family subscription and billing"
+  - name: "Device Management"
+    description: "Register and manage family devices"
+  - name: "Privacy Management"
+    description: "Configure memory spaces and privacy settings"
+  - name: "Emergency Protocols"
+    description: "Emergency access and safety overrides"
+  - name: "Child Safety"
+    description: "Parental controls and child protection"
+  - name: "Analytics"
+    description: "Family insights and usage analytics"
+  - name: "System Management"
+    description: "System health and operational metrics"

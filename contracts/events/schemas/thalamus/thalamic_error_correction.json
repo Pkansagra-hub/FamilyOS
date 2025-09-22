@@ -1,0 +1,82 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "$id": "thalamic_error_correction.schema.json",
+    "title": "Thalamic Error Correction Event",
+    "description": "Event generated when thalamic circuits detect and correct errors in cognitive processing decisions.",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "timestamp",
+        "error_type",
+        "detection_method",
+        "correction_action",
+        "confidence_level"
+    ],
+    "properties": {
+        "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timing of error detection and correction"
+        },
+        "error_type": {
+            "type": "string",
+            "enum": [
+                "false_positive",
+                "false_negative",
+                "threshold_error",
+                "timing_error",
+                "resource_error"
+            ],
+            "description": "Type of error detected"
+        },
+        "detection_method": {
+            "type": "string",
+            "enum": [
+                "performance_monitoring",
+                "feedback_signal",
+                "prediction_error",
+                "consistency_check"
+            ],
+            "description": "Method used to detect the error"
+        },
+        "correction_action": {
+            "type": "object",
+            "required": [
+                "action_type",
+                "parameters"
+            ],
+            "properties": {
+                "action_type": {
+                    "type": "string",
+                    "enum": [
+                        "threshold_adjust",
+                        "decision_override",
+                        "parameter_reset",
+                        "circuit_recalibrate"
+                    ]
+                },
+                "parameters": {
+                    "type": "object",
+                    "description": "Parameters for correction action"
+                }
+            }
+        },
+        "confidence_level": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "description": "Confidence in error detection and correction"
+        },
+        "impact_assessment": {
+            "type": "object",
+            "properties": {
+                "performance_impact": {
+                    "type": "number"
+                },
+                "system_stability_impact": {
+                    "type": "number"
+                }
+            }
+        }
+    }
+}

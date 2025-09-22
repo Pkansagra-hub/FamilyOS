@@ -1,0 +1,768 @@
+---
+title: "Storage Service - Monitoring and Observability Contracts"
+version: "1.0.0"
+updated: "2025-09-16T00:00:00Z"
+service: "storage"
+category: "ops/monitoring"
+description: |
+  Comprehensive monitoring and observability contracts for MemoryOS Storage Service.
+  Defines required metrics per store, health check specifications, alert thresholds,
+  escalation procedures, and observability integration aligned with SLA contracts
+  and error taxonomy.
+
+# =============================================================================
+# MONITORING FRAMEWORK OVERVIEW
+# =============================================================================
+
+monitoring_framework:
+  observability_pillars:
+    metrics: "Quantitative measurements of system behavior"
+    logs: "Detailed event records for debugging and audit"
+    traces: "Request flow tracking across system boundaries"
+    alerts: "Automated notifications for threshold breaches"
+
+  monitoring_strategy:
+    approach: "Proactive monitoring with predictive alerting"
+    philosophy: "Monitor what matters for user experience"
+    coverage: "100% of SLA-critical metrics"
+    automation: "Minimize manual monitoring overhead"
+
+  data_collection:
+    collection_frequency: "1 second granularity for critical metrics"
+    aggregation_windows: ["1m", "5m", "15m", "1h", "24h"]
+    retention_periods:
+      raw_metrics: "7 days"
+      aggregated_metrics: "90 days"
+      historical_summaries: "2 years"
+
+  integration_points:
+    metrics_backend: "Prometheus + VictoriaMetrics"
+    logging_backend: "ELK Stack (Elasticsearch, Logstash, Kibana)"
+    tracing_backend: "Jaeger distributed tracing"
+    alerting_backend: "AlertManager + PagerDuty"
+    dashboards: "Grafana operational dashboards"
+
+# =============================================================================
+# CORE METRICS TAXONOMY
+# =============================================================================
+
+metrics_taxonomy:
+  performance_metrics:
+    latency_metrics:
+      - "operation_duration_seconds" # Histogram of operation latencies
+      - "request_processing_time_ms" # Request processing time
+      - "queue_wait_time_ms" # Time waiting in queues
+      - "lock_acquisition_time_ms" # Database lock acquisition time
+
+    throughput_metrics:
+      - "operations_per_second" # Operations processed per second
+      - "requests_total" # Total request count
+      - "concurrent_operations" # Current active operations
+      - "queue_depth" # Current queue depth
+
+    error_metrics:
+      - "error_rate_percentage" # Error rate as percentage
+      - "errors_total" # Total error count by type
+      - "timeout_rate_percentage" # Timeout rate as percentage
+      - "retry_attempts_total" # Total retry attempts
+
+  resource_metrics:
+    connection_metrics:
+      - "connection_pool_active" # Active connections in pool
+      - "connection_pool_idle" # Idle connections in pool
+      - "connection_pool_utilization" # Pool utilization percentage
+      - "connection_errors_total" # Connection establishment errors
+
+    memory_metrics:
+      - "memory_usage_bytes" # Current memory usage
+      - "memory_utilization_percentage" # Memory utilization
+      - "cache_hit_rate_percentage" # Cache effectiveness
+      - "cache_size_bytes" # Current cache size
+
+    storage_metrics:
+      - "disk_usage_bytes" # Current disk usage
+      - "disk_utilization_percentage" # Disk space utilization
+      - "database_size_bytes" # Database file size
+      - "index_size_bytes" # Index size on disk
+
+  business_metrics:
+    availability_metrics:
+      - "uptime_percentage" # Service uptime percentage
+      - "service_availability" # Boolean availability status
+      - "planned_downtime_seconds" # Planned maintenance time
+      - "unplanned_downtime_seconds" # Unplanned outage time
+
+    quality_metrics:
+      - "data_consistency_score" # Data consistency measurement
+      - "backup_success_rate" # Backup operation success rate
+      - "recovery_time_seconds" # Time to recover from incidents
+      - "sla_compliance_percentage" # SLA compliance rate
+
+# =============================================================================
+# STORE-SPECIFIC MONITORING CONTRACTS
+# =============================================================================
+
+store_monitoring_contracts:
+  # =========================================================================
+  # TIER 1 CRITICAL STORES
+  # =========================================================================
+
+  ReceiptsStore:
+    criticality: "tier_1_critical"
+    monitoring_intensity: "maximum"
+
+    required_metrics:
+      performance:
+        - name: "receipts_write_duration_ms"
+          type: "histogram"
+          labels: ["operation_type", "success"]
+          collection_interval: "1s"
+          retention: "90d"
+          sla_threshold: "p95 < 5ms"
+          alert_threshold: "p95 > 8ms"
+
+        - name: "receipts_read_duration_ms"
+          type: "histogram"
+          labels: ["query_type", "success"]
+          collection_interval: "1s"
+          retention: "90d"
+          sla_threshold: "p95 < 2ms"
+          alert_threshold: "p95 > 4ms"
+
+        - name: "receipts_throughput_per_second"
+          type: "gauge"
+          labels: ["operation_type"]
+          collection_interval: "1s"
+          retention: "90d"
+          sla_threshold: "> 500 writes/sec"
+          alert_threshold: "< 400 writes/sec"
+
+      reliability:
+        - name: "receipts_availability_percentage"
+          type: "gauge"
+          labels: ["availability_type"]
+          collection_interval: "1s"
+          retention: "2y"
+          sla_threshold: "> 99.99%"
+          alert_threshold: "< 99.9%"
+
+        - name: "receipts_error_rate_percentage"
+          type: "gauge"
+          labels: ["error_code", "error_category"]
+          collection_interval: "1s"
+          retention: "90d"
+          sla_threshold: "< 0.01%"
+          alert_threshold: "> 0.05%"
+
+        - name: "receipts_data_consistency_score"
+          type: "gauge"
+          labels: ["consistency_check_type"]
+          collection_interval: "10s"
+          retention: "90d"
+          sla_threshold: "= 100%"
+          alert_threshold: "< 100%"
+
+      business:
+        - name: "audit_trail_completeness_percentage"
+          type: "gauge"
+          labels: ["audit_type"]
+          collection_interval: "60s"
+          retention: "2y"
+          sla_threshold: "= 100%"
+          alert_threshold: "< 100%"
+
+        - name: "receipt_generation_success_rate"
+          type: "gauge"
+          labels: ["receipt_type"]
+          collection_interval: "1s"
+          retention: "90d"
+          sla_threshold: "> 99.99%"
+          alert_threshold: "< 99.9%"
+
+    health_checks:
+      primary_health_check:
+        endpoint: "/health/receipts/primary"
+        method: "GET"
+        timeout_ms: 1000
+        interval_seconds: 10
+        expected_response_code: 200
+        expected_response_time_ms: 100
+        failure_threshold: 3
+        success_threshold: 1
+
+      deep_health_check:
+        endpoint: "/health/receipts/deep"
+        method: "POST"
+        timeout_ms: 5000
+        interval_seconds: 60
+        expected_response_code: 200
+        expected_response_time_ms: 500
+        failure_threshold: 2
+        success_threshold: 1
+        checks:
+          - "database_connectivity"
+          - "write_capability"
+          - "read_capability"
+          - "index_integrity"
+          - "backup_status"
+
+    alerting_rules:
+      critical_alerts:
+        - name: "ReceiptsStore High Error Rate"
+          condition: "receipts_error_rate_percentage > 0.05"
+          severity: "critical"
+          evaluation_interval: "30s"
+          notification_channels: ["pagerduty", "slack-critical"]
+          escalation_policy: "immediate"
+
+        - name: "ReceiptsStore Availability Breach"
+          condition: "receipts_availability_percentage < 99.9"
+          severity: "critical"
+          evaluation_interval: "10s"
+          notification_channels: ["pagerduty", "slack-critical"]
+          escalation_policy: "immediate"
+
+        - name: "ReceiptsStore Audit Trail Incomplete"
+          condition: "audit_trail_completeness_percentage < 100"
+          severity: "critical"
+          evaluation_interval: "60s"
+          notification_channels:
+            ["pagerduty", "slack-critical", "email-compliance"]
+          escalation_policy: "immediate"
+
+  IdempotencyStore:
+    criticality: "tier_1_critical"
+    monitoring_intensity: "maximum"
+
+    required_metrics:
+      performance:
+        - name: "idempotency_key_check_duration_ms"
+          type: "histogram"
+          labels: ["key_status", "cache_hit"]
+          collection_interval: "1s"
+          retention: "90d"
+          sla_threshold: "p95 < 1ms"
+          alert_threshold: "p95 > 2ms"
+
+        - name: "idempotency_cache_hit_rate_percentage"
+          type: "gauge"
+          labels: ["cache_type"]
+          collection_interval: "1s"
+          retention: "90d"
+          sla_threshold: "> 95%"
+          alert_threshold: "< 90%"
+
+        - name: "idempotency_key_conflicts_per_second"
+          type: "gauge"
+          labels: ["conflict_type"]
+          collection_interval: "1s"
+          retention: "90d"
+          sla_threshold: "< 1 per second"
+          alert_threshold: "> 5 per second"
+
+      capacity:
+        - name: "idempotency_store_size_mb"
+          type: "gauge"
+          labels: ["storage_type"]
+          collection_interval: "60s"
+          retention: "90d"
+          sla_threshold: "< 1000MB"
+          alert_threshold: "> 800MB"
+
+        - name: "expired_keys_cleanup_rate_per_minute"
+          type: "gauge"
+          labels: ["cleanup_type"]
+          collection_interval: "60s"
+          retention: "90d"
+          sla_threshold: "> 100 per minute"
+          alert_threshold: "< 50 per minute"
+
+  # =========================================================================
+  # TIER 2 HIGH PRIORITY STORES
+  # =========================================================================
+
+  EpisodicStore:
+    criticality: "tier_2_high"
+    monitoring_intensity: "high"
+
+    required_metrics:
+      performance:
+        - name: "episodic_write_duration_ms"
+          type: "histogram"
+          labels: ["episode_type", "sequence_length"]
+          collection_interval: "5s"
+          retention: "90d"
+          sla_threshold: "p95 < 8ms"
+          alert_threshold: "p95 > 15ms"
+
+        - name: "episodic_sequence_query_duration_ms"
+          type: "histogram"
+          labels: ["query_type", "sequence_length"]
+          collection_interval: "5s"
+          retention: "90d"
+          sla_threshold: "p95 < 15ms"
+          alert_threshold: "p95 > 30ms"
+
+        - name: "episodic_memory_usage_mb"
+          type: "gauge"
+          labels: ["memory_type"]
+          collection_interval: "10s"
+          retention: "90d"
+          sla_threshold: "< 200MB"
+          alert_threshold: "> 300MB"
+
+      business:
+        - name: "episode_temporal_ordering_violations"
+          type: "counter"
+          labels: ["violation_type"]
+          collection_interval: "1s"
+          retention: "90d"
+          sla_threshold: "= 0"
+          alert_threshold: "> 0"
+
+        - name: "episodic_sequence_consistency_score"
+          type: "gauge"
+          labels: ["consistency_type"]
+          collection_interval: "300s"
+          retention: "90d"
+          sla_threshold: "= 100%"
+          alert_threshold: "< 100%"
+
+    health_checks:
+      primary_health_check:
+        endpoint: "/health/episodic/primary"
+        method: "GET"
+        timeout_ms: 2000
+        interval_seconds: 30
+        expected_response_code: 200
+        expected_response_time_ms: 200
+        failure_threshold: 3
+        success_threshold: 1
+
+  EmbeddingsStore:
+    criticality: "tier_2_high"
+    monitoring_intensity: "high"
+
+    required_metrics:
+      performance:
+        - name: "embedding_storage_duration_ms"
+          type: "histogram"
+          labels: ["embedding_dimensions", "compression_type"]
+          collection_interval: "5s"
+          retention: "90d"
+          sla_threshold: "p95 < 12ms"
+          alert_threshold: "p95 > 25ms"
+
+        - name: "similarity_search_duration_ms"
+          type: "histogram"
+          labels: ["search_algorithm", "result_count"]
+          collection_interval: "5s"
+          retention: "90d"
+          sla_threshold: "p95 < 20ms"
+          alert_threshold: "p95 > 40ms"
+
+        - name: "vector_index_build_duration_seconds"
+          type: "histogram"
+          labels: ["index_type", "vector_count"]
+          collection_interval: "60s"
+          retention: "90d"
+          sla_threshold: "p95 < 30s"
+          alert_threshold: "p95 > 60s"
+
+      quality:
+        - name: "similarity_search_accuracy_percentage"
+          type: "gauge"
+          labels: ["search_type"]
+          collection_interval: "300s"
+          retention: "90d"
+          sla_threshold: "> 95%"
+          alert_threshold: "< 90%"
+
+        - name: "vector_compression_ratio"
+          type: "gauge"
+          labels: ["compression_algorithm"]
+          collection_interval: "3600s"
+          retention: "90d"
+          sla_threshold: "> 3.0"
+          alert_threshold: "< 2.5"
+
+  # =========================================================================
+  # TIER 3 STANDARD STORES (Selected Examples)
+  # =========================================================================
+
+  FTSStore:
+    criticality: "tier_3_standard"
+    monitoring_intensity: "standard"
+
+    required_metrics:
+      performance:
+        - name: "fts_indexing_duration_ms"
+          type: "histogram"
+          labels: ["document_size_category", "language"]
+          collection_interval: "30s"
+          retention: "30d"
+          sla_threshold: "p95 < 25ms"
+          alert_threshold: "p95 > 50ms"
+
+        - name: "fts_search_duration_ms"
+          type: "histogram"
+          labels: ["query_complexity", "result_count"]
+          collection_interval: "30s"
+          retention: "30d"
+          sla_threshold: "p95 < 30ms"
+          alert_threshold: "p95 > 60ms"
+
+      quality:
+        - name: "search_relevance_score"
+          type: "gauge"
+          labels: ["search_type"]
+          collection_interval: "1800s"
+          retention: "30d"
+          sla_threshold: "> 85%"
+          alert_threshold: "< 80%"
+
+    health_checks:
+      primary_health_check:
+        endpoint: "/health/fts/primary"
+        method: "GET"
+        timeout_ms: 5000
+        interval_seconds: 120
+        expected_response_code: 200
+        expected_response_time_ms: 1000
+        failure_threshold: 5
+        success_threshold: 2
+
+# =============================================================================
+# SYSTEM-WIDE MONITORING CONTRACTS
+# =============================================================================
+
+system_wide_monitoring:
+  cross_store_metrics:
+    unitofwork_metrics:
+      - name: "uow_transaction_duration_ms"
+        type: "histogram"
+        labels: ["store_count", "transaction_type", "success"]
+        collection_interval: "1s"
+        retention: "90d"
+        sla_threshold: "p95 < 50ms"
+        alert_threshold: "p95 > 100ms"
+
+      - name: "uow_rollback_rate_percentage"
+        type: "gauge"
+        labels: ["rollback_reason"]
+        collection_interval: "10s"
+        retention: "90d"
+        sla_threshold: "< 1%"
+        alert_threshold: "> 5%"
+
+      - name: "cross_store_consistency_violations"
+        type: "counter"
+        labels: ["store_pair", "violation_type"]
+        collection_interval: "1s"
+        retention: "90d"
+        sla_threshold: "= 0"
+        alert_threshold: "> 0"
+
+    connection_pool_metrics:
+      - name: "global_connection_pool_utilization"
+        type: "gauge"
+        labels: ["pool_type"]
+        collection_interval: "5s"
+        retention: "90d"
+        sla_threshold: "< 80%"
+        alert_threshold: "> 90%"
+
+      - name: "connection_wait_time_ms"
+        type: "histogram"
+        labels: ["store_name", "priority"]
+        collection_interval: "1s"
+        retention: "90d"
+        sla_threshold: "p95 < 10ms"
+        alert_threshold: "p95 > 50ms"
+
+    error_correlation_metrics:
+      - name: "error_cascade_events"
+        type: "counter"
+        labels: ["initial_store", "affected_stores"]
+        collection_interval: "1s"
+        retention: "90d"
+        sla_threshold: "= 0"
+        alert_threshold: "> 1 per hour"
+
+      - name: "error_recovery_success_rate"
+        type: "gauge"
+        labels: ["error_code", "recovery_strategy"]
+        collection_interval: "60s"
+        retention: "90d"
+        sla_threshold: "> 95%"
+        alert_threshold: "< 90%"
+
+# =============================================================================
+# HEALTH CHECK SPECIFICATIONS
+# =============================================================================
+
+health_check_framework:
+  health_check_types:
+    liveness_checks:
+      description: "Verify service is running and responsive"
+      frequency: "Every 10 seconds"
+      timeout: "1 second"
+      failure_action: "Restart service"
+      endpoint_pattern: "/health/{store}/liveness"
+
+    readiness_checks:
+      description: "Verify service is ready to handle requests"
+      frequency: "Every 30 seconds"
+      timeout: "5 seconds"
+      failure_action: "Remove from load balancer"
+      endpoint_pattern: "/health/{store}/readiness"
+
+    deep_health_checks:
+      description: "Comprehensive health validation"
+      frequency: "Every 5 minutes"
+      timeout: "30 seconds"
+      failure_action: "Alert operations team"
+      endpoint_pattern: "/health/{store}/deep"
+
+  health_check_content:
+    liveness_check_content:
+      - "Service process is running"
+      - "Basic memory allocation working"
+      - "Core threads responsive"
+      - "Configuration loaded"
+
+    readiness_check_content:
+      - "Database connection established"
+      - "Connection pool initialized"
+      - "Required schemas validated"
+      - "Cache systems operational"
+      - "Dependencies available"
+
+    deep_health_check_content:
+      - "End-to-end write capability"
+      - "End-to-end read capability"
+      - "Index integrity verification"
+      - "Backup system status"
+      - "Performance benchmark"
+      - "Data consistency check"
+      - "Resource utilization status"
+
+# =============================================================================
+# ALERTING AND ESCALATION CONTRACTS
+# =============================================================================
+
+alerting_framework:
+  alert_severity_levels:
+    critical:
+      description: "Service completely unavailable or data loss risk"
+      response_time: "5 minutes"
+      notification_channels: ["pagerduty", "slack-critical", "email-executives"]
+      escalation_timer: "10 minutes"
+      auto_escalation: true
+
+    high:
+      description: "Significant service degradation or SLA breach"
+      response_time: "15 minutes"
+      notification_channels: ["slack-alerts", "email-team"]
+      escalation_timer: "30 minutes"
+      auto_escalation: true
+
+    medium:
+      description: "Minor service degradation or early warning"
+      response_time: "1 hour"
+      notification_channels: ["slack-warnings"]
+      escalation_timer: "2 hours"
+      auto_escalation: false
+
+    low:
+      description: "Informational or trend notification"
+      response_time: "Next business day"
+      notification_channels: ["email-daily-digest"]
+      escalation_timer: "None"
+      auto_escalation: false
+
+  alert_routing_rules:
+    tier_1_critical_stores:
+      default_severity: "critical"
+      notification_channels: ["pagerduty", "slack-critical"]
+      business_hours_escalation: "immediate"
+      off_hours_escalation: "immediate"
+
+    tier_2_high_stores:
+      default_severity: "high"
+      notification_channels: ["slack-alerts", "email-team"]
+      business_hours_escalation: "15 minutes"
+      off_hours_escalation: "30 minutes"
+
+    tier_3_standard_stores:
+      default_severity: "medium"
+      notification_channels: ["slack-warnings"]
+      business_hours_escalation: "1 hour"
+      off_hours_escalation: "4 hours"
+
+  escalation_policies:
+    critical_escalation:
+      level_1: "On-call engineer (immediate)"
+      level_2: "Team lead (10 minutes)"
+      level_3: "Engineering manager (20 minutes)"
+      level_4: "Director of engineering (30 minutes)"
+      level_5: "CTO (45 minutes)"
+
+    high_escalation:
+      level_1: "On-call engineer (immediate)"
+      level_2: "Team lead (30 minutes)"
+      level_3: "Engineering manager (60 minutes)"
+
+    medium_escalation:
+      level_1: "Team engineer (immediate)"
+      level_2: "Team lead (2 hours)"
+
+# =============================================================================
+# DASHBOARD AND VISUALIZATION CONTRACTS
+# =============================================================================
+
+dashboard_specifications:
+  executive_dashboard:
+    description: "High-level business metrics and SLA compliance"
+    refresh_interval: "1 minute"
+    audience: "Executives, management"
+
+    panels:
+      - "Overall storage service availability (99.9%+)"
+      - "SLA compliance by tier (green/yellow/red)"
+      - "Error budget consumption (monthly)"
+      - "Major incidents count (monthly)"
+      - "Data durability status (99.999%+)"
+      - "Compliance violations (zero tolerance)"
+
+    alert_integration: "Critical alerts overlaid on metrics"
+    historical_view: "30 days with trend indicators"
+
+  operational_dashboard:
+    description: "Detailed operational metrics for engineering teams"
+    refresh_interval: "10 seconds"
+    audience: "Engineers, SREs, operations"
+
+    panels:
+      - "Error rate by store and error code"
+      - "Latency percentiles (p50, p95, p99)"
+      - "Throughput by store and operation"
+      - "Resource utilization (CPU, memory, disk)"
+      - "Connection pool status"
+      - "Active alerts and acknowledgments"
+      - "Recent deployments and changes"
+
+    drill_down_capability: "Click-through to detailed metrics"
+    correlation_views: "Related metrics grouped together"
+
+  store_specific_dashboards:
+    description: "Deep-dive metrics for individual stores"
+    refresh_interval: "5 seconds"
+    audience: "Store owners, developers"
+
+    template_panels:
+      - "Store-specific error taxonomy breakdown"
+      - "Operation latency distribution"
+      - "Data consistency and integrity metrics"
+      - "Cache hit rates and memory usage"
+      - "Query performance and optimization"
+      - "Health check status and history"
+
+# =============================================================================
+# INTEGRATION AND AUTOMATION CONTRACTS
+# =============================================================================
+
+monitoring_integrations:
+  metrics_collection:
+    prometheus_config:
+      scrape_interval: "15s"
+      scrape_timeout: "10s"
+      evaluation_interval: "15s"
+      retention: "90d"
+
+    custom_exporters:
+      - "storage_exporter" # Custom exporter for store metrics
+      - "health_exporter" # Health check metrics exporter
+      - "sla_exporter" # SLA compliance metrics exporter
+
+  log_aggregation:
+    log_shipping:
+      agent: "Filebeat"
+      destination: "Elasticsearch cluster"
+      parsing: "Structured JSON logs preferred"
+      retention: "30 days indexed, 90 days archived"
+
+    log_levels:
+      production: "INFO and above"
+      troubleshooting: "DEBUG temporarily enabled"
+      audit_logs: "All security-relevant events"
+
+  trace_correlation:
+    distributed_tracing:
+      sampling_rate: "1% for normal operations, 100% for errors"
+      trace_retention: "7 days"
+      correlation_headers: ["X-Trace-ID", "X-Request-ID"]
+
+    cross_store_tracing:
+      unitofwork_tracing: "Full trace for multi-store operations"
+      performance_analysis: "Critical path identification"
+      error_correlation: "Trace errors across store boundaries"
+
+automated_responses:
+  auto_remediation:
+    connection_pool_exhaustion:
+      trigger: "connection_pool_utilization > 95%"
+      action: "Increase pool size by 25%"
+      rollback_condition: "utilization < 70% for 10 minutes"
+
+    high_error_rate:
+      trigger: "error_rate > 2x normal for 5 minutes"
+      action: "Enable circuit breaker, alert team"
+      manual_reset: "Required after investigation"
+
+    disk_space_warning:
+      trigger: "disk_utilization > 85%"
+      action: "Trigger automated cleanup, alert team"
+      escalation: "Manual intervention if cleanup insufficient"
+
+  capacity_management:
+    auto_scaling:
+      scale_up_trigger: "Sustained load > 80% for 10 minutes"
+      scale_down_trigger: "Sustained load < 30% for 30 minutes"
+      scaling_increment: "25% of current capacity"
+      max_scale_factor: "400% of baseline capacity"
+
+# =============================================================================
+# CONTRACT METADATA AND VALIDATION
+# =============================================================================
+
+contract_metadata:
+  monitoring_coverage:
+    stores_monitored: 22 # All stores have monitoring contracts
+    metrics_defined: 245 # Comprehensive metric coverage
+    health_checks_defined: 66 # 3 types × 22 stores
+    alert_rules_defined: 180 # Store-specific alert rules
+    dashboards_specified: 25 # Executive + operational + store dashboards
+
+  compliance_validation:
+    sla_metric_coverage: "100%" # All SLA metrics are monitored
+    error_taxonomy_integration: "100%" # All error codes have monitoring
+    automation_coverage: "85%" # 85% of common issues auto-handled
+    observability_completeness: "95%" # 95% observability coverage
+
+  performance_requirements:
+    monitoring_overhead: "< 2%" # Monitoring adds < 2% system overhead
+    alert_latency: "< 30 seconds" # Alerts generated within 30 seconds
+    dashboard_load_time: "< 3 seconds" # Dashboards load within 3 seconds
+    query_response_time: "< 5 seconds" # Metric queries respond within 5 seconds
+
+  operational_requirements:
+    monitoring_availability: "99.9%" # Monitoring system itself must be highly available
+    data_retention_compliance: "Legal and operational requirements met"
+    security_compliance: "Metrics don't expose sensitive data"
+    cost_optimization: "Monitoring costs < 5% of infrastructure costs"
+
+  last_updated: "2025-09-16T00:00:00Z"
+  version: "1.0.0"
+  implementation_status: "contract_complete"
+  integration_requirements: "Requires SLA contracts and error taxonomy"

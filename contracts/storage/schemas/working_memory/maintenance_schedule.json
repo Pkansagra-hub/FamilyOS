@@ -1,0 +1,35 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "$id": "maintenance_schedule.schema.json",
+    "title": "Working Memory Maintenance Schedule Storage",
+    "type": "object",
+    "required": [
+        "schedule_id",
+        "maintenance_tasks",
+        "priority_queue"
+    ],
+    "properties": {
+        "schedule_id": {
+            "type": "string"
+        },
+        "maintenance_tasks": {
+            "type": "array",
+            "items": {
+                "type": "object"
+            }
+        },
+        "priority_queue": {
+            "type": "array",
+            "items": {
+                "type": "object"
+            }
+        },
+        "next_maintenance": {
+            "type": "string",
+            "format": "date-time"
+        },
+        "maintenance_interval": {
+            "type": "number"
+        }
+    }
+}

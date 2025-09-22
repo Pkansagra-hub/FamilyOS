@@ -1,0 +1,107 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "$id": "thalamic_rhythmic_synchronization.schema.json",
+    "title": "Thalamic Rhythmic Synchronization Event",
+    "description": "Event generated when thalamic circuits coordinate rhythmic activity for synchronized cognitive processing.",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "timestamp",
+        "rhythm_type",
+        "frequency_band",
+        "synchronization_strength",
+        "participating_circuits"
+    ],
+    "properties": {
+        "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timing of synchronization event"
+        },
+        "rhythm_type": {
+            "type": "string",
+            "enum": [
+                "alpha",
+                "beta",
+                "gamma",
+                "theta",
+                "delta",
+                "spindle"
+            ],
+            "description": "Type of neural rhythm being synchronized"
+        },
+        "frequency_band": {
+            "type": "object",
+            "required": [
+                "center_frequency",
+                "bandwidth"
+            ],
+            "properties": {
+                "center_frequency": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Center frequency in Hz"
+                },
+                "bandwidth": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Frequency bandwidth in Hz"
+                }
+            }
+        },
+        "synchronization_strength": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "description": "Strength of synchronization (0=no sync, 1=perfect sync)"
+        },
+        "participating_circuits": {
+            "type": "array",
+            "items": {
+                "type": "string",
+                "enum": [
+                    "memory",
+                    "recall",
+                    "executive",
+                    "learning",
+                    "perception",
+                    "motor"
+                ]
+            },
+            "description": "Thalamic circuits participating in synchronization"
+        },
+        "phase_relationships": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "circuit_pair": {
+                        "type": "array"
+                    },
+                    "phase_difference": {
+                        "type": "number"
+                    },
+                    "coherence": {
+                        "type": "number"
+                    }
+                }
+            },
+            "description": "Phase relationships between circuits"
+        },
+        "synchronization_purpose": {
+            "type": "string",
+            "enum": [
+                "attention_binding",
+                "memory_consolidation",
+                "cognitive_control",
+                "information_routing"
+            ],
+            "description": "Purpose of the synchronization"
+        },
+        "duration_ms": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Duration of synchronization in milliseconds"
+        }
+    }
+}

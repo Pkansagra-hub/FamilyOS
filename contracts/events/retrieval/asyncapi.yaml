@@ -1,0 +1,810 @@
+# Retrieval Service AsyncAPI Specification
+# Defines comprehensive event contracts for P01 Recall and P17 QoS pipeline integration
+# Version: 2.0.0 - Complete event system with CloudEvents integration
+
+asyncapi: "3.0.0"
+info:
+  title: "Retrieval Service Event API"
+  version: "2.0.0"
+  description: |
+    Comprehensive event system for memory retrieval operations with full
+    CloudEvents integration, state transitions, and observability events.
+
+    Event flows:
+    - Request/Response lifecycle events
+    - QoS budget tracking and violations
+    - Policy enforcement events
+    - Performance monitoring events
+    - State transition events
+    - Error and retry events
+
+servers:
+  production:
+    host: "events.familyos.memory"
+    protocol: "kafka"
+    description: "Production event bus"
+    security:
+      - $ref: "#/components/securitySchemes/mtls"
+
+  development:
+    host: "localhost:9092"
+    protocol: "kafka"
+    description: "Development event bus"
+
+defaultContentType: "application/cloudevents+json"
+
+channels:
+  retrieval/requests:
+    description: "Retrieval request lifecycle events"
+    messages:
+      retrievalRequestReceived:
+        $ref: "#/components/messages/RetrievalRequestReceived"
+      retrievalRequestValidated:
+        $ref: "#/components/messages/RetrievalRequestValidated"
+      retrievalRequestStarted:
+        $ref: "#/components/messages/RetrievalRequestStarted"
+
+  retrieval/responses:
+    description: "Retrieval response lifecycle events"
+    messages:
+      retrievalResponseReady:
+        $ref: "#/components/messages/RetrievalResponseReady"
+      retrievalResponseDelivered:
+        $ref: "#/components/messages/RetrievalResponseDelivered"
+      retrievalRequestCompleted:
+        $ref: "#/components/messages/RetrievalRequestCompleted"
+
+  retrieval/policy:
+    description: "Policy enforcement and security events"
+    messages:
+      policyEvaluationStarted:
+        $ref: "#/components/messages/PolicyEvaluationStarted"
+      policyDecisionMade:
+        $ref: "#/components/messages/PolicyDecisionMade"
+      accessGranted:
+        $ref: "#/components/messages/AccessGranted"
+      accessDenied:
+        $ref: "#/components/messages/AccessDenied"
+      securityViolation:
+        $ref: "#/components/messages/SecurityViolation"
+
+  retrieval/qos:
+    description: "Quality of Service monitoring events"
+    messages:
+      qosBudgetStarted:
+        $ref: "#/components/messages/QoSBudgetStarted"
+      qosBudgetWarning:
+        $ref: "#/components/messages/QoSBudgetWarning"
+      qosBudgetExceeded:
+        $ref: "#/components/messages/QoSBudgetExceeded"
+      performanceMetrics:
+        $ref: "#/components/messages/PerformanceMetrics"
+
+  retrieval/pipeline:
+    description: "P01/P17 pipeline processing events"
+    messages:
+      pipelineStageStarted:
+        $ref: "#/components/messages/PipelineStageStarted"
+      pipelineStageCompleted:
+        $ref: "#/components/messages/PipelineStageCompleted"
+      candidateSetGenerated:
+        $ref: "#/components/messages/CandidateSetGenerated"
+      rankingCompleted:
+        $ref: "#/components/messages/RankingCompleted"
+      fusionCompleted:
+        $ref: "#/components/messages/FusionCompleted"
+
+  retrieval/errors:
+    description: "Error handling and retry events"
+    messages:
+      retrievalError:
+        $ref: "#/components/messages/RetrievalError"
+      retryAttempted:
+        $ref: "#/components/messages/RetryAttempted"
+      circuitBreakerTripped:
+        $ref: "#/components/messages/CircuitBreakerTripped"
+      degradedModeActivated:
+        $ref: "#/components/messages/DegradedModeActivated"
+
+operations:
+  publishRetrievalRequest:
+    action: "send"
+    channel:
+      $ref: "#/channels/retrieval/requests"
+    summary: "Publish retrieval request received event"
+    description: "Emitted when a new retrieval request is received"
+    security:
+      - $ref: "#/components/securitySchemes/serviceToken"
+
+  publishPolicyDecision:
+    action: "send"
+    channel:
+      $ref: "#/channels/retrieval/policy"
+    summary: "Publish policy enforcement events"
+    description: "Emitted during policy evaluation and enforcement"
+
+  publishQoSEvent:
+    action: "send"
+    channel:
+      $ref: "#/channels/retrieval/qos"
+    summary: "Publish QoS monitoring events"
+    description: "Emitted for QoS budget tracking and violations"
+
+  publishPipelineEvent:
+    action: "send"
+    channel:
+      $ref: "#/channels/retrieval/pipeline"
+    summary: "Publish pipeline processing events"
+    description: "Emitted during P01/P17 pipeline execution"
+
+components:
+  securitySchemes:
+    mtls:
+      type: "X509"
+      description: "Mutual TLS authentication"
+    serviceToken:
+      type: "httpApiKey"
+      name: "X-Service-Token"
+      in: "header"
+
+  schemas:
+    CloudEventBase:
+      type: object
+      required: [specversion, type, source, id, time]
+      properties:
+        specversion:
+          type: string
+          const: "1.0"
+        type:
+          type: string
+          description: "Event type identifier"
+        source:
+          type: string
+          format: uri-reference
+          description: "Source URI of the event"
+        id:
+          type: string
+          description: "Unique event identifier"
+        time:
+          type: string
+          format: date-time
+          description: "Event timestamp"
+        subject:
+          type: string
+          description: "Subject of the event"
+        datacontenttype:
+          type: string
+          default: "application/json"
+
+    RetrievalRequestData:
+      type: object
+      required: [requestId, userId, query]
+      properties:
+        requestId:
+          type: string
+          pattern: "^[a-f0-9]{32}$"
+        userId:
+          type: string
+        query:
+          type: string
+          minLength: 1
+        spaceId:
+          type: string
+          pattern: "^(personal|selective|shared|extended|interfamily):"
+        k:
+          type: integer
+          minimum: 1
+          maximum: 200
+        filters:
+          type: object
+          additionalProperties: true
+        qosBudget:
+          type: object
+          properties:
+            latencyBudgetMs:
+              type: integer
+              minimum: 1
+              maximum: 5000
+            priority:
+              type: integer
+              minimum: 1
+              maximum: 10
+        returnTrace:
+          type: boolean
+        metadata:
+          type: object
+          additionalProperties: true
+
+    PolicyEvaluationData:
+      type: object
+      required: [requestId, userId, operation, decision]
+      properties:
+        requestId:
+          type: string
+        userId:
+          type: string
+        operation:
+          type: string
+          enum: ["recall:read", "recall:trace", "recall:debug"]
+        decision:
+          type: string
+          enum: ["PERMIT", "DENY", "INDETERMINATE"]
+        reasons:
+          type: array
+          items:
+            type: string
+        constraints:
+          type: object
+          additionalProperties: true
+        evaluationTimeMs:
+          type: number
+          minimum: 0
+        policyVersion:
+          type: string
+        appliedRules:
+          type: array
+          items:
+            type: string
+
+    QoSEventData:
+      type: object
+      required: [requestId, budgetMs, stage]
+      properties:
+        requestId:
+          type: string
+        budgetMs:
+          type: integer
+        actualMs:
+          type: number
+        stage:
+          type: string
+          enum:
+            ["validation", "policy", "search", "ranking", "fusion", "response"]
+        remainingBudgetMs:
+          type: integer
+        priority:
+          type: integer
+        warningThreshold:
+          type: number
+          description: "Percentage of budget when warning is triggered"
+
+    PipelineEventData:
+      type: object
+      required: [requestId, stage, status]
+      properties:
+        requestId:
+          type: string
+        stage:
+          type: string
+          enum: ["fts", "vector", "kg", "fusion", "ranking", "filtering"]
+        status:
+          type: string
+          enum: ["started", "completed", "failed", "skipped"]
+        durationMs:
+          type: number
+        candidateCount:
+          type: integer
+        metadata:
+          type: object
+          additionalProperties: true
+
+    ErrorEventData:
+      type: object
+      required: [requestId, errorCode, errorMessage]
+      properties:
+        requestId:
+          type: string
+        errorCode:
+          type: string
+          pattern: "^[A-Z]+[0-9]{3}$"
+        errorMessage:
+          type: string
+        errorDetails:
+          type: object
+          additionalProperties: true
+        retryable:
+          type: boolean
+        retryCount:
+          type: integer
+          minimum: 0
+        maxRetries:
+          type: integer
+        backoffMs:
+          type: integer
+
+  messages:
+    RetrievalRequestReceived:
+      summary: "Retrieval request received"
+      description: "Emitted when a new retrieval request is received by the service"
+      contentType: "application/cloudevents+json"
+      payload:
+        allOf:
+          - $ref: "#/components/schemas/CloudEventBase"
+          - type: object
+            properties:
+              type:
+                const: "com.familyos.retrieval.request.received"
+              source:
+                const: "/retrieval/service"
+              data:
+                $ref: "#/components/schemas/RetrievalRequestData"
+
+    RetrievalRequestValidated:
+      summary: "Retrieval request validated"
+      description: "Emitted when request validation completes successfully"
+      contentType: "application/cloudevents+json"
+      payload:
+        allOf:
+          - $ref: "#/components/schemas/CloudEventBase"
+          - type: object
+            properties:
+              type:
+                const: "com.familyos.retrieval.request.validated"
+              data:
+                type: object
+                properties:
+                  requestId:
+                    type: string
+                  validationTimeMs:
+                    type: number
+                  sanitizedQuery:
+                    type: string
+
+    RetrievalRequestStarted:
+      summary: "Retrieval processing started"
+      description: "Emitted when retrieval processing begins"
+      contentType: "application/cloudevents+json"
+      payload:
+        allOf:
+          - $ref: "#/components/schemas/CloudEventBase"
+          - type: object
+            properties:
+              type:
+                const: "com.familyos.retrieval.request.started"
+              data:
+                type: object
+                properties:
+                  requestId:
+                    type: string
+                  allocatedBudgetMs:
+                    type: integer
+                  enabledPipelines:
+                    type: array
+                    items:
+                      type: string
+
+    PolicyEvaluationStarted:
+      summary: "Policy evaluation started"
+      description: "Emitted when policy evaluation begins"
+      contentType: "application/cloudevents+json"
+      payload:
+        allOf:
+          - $ref: "#/components/schemas/CloudEventBase"
+          - type: object
+            properties:
+              type:
+                const: "com.familyos.retrieval.policy.evaluation.started"
+              data:
+                $ref: "#/components/schemas/PolicyEvaluationData"
+
+    PolicyDecisionMade:
+      summary: "Policy decision made"
+      description: "Emitted when policy evaluation completes"
+      contentType: "application/cloudevents+json"
+      payload:
+        allOf:
+          - $ref: "#/components/schemas/CloudEventBase"
+          - type: object
+            properties:
+              type:
+                const: "com.familyos.retrieval.policy.decision.made"
+              data:
+                $ref: "#/components/schemas/PolicyEvaluationData"
+
+    AccessGranted:
+      summary: "Access granted"
+      description: "Emitted when access is granted by policy engine"
+      contentType: "application/cloudevents+json"
+      payload:
+        allOf:
+          - $ref: "#/components/schemas/CloudEventBase"
+          - type: object
+            properties:
+              type:
+                const: "com.familyos.retrieval.access.granted"
+              data:
+                type: object
+                properties:
+                  requestId:
+                    type: string
+                  userId:
+                    type: string
+                  grantedPermissions:
+                    type: array
+                    items:
+                      type: string
+                  constraints:
+                    type: object
+
+    AccessDenied:
+      summary: "Access denied"
+      description: "Emitted when access is denied by policy engine"
+      contentType: "application/cloudevents+json"
+      payload:
+        allOf:
+          - $ref: "#/components/schemas/CloudEventBase"
+          - type: object
+            properties:
+              type:
+                const: "com.familyos.retrieval.access.denied"
+              data:
+                type: object
+                properties:
+                  requestId:
+                    type: string
+                  userId:
+                    type: string
+                  denialReasons:
+                    type: array
+                    items:
+                      type: string
+                  requiredClearance:
+                    type: integer
+
+    QoSBudgetStarted:
+      summary: "QoS budget tracking started"
+      description: "Emitted when QoS budget tracking begins"
+      contentType: "application/cloudevents+json"
+      payload:
+        allOf:
+          - $ref: "#/components/schemas/CloudEventBase"
+          - type: object
+            properties:
+              type:
+                const: "com.familyos.retrieval.qos.budget.started"
+              data:
+                $ref: "#/components/schemas/QoSEventData"
+
+    QoSBudgetWarning:
+      summary: "QoS budget warning"
+      description: "Emitted when QoS budget reaches warning threshold"
+      contentType: "application/cloudevents+json"
+      payload:
+        allOf:
+          - $ref: "#/components/schemas/CloudEventBase"
+          - type: object
+            properties:
+              type:
+                const: "com.familyos.retrieval.qos.budget.warning"
+              data:
+                $ref: "#/components/schemas/QoSEventData"
+
+    QoSBudgetExceeded:
+      summary: "QoS budget exceeded"
+      description: "Emitted when QoS budget is exceeded"
+      contentType: "application/cloudevents+json"
+      payload:
+        allOf:
+          - $ref: "#/components/schemas/CloudEventBase"
+          - type: object
+            properties:
+              type:
+                const: "com.familyos.retrieval.qos.budget.exceeded"
+              data:
+                $ref: "#/components/schemas/QoSEventData"
+
+    PipelineStageStarted:
+      summary: "Pipeline stage started"
+      description: "Emitted when a pipeline stage begins processing"
+      contentType: "application/cloudevents+json"
+      payload:
+        allOf:
+          - $ref: "#/components/schemas/CloudEventBase"
+          - type: object
+            properties:
+              type:
+                const: "com.familyos.retrieval.pipeline.stage.started"
+              data:
+                $ref: "#/components/schemas/PipelineEventData"
+
+    PipelineStageCompleted:
+      summary: "Pipeline stage completed"
+      description: "Emitted when a pipeline stage completes processing"
+      contentType: "application/cloudevents+json"
+      payload:
+        allOf:
+          - $ref: "#/components/schemas/CloudEventBase"
+          - type: object
+            properties:
+              type:
+                const: "com.familyos.retrieval.pipeline.stage.completed"
+              data:
+                $ref: "#/components/schemas/PipelineEventData"
+
+    RetrievalError:
+      summary: "Retrieval error occurred"
+      description: "Emitted when an error occurs during retrieval processing"
+      contentType: "application/cloudevents+json"
+      payload:
+        allOf:
+          - $ref: "#/components/schemas/CloudEventBase"
+          - type: object
+            properties:
+              type:
+                const: "com.familyos.retrieval.error"
+              data:
+                $ref: "#/components/schemas/ErrorEventData"
+
+    CandidateSetGenerated:
+      summary: "Candidate set generated"
+      description: "Emitted when initial candidate set is generated"
+      contentType: "application/cloudevents+json"
+      payload:
+        allOf:
+          - $ref: "#/components/schemas/CloudEventBase"
+          - type: object
+            properties:
+              type:
+                const: "com.familyos.retrieval.candidates.generated"
+              data:
+                type: object
+                properties:
+                  requestId:
+                    type: string
+                  totalCandidates:
+                    type: integer
+                  sourceCounts:
+                    type: object
+                    properties:
+                      fts:
+                        type: integer
+                      vector:
+                        type: integer
+                      kg:
+                        type: integer
+
+    RankingCompleted:
+      summary: "Ranking completed"
+      description: "Emitted when candidate ranking completes"
+      contentType: "application/cloudevents+json"
+      payload:
+        allOf:
+          - $ref: "#/components/schemas/CloudEventBase"
+          - type: object
+            properties:
+              type:
+                const: "com.familyos.retrieval.ranking.completed"
+              data:
+                type: object
+                properties:
+                  requestId:
+                    type: string
+                  rankedCandidates:
+                    type: integer
+                  rankingAlgorithm:
+                    type: string
+                  featuresUsed:
+                    type: array
+                    items:
+                      type: string
+
+    FusionCompleted:
+      summary: "Fusion completed"
+      description: "Emitted when result fusion completes"
+      contentType: "application/cloudevents+json"
+      payload:
+        allOf:
+          - $ref: "#/components/schemas/CloudEventBase"
+          - type: object
+            properties:
+              type:
+                const: "com.familyos.retrieval.fusion.completed"
+              data:
+                type: object
+                properties:
+                  requestId:
+                    type: string
+                  finalResultCount:
+                    type: integer
+                  fusionStrategy:
+                    type: string
+                  diversityScore:
+                    type: number
+
+    PerformanceMetrics:
+      summary: "Performance metrics collected"
+      description: "Emitted periodically with performance metrics"
+      contentType: "application/cloudevents+json"
+      payload:
+        allOf:
+          - $ref: "#/components/schemas/CloudEventBase"
+          - type: object
+            properties:
+              type:
+                const: "com.familyos.retrieval.metrics.performance"
+              data:
+                type: object
+                properties:
+                  timestamp:
+                    type: string
+                    format: date-time
+                  metrics:
+                    type: object
+                    properties:
+                      totalRequests:
+                        type: integer
+                      avgLatencyMs:
+                        type: number
+                      p95LatencyMs:
+                        type: number
+                      errorRate:
+                        type: number
+                      qosBudgetViolations:
+                        type: integer
+                      policyDenials:
+                        type: integer
+
+    RetrievalResponseReady:
+      summary: "Retrieval response ready"
+      description: "Emitted when retrieval response is ready for delivery"
+      contentType: "application/cloudevents+json"
+      payload:
+        allOf:
+          - $ref: "#/components/schemas/CloudEventBase"
+          - type: object
+            properties:
+              type:
+                const: "com.familyos.retrieval.response.ready"
+              data:
+                type: object
+                properties:
+                  requestId:
+                    type: string
+                  resultCount:
+                    type: integer
+                  totalProcessingTimeMs:
+                    type: number
+                  cacheHit:
+                    type: boolean
+
+    RetrievalResponseDelivered:
+      summary: "Retrieval response delivered"
+      description: "Emitted when response is delivered to client"
+      contentType: "application/cloudevents+json"
+      payload:
+        allOf:
+          - $ref: "#/components/schemas/CloudEventBase"
+          - type: object
+            properties:
+              type:
+                const: "com.familyos.retrieval.response.delivered"
+              data:
+                type: object
+                properties:
+                  requestId:
+                    type: string
+                  deliveryTimeMs:
+                    type: number
+                  clientId:
+                    type: string
+
+    RetrievalRequestCompleted:
+      summary: "Retrieval request completed"
+      description: "Emitted when entire retrieval request lifecycle completes"
+      contentType: "application/cloudevents+json"
+      payload:
+        allOf:
+          - $ref: "#/components/schemas/CloudEventBase"
+          - type: object
+            properties:
+              type:
+                const: "com.familyos.retrieval.request.completed"
+              data:
+                type: object
+                properties:
+                  requestId:
+                    type: string
+                  success:
+                    type: boolean
+                  totalTimeMs:
+                    type: number
+                  resultCount:
+                    type: integer
+                  qosBudgetUsedMs:
+                    type: number
+                  errorCount:
+                    type: integer
+
+    SecurityViolation:
+      summary: "Security violation detected"
+      description: "Emitted when security violation is detected"
+      contentType: "application/cloudevents+json"
+      payload:
+        allOf:
+          - $ref: "#/components/schemas/CloudEventBase"
+          - type: object
+            properties:
+              type:
+                const: "com.familyos.retrieval.security.violation"
+              data:
+                type: object
+                properties:
+                  requestId:
+                    type: string
+                  userId:
+                    type: string
+                  violationType:
+                    type: string
+                    enum:
+                      [
+                        "clearance_violation",
+                        "space_access_violation",
+                        "rate_limit_violation",
+                        "suspicious_pattern",
+                      ]
+                  severity:
+                    type: string
+                    enum: ["low", "medium", "high", "critical"]
+                  details:
+                    type: object
+
+    RetryAttempted:
+      summary: "Retry attempted"
+      description: "Emitted when a retry is attempted"
+      contentType: "application/cloudevents+json"
+      payload:
+        allOf:
+          - $ref: "#/components/schemas/CloudEventBase"
+          - type: object
+            properties:
+              type:
+                const: "com.familyos.retrieval.retry.attempted"
+              data:
+                $ref: "#/components/schemas/ErrorEventData"
+
+    CircuitBreakerTripped:
+      summary: "Circuit breaker tripped"
+      description: "Emitted when circuit breaker protection activates"
+      contentType: "application/cloudevents+json"
+      payload:
+        allOf:
+          - $ref: "#/components/schemas/CloudEventBase"
+          - type: object
+            properties:
+              type:
+                const: "com.familyos.retrieval.circuit.breaker.tripped"
+              data:
+                type: object
+                properties:
+                  service:
+                    type: string
+                  failureRate:
+                    type: number
+                  threshold:
+                    type: number
+                  windowSize:
+                    type: integer
+
+    DegradedModeActivated:
+      summary: "Degraded mode activated"
+      description: "Emitted when service enters degraded mode"
+      contentType: "application/cloudevents+json"
+      payload:
+        allOf:
+          - $ref: "#/components/schemas/CloudEventBase"
+          - type: object
+            properties:
+              type:
+                const: "com.familyos.retrieval.degraded.mode.activated"
+              data:
+                type: object
+                properties:
+                  reason:
+                    type: string
+                  disabledFeatures:
+                    type: array
+                    items:
+                      type: string
+                  estimatedDuration:
+                    type: integer
+                    description: "Estimated duration in seconds"

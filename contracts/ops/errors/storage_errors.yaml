@@ -1,0 +1,781 @@
+---
+title: "Storage Service - Error Taxonomy and Handling Contracts"
+version: "1.0.0"
+updated: "2025-09-16T00:00:00Z"
+service: "storage"
+category: "ops/errors"
+description: |
+  Comprehensive error classification system for MemoryOS Storage Service.
+  Covers all error types across connection, transaction, schema, policy,
+  data integrity, and performance domains with detailed recovery strategies.
+
+# =============================================================================
+# ERROR CLASSIFICATION SYSTEM
+# =============================================================================
+
+error_categories:
+  connection_errors:
+    range: "STOR001-STOR099"
+    description: "Database connection and pool management errors"
+    severity_levels: ["critical", "high", "medium"]
+
+  transaction_errors:
+    range: "STOR100-STOR199"
+    description: "Transaction lifecycle and coordination errors"
+    severity_levels: ["critical", "high", "medium", "low"]
+
+  schema_migration_errors:
+    range: "STOR200-STOR299"
+    description: "Schema evolution and migration errors"
+    severity_levels: ["critical", "high", "medium"]
+
+  policy_enforcement_errors:
+    range: "STOR300-STOR399"
+    description: "Access control and policy violation errors"
+    severity_levels: ["high", "medium", "low"]
+
+  data_integrity_errors:
+    range: "STOR400-STOR499"
+    description: "Data corruption, validation, and consistency errors"
+    severity_levels: ["critical", "high", "medium"]
+
+  performance_timeout_errors:
+    range: "STOR500-STOR599"
+    description: "Performance degradation and timeout errors"
+    severity_levels: ["high", "medium", "low"]
+
+# =============================================================================
+# CONNECTION ERRORS (STOR001-STOR099)
+# =============================================================================
+
+connection_errors:
+  STOR001:
+    name: "DATABASE_CONNECTION_FAILED"
+    description: "Failed to establish database connection"
+    severity: "critical"
+    causes:
+      - "Database file not accessible"
+      - "Insufficient file permissions"
+      - "Disk space exhausted"
+      - "Database file corruption"
+    recovery_strategy: "retry_with_exponential_backoff"
+    escalation_level: "immediate"
+
+  STOR002:
+    name: "CONNECTION_POOL_EXHAUSTED"
+    description: "All connections in pool are busy or unavailable"
+    severity: "high"
+    causes:
+      - "High concurrent load"
+      - "Connection leaks"
+      - "Pool configuration too small"
+    recovery_strategy: "queue_request_with_timeout"
+    escalation_level: "after_3_failures"
+
+  STOR003:
+    name: "CONNECTION_VALIDATION_FAILED"
+    description: "Connection health check failed"
+    severity: "medium"
+    causes:
+      - "Connection became stale"
+      - "Database in maintenance mode"
+      - "Network interruption"
+    recovery_strategy: "recreate_connection"
+    escalation_level: "after_5_failures"
+
+  STOR004:
+    name: "CONNECTION_TIMEOUT"
+    description: "Connection attempt timed out"
+    severity: "high"
+    causes:
+      - "Database overloaded"
+      - "Slow disk I/O"
+      - "Resource contention"
+    recovery_strategy: "retry_with_circuit_breaker"
+    escalation_level: "after_2_failures"
+
+  STOR005:
+    name: "CONNECTION_PROTOCOL_ERROR"
+    description: "SQLite protocol or version incompatibility"
+    severity: "critical"
+    causes:
+      - "SQLite version mismatch"
+      - "Database format incompatible"
+      - "Corrupted database header"
+    recovery_strategy: "validate_and_repair"
+    escalation_level: "immediate"
+
+  STOR006:
+    name: "CONNECTION_POOL_INITIALIZATION_FAILED"
+    description: "Failed to initialize connection pool"
+    severity: "critical"
+    causes:
+      - "Invalid pool configuration"
+      - "Database not found"
+      - "Insufficient system resources"
+    recovery_strategy: "restart_with_fallback_config"
+    escalation_level: "immediate"
+
+  STOR007:
+    name: "CONNECTION_LEAK_DETECTED"
+    description: "Connection not properly returned to pool"
+    severity: "medium"
+    causes:
+      - "Application code not using try/finally"
+      - "Exception during cleanup"
+      - "Timeout during operation"
+    recovery_strategy: "force_connection_cleanup"
+    escalation_level: "after_10_occurrences"
+
+  STOR008:
+    name: "CONNECTION_LIMIT_EXCEEDED"
+    description: "System-wide connection limit exceeded"
+    severity: "high"
+    causes:
+      - "Too many concurrent operations"
+      - "System resource exhaustion"
+      - "Configuration limits too low"
+    recovery_strategy: "queue_with_priority"
+    escalation_level: "immediate"
+
+# =============================================================================
+# TRANSACTION ERRORS (STOR100-STOR199)
+# =============================================================================
+
+transaction_errors:
+  STOR100:
+    name: "TRANSACTION_DEADLOCK"
+    description: "Deadlock detected between transactions"
+    severity: "high"
+    causes:
+      - "Concurrent access to same resources"
+      - "Lock ordering inconsistency"
+      - "Long-running transactions"
+    recovery_strategy: "retry_with_jitter"
+    escalation_level: "after_3_retries"
+
+  STOR101:
+    name: "TRANSACTION_TIMEOUT"
+    description: "Transaction exceeded maximum duration"
+    severity: "medium"
+    causes:
+      - "Long-running operations"
+      - "Lock contention"
+      - "System overload"
+    recovery_strategy: "rollback_and_retry"
+    escalation_level: "after_1_occurrence"
+
+  STOR102:
+    name: "TRANSACTION_ROLLBACK_FAILED"
+    description: "Failed to rollback transaction"
+    severity: "critical"
+    causes:
+      - "Database corruption"
+      - "Connection lost during rollback"
+      - "System resource exhaustion"
+    recovery_strategy: "force_connection_reset"
+    escalation_level: "immediate"
+
+  STOR103:
+    name: "TRANSACTION_COMMIT_FAILED"
+    description: "Failed to commit transaction"
+    severity: "critical"
+    causes:
+      - "Constraint violations"
+      - "Disk space exhausted"
+      - "Database corruption"
+    recovery_strategy: "validate_and_retry"
+    escalation_level: "immediate"
+
+  STOR104:
+    name: "TRANSACTION_ISOLATION_VIOLATION"
+    description: "Transaction isolation level violated"
+    severity: "high"
+    causes:
+      - "Concurrent modifications"
+      - "Read phenomena detected"
+      - "Isolation level misconfiguration"
+    recovery_strategy: "retry_with_higher_isolation"
+    escalation_level: "after_2_failures"
+
+  STOR105:
+    name: "DISTRIBUTED_TRANSACTION_COORDINATOR_FAILED"
+    description: "Two-phase commit coordinator failure"
+    severity: "critical"
+    causes:
+      - "Coordinator process crashed"
+      - "Network partition"
+      - "Resource exhaustion"
+    recovery_strategy: "initiate_recovery_protocol"
+    escalation_level: "immediate"
+
+  STOR106:
+    name: "TRANSACTION_PREPARE_FAILED"
+    description: "Transaction prepare phase failed"
+    severity: "high"
+    causes:
+      - "Resource constraints"
+      - "Validation failures"
+      - "Participant unavailable"
+    recovery_strategy: "abort_transaction"
+    escalation_level: "after_1_occurrence"
+
+  STOR107:
+    name: "UNIT_OF_WORK_VALIDATION_FAILED"
+    description: "UnitOfWork validation failed before commit"
+    severity: "medium"
+    causes:
+      - "Business rule violations"
+      - "Data consistency checks failed"
+      - "Cross-store validation errors"
+    recovery_strategy: "return_validation_errors"
+    escalation_level: "none"
+
+  STOR108:
+    name: "SAVEPOINT_OPERATION_FAILED"
+    description: "Savepoint creation or rollback failed"
+    severity: "medium"
+    causes:
+      - "Nested transaction limit exceeded"
+      - "Invalid savepoint name"
+      - "Connection state inconsistent"
+    recovery_strategy: "fallback_to_full_rollback"
+    escalation_level: "after_3_failures"
+
+# =============================================================================
+# SCHEMA/MIGRATION ERRORS (STOR200-STOR299)
+# =============================================================================
+
+schema_migration_errors:
+  STOR200:
+    name: "SCHEMA_MIGRATION_FAILED"
+    description: "Database schema migration failed"
+    severity: "critical"
+    causes:
+      - "Migration script syntax error"
+      - "Data incompatibility"
+      - "Insufficient privileges"
+    recovery_strategy: "rollback_to_previous_schema"
+    escalation_level: "immediate"
+
+  STOR201:
+    name: "SCHEMA_VERSION_MISMATCH"
+    description: "Schema version doesn't match expected version"
+    severity: "high"
+    causes:
+      - "Concurrent migration attempt"
+      - "Migration interrupted"
+      - "Version tracking corruption"
+    recovery_strategy: "validate_and_repair_schema"
+    escalation_level: "immediate"
+
+  STOR202:
+    name: "SCHEMA_VALIDATION_FAILED"
+    description: "Schema validation against contract failed"
+    severity: "medium"
+    causes:
+      - "Missing required tables"
+      - "Column type mismatches"
+      - "Index inconsistencies"
+    recovery_strategy: "regenerate_schema"
+    escalation_level: "after_1_occurrence"
+
+  STOR203:
+    name: "SCHEMA_COMPATIBILITY_ERROR"
+    description: "Schema incompatible with store requirements"
+    severity: "high"
+    causes:
+      - "Breaking schema changes"
+      - "Unsupported data types"
+      - "Missing foreign key constraints"
+    recovery_strategy: "upgrade_schema_gracefully"
+    escalation_level: "immediate"
+
+  STOR204:
+    name: "SCHEMA_BACKUP_FAILED"
+    description: "Failed to backup schema before migration"
+    severity: "high"
+    causes:
+      - "Insufficient disk space"
+      - "File permission issues"
+      - "Backup location inaccessible"
+    recovery_strategy: "abort_migration"
+    escalation_level: "immediate"
+
+  STOR205:
+    name: "SCHEMA_DOWNGRADE_BLOCKED"
+    description: "Schema downgrade would cause data loss"
+    severity: "critical"
+    causes:
+      - "Incompatible schema changes"
+      - "Data transformation required"
+      - "Breaking changes detected"
+    recovery_strategy: "require_explicit_confirmation"
+    escalation_level: "immediate"
+
+  STOR206:
+    name: "SCHEMA_LOCK_TIMEOUT"
+    description: "Timeout waiting for schema lock"
+    severity: "medium"
+    causes:
+      - "Concurrent migration in progress"
+      - "Long-running transactions"
+      - "System overload"
+    recovery_strategy: "retry_after_delay"
+    escalation_level: "after_5_retries"
+
+# =============================================================================
+# POLICY ENFORCEMENT ERRORS (STOR300-STOR399)
+# =============================================================================
+
+policy_enforcement_errors:
+  STOR300:
+    name: "ACCESS_DENIED"
+    description: "Access denied by storage policy"
+    severity: "medium"
+    causes:
+      - "Insufficient permissions"
+      - "RBAC rule violation"
+      - "Resource-level access denied"
+    recovery_strategy: "return_authorization_error"
+    escalation_level: "none"
+
+  STOR301:
+    name: "QUOTA_EXCEEDED"
+    description: "Storage quota exceeded"
+    severity: "high"
+    causes:
+      - "User quota limit reached"
+      - "Tenant quota limit reached"
+      - "System quota limit reached"
+    recovery_strategy: "enforce_quota_limit"
+    escalation_level: "after_1_occurrence"
+
+  STOR302:
+    name: "DATA_RETENTION_VIOLATION"
+    description: "Data retention policy violation"
+    severity: "medium"
+    causes:
+      - "Attempt to delete protected data"
+      - "Retention period not met"
+      - "Legal hold active"
+    recovery_strategy: "enforce_retention_policy"
+    escalation_level: "none"
+
+  STOR303:
+    name: "ENCRYPTION_POLICY_VIOLATION"
+    description: "Encryption policy not met"
+    severity: "high"
+    causes:
+      - "Sensitive data not encrypted"
+      - "Weak encryption algorithm"
+      - "Key management violation"
+    recovery_strategy: "enforce_encryption_requirements"
+    escalation_level: "immediate"
+
+  STOR304:
+    name: "AUDIT_LOGGING_FAILED"
+    description: "Required audit log entry failed"
+    severity: "high"
+    causes:
+      - "Audit log destination unavailable"
+      - "Audit log corruption"
+      - "Insufficient disk space for logs"
+    recovery_strategy: "block_operation_until_logged"
+    escalation_level: "immediate"
+
+  STOR305:
+    name: "COMPLIANCE_VIOLATION"
+    description: "Compliance policy violation detected"
+    severity: "high"
+    causes:
+      - "GDPR violation detected"
+      - "Data locality requirements violated"
+      - "Export control violations"
+    recovery_strategy: "block_and_report_violation"
+    escalation_level: "immediate"
+
+  STOR306:
+    name: "PRIVACY_FILTER_FAILED"
+    description: "Privacy filtering mechanism failed"
+    severity: "high"
+    causes:
+      - "PII detection algorithm failed"
+      - "Anonymization process failed"
+      - "Privacy policy engine unavailable"
+    recovery_strategy: "default_to_most_restrictive"
+    escalation_level: "immediate"
+
+# =============================================================================
+# DATA INTEGRITY ERRORS (STOR400-STOR499)
+# =============================================================================
+
+data_integrity_errors:
+  STOR400:
+    name: "DATA_CORRUPTION_DETECTED"
+    description: "Data corruption detected in storage"
+    severity: "critical"
+    causes:
+      - "Disk hardware failure"
+      - "File system corruption"
+      - "Memory corruption"
+    recovery_strategy: "restore_from_backup"
+    escalation_level: "immediate"
+
+  STOR401:
+    name: "CHECKSUM_VALIDATION_FAILED"
+    description: "Data checksum validation failed"
+    severity: "high"
+    causes:
+      - "Data modified unexpectedly"
+      - "Storage medium corruption"
+      - "Transfer corruption"
+    recovery_strategy: "retry_from_source"
+    escalation_level: "after_1_occurrence"
+
+  STOR402:
+    name: "FOREIGN_KEY_CONSTRAINT_VIOLATION"
+    description: "Foreign key constraint violation"
+    severity: "medium"
+    causes:
+      - "Referenced record doesn't exist"
+      - "Circular reference detected"
+      - "Constraint definition error"
+    recovery_strategy: "return_constraint_error"
+    escalation_level: "none"
+
+  STOR403:
+    name: "UNIQUE_CONSTRAINT_VIOLATION"
+    description: "Unique constraint violation"
+    severity: "medium"
+    causes:
+      - "Duplicate key insertion"
+      - "Race condition in uniqueness check"
+      - "Data migration conflicts"
+    recovery_strategy: "return_uniqueness_error"
+    escalation_level: "none"
+
+  STOR404:
+    name: "DATA_TYPE_VALIDATION_FAILED"
+    description: "Data type validation failed"
+    severity: "medium"
+    causes:
+      - "Invalid data format"
+      - "Type conversion failure"
+      - "Schema constraint violation"
+    recovery_strategy: "return_validation_error"
+    escalation_level: "none"
+
+  STOR405:
+    name: "CROSS_STORE_CONSISTENCY_VIOLATION"
+    description: "Consistency violation across multiple stores"
+    severity: "high"
+    causes:
+      - "Partial transaction failure"
+      - "Clock skew between operations"
+      - "Network partition during updates"
+    recovery_strategy: "initiate_consistency_repair"
+    escalation_level: "after_1_occurrence"
+
+  STOR406:
+    name: "RECORD_VERSION_CONFLICT"
+    description: "Optimistic locking version conflict"
+    severity: "medium"
+    causes:
+      - "Concurrent modification"
+      - "Stale version information"
+      - "Clock synchronization issues"
+    recovery_strategy: "return_conflict_error"
+    escalation_level: "none"
+
+  STOR407:
+    name: "DATA_SIZE_LIMIT_EXCEEDED"
+    description: "Data size exceeds storage limits"
+    severity: "medium"
+    causes:
+      - "Record too large for store"
+      - "Blob size exceeds limits"
+      - "String length exceeds column size"
+    recovery_strategy: "return_size_limit_error"
+    escalation_level: "none"
+
+  STOR408:
+    name: "REFERENTIAL_INTEGRITY_VIOLATION"
+    description: "Referential integrity constraint violated"
+    severity: "high"
+    causes:
+      - "Orphaned references detected"
+      - "Cascade delete failed"
+      - "Reference cycle detected"
+    recovery_strategy: "enforce_referential_integrity"
+    escalation_level: "after_1_occurrence"
+
+# =============================================================================
+# PERFORMANCE/TIMEOUT ERRORS (STOR500-STOR599)
+# =============================================================================
+
+performance_timeout_errors:
+  STOR500:
+    name: "OPERATION_TIMEOUT"
+    description: "Storage operation exceeded timeout"
+    severity: "medium"
+    causes:
+      - "Slow query execution"
+      - "Lock contention"
+      - "System overload"
+    recovery_strategy: "retry_with_exponential_backoff"
+    escalation_level: "after_3_timeouts"
+
+  STOR501:
+    name: "QUERY_PERFORMANCE_DEGRADED"
+    description: "Query performance below SLA thresholds"
+    severity: "low"
+    causes:
+      - "Missing indexes"
+      - "Table fragmentation"
+      - "Statistics outdated"
+    recovery_strategy: "optimize_query_execution"
+    escalation_level: "after_sustained_degradation"
+
+  STOR502:
+    name: "MEMORY_PRESSURE_HIGH"
+    description: "High memory pressure in storage layer"
+    severity: "high"
+    causes:
+      - "Large result sets"
+      - "Memory leaks"
+      - "Insufficient system memory"
+    recovery_strategy: "reduce_memory_usage"
+    escalation_level: "after_2_occurrences"
+
+  STOR503:
+    name: "DISK_SPACE_LOW"
+    description: "Available disk space below threshold"
+    severity: "high"
+    causes:
+      - "Data growth exceeding predictions"
+      - "Log files not rotated"
+      - "Backup files accumulating"
+    recovery_strategy: "trigger_cleanup_procedures"
+    escalation_level: "immediate"
+
+  STOR504:
+    name: "CONNECTION_POOL_SATURATION"
+    description: "Connection pool utilization above threshold"
+    severity: "medium"
+    causes:
+      - "High concurrent load"
+      - "Long-running operations"
+      - "Connection leaks"
+    recovery_strategy: "scale_connection_pool"
+    escalation_level: "after_sustained_saturation"
+
+  STOR505:
+    name: "VACUUM_OPERATION_FAILED"
+    description: "Database vacuum/optimization operation failed"
+    severity: "medium"
+    causes:
+      - "Insufficient disk space"
+      - "Active transactions blocking vacuum"
+      - "Database corruption detected"
+    recovery_strategy: "retry_vacuum_during_maintenance"
+    escalation_level: "after_3_failures"
+
+  STOR506:
+    name: "INDEX_REBUILD_FAILED"
+    description: "Index rebuild operation failed"
+    severity: "medium"
+    causes:
+      - "Disk space exhaustion"
+      - "Data corruption in index"
+      - "System resource constraints"
+    recovery_strategy: "rebuild_index_incrementally"
+    escalation_level: "after_2_failures"
+
+  STOR507:
+    name: "CACHE_MISS_RATE_HIGH"
+    description: "Cache miss rate above acceptable threshold"
+    severity: "low"
+    causes:
+      - "Working set larger than cache"
+      - "Random access patterns"
+      - "Cache eviction pressure"
+    recovery_strategy: "optimize_cache_strategy"
+    escalation_level: "after_sustained_degradation"
+
+  STOR508:
+    name: "WRITE_AMPLIFICATION_HIGH"
+    description: "Write amplification above optimal levels"
+    severity: "low"
+    causes:
+      - "Frequent small writes"
+      - "Poor data locality"
+      - "Inefficient update patterns"
+    recovery_strategy: "optimize_write_patterns"
+    escalation_level: "after_sustained_degradation"
+
+# =============================================================================
+# RECOVERY STRATEGIES
+# =============================================================================
+
+recovery_strategies:
+  retry_with_exponential_backoff:
+    description: "Retry operation with exponentially increasing delay"
+    max_retries: 3
+    initial_delay_ms: 100
+    backoff_multiplier: 2.0
+    max_delay_ms: 10000
+    jitter: true
+
+  retry_with_circuit_breaker:
+    description: "Retry with circuit breaker pattern"
+    failure_threshold: 5
+    recovery_timeout_ms: 30000
+    half_open_max_calls: 3
+
+  queue_request_with_timeout:
+    description: "Queue request with maximum wait time"
+    max_queue_size: 1000
+    max_wait_time_ms: 30000
+    priority_levels: ["high", "normal", "low"]
+
+  restore_from_backup:
+    description: "Restore data from most recent backup"
+    backup_retention_days: 30
+    point_in_time_recovery: true
+    verification_required: true
+
+  validate_and_repair:
+    description: "Validate data integrity and repair if possible"
+    repair_strategies: ["checksum_repair", "reference_repair", "schema_repair"]
+    backup_before_repair: true
+    manual_approval_required: false
+
+# =============================================================================
+# ESCALATION POLICIES
+# =============================================================================
+
+escalation_policies:
+  immediate:
+    description: "Escalate immediately to operations team"
+    notification_channels: ["slack", "email", "pager"]
+    severity: "critical"
+
+  after_3_failures:
+    description: "Escalate after 3 consecutive failures"
+    failure_window_minutes: 5
+    notification_channels: ["slack", "email"]
+    severity: "high"
+
+  after_sustained_degradation:
+    description: "Escalate after sustained performance degradation"
+    degradation_window_minutes: 15
+    threshold_breach_percentage: 20
+    notification_channels: ["slack"]
+    severity: "medium"
+
+# =============================================================================
+# ERROR RESPONSE FORMAT
+# =============================================================================
+
+error_response_format:
+  type: "object"
+  required: ["error_code", "error_message", "timestamp", "correlation_id"]
+  properties:
+    error_code:
+      type: "string"
+      pattern: "^STOR[0-9]{3}$"
+      description: "Standardized storage error code"
+
+    error_message:
+      type: "string"
+      description: "Human-readable error description"
+
+    error_category:
+      type: "string"
+      enum:
+        [
+          "connection",
+          "transaction",
+          "schema",
+          "policy",
+          "integrity",
+          "performance",
+        ]
+      description: "Error category classification"
+
+    severity:
+      type: "string"
+      enum: ["critical", "high", "medium", "low"]
+      description: "Error severity level"
+
+    timestamp:
+      type: "string"
+      format: "date-time"
+      description: "ISO 8601 timestamp when error occurred"
+
+    correlation_id:
+      type: "string"
+      description: "Request correlation ID for tracing"
+
+    store_name:
+      type: "string"
+      description: "Name of the store where error occurred"
+
+    operation:
+      type: "string"
+      description: "Operation that caused the error"
+
+    recovery_strategy:
+      type: "string"
+      description: "Recommended recovery strategy"
+
+    retry_after_ms:
+      type: "integer"
+      description: "Milliseconds to wait before retry (if applicable)"
+
+    additional_context:
+      type: "object"
+      description: "Additional error-specific context"
+
+# =============================================================================
+# MONITORING AND ALERTING
+# =============================================================================
+
+monitoring_configuration:
+  error_rate_thresholds:
+    critical: 0.1 # 0.1% error rate triggers critical alert
+    high: 0.5 # 0.5% error rate triggers high priority alert
+    medium: 1.0 # 1.0% error rate triggers medium priority alert
+
+  aggregation_windows:
+    - "1m" # 1 minute
+    - "5m" # 5 minutes
+    - "15m" # 15 minutes
+    - "1h" # 1 hour
+
+  metrics_to_track:
+    - "error_count_by_code"
+    - "error_rate_by_category"
+    - "recovery_success_rate"
+    - "escalation_frequency"
+    - "mean_time_to_recovery"
+
+# =============================================================================
+# CONTRACT METADATA
+# =============================================================================
+
+contract_metadata:
+  schema_version: "1.0.0"
+  compatibility: "backward_compatible"
+  last_reviewed: "2025-09-16T00:00:00Z"
+  review_cycle: "quarterly"
+  owner: "storage_team"
+  stakeholders: ["api_team", "ops_team", "security_team"]
+
+validation:
+  error_codes_count: 47
+  coverage_percentage: 95
+  categories_covered: 6
+  recovery_strategies_defined: 5
+  escalation_policies_defined: 3

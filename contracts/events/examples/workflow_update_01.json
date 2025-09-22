@@ -1,0 +1,54 @@
+{
+  "schema_version": "1.1.0",
+  "id": "7dfb7584-5ae9-45e4-917a-2ef29f9e7aeb",
+  "ts": "2025-09-09T04:20:40Z",
+  "topic": "WORKFLOW_UPDATE",
+  "band": "GREEN",
+  "actor": {
+    "user_id": "f3e63982-772b-4a1e-b896-062b5c2dd5e6",
+    "agent_id": "system.v1",
+    "caps": [
+      "WRITE",
+      "RECALL"
+    ]
+  },
+  "device": {
+    "device_id": "edge-jetson",
+    "platform": "macos",
+    "app_version": "1.5.3",
+    "locale": "en-GB"
+  },
+  "space_id": "interfamily:link",
+  "policy_version": "1.3",
+  "abac": {
+    "role": "system",
+    "trust": "amber",
+    "geo_precision": "region"
+  },
+  "qos": {
+    "routing": "fast-path",
+    "priority": 6,
+    "latency_budget_ms": 135,
+    "retries": 1
+  },
+  "trace": {
+    "trace_id": "98b1efa2c312a9f56a76c948d7e96b16",
+    "span_id": "e05fb6568431b42d",
+    "sampled": true
+  },
+  "obligations": [],
+  "redaction_applied": false,
+  "hashes": {
+    "payload_sha256": "c11da7aeb10db9214322574ca2f76f17409fadba56d903fe8cee872285342f19"
+  },
+  "payload": {
+    "note": "system-update",
+    "ts": "2025-09-09T04:20:40Z"
+  },
+  "signature": {
+    "alg": "ed25519",
+    "key_id": "key_workflow_update_green_2024",
+    "public_key": "cHVibGlj",
+    "signature": "c2ln"
+  }
+}

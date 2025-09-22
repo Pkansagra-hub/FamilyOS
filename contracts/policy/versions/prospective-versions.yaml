@@ -1,0 +1,12 @@
+current: "1.0.0"
+history:
+  - version: "1.0.0"
+    date: "2025-09-10"
+    changes:
+      - "Add trigger CRUD OpenAPI."
+      - "Add trigger/occurrence storage schemas."
+      - "Reuse global PROSPECTIVE_* events."
+compatibility:
+  envelope_major: 1
+  events_major: 1
+  api_major: 1

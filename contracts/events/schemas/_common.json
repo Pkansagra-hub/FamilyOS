@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://memoryos.local/contracts/events/schemas/_common.json",
+  "title": "Common payload definitions",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {},
+  "definitions": {
+    "SpaceRef": {
+      "type": "string",
+      "pattern": "^(personal|selective|shared|extended|interfamily):"
+    },
+    "ISOInstant": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "ISODuration": {
+      "type": "string",
+      "pattern": "^P(?!$)(\\d+Y)?(\\d+M)?(\\d+D)?(T(\\d+H)?(\\d+M)?(\\d+S)?)?$"
+    },
+    "Score": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "TraceContext": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "trace_id",
+        "span_id"
+      ],
+      "properties": {
+        "trace_id": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{16,32}$"
+        },
+        "span_id": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{8,16}$"
+        }
+      }
+    },
+    "ReceiptRef": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "ts",
+        "hash"
+      ],
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "ts": {
+          "$ref": "#/definitions/ISOInstant"
+        },
+        "hash": {
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        }
+      }
+    }
+  }
+}

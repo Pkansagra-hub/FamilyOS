@@ -1,0 +1,303 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://familyos.local/schemas/storage/hippocampus/temporal_sequence_state.json",
+    "title": "Temporal Sequence State",
+    "description": "Storage schema for temporal sequence memory including time cell activity, sequence encoding, and temporal order information",
+    "type": "object",
+    "required": [
+        "sequence_id",
+        "hippocampus_id",
+        "temporal_structure",
+        "time_cell_activity",
+        "sequence_quality",
+        "temporal_associations"
+    ],
+    "properties": {
+        "sequence_id": {
+            "type": "string",
+            "pattern": "^sequence_[a-zA-Z0-9_-]+$",
+            "description": "Unique identifier for temporal sequence"
+        },
+        "hippocampus_id": {
+            "type": "string",
+            "pattern": "^hippocampus_[a-zA-Z0-9_-]+$",
+            "description": "Hippocampus instance managing this sequence"
+        },
+        "temporal_structure": {
+            "type": "object",
+            "required": [
+                "sequence_events",
+                "temporal_resolution",
+                "sequence_duration"
+            ],
+            "properties": {
+                "sequence_events": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "event_id": {
+                                "type": "string"
+                            },
+                            "sequence_position": {
+                                "type": "integer",
+                                "minimum": 0
+                            },
+                            "relative_timestamp": {
+                                "type": "number",
+                                "minimum": 0
+                            },
+                            "event_duration": {
+                                "type": "number",
+                                "minimum": 0
+                            },
+                            "event_content": {
+                                "type": "object"
+                            },
+                            "temporal_uncertainty": {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 1
+                            }
+                        }
+                    }
+                },
+                "temporal_resolution": {
+                    "type": "number",
+                    "minimum": 0
+                },
+                "sequence_duration": {
+                    "type": "number",
+                    "minimum": 0
+                },
+                "temporal_boundaries": {
+                    "type": "object",
+                    "properties": {
+                        "sequence_start": {
+                            "type": "string",
+                            "format": "date-time"
+                        },
+                        "sequence_end": {
+                            "type": "string",
+                            "format": "date-time"
+                        },
+                        "boundary_certainty": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    }
+                }
+            }
+        },
+        "time_cell_activity": {
+            "type": "object",
+            "required": [
+                "active_time_cells",
+                "temporal_coding_scheme"
+            ],
+            "properties": {
+                "active_time_cells": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "cell_id": {
+                                "type": "string"
+                            },
+                            "temporal_field": {
+                                "type": "number",
+                                "minimum": 0
+                            },
+                            "peak_time": {
+                                "type": "number",
+                                "minimum": 0
+                            },
+                            "field_width": {
+                                "type": "number",
+                                "minimum": 0
+                            },
+                            "firing_pattern": {
+                                "type": "string",
+                                "enum": [
+                                    "ramping",
+                                    "decaying",
+                                    "peaked",
+                                    "sustained"
+                                ]
+                            },
+                            "sequence_selectivity": {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 1
+                            },
+                            "temporal_precision": {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 1
+                            }
+                        }
+                    }
+                },
+                "temporal_coding_scheme": {
+                    "type": "object",
+                    "properties": {
+                        "coding_type": {
+                            "type": "string",
+                            "enum": [
+                                "rate_coding",
+                                "temporal_coding",
+                                "phase_coding",
+                                "population_vector"
+                            ]
+                        },
+                        "temporal_precision": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "sequence_compression": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "temporal_binding_strength": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    }
+                },
+                "oscillatory_context": {
+                    "type": "object",
+                    "properties": {
+                        "theta_phase_relationship": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 6.28318
+                        },
+                        "gamma_coupling": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "replay_frequency": {
+                            "type": "number",
+                            "minimum": 0
+                        }
+                    }
+                }
+            }
+        },
+        "sequence_quality": {
+            "type": "object",
+            "required": [
+                "temporal_accuracy",
+                "sequence_completeness",
+                "order_fidelity"
+            ],
+            "properties": {
+                "temporal_accuracy": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "sequence_completeness": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "order_fidelity": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "temporal_coherence": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "sequence_stability": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "reconstruction_quality": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                }
+            }
+        },
+        "temporal_associations": {
+            "type": "object",
+            "properties": {
+                "forward_associations": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "from_event": {
+                                "type": "string"
+                            },
+                            "to_event": {
+                                "type": "string"
+                            },
+                            "association_strength": {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 1
+                            },
+                            "temporal_lag": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                },
+                "backward_associations": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "from_event": {
+                                "type": "string"
+                            },
+                            "to_event": {
+                                "type": "string"
+                            },
+                            "association_strength": {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 1
+                            }
+                        }
+                    }
+                },
+                "causal_relationships": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "cause_event": {
+                                "type": "string"
+                            },
+                            "effect_event": {
+                                "type": "string"
+                            },
+                            "causal_strength": {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 1
+                            },
+                            "causal_delay": {
+                                "type": "number",
+                                "minimum": 0
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "additionalProperties": false
+}

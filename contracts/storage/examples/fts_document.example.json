@@ -1,0 +1,17 @@
+{
+  "doc_id": "01HX3V6MFTSVEEVDEERY79QQT4",
+  "space_id": "shared:household",
+  "lang": "en",
+  "text": "SSA appointment booked for Thursday 2:30pm.",
+  "segments": [
+    {
+      "off": 0,
+      "len": 34,
+      "offset": 0,
+      "length": 0
+    }
+  ],
+  "payload_ref": "epi:epi_01HX3V6MDY1E2",
+  "ts": "2025-01-14T10:30:00.000Z",
+  "band": "GREEN"
+}

@@ -1,0 +1,54 @@
+{
+  "schema_version": "1.1.0",
+  "id": "8c6c6df5-f124-4dec-9b1b-b67b0a3776b0",
+  "ts": "2025-09-09T04:20:40Z",
+  "topic": "PROSPECTIVE_SCHEDULE",
+  "band": "GREEN",
+  "actor": {
+    "user_id": "ba673190-2311-450c-9339-b0af295e56f5",
+    "agent_id": "encoder.v1",
+    "caps": [
+      "PROJECT"
+    ]
+  },
+  "device": {
+    "device_id": "edge-jetson",
+    "platform": "web",
+    "app_version": "1.1.2",
+    "locale": "de-DE"
+  },
+  "space_id": "personal:88f8134c-759b-4208-9e9d-10d44ed788aa",
+  "policy_version": "1.3",
+  "abac": {
+    "role": "parent",
+    "trust": "amber",
+    "geo_precision": "region"
+  },
+  "qos": {
+    "routing": "gate-path",
+    "priority": 8,
+    "latency_budget_ms": 133,
+    "retries": 2
+  },
+  "trace": {
+    "trace_id": "38287dc6f44be52614af7864ad56f01b",
+    "span_id": "7d0f4c36080e9791",
+    "sampled": true
+  },
+  "obligations": [],
+  "redaction_applied": false,
+  "hashes": {
+    "payload_sha256": "3fb2e7865e0ece2fb4184b8f30f75a6c26fe6a622f6a4f14daa8a2dac8af09df"
+  },
+  "payload": {
+    "when": "2025-09-09T04:20:40Z",
+    "note": "Reminder",
+    "jitter_ms": 45
+  },
+  "signature": {
+    "alg": "ed25519",
+    "key_id": "key_prospective_schedule_green_2024",
+    "public_key": "cHVibGlj",
+    "signature": "c2ln"
+  }
+}

@@ -1,0 +1,11 @@
+module: perception
+current: 1.0.0
+history:
+  - version: 1.0.0
+    date: 2025-09-10
+    changes: ["Initial contract bundle: API (edge), events catalog, storage (ephemeral), policy, observability, jobs, tests."]
+compatibility:
+  api: {min: 1.0.0, max: 1.x}
+  events: {depends_on_envelope: ">=1.1.0"}
+  storage: {min: 1.0.0, max: 1.x}
+deprecations: []

@@ -1,0 +1,47 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "$id": "resource_management.schema.json",
+    "title": "Working Memory Resource Management Event",
+    "description": "Event for resource management in working memory",
+    "type": "object",
+    "required": [
+        "timestamp",
+        "resource_type",
+        "allocation_decision",
+        "utilization"
+    ],
+    "properties": {
+        "timestamp": {
+            "type": "string",
+            "format": "date-time"
+        },
+        "resource_type": {
+            "type": "string",
+            "enum": [
+                "attention",
+                "capacity",
+                "processing_time",
+                "energy"
+            ]
+        },
+        "allocation_decision": {
+            "type": "string",
+            "enum": [
+                "allocate",
+                "reallocate",
+                "conserve",
+                "release"
+            ]
+        },
+        "utilization": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+        },
+        "efficiency": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+        }
+    }
+}

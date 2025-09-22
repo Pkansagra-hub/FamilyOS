@@ -1,0 +1,2291 @@
+openapi: 3.0.3
+info:
+  title: "Family AI App Notifications API"
+  description: |
+    App Notifications API for Memory-Centric Family AI
+
+    This API provides comprehensive notification management for the Family AI
+    ecosystem, enabling coordinated family communication while respecting
+    privacy boundaries and family coordination patterns.
+
+    **Notification Management Mission:**
+    The App Notifications API manages device tokens, notification channels,
+    family-aware delivery preferences, and coordinated family messaging.
+    All notifications are privacy-first and enhance family coordination
+    through memory-driven contextual messaging.
+
+    **Notification Categories:**
+    - `/tokens` - Device token registration and management
+    - `/channels` - Notification channel configuration
+    - `/preferences` - Family-aware notification preferences
+    - `/send` - Immediate notification delivery
+    - `/history` - Notification delivery tracking
+    - `/templates` - Family notification templates
+
+    **Memory-Centric Notifications:**
+    - Notifications leverage family memory context
+    - Family coordination through intelligent delivery timing
+    - Privacy-respecting content based on family relationships
+    - Memory-driven notification personalization
+  version: "1.0.0"
+  contact:
+    name: "Family AI Development Team"
+    url: "https://github.com/pkansagra99/family_os"
+  license:
+    name: "MIT"
+    url: "https://opensource.org/licenses/MIT"
+
+servers:
+  - url: "http://localhost:8000/v1/app/notifications"
+    description: "Local development server"
+  - url: "https://api.familyos.local/v1/app/notifications"
+    description: "Production Family AI instance"
+
+security:
+  - FamilyAuth: []
+  - DeviceAuth: []
+
+paths:
+  # =============================================================================
+  # DEVICE TOKEN MANAGEMENT
+  # =============================================================================
+
+  /tokens:
+    get:
+      summary: "List registered device tokens"
+      description: |
+        List notification tokens for family member devices including token
+        status, delivery capabilities, and family notification preferences.
+      operationId: "listDeviceTokens"
+      tags: ["Token Management"]
+      parameters:
+        - name: user_id
+          in: query
+          schema:
+            type: string
+          description: "Filter tokens by specific family member"
+        - name: device_type
+          in: query
+          schema:
+            type: string
+            enum: ["phone", "tablet", "laptop", "desktop", "smart_speaker", "tv", "wearable"]
+          description: "Filter by device type"
+        - name: status_filter
+          in: query
+          schema:
+            type: string
+            enum: ["active", "inactive", "expired", "invalid", "all"]
+          description: "Filter by token status"
+        - name: include_capabilities
+          in: query
+          schema:
+            type: boolean
+            default: true
+          description: "Include device notification capabilities"
+      responses:
+        "200":
+          description: "Device tokens listed successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeviceTokensResponse"
+              examples:
+                family_device_tokens:
+                  summary: "Family device tokens with capabilities"
+                  value:
+                    device_tokens:
+                      - token_id: "token_mom_phone_001"
+                        user_id: "mom_001"
+                        device_id: "phone_mom_primary"
+                        device_type: "phone"
+                        platform: "ios"
+                        status: "active"
+                        registered_at: "2024-01-10T09:15:00Z"
+                        last_verified: "2024-01-15T08:30:00Z"
+                        capabilities:
+                          push_notifications: true
+                          rich_media: true
+                          interactive_actions: true
+                          sound_alerts: true
+                          vibration: true
+                          badge_updates: true
+                        family_preferences:
+                          family_coordination: true
+                          emergency_alerts: true
+                          memory_insights: false
+                          system_updates: true
+                        delivery_stats:
+                          delivered_24h: 12
+                          failed_24h: 0
+                          delivery_rate: 1.0
+                      - token_id: "token_dad_phone_001"
+                        user_id: "dad_001"
+                        device_id: "phone_dad_primary"
+                        device_type: "phone"
+                        platform: "android"
+                        status: "active"
+                        registered_at: "2024-01-08T14:20:00Z"
+                        last_verified: "2024-01-15T07:45:00Z"
+                        capabilities:
+                          push_notifications: true
+                          rich_media: true
+                          interactive_actions: true
+                          sound_alerts: true
+                          vibration: true
+                          badge_updates: true
+                        family_preferences:
+                          family_coordination: true
+                          emergency_alerts: true
+                          memory_insights: true
+                          system_updates: false
+                        delivery_stats:
+                          delivered_24h: 8
+                          failed_24h: 1
+                          delivery_rate: 0.89
+                      - token_id: "token_family_speaker_001"
+                        device_id: "speaker_living_room"
+                        device_type: "smart_speaker"
+                        platform: "family_os"
+                        status: "active"
+                        shared_device: true
+                        registered_at: "2024-01-05T16:30:00Z"
+                        last_verified: "2024-01-15T10:00:00Z"
+                        capabilities:
+                          voice_announcements: true
+                          audio_alerts: true
+                          family_broadcasting: true
+                          emergency_announcements: true
+                        family_preferences:
+                          family_coordination: true
+                          emergency_alerts: true
+                          household_announcements: true
+                        delivery_stats:
+                          delivered_24h: 5
+                          failed_24h: 0
+                          delivery_rate: 1.0
+                    token_summary:
+                      total_tokens: 3
+                      active_tokens: 3
+                      family_coverage: "complete"
+                      notification_reach: 100
+
+    post:
+      summary: "Register device token"
+      description: |
+        Register a new device token for notifications with family-aware
+        preferences and delivery capability configuration.
+      operationId: "registerDeviceToken"
+      tags: ["Token Management"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RegisterTokenRequest"
+            examples:
+              register_phone_token:
+                summary: "Register phone notification token"
+                value:
+                  token_info:
+                    device_token: "fcm_token_abc123xyz789"
+                    device_id: "phone_teen_primary"
+                    user_id: "emma_001"
+                    platform: "ios"
+                    device_type: "phone"
+                    app_version: "2.1.0"
+                  capabilities:
+                    push_notifications: true
+                    rich_media: true
+                    interactive_actions: true
+                    sound_alerts: true
+                    vibration: true
+                    badge_updates: true
+                    background_processing: false
+                  family_preferences:
+                    family_coordination: true
+                    emergency_alerts: true
+                    memory_insights: false
+                    system_updates: true
+                    parental_notifications: true
+                    study_mode_filtering: true
+                  delivery_preferences:
+                    quiet_hours:
+                      enabled: true
+                      start_time: "22:00"
+                      end_time: "07:00"
+                      emergency_override: true
+                    delivery_method: "immediate"
+                    batch_non_urgent: true
+                    respect_presence: true
+      responses:
+        "201":
+          description: "Device token successfully registered"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RegisterTokenResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "409":
+          description: "Token already registered or device conflict"
+
+  /tokens/{token_id}:
+    get:
+      summary: "Get device token details"
+      description: |
+        Retrieve detailed information about a specific device token including
+        delivery statistics, family preferences, and capability status.
+      operationId: "getDeviceTokenDetails"
+      tags: ["Token Management"]
+      parameters:
+        - name: token_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: "Device token identifier"
+        - name: include_delivery_stats
+          in: query
+          schema:
+            type: boolean
+            default: true
+          description: "Include delivery statistics"
+        - name: include_family_context
+          in: query
+          schema:
+            type: boolean
+            default: true
+          description: "Include family notification context"
+      responses:
+        "200":
+          description: "Device token details retrieved successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeviceTokenDetailsResponse"
+        "404":
+          description: "Device token not found"
+        "403":
+          description: "Access denied to token details"
+
+    put:
+      summary: "Update device token"
+      description: |
+        Update device token configuration including family preferences,
+        delivery settings, and notification capabilities.
+      operationId: "updateDeviceToken"
+      tags: ["Token Management"]
+      parameters:
+        - name: token_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateTokenRequest"
+      responses:
+        "200":
+          description: "Device token updated successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DeviceTokenDetailsResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "404":
+          description: "Device token not found"
+
+    delete:
+      summary: "Unregister device token"
+      description: |
+        Remove device token registration and clean up associated
+        notification preferences and delivery configurations.
+      operationId: "unregisterDeviceToken"
+      tags: ["Token Management"]
+      parameters:
+        - name: token_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: revoke_immediately
+          in: query
+          schema:
+            type: boolean
+            default: true
+          description: "Immediately revoke token vs graceful removal"
+      responses:
+        "204":
+          description: "Device token successfully unregistered"
+        "404":
+          description: "Device token not found"
+
+  # =============================================================================
+  # NOTIFICATION CHANNELS
+  # =============================================================================
+
+  /channels:
+    get:
+      summary: "List notification channels"
+      description: |
+        List available notification channels including family-specific channels,
+        system channels, and custom family coordination channels.
+      operationId: "listNotificationChannels"
+      tags: ["Channel Management"]
+      parameters:
+        - name: channel_type
+          in: query
+          schema:
+            type: string
+            enum: ["family", "system", "personal", "emergency", "custom", "all"]
+          description: "Filter by channel type"
+        - name: include_settings
+          in: query
+          schema:
+            type: boolean
+            default: true
+          description: "Include channel configuration settings"
+        - name: user_accessible_only
+          in: query
+          schema:
+            type: boolean
+            default: false
+          description: "Only show channels accessible to requesting user"
+      responses:
+        "200":
+          description: "Notification channels listed successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotificationChannelsResponse"
+
+    post:
+      summary: "Create notification channel"
+      description: |
+        Create a new notification channel with family-appropriate settings,
+        member access controls, and delivery preferences.
+      operationId: "createNotificationChannel"
+      tags: ["Channel Management"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateChannelRequest"
+      responses:
+        "201":
+          description: "Notification channel successfully created"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreateChannelResponse"
+
+  /channels/{channel_id}:
+    get:
+      summary: "Get channel details"
+      description: |
+        Retrieve detailed information about a notification channel including
+        member access, delivery statistics, and family coordination settings.
+      operationId: "getChannelDetails"
+      tags: ["Channel Management"]
+      parameters:
+        - name: channel_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: include_member_access
+          in: query
+          schema:
+            type: boolean
+            default: true
+          description: "Include family member access information"
+        - name: include_delivery_stats
+          in: query
+          schema:
+            type: boolean
+            default: false
+          description: "Include delivery statistics"
+      responses:
+        "200":
+          description: "Channel details retrieved successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ChannelDetailsResponse"
+
+    put:
+      summary: "Update notification channel"
+      description: |
+        Update notification channel configuration including family access,
+        delivery preferences, and coordination settings.
+      operationId: "updateNotificationChannel"
+      tags: ["Channel Management"]
+      parameters:
+        - name: channel_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateChannelRequest"
+      responses:
+        "200":
+          description: "Channel updated successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ChannelDetailsResponse"
+
+    delete:
+      summary: "Delete notification channel"
+      description: |
+        Delete notification channel with proper cleanup and family
+        member notification about channel removal.
+      operationId: "deleteNotificationChannel"
+      tags: ["Channel Management"]
+      parameters:
+        - name: channel_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: notify_members
+          in: query
+          schema:
+            type: boolean
+            default: true
+          description: "Notify family members about channel deletion"
+      responses:
+        "204":
+          description: "Channel successfully deleted"
+
+  # =============================================================================
+  # NOTIFICATION PREFERENCES
+  # =============================================================================
+
+  /preferences:
+    get:
+      summary: "Get notification preferences"
+      description: |
+        Retrieve family and individual notification preferences including
+        delivery timing, channel subscriptions, and family coordination settings.
+      operationId: "getNotificationPreferences"
+      tags: ["Preference Management"]
+      parameters:
+        - name: user_id
+          in: query
+          schema:
+            type: string
+          description: "Get preferences for specific family member"
+        - name: include_family_defaults
+          in: query
+          schema:
+            type: boolean
+            default: true
+          description: "Include family-wide default preferences"
+        - name: include_channel_subscriptions
+          in: query
+          schema:
+            type: boolean
+            default: true
+          description: "Include channel subscription details"
+      responses:
+        "200":
+          description: "Notification preferences retrieved successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotificationPreferencesResponse"
+
+    put:
+      summary: "Update notification preferences"
+      description: |
+        Update notification preferences for family members including
+        delivery timing, channel subscriptions, and family coordination.
+      operationId: "updateNotificationPreferences"
+      tags: ["Preference Management"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdatePreferencesRequest"
+      responses:
+        "200":
+          description: "Preferences updated successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotificationPreferencesResponse"
+
+  /preferences/family:
+    get:
+      summary: "Get family notification preferences"
+      description: |
+        Retrieve family-wide notification preferences including coordination
+        settings, emergency protocols, and household communication patterns.
+      operationId: "getFamilyNotificationPreferences"
+      tags: ["Preference Management"]
+      responses:
+        "200":
+          description: "Family preferences retrieved successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FamilyNotificationPreferencesResponse"
+
+    put:
+      summary: "Update family notification preferences"
+      description: |
+        Update family-wide notification preferences including emergency
+        protocols, coordination settings, and household communication rules.
+      operationId: "updateFamilyNotificationPreferences"
+      tags: ["Preference Management"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateFamilyPreferencesRequest"
+      responses:
+        "200":
+          description: "Family preferences updated successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FamilyNotificationPreferencesResponse"
+
+  # =============================================================================
+  # NOTIFICATION DELIVERY
+  # =============================================================================
+
+  /send:
+    post:
+      summary: "Send notification"
+      description: |
+        Send immediate notification to family members with intelligent
+        delivery timing, family context awareness, and privacy protection.
+      operationId: "sendNotification"
+      tags: ["Notification Delivery"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SendNotificationRequest"
+            examples:
+              family_coordination:
+                summary: "Family coordination notification"
+                value:
+                  notification:
+                    title: "Family Dinner Ready"
+                    message: "Dinner is ready! Please come to the kitchen."
+                    category: "family_coordination"
+                    priority: "normal"
+                    family_context:
+                      initiated_by: "mom_001"
+                      activity_type: "meal_coordination"
+                      location: "kitchen"
+                  recipients:
+                    family_members: ["dad_001", "emma_001", "tommy_001"]
+                    delivery_method: "family_broadcast"
+                    respect_presence: true
+                    coordinate_timing: true
+                  delivery_options:
+                    immediate_delivery: true
+                    retry_on_failure: true
+                    delivery_confirmation: true
+                    family_visible: true
+              memory_insight:
+                summary: "Memory-driven insight notification"
+                value:
+                  notification:
+                    title: "Soccer Practice Reminder"
+                    message: "Emma's soccer practice starts in 30 minutes. Equipment bag is ready by the door."
+                    category: "memory_insight"
+                    priority: "important"
+                    memory_context:
+                      related_memories: ["soccer_schedule", "equipment_checklist"]
+                      insight_type: "proactive_reminder"
+                      confidence_level: 0.95
+                  recipients:
+                    family_members: ["dad_001"]
+                    delivery_method: "targeted"
+                    timing_optimization: "travel_time_aware"
+                  delivery_options:
+                    immediate_delivery: true
+                    interactive_actions: ["confirm_departure", "request_delay"]
+              emergency_alert:
+                summary: "Emergency family alert"
+                value:
+                  notification:
+                    title: "Emergency Alert"
+                    message: "Family safety check requested. Please respond when safe."
+                    category: "emergency"
+                    priority: "critical"
+                    emergency_context:
+                      alert_type: "safety_check"
+                      initiated_by: "mom_001"
+                      requires_response: true
+                  recipients:
+                    family_members: "all_active"
+                    delivery_method: "emergency_broadcast"
+                    override_quiet_hours: true
+                    override_presence: true
+                  delivery_options:
+                    immediate_delivery: true
+                    persistent_until_acknowledged: true
+                    escalation_enabled: true
+                    family_coordination: true
+      responses:
+        "202":
+          description: "Notification queued for delivery"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SendNotificationResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "403":
+          description: "Insufficient permissions for notification type"
+
+  /send/test:
+    post:
+      summary: "Send test notification"
+      description: |
+        Send test notification to verify delivery configuration and
+        family member device connectivity without triggering alerts.
+      operationId: "sendTestNotification"
+      tags: ["Notification Delivery"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SendTestNotificationRequest"
+      responses:
+        "200":
+          description: "Test notification sent successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SendTestNotificationResponse"
+
+  /send/batch:
+    post:
+      summary: "Send batch notifications"
+      description: |
+        Send multiple notifications with coordinated delivery timing,
+        family context awareness, and efficient batch processing.
+      operationId: "sendBatchNotifications"
+      tags: ["Notification Delivery"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SendBatchNotificationsRequest"
+      responses:
+        "202":
+          description: "Batch notifications queued for delivery"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SendBatchNotificationsResponse"
+
+  # =============================================================================
+  # NOTIFICATION HISTORY AND TRACKING
+  # =============================================================================
+
+  /history:
+    get:
+      summary: "Get notification history"
+      description: |
+        Retrieve notification delivery history including family-wide patterns,
+        delivery success rates, and family coordination effectiveness.
+      operationId: "getNotificationHistory"
+      tags: ["History and Analytics"]
+      parameters:
+        - name: user_id
+          in: query
+          schema:
+            type: string
+          description: "Filter history for specific family member"
+        - name: channel_id
+          in: query
+          schema:
+            type: string
+          description: "Filter by notification channel"
+        - name: category
+          in: query
+          schema:
+            type: string
+            enum: ["family_coordination", "memory_insight", "emergency", "system", "personal"]
+          description: "Filter by notification category"
+        - name: date_range
+          in: query
+          schema:
+            type: string
+            enum: ["today", "week", "month", "custom"]
+          description: "Date range for history"
+        - name: start_date
+          in: query
+          schema:
+            type: string
+            format: date-time
+          description: "Start date for custom range"
+        - name: end_date
+          in: query
+          schema:
+            type: string
+            format: date-time
+          description: "End date for custom range"
+        - name: include_delivery_details
+          in: query
+          schema:
+            type: boolean
+            default: false
+          description: "Include detailed delivery information"
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 50
+          description: "Maximum number of results"
+      responses:
+        "200":
+          description: "Notification history retrieved successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotificationHistoryResponse"
+
+  /history/{notification_id}:
+    get:
+      summary: "Get notification details"
+      description: |
+        Retrieve detailed information about a specific notification including
+        delivery status, family member responses, and coordination outcomes.
+      operationId: "getNotificationDetails"
+      tags: ["History and Analytics"]
+      parameters:
+        - name: notification_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: include_delivery_timeline
+          in: query
+          schema:
+            type: boolean
+            default: true
+          description: "Include detailed delivery timeline"
+        - name: include_family_responses
+          in: query
+          schema:
+            type: boolean
+            default: true
+          description: "Include family member responses"
+      responses:
+        "200":
+          description: "Notification details retrieved successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotificationDetailsResponse"
+
+  # =============================================================================
+  # NOTIFICATION TEMPLATES
+  # =============================================================================
+
+  /templates:
+    get:
+      summary: "List notification templates"
+      description: |
+        List available notification templates including family-specific
+        templates, system templates, and custom family coordination patterns.
+      operationId: "listNotificationTemplates"
+      tags: ["Template Management"]
+      parameters:
+        - name: template_type
+          in: query
+          schema:
+            type: string
+            enum: ["family", "system", "custom", "memory_driven", "all"]
+          description: "Filter by template type"
+        - name: category
+          in: query
+          schema:
+            type: string
+            enum: ["family_coordination", "memory_insight", "emergency", "routine", "celebration"]
+          description: "Filter by notification category"
+        - name: include_usage_stats
+          in: query
+          schema:
+            type: boolean
+            default: false
+          description: "Include template usage statistics"
+      responses:
+        "200":
+          description: "Templates listed successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NotificationTemplatesResponse"
+
+    post:
+      summary: "Create notification template"
+      description: |
+        Create custom notification template with family-appropriate content,
+        delivery patterns, and coordination features.
+      operationId: "createNotificationTemplate"
+      tags: ["Template Management"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateTemplateRequest"
+      responses:
+        "201":
+          description: "Template created successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CreateTemplateResponse"
+
+  /templates/{template_id}:
+    get:
+      summary: "Get template details"
+      description: |
+        Retrieve detailed information about a notification template including
+        content structure, family customization options, and usage patterns.
+      operationId: "getTemplateDetails"
+      tags: ["Template Management"]
+      parameters:
+        - name: template_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: include_usage_examples
+          in: query
+          schema:
+            type: boolean
+            default: true
+          description: "Include usage examples"
+      responses:
+        "200":
+          description: "Template details retrieved successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TemplateDetailsResponse"
+
+    put:
+      summary: "Update notification template"
+      description: |
+        Update notification template including content, delivery patterns,
+        and family coordination features.
+      operationId: "updateNotificationTemplate"
+      tags: ["Template Management"]
+      parameters:
+        - name: template_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateTemplateRequest"
+      responses:
+        "200":
+          description: "Template updated successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TemplateDetailsResponse"
+
+    delete:
+      summary: "Delete notification template"
+      description: |
+        Delete notification template with proper cleanup and family
+        notification about template removal.
+      operationId: "deleteNotificationTemplate"
+      tags: ["Template Management"]
+      parameters:
+        - name: template_id
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "204":
+          description: "Template successfully deleted"
+
+components:
+  securitySchemes:
+    FamilyAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: "Family member authentication token"
+    DeviceAuth:
+      type: apiKey
+      in: header
+      name: X-Device-ID
+      description: "Device identification for family ecosystem"
+
+  schemas:
+    # =============================================================================
+    # DEVICE TOKEN SCHEMAS
+    # =============================================================================
+
+    DeviceTokensResponse:
+      type: object
+      required: ["device_tokens", "token_summary"]
+      properties:
+        device_tokens:
+          type: array
+          items:
+            type: object
+            properties:
+              token_id:
+                type: string
+                description: "Unique token identifier"
+              user_id:
+                type: string
+                description: "Associated family member (null for shared devices)"
+              device_id:
+                type: string
+                description: "Associated device identifier"
+              device_type:
+                type: string
+                enum: ["phone", "tablet", "laptop", "desktop", "smart_speaker", "tv", "wearable"]
+              platform:
+                type: string
+                enum: ["ios", "android", "windows", "macos", "linux", "family_os", "web"]
+              status:
+                type: string
+                enum: ["active", "inactive", "expired", "invalid", "pending_verification"]
+              shared_device:
+                type: boolean
+                default: false
+              registered_at:
+                type: string
+                format: date-time
+              last_verified:
+                type: string
+                format: date-time
+              capabilities:
+                type: object
+                properties:
+                  push_notifications:
+                    type: boolean
+                  rich_media:
+                    type: boolean
+                  interactive_actions:
+                    type: boolean
+                  sound_alerts:
+                    type: boolean
+                  vibration:
+                    type: boolean
+                  badge_updates:
+                    type: boolean
+                  voice_announcements:
+                    type: boolean
+                  audio_alerts:
+                    type: boolean
+                  family_broadcasting:
+                    type: boolean
+                  emergency_announcements:
+                    type: boolean
+              family_preferences:
+                type: object
+                properties:
+                  family_coordination:
+                    type: boolean
+                  emergency_alerts:
+                    type: boolean
+                  memory_insights:
+                    type: boolean
+                  system_updates:
+                    type: boolean
+                  parental_notifications:
+                    type: boolean
+                  household_announcements:
+                    type: boolean
+              delivery_stats:
+                type: object
+                properties:
+                  delivered_24h:
+                    type: integer
+                  failed_24h:
+                    type: integer
+                  delivery_rate:
+                    type: number
+                    minimum: 0
+                    maximum: 1
+        token_summary:
+          type: object
+          properties:
+            total_tokens:
+              type: integer
+            active_tokens:
+              type: integer
+            inactive_tokens:
+              type: integer
+            family_coverage:
+              type: string
+              enum: ["complete", "partial", "minimal", "none"]
+            notification_reach:
+              type: number
+              minimum: 0
+              maximum: 100
+
+    RegisterTokenRequest:
+      type: object
+      required: ["token_info", "capabilities"]
+      properties:
+        token_info:
+          type: object
+          required: ["device_token", "device_id", "platform", "device_type"]
+          properties:
+            device_token:
+              type: string
+              description: "Platform-specific device token"
+            device_id:
+              type: string
+              description: "Family AI device identifier"
+            user_id:
+              type: string
+              description: "Family member identifier (null for shared devices)"
+            platform:
+              type: string
+              enum: ["ios", "android", "windows", "macos", "linux", "family_os", "web"]
+            device_type:
+              type: string
+              enum: ["phone", "tablet", "laptop", "desktop", "smart_speaker", "tv", "wearable"]
+            app_version:
+              type: string
+            device_model:
+              type: string
+        capabilities:
+          type: object
+          properties:
+            push_notifications:
+              type: boolean
+              default: true
+            rich_media:
+              type: boolean
+              default: false
+            interactive_actions:
+              type: boolean
+              default: false
+            sound_alerts:
+              type: boolean
+              default: true
+            vibration:
+              type: boolean
+              default: false
+            badge_updates:
+              type: boolean
+              default: false
+            voice_announcements:
+              type: boolean
+              default: false
+            audio_alerts:
+              type: boolean
+              default: false
+            family_broadcasting:
+              type: boolean
+              default: false
+            emergency_announcements:
+              type: boolean
+              default: false
+            background_processing:
+              type: boolean
+              default: false
+        family_preferences:
+          type: object
+          properties:
+            family_coordination:
+              type: boolean
+              default: true
+            emergency_alerts:
+              type: boolean
+              default: true
+            memory_insights:
+              type: boolean
+              default: false
+            system_updates:
+              type: boolean
+              default: true
+            parental_notifications:
+              type: boolean
+              default: false
+            household_announcements:
+              type: boolean
+              default: false
+            study_mode_filtering:
+              type: boolean
+              default: false
+        delivery_preferences:
+          type: object
+          properties:
+            quiet_hours:
+              type: object
+              properties:
+                enabled:
+                  type: boolean
+                  default: false
+                start_time:
+                  type: string
+                  pattern: "^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$"
+                end_time:
+                  type: string
+                  pattern: "^([0-1]?[0-9]|2[0-3]):[0-5][0-9]$"
+                emergency_override:
+                  type: boolean
+                  default: true
+            delivery_method:
+              type: string
+              enum: ["immediate", "batched", "scheduled", "smart_timing"]
+              default: "smart_timing"
+            batch_non_urgent:
+              type: boolean
+              default: true
+            respect_presence:
+              type: boolean
+              default: true
+
+    RegisterTokenResponse:
+      type: object
+      required: ["success", "token_id"]
+      properties:
+        success:
+          type: boolean
+        token_id:
+          type: string
+        token_details:
+          type: object
+          properties:
+            status:
+              type: string
+            verification_required:
+              type: boolean
+            family_integration_status:
+              type: string
+        family_integration:
+          type: object
+          properties:
+            family_devices_discovered:
+              type: integer
+            notification_coordination_enabled:
+              type: boolean
+            emergency_contact_verified:
+              type: boolean
+        next_steps:
+          type: array
+          items:
+            type: string
+
+    DeviceTokenDetailsResponse:
+      type: object
+      properties:
+        token_info:
+          type: object
+        capabilities:
+          type: object
+        family_preferences:
+          type: object
+        delivery_preferences:
+          type: object
+        delivery_stats:
+          type: object
+          properties:
+            total_sent:
+              type: integer
+            total_delivered:
+              type: integer
+            total_failed:
+              type: integer
+            delivery_rate_7d:
+              type: number
+            delivery_rate_30d:
+              type: number
+            recent_failures:
+              type: array
+              items:
+                type: object
+        family_integration:
+          type: object
+          properties:
+            coordination_status:
+              type: string
+            family_visibility:
+              type: string
+            emergency_contact_status:
+              type: string
+
+    UpdateTokenRequest:
+      type: object
+      properties:
+        token_info_updates:
+          type: object
+        capability_updates:
+          type: object
+        family_preference_updates:
+          type: object
+        delivery_preference_updates:
+          type: object
+
+    # =============================================================================
+    # NOTIFICATION CHANNEL SCHEMAS
+    # =============================================================================
+
+    NotificationChannelsResponse:
+      type: object
+      required: ["channels", "channel_summary"]
+      properties:
+        channels:
+          type: array
+          items:
+            type: object
+            properties:
+              channel_id:
+                type: string
+              channel_name:
+                type: string
+              channel_type:
+                type: string
+                enum: ["family", "system", "personal", "emergency", "custom"]
+              description:
+                type: string
+              status:
+                type: string
+                enum: ["active", "inactive", "archived"]
+              family_access:
+                type: object
+                properties:
+                  access_type:
+                    type: string
+                    enum: ["all_family", "adults_only", "parents_only", "custom"]
+                  member_count:
+                    type: integer
+                  subscription_required:
+                    type: boolean
+              delivery_settings:
+                type: object
+                properties:
+                  priority_level:
+                    type: string
+                    enum: ["low", "normal", "high", "critical"]
+                  delivery_method:
+                    type: string
+                    enum: ["push", "voice", "both", "smart_choice"]
+                  family_coordination:
+                    type: boolean
+              created_at:
+                type: string
+                format: date-time
+              created_by:
+                type: string
+              recent_activity:
+                type: object
+                properties:
+                  notifications_24h:
+                    type: integer
+                  last_notification:
+                    type: string
+                    format: date-time
+        channel_summary:
+          type: object
+          properties:
+            total_channels:
+              type: integer
+            active_channels:
+              type: integer
+            family_channels:
+              type: integer
+            system_channels:
+              type: integer
+            custom_channels:
+              type: integer
+
+    CreateChannelRequest:
+      type: object
+      required: ["channel_definition", "family_access"]
+      properties:
+        channel_definition:
+          type: object
+          required: ["channel_name", "channel_type"]
+          properties:
+            channel_name:
+              type: string
+              maxLength: 100
+            channel_type:
+              type: string
+              enum: ["family", "personal", "custom"]
+            description:
+              type: string
+              maxLength: 500
+            category:
+              type: string
+              enum: ["coordination", "reminders", "celebrations", "emergency", "routine", "custom"]
+        family_access:
+          type: object
+          required: ["access_type"]
+          properties:
+            access_type:
+              type: string
+              enum: ["all_family", "adults_only", "parents_only", "custom"]
+            custom_members:
+              type: array
+              items:
+                type: string
+              description: "Required when access_type is 'custom'"
+            subscription_required:
+              type: boolean
+              default: false
+            age_restrictions:
+              type: object
+              properties:
+                minimum_age:
+                  type: integer
+                require_parental_approval:
+                  type: boolean
+        delivery_settings:
+          type: object
+          properties:
+            priority_level:
+              type: string
+              enum: ["low", "normal", "high"]
+              default: "normal"
+            delivery_method:
+              type: string
+              enum: ["push", "voice", "both", "smart_choice"]
+              default: "smart_choice"
+            family_coordination:
+              type: boolean
+              default: true
+            respect_quiet_hours:
+              type: boolean
+              default: true
+            batch_similar_notifications:
+              type: boolean
+              default: false
+
+    CreateChannelResponse:
+      type: object
+      required: ["success", "channel_id"]
+      properties:
+        success:
+          type: boolean
+        channel_id:
+          type: string
+        channel_details:
+          type: object
+        family_impact:
+          type: object
+          properties:
+            members_added:
+              type: integer
+            notifications_sent:
+              type: integer
+            family_coordination_enabled:
+              type: boolean
+
+    ChannelDetailsResponse:
+      type: object
+      properties:
+        channel_info:
+          type: object
+        family_access:
+          type: object
+        delivery_settings:
+          type: object
+        member_subscriptions:
+          type: array
+          items:
+            type: object
+            properties:
+              member_id:
+                type: string
+              subscription_status:
+                type: string
+                enum: ["active", "inactive", "pending"]
+              notification_preferences:
+                type: object
+        delivery_analytics:
+          type: object
+          properties:
+            total_notifications:
+              type: integer
+            delivery_success_rate:
+              type: number
+            member_engagement:
+              type: object
+
+    UpdateChannelRequest:
+      type: object
+      properties:
+        channel_definition_updates:
+          type: object
+        family_access_updates:
+          type: object
+        delivery_settings_updates:
+          type: object
+
+    # =============================================================================
+    # NOTIFICATION PREFERENCE SCHEMAS
+    # =============================================================================
+
+    NotificationPreferencesResponse:
+      type: object
+      required: ["preferences"]
+      properties:
+        preferences:
+          type: object
+          properties:
+            global_settings:
+              type: object
+              properties:
+                notifications_enabled:
+                  type: boolean
+                quiet_hours:
+                  type: object
+                  properties:
+                    enabled:
+                      type: boolean
+                    start_time:
+                      type: string
+                    end_time:
+                      type: string
+                    emergency_override:
+                      type: boolean
+                delivery_optimization:
+                  type: string
+                  enum: ["immediate", "batched", "smart_timing", "minimal"]
+            category_preferences:
+              type: object
+              properties:
+                family_coordination:
+                  type: object
+                  properties:
+                    enabled:
+                      type: boolean
+                    priority:
+                      type: string
+                      enum: ["low", "normal", "high"]
+                    delivery_method:
+                      type: string
+                memory_insights:
+                  type: object
+                  properties:
+                    enabled:
+                      type: boolean
+                    frequency:
+                      type: string
+                      enum: ["minimal", "normal", "frequent"]
+                    types:
+                      type: array
+                      items:
+                        type: string
+                emergency_alerts:
+                  type: object
+                  properties:
+                    enabled:
+                      type: boolean
+                    override_all_settings:
+                      type: boolean
+                    escalation_enabled:
+                      type: boolean
+                system_notifications:
+                  type: object
+                  properties:
+                    enabled:
+                      type: boolean
+                    include_updates:
+                      type: boolean
+                    include_maintenance:
+                      type: boolean
+            channel_subscriptions:
+              type: array
+              items:
+                type: object
+                properties:
+                  channel_id:
+                    type: string
+                  channel_name:
+                    type: string
+                  subscription_status:
+                    type: string
+                    enum: ["active", "inactive", "paused"]
+                  custom_preferences:
+                    type: object
+            family_coordination_settings:
+              type: object
+              properties:
+                coordinate_with_family:
+                  type: boolean
+                presence_aware_delivery:
+                  type: boolean
+                family_visible_notifications:
+                  type: boolean
+                coordinate_quiet_hours:
+                  type: boolean
+
+    UpdatePreferencesRequest:
+      type: object
+      properties:
+        global_settings_updates:
+          type: object
+        category_preference_updates:
+          type: object
+        channel_subscription_updates:
+          type: array
+          items:
+            type: object
+        family_coordination_updates:
+          type: object
+
+    FamilyNotificationPreferencesResponse:
+      type: object
+      required: ["family_preferences"]
+      properties:
+        family_preferences:
+          type: object
+          properties:
+            emergency_protocols:
+              type: object
+              properties:
+                escalation_tree:
+                  type: array
+                  items:
+                    type: object
+                automatic_escalation:
+                  type: boolean
+                external_contacts:
+                  type: array
+                  items:
+                    type: object
+            coordination_settings:
+              type: object
+              properties:
+                family_activity_notifications:
+                  type: boolean
+                meal_coordination:
+                  type: boolean
+                schedule_synchronization:
+                  type: boolean
+                location_awareness:
+                  type: boolean
+            household_communication:
+              type: object
+              properties:
+                broadcast_announcements:
+                  type: boolean
+                shared_device_notifications:
+                  type: boolean
+                voice_announcement_preferences:
+                  type: object
+            privacy_settings:
+              type: object
+              properties:
+                cross_member_visibility:
+                  type: string
+                  enum: ["full", "limited", "minimal"]
+                notification_history_retention:
+                  type: integer
+                external_notification_sharing:
+                  type: boolean
+            child_protection:
+              type: object
+              properties:
+                content_filtering:
+                  type: boolean
+                parental_notification_routing:
+                  type: boolean
+                bedtime_quiet_hours:
+                  type: boolean
+                school_hours_filtering:
+                  type: boolean
+
+    UpdateFamilyPreferencesRequest:
+      type: object
+      properties:
+        emergency_protocol_updates:
+          type: object
+        coordination_setting_updates:
+          type: object
+        household_communication_updates:
+          type: object
+        privacy_setting_updates:
+          type: object
+        child_protection_updates:
+          type: object
+
+    # =============================================================================
+    # NOTIFICATION DELIVERY SCHEMAS
+    # =============================================================================
+
+    SendNotificationRequest:
+      type: object
+      required: ["notification", "recipients"]
+      properties:
+        notification:
+          type: object
+          required: ["title", "message", "category"]
+          properties:
+            title:
+              type: string
+              maxLength: 200
+            message:
+              type: string
+              maxLength: 1000
+            category:
+              type: string
+              enum: ["family_coordination", "memory_insight", "emergency", "system", "personal", "celebration", "routine"]
+            priority:
+              type: string
+              enum: ["low", "normal", "important", "critical"]
+              default: "normal"
+            family_context:
+              type: object
+              properties:
+                initiated_by:
+                  type: string
+                activity_type:
+                  type: string
+                location:
+                  type: string
+                related_family_members:
+                  type: array
+                  items:
+                    type: string
+            memory_context:
+              type: object
+              properties:
+                related_memories:
+                  type: array
+                  items:
+                    type: string
+                insight_type:
+                  type: string
+                  enum: ["proactive_reminder", "pattern_recognition", "coordination_assistance", "emotional_support"]
+                confidence_level:
+                  type: number
+                  minimum: 0
+                  maximum: 1
+            emergency_context:
+              type: object
+              properties:
+                alert_type:
+                  type: string
+                  enum: ["safety_check", "medical_emergency", "security_alert", "family_emergency"]
+                initiated_by:
+                  type: string
+                requires_response:
+                  type: boolean
+                escalation_timeout:
+                  type: integer
+            rich_content:
+              type: object
+              properties:
+                image_url:
+                  type: string
+                  format: uri
+                action_buttons:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      label:
+                        type: string
+                      action:
+                        type: string
+                      action_data:
+                        type: object
+                custom_data:
+                  type: object
+        recipients:
+          type: object
+          required: ["delivery_method"]
+          properties:
+            family_members:
+              oneOf:
+                - type: string
+                  enum: ["all_family", "all_adults", "all_children", "all_active"]
+                - type: array
+                  items:
+                    type: string
+            delivery_method:
+              type: string
+              enum: ["individual", "family_broadcast", "targeted", "emergency_broadcast"]
+            targeting_criteria:
+              type: object
+              properties:
+                presence_states:
+                  type: array
+                  items:
+                    type: string
+                location_contexts:
+                  type: array
+                  items:
+                    type: string
+                device_types:
+                  type: array
+                  items:
+                    type: string
+            respect_presence:
+              type: boolean
+              default: true
+            coordinate_timing:
+              type: boolean
+              default: false
+            timing_optimization:
+              type: string
+              enum: ["immediate", "optimal_attention", "travel_time_aware", "activity_aware"]
+            override_quiet_hours:
+              type: boolean
+              default: false
+            override_presence:
+              type: boolean
+              default: false
+        delivery_options:
+          type: object
+          properties:
+            immediate_delivery:
+              type: boolean
+              default: true
+            retry_on_failure:
+              type: boolean
+              default: true
+            delivery_confirmation:
+              type: boolean
+              default: false
+            family_visible:
+              type: boolean
+              default: true
+            persistent_until_acknowledged:
+              type: boolean
+              default: false
+            escalation_enabled:
+              type: boolean
+              default: false
+            family_coordination:
+              type: boolean
+              default: true
+            interactive_actions:
+              type: array
+              items:
+                type: string
+
+    SendNotificationResponse:
+      type: object
+      required: ["success", "notification_id"]
+      properties:
+        success:
+          type: boolean
+        notification_id:
+          type: string
+        delivery_summary:
+          type: object
+          properties:
+            total_recipients:
+              type: integer
+            queued_deliveries:
+              type: integer
+            immediate_deliveries:
+              type: integer
+            failed_deliveries:
+              type: integer
+        delivery_timeline:
+          type: object
+          properties:
+            estimated_completion:
+              type: string
+              format: date-time
+            coordination_delay:
+              type: integer
+            optimization_applied:
+              type: string
+        family_coordination:
+          type: object
+          properties:
+            coordination_enabled:
+              type: boolean
+            family_context_applied:
+              type: boolean
+            presence_optimization:
+              type: boolean
+
+    SendTestNotificationRequest:
+      type: object
+      required: ["test_type", "target"]
+      properties:
+        test_type:
+          type: string
+          enum: ["device_connectivity", "family_coordination", "emergency_protocol", "delivery_timing"]
+        target:
+          type: object
+          properties:
+            user_id:
+              type: string
+            device_id:
+              type: string
+            family_scope:
+              type: boolean
+        test_parameters:
+          type: object
+          properties:
+            include_rich_content:
+              type: boolean
+            test_emergency_override:
+              type: boolean
+            simulate_coordination:
+              type: boolean
+
+    SendTestNotificationResponse:
+      type: object
+      required: ["test_results"]
+      properties:
+        test_results:
+          type: object
+          properties:
+            test_passed:
+              type: boolean
+            delivery_successful:
+              type: boolean
+            response_time:
+              type: integer
+            family_coordination_verified:
+              type: boolean
+        device_diagnostics:
+          type: object
+          properties:
+            token_valid:
+              type: boolean
+            platform_reachable:
+              type: boolean
+            capabilities_verified:
+              type: boolean
+        family_network_diagnostics:
+          type: object
+          properties:
+            family_devices_online:
+              type: integer
+            coordination_functional:
+              type: boolean
+            emergency_protocols_ready:
+              type: boolean
+
+    SendBatchNotificationsRequest:
+      type: object
+      required: ["notifications", "batch_settings"]
+      properties:
+        notifications:
+          type: array
+          items:
+            type: object
+            # Simplified version of SendNotificationRequest
+        batch_settings:
+          type: object
+          properties:
+            coordination_mode:
+              type: string
+              enum: ["sequential", "parallel", "coordinated_timing", "family_optimized"]
+            batch_delay:
+              type: integer
+              minimum: 0
+            respect_family_timing:
+              type: boolean
+              default: true
+            optimize_for_attention:
+              type: boolean
+              default: true
+
+    SendBatchNotificationsResponse:
+      type: object
+      required: ["batch_id", "batch_summary"]
+      properties:
+        batch_id:
+          type: string
+        batch_summary:
+          type: object
+          properties:
+            total_notifications:
+              type: integer
+            successful_queue:
+              type: integer
+            failed_queue:
+              type: integer
+            estimated_completion:
+              type: string
+              format: date-time
+        notification_details:
+          type: array
+          items:
+            type: object
+            properties:
+              notification_id:
+                type: string
+              status:
+                type: string
+                enum: ["queued", "failed", "cancelled"]
+              estimated_delivery:
+                type: string
+                format: date-time
+
+    # =============================================================================
+    # HISTORY AND ANALYTICS SCHEMAS
+    # =============================================================================
+
+    NotificationHistoryResponse:
+      type: object
+      required: ["notifications", "summary"]
+      properties:
+        notifications:
+          type: array
+          items:
+            type: object
+            properties:
+              notification_id:
+                type: string
+              title:
+                type: string
+              category:
+                type: string
+              priority:
+                type: string
+              sent_at:
+                type: string
+                format: date-time
+              sent_by:
+                type: string
+              recipients:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    member_id:
+                      type: string
+                    delivery_status:
+                      type: string
+                      enum: ["delivered", "failed", "pending", "cancelled"]
+                    delivered_at:
+                      type: string
+                      format: date-time
+                    read_at:
+                      type: string
+                      format: date-time
+                    response:
+                      type: string
+              family_coordination:
+                type: object
+                properties:
+                  coordination_applied:
+                    type: boolean
+                  family_response_rate:
+                    type: number
+                  coordination_effectiveness:
+                    type: string
+        summary:
+          type: object
+          properties:
+            total_notifications:
+              type: integer
+            delivery_success_rate:
+              type: number
+            family_engagement_rate:
+              type: number
+            category_breakdown:
+              type: object
+            time_range_covered:
+              type: object
+              properties:
+                start_date:
+                  type: string
+                  format: date-time
+                end_date:
+                  type: string
+                  format: date-time
+
+    NotificationDetailsResponse:
+      type: object
+      properties:
+        notification_info:
+          type: object
+        delivery_timeline:
+          type: array
+          items:
+            type: object
+            properties:
+              timestamp:
+                type: string
+                format: date-time
+              event:
+                type: string
+              details:
+                type: object
+        family_responses:
+          type: array
+          items:
+            type: object
+            properties:
+              member_id:
+                type: string
+              response_type:
+                type: string
+                enum: ["acknowledged", "responded", "acted_upon", "ignored"]
+              response_time:
+                type: integer
+              response_details:
+                type: object
+        coordination_analysis:
+          type: object
+          properties:
+            coordination_successful:
+              type: boolean
+            family_synchronization:
+              type: string
+            effectiveness_score:
+              type: number
+
+    # =============================================================================
+    # TEMPLATE SCHEMAS
+    # =============================================================================
+
+    NotificationTemplatesResponse:
+      type: object
+      required: ["templates", "template_summary"]
+      properties:
+        templates:
+          type: array
+          items:
+            type: object
+            properties:
+              template_id:
+                type: string
+              template_name:
+                type: string
+              template_type:
+                type: string
+                enum: ["family", "system", "custom", "memory_driven"]
+              category:
+                type: string
+              description:
+                type: string
+              created_at:
+                type: string
+                format: date-time
+              created_by:
+                type: string
+              usage_stats:
+                type: object
+                properties:
+                  total_uses:
+                    type: integer
+                  recent_uses:
+                    type: integer
+                  family_favorite:
+                    type: boolean
+        template_summary:
+          type: object
+          properties:
+            total_templates:
+              type: integer
+            family_templates:
+              type: integer
+            custom_templates:
+              type: integer
+            most_used_template:
+              type: string
+
+    CreateTemplateRequest:
+      type: object
+      required: ["template_definition", "content_structure"]
+      properties:
+        template_definition:
+          type: object
+          required: ["template_name", "category"]
+          properties:
+            template_name:
+              type: string
+              maxLength: 100
+            category:
+              type: string
+              enum: ["family_coordination", "memory_insight", "routine", "celebration", "emergency", "custom"]
+            description:
+              type: string
+              maxLength: 500
+            template_type:
+              type: string
+              enum: ["family", "custom"]
+              default: "custom"
+        content_structure:
+          type: object
+          required: ["title_template", "message_template"]
+          properties:
+            title_template:
+              type: string
+              description: "Template with placeholders like {{family_member}}, {{activity}}"
+            message_template:
+              type: string
+              description: "Message template with family context placeholders"
+            variables:
+              type: array
+              items:
+                type: object
+                properties:
+                  variable_name:
+                    type: string
+                  variable_type:
+                    type: string
+                    enum: ["text", "family_member", "activity", "location", "time", "memory_context"]
+                  required:
+                    type: boolean
+                  default_value:
+                    type: string
+        family_customization:
+          type: object
+          properties:
+            family_member_roles:
+              type: array
+              items:
+                type: string
+            activity_contexts:
+              type: array
+              items:
+                type: string
+            memory_integration:
+              type: boolean
+              default: false
+        delivery_configuration:
+          type: object
+          properties:
+            default_priority:
+              type: string
+              enum: ["low", "normal", "important"]
+            family_coordination:
+              type: boolean
+              default: true
+            timing_optimization:
+              type: boolean
+              default: true
+
+    CreateTemplateResponse:
+      type: object
+      required: ["success", "template_id"]
+      properties:
+        success:
+          type: boolean
+        template_id:
+          type: string
+        template_details:
+          type: object
+        usage_examples:
+          type: array
+          items:
+            type: object
+
+    TemplateDetailsResponse:
+      type: object
+      properties:
+        template_info:
+          type: object
+        content_structure:
+          type: object
+        family_customization:
+          type: object
+        delivery_configuration:
+          type: object
+        usage_analytics:
+          type: object
+          properties:
+            total_uses:
+              type: integer
+            success_rate:
+              type: number
+            family_satisfaction:
+              type: number
+            recent_usage_trend:
+              type: string
+        usage_examples:
+          type: array
+          items:
+            type: object
+
+    UpdateTemplateRequest:
+      type: object
+      properties:
+        template_definition_updates:
+          type: object
+        content_structure_updates:
+          type: object
+        family_customization_updates:
+          type: object
+        delivery_configuration_updates:
+          type: object
+
+  responses:
+    BadRequest:
+      description: "Invalid request format or parameters"
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+              details:
+                type: string
+              validation_errors:
+                type: array
+                items:
+                  type: string
+
+    Forbidden:
+      description: "Access denied - insufficient notification permissions"
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+              required_permissions:
+                type: array
+                items:
+                  type: string
+              family_policy_violation:
+                type: string
+
+tags:
+  - name: "Token Management"
+    description: "Device token registration and management for family notifications"
+  - name: "Channel Management"
+    description: "Notification channel configuration and family access control"
+  - name: "Preference Management"
+    description: "Family and individual notification preference management"
+  - name: "Notification Delivery"
+    description: "Immediate and batch notification delivery with family coordination"
+  - name: "History and Analytics"
+    description: "Notification history tracking and family engagement analytics"
+  - name: "Template Management"
+    description: "Notification template creation and family customization"

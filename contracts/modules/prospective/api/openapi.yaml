@@ -1,0 +1,225 @@
+openapi: 3.1.0
+info:
+  title: Prospective API
+  version: 1.0.0
+  description: Trigger CRUD for Prospective (P05)
+servers:
+  - url: "/v1"
+security:
+  - bearer: []
+paths:
+  /prospective/triggers:
+    post:
+      summary: Upsert trigger
+      tags: [Prospective]
+      parameters:
+        - in: header
+          name: Idempotency-Key
+          required: true
+          schema:
+            type: string
+            minLength: 8
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Trigger"
+      responses:
+        "200":
+          description: Upserted
+          headers:
+            X-Receipt-Id:
+              schema:
+                type: string
+        "409":
+          $ref: "#/components/responses/Conflict"
+    get:
+      summary: List triggers
+      parameters:
+        - in: query
+          name: space_id
+          required: true
+          schema:
+            type: string
+            pattern: "^(personal|selective|shared|extended|interfamily):"
+        - in: query
+          name: page
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+        - in: query
+          name: page_size
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 200
+            default: 50
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TriggerList"
+  /prospective/triggers/{id}:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          pattern: "^[A-Za-z0-9_-]{6,64}$"
+    get:
+      summary: Get trigger
+      responses:
+        "200":
+          description: Trigger found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Trigger"
+        "404":
+          $ref: "#/components/responses/NotFound"
+    delete:
+      summary: Delete trigger
+      responses:
+        "204":
+          description: Deleted
+        "404":
+          $ref: "#/components/responses/NotFound"
+  /prospective/triggers/{id}/preview:
+    parameters:
+      - name: id
+        in: path
+        required: true
+        schema:
+          type: string
+          pattern: "^[A-Za-z0-9_-]{6,64}$"
+    post:
+      summary: Check eligibility window now
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Preview"
+components:
+  securitySchemes:
+    bearer:
+      type: http
+      scheme: bearer
+  responses:
+    NotFound:
+      description: Not found
+    Conflict:
+      description: Duplicate Idempotency-Key within window
+  schemas:
+    Trigger:
+      type: object
+      required: [id, space_id, title, schedule, action, conditions]
+      properties:
+        id:
+          type: string
+          pattern: "^[A-Za-z0-9_-]{6,64}$"
+        space_id:
+          type: string
+          pattern: "^(personal|selective|shared|extended|interfamily):"
+        title:
+          type: string
+          maxLength: 120
+        schedule:
+          oneOf:
+            - type: object
+              required: [type, time_of_day, days_of_week]
+              properties:
+                type:
+                  const: "daily_time"
+                time_of_day:
+                  type: string
+                  pattern: "^[0-2][0-9]:[0-5][0-9]$"
+                days_of_week:
+                  type: array
+                  items:
+                    type: integer
+                    minimum: 0
+                    maximum: 6
+            - type: object
+              required: [type, at]
+              properties:
+                type:
+                  const: "at"
+                at:
+                  type: string
+                  format: date-time
+            - type: object
+              required: [type, cron]
+              properties:
+                type:
+                  const: "cron"
+                cron:
+                  type: string
+        action:
+          oneOf:
+            - type: object
+              required: [type,title]
+              properties:
+                type:
+                  const: "notify"
+                title:
+                  type: string
+                body:
+                  type: string
+            - type: object
+              required: [type,procedure_id]
+              properties:
+                type:
+                  const: "run_procedure"
+                procedure_id:
+                  type: string
+            - type: object
+              required: [type,topic]
+              properties:
+                type:
+                  const: "emit_event"
+                topic:
+                  type: string
+                payload:
+                  type: object
+        conditions:
+          type: object
+          properties:
+            require_arousal_max:
+              type: number
+              minimum: 0
+              maximum: 1
+            disallow_safety_pressure_min:
+              type: number
+              minimum: 0
+              maximum: 1
+            cooldown_seconds:
+              type: integer
+              minimum: 0
+              default: 0
+    TriggerList:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/Trigger"
+        next_page:
+          type: integer
+          nullable: true
+    Preview:
+      type: object
+      properties:
+        eligible:
+          type: boolean
+        reason:
+          type: string
+        next_window_start:
+          type: string
+          format: date-time

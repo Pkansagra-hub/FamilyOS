@@ -1,0 +1,1428 @@
+asyncapi: "3.0.0"
+info:
+  title: "MemoryOS Storage Service - Event API"
+  version: "1.0.0"
+  description: |
+    Comprehensive AsyncAPI specification for MemoryOS Storage Service event integration.
+    Defines all storage-related events, channels, and producer/consumer contracts for
+    reliable event-driven coordination across the MemoryOS ecosystem.
+
+    **Event Categories:**
+    - Transaction Lifecycle Events (STORAGE_TRANSACTION_*)
+    - Schema Migration Events (STORAGE_MIGRATION_*)
+    - Policy Enforcement Events (STORAGE_POLICY_*)
+    - Performance Monitoring Events (STORAGE_PERFORMANCE_*)
+    - Backup and Recovery Events (STORAGE_BACKUP_*)
+    - Cross-Store Coordination Events (STORAGE_COORDINATION_*)
+
+  contact:
+    name: "MemoryOS Storage Team"
+    email: "storage-team@memoryos.ai"
+  license:
+    name: "Proprietary"
+    url: "https://memoryos.ai/license"
+
+servers:
+  production:
+    host: "events.memoryos.ai"
+    protocol: "kafka"
+    description: "Production event bus"
+    bindings:
+      kafka:
+        schemaRegistryUrl: "https://schema-registry.memoryos.ai"
+        bootstrapServers: "kafka-cluster.memoryos.ai:9092"
+
+  development:
+    host: "localhost:9092"
+    protocol: "kafka"
+    description: "Development event bus"
+    bindings:
+      kafka:
+        schemaRegistryUrl: "http://localhost:8081"
+        bootstrapServers: "localhost:9092"
+
+defaultContentType: "application/json"
+
+channels:
+  # ==========================================================================
+  # TRANSACTION LIFECYCLE EVENTS
+  # ==========================================================================
+
+  storage.transaction.started:
+    address: "storage.transaction.started"
+    description: "Published when a storage transaction begins"
+    messages:
+      StorageTransactionStarted:
+        $ref: "#/components/messages/StorageTransactionStarted"
+    bindings:
+      kafka:
+        topic: "storage.transaction.started"
+        partitions: 12
+        replicas: 3
+        configs:
+          retention.ms: 604800000 # 7 days
+          cleanup.policy: "delete"
+
+  storage.transaction.prepared:
+    address: "storage.transaction.prepared"
+    description: "Published when transaction prepare phase completes"
+    messages:
+      StorageTransactionPrepared:
+        $ref: "#/components/messages/StorageTransactionPrepared"
+    bindings:
+      kafka:
+        topic: "storage.transaction.prepared"
+        partitions: 12
+        replicas: 3
+        configs:
+          retention.ms: 604800000 # 7 days
+
+  storage.transaction.committed:
+    address: "storage.transaction.committed"
+    description: "Published when a storage transaction commits successfully"
+    messages:
+      StorageTransactionCommitted:
+        $ref: "#/components/messages/StorageTransactionCommitted"
+    bindings:
+      kafka:
+        topic: "storage.transaction.committed"
+        partitions: 12
+        replicas: 3
+        configs:
+          retention.ms: 2592000000 # 30 days (important for audit)
+
+  storage.transaction.rolled_back:
+    address: "storage.transaction.rolled_back"
+    description: "Published when a storage transaction is rolled back"
+    messages:
+      StorageTransactionRolledBack:
+        $ref: "#/components/messages/StorageTransactionRolledBack"
+    bindings:
+      kafka:
+        topic: "storage.transaction.rolled_back"
+        partitions: 12
+        replicas: 3
+        configs:
+          retention.ms: 2592000000 # 30 days (important for debugging)
+
+  storage.transaction.failed:
+    address: "storage.transaction.failed"
+    description: "Published when a storage transaction fails"
+    messages:
+      StorageTransactionFailed:
+        $ref: "#/components/messages/StorageTransactionFailed"
+    bindings:
+      kafka:
+        topic: "storage.transaction.failed"
+        partitions: 12
+        replicas: 3
+        configs:
+          retention.ms: 2592000000 # 30 days (important for analysis)
+
+  # ==========================================================================
+  # SCHEMA MIGRATION EVENTS
+  # ==========================================================================
+
+  storage.migration.started:
+    address: "storage.migration.started"
+    description: "Published when schema migration begins"
+    messages:
+      StorageMigrationStarted:
+        $ref: "#/components/messages/StorageMigrationStarted"
+    bindings:
+      kafka:
+        topic: "storage.migration.started"
+        partitions: 1 # Single partition for migration ordering
+        replicas: 3
+        configs:
+          retention.ms: 31536000000 # 1 year (regulatory compliance)
+
+  storage.migration.completed:
+    address: "storage.migration.completed"
+    description: "Published when schema migration completes successfully"
+    messages:
+      StorageMigrationCompleted:
+        $ref: "#/components/messages/StorageMigrationCompleted"
+    bindings:
+      kafka:
+        topic: "storage.migration.completed"
+        partitions: 1
+        replicas: 3
+        configs:
+          retention.ms: 31536000000 # 1 year
+
+  storage.migration.failed:
+    address: "storage.migration.failed"
+    description: "Published when schema migration fails"
+    messages:
+      StorageMigrationFailed:
+        $ref: "#/components/messages/StorageMigrationFailed"
+    bindings:
+      kafka:
+        topic: "storage.migration.failed"
+        partitions: 1
+        replicas: 3
+        configs:
+          retention.ms: 31536000000 # 1 year
+
+  # ==========================================================================
+  # POLICY ENFORCEMENT EVENTS
+  # ==========================================================================
+
+  storage.policy.violation:
+    address: "storage.policy.violation"
+    description: "Published when storage policy is violated"
+    messages:
+      StoragePolicyViolation:
+        $ref: "#/components/messages/StoragePolicyViolation"
+    bindings:
+      kafka:
+        topic: "storage.policy.violation"
+        partitions: 6
+        replicas: 3
+        configs:
+          retention.ms: 7776000000 # 90 days (compliance retention)
+          cleanup.policy: "compact,delete" # Preserve latest violations
+
+  storage.policy.enforced:
+    address: "storage.policy.enforced"
+    description: "Published when storage policy enforcement action is taken"
+    messages:
+      StoragePolicyEnforced:
+        $ref: "#/components/messages/StoragePolicyEnforced"
+    bindings:
+      kafka:
+        topic: "storage.policy.enforced"
+        partitions: 6
+        replicas: 3
+        configs:
+          retention.ms: 7776000000 # 90 days
+
+  # ==========================================================================
+  # PERFORMANCE MONITORING EVENTS
+  # ==========================================================================
+
+  storage.performance.degraded:
+    address: "storage.performance.degraded"
+    description: "Published when storage performance degrades below SLA"
+    messages:
+      StoragePerformanceDegraded:
+        $ref: "#/components/messages/StoragePerformanceDegraded"
+    bindings:
+      kafka:
+        topic: "storage.performance.degraded"
+        partitions: 6
+        replicas: 3
+        configs:
+          retention.ms: 604800000 # 7 days
+
+  storage.performance.recovered:
+    address: "storage.performance.recovered"
+    description: "Published when storage performance returns to normal"
+    messages:
+      StoragePerformanceRecovered:
+        $ref: "#/components/messages/StoragePerformanceRecovered"
+    bindings:
+      kafka:
+        topic: "storage.performance.recovered"
+        partitions: 6
+        replicas: 3
+        configs:
+          retention.ms: 604800000 # 7 days
+
+  storage.performance.alert:
+    address: "storage.performance.alert"
+    description: "Published for storage performance alerts and thresholds"
+    messages:
+      StoragePerformanceAlert:
+        $ref: "#/components/messages/StoragePerformanceAlert"
+    bindings:
+      kafka:
+        topic: "storage.performance.alert"
+        partitions: 6
+        replicas: 3
+        configs:
+          retention.ms: 2592000000 # 30 days
+
+  # ==========================================================================
+  # BACKUP AND RECOVERY EVENTS
+  # ==========================================================================
+
+  storage.backup.started:
+    address: "storage.backup.started"
+    description: "Published when backup operation begins"
+    messages:
+      StorageBackupStarted:
+        $ref: "#/components/messages/StorageBackupStarted"
+    bindings:
+      kafka:
+        topic: "storage.backup.started"
+        partitions: 3
+        replicas: 3
+        configs:
+          retention.ms: 7776000000 # 90 days
+
+  storage.backup.completed:
+    address: "storage.backup.completed"
+    description: "Published when backup operation completes"
+    messages:
+      StorageBackupCompleted:
+        $ref: "#/components/messages/StorageBackupCompleted"
+    bindings:
+      kafka:
+        topic: "storage.backup.completed"
+        partitions: 3
+        replicas: 3
+        configs:
+          retention.ms: 31536000000 # 1 year (regulatory)
+
+  storage.backup.failed:
+    address: "storage.backup.failed"
+    description: "Published when backup operation fails"
+    messages:
+      StorageBackupFailed:
+        $ref: "#/components/messages/StorageBackupFailed"
+    bindings:
+      kafka:
+        topic: "storage.backup.failed"
+        partitions: 3
+        replicas: 3
+        configs:
+          retention.ms: 7776000000 # 90 days
+
+  # ==========================================================================
+  # CROSS-STORE COORDINATION EVENTS
+  # ==========================================================================
+
+  storage.coordination.started:
+    address: "storage.coordination.started"
+    description: "Published when cross-store coordination begins"
+    messages:
+      StorageCoordinationStarted:
+        $ref: "#/components/messages/StorageCoordinationStarted"
+    bindings:
+      kafka:
+        topic: "storage.coordination.started"
+        partitions: 6
+        replicas: 3
+        configs:
+          retention.ms: 604800000 # 7 days
+
+  storage.coordination.completed:
+    address: "storage.coordination.completed"
+    description: "Published when cross-store coordination completes"
+    messages:
+      StorageCoordinationCompleted:
+        $ref: "#/components/messages/StorageCoordinationCompleted"
+    bindings:
+      kafka:
+        topic: "storage.coordination.completed"
+        partitions: 6
+        replicas: 3
+        configs:
+          retention.ms: 604800000 # 7 days
+
+  storage.consistency.violation:
+    address: "storage.consistency.violation"
+    description: "Published when cross-store consistency violation is detected"
+    messages:
+      StorageConsistencyViolation:
+        $ref: "#/components/messages/StorageConsistencyViolation"
+    bindings:
+      kafka:
+        topic: "storage.consistency.violation"
+        partitions: 3
+        replicas: 3
+        configs:
+          retention.ms: 2592000000 # 30 days (critical for debugging)
+
+operations:
+  # ==========================================================================
+  # STORAGE SERVICE AS EVENT PRODUCER
+  # ==========================================================================
+
+  publishTransactionStarted:
+    action: "send"
+    channel:
+      $ref: "#/channels/storage.transaction.started"
+    description: "Storage service publishes transaction start events"
+    bindings:
+      kafka:
+        clientId: "storage-service-producer"
+        groupId: "storage-producers"
+
+  publishTransactionCommitted:
+    action: "send"
+    channel:
+      $ref: "#/channels/storage.transaction.committed"
+    description: "Storage service publishes transaction commit events"
+    bindings:
+      kafka:
+        clientId: "storage-service-producer"
+        groupId: "storage-producers"
+
+  publishMigrationEvents:
+    action: "send"
+    channel:
+      $ref: "#/channels/storage.migration.started"
+    description: "Storage service publishes migration lifecycle events"
+    bindings:
+      kafka:
+        clientId: "storage-migration-producer"
+        groupId: "storage-producers"
+
+  publishPolicyViolations:
+    action: "send"
+    channel:
+      $ref: "#/channels/storage.policy.violation"
+    description: "Storage service publishes policy violation events"
+    bindings:
+      kafka:
+        clientId: "storage-policy-producer"
+        groupId: "storage-producers"
+
+  publishPerformanceAlerts:
+    action: "send"
+    channel:
+      $ref: "#/channels/storage.performance.alert"
+    description: "Storage service publishes performance monitoring events"
+    bindings:
+      kafka:
+        clientId: "storage-performance-producer"
+        groupId: "storage-producers"
+
+  publishBackupEvents:
+    action: "send"
+    channel:
+      $ref: "#/channels/storage.backup.completed"
+    description: "Storage service publishes backup lifecycle events"
+    bindings:
+      kafka:
+        clientId: "storage-backup-producer"
+        groupId: "storage-producers"
+
+  publishCoordinationEvents:
+    action: "send"
+    channel:
+      $ref: "#/channels/storage.coordination.started"
+    description: "Storage service publishes cross-store coordination events"
+    bindings:
+      kafka:
+        clientId: "storage-coordination-producer"
+        groupId: "storage-producers"
+
+  # ==========================================================================
+  # STORAGE SERVICE AS EVENT CONSUMER
+  # ==========================================================================
+
+  receiveSystemEvents:
+    action: "receive"
+    channel:
+      $ref: "#/channels/storage.transaction.started"
+    description: "Storage service consumes system-wide storage events"
+    bindings:
+      kafka:
+        clientId: "storage-service-consumer"
+        groupId: "storage-consumers"
+        autoOffsetReset: "earliest"
+
+components:
+  messages:
+    # ========================================================================
+    # TRANSACTION LIFECYCLE MESSAGES
+    # ========================================================================
+
+    StorageTransactionStarted:
+      name: "StorageTransactionStarted"
+      title: "Storage Transaction Started Event"
+      summary: "A storage transaction has been initiated"
+      contentType: "application/json"
+      payload:
+        $ref: "#/components/schemas/StorageTransactionStartedPayload"
+      examples:
+        - name: "UnitOfWork Transaction"
+          summary: "Multi-store UnitOfWork transaction started"
+          payload:
+            transaction_id: "uow_001_20250916_123456"
+            transaction_type: "unit_of_work"
+            stores_involved: ["EpisodicStore", "SemanticStore", "ReceiptsStore"]
+            initiated_by: "user_12345"
+            correlation_id: "req_abc123def456"
+            timestamp: "2025-09-16T12:34:56.789Z"
+
+    StorageTransactionPrepared:
+      name: "StorageTransactionPrepared"
+      title: "Storage Transaction Prepared Event"
+      summary: "A storage transaction has completed prepare phase"
+      contentType: "application/json"
+      payload:
+        $ref: "#/components/schemas/StorageTransactionPreparedPayload"
+
+    StorageTransactionCommitted:
+      name: "StorageTransactionCommitted"
+      title: "Storage Transaction Committed Event"
+      summary: "A storage transaction has been successfully committed"
+      contentType: "application/json"
+      payload:
+        $ref: "#/components/schemas/StorageTransactionCommittedPayload"
+      examples:
+        - name: "Successful UnitOfWork Commit"
+          summary: "Multi-store transaction committed with receipt"
+          payload:
+            transaction_id: "uow_001_20250916_123456"
+            transaction_type: "unit_of_work"
+            stores_committed:
+              ["EpisodicStore", "SemanticStore", "ReceiptsStore"]
+            receipt_id: "receipt_xyz789"
+            duration_ms: 45
+            committed_at: "2025-09-16T12:34:56.834Z"
+
+    StorageTransactionRolledBack:
+      name: "StorageTransactionRolledBack"
+      title: "Storage Transaction Rolled Back Event"
+      summary: "A storage transaction has been rolled back"
+      contentType: "application/json"
+      payload:
+        $ref: "#/components/schemas/StorageTransactionRolledBackPayload"
+
+    StorageTransactionFailed:
+      name: "StorageTransactionFailed"
+      title: "Storage Transaction Failed Event"
+      summary: "A storage transaction has failed"
+      contentType: "application/json"
+      payload:
+        $ref: "#/components/schemas/StorageTransactionFailedPayload"
+
+    # ========================================================================
+    # MIGRATION LIFECYCLE MESSAGES
+    # ========================================================================
+
+    StorageMigrationStarted:
+      name: "StorageMigrationStarted"
+      title: "Storage Migration Started Event"
+      summary: "A schema migration has been initiated"
+      contentType: "application/json"
+      payload:
+        $ref: "#/components/schemas/StorageMigrationStartedPayload"
+
+    StorageMigrationCompleted:
+      name: "StorageMigrationCompleted"
+      title: "Storage Migration Completed Event"
+      summary: "A schema migration has completed successfully"
+      contentType: "application/json"
+      payload:
+        $ref: "#/components/schemas/StorageMigrationCompletedPayload"
+
+    StorageMigrationFailed:
+      name: "StorageMigrationFailed"
+      title: "Storage Migration Failed Event"
+      summary: "A schema migration has failed"
+      contentType: "application/json"
+      payload:
+        $ref: "#/components/schemas/StorageMigrationFailedPayload"
+
+    # ========================================================================
+    # POLICY ENFORCEMENT MESSAGES
+    # ========================================================================
+
+    StoragePolicyViolation:
+      name: "StoragePolicyViolation"
+      title: "Storage Policy Violation Event"
+      summary: "A storage policy has been violated"
+      contentType: "application/json"
+      payload:
+        $ref: "#/components/schemas/StoragePolicyViolationPayload"
+
+    StoragePolicyEnforced:
+      name: "StoragePolicyEnforced"
+      title: "Storage Policy Enforced Event"
+      summary: "A storage policy enforcement action has been taken"
+      contentType: "application/json"
+      payload:
+        $ref: "#/components/schemas/StoragePolicyEnforcedPayload"
+
+    # ========================================================================
+    # PERFORMANCE MONITORING MESSAGES
+    # ========================================================================
+
+    StoragePerformanceDegraded:
+      name: "StoragePerformanceDegraded"
+      title: "Storage Performance Degraded Event"
+      summary: "Storage performance has degraded below SLA thresholds"
+      contentType: "application/json"
+      payload:
+        $ref: "#/components/schemas/StoragePerformanceDegradedPayload"
+
+    StoragePerformanceRecovered:
+      name: "StoragePerformanceRecovered"
+      title: "Storage Performance Recovered Event"
+      summary: "Storage performance has returned to normal"
+      contentType: "application/json"
+      payload:
+        $ref: "#/components/schemas/StoragePerformanceRecoveredPayload"
+
+    StoragePerformanceAlert:
+      name: "StoragePerformanceAlert"
+      title: "Storage Performance Alert Event"
+      summary: "Performance threshold exceeded or warning condition"
+      contentType: "application/json"
+      payload:
+        $ref: "#/components/schemas/StoragePerformanceAlertPayload"
+
+    # ========================================================================
+    # BACKUP AND RECOVERY MESSAGES
+    # ========================================================================
+
+    StorageBackupStarted:
+      name: "StorageBackupStarted"
+      title: "Storage Backup Started Event"
+      summary: "A backup operation has been initiated"
+      contentType: "application/json"
+      payload:
+        $ref: "#/components/schemas/StorageBackupStartedPayload"
+
+    StorageBackupCompleted:
+      name: "StorageBackupCompleted"
+      title: "Storage Backup Completed Event"
+      summary: "A backup operation has completed successfully"
+      contentType: "application/json"
+      payload:
+        $ref: "#/components/schemas/StorageBackupCompletedPayload"
+
+    StorageBackupFailed:
+      name: "StorageBackupFailed"
+      title: "Storage Backup Failed Event"
+      summary: "A backup operation has failed"
+      contentType: "application/json"
+      payload:
+        $ref: "#/components/schemas/StorageBackupFailedPayload"
+
+    # ========================================================================
+    # COORDINATION MESSAGES
+    # ========================================================================
+
+    StorageCoordinationStarted:
+      name: "StorageCoordinationStarted"
+      title: "Storage Coordination Started Event"
+      summary: "Cross-store coordination has been initiated"
+      contentType: "application/json"
+      payload:
+        $ref: "#/components/schemas/StorageCoordinationStartedPayload"
+
+    StorageCoordinationCompleted:
+      name: "StorageCoordinationCompleted"
+      title: "Storage Coordination Completed Event"
+      summary: "Cross-store coordination has completed"
+      contentType: "application/json"
+      payload:
+        $ref: "#/components/schemas/StorageCoordinationCompletedPayload"
+
+    StorageConsistencyViolation:
+      name: "StorageConsistencyViolation"
+      title: "Storage Consistency Violation Event"
+      summary: "Cross-store consistency violation detected"
+      contentType: "application/json"
+      payload:
+        $ref: "#/components/schemas/StorageConsistencyViolationPayload"
+
+  schemas:
+    # ========================================================================
+    # COMMON SCHEMAS
+    # ========================================================================
+
+    BaseStorageEvent:
+      type: "object"
+      required: ["event_id", "timestamp", "correlation_id", "source_service"]
+      properties:
+        event_id:
+          type: "string"
+          description: "Unique identifier for this event"
+          pattern: "^evt_[a-z0-9]{8}_[0-9]{8}_[0-9]{6}$"
+          example: "evt_stor001_20250916_123456"
+        timestamp:
+          type: "string"
+          format: "date-time"
+          description: "ISO 8601 timestamp when event occurred"
+          example: "2025-09-16T12:34:56.789Z"
+        correlation_id:
+          type: "string"
+          description: "Request correlation ID for tracing"
+          example: "req_abc123def456"
+        source_service:
+          type: "string"
+          description: "Service that generated this event"
+          enum: ["storage"]
+          example: "storage"
+        metadata:
+          type: "object"
+          description: "Additional event metadata"
+          properties:
+            version:
+              type: "string"
+              example: "1.0.0"
+            environment:
+              type: "string"
+              enum: ["production", "staging", "development"]
+              example: "production"
+
+    # ========================================================================
+    # TRANSACTION EVENT SCHEMAS
+    # ========================================================================
+
+    StorageTransactionStartedPayload:
+      allOf:
+        - $ref: "#/components/schemas/BaseStorageEvent"
+        - type: "object"
+          required: ["transaction_id", "transaction_type", "stores_involved"]
+          properties:
+            transaction_id:
+              type: "string"
+              description: "Unique transaction identifier"
+              example: "uow_001_20250916_123456"
+            transaction_type:
+              type: "string"
+              enum: ["unit_of_work", "single_store", "migration", "backup"]
+              description: "Type of transaction being started"
+              example: "unit_of_work"
+            stores_involved:
+              type: "array"
+              items:
+                type: "string"
+              description: "List of stores participating in transaction"
+              example: ["EpisodicStore", "SemanticStore", "ReceiptsStore"]
+            initiated_by:
+              type: "string"
+              description: "User or service that initiated transaction"
+              example: "user_12345"
+            expected_duration_ms:
+              type: "integer"
+              description: "Expected transaction duration in milliseconds"
+              minimum: 1
+              example: 50
+            isolation_level:
+              type: "string"
+              enum:
+                [
+                  "read_uncommitted",
+                  "read_committed",
+                  "repeatable_read",
+                  "serializable",
+                ]
+              description: "Transaction isolation level"
+              example: "read_committed"
+
+    StorageTransactionPreparedPayload:
+      allOf:
+        - $ref: "#/components/schemas/BaseStorageEvent"
+        - type: "object"
+          required: ["transaction_id", "stores_prepared", "prepare_duration_ms"]
+          properties:
+            transaction_id:
+              type: "string"
+              description: "Transaction identifier"
+              example: "uow_001_20250916_123456"
+            stores_prepared:
+              type: "array"
+              items:
+                type: "object"
+                properties:
+                  store_name:
+                    type: "string"
+                  prepare_status:
+                    type: "string"
+                    enum: ["success", "failed"]
+                  prepare_duration_ms:
+                    type: "integer"
+              description: "Preparation status for each store"
+            prepare_duration_ms:
+              type: "integer"
+              description: "Total prepare phase duration"
+              example: 25
+            vote_commit:
+              type: "boolean"
+              description: "Whether all stores voted to commit"
+              example: true
+
+    StorageTransactionCommittedPayload:
+      allOf:
+        - $ref: "#/components/schemas/BaseStorageEvent"
+        - type: "object"
+          required:
+            ["transaction_id", "stores_committed", "receipt_id", "duration_ms"]
+          properties:
+            transaction_id:
+              type: "string"
+              description: "Transaction identifier"
+              example: "uow_001_20250916_123456"
+            transaction_type:
+              type: "string"
+              enum: ["unit_of_work", "single_store", "migration", "backup"]
+              example: "unit_of_work"
+            stores_committed:
+              type: "array"
+              items:
+                type: "string"
+              description: "List of stores that committed successfully"
+              example: ["EpisodicStore", "SemanticStore", "ReceiptsStore"]
+            receipt_id:
+              type: "string"
+              description: "Receipt ID for this transaction"
+              example: "receipt_xyz789"
+            duration_ms:
+              type: "integer"
+              description: "Total transaction duration in milliseconds"
+              minimum: 1
+              example: 45
+            committed_at:
+              type: "string"
+              format: "date-time"
+              description: "When transaction was committed"
+              example: "2025-09-16T12:34:56.834Z"
+            data_integrity_hash:
+              type: "string"
+              description: "Hash of committed data for integrity verification"
+              example: "sha256:abc123..."
+
+    StorageTransactionRolledBackPayload:
+      allOf:
+        - $ref: "#/components/schemas/BaseStorageEvent"
+        - type: "object"
+          required: ["transaction_id", "rollback_reason", "stores_rolled_back"]
+          properties:
+            transaction_id:
+              type: "string"
+              description: "Transaction identifier"
+              example: "uow_001_20250916_123456"
+            rollback_reason:
+              type: "string"
+              enum:
+                [
+                  "timeout",
+                  "constraint_violation",
+                  "deadlock",
+                  "user_abort",
+                  "system_error",
+                ]
+              description: "Reason for rollback"
+              example: "constraint_violation"
+            stores_rolled_back:
+              type: "array"
+              items:
+                type: "string"
+              description: "Stores that were rolled back"
+              example: ["EpisodicStore", "SemanticStore"]
+            error_details:
+              type: "object"
+              description: "Detailed error information"
+              properties:
+                error_code:
+                  type: "string"
+                  example: "STOR403"
+                error_message:
+                  type: "string"
+                  example: "Unique constraint violation"
+                failed_store:
+                  type: "string"
+                  example: "EpisodicStore"
+
+    StorageTransactionFailedPayload:
+      allOf:
+        - $ref: "#/components/schemas/BaseStorageEvent"
+        - type: "object"
+          required: ["transaction_id", "failure_reason", "error_details"]
+          properties:
+            transaction_id:
+              type: "string"
+              description: "Transaction identifier"
+              example: "uow_001_20250916_123456"
+            failure_reason:
+              type: "string"
+              enum:
+                [
+                  "coordinator_failure",
+                  "network_partition",
+                  "resource_exhaustion",
+                  "corruption",
+                ]
+              description: "High-level failure reason"
+              example: "coordinator_failure"
+            error_details:
+              type: "object"
+              required: ["error_code", "error_message"]
+              properties:
+                error_code:
+                  type: "string"
+                  pattern: "^STOR[0-9]{3}$"
+                  example: "STOR105"
+                error_message:
+                  type: "string"
+                  example: "Distributed transaction coordinator failed"
+                stack_trace:
+                  type: "string"
+                  description: "Error stack trace for debugging"
+            recovery_action:
+              type: "string"
+              enum: ["retry", "manual_intervention", "escalate"]
+              description: "Recommended recovery action"
+              example: "retry"
+
+    # ========================================================================
+    # MIGRATION EVENT SCHEMAS
+    # ========================================================================
+
+    StorageMigrationStartedPayload:
+      allOf:
+        - $ref: "#/components/schemas/BaseStorageEvent"
+        - type: "object"
+          required:
+            ["migration_id", "from_version", "to_version", "affected_stores"]
+          properties:
+            migration_id:
+              type: "string"
+              description: "Unique migration identifier"
+              example: "mig_v1.2_to_v1.3_20250916"
+            from_version:
+              type: "string"
+              description: "Source schema version"
+              example: "1.2.0"
+            to_version:
+              type: "string"
+              description: "Target schema version"
+              example: "1.3.0"
+            affected_stores:
+              type: "array"
+              items:
+                type: "string"
+              description: "Stores affected by this migration"
+              example: ["EpisodicStore", "SemanticStore"]
+            migration_type:
+              type: "string"
+              enum: ["upgrade", "downgrade", "patch", "hotfix"]
+              description: "Type of migration"
+              example: "upgrade"
+            estimated_duration_minutes:
+              type: "integer"
+              description: "Estimated migration duration"
+              example: 15
+
+    StorageMigrationCompletedPayload:
+      allOf:
+        - $ref: "#/components/schemas/BaseStorageEvent"
+        - type: "object"
+          required: ["migration_id", "duration_minutes", "stores_migrated"]
+          properties:
+            migration_id:
+              type: "string"
+              description: "Migration identifier"
+              example: "mig_v1.2_to_v1.3_20250916"
+            duration_minutes:
+              type: "integer"
+              description: "Actual migration duration"
+              example: 12
+            stores_migrated:
+              type: "array"
+              items:
+                type: "object"
+                properties:
+                  store_name:
+                    type: "string"
+                  migration_status:
+                    type: "string"
+                    enum: ["success", "skipped"]
+                  records_migrated:
+                    type: "integer"
+              description: "Migration results per store"
+            backup_created:
+              type: "string"
+              description: "Backup identifier created before migration"
+              example: "backup_pre_mig_20250916_123000"
+
+    StorageMigrationFailedPayload:
+      allOf:
+        - $ref: "#/components/schemas/BaseStorageEvent"
+        - type: "object"
+          required: ["migration_id", "failure_stage", "error_details"]
+          properties:
+            migration_id:
+              type: "string"
+              description: "Migration identifier"
+              example: "mig_v1.2_to_v1.3_20250916"
+            failure_stage:
+              type: "string"
+              enum: ["backup", "validation", "execution", "verification"]
+              description: "Stage where migration failed"
+              example: "execution"
+            error_details:
+              type: "object"
+              required: ["error_code", "error_message"]
+              properties:
+                error_code:
+                  type: "string"
+                  pattern: "^STOR[0-9]{3}$"
+                  example: "STOR200"
+                error_message:
+                  type: "string"
+                  example: "Schema migration failed"
+                failed_store:
+                  type: "string"
+                  example: "EpisodicStore"
+            rollback_status:
+              type: "string"
+              enum: ["completed", "failed", "not_attempted"]
+              description: "Status of rollback attempt"
+              example: "completed"
+
+    # ========================================================================
+    # POLICY EVENT SCHEMAS
+    # ========================================================================
+
+    StoragePolicyViolationPayload:
+      allOf:
+        - $ref: "#/components/schemas/BaseStorageEvent"
+        - type: "object"
+          required:
+            ["violation_type", "policy_name", "store_name", "violation_details"]
+          properties:
+            violation_type:
+              type: "string"
+              enum:
+                [
+                  "access_denied",
+                  "quota_exceeded",
+                  "encryption_violation",
+                  "retention_violation",
+                ]
+              description: "Type of policy violation"
+              example: "access_denied"
+            policy_name:
+              type: "string"
+              description: "Name of violated policy"
+              example: "storage_access_policy"
+            store_name:
+              type: "string"
+              description: "Store where violation occurred"
+              example: "PrivacyStore"
+            violation_details:
+              type: "object"
+              description: "Detailed violation information"
+              properties:
+                user_id:
+                  type: "string"
+                  example: "user_12345"
+                attempted_action:
+                  type: "string"
+                  example: "read_sensitive_data"
+                resource_id:
+                  type: "string"
+                  example: "privacy_record_789"
+                policy_rule_violated:
+                  type: "string"
+                  example: "rbac_rule_sensitive_data_access"
+            severity:
+              type: "string"
+              enum: ["low", "medium", "high", "critical"]
+              description: "Violation severity"
+              example: "high"
+
+    StoragePolicyEnforcedPayload:
+      allOf:
+        - $ref: "#/components/schemas/BaseStorageEvent"
+        - type: "object"
+          required: ["enforcement_action", "policy_name", "store_name"]
+          properties:
+            enforcement_action:
+              type: "string"
+              enum:
+                [
+                  "access_blocked",
+                  "data_redacted",
+                  "quota_enforced",
+                  "audit_logged",
+                ]
+              description: "Action taken to enforce policy"
+              example: "access_blocked"
+            policy_name:
+              type: "string"
+              description: "Name of enforced policy"
+              example: "storage_access_policy"
+            store_name:
+              type: "string"
+              description: "Store where enforcement occurred"
+              example: "PrivacyStore"
+            enforcement_details:
+              type: "object"
+              description: "Details of enforcement action"
+              properties:
+                user_id:
+                  type: "string"
+                  example: "user_12345"
+                blocked_action:
+                  type: "string"
+                  example: "read_sensitive_data"
+                alternative_action:
+                  type: "string"
+                  example: "return_redacted_data"
+
+    # ========================================================================
+    # PERFORMANCE EVENT SCHEMAS
+    # ========================================================================
+
+    StoragePerformanceDegradedPayload:
+      allOf:
+        - $ref: "#/components/schemas/BaseStorageEvent"
+        - type: "object"
+          required:
+            ["store_name", "metric_name", "current_value", "threshold_value"]
+          properties:
+            store_name:
+              type: "string"
+              description: "Store experiencing performance degradation"
+              example: "EpisodicStore"
+            metric_name:
+              type: "string"
+              enum:
+                [
+                  "latency_p95",
+                  "latency_p99",
+                  "throughput",
+                  "error_rate",
+                  "availability",
+                ]
+              description: "Performance metric that breached threshold"
+              example: "latency_p95"
+            current_value:
+              type: "number"
+              description: "Current metric value"
+              example: 15.5
+            threshold_value:
+              type: "number"
+              description: "SLA threshold value"
+              example: 8.0
+            metric_unit:
+              type: "string"
+              description: "Unit of measurement"
+              example: "milliseconds"
+            degradation_duration_seconds:
+              type: "integer"
+              description: "How long degradation has persisted"
+              example: 120
+
+    StoragePerformanceRecoveredPayload:
+      allOf:
+        - $ref: "#/components/schemas/BaseStorageEvent"
+        - type: "object"
+          required: ["store_name", "metric_name", "recovery_duration_seconds"]
+          properties:
+            store_name:
+              type: "string"
+              description: "Store that recovered"
+              example: "EpisodicStore"
+            metric_name:
+              type: "string"
+              enum:
+                [
+                  "latency_p95",
+                  "latency_p99",
+                  "throughput",
+                  "error_rate",
+                  "availability",
+                ]
+              description: "Metric that recovered"
+              example: "latency_p95"
+            current_value:
+              type: "number"
+              description: "Current healthy metric value"
+              example: 6.2
+            threshold_value:
+              type: "number"
+              description: "SLA threshold value"
+              example: 8.0
+            recovery_duration_seconds:
+              type: "integer"
+              description: "How long degradation lasted"
+              example: 180
+
+    StoragePerformanceAlertPayload:
+      allOf:
+        - $ref: "#/components/schemas/BaseStorageEvent"
+        - type: "object"
+          required: ["alert_type", "store_name", "alert_details"]
+          properties:
+            alert_type:
+              type: "string"
+              enum:
+                [
+                  "warning",
+                  "critical",
+                  "threshold_approaching",
+                  "capacity_warning",
+                ]
+              description: "Type of performance alert"
+              example: "warning"
+            store_name:
+              type: "string"
+              description: "Store generating alert"
+              example: "EmbeddingsStore"
+            alert_details:
+              type: "object"
+              description: "Detailed alert information"
+              properties:
+                metric_name:
+                  type: "string"
+                  example: "memory_usage_percentage"
+                current_value:
+                  type: "number"
+                  example: 85.5
+                warning_threshold:
+                  type: "number"
+                  example: 80.0
+                critical_threshold:
+                  type: "number"
+                  example: 90.0
+                recommended_action:
+                  type: "string"
+                  example: "Consider scaling resources or optimizing queries"
+
+    # ========================================================================
+    # BACKUP EVENT SCHEMAS
+    # ========================================================================
+
+    StorageBackupStartedPayload:
+      allOf:
+        - $ref: "#/components/schemas/BaseStorageEvent"
+        - type: "object"
+          required: ["backup_id", "backup_type", "stores_included"]
+          properties:
+            backup_id:
+              type: "string"
+              description: "Unique backup identifier"
+              example: "backup_full_20250916_123000"
+            backup_type:
+              type: "string"
+              enum: ["full", "incremental", "differential", "snapshot"]
+              description: "Type of backup operation"
+              example: "full"
+            stores_included:
+              type: "array"
+              items:
+                type: "string"
+              description: "Stores included in backup"
+              example: ["EpisodicStore", "SemanticStore", "ReceiptsStore"]
+            estimated_duration_minutes:
+              type: "integer"
+              description: "Estimated backup duration"
+              example: 30
+            destination:
+              type: "string"
+              description: "Backup destination"
+              example: "s3://memoryos-backups/2025/09/16/"
+
+    StorageBackupCompletedPayload:
+      allOf:
+        - $ref: "#/components/schemas/BaseStorageEvent"
+        - type: "object"
+          required: ["backup_id", "duration_minutes", "backup_size_bytes"]
+          properties:
+            backup_id:
+              type: "string"
+              description: "Backup identifier"
+              example: "backup_full_20250916_123000"
+            duration_minutes:
+              type: "integer"
+              description: "Actual backup duration"
+              example: 25
+            backup_size_bytes:
+              type: "integer"
+              description: "Size of backup in bytes"
+              example: 1073741824
+            stores_backed_up:
+              type: "array"
+              items:
+                type: "object"
+                properties:
+                  store_name:
+                    type: "string"
+                  records_backed_up:
+                    type: "integer"
+                  size_bytes:
+                    type: "integer"
+              description: "Backup results per store"
+            backup_integrity_hash:
+              type: "string"
+              description: "Hash for backup integrity verification"
+              example: "sha256:def456..."
+
+    StorageBackupFailedPayload:
+      allOf:
+        - $ref: "#/components/schemas/BaseStorageEvent"
+        - type: "object"
+          required: ["backup_id", "failure_reason", "error_details"]
+          properties:
+            backup_id:
+              type: "string"
+              description: "Backup identifier"
+              example: "backup_full_20250916_123000"
+            failure_reason:
+              type: "string"
+              enum:
+                [
+                  "disk_space",
+                  "permission_denied",
+                  "network_error",
+                  "corruption",
+                ]
+              description: "High-level failure reason"
+              example: "disk_space"
+            error_details:
+              type: "object"
+              required: ["error_code", "error_message"]
+              properties:
+                error_code:
+                  type: "string"
+                  pattern: "^STOR[0-9]{3}$"
+                  example: "STOR503"
+                error_message:
+                  type: "string"
+                  example: "Insufficient disk space for backup"
+                failed_store:
+                  type: "string"
+                  example: "EpisodicStore"
+            partial_backup_available:
+              type: "boolean"
+              description: "Whether partial backup is available"
+              example: false
+
+    # ========================================================================
+    # COORDINATION EVENT SCHEMAS
+    # ========================================================================
+
+    StorageCoordinationStartedPayload:
+      allOf:
+        - $ref: "#/components/schemas/BaseStorageEvent"
+        - type: "object"
+          required:
+            ["coordination_id", "coordination_type", "participating_stores"]
+          properties:
+            coordination_id:
+              type: "string"
+              description: "Unique coordination identifier"
+              example: "coord_consistency_check_20250916_123456"
+            coordination_type:
+              type: "string"
+              enum:
+                [
+                  "consistency_check",
+                  "distributed_transaction",
+                  "data_migration",
+                  "index_rebuild",
+                ]
+              description: "Type of coordination operation"
+              example: "consistency_check"
+            participating_stores:
+              type: "array"
+              items:
+                type: "string"
+              description: "Stores participating in coordination"
+              example: ["EpisodicStore", "SemanticStore", "HippocampusStore"]
+            coordinator:
+              type: "string"
+              description: "Coordinating service or component"
+              example: "storage_coordinator"
+
+    StorageCoordinationCompletedPayload:
+      allOf:
+        - $ref: "#/components/schemas/BaseStorageEvent"
+        - type: "object"
+          required:
+            ["coordination_id", "duration_seconds", "coordination_result"]
+          properties:
+            coordination_id:
+              type: "string"
+              description: "Coordination identifier"
+              example: "coord_consistency_check_20250916_123456"
+            duration_seconds:
+              type: "integer"
+              description: "Coordination duration"
+              example: 45
+            coordination_result:
+              type: "string"
+              enum: ["success", "partial_success", "failed"]
+              description: "Overall coordination result"
+              example: "success"
+            store_results:
+              type: "array"
+              items:
+                type: "object"
+                properties:
+                  store_name:
+                    type: "string"
+                  result:
+                    type: "string"
+                    enum: ["success", "failed", "skipped"]
+                  details:
+                    type: "string"
+              description: "Results per participating store"
+
+    StorageConsistencyViolationPayload:
+      allOf:
+        - $ref: "#/components/schemas/BaseStorageEvent"
+        - type: "object"
+          required: ["violation_type", "affected_stores", "violation_details"]
+          properties:
+            violation_type:
+              type: "string"
+              enum:
+                [
+                  "referential_integrity",
+                  "temporal_ordering",
+                  "data_duplication",
+                  "schema_mismatch",
+                ]
+              description: "Type of consistency violation"
+              example: "referential_integrity"
+            affected_stores:
+              type: "array"
+              items:
+                type: "string"
+              description: "Stores affected by consistency violation"
+              example: ["EpisodicStore", "SemanticStore"]
+            violation_details:
+              type: "object"
+              description: "Detailed violation information"
+              properties:
+                record_ids:
+                  type: "array"
+                  items:
+                    type: "string"
+                  description: "Records involved in violation"
+                consistency_rule_violated:
+                  type: "string"
+                  description: "Specific consistency rule violated"
+                  example: "episodic_semantic_reference_integrity"
+                detection_method:
+                  type: "string"
+                  enum: ["automated_check", "manual_audit", "runtime_detection"]
+                  example: "automated_check"
+            severity:
+              type: "string"
+              enum: ["low", "medium", "high", "critical"]
+              description: "Violation severity"
+              example: "high"
+            auto_repair_attempted:
+              type: "boolean"
+              description: "Whether automatic repair was attempted"
+              example: true
+
+tags:
+  - name: "transactions"
+    description: "Transaction lifecycle events"
+  - name: "migrations"
+    description: "Schema migration events"
+  - name: "policy"
+    description: "Policy enforcement events"
+  - name: "performance"
+    description: "Performance monitoring events"
+  - name: "backup"
+    description: "Backup and recovery events"
+  - name: "coordination"
+    description: "Cross-store coordination events"

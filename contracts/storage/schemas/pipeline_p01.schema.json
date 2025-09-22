@@ -1,0 +1,165 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://familyos.local/contracts/storage/pipeline_p01.schema.json",
+  "title": "Pipeline P01",
+  "description": "Pipeline P01: Recall/Read - Hippocampal-Cortical Retrieval",
+  "type": "object",
+  "required": [
+    "id",
+    "created_ts",
+    "cognitive_trace_id",
+    "neural_substrate",
+    "cognitive_functions",
+    "pipeline_id",
+    "processing_stage"
+  ],
+  "properties": {
+    "id": {
+      "$ref": "common.schema.json#/$defs/ULID"
+    },
+    "created_ts": {
+      "$ref": "common.schema.json#/$defs/Timestamp"
+    },
+    "cognitive_trace_id": {
+      "$ref": "common.schema.json#/$defs/ULID"
+    },
+    "band": {
+      "$ref": "common.schema.json#/$defs/Band"
+    },
+    "space_id": {
+      "$ref": "common.schema.json#/$defs/SpaceId"
+    },
+    "neural_substrate": {
+      "type": "object",
+      "description": "Neural substrate information",
+      "properties": {
+        "brain_region": {
+          "type": "string",
+          "enum": [
+            "thalamus",
+            "hippocampus",
+            "prefrontal_cortex",
+            "basal_ganglia",
+            "motor_cortex",
+            "sensory_cortex"
+          ]
+        },
+        "neural_circuit": {
+          "type": "string"
+        },
+        "neurotransmitter_systems": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "dopamine",
+              "serotonin",
+              "acetylcholine",
+              "norepinephrine",
+              "gaba",
+              "glutamate"
+            ]
+          }
+        },
+        "oscillatory_patterns": {
+          "type": "object",
+          "properties": {
+            "frequency_band": {
+              "type": "string",
+              "enum": [
+                "delta",
+                "theta",
+                "alpha",
+                "beta",
+                "gamma"
+              ]
+            },
+            "amplitude": {
+              "type": "number",
+              "minimum": 0
+            },
+            "phase_coherence": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 1
+            }
+          }
+        }
+      },
+      "required": [
+        "brain_region"
+      ]
+    },
+    "cognitive_functions": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "attention",
+          "memory",
+          "executive_control",
+          "learning",
+          "decision_making",
+          "motor_control"
+        ]
+      }
+    },
+    "processing_mode": {
+      "type": "string",
+      "enum": [
+        "fast_path",
+        "smart_path",
+        "cognitive_deliberation"
+      ],
+      "description": "Processing pathway for this cognitive operation"
+    },
+    "pipeline_id": {
+      "type": "string",
+      "const": "P01",
+      "description": "Pipeline identifier: P01"
+    },
+    "input_events": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Event types that trigger this pipeline"
+    },
+    "output_events": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Event types produced by this pipeline"
+    },
+    "processing_stage": {
+      "type": "string",
+      "enum": [
+        "input_validation",
+        "cognitive_processing",
+        "brain_simulation",
+        "output_generation",
+        "event_emission"
+      ]
+    },
+    "performance_sla": {
+      "type": "object",
+      "properties": {
+        "max_latency_ms": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "throughput_per_sec": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "accuracy_threshold": {
+          "type": "number",
+          "minimum": 0,
+          "maximum": 1
+        }
+      }
+    }
+  },
+  "additionalProperties": false
+}

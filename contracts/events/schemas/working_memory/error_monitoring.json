@@ -1,0 +1,44 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "$id": "error_monitoring.schema.json",
+    "title": "Working Memory Error Monitoring Event",
+    "description": "Event for error monitoring in working memory",
+    "type": "object",
+    "required": [
+        "timestamp",
+        "error_type",
+        "detection_method",
+        "correction_applied"
+    ],
+    "properties": {
+        "timestamp": {
+            "type": "string",
+            "format": "date-time"
+        },
+        "error_type": {
+            "type": "string",
+            "enum": [
+                "decay",
+                "interference",
+                "confusion",
+                "overload"
+            ]
+        },
+        "detection_method": {
+            "type": "string",
+            "enum": [
+                "performance_monitoring",
+                "conflict_detection",
+                "accuracy_check"
+            ]
+        },
+        "correction_applied": {
+            "type": "boolean"
+        },
+        "confidence": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+        }
+    }
+}

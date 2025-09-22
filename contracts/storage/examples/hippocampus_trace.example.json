@@ -1,0 +1,12 @@
+{
+  "id": "0MSZS0JQ8Z28AT4SMJ55CH860V",
+  "space_id": "shared:household",
+  "simhash_hex": "0123456789abcdef",
+  "minhash32": [
+    12,
+    34,
+    56
+  ],
+  "ts": "2025-09-09T12:34:56Z",
+  "novelty": 0.7
+}

@@ -1,0 +1,55 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Metacognition Module Event Catalog",
+  "description": "Metacognitive monitoring and reflection events",
+  "type": "object",
+  "properties": {
+    "events": {
+      "type": "array",
+      "items": [
+        {
+          "name": "METACOG_REPORT",
+          "version": "1.0",
+          "description": "Metacognitive assessment and monitoring report",
+          "schema": {
+            "type": "object",
+            "properties": {
+              "report_id": { "type": "string", "format": "ulid" },
+              "metacog_type": { "type": "string", "enum": ["confidence_estimation", "error_detection", "performance_reflection", "strategy_selection"] },
+              "target_process": { "type": "string" },
+              "assessment_results": { "type": "object", "additionalProperties": true },
+              "confidence_calibration": { "type": "number", "minimum": 0, "maximum": 1 },
+              "recommendations": { "type": "array", "items": { "type": "string" } }
+            },
+            "required": ["report_id", "metacog_type", "target_process", "assessment_results"]
+          },
+          "key": { "partition": "metacog_type", "ordering": "ts" },
+          "idempotency": { "dedupe_key": "report_id", "window": "PT5M" },
+          "retention": "P60D"
+        },
+        {
+          "name": "ERROR_DETECTED",
+          "version": "1.0",
+          "description": "Cognitive error detection and correction alert",
+          "schema": {
+            "type": "object",
+            "properties": {
+              "error_id": { "type": "string", "format": "ulid" },
+              "error_type": { "type": "string", "enum": ["logical", "knowledge", "strategy", "confidence", "goal"] },
+              "severity": { "type": "string", "enum": ["low", "medium", "high", "critical"] },
+              "source_process": { "type": "string" },
+              "error_description": { "type": "string" },
+              "correction_suggested": { "type": "string" },
+              "correction_applied": { "type": "boolean" },
+              "prevention_strategy": { "type": "string" }
+            },
+            "required": ["error_id", "error_type", "severity", "source_process", "error_description"]
+          },
+          "key": { "partition": "error_type", "ordering": "ts" },
+          "idempotency": { "dedupe_key": "error_id", "window": "PT1M" },
+          "retention": "P180D"
+        }
+      ]
+    }
+  }
+}

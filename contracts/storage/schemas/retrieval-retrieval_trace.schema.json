@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://familyos.local/contracts/retrieval/query_log.schema.json",
+  "type": "object",
+  "properties": {
+    "query_hash": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
+    "raw_query": { "type": "string" },
+    "filters": { "type": "object" },
+    "space_id": { "type": "string" },
+    "actor_user_id": { "type": "string" },
+    "ts": { "type": "string", "format": "date-time" },
+    "band": { "type": "string", "enum": ["GREEN","AMBER"] }
+  },
+  "required": ["query_hash","space_id","actor_user_id","ts","band"],
+  "additionalProperties": false
+}

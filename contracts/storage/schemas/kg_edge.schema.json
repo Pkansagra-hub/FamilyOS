@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://familyos.local/contracts/storage/kg_edge.schema.json",
+  "title": "KG Edge",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "space_id",
+    "src",
+    "dst",
+    "pred",
+    "created_ts"
+  ],
+  "properties": {
+    "id": {
+      "$ref": "./common.schema.json#/$defs/ULID"
+    },
+    "space_id": {
+      "$ref": "./common.schema.json#/$defs/SpaceId"
+    },
+    "src": {
+      "$ref": "./common.schema.json#/$defs/ULID"
+    },
+    "dst": {
+      "$ref": "./common.schema.json#/$defs/ULID"
+    },
+    "pred": {
+      "type": "string"
+    },
+    "created_ts": {
+      "$ref": "./common.schema.json#/$defs/Timestamp"
+    },
+    "weight": {
+      "type": "number"
+    }
+  }
+}

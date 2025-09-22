@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "https://familyos.local/contracts/temporal/schemas/time_index.schema.json",
+  "title": "Temporal Time Index Row",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["space_id","g","time_bucket","doc_id","ts","hash"],
+  "properties": {
+    "space_id": {"type":"string"},
+    "g": {"type":"string","enum":["minute","hour","day","week"]},
+    "time_bucket": {"type":"string","description":"e.g., 2025-09-10T14:00:00Z for hour granularity"},
+    "doc_id": {"type":"string"},
+    "ts": {"type":"string","format":"date-time"},
+    "hash": {"type":"string","description":"content hash for dedupe"},
+    "attributes": {"type":"object","additionalProperties": {"type":["string","number","boolean"]}}
+  }
+}

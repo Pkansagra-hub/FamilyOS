@@ -1,0 +1,13 @@
+tables:
+  frame_records:
+    primary_key: ["frame_id"]
+    indices:
+      - name: idx_frame_space_ts
+        columns: ["space_id","ts"]
+      - name: idx_frame_expiry
+        columns: ["expires_at"]
+    retention:
+      ttl: "24h"
+      action: "delete"
+    constraints:
+      band_not_black_for_store: true

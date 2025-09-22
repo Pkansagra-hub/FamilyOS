@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.1.0",
+  "id": "be6377aa-268a-408d-834e-40617014fced",
+  "ts": "2025-09-09T04:20:40Z",
+  "topic": "PII_MINIMIZED",
+  "band": "GREEN",
+  "actor": {
+    "user_id": "a42d4c7d-fa55-4279-81d6-562ae3f7a681",
+    "agent_id": "safety.v1",
+    "caps": [
+      "WRITE"
+    ]
+  },
+  "device": {
+    "device_id": "edge-jetson",
+    "platform": "edge",
+    "app_version": "1.1.7",
+    "locale": "en-GB"
+  },
+  "space_id": "selective:father_son",
+  "policy_version": "1.3",
+  "abac": {
+    "role": "parent",
+    "trust": "green",
+    "geo_precision": "region"
+  },
+  "qos": {
+    "routing": "fast-path",
+    "priority": 5,
+    "latency_budget_ms": 105,
+    "retries": 1
+  },
+  "trace": {
+    "trace_id": "02aa888703dac5f32a359bb358e5b773",
+    "span_id": "1d7a6ecf7706be91",
+    "sampled": true
+  },
+  "obligations": [],
+  "redaction_applied": false,
+  "hashes": {
+    "payload_sha256": "7a688f0ef82d6d67a9417ab6e885966a65f7bd1ac6238a27832ff78fb1fd9fd5"
+  },
+  "payload": {
+    "fields": [
+      "email",
+      "phone"
+    ],
+    "strategy": "mask"
+  },
+  "signature": {
+    "alg": "ed25519",
+    "key_id": "key_pii_minimized_green_2024",
+    "public_key": "cHVibGlj",
+    "signature": "c2ln"
+  }
+}

@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "User Status Changed Event",
+  "description": "Event fired when a user's status changes (activation, suspension, etc.)",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "user_id",
+    "previous_status",
+    "new_status",
+    "changed_by",
+    "changed_ts"
+  ],
+  "properties": {
+    "user_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "User whose status changed"
+    },
+    "previous_status": {
+      "type": "string",
+      "enum": ["active", "pending_verification", "inactive", "suspended"],
+      "description": "Previous user status"
+    },
+    "new_status": {
+      "type": "string",
+      "enum": ["active", "pending_verification", "inactive", "suspended"],
+      "description": "New user status"
+    },
+    "reason": {
+      "type": "string",
+      "description": "Reason for the status change"
+    },
+    "changed_by": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Admin user who changed the status"
+    },
+    "automatic": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether this was an automatic status change"
+    },
+    "security_event": {
+      "type": "object",
+      "properties": {
+        "failed_login_count": {
+          "type": "integer"
+        },
+        "last_failed_login": {
+          "$ref": "./_common.json#/definitions/ISOInstant"
+        },
+        "lockout_until": {
+          "$ref": "./_common.json#/definitions/ISOInstant"
+        }
+      },
+      "description": "Security-related information if status change is security-related"
+    },
+    "changed_ts": {
+      "$ref": "./_common.json#/definitions/ISOInstant",
+      "description": "When the status was changed"
+    },
+    "trace_context": {
+      "$ref": "./_common.json#/definitions/TraceContext",
+      "description": "Distributed tracing context"
+    }
+  }
+}

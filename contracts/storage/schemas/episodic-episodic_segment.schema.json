@@ -1,0 +1,18 @@
+{
+  "$schema":"http://json-schema.org/draft-07/schema#",
+  "$id":"https://familyos/contracts/episodic/episodic_segment.schema.json",
+  "title":"EpisodicSegment",
+  "type":"object",
+  "additionalProperties": false,
+  "required":["space_id","episode_id","start_ts","end_ts"],
+  "properties":{
+    "space_id":{"type":"string"},
+    "episode_id":{"type":"string"},
+    "start_ts":{"type":"string","format":"date-time"},
+    "end_ts":{"type":"string","format":"date-time"},
+    "topic_hint":{"type":"string"},
+    "salience":{"type":"number"},
+    "affect_span_json":{"type":"string"},
+    "boundary_reason_json":{"type":"string"}
+  }
+}

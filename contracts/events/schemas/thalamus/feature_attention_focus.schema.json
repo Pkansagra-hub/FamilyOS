@@ -1,0 +1,279 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://familyos.local/contracts/events/schemas/thalamus/feature_attention_focus.schema.json",
+    "title": "Feature Attention Focus Event",
+    "description": "Event generated when feature-based attention mechanisms adjust focus within thalamic processing",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "timestamp",
+        "focus_operation",
+        "target_features",
+        "attention_modulation",
+        "feature_space"
+    ],
+    "properties": {
+        "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Time when feature attention focus was adjusted"
+        },
+        "focus_operation": {
+            "type": "string",
+            "enum": [
+                "enhance_feature",
+                "suppress_feature",
+                "switch_feature",
+                "combine_features",
+                "separate_features",
+                "create_feature_set",
+                "dissolve_feature_set"
+            ],
+            "description": "Type of feature attention operation"
+        },
+        "target_features": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "required": [
+                    "feature_type",
+                    "feature_value",
+                    "attention_weight"
+                ],
+                "properties": {
+                    "feature_type": {
+                        "type": "string",
+                        "enum": [
+                            "semantic",
+                            "syntactic",
+                            "phonetic",
+                            "visual",
+                            "spatial",
+                            "temporal",
+                            "emotional",
+                            "social",
+                            "motor",
+                            "abstract"
+                        ]
+                    },
+                    "feature_value": {
+                        "type": "string",
+                        "description": "Specific value or identifier for the feature"
+                    },
+                    "attention_weight": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1,
+                        "description": "Attention weight assigned to this feature"
+                    },
+                    "feature_dimension": {
+                        "type": "string"
+                    },
+                    "feature_coordinates": {
+                        "type": "array",
+                        "items": {
+                            "type": "number"
+                        }
+                    }
+                }
+            },
+            "description": "Features that are the target of attention focus"
+        },
+        "attention_modulation": {
+            "type": "object",
+            "required": [
+                "modulation_type",
+                "modulation_strength"
+            ],
+            "properties": {
+                "modulation_type": {
+                    "type": "string",
+                    "enum": [
+                        "multiplicative",
+                        "additive",
+                        "subtractive",
+                        "normalization",
+                        "competition",
+                        "cooperation"
+                    ]
+                },
+                "modulation_strength": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "baseline_attention": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "selectivity_profile": {
+                    "type": "string",
+                    "enum": [
+                        "narrow",
+                        "broad",
+                        "multi_peak",
+                        "adaptive"
+                    ]
+                }
+            },
+            "description": "How attention is modulated for target features"
+        },
+        "feature_space": {
+            "type": "object",
+            "required": [
+                "space_type",
+                "dimensionality"
+            ],
+            "properties": {
+                "space_type": {
+                    "type": "string",
+                    "enum": [
+                        "semantic_embedding",
+                        "perceptual_space",
+                        "conceptual_space",
+                        "motor_space",
+                        "emotional_space",
+                        "hybrid_space"
+                    ]
+                },
+                "dimensionality": {
+                    "type": "integer",
+                    "minimum": 1
+                },
+                "space_metrics": {
+                    "type": "object",
+                    "properties": {
+                        "distance_function": {
+                            "type": "string"
+                        },
+                        "similarity_threshold": {
+                            "type": "number"
+                        },
+                        "clustering_parameters": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "space_boundaries": {
+                    "type": "object",
+                    "properties": {
+                        "min_coordinates": {
+                            "type": "array",
+                            "items": {
+                                "type": "number"
+                            }
+                        },
+                        "max_coordinates": {
+                            "type": "array",
+                            "items": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                }
+            },
+            "description": "Feature space within which attention operates"
+        },
+        "competitive_dynamics": {
+            "type": "object",
+            "properties": {
+                "competing_features": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "feature_id": {
+                                "type": "string"
+                            },
+                            "competition_strength": {
+                                "type": "number"
+                            },
+                            "inhibition_level": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                },
+                "winner_take_all": {
+                    "type": "boolean"
+                },
+                "cooperative_features": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            },
+            "description": "Competitive and cooperative dynamics between features"
+        },
+        "context_influence": {
+            "type": "object",
+            "properties": {
+                "contextual_features": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "context_weights": {
+                    "type": "array",
+                    "items": {
+                        "type": "number"
+                    }
+                },
+                "priming_effects": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "prime_feature": {
+                                "type": "string"
+                            },
+                            "target_feature": {
+                                "type": "string"
+                            },
+                            "priming_strength": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                }
+            },
+            "description": "How context influences feature attention"
+        },
+        "learning_adaptation": {
+            "type": "object",
+            "properties": {
+                "attention_history": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "timestamp": {
+                                "type": "string"
+                            },
+                            "attended_features": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "outcome_success": {
+                                "type": "boolean"
+                            }
+                        }
+                    }
+                },
+                "adaptation_rate": {
+                    "type": "number"
+                },
+                "feature_importance_updates": {
+                    "type": "object",
+                    "description": "Updates to feature importance weights"
+                }
+            },
+            "description": "Learning and adaptation of feature attention patterns"
+        }
+    }
+}

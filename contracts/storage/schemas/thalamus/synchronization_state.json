@@ -1,0 +1,148 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "$id": "synchronization_state.schema.json",
+    "title": "Synchronization State Storage",
+    "description": "Storage schema for thalamic circuit synchronization state and rhythmic coordination.",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "circuit_id",
+        "current_rhythm",
+        "synchronization_targets",
+        "phase_relationships",
+        "coherence_metrics"
+    ],
+    "properties": {
+        "circuit_id": {
+            "type": "string",
+            "description": "Identifier for the thalamic circuit"
+        },
+        "current_rhythm": {
+            "type": "object",
+            "properties": {
+                "rhythm_type": {
+                    "type": "string",
+                    "enum": [
+                        "alpha",
+                        "beta",
+                        "gamma",
+                        "theta",
+                        "delta",
+                        "spindle"
+                    ]
+                },
+                "frequency_hz": {
+                    "type": "number",
+                    "minimum": 0
+                },
+                "amplitude": {
+                    "type": "number",
+                    "minimum": 0
+                },
+                "phase": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 6.28
+                },
+                "stability": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                }
+            }
+        },
+        "synchronization_targets": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "target_circuit": {
+                        "type": "string"
+                    },
+                    "target_frequency": {
+                        "type": "number"
+                    },
+                    "synchronization_strength": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1
+                    },
+                    "sync_status": {
+                        "type": "string",
+                        "enum": [
+                            "synchronized",
+                            "synchronizing",
+                            "desynchronized"
+                        ]
+                    }
+                }
+            }
+        },
+        "phase_relationships": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "partner_circuit": {
+                        "type": "string"
+                    },
+                    "phase_difference": {
+                        "type": "number"
+                    },
+                    "coherence": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1
+                    },
+                    "lag_time_ms": {
+                        "type": "number"
+                    }
+                }
+            }
+        },
+        "coherence_metrics": {
+            "type": "object",
+            "properties": {
+                "global_coherence": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "local_coherence": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "coherence_stability": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "frequency_locking": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "rhythm_history": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "rhythm_state": {
+                        "type": "object"
+                    },
+                    "duration_ms": {
+                        "type": "number"
+                    },
+                    "transition_trigger": {
+                        "type": "string"
+                    },
+                    "timestamp": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                }
+            }
+        }
+    }
+}

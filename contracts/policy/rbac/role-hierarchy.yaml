@@ -1,0 +1,132 @@
+# Issue #26.1: Role hierarchy and inheritance contract
+# Contract-first approach for RBAC role inheritance system
+
+apiVersion: policy/v1
+kind: RoleHierarchy
+metadata:
+  name: rbac-role-hierarchy
+  description: "Role hierarchy and inheritance rules for RBAC system"
+  version: "1.0.0"
+
+spec:
+  # Role inheritance hierarchy
+  hierarchy:
+    # System-level roles
+    system_admin:
+      inherits: []
+      description: "Full system administration capabilities"
+      capabilities:
+        - "system:*"
+        - "rbac:*"
+        - "policy:*"
+        - "audit:*"
+
+    system_operator:
+      inherits: []
+      description: "System operations and monitoring"
+      capabilities:
+        - "system:read"
+        - "system:health"
+        - "observability:*"
+        - "metrics:read"
+
+    # Space-level roles
+    space_admin:
+      inherits: ["space_operator"]
+      description: "Administrative control over specific spaces"
+      capabilities:
+        - "space:admin"
+        - "space:config"
+        - "memory:admin"
+        - "policy:space_admin"
+
+    space_operator:
+      inherits: ["space_user"]
+      description: "Operational control within spaces"
+      capabilities:
+        - "space:operate"
+        - "memory:operate"
+        - "observability:read"
+
+    space_user:
+      inherits: ["authenticated_user"]
+      description: "Basic space user capabilities"
+      capabilities:
+        - "space:read"
+        - "memory:read"
+        - "memory:write_own"
+
+    # Base roles
+    authenticated_user:
+      inherits: []
+      description: "Basic authenticated user capabilities"
+      capabilities:
+        - "user:self_read"
+        - "session:manage"
+
+    guest:
+      inherits: []
+      description: "Unauthenticated guest access"
+      capabilities:
+        - "public:read"
+
+  # Inheritance rules
+  inheritance_rules:
+    # Role inheritance is transitive
+    transitive: true
+
+    # Maximum inheritance depth to prevent cycles
+    max_depth: 5
+
+    # Capability aggregation strategy
+    capability_merge: "union"  # union | intersection | override
+
+    # Conflict resolution for overlapping capabilities
+    conflict_resolution: "most_specific_wins"
+
+  # Dynamic role assignment rules
+  dynamic_assignment:
+    # Conditions for automatic role assignment
+    conditions:
+      - trigger: "user_created"
+        action: "assign_role"
+        role: "authenticated_user"
+
+      - trigger: "space_membership_granted"
+        action: "assign_role"
+        role: "space_user"
+        scope: "space"
+
+      - trigger: "admin_privileges_granted"
+        action: "assign_role"
+        role: "space_admin"
+        scope: "space"
+        requires_approval: true
+
+    # Time-based role assignments
+    temporal_rules:
+      - role: "space_operator"
+        max_duration: "24h"
+        renewable: true
+
+      - role: "system_admin"
+        max_duration: "8h"
+        renewable: false
+        requires_justification: true
+
+# Validation rules
+validation:
+  # Role name constraints
+  role_name:
+    pattern: "^[a-z][a-z0-9_]*$"
+    max_length: 64
+
+  # Capability format
+  capability:
+    pattern: "^[a-z][a-z0-9_]*:[a-z0-9_*]+$"
+
+  # Inheritance validation
+  inheritance:
+    - no_cycles: true
+    - max_inheritance_depth: 5
+    - required_base_role: "authenticated_user"

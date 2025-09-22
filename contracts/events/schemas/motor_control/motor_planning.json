@@ -1,0 +1,509 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "$id": "motor_planning.event.json",
+    "title": "Motor Planning Event",
+    "description": "Event schema for motor planning and action preparation processes based on motor cortex, premotor areas, and supplementary motor area neural circuits",
+    "type": "object",
+    "required": [
+        "event_id",
+        "timestamp",
+        "planning_request",
+        "motor_cortex_state",
+        "action_specification",
+        "neural_substrate_activity"
+    ],
+    "properties": {
+        "event_id": {
+            "type": "string",
+            "description": "Unique identifier for this motor planning event"
+        },
+        "timestamp": {
+            "type": "string",
+            "format": "date-time"
+        },
+        "planning_request": {
+            "type": "object",
+            "properties": {
+                "action_goal": {
+                    "type": "object",
+                    "properties": {
+                        "target_state": {
+                            "type": "object"
+                        },
+                        "desired_outcome": {
+                            "type": "string"
+                        },
+                        "success_criteria": {
+                            "type": "array"
+                        },
+                        "priority_level": {
+                            "type": "number"
+                        },
+                        "temporal_constraints": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "environmental_context": {
+                    "type": "object",
+                    "properties": {
+                        "spatial_constraints": {
+                            "type": "array"
+                        },
+                        "obstacle_detection": {
+                            "type": "array"
+                        },
+                        "affordance_assessment": {
+                            "type": "object"
+                        },
+                        "environmental_stability": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "current_state": {
+                    "type": "object",
+                    "properties": {
+                        "body_position": {
+                            "type": "object"
+                        },
+                        "joint_angles": {
+                            "type": "array"
+                        },
+                        "muscle_activation_state": {
+                            "type": "object"
+                        },
+                        "balance_state": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "resource_requirements": {
+                    "type": "object",
+                    "properties": {
+                        "energy_cost_estimate": {
+                            "type": "number"
+                        },
+                        "attention_requirements": {
+                            "type": "number"
+                        },
+                        "precision_requirements": {
+                            "type": "number"
+                        },
+                        "coordination_complexity": {
+                            "type": "number"
+                        }
+                    }
+                }
+            }
+        },
+        "motor_cortex_state": {
+            "type": "object",
+            "properties": {
+                "primary_motor_cortex_m1": {
+                    "type": "object",
+                    "properties": {
+                        "population_vector_activity": {
+                            "type": "array"
+                        },
+                        "motor_unit_recruitment": {
+                            "type": "object"
+                        },
+                        "force_vector_encoding": {
+                            "type": "object"
+                        },
+                        "movement_direction_tuning": {
+                            "type": "array"
+                        }
+                    }
+                },
+                "premotor_cortex_activity": {
+                    "type": "object",
+                    "properties": {
+                        "action_selection_signals": {
+                            "type": "array"
+                        },
+                        "movement_preparation_state": {
+                            "type": "object"
+                        },
+                        "conditional_motor_plans": {
+                            "type": "array"
+                        },
+                        "sensorimotor_transformation": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "supplementary_motor_area_sma": {
+                    "type": "object",
+                    "properties": {
+                        "movement_sequence_planning": {
+                            "type": "array"
+                        },
+                        "action_timing_control": {
+                            "type": "object"
+                        },
+                        "bimanual_coordination": {
+                            "type": "object"
+                        },
+                        "motor_intention_signals": {
+                            "type": "array"
+                        }
+                    }
+                },
+                "posterior_parietal_cortex_integration": {
+                    "type": "object",
+                    "properties": {
+                        "spatial_coordinate_transformation": {
+                            "type": "object"
+                        },
+                        "reach_planning_activity": {
+                            "type": "object"
+                        },
+                        "visual_motor_integration": {
+                            "type": "number"
+                        },
+                        "attention_motor_coupling": {
+                            "type": "number"
+                        }
+                    }
+                }
+            }
+        },
+        "action_specification": {
+            "type": "object",
+            "properties": {
+                "movement_parameters": {
+                    "type": "object",
+                    "properties": {
+                        "trajectory_plan": {
+                            "type": "object",
+                            "properties": {
+                                "waypoints": {
+                                    "type": "array"
+                                },
+                                "velocity_profile": {
+                                    "type": "array"
+                                },
+                                "acceleration_profile": {
+                                    "type": "array"
+                                },
+                                "smoothness_constraints": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "force_requirements": {
+                            "type": "object",
+                            "properties": {
+                                "force_magnitude": {
+                                    "type": "number"
+                                },
+                                "force_direction": {
+                                    "type": "array"
+                                },
+                                "force_timing": {
+                                    "type": "object"
+                                },
+                                "grip_force_coordination": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "timing_specifications": {
+                            "type": "object",
+                            "properties": {
+                                "movement_duration": {
+                                    "type": "number"
+                                },
+                                "phase_timing": {
+                                    "type": "array"
+                                },
+                                "synchronization_requirements": {
+                                    "type": "array"
+                                },
+                                "temporal_precision": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                },
+                "muscle_activation_plan": {
+                    "type": "object",
+                    "properties": {
+                        "agonist_antagonist_coordination": {
+                            "type": "object"
+                        },
+                        "muscle_synergy_patterns": {
+                            "type": "array"
+                        },
+                        "activation_timing": {
+                            "type": "object"
+                        },
+                        "co_contraction_levels": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "sensory_prediction": {
+                    "type": "object",
+                    "properties": {
+                        "expected_sensory_consequences": {
+                            "type": "object"
+                        },
+                        "proprioceptive_predictions": {
+                            "type": "object"
+                        },
+                        "visual_flow_expectations": {
+                            "type": "object"
+                        },
+                        "tactile_contact_predictions": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "neural_substrate_activity": {
+            "type": "object",
+            "properties": {
+                "corticospinal_tract_preparation": {
+                    "type": "object",
+                    "properties": {
+                        "pyramidal_tract_priming": {
+                            "type": "number"
+                        },
+                        "spinal_circuit_preparation": {
+                            "type": "object"
+                        },
+                        "motor_neuron_pool_readiness": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "basal_ganglia_action_selection": {
+                    "type": "object",
+                    "properties": {
+                        "striatum_action_values": {
+                            "type": "object"
+                        },
+                        "globus_pallidus_gating": {
+                            "type": "object"
+                        },
+                        "substantia_nigra_modulation": {
+                            "type": "number"
+                        },
+                        "action_competition_resolution": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "cerebellar_motor_learning": {
+                    "type": "object",
+                    "properties": {
+                        "purkinje_cell_plasticity": {
+                            "type": "object"
+                        },
+                        "motor_adaptation_signals": {
+                            "type": "array"
+                        },
+                        "error_correction_learning": {
+                            "type": "object"
+                        },
+                        "timing_and_coordination": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "thalamic_motor_relay": {
+                    "type": "object",
+                    "properties": {
+                        "ventral_lateral_nucleus_activity": {
+                            "type": "number"
+                        },
+                        "motor_thalamus_filtering": {
+                            "type": "object"
+                        },
+                        "cortical_motor_amplification": {
+                            "type": "number"
+                        }
+                    }
+                }
+            }
+        },
+        "planning_constraints": {
+            "type": "object",
+            "properties": {
+                "biomechanical_constraints": {
+                    "type": "object",
+                    "properties": {
+                        "joint_range_limitations": {
+                            "type": "object"
+                        },
+                        "muscle_strength_limits": {
+                            "type": "object"
+                        },
+                        "stability_requirements": {
+                            "type": "object"
+                        },
+                        "fatigue_considerations": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "task_constraints": {
+                    "type": "object",
+                    "properties": {
+                        "accuracy_requirements": {
+                            "type": "number"
+                        },
+                        "speed_requirements": {
+                            "type": "number"
+                        },
+                        "energy_efficiency_goals": {
+                            "type": "number"
+                        },
+                        "safety_constraints": {
+                            "type": "array"
+                        }
+                    }
+                },
+                "cognitive_constraints": {
+                    "type": "object",
+                    "properties": {
+                        "attention_capacity_limits": {
+                            "type": "number"
+                        },
+                        "working_memory_load": {
+                            "type": "number"
+                        },
+                        "concurrent_task_interference": {
+                            "type": "number"
+                        }
+                    }
+                }
+            }
+        },
+        "planning_outcomes": {
+            "type": "object",
+            "properties": {
+                "motor_plan_quality": {
+                    "type": "object",
+                    "properties": {
+                        "plan_optimality_score": {
+                            "type": "number"
+                        },
+                        "execution_confidence": {
+                            "type": "number"
+                        },
+                        "plan_robustness": {
+                            "type": "number"
+                        },
+                        "adaptation_flexibility": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "alternative_plans": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "plan_id": {
+                                "type": "string"
+                            },
+                            "plan_description": {
+                                "type": "string"
+                            },
+                            "plan_quality_score": {
+                                "type": "number"
+                            },
+                            "contingency_conditions": {
+                                "type": "array"
+                            }
+                        }
+                    }
+                },
+                "readiness_assessment": {
+                    "type": "object",
+                    "properties": {
+                        "motor_readiness_potential": {
+                            "type": "number"
+                        },
+                        "execution_timing_readiness": {
+                            "type": "number"
+                        },
+                        "resource_availability": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "integration_signals": {
+            "type": "object",
+            "properties": {
+                "executive_control_integration": {
+                    "type": "object",
+                    "properties": {
+                        "goal_alignment_check": {
+                            "type": "number"
+                        },
+                        "action_inhibition_signals": {
+                            "type": "array"
+                        },
+                        "cognitive_control_modulation": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "sensory_integration": {
+                    "type": "object",
+                    "properties": {
+                        "visual_motor_coordination": {
+                            "type": "object"
+                        },
+                        "proprioceptive_feedback_integration": {
+                            "type": "object"
+                        },
+                        "predictive_sensory_updating": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "memory_system_integration": {
+                    "type": "object",
+                    "properties": {
+                        "motor_memory_retrieval": {
+                            "type": "object"
+                        },
+                        "skill_pattern_activation": {
+                            "type": "array"
+                        },
+                        "procedural_memory_access": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "metadata": {
+            "type": "object",
+            "properties": {
+                "planning_duration": {
+                    "type": "number"
+                },
+                "computational_cost": {
+                    "type": "number"
+                },
+                "plan_complexity_level": {
+                    "type": "number"
+                },
+                "neural_resource_utilization": {
+                    "type": "object"
+                }
+            }
+        }
+    }
+}

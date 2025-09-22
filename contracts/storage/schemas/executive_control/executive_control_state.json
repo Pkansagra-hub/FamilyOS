@@ -1,0 +1,527 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "$id": "executive_control_state.schema.json",
+    "title": "Executive Control State Storage",
+    "description": "Storage schema for comprehensive executive control state including goal hierarchies, cognitive flexibility, inhibitory control, and performance monitoring state",
+    "type": "object",
+    "required": [
+        "control_state_id",
+        "timestamp",
+        "goal_management_state",
+        "cognitive_control_state",
+        "neural_circuit_state",
+        "system_coordination_state"
+    ],
+    "properties": {
+        "control_state_id": {
+            "type": "string",
+            "description": "Unique identifier for this executive control state snapshot"
+        },
+        "timestamp": {
+            "type": "string",
+            "format": "date-time"
+        },
+        "goal_management_state": {
+            "type": "object",
+            "properties": {
+                "active_goal_hierarchy": {
+                    "type": "object",
+                    "properties": {
+                        "primary_goals": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "goal_id": {
+                                        "type": "string"
+                                    },
+                                    "goal_state": {
+                                        "type": "string",
+                                        "enum": [
+                                            "active",
+                                            "suspended",
+                                            "achieved",
+                                            "abandoned",
+                                            "blocked"
+                                        ]
+                                    },
+                                    "priority_level": {
+                                        "type": "number"
+                                    },
+                                    "progress_percentage": {
+                                        "type": "number"
+                                    },
+                                    "last_updated": {
+                                        "type": "string",
+                                        "format": "date-time"
+                                    }
+                                }
+                            }
+                        },
+                        "goal_relationships": {
+                            "type": "object",
+                            "properties": {
+                                "hierarchical_structure": {
+                                    "type": "object"
+                                },
+                                "dependency_graph": {
+                                    "type": "object"
+                                },
+                                "conflict_relationships": {
+                                    "type": "array"
+                                }
+                            }
+                        },
+                        "goal_stack": {
+                            "type": "array",
+                            "description": "Stack-based goal activation for hierarchical goal management"
+                        }
+                    }
+                },
+                "goal_processing_buffers": {
+                    "type": "object",
+                    "properties": {
+                        "goal_working_memory": {
+                            "type": "object",
+                            "properties": {
+                                "maintained_goals": {
+                                    "type": "array"
+                                },
+                                "goal_rehearsal_state": {
+                                    "type": "object"
+                                },
+                                "goal_interference_levels": {
+                                    "type": "array"
+                                }
+                            }
+                        },
+                        "goal_episodic_buffer": {
+                            "type": "object",
+                            "properties": {
+                                "goal_context_integration": {
+                                    "type": "object"
+                                },
+                                "goal_memory_binding": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "cognitive_control_state": {
+            "type": "object",
+            "properties": {
+                "control_mode": {
+                    "type": "string",
+                    "enum": [
+                        "proactive",
+                        "reactive",
+                        "mixed",
+                        "automatic",
+                        "controlled"
+                    ]
+                },
+                "flexibility_state": {
+                    "type": "object",
+                    "properties": {
+                        "current_task_set": {
+                            "type": "object",
+                            "properties": {
+                                "task_set_id": {
+                                    "type": "string"
+                                },
+                                "activation_level": {
+                                    "type": "number"
+                                },
+                                "stability": {
+                                    "type": "number"
+                                },
+                                "switching_readiness": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "alternative_task_sets": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "task_set_id": {
+                                        "type": "string"
+                                    },
+                                    "pre_activation_level": {
+                                        "type": "number"
+                                    },
+                                    "switch_cost_estimate": {
+                                        "type": "number"
+                                    }
+                                }
+                            }
+                        },
+                        "switching_history": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "switch_timestamp": {
+                                        "type": "string",
+                                        "format": "date-time"
+                                    },
+                                    "from_task_set": {
+                                        "type": "string"
+                                    },
+                                    "to_task_set": {
+                                        "type": "string"
+                                    },
+                                    "switch_cost_actual": {
+                                        "type": "number"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "inhibitory_control_state": {
+                    "type": "object",
+                    "properties": {
+                        "global_inhibition_level": {
+                            "type": "number"
+                        },
+                        "selective_inhibition_targets": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "target_id": {
+                                        "type": "string"
+                                    },
+                                    "inhibition_strength": {
+                                        "type": "number"
+                                    },
+                                    "inhibition_duration": {
+                                        "type": "number"
+                                    }
+                                }
+                            }
+                        },
+                        "inhibitory_capacity": {
+                            "type": "object",
+                            "properties": {
+                                "maximum_capacity": {
+                                    "type": "number"
+                                },
+                                "current_utilization": {
+                                    "type": "number"
+                                },
+                                "depletion_level": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                },
+                "conflict_monitoring_state": {
+                    "type": "object",
+                    "properties": {
+                        "current_conflicts": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "conflict_id": {
+                                        "type": "string"
+                                    },
+                                    "conflict_type": {
+                                        "type": "string"
+                                    },
+                                    "severity": {
+                                        "type": "number"
+                                    },
+                                    "resolution_status": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        },
+                        "monitoring_sensitivity": {
+                            "type": "number"
+                        },
+                        "control_adjustment_queue": {
+                            "type": "array"
+                        }
+                    }
+                }
+            }
+        },
+        "neural_circuit_state": {
+            "type": "object",
+            "properties": {
+                "prefrontal_cortex_state": {
+                    "type": "object",
+                    "properties": {
+                        "dorsolateral_pfc": {
+                            "type": "object",
+                            "properties": {
+                                "working_memory_maintenance_activity": {
+                                    "type": "number"
+                                },
+                                "cognitive_control_activity": {
+                                    "type": "number"
+                                },
+                                "top_down_attention_activity": {
+                                    "type": "number"
+                                },
+                                "neural_efficiency": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "ventromedial_pfc": {
+                            "type": "object",
+                            "properties": {
+                                "value_representation_activity": {
+                                    "type": "number"
+                                },
+                                "decision_making_activity": {
+                                    "type": "number"
+                                },
+                                "emotion_regulation_activity": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "anterior_cingulate_cortex": {
+                            "type": "object",
+                            "properties": {
+                                "conflict_monitoring_activity": {
+                                    "type": "number"
+                                },
+                                "error_detection_activity": {
+                                    "type": "number"
+                                },
+                                "performance_monitoring_activity": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                },
+                "subcortical_circuit_state": {
+                    "type": "object",
+                    "properties": {
+                        "basal_ganglia": {
+                            "type": "object",
+                            "properties": {
+                                "action_selection_state": {
+                                    "type": "number"
+                                },
+                                "response_inhibition_state": {
+                                    "type": "number"
+                                },
+                                "habit_control_state": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "thalamus": {
+                            "type": "object",
+                            "properties": {
+                                "relay_state": {
+                                    "type": "object"
+                                },
+                                "attention_modulation_state": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "network_connectivity": {
+                    "type": "object",
+                    "properties": {
+                        "fronto_parietal_network_strength": {
+                            "type": "number"
+                        },
+                        "cingulo_opercular_network_strength": {
+                            "type": "number"
+                        },
+                        "default_mode_network_suppression": {
+                            "type": "number"
+                        }
+                    }
+                }
+            }
+        },
+        "system_coordination_state": {
+            "type": "object",
+            "properties": {
+                "phase1_integration": {
+                    "type": "object",
+                    "properties": {
+                        "attention_gate_coordination": {
+                            "type": "object",
+                            "properties": {
+                                "executive_attention_control": {
+                                    "type": "number"
+                                },
+                                "goal_driven_attention_biasing": {
+                                    "type": "number"
+                                },
+                                "distractor_suppression_strength": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "working_memory_coordination": {
+                            "type": "object",
+                            "properties": {
+                                "executive_buffer_control": {
+                                    "type": "number"
+                                },
+                                "goal_maintenance_strength": {
+                                    "type": "number"
+                                },
+                                "interference_resolution_capability": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "consciousness_coordination": {
+                            "type": "object",
+                            "properties": {
+                                "executive_conscious_control": {
+                                    "type": "number"
+                                },
+                                "meta_cognitive_awareness": {
+                                    "type": "number"
+                                },
+                                "intentional_control_strength": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                },
+                "phase2_memory_coordination": {
+                    "type": "object",
+                    "properties": {
+                        "episodic_memory_control": {
+                            "type": "number"
+                        },
+                        "semantic_memory_control": {
+                            "type": "number"
+                        },
+                        "memory_consolidation_control": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "cross_system_synchronization": {
+                    "type": "object",
+                    "properties": {
+                        "system_coherence_measure": {
+                            "type": "number"
+                        },
+                        "information_integration_quality": {
+                            "type": "number"
+                        },
+                        "coordinated_control_effectiveness": {
+                            "type": "number"
+                        }
+                    }
+                }
+            }
+        },
+        "performance_state": {
+            "type": "object",
+            "properties": {
+                "current_performance_metrics": {
+                    "type": "object",
+                    "properties": {
+                        "accuracy": {
+                            "type": "number"
+                        },
+                        "response_time": {
+                            "type": "number"
+                        },
+                        "efficiency": {
+                            "type": "number"
+                        },
+                        "stability": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "performance_history": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "timestamp": {
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            "performance_snapshot": {
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "adaptation_state": {
+                    "type": "object",
+                    "properties": {
+                        "current_adaptations": {
+                            "type": "array"
+                        },
+                        "adaptation_effectiveness": {
+                            "type": "number"
+                        },
+                        "learning_rate": {
+                            "type": "number"
+                        }
+                    }
+                }
+            }
+        },
+        "configuration_parameters": {
+            "type": "object",
+            "properties": {
+                "control_sensitivity": {
+                    "type": "number"
+                },
+                "flexibility_bias": {
+                    "type": "number"
+                },
+                "inhibition_threshold": {
+                    "type": "number"
+                },
+                "conflict_resolution_strategy": {
+                    "type": "string"
+                },
+                "performance_optimization_targets": {
+                    "type": "array"
+                }
+            }
+        },
+        "metadata": {
+            "type": "object",
+            "properties": {
+                "state_version": {
+                    "type": "string"
+                },
+                "creation_context": {
+                    "type": "string"
+                },
+                "last_major_update": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "state_integrity_hash": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,19 @@
+{
+  "module": "perception",
+  "version": "1.0.0",
+  "envelope": "../events/envelope.schema.json",
+  "events": [
+    {
+      "name": "SENSORY_FRAME",
+      "version": 1,
+      "schema": "./../storage/schemas/sensory_frame.schema.json",
+      "subject": "device:{device_id}",
+      "key": "frame_id",
+      "ordering": "best_effort_ts",
+      "idempotency": { "dedupe_key": "envelope.id" },
+      "retry": { "max_attempts": 5, "backoff": "exponential:100ms..2s" },
+      "dlq": { "topic": "DLQ.SENSORY_FRAME" },
+      "band_defaults": { "mic":"AMBER", "camera":"AMBER", "other":"GREEN" }
+    }
+  ]
+}

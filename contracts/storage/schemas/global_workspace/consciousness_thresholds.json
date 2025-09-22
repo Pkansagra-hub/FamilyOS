@@ -1,0 +1,726 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://familyos.local/contracts/storage/schemas/global_workspace/consciousness_thresholds.schema.json",
+    "title": "Consciousness Thresholds",
+    "description": "Storage schema for consciousness thresholds that determine when content becomes consciously accessible in the global workspace.",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "id",
+        "created_at",
+        "updated_at",
+        "threshold_type",
+        "threshold_configuration",
+        "activation_conditions",
+        "performance_metrics"
+    ],
+    "properties": {
+        "id": {
+            "oneOf": [
+                {
+                    "type": "string",
+                    "format": "uuid"
+                },
+                {
+                    "type": "string",
+                    "pattern": "^[0-7][0-9A-HJKMNP-TV-Z]{25}$"
+                }
+            ],
+            "description": "Unique identifier for this consciousness threshold configuration"
+        },
+        "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "When this threshold configuration was created"
+        },
+        "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "When this threshold configuration was last updated"
+        },
+        "threshold_type": {
+            "type": "string",
+            "enum": [
+                "activation_threshold",
+                "integration_threshold",
+                "competition_threshold",
+                "attention_threshold",
+                "temporal_threshold",
+                "quality_threshold"
+            ],
+            "description": "Type of consciousness threshold this configuration defines"
+        },
+        "threshold_configuration": {
+            "type": "object",
+            "required": [
+                "threshold_value",
+                "threshold_function",
+                "scaling_parameters"
+            ],
+            "properties": {
+                "threshold_value": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Base threshold value for consciousness access"
+                },
+                "threshold_function": {
+                    "type": "string",
+                    "enum": [
+                        "linear",
+                        "sigmoid",
+                        "exponential",
+                        "step",
+                        "adaptive",
+                        "competitive"
+                    ],
+                    "description": "Mathematical function governing threshold behavior"
+                },
+                "scaling_parameters": {
+                    "type": "object",
+                    "properties": {
+                        "slope": {
+                            "type": "number",
+                            "description": "Slope parameter for threshold function"
+                        },
+                        "offset": {
+                            "type": "number",
+                            "description": "Offset parameter for threshold positioning"
+                        },
+                        "gain": {
+                            "type": "number",
+                            "description": "Gain parameter for threshold sensitivity"
+                        },
+                        "saturation": {
+                            "type": "number",
+                            "description": "Saturation level for threshold response"
+                        }
+                    },
+                    "description": "Parameters that scale and shape the threshold function"
+                },
+                "threshold_dynamics": {
+                    "type": "object",
+                    "properties": {
+                        "adaptation_rate": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "stability_factor": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "homeostatic_target": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "noise_tolerance": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    },
+                    "description": "Dynamic properties of threshold behavior"
+                }
+            },
+            "description": "Configuration parameters for the consciousness threshold"
+        },
+        "activation_conditions": {
+            "type": "object",
+            "required": [
+                "trigger_conditions",
+                "context_sensitivity",
+                "temporal_constraints"
+            ],
+            "properties": {
+                "trigger_conditions": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "condition_type": {
+                                "type": "string"
+                            },
+                            "condition_parameters": {
+                                "type": "object"
+                            },
+                            "activation_strength": {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 1
+                            },
+                            "condition_priority": {
+                                "type": "integer",
+                                "minimum": 1
+                            }
+                        }
+                    },
+                    "description": "Conditions that can trigger threshold crossing"
+                },
+                "context_sensitivity": {
+                    "type": "object",
+                    "properties": {
+                        "cognitive_state_modulation": {
+                            "type": "object",
+                            "properties": {
+                                "attention_state_influence": {
+                                    "type": "number"
+                                },
+                                "arousal_level_influence": {
+                                    "type": "number"
+                                },
+                                "cognitive_load_influence": {
+                                    "type": "number"
+                                },
+                                "emotional_state_influence": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "environmental_modulation": {
+                            "type": "object",
+                            "properties": {
+                                "stimulus_context": {
+                                    "type": "object"
+                                },
+                                "task_demands": {
+                                    "type": "object"
+                                },
+                                "social_context": {
+                                    "type": "object"
+                                },
+                                "temporal_context": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "individual_differences": {
+                            "type": "object",
+                            "properties": {
+                                "baseline_sensitivity": {
+                                    "type": "number"
+                                },
+                                "adaptation_capacity": {
+                                    "type": "number"
+                                },
+                                "learning_modulation": {
+                                    "type": "number"
+                                },
+                                "personality_factors": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "description": "How context influences threshold behavior"
+                },
+                "temporal_constraints": {
+                    "type": "object",
+                    "properties": {
+                        "minimum_activation_duration": {
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "temporal_summation_window": {
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "refractory_period": {
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "persistence_requirements": {
+                            "type": "object"
+                        }
+                    },
+                    "description": "Temporal constraints on threshold activation"
+                }
+            },
+            "description": "Conditions and constraints for threshold activation"
+        },
+        "performance_metrics": {
+            "type": "object",
+            "properties": {
+                "sensitivity_metrics": {
+                    "type": "object",
+                    "properties": {
+                        "true_positive_rate": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "false_positive_rate": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "true_negative_rate": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "false_negative_rate": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "discrimination_accuracy": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    },
+                    "description": "Sensitivity and specificity metrics"
+                },
+                "efficiency_metrics": {
+                    "type": "object",
+                    "properties": {
+                        "processing_efficiency": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "resource_utilization": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "response_latency": {
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "energy_efficiency": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    },
+                    "description": "Efficiency metrics for threshold operation"
+                },
+                "stability_metrics": {
+                    "type": "object",
+                    "properties": {
+                        "threshold_stability": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "response_consistency": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "adaptation_stability": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "noise_resistance": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    },
+                    "description": "Stability and robustness metrics"
+                }
+            },
+            "description": "Performance metrics for threshold operation"
+        },
+        "adaptation_mechanisms": {
+            "type": "object",
+            "properties": {
+                "learning_algorithms": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "algorithm_name": {
+                                "type": "string"
+                            },
+                            "algorithm_parameters": {
+                                "type": "object"
+                            },
+                            "learning_rate": {
+                                "type": "number"
+                            },
+                            "adaptation_scope": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "description": "Algorithms used for threshold adaptation"
+                },
+                "feedback_mechanisms": {
+                    "type": "object",
+                    "properties": {
+                        "performance_feedback": {
+                            "type": "object",
+                            "properties": {
+                                "feedback_sources": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                },
+                                "feedback_integration": {
+                                    "type": "string"
+                                },
+                                "feedback_weighting": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "error_correction": {
+                            "type": "object",
+                            "properties": {
+                                "error_detection": {
+                                    "type": "object"
+                                },
+                                "correction_mechanisms": {
+                                    "type": "array"
+                                },
+                                "correction_strength": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "predictive_adjustment": {
+                            "type": "object",
+                            "properties": {
+                                "prediction_horizon": {
+                                    "type": "number"
+                                },
+                                "prediction_accuracy": {
+                                    "type": "number"
+                                },
+                                "adjustment_magnitude": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    },
+                    "description": "Feedback mechanisms for threshold adaptation"
+                },
+                "homeostatic_regulation": {
+                    "type": "object",
+                    "properties": {
+                        "target_activation_rate": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "regulation_strength": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "regulation_time_constant": {
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "disturbance_rejection": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    },
+                    "description": "Homeostatic regulation of threshold levels"
+                }
+            },
+            "description": "Mechanisms for adaptive threshold adjustment"
+        },
+        "threshold_hierarchy": {
+            "type": "object",
+            "properties": {
+                "hierarchical_structure": {
+                    "type": "object",
+                    "properties": {
+                        "primary_threshold": {
+                            "type": "number"
+                        },
+                        "secondary_thresholds": {
+                            "type": "object"
+                        },
+                        "threshold_interactions": {
+                            "type": "object"
+                        },
+                        "hierarchy_rules": {
+                            "type": "array"
+                        }
+                    },
+                    "description": "Hierarchical organization of multiple thresholds"
+                },
+                "threshold_competition": {
+                    "type": "object",
+                    "properties": {
+                        "competition_rules": {
+                            "type": "array"
+                        },
+                        "winner_selection": {
+                            "type": "string"
+                        },
+                        "competition_dynamics": {
+                            "type": "object"
+                        },
+                        "resolution_mechanisms": {
+                            "type": "array"
+                        }
+                    },
+                    "description": "Competition dynamics between thresholds"
+                },
+                "threshold_cooperation": {
+                    "type": "object",
+                    "properties": {
+                        "cooperation_mechanisms": {
+                            "type": "array"
+                        },
+                        "resource_sharing": {
+                            "type": "object"
+                        },
+                        "mutual_enhancement": {
+                            "type": "object"
+                        },
+                        "coordination_protocols": {
+                            "type": "array"
+                        }
+                    },
+                    "description": "Cooperation mechanisms between thresholds"
+                }
+            },
+            "description": "Hierarchical and interactive aspects of thresholds"
+        },
+        "quality_assurance": {
+            "type": "object",
+            "properties": {
+                "validation_criteria": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "criterion_type": {
+                                "type": "string"
+                            },
+                            "criterion_description": {
+                                "type": "string"
+                            },
+                            "validation_method": {
+                                "type": "string"
+                            },
+                            "acceptance_threshold": {
+                                "type": "number"
+                            }
+                        }
+                    },
+                    "description": "Criteria for validating threshold performance"
+                },
+                "monitoring_systems": {
+                    "type": "object",
+                    "properties": {
+                        "real_time_monitoring": {
+                            "type": "object"
+                        },
+                        "anomaly_detection": {
+                            "type": "object"
+                        },
+                        "performance_tracking": {
+                            "type": "object"
+                        },
+                        "degradation_detection": {
+                            "type": "object"
+                        }
+                    },
+                    "description": "Systems for monitoring threshold quality"
+                },
+                "maintenance_procedures": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "procedure_name": {
+                                "type": "string"
+                            },
+                            "procedure_description": {
+                                "type": "string"
+                            },
+                            "execution_frequency": {
+                                "type": "string"
+                            },
+                            "success_criteria": {
+                                "type": "object"
+                            }
+                        }
+                    },
+                    "description": "Procedures for maintaining threshold quality"
+                }
+            },
+            "description": "Quality assurance for threshold operation"
+        },
+        "integration_specifications": {
+            "type": "object",
+            "properties": {
+                "system_integration": {
+                    "type": "object",
+                    "properties": {
+                        "thalamic_integration": {
+                            "type": "object",
+                            "properties": {
+                                "gate_coordination": {
+                                    "type": "object"
+                                },
+                                "salience_integration": {
+                                    "type": "object"
+                                },
+                                "attention_coordination": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "working_memory_integration": {
+                            "type": "object",
+                            "properties": {
+                                "capacity_coordination": {
+                                    "type": "object"
+                                },
+                                "executive_integration": {
+                                    "type": "object"
+                                },
+                                "buffer_coordination": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "hippocampal_integration": {
+                            "type": "object",
+                            "properties": {
+                                "memory_coordination": {
+                                    "type": "object"
+                                },
+                                "consolidation_integration": {
+                                    "type": "object"
+                                },
+                                "retrieval_coordination": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "description": "Integration with other cognitive systems"
+                },
+                "information_flow": {
+                    "type": "object",
+                    "properties": {
+                        "input_channels": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "output_channels": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "bidirectional_channels": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "information_transformation": {
+                            "type": "object"
+                        }
+                    },
+                    "description": "Information flow specifications"
+                },
+                "coordination_protocols": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "protocol_name": {
+                                "type": "string"
+                            },
+                            "protocol_description": {
+                                "type": "string"
+                            },
+                            "participants": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "coordination_rules": {
+                                "type": "object"
+                            }
+                        }
+                    },
+                    "description": "Protocols for coordinating with other systems"
+                }
+            },
+            "description": "Specifications for integrating with other cognitive systems"
+        },
+        "experimental_validation": {
+            "type": "object",
+            "properties": {
+                "empirical_validation": {
+                    "type": "object",
+                    "properties": {
+                        "experimental_paradigms": {
+                            "type": "array"
+                        },
+                        "validation_studies": {
+                            "type": "array"
+                        },
+                        "empirical_support": {
+                            "type": "object"
+                        },
+                        "predictive_validity": {
+                            "type": "number"
+                        }
+                    },
+                    "description": "Empirical validation of threshold behavior"
+                },
+                "computational_validation": {
+                    "type": "object",
+                    "properties": {
+                        "simulation_studies": {
+                            "type": "array"
+                        },
+                        "model_validation": {
+                            "type": "object"
+                        },
+                        "parameter_sensitivity": {
+                            "type": "object"
+                        },
+                        "robustness_testing": {
+                            "type": "object"
+                        }
+                    },
+                    "description": "Computational validation of threshold models"
+                },
+                "clinical_validation": {
+                    "type": "object",
+                    "properties": {
+                        "clinical_correlates": {
+                            "type": "array"
+                        },
+                        "disorder_associations": {
+                            "type": "object"
+                        },
+                        "therapeutic_implications": {
+                            "type": "object"
+                        },
+                        "diagnostic_utility": {
+                            "type": "number"
+                        }
+                    },
+                    "description": "Clinical validation and applications"
+                }
+            },
+            "description": "Experimental and empirical validation of threshold configurations"
+        }
+    }
+}

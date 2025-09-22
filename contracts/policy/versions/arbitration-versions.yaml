@@ -1,0 +1,10 @@
+module: arbitration
+current: 1.0.0
+history:
+  - version: 1.0.0
+    date: 2025-09-10
+    type: minor
+    notes: "Initial per-module bundle; decision/risk events & logs."
+compatibility:
+  envelope_major: 1
+deprecations: []

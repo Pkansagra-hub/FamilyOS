@@ -1,0 +1,39 @@
+{
+  "id": "01JA9X6MXXXXXXXXXXXXXXXXXX",
+  "created_ts": "2025-09-16T10:30:00.000Z",
+  "cognitive_trace_id": "01JA9X6NYYYYYYYYYYYYYYYYYY",
+  "band": "GREEN",
+  "space_id": "shared:household",
+  "pipeline_id": "P03",
+  "input_events": [
+    "cognitive_request",
+    "input_data"
+  ],
+  "output_events": [
+    "cognitive_response",
+    "output_data"
+  ],
+  "processing_stage": "cognitive_processing",
+  "performance_sla": {
+    "max_latency_ms": 120,
+    "throughput_per_sec": 100,
+    "accuracy_threshold": 0.95
+  },
+  "neural_substrate": {
+    "brain_region": "hippocampus",
+    "neural_circuit": "hippocampal-cortical consolidation",
+    "neurotransmitter_systems": [
+      "acetylcholine",
+      "norepinephrine"
+    ],
+    "oscillatory_patterns": {
+      "frequency_band": "delta",
+      "amplitude": 0.74,
+      "phase_coherence": 0.78
+    }
+  },
+  "cognitive_functions": [
+    "memory",
+    "learning"
+  ]
+}

@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://familyos.local/contracts/storage/drives_state.schema.json",
+  "title": "Drives State",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "space_id",
+    "ts",
+    "homeostasis",
+    "hunger",
+    "fatigue",
+    "novelty_drive"
+  ],
+  "properties": {
+    "id": {
+      "$ref": "./common.schema.json#/$defs/ULID"
+    },
+    "space_id": {
+      "$ref": "./common.schema.json#/$defs/SpaceId"
+    },
+    "ts": {
+      "$ref": "./common.schema.json#/$defs/Timestamp"
+    },
+    "homeostasis": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "hunger": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "fatigue": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "novelty_drive": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 1
+    },
+    "band": {
+      "$ref": "./common.schema.json#/$defs/Band"
+    }
+  }
+}

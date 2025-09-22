@@ -1,0 +1,31 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://familyos.local/contracts/storage/index_checkpoint.schema.json",
+  "title": "Index Rebuild Checkpoint",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "index_name",
+    "shard_id",
+    "position",
+    "ts"
+  ],
+  "properties": {
+    "id": {
+      "$ref": "./common.schema.json#/$defs/ULID"
+    },
+    "index_name": {
+      "$ref": "./common.schema.json#/$defs/IndexName"
+    },
+    "shard_id": {
+      "type": "string"
+    },
+    "position": {
+      "type": "string"
+    },
+    "ts": {
+      "$ref": "./common.schema.json#/$defs/Timestamp"
+    }
+  }
+}

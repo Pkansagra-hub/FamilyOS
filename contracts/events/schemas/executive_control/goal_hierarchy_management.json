@@ -1,0 +1,417 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "$id": "goal_hierarchy_management.schema.json",
+    "title": "Goal Hierarchy Management Event",
+    "description": "Event for managing hierarchical goal structures with prefrontal cortex control integrated with attention gating and working memory",
+    "type": "object",
+    "required": [
+        "timestamp",
+        "management_operation",
+        "goal_hierarchy",
+        "executive_control_state",
+        "phase1_coordination"
+    ],
+    "properties": {
+        "timestamp": {
+            "type": "string",
+            "format": "date-time"
+        },
+        "management_operation": {
+            "type": "string",
+            "enum": [
+                "goal_creation",
+                "priority_update",
+                "goal_decomposition",
+                "goal_completion",
+                "goal_abandonment",
+                "hierarchy_restructuring"
+            ]
+        },
+        "goal_hierarchy": {
+            "type": "object",
+            "required": [
+                "primary_goals",
+                "subgoal_structure",
+                "goal_relationships"
+            ],
+            "properties": {
+                "primary_goals": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "goal_id": {
+                                "type": "string"
+                            },
+                            "goal_type": {
+                                "type": "string",
+                                "enum": [
+                                    "achievement",
+                                    "maintenance",
+                                    "avoidance",
+                                    "approach",
+                                    "performance"
+                                ]
+                            },
+                            "priority_level": {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 1
+                            },
+                            "urgency_factor": {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 1
+                            },
+                            "goal_state": {
+                                "type": "string",
+                                "enum": [
+                                    "active",
+                                    "suspended",
+                                    "achieved",
+                                    "abandoned",
+                                    "blocked"
+                                ]
+                            },
+                            "prefrontal_representation": {
+                                "type": "object",
+                                "properties": {
+                                    "dlpfc_encoding": {
+                                        "type": "object"
+                                    },
+                                    "vmpfc_valuation": {
+                                        "type": "object"
+                                    },
+                                    "acc_monitoring": {
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "subgoal_structure": {
+                    "type": "object",
+                    "properties": {
+                        "decomposition_tree": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "parent_goal_id": {
+                                        "type": "string"
+                                    },
+                                    "subgoals": {
+                                        "type": "array"
+                                    },
+                                    "completion_strategy": {
+                                        "type": "string"
+                                    },
+                                    "dependency_relationships": {
+                                        "type": "array"
+                                    }
+                                }
+                            }
+                        },
+                        "temporal_sequencing": {
+                            "type": "object",
+                            "properties": {
+                                "sequential_goals": {
+                                    "type": "array"
+                                },
+                                "parallel_goals": {
+                                    "type": "array"
+                                },
+                                "temporal_constraints": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "goal_relationships": {
+                    "type": "object",
+                    "properties": {
+                        "facilitating_relationships": {
+                            "type": "array"
+                        },
+                        "competing_relationships": {
+                            "type": "array"
+                        },
+                        "conflict_resolution_strategies": {
+                            "type": "array"
+                        }
+                    }
+                }
+            }
+        },
+        "executive_control_state": {
+            "type": "object",
+            "required": [
+                "control_mode",
+                "cognitive_flexibility",
+                "inhibitory_control"
+            ],
+            "properties": {
+                "control_mode": {
+                    "type": "string",
+                    "enum": [
+                        "proactive",
+                        "reactive",
+                        "mixed",
+                        "automatic",
+                        "controlled"
+                    ]
+                },
+                "cognitive_flexibility": {
+                    "type": "object",
+                    "properties": {
+                        "task_switching_ability": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "mental_set_shifting": {
+                            "type": "number"
+                        },
+                        "cognitive_rigidity_index": {
+                            "type": "number"
+                        },
+                        "adaptation_rate": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "inhibitory_control": {
+                    "type": "object",
+                    "properties": {
+                        "response_inhibition": {
+                            "type": "number"
+                        },
+                        "interference_resolution": {
+                            "type": "number"
+                        },
+                        "cognitive_inhibition": {
+                            "type": "number"
+                        },
+                        "prepotent_response_suppression": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "prefrontal_circuits": {
+                    "type": "object",
+                    "properties": {
+                        "dlpfc_activity": {
+                            "type": "object",
+                            "properties": {
+                                "working_memory_maintenance": {
+                                    "type": "number"
+                                },
+                                "cognitive_control": {
+                                    "type": "number"
+                                },
+                                "top_down_attention": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "vmpfc_activity": {
+                            "type": "object",
+                            "properties": {
+                                "value_representation": {
+                                    "type": "number"
+                                },
+                                "decision_making": {
+                                    "type": "number"
+                                },
+                                "emotion_regulation": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "acc_activity": {
+                            "type": "object",
+                            "properties": {
+                                "conflict_monitoring": {
+                                    "type": "number"
+                                },
+                                "error_detection": {
+                                    "type": "number"
+                                },
+                                "performance_monitoring": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "phase1_coordination": {
+            "type": "object",
+            "required": [
+                "attention_gate_integration",
+                "working_memory_coordination",
+                "consciousness_integration"
+            ],
+            "properties": {
+                "attention_gate_integration": {
+                    "type": "object",
+                    "properties": {
+                        "goal_driven_attention": {
+                            "type": "object",
+                            "properties": {
+                                "thalamic_relay_biasing": {
+                                    "type": "number"
+                                },
+                                "salience_modulation": {
+                                    "type": "number"
+                                },
+                                "goal_relevance_boost": {
+                                    "type": "number"
+                                },
+                                "distractor_suppression": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "attention_control_signals": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "signal_type": {
+                                        "type": "string"
+                                    },
+                                    "target_circuit": {
+                                        "type": "string"
+                                    },
+                                    "control_strength": {
+                                        "type": "number"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "working_memory_coordination": {
+                    "type": "object",
+                    "properties": {
+                        "goal_maintenance": {
+                            "type": "object",
+                            "properties": {
+                                "active_goal_buffer": {
+                                    "type": "string"
+                                },
+                                "goal_rehearsal_strategy": {
+                                    "type": "string"
+                                },
+                                "goal_updating_mechanism": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "executive_buffer_coordination": {
+                            "type": "object",
+                            "properties": {
+                                "central_executive_involvement": {
+                                    "type": "boolean"
+                                },
+                                "buffer_allocation_strategy": {
+                                    "type": "string"
+                                },
+                                "interference_management": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "consciousness_integration": {
+                    "type": "object",
+                    "properties": {
+                        "goal_consciousness": {
+                            "type": "object",
+                            "properties": {
+                                "conscious_goal_access": {
+                                    "type": "boolean"
+                                },
+                                "goal_reportability": {
+                                    "type": "number"
+                                },
+                                "intentional_control": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "global_workspace_goal_broadcast": {
+                            "type": "object",
+                            "properties": {
+                                "goal_coalition_strength": {
+                                    "type": "number"
+                                },
+                                "goal_competition_dynamics": {
+                                    "type": "object"
+                                },
+                                "cross_system_goal_coordination": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "performance_monitoring": {
+            "type": "object",
+            "properties": {
+                "goal_progress_tracking": {
+                    "type": "object",
+                    "properties": {
+                        "completion_percentage": {
+                            "type": "number"
+                        },
+                        "milestone_achievements": {
+                            "type": "array"
+                        },
+                        "progress_rate": {
+                            "type": "number"
+                        },
+                        "estimated_completion_time": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "conflict_detection": {
+                    "type": "object",
+                    "properties": {
+                        "goal_conflicts_detected": {
+                            "type": "array"
+                        },
+                        "conflict_severity": {
+                            "type": "number"
+                        },
+                        "resolution_urgency": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "adaptation_triggers": {
+                    "type": "object",
+                    "properties": {
+                        "goal_revision_needed": {
+                            "type": "boolean"
+                        },
+                        "strategy_adjustment_required": {
+                            "type": "boolean"
+                        },
+                        "priority_rebalancing_triggered": {
+                            "type": "boolean"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,10 @@
+fields:
+  - path: meta.face_boxes
+    action: strip
+  - path: meta.gps
+    action: coarsen
+  - path: data_ref
+    action: keep_pointer_only
+exports:
+  allow_raw: false
+  exemptions: []

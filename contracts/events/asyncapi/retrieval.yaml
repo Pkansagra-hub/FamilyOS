@@ -1,0 +1,649 @@
+asyncapi: 3.0.0
+info:
+  title: Retrieval Service Event Integration
+  version: 1.0.0
+  description: |
+    AsyncAPI specification for retrieval service event-driven integration
+    Covers P01 Recall pipeline and P17 QoS pipeline event flows
+  contact:
+    name: Memory Module Team
+    email: memory-team@familyos.dev
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+
+defaultContentType: application/json
+
+servers:
+  local_event_bus:
+    host: localhost:5432
+    protocol: jsonl-wal
+    description: Local JSONL WAL event bus
+    security:
+      - mtls: []
+    bindings:
+      jsonl:
+        durability: persistent
+        ordering: fifo
+        partitioning: by_space_id
+
+  p01_pipeline:
+    host: pipeline.memory.local
+    protocol: event-stream
+    description: P01 Recall pipeline integration
+    security:
+      - bearer: []
+
+  p17_qos_pipeline:
+    host: qos.memory.local
+    protocol: event-stream
+    description: P17 QoS governance pipeline
+    security:
+      - bearer: []
+
+channels:
+  retrieval_requests:
+    address: events/retrieval/requests
+    description: Inbound retrieval requests from workspace/UI
+    messages:
+      retrievalRequestReceived:
+        $ref: "#/components/messages/RetrievalRequestReceived"
+    bindings:
+      jsonl:
+        retention: 30d
+        compaction: false
+
+  retrieval_responses:
+    address: events/retrieval/responses
+    description: Outbound retrieval responses to consumers
+    messages:
+      retrievalResponseReady:
+        $ref: "#/components/messages/RetrievalResponseReady"
+    bindings:
+      jsonl:
+        retention: 7d
+        compaction: true
+
+  qos_events:
+    address: events/retrieval/qos
+    description: QoS monitoring and enforcement events
+    messages:
+      qosBudgetExceeded:
+        $ref: "#/components/messages/QoSBudgetExceeded"
+      qosMetricsUpdated:
+        $ref: "#/components/messages/QoSMetricsUpdated"
+    bindings:
+      jsonl:
+        retention: 24h
+        compaction: false
+
+  error_events:
+    address: events/retrieval/errors
+    description: Error and failure events
+    messages:
+      retrievalError:
+        $ref: "#/components/messages/RetrievalError"
+    bindings:
+      jsonl:
+        retention: 90d
+        compaction: false
+
+  trace_events:
+    address: events/retrieval/traces
+    description: Detailed tracing events for observability
+    messages:
+      retrievalTraceCompleted:
+        $ref: "#/components/messages/RetrievalTraceCompleted"
+    bindings:
+      jsonl:
+        retention: 3d
+        compaction: true
+
+operations:
+  processRetrievalRequest:
+    action: receive
+    channel:
+      $ref: "#/channels/retrieval_requests"
+    summary: Process incoming retrieval request
+    description: |
+      Receives retrieval requests from workspace broadcasts and UI interactions.
+      Triggers P01 recall pipeline processing.
+    security:
+      - mtls: []
+      - bearer: []
+    bindings:
+      jsonl:
+        offset_management: automatic
+        consumer_group: retrieval_processors
+
+  publishRetrievalResponse:
+    action: send
+    channel:
+      $ref: "#/channels/retrieval_responses"
+    summary: Publish retrieval results
+    description: |
+      Publishes completed retrieval responses to downstream consumers
+      including workspace, arbitration, and observability systems.
+
+  monitorQoSBudgets:
+    action: receive
+    channel:
+      $ref: "#/channels/qos_events"
+    summary: Monitor QoS budget compliance
+    description: |
+      Receives QoS events from P17 pipeline for budget enforcement
+      and performance monitoring.
+
+  emitTraceEvents:
+    action: send
+    channel:
+      $ref: "#/channels/trace_events"
+    summary: Emit detailed tracing information
+    description: |
+      Publishes trace events for debugging and performance analysis
+      when return_trace is enabled in requests.
+
+components:
+  messages:
+    RetrievalRequestReceived:
+      name: RetrievalRequestReceived
+      title: Retrieval Request Received
+      summary: A new retrieval request has been received
+      contentType: application/json
+      payload:
+        $ref: "#/components/schemas/RetrievalRequestEvent"
+      correlationId:
+        location: $message.payload.trace_id
+      examples:
+        - name: basic_query
+          summary: Basic memory query
+          payload:
+            event_type: "RETRIEVAL_REQUEST_RECEIVED"
+            timestamp: "2025-09-16T10:30:00Z"
+            trace_id: "a1b2c3d4e5f6789012345678deadbeef"
+            user_id: "alice_researcher"
+            request_id: "req_12345"
+            query: "machine learning research notes"
+            space_id: "shared:research_team"
+            k: 10
+            qos_budget_ms: 100
+            filters:
+              bands: ["GREEN", "AMBER"]
+              topics: ["machine_learning"]
+            return_trace: false
+
+    RetrievalResponseReady:
+      name: RetrievalResponseReady
+      title: Retrieval Response Ready
+      summary: Retrieval processing completed with results
+      contentType: application/json
+      payload:
+        $ref: "#/components/schemas/RetrievalResponseEvent"
+      correlationId:
+        location: $message.payload.trace_id
+      examples:
+        - name: successful_response
+          summary: Successful retrieval with results
+          payload:
+            event_type: "RETRIEVAL_RESPONSE_READY"
+            timestamp: "2025-09-16T10:30:23Z"
+            trace_id: "a1b2c3d4e5f6789012345678deadbeef"
+            user_id: "alice_researcher"
+            request_id: "req_12345"
+            result_count: 8
+            processing_time_ms: 23.5
+            success: true
+            qos_budget_used_ms: 23.5
+            qos_budget_total_ms: 100
+
+    QoSBudgetExceeded:
+      name: QoSBudgetExceeded
+      title: QoS Budget Exceeded
+      summary: Processing exceeded allocated QoS budget
+      contentType: application/json
+      payload:
+        $ref: "#/components/schemas/QoSBudgetExceededEvent"
+      correlationId:
+        location: $message.payload.trace_id
+      examples:
+        - name: budget_exceeded
+          summary: Processing took too long
+          payload:
+            event_type: "QOS_BUDGET_EXCEEDED"
+            timestamp: "2025-09-16T10:30:15Z"
+            trace_id: "a1b2c3d4e5f6789012345678deadbeef"
+            user_id: "alice_researcher"
+            request_id: "req_12345"
+            stage: "vector_search"
+            budget_ms: 100
+            actual_ms: 156.3
+            action_taken: "graceful_degradation"
+
+    QoSMetricsUpdated:
+      name: QoSMetricsUpdated
+      title: QoS Metrics Updated
+      summary: Performance metrics have been updated
+      contentType: application/json
+      payload:
+        $ref: "#/components/schemas/QoSMetricsEvent"
+      examples:
+        - name: metrics_update
+          summary: Hourly metrics update
+          payload:
+            event_type: "QOS_METRICS_UPDATED"
+            timestamp: "2025-09-16T11:00:00Z"
+            window_start: "2025-09-16T10:00:00Z"
+            window_end: "2025-09-16T11:00:00Z"
+            metrics:
+              total_requests: 1247
+              avg_latency_ms: 34.2
+              p95_latency_ms: 87.5
+              p99_latency_ms: 234.1
+              success_rate: 0.996
+              budget_exceeded_rate: 0.008
+
+    RetrievalError:
+      name: RetrievalError
+      title: Retrieval Error
+      summary: An error occurred during retrieval processing
+      contentType: application/json
+      payload:
+        $ref: "#/components/schemas/RetrievalErrorEvent"
+      correlationId:
+        location: $message.payload.trace_id
+      examples:
+        - name: policy_denied
+          summary: Access denied by policy
+          payload:
+            event_type: "RETRIEVAL_ERROR"
+            timestamp: "2025-09-16T10:30:05Z"
+            trace_id: "a1b2c3d4e5f6789012345678deadbeef"
+            user_id: "alice_researcher"
+            request_id: "req_12345"
+            error_code: "POLICY_DENIED"
+            error_message: "Insufficient clearance for BLACK band access"
+            stage: "policy_evaluation"
+            recoverable: false
+
+    RetrievalTraceCompleted:
+      name: RetrievalTraceCompleted
+      title: Retrieval Trace Completed
+      summary: Detailed trace information for debugging
+      contentType: application/json
+      payload:
+        $ref: "#/components/schemas/RetrievalTraceEvent"
+      correlationId:
+        location: $message.payload.trace_id
+
+  schemas:
+    RetrievalRequestEvent:
+      type: object
+      description: Event payload for retrieval request received
+      properties:
+        event_type:
+          type: string
+          const: "RETRIEVAL_REQUEST_RECEIVED"
+        timestamp:
+          type: string
+          format: date-time
+        trace_id:
+          type: string
+          pattern: "^[a-f0-9]{32}$"
+        user_id:
+          type: string
+        request_id:
+          type: string
+        query:
+          type: string
+        space_id:
+          type: string
+        k:
+          type: integer
+          minimum: 1
+          maximum: 200
+        qos_budget_ms:
+          type: integer
+          minimum: 1
+          maximum: 1000
+        filters:
+          type: object
+          properties:
+            bands:
+              type: array
+              items:
+                type: string
+                enum: ["GREEN", "AMBER", "RED", "BLACK"]
+            topics:
+              type: array
+              items:
+                type: string
+            space_types:
+              type: array
+              items:
+                type: string
+            after:
+              type: string
+              format: date-time
+            before:
+              type: string
+              format: date-time
+        return_trace:
+          type: boolean
+      required:
+        - event_type
+        - timestamp
+        - trace_id
+        - user_id
+        - request_id
+        - query
+        - k
+        - qos_budget_ms
+
+    RetrievalResponseEvent:
+      type: object
+      description: Event payload for retrieval response ready
+      properties:
+        event_type:
+          type: string
+          const: "RETRIEVAL_RESPONSE_READY"
+        timestamp:
+          type: string
+          format: date-time
+        trace_id:
+          type: string
+          pattern: "^[a-f0-9]{32}$"
+        user_id:
+          type: string
+        request_id:
+          type: string
+        result_count:
+          type: integer
+          minimum: 0
+        processing_time_ms:
+          type: number
+          minimum: 0
+        success:
+          type: boolean
+        qos_budget_used_ms:
+          type: number
+          minimum: 0
+        qos_budget_total_ms:
+          type: integer
+          minimum: 1
+        warnings:
+          type: array
+          items:
+            type: string
+      required:
+        - event_type
+        - timestamp
+        - trace_id
+        - user_id
+        - request_id
+        - result_count
+        - processing_time_ms
+        - success
+
+    QoSBudgetExceededEvent:
+      type: object
+      description: Event payload for QoS budget exceeded
+      properties:
+        event_type:
+          type: string
+          const: "QOS_BUDGET_EXCEEDED"
+        timestamp:
+          type: string
+          format: date-time
+        trace_id:
+          type: string
+          pattern: "^[a-f0-9]{32}$"
+        user_id:
+          type: string
+        request_id:
+          type: string
+        stage:
+          type: string
+          enum:
+            [
+              "policy_evaluation",
+              "fts_search",
+              "vector_search",
+              "kg_search",
+              "fusion",
+              "ranking",
+              "mmr",
+              "reranking",
+              "calibration",
+            ]
+        budget_ms:
+          type: integer
+          minimum: 1
+        actual_ms:
+          type: number
+          minimum: 0
+        action_taken:
+          type: string
+          enum: ["graceful_degradation", "request_cancelled", "partial_results"]
+      required:
+        - event_type
+        - timestamp
+        - trace_id
+        - user_id
+        - request_id
+        - stage
+        - budget_ms
+        - actual_ms
+        - action_taken
+
+    QoSMetricsEvent:
+      type: object
+      description: Event payload for QoS metrics updates
+      properties:
+        event_type:
+          type: string
+          const: "QOS_METRICS_UPDATED"
+        timestamp:
+          type: string
+          format: date-time
+        window_start:
+          type: string
+          format: date-time
+        window_end:
+          type: string
+          format: date-time
+        metrics:
+          type: object
+          properties:
+            total_requests:
+              type: integer
+              minimum: 0
+            avg_latency_ms:
+              type: number
+              minimum: 0
+            p95_latency_ms:
+              type: number
+              minimum: 0
+            p99_latency_ms:
+              type: number
+              minimum: 0
+            success_rate:
+              type: number
+              minimum: 0
+              maximum: 1
+            budget_exceeded_rate:
+              type: number
+              minimum: 0
+              maximum: 1
+          required:
+            - total_requests
+            - avg_latency_ms
+            - p95_latency_ms
+            - p99_latency_ms
+            - success_rate
+            - budget_exceeded_rate
+      required:
+        - event_type
+        - timestamp
+        - window_start
+        - window_end
+        - metrics
+
+    RetrievalErrorEvent:
+      type: object
+      description: Event payload for retrieval errors
+      properties:
+        event_type:
+          type: string
+          const: "RETRIEVAL_ERROR"
+        timestamp:
+          type: string
+          format: date-time
+        trace_id:
+          type: string
+          pattern: "^[a-f0-9]{32}$"
+        user_id:
+          type: string
+        request_id:
+          type: string
+        error_code:
+          type: string
+          enum:
+            [
+              "QUERY_VALIDATION_ERROR",
+              "POLICY_DENIED",
+              "QOS_BUDGET_EXCEEDED",
+              "INDEX_UNAVAILABLE",
+              "INTERNAL_ERROR",
+            ]
+        error_message:
+          type: string
+        stage:
+          type: string
+        recoverable:
+          type: boolean
+        details:
+          type: object
+          additionalProperties: true
+      required:
+        - event_type
+        - timestamp
+        - trace_id
+        - user_id
+        - request_id
+        - error_code
+        - error_message
+        - stage
+        - recoverable
+
+    RetrievalTraceEvent:
+      type: object
+      description: Event payload for detailed retrieval traces
+      properties:
+        event_type:
+          type: string
+          const: "RETRIEVAL_TRACE_COMPLETED"
+        timestamp:
+          type: string
+          format: date-time
+        trace_id:
+          type: string
+          pattern: "^[a-f0-9]{32}$"
+        user_id:
+          type: string
+        request_id:
+          type: string
+        total_processing_time_ms:
+          type: number
+          minimum: 0
+        stages:
+          type: array
+          items:
+            type: object
+            properties:
+              name:
+                type: string
+              start_time:
+                type: string
+                format: date-time
+              duration_ms:
+                type: number
+                minimum: 0
+              candidates_in:
+                type: integer
+                minimum: 0
+              candidates_out:
+                type: integer
+                minimum: 0
+              metadata:
+                type: object
+                additionalProperties: true
+            required: ["name", "start_time", "duration_ms"]
+        features_computed:
+          type: object
+          patternProperties:
+            "^[a-z_]+$":
+              type: number
+        final_ranking_weights:
+          type: object
+          patternProperties:
+            "^[a-z_]+$":
+              type: number
+      required:
+        - event_type
+        - timestamp
+        - trace_id
+        - user_id
+        - request_id
+        - total_processing_time_ms
+        - stages
+
+  securitySchemes:
+    mtls:
+      type: X509
+      description: Mutual TLS authentication for local event bus
+    bearer:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: JWT bearer token for pipeline authentication
+
+# Pipeline Integration Flows
+x-pipeline-flows:
+  p01_recall_flow:
+    description: "P01 Recall pipeline integration flow"
+    steps:
+      1: "Workspace broadcasts trigger RETRIEVAL_REQUEST_RECEIVED"
+      2: "P01 pipeline processes request through retrieval broker"
+      3: "Intermediate QoS events emitted during processing"
+      4: "RETRIEVAL_RESPONSE_READY emitted on completion"
+      5: "Response flows to arbitration and workspace systems"
+
+  p17_qos_flow:
+    description: "P17 QoS pipeline integration flow"
+    steps:
+      1: "QoS gate evaluates budget before processing"
+      2: "QOS_BUDGET_EXCEEDED events emitted if limits hit"
+      3: "QOS_METRICS_UPDATED events published periodically"
+      4: "Performance data flows to observability systems"
+
+  error_handling_flow:
+    description: "Error propagation and recovery flow"
+    steps:
+      1: "RETRIEVAL_ERROR events emitted on failures"
+      2: "Error context preserved in trace_id correlation"
+      3: "Recoverable errors trigger retry mechanisms"
+      4: "Non-recoverable errors flow to user notifications"
+
+# Performance Characteristics
+x-performance:
+  expected_throughput: "1000 requests/second"
+  expected_latency:
+    p50: "15ms"
+    p95: "45ms"
+    p99: "120ms"
+  event_volume:
+    retrieval_requests: "1000/sec peak"
+    retrieval_responses: "1000/sec peak"
+    qos_events: "10/sec average"
+    error_events: "1/sec average"
+    trace_events: "100/sec when enabled"

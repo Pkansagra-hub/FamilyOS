@@ -1,0 +1,52 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://familyos.local/contracts/storage/episodic_sequence.schema.json",
+  "title": "Episodic Sequence",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "sequence_id",
+    "space_id",
+    "items",
+    "ts"
+  ],
+  "properties": {
+    "sequence_id": {
+      "$ref": "./common.schema.json#/$defs/ULID"
+    },
+    "space_id": {
+      "$ref": "./common.schema.json#/$defs/SpaceId"
+    },
+    "ts": {
+      "$ref": "./common.schema.json#/$defs/Timestamp"
+    },
+    "label": {
+      "type": "string"
+    },
+    "items": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "ts"
+        ],
+        "properties": {
+          "id": {
+            "$ref": "./common.schema.json#/$defs/ULID"
+          },
+          "ts": {
+            "$ref": "./common.schema.json#/$defs/Timestamp"
+          },
+          "weight": {
+            "type": "number"
+          }
+        }
+      }
+    },
+    "closed": {
+      "type": "boolean",
+      "default": false
+    }
+  }
+}

@@ -1,0 +1,45 @@
+{
+  "version": "1.0.0",
+  "envelope_schema_ref": "../../events/envelope.schema.json",
+  "events": [
+    {
+      "name": "SYNC_PEER_STATUS_CHANGED@1.0",
+      "schema": {
+        "$schema": "https://json-schema.org/draft-07/schema#",
+        "$id": "https://familyos.local/contracts/sync/events/peer_status_changed.schema.json",
+        "type": "object",
+        "required": ["peer_id","status","ts"],
+        "properties": {
+          "peer_id": { "type": "string" },
+          "status": { "type": "string", "enum": ["connected","disconnected","unknown"] },
+          "ts": { "$ref": "../../events/schemas/_common.json#/definitions/ISOInstant" }
+        },
+        "additionalProperties": false
+      },
+      "key": { "partition": "space_id", "ordering": "ts" },
+      "idempotency": { "dedupe_key": "peer_id+status+ts", "window": "PT1M" },
+      "retention": "P7D"
+    },
+    {
+      "name": "SYNC_EXCHANGE_SUMMARY@1.0",
+      "schema": {
+        "$schema": "https://json-schema.org/draft-07/schema#",
+        "$id": "https://familyos.local/contracts/sync/events/exchange_summary.schema.json",
+        "type": "object",
+        "required": ["peer_id","ops_sent","ops_recv","duration_ms","ts"],
+        "properties": {
+          "peer_id": { "type": "string" },
+          "ops_sent": { "type": "integer", "minimum": 0 },
+          "ops_recv": { "type": "integer", "minimum": 0 },
+          "duration_ms": { "type": "integer", "minimum": 0 },
+          "ts": { "$ref": "../../events/schemas/_common.json#/definitions/ISOInstant" }
+        },
+        "additionalProperties": false
+      },
+      "key": { "partition": "space_id", "ordering": "ts" },
+      "idempotency": { "dedupe_key": "peer_id+ts", "window": "PT1M" },
+      "retention": "P7D",
+      "obligations": ["AUDIT_ACCESS"]
+    }
+  ]
+}

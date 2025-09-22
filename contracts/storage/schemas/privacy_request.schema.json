@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://familyos.local/contracts/storage/privacy_request.schema.json",
+  "title": "Privacy Request",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "ts",
+    "space_id",
+    "type",
+    "status"
+  ],
+  "properties": {
+    "id": {
+      "$ref": "./common.schema.json#/$defs/ULID"
+    },
+    "ts": {
+      "$ref": "./common.schema.json#/$defs/Timestamp"
+    },
+    "space_id": {
+      "$ref": "./common.schema.json#/$defs/SpaceId"
+    },
+    "type": {
+      "type": "string",
+      "enum": [
+        "export",
+        "erasure"
+      ]
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "running",
+        "complete",
+        "failed",
+        "cancelled"
+      ]
+    },
+    "filters": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "result_url": {
+      "type": "string",
+      "format": "uri"
+    },
+    "error": {
+      "type": "string"
+    }
+  }
+}

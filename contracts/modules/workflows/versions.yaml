@@ -1,0 +1,8 @@
+current: 1.0.0
+history:
+  - version: 1.0.0
+    date: 2025-09-10
+    notes: "Initial workflow contracts."
+compatibility:
+  envelope: ">=1.1.0"
+deprecations: []

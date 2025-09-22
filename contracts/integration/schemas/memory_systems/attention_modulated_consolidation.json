@@ -1,0 +1,706 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "attention_modulated_consolidation.schema.json",
+    "title": "Attention-Modulated Memory Consolidation Contract",
+    "description": "Defines consolidation processes that are modulated by attention allocation, salience assessment, and attentional resources during sleep and wake states.",
+    "type": "object",
+    "required": [
+        "consolidation_session_id",
+        "attention_context",
+        "consolidation_targets",
+        "modulation_parameters",
+        "attention_guided_replay",
+        "resource_allocation",
+        "timestamp"
+    ],
+    "properties": {
+        "consolidation_session_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Unique identifier for the attention-modulated consolidation session"
+        },
+        "attention_context": {
+            "type": "object",
+            "required": [
+                "attention_state",
+                "salience_landscape",
+                "attentional_resources"
+            ],
+            "properties": {
+                "attention_state": {
+                    "type": "object",
+                    "properties": {
+                        "current_attention_mode": {
+                            "type": "string",
+                            "enum": [
+                                "focused_attention",
+                                "diffuse_attention",
+                                "alternating_attention",
+                                "rest_state",
+                                "sleep_state"
+                            ],
+                            "description": "Current mode of attention during consolidation"
+                        },
+                        "attention_stability": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "Stability of attention allocation over time"
+                        },
+                        "attention_effort_level": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "Level of attentional effort required"
+                        },
+                        "attention_scope": {
+                            "type": "object",
+                            "properties": {
+                                "breadth": {
+                                    "type": "number",
+                                    "description": "Breadth of attentional scope"
+                                },
+                                "depth": {
+                                    "type": "number",
+                                    "description": "Depth of attentional processing"
+                                },
+                                "selectivity": {
+                                    "type": "number",
+                                    "description": "Selectivity of attention"
+                                }
+                            }
+                        }
+                    }
+                },
+                "salience_landscape": {
+                    "type": "object",
+                    "properties": {
+                        "high_salience_memories": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "memory_id": {
+                                        "type": "string"
+                                    },
+                                    "salience_score": {
+                                        "type": "number"
+                                    },
+                                    "salience_factors": {
+                                        "type": "array"
+                                    },
+                                    "attention_capture_strength": {
+                                        "type": "number"
+                                    }
+                                }
+                            }
+                        },
+                        "salience_gradients": {
+                            "type": "object",
+                            "properties": {
+                                "temporal_gradient": {
+                                    "type": "number"
+                                },
+                                "emotional_gradient": {
+                                    "type": "number"
+                                },
+                                "novelty_gradient": {
+                                    "type": "number"
+                                },
+                                "goal_relevance_gradient": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "attention_competition": {
+                            "type": "object",
+                            "properties": {
+                                "competing_memory_sets": {
+                                    "type": "array"
+                                },
+                                "competition_intensity": {
+                                    "type": "number"
+                                },
+                                "winner_take_all_dynamics": {
+                                    "type": "boolean"
+                                }
+                            }
+                        }
+                    }
+                },
+                "attentional_resources": {
+                    "type": "object",
+                    "properties": {
+                        "available_attention_capacity": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "Currently available attention capacity"
+                        },
+                        "attention_allocation_strategy": {
+                            "type": "string",
+                            "enum": [
+                                "priority_based",
+                                "round_robin",
+                                "competitive",
+                                "cooperative",
+                                "adaptive"
+                            ],
+                            "description": "Strategy for allocating attention during consolidation"
+                        },
+                        "resource_constraints": {
+                            "type": "object",
+                            "properties": {
+                                "cognitive_load_limit": {
+                                    "type": "number"
+                                },
+                                "energy_budget": {
+                                    "type": "number"
+                                },
+                                "time_constraints": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "attention_efficiency": {
+                            "type": "number",
+                            "description": "Efficiency of attention utilization"
+                        }
+                    }
+                }
+            }
+        },
+        "consolidation_targets": {
+            "type": "object",
+            "required": [
+                "target_memories",
+                "consolidation_priorities"
+            ],
+            "properties": {
+                "target_memories": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "required": [
+                            "memory_id",
+                            "attention_relevance",
+                            "consolidation_urgency"
+                        ],
+                        "properties": {
+                            "memory_id": {
+                                "type": "string",
+                                "description": "Unique identifier for the target memory"
+                            },
+                            "attention_relevance": {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 1,
+                                "description": "Relevance to current attention allocation"
+                            },
+                            "consolidation_urgency": {
+                                "type": "string",
+                                "enum": [
+                                    "immediate",
+                                    "high",
+                                    "moderate",
+                                    "low",
+                                    "defer"
+                                ],
+                                "description": "Urgency level for consolidation"
+                            },
+                            "attention_capture_history": {
+                                "type": "object",
+                                "properties": {
+                                    "total_attention_received": {
+                                        "type": "number"
+                                    },
+                                    "attention_episodes": {
+                                        "type": "array"
+                                    },
+                                    "average_attention_duration": {
+                                        "type": "number"
+                                    },
+                                    "attention_consistency": {
+                                        "type": "number"
+                                    }
+                                }
+                            },
+                            "salience_profile": {
+                                "type": "object",
+                                "properties": {
+                                    "intrinsic_salience": {
+                                        "type": "number"
+                                    },
+                                    "contextual_salience": {
+                                        "type": "number"
+                                    },
+                                    "learned_salience": {
+                                        "type": "number"
+                                    },
+                                    "dynamic_salience": {
+                                        "type": "number"
+                                    }
+                                }
+                            },
+                            "memory_characteristics": {
+                                "type": "object",
+                                "properties": {
+                                    "encoding_strength": {
+                                        "type": "number"
+                                    },
+                                    "current_stability": {
+                                        "type": "number"
+                                    },
+                                    "interference_vulnerability": {
+                                        "type": "number"
+                                    },
+                                    "attention_dependency": {
+                                        "type": "number"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "consolidation_priorities": {
+                    "type": "object",
+                    "properties": {
+                        "attention_weighted_priority": {
+                            "type": "object",
+                            "properties": {
+                                "high_attention_memories": {
+                                    "type": "array"
+                                },
+                                "medium_attention_memories": {
+                                    "type": "array"
+                                },
+                                "low_attention_memories": {
+                                    "type": "array"
+                                }
+                            }
+                        },
+                        "salience_based_priority": {
+                            "type": "object",
+                            "properties": {
+                                "high_salience_consolidation": {
+                                    "type": "array"
+                                },
+                                "moderate_salience_consolidation": {
+                                    "type": "array"
+                                },
+                                "background_consolidation": {
+                                    "type": "array"
+                                }
+                            }
+                        },
+                        "resource_allocation_priority": {
+                            "type": "object",
+                            "properties": {
+                                "resource_intensive_consolidation": {
+                                    "type": "array"
+                                },
+                                "standard_resource_consolidation": {
+                                    "type": "array"
+                                },
+                                "minimal_resource_consolidation": {
+                                    "type": "array"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "modulation_parameters": {
+            "type": "object",
+            "required": [
+                "attention_influence_strength",
+                "modulation_strategy"
+            ],
+            "properties": {
+                "attention_influence_strength": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 2,
+                    "description": "Strength of attention influence on consolidation (1.0 = normal, >1.0 = enhanced)"
+                },
+                "modulation_strategy": {
+                    "type": "string",
+                    "enum": [
+                        "attention_proportional",
+                        "salience_driven",
+                        "competitive_allocation",
+                        "cooperative_enhancement",
+                        "adaptive_modulation"
+                    ],
+                    "description": "Strategy for attention-based consolidation modulation"
+                },
+                "attention_consolidation_coupling": {
+                    "type": "object",
+                    "properties": {
+                        "coupling_strength": {
+                            "type": "number",
+                            "description": "Strength of coupling between attention and consolidation"
+                        },
+                        "coupling_dynamics": {
+                            "type": "string",
+                            "enum": [
+                                "linear",
+                                "nonlinear",
+                                "threshold",
+                                "saturating"
+                            ],
+                            "description": "Dynamics of attention-consolidation coupling"
+                        },
+                        "feedback_loops": {
+                            "type": "object",
+                            "properties": {
+                                "attention_to_consolidation_feedback": {
+                                    "type": "number"
+                                },
+                                "consolidation_to_attention_feedback": {
+                                    "type": "number"
+                                },
+                                "bidirectional_coupling": {
+                                    "type": "boolean"
+                                }
+                            }
+                        }
+                    }
+                },
+                "temporal_modulation": {
+                    "type": "object",
+                    "properties": {
+                        "attention_timing_windows": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "window_start": {
+                                        "type": "string",
+                                        "format": "date-time"
+                                    },
+                                    "window_end": {
+                                        "type": "string",
+                                        "format": "date-time"
+                                    },
+                                    "attention_intensity": {
+                                        "type": "number"
+                                    },
+                                    "modulation_type": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        },
+                        "circadian_modulation": {
+                            "type": "object",
+                            "properties": {
+                                "circadian_phase": {
+                                    "type": "string"
+                                },
+                                "attention_circadian_coupling": {
+                                    "type": "number"
+                                },
+                                "consolidation_circadian_optimization": {
+                                    "type": "boolean"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "attention_guided_replay": {
+            "type": "object",
+            "required": [
+                "replay_strategy",
+                "attention_weighting"
+            ],
+            "properties": {
+                "replay_strategy": {
+                    "type": "string",
+                    "enum": [
+                        "attention_prioritized_replay",
+                        "salience_guided_replay",
+                        "competitive_replay",
+                        "cooperative_replay"
+                    ],
+                    "description": "Strategy for attention-guided memory replay"
+                },
+                "attention_weighting": {
+                    "type": "object",
+                    "properties": {
+                        "high_attention_replay_probability": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "Probability of replay for high-attention memories"
+                        },
+                        "attention_replay_amplification": {
+                            "type": "number",
+                            "description": "Amplification factor for attention-selected replay"
+                        },
+                        "attention_sequence_preservation": {
+                            "type": "boolean",
+                            "description": "Whether to preserve attention sequences during replay"
+                        }
+                    }
+                },
+                "replay_timing": {
+                    "type": "object",
+                    "properties": {
+                        "immediate_replay": {
+                            "type": "object",
+                            "properties": {
+                                "enabled": {
+                                    "type": "boolean"
+                                },
+                                "attention_threshold": {
+                                    "type": "number"
+                                },
+                                "immediate_replay_duration": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "delayed_replay": {
+                            "type": "object",
+                            "properties": {
+                                "replay_schedule": {
+                                    "type": "array"
+                                },
+                                "attention_modulated_timing": {
+                                    "type": "boolean"
+                                },
+                                "sleep_dependent_replay": {
+                                    "type": "boolean"
+                                }
+                            }
+                        },
+                        "spontaneous_replay": {
+                            "type": "object",
+                            "properties": {
+                                "spontaneous_replay_rate": {
+                                    "type": "number"
+                                },
+                                "attention_triggered_spontaneous_replay": {
+                                    "type": "boolean"
+                                },
+                                "salience_threshold_for_spontaneous_replay": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                },
+                "replay_quality_control": {
+                    "type": "object",
+                    "properties": {
+                        "attention_guided_fidelity": {
+                            "type": "number",
+                            "description": "Fidelity of replay guided by attention"
+                        },
+                        "interference_suppression": {
+                            "type": "number",
+                            "description": "Suppression of interfering memories during replay"
+                        },
+                        "replay_verification": {
+                            "type": "boolean",
+                            "description": "Whether to verify replay quality"
+                        }
+                    }
+                }
+            }
+        },
+        "resource_allocation": {
+            "type": "object",
+            "required": [
+                "computational_resources",
+                "attention_resource_mapping"
+            ],
+            "properties": {
+                "computational_resources": {
+                    "type": "object",
+                    "properties": {
+                        "total_available_resources": {
+                            "type": "number",
+                            "description": "Total computational resources available"
+                        },
+                        "attention_allocated_resources": {
+                            "type": "number",
+                            "description": "Resources allocated based on attention"
+                        },
+                        "resource_efficiency": {
+                            "type": "number",
+                            "description": "Efficiency of resource utilization"
+                        },
+                        "resource_constraints": {
+                            "type": "object",
+                            "properties": {
+                                "memory_bandwidth_limit": {
+                                    "type": "number"
+                                },
+                                "processing_time_limit": {
+                                    "type": "number"
+                                },
+                                "energy_budget_limit": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                },
+                "attention_resource_mapping": {
+                    "type": "object",
+                    "properties": {
+                        "high_attention_resource_allocation": {
+                            "type": "number",
+                            "description": "Resource allocation for high-attention memories"
+                        },
+                        "medium_attention_resource_allocation": {
+                            "type": "number",
+                            "description": "Resource allocation for medium-attention memories"
+                        },
+                        "low_attention_resource_allocation": {
+                            "type": "number",
+                            "description": "Resource allocation for low-attention memories"
+                        },
+                        "attention_resource_proportionality": {
+                            "type": "number",
+                            "description": "Proportionality constant for attention-resource mapping"
+                        }
+                    }
+                },
+                "resource_optimization": {
+                    "type": "object",
+                    "properties": {
+                        "dynamic_resource_reallocation": {
+                            "type": "boolean",
+                            "description": "Whether to dynamically reallocate resources"
+                        },
+                        "attention_based_optimization": {
+                            "type": "boolean",
+                            "description": "Whether to optimize based on attention patterns"
+                        },
+                        "resource_utilization_feedback": {
+                            "type": "boolean",
+                            "description": "Whether to use resource utilization feedback"
+                        }
+                    }
+                }
+            }
+        },
+        "consolidation_outcomes": {
+            "type": "object",
+            "properties": {
+                "attention_enhanced_consolidation": {
+                    "type": "object",
+                    "properties": {
+                        "consolidation_success_rate": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "Success rate of attention-enhanced consolidation"
+                        },
+                        "consolidation_quality_improvement": {
+                            "type": "number",
+                            "description": "Quality improvement due to attention modulation"
+                        },
+                        "attention_consolidation_efficiency": {
+                            "type": "number",
+                            "description": "Efficiency of attention-modulated consolidation"
+                        }
+                    }
+                },
+                "memory_strength_enhancement": {
+                    "type": "object",
+                    "properties": {
+                        "attention_strength_boost": {
+                            "type": "number",
+                            "description": "Memory strength boost from attention"
+                        },
+                        "long_term_strength_prediction": {
+                            "type": "number",
+                            "description": "Predicted long-term memory strength"
+                        },
+                        "attention_dependent_durability": {
+                            "type": "number",
+                            "description": "Durability enhancement from attention"
+                        }
+                    }
+                },
+                "consolidation_efficiency_metrics": {
+                    "type": "object",
+                    "properties": {
+                        "resource_efficiency_gain": {
+                            "type": "number",
+                            "description": "Efficiency gain from attention modulation"
+                        },
+                        "consolidation_speed_improvement": {
+                            "type": "number",
+                            "description": "Speed improvement in consolidation"
+                        },
+                        "interference_reduction": {
+                            "type": "number",
+                            "description": "Reduction in memory interference"
+                        }
+                    }
+                }
+            }
+        },
+        "system_coordination": {
+            "type": "object",
+            "properties": {
+                "thalamic_attention_coordination": {
+                    "type": "object",
+                    "properties": {
+                        "thalamic_attention_gating": {
+                            "type": "number"
+                        },
+                        "salience_based_routing": {
+                            "type": "object"
+                        },
+                        "attention_gate_hippocampal_coordination": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "prefrontal_attention_coordination": {
+                    "type": "object",
+                    "properties": {
+                        "executive_attention_control": {
+                            "type": "number"
+                        },
+                        "working_memory_attention_interface": {
+                            "type": "object"
+                        },
+                        "cognitive_control_of_consolidation": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "consciousness_attention_coordination": {
+                    "type": "object",
+                    "properties": {
+                        "conscious_attention_coupling": {
+                            "type": "number"
+                        },
+                        "attention_consciousness_feedback": {
+                            "type": "object"
+                        },
+                        "consciousness_guided_attention_allocation": {
+                            "type": "number"
+                        }
+                    }
+                }
+            }
+        },
+        "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when attention-modulated consolidation was initiated"
+        }
+    },
+    "additionalProperties": false
+}

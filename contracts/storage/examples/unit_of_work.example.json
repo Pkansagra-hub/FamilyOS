@@ -1,0 +1,17 @@
+{
+  "uow_id": "5KR0ZJZA5BZ99DZ8TD8J7XWBZX",
+  "envelope_id": "550e8400-e29b-41d4-a716-446655440000",
+  "status": "committed",
+  "created_ts": "2025-01-14T10:30:00.000Z",
+  "committed_ts": "2025-01-14T10:30:00.061Z",
+  "writes": [
+    {
+      "store": "st_epi",
+      "record_id": "2D41303SREQ12Q348NT9ZPG3WK"
+    },
+    {
+      "store": "st_sem",
+      "record_id": "6985Z5233HT8K7Z1JRHEE4R008"
+    }
+  ]
+}

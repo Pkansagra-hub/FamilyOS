@@ -1,0 +1,57 @@
+{
+  "schema_version": "1.1.0",
+  "id": "045040b4-511d-456d-8a65-0e9df8941eb7",
+  "ts": "2025-09-09T04:20:40Z",
+  "topic": "REMIND_TICK",
+  "band": "RED",
+  "actor": {
+    "user_id": "0be63fd2-1ceb-41be-a534-ed3a284c3f92",
+    "agent_id": "safety.v1",
+    "caps": [
+      "PROJECT"
+    ]
+  },
+  "device": {
+    "device_id": "android-pixel8",
+    "platform": "linux",
+    "app_version": "1.1.4",
+    "locale": "de-DE"
+  },
+  "space_id": "interfamily:link",
+  "policy_version": "1.3",
+  "abac": {
+    "role": "system",
+    "trust": "red",
+    "geo_precision": "city"
+  },
+  "qos": {
+    "routing": "fast-path",
+    "priority": 4,
+    "latency_budget_ms": 242,
+    "retries": 1
+  },
+  "trace": {
+    "trace_id": "ac443b6bb3a6b5359a53768197c945ec",
+    "span_id": "1eb459d853e5288f",
+    "sampled": true
+  },
+  "obligations": [
+    "REDACT_PII"
+  ],
+  "redaction_applied": false,
+  "hashes": {
+    "payload_sha256": "498db494325cb5752b42bd28c8a4bb252d1c882224bcfeb44e47a8ac9ef500be"
+  },
+  "payload": {
+    "when": "2025-09-09T04:20:40Z",
+    "note": "Reminder",
+    "jitter_ms": 14
+  },
+  "signature": {
+    "alg": "ed25519",
+    "key_id": "key_remind_tick_red_2024",
+    "public_key": "cHVibGlj",
+    "signature": "c2ln"
+  },
+  "mls_group": "household-secure"
+}

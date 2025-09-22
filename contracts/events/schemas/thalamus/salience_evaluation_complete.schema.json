@@ -1,0 +1,175 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://familyos.local/contracts/events/schemas/thalamus/salience_evaluation_complete.schema.json",
+    "title": "Salience Evaluation Complete Event",
+    "description": "Event generated when thalamic salience evaluation computation completes",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "timestamp",
+        "content_id",
+        "salience_score",
+        "evaluation_duration_ms",
+        "evaluation_factors",
+        "ranking_context"
+    ],
+    "properties": {
+        "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Time when salience evaluation completed"
+        },
+        "content_id": {
+            "type": "string",
+            "description": "Unique identifier for evaluated content"
+        },
+        "salience_score": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "description": "Computed salience importance score"
+        },
+        "evaluation_duration_ms": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Time taken to compute salience"
+        },
+        "evaluation_factors": {
+            "type": "object",
+            "required": [
+                "recency",
+                "frequency",
+                "emotional_valence",
+                "goal_relevance"
+            ],
+            "properties": {
+                "recency": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "How recent the content is"
+                },
+                "frequency": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "How frequently content appears"
+                },
+                "emotional_valence": {
+                    "type": "number",
+                    "minimum": -1,
+                    "maximum": 1,
+                    "description": "Emotional significance (-1 negative, +1 positive)"
+                },
+                "goal_relevance": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Relevance to current goals"
+                },
+                "novelty": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "How novel/unexpected the content is"
+                },
+                "social_importance": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Social/interpersonal significance"
+                },
+                "urgency": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Time-sensitive urgency factor"
+                }
+            },
+            "description": "Individual factors contributing to salience"
+        },
+        "ranking_context": {
+            "type": "object",
+            "required": [
+                "total_items_evaluated",
+                "percentile_rank"
+            ],
+            "properties": {
+                "total_items_evaluated": {
+                    "type": "integer",
+                    "minimum": 1
+                },
+                "percentile_rank": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 100,
+                    "description": "Percentile ranking among evaluated items"
+                },
+                "category_rank": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "description": "Rank within content category"
+                },
+                "relative_scores": {
+                    "type": "object",
+                    "properties": {
+                        "mean_score": {
+                            "type": "number"
+                        },
+                        "std_deviation": {
+                            "type": "number"
+                        },
+                        "z_score": {
+                            "type": "number"
+                        }
+                    }
+                }
+            },
+            "description": "Context of evaluation relative to other content"
+        },
+        "computation_metadata": {
+            "type": "object",
+            "properties": {
+                "algorithm_version": {
+                    "type": "string"
+                },
+                "feature_weights": {
+                    "type": "object",
+                    "description": "Weights used for each evaluation factor"
+                },
+                "confidence_score": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Confidence in the salience computation"
+                },
+                "uncertainty_factors": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Sources of uncertainty in evaluation"
+                }
+            },
+            "description": "Metadata about the computation process"
+        },
+        "content_features": {
+            "type": "object",
+            "properties": {
+                "content_type": {
+                    "type": "string"
+                },
+                "content_length": {
+                    "type": "integer"
+                },
+                "semantic_density": {
+                    "type": "number"
+                },
+                "complexity_score": {
+                    "type": "number"
+                }
+            },
+            "description": "Features of the content being evaluated"
+        }
+    }
+}

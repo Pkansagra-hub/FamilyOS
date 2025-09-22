@@ -1,0 +1,2 @@
+- Pre-decision: risk gate; policy bands; ABAC on space_id.
+- Post-decision: audit event emitted for AMBER+.

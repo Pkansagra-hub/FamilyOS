@@ -1,0 +1,75 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Imagination Module Event Catalog",
+  "description": "Simulation and creative ideation events",
+  "type": "object",
+  "properties": {
+    "events": {
+      "type": "array",
+      "items": [
+        {
+          "name": "SIMULATION_RESULT",
+          "version": "1.0",
+          "description": "Mental simulation outcome and insights",
+          "schema": {
+            "type": "object",
+            "properties": {
+              "simulation_id": { "type": "string", "format": "ulid" },
+              "simulation_type": { "type": "string", "enum": ["action_preview", "scenario_planning", "counterfactual", "creative_ideation", "dream_processing"] },
+              "predicted_outcomes": { "type": "array", "items": { "type": "object" } },
+              "outcome_probabilities": { "type": "array", "items": { "type": "number" } },
+              "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+              "simulation_time_ms": { "type": "integer", "minimum": 0 },
+              "insights_generated": { "type": "array", "items": { "type": "string" } }
+            },
+            "required": ["simulation_id", "simulation_type", "predicted_outcomes", "confidence"]
+          },
+          "key": { "partition": "simulation_type", "ordering": "ts" },
+          "idempotency": { "dedupe_key": "simulation_id", "window": "PT10M" },
+          "retention": "P90D"
+        },
+        {
+          "name": "CREATIVE_INSIGHT",
+          "version": "1.0",
+          "description": "Novel idea or creative combination generated",
+          "schema": {
+            "type": "object",
+            "properties": {
+              "insight_id": { "type": "string", "format": "ulid" },
+              "insight_type": { "type": "string", "enum": ["conceptual_blend", "analogical_transfer", "constraint_relaxation", "perspective_shift"] },
+              "source_concepts": { "type": "array", "items": { "type": "string" } },
+              "novel_combination": { "type": "object", "additionalProperties": true },
+              "originality_score": { "type": "number", "minimum": 0, "maximum": 1 },
+              "feasibility_score": { "type": "number", "minimum": 0, "maximum": 1 },
+              "value_estimate": { "type": "number", "minimum": 0, "maximum": 1 }
+            },
+            "required": ["insight_id", "insight_type", "source_concepts", "novel_combination", "originality_score"]
+          },
+          "key": { "partition": "insight_type", "ordering": "ts" },
+          "idempotency": { "dedupe_key": "insight_id", "window": "PT15M" },
+          "retention": "P365D"
+        },
+        {
+          "name": "DREAM_SEQUENCE",
+          "version": "1.0",
+          "description": "Dream processing session for memory consolidation",
+          "schema": {
+            "type": "object",
+            "properties": {
+              "dream_id": { "type": "string", "format": "ulid" },
+              "dream_type": { "type": "string", "enum": ["memory_consolidation", "problem_solving", "threat_simulation", "social_simulation", "random_association"] },
+              "memories_processed": { "type": "array", "items": { "type": "string" } },
+              "consolidation_outcomes": { "type": "object", "additionalProperties": true },
+              "creative_associations": { "type": "array", "items": { "type": "object" } },
+              "duration_ms": { "type": "integer", "minimum": 0 }
+            },
+            "required": ["dream_id", "dream_type", "memories_processed"]
+          },
+          "key": { "partition": "dream_type", "ordering": "ts" },
+          "idempotency": { "dedupe_key": "dream_id", "window": "PT30M" },
+          "retention": "P14D"
+        }
+      ]
+    }
+  }
+}

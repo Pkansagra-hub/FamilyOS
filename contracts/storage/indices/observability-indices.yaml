@@ -1,0 +1,14 @@
+logs:
+  primary_key: log_id
+  indices:
+    - { name: ts_idx, fields: [ts] }
+    - { name: req_idx, fields: [space_id, request_id, ts] }
+  retention: { ttl_days: 7 }
+metrics:
+  indices:
+    - { name: name_ts_idx, fields: [name, ts] }
+  retention: { ttl_days: 7 }
+spans:
+  indices:
+    - { name: trace_idx, fields: [trace_id, start] }
+  retention: { ttl_days: 3 }

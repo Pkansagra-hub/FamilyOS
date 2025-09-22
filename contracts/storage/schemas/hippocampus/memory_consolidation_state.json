@@ -1,0 +1,248 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://familyos.local/schemas/storage/hippocampus/memory_consolidation_state.json",
+    "title": "Memory Consolidation State",
+    "description": "Storage schema for tracking memory consolidation progress, sessions, and transfer status",
+    "type": "object",
+    "required": [
+        "consolidation_id",
+        "hippocampus_id",
+        "memory_batch",
+        "consolidation_phase",
+        "progress_metrics",
+        "neural_mechanisms",
+        "quality_indicators"
+    ],
+    "properties": {
+        "consolidation_id": {
+            "type": "string",
+            "pattern": "^consol_[a-zA-Z0-9_-]+$",
+            "description": "Unique identifier for this consolidation process"
+        },
+        "hippocampus_id": {
+            "type": "string",
+            "pattern": "^hippocampus_[a-zA-Z0-9_-]+$",
+            "description": "Hippocampus instance managing consolidation"
+        },
+        "memory_batch": {
+            "type": "object",
+            "required": [
+                "memory_ids",
+                "batch_characteristics"
+            ],
+            "properties": {
+                "memory_ids": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Memory IDs being consolidated"
+                },
+                "batch_size": {
+                    "type": "integer",
+                    "minimum": 1
+                },
+                "batch_characteristics": {
+                    "type": "object",
+                    "properties": {
+                        "memory_types": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "age_range_hours": {
+                            "type": "object"
+                        },
+                        "priority_distribution": {
+                            "type": "object"
+                        },
+                        "emotional_weight_average": {
+                            "type": "number"
+                        }
+                    }
+                }
+            }
+        },
+        "consolidation_phase": {
+            "type": "object",
+            "required": [
+                "current_phase",
+                "phase_progress",
+                "estimated_completion"
+            ],
+            "properties": {
+                "current_phase": {
+                    "type": "string",
+                    "enum": [
+                        "initiation",
+                        "stabilization",
+                        "replay",
+                        "transfer",
+                        "integration",
+                        "completion"
+                    ]
+                },
+                "phase_progress": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "estimated_completion": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "phase_history": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "phase_name": {
+                                "type": "string"
+                            },
+                            "start_time": {
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            "end_time": {
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            "phase_success": {
+                                "type": "boolean"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "progress_metrics": {
+            "type": "object",
+            "required": [
+                "overall_progress",
+                "transfer_rate",
+                "stability_improvement"
+            ],
+            "properties": {
+                "overall_progress": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "transfer_rate": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "stability_improvement": {
+                    "type": "number",
+                    "minimum": 0
+                },
+                "error_rate": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "replay_efficiency": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "cortical_integration": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                }
+            }
+        },
+        "neural_mechanisms": {
+            "type": "object",
+            "properties": {
+                "replay_sessions": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "session_id": {
+                                "type": "string"
+                            },
+                            "replay_type": {
+                                "type": "string"
+                            },
+                            "replay_fidelity": {
+                                "type": "number"
+                            },
+                            "ripple_events": {
+                                "type": "integer"
+                            }
+                        }
+                    }
+                },
+                "oscillatory_coordination": {
+                    "type": "object",
+                    "properties": {
+                        "theta_power": {
+                            "type": "number"
+                        },
+                        "gamma_coupling": {
+                            "type": "number"
+                        },
+                        "spindle_density": {
+                            "type": "number"
+                        },
+                        "slow_wave_activity": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "synaptic_changes": {
+                    "type": "object",
+                    "properties": {
+                        "ltp_strength": {
+                            "type": "number"
+                        },
+                        "protein_synthesis": {
+                            "type": "boolean"
+                        },
+                        "structural_plasticity": {
+                            "type": "number"
+                        }
+                    }
+                }
+            }
+        },
+        "quality_indicators": {
+            "type": "object",
+            "required": [
+                "consolidation_fidelity",
+                "integration_success"
+            ],
+            "properties": {
+                "consolidation_fidelity": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "integration_success": {
+                    "type": "boolean"
+                },
+                "memory_coherence": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "detail_preservation": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "gist_extraction": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                }
+            }
+        }
+    },
+    "additionalProperties": false
+}

@@ -1,0 +1,110 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "User Created Event",
+  "description": "Event fired when a new user account is successfully created in the system",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "user_id",
+    "email",
+    "name",
+    "status",
+    "initial_role",
+    "created_by",
+    "space_assignments",
+    "created_ts"
+  ],
+  "properties": {
+    "user_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique identifier for the created user"
+    },
+    "email": {
+      "type": "string",
+      "format": "email",
+      "description": "User's email address (unique in system)"
+    },
+    "name": {
+      "type": "string",
+      "description": "User's display name"
+    },
+    "status": {
+      "type": "string",
+      "enum": ["active", "pending_verification", "inactive"],
+      "description": "Initial account status"
+    },
+    "initial_role": {
+      "type": "string",
+      "enum": ["guardian", "member", "child", "guest"],
+      "description": "Initial role assigned to user"
+    },
+    "created_by": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Admin user who created this account"
+    },
+    "space_assignments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["space_id", "permissions"],
+        "properties": {
+          "space_id": {
+            "type": "string",
+            "pattern": "^(personal|selective|shared|extended|interfamily):"
+          },
+          "permissions": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": ["READ", "WRITE", "SHARE", "ADMIN"]
+            }
+          }
+        }
+      },
+      "description": "Initial space access assignments"
+    },
+    "device_registration": {
+      "type": "object",
+      "required": ["token_expires", "registration_url"],
+      "properties": {
+        "token_expires": {
+          "$ref": "./_common.json#/definitions/ISOInstant",
+          "description": "When the device registration token expires"
+        },
+        "registration_url": {
+          "type": "string",
+          "format": "uri",
+          "description": "URL for device registration and setup"
+        }
+      },
+      "description": "Device registration information"
+    },
+    "security_settings": {
+      "type": "object",
+      "properties": {
+        "trust_level": {
+          "type": "string",
+          "enum": ["green", "amber", "red"]
+        },
+        "mfa_required": {
+          "type": "boolean"
+        },
+        "security_band": {
+          "type": "string",
+          "enum": ["GREEN", "AMBER", "RED", "BLACK"]
+        }
+      },
+      "description": "Security configuration applied to user"
+    },
+    "created_ts": {
+      "$ref": "./_common.json#/definitions/ISOInstant",
+      "description": "User creation timestamp"
+    },
+    "trace_context": {
+      "$ref": "./_common.json#/definitions/TraceContext",
+      "description": "Distributed tracing context for user creation request"
+    }
+  }
+}

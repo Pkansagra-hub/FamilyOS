@@ -1,0 +1,337 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://familyos.local/contracts/events/schemas/global_workspace/coalition_won.schema.json",
+    "title": "Coalition Won Event",
+    "description": "Event triggered when a coalition successfully wins competition for global workspace access and gains consciousness-like broadcasting rights.",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "timestamp",
+        "winning_coalition_id",
+        "victory_margin",
+        "competition_summary",
+        "workspace_access_granted",
+        "defeated_coalitions"
+    ],
+    "properties": {
+        "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "When the coalition victory was determined"
+        },
+        "winning_coalition_id": {
+            "type": "string",
+            "pattern": "^coal_[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+            "description": "Identifier of the coalition that won"
+        },
+        "victory_margin": {
+            "type": "object",
+            "required": [
+                "strength_advantage",
+                "decisive_factors",
+                "victory_certainty"
+            ],
+            "properties": {
+                "strength_advantage": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "How much stronger winner was than runner-up"
+                },
+                "decisive_factors": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "enum": [
+                            "coherence",
+                            "activation_strength",
+                            "synergy",
+                            "timing",
+                            "relevance",
+                            "priority"
+                        ]
+                    },
+                    "description": "Key factors that led to victory"
+                },
+                "victory_certainty": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "How certain/decisive the victory was"
+                }
+            },
+            "description": "Margin and nature of the coalition's victory"
+        },
+        "competition_summary": {
+            "type": "object",
+            "required": [
+                "total_competitors",
+                "competition_duration_ms",
+                "competition_rounds"
+            ],
+            "properties": {
+                "total_competitors": {
+                    "type": "integer",
+                    "minimum": 2,
+                    "description": "Total number of coalitions that competed"
+                },
+                "competition_duration_ms": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Total duration of the competition"
+                },
+                "competition_rounds": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "description": "Number of competitive evaluation rounds"
+                },
+                "elimination_sequence": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "round_number": {
+                                "type": "integer"
+                            },
+                            "eliminated_coalition": {
+                                "type": "string"
+                            },
+                            "elimination_reason": {
+                                "type": "string"
+                            },
+                            "remaining_competitors": {
+                                "type": "integer"
+                            }
+                        }
+                    },
+                    "description": "Sequence of coalition eliminations during competition"
+                }
+            },
+            "description": "Summary of the competitive process"
+        },
+        "workspace_access_granted": {
+            "type": "object",
+            "required": [
+                "access_level",
+                "broadcast_rights",
+                "resource_allocation",
+                "access_duration_ms"
+            ],
+            "properties": {
+                "access_level": {
+                    "type": "string",
+                    "enum": [
+                        "full",
+                        "partial",
+                        "conditional",
+                        "temporary"
+                    ],
+                    "description": "Level of workspace access granted to winner"
+                },
+                "broadcast_rights": {
+                    "type": "object",
+                    "properties": {
+                        "global_broadcast": {
+                            "type": "boolean"
+                        },
+                        "selective_broadcast": {
+                            "type": "boolean"
+                        },
+                        "priority_override": {
+                            "type": "boolean"
+                        },
+                        "attention_control": {
+                            "type": "boolean"
+                        }
+                    },
+                    "description": "Broadcasting rights granted to winning coalition"
+                },
+                "resource_allocation": {
+                    "type": "object",
+                    "properties": {
+                        "attention_resources": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "processing_bandwidth": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "memory_access": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "motor_preparation": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    },
+                    "description": "Cognitive resources allocated to winning coalition"
+                },
+                "access_duration_ms": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "How long workspace access is granted"
+                },
+                "renewal_probability": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Probability of access renewal without competition"
+                }
+            },
+            "description": "Details of workspace access granted to winner"
+        },
+        "defeated_coalitions": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "required": [
+                    "coalition_id",
+                    "final_strength",
+                    "defeat_reason"
+                ],
+                "properties": {
+                    "coalition_id": {
+                        "type": "string",
+                        "description": "Identifier of defeated coalition"
+                    },
+                    "final_strength": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1,
+                        "description": "Final competitive strength before defeat"
+                    },
+                    "defeat_reason": {
+                        "type": "string",
+                        "enum": [
+                            "insufficient_coherence",
+                            "low_activation",
+                            "poor_synergy",
+                            "timing_failure",
+                            "resource_conflict"
+                        ],
+                        "description": "Primary reason for coalition defeat"
+                    },
+                    "performance_metrics": {
+                        "type": "object",
+                        "properties": {
+                            "peak_strength": {
+                                "type": "number"
+                            },
+                            "average_strength": {
+                                "type": "number"
+                            },
+                            "stability_score": {
+                                "type": "number"
+                            },
+                            "adaptation_attempts": {
+                                "type": "integer"
+                            }
+                        }
+                    },
+                    "post_defeat_state": {
+                        "type": "string",
+                        "enum": [
+                            "dissolved",
+                            "weakened",
+                            "regrouping",
+                            "supporting_winner"
+                        ],
+                        "description": "State of coalition after defeat"
+                    }
+                }
+            },
+            "description": "Details of coalitions that lost the competition"
+        },
+        "consciousness_implications": {
+            "type": "object",
+            "properties": {
+                "consciousness_level": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Estimated consciousness level achieved"
+                },
+                "reportability": {
+                    "type": "boolean",
+                    "description": "Whether content becomes reportable"
+                },
+                "global_accessibility": {
+                    "type": "boolean",
+                    "description": "Whether content becomes globally accessible"
+                },
+                "integration_level": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Level of cross-system integration achieved"
+                },
+                "phenomenal_properties": {
+                    "type": "object",
+                    "properties": {
+                        "subjective_experience": {
+                            "type": "boolean"
+                        },
+                        "qualitative_awareness": {
+                            "type": "boolean"
+                        },
+                        "unified_percept": {
+                            "type": "boolean"
+                        }
+                    }
+                }
+            },
+            "description": "Implications for consciousness-like processing"
+        },
+        "system_state_changes": {
+            "type": "object",
+            "properties": {
+                "attention_reallocation": {
+                    "type": "object",
+                    "description": "How attention resources are reallocated"
+                },
+                "memory_activation_changes": {
+                    "type": "object",
+                    "description": "Changes in memory system activations"
+                },
+                "executive_control_adjustments": {
+                    "type": "object",
+                    "description": "Adjustments in executive control systems"
+                },
+                "motor_preparation_updates": {
+                    "type": "object",
+                    "description": "Updates to motor preparation systems"
+                }
+            },
+            "description": "System-wide changes resulting from coalition victory"
+        },
+        "performance_metrics": {
+            "type": "object",
+            "properties": {
+                "decision_latency_ms": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Time from competition start to decision"
+                },
+                "resource_efficiency": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Efficiency of resource utilization"
+                },
+                "outcome_confidence": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Confidence in the competition outcome"
+                }
+            },
+            "description": "Performance metrics for the competition process"
+        }
+    }
+}

@@ -1,0 +1,429 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://familyos.local/contracts/events/schemas/working_memory/working_memory_rehearsal.schema.json",
+    "title": "Working Memory Rehearsal Event",
+    "description": "Event generated during active rehearsal of working memory content",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "timestamp",
+        "rehearsal_type",
+        "rehearsed_content",
+        "rehearsal_outcome"
+    ],
+    "properties": {
+        "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Time when rehearsal occurred"
+        },
+        "rehearsal_type": {
+            "type": "string",
+            "enum": [
+                "maintenance_rehearsal",
+                "elaborative_rehearsal",
+                "refreshing",
+                "updating",
+                "selective_rehearsal",
+                "distributed_rehearsal",
+                "interleaved_rehearsal",
+                "strategic_rehearsal"
+            ],
+            "description": "Type of rehearsal mechanism"
+        },
+        "rehearsed_content": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "required": [
+                    "content_id",
+                    "content_type",
+                    "rehearsal_priority"
+                ],
+                "properties": {
+                    "content_id": {
+                        "type": "string"
+                    },
+                    "content_type": {
+                        "type": "string",
+                        "enum": [
+                            "verbal",
+                            "visuospatial",
+                            "episodic",
+                            "semantic",
+                            "procedural",
+                            "affective"
+                        ]
+                    },
+                    "rehearsal_priority": {
+                        "type": "string",
+                        "enum": [
+                            "low",
+                            "normal",
+                            "high",
+                            "critical"
+                        ]
+                    },
+                    "current_activation": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1
+                    },
+                    "activation_before_rehearsal": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1
+                    },
+                    "rehearsal_count": {
+                        "type": "integer",
+                        "minimum": 0
+                    },
+                    "last_rehearsal_timestamp": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "decay_rate": {
+                        "type": "number",
+                        "minimum": 0
+                    },
+                    "interference_level": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1
+                    },
+                    "maintenance_quality": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1
+                    }
+                }
+            },
+            "description": "Content being rehearsed"
+        },
+        "rehearsal_outcome": {
+            "type": "object",
+            "required": [
+                "success_rate",
+                "activation_changes"
+            ],
+            "properties": {
+                "success_rate": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "activation_changes": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "content_id": {
+                                "type": "string"
+                            },
+                            "activation_delta": {
+                                "type": "number"
+                            },
+                            "maintenance_improvement": {
+                                "type": "number"
+                            },
+                            "interference_reduction": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                },
+                "overall_buffer_coherence": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "rehearsal_efficiency": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                }
+            },
+            "description": "Outcome of rehearsal process"
+        },
+        "rehearsal_strategy": {
+            "type": "object",
+            "properties": {
+                "strategy_type": {
+                    "type": "string",
+                    "enum": [
+                        "serial_rehearsal",
+                        "parallel_rehearsal",
+                        "priority_based",
+                        "interference_guided",
+                        "decay_prevention",
+                        "elaborative_linking",
+                        "chunking_based",
+                        "context_dependent"
+                    ]
+                },
+                "timing_parameters": {
+                    "type": "object",
+                    "properties": {
+                        "rehearsal_interval_ms": {
+                            "type": "number"
+                        },
+                        "rehearsal_duration_ms": {
+                            "type": "number"
+                        },
+                        "inter_rehearsal_gap_ms": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "selection_criteria": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "criterion": {
+                                "type": "string"
+                            },
+                            "weight": {
+                                "type": "number"
+                            },
+                            "threshold": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                },
+                "adaptive_parameters": {
+                    "type": "object",
+                    "properties": {
+                        "difficulty_adjustment": {
+                            "type": "number"
+                        },
+                        "rehearsal_frequency_adaptation": {
+                            "type": "number"
+                        },
+                        "strategy_switching_threshold": {
+                            "type": "number"
+                        }
+                    }
+                }
+            },
+            "description": "Strategy used for rehearsal"
+        },
+        "cognitive_resources": {
+            "type": "object",
+            "properties": {
+                "attention_allocation": {
+                    "type": "object",
+                    "properties": {
+                        "focused_attention": {
+                            "type": "number"
+                        },
+                        "divided_attention": {
+                            "type": "number"
+                        },
+                        "selective_attention": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "executive_control_engagement": {
+                    "type": "object",
+                    "properties": {
+                        "monitoring_level": {
+                            "type": "number"
+                        },
+                        "updating_level": {
+                            "type": "number"
+                        },
+                        "inhibition_level": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "resource_cost": {
+                    "type": "object",
+                    "properties": {
+                        "cognitive_effort": {
+                            "type": "number"
+                        },
+                        "metabolic_cost": {
+                            "type": "number"
+                        },
+                        "interference_cost": {
+                            "type": "number"
+                        }
+                    }
+                }
+            },
+            "description": "Cognitive resources used in rehearsal"
+        },
+        "interference_management": {
+            "type": "object",
+            "properties": {
+                "interference_sources": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "source_type": {
+                                "type": "string"
+                            },
+                            "interference_strength": {
+                                "type": "number"
+                            },
+                            "mitigation_strategy": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "proactive_interference": {
+                    "type": "object",
+                    "properties": {
+                        "interference_level": {
+                            "type": "number"
+                        },
+                        "mitigation_effectiveness": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "retroactive_interference": {
+                    "type": "object",
+                    "properties": {
+                        "interference_level": {
+                            "type": "number"
+                        },
+                        "protection_mechanisms": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            },
+            "description": "Interference management during rehearsal"
+        },
+        "learning_mechanisms": {
+            "type": "object",
+            "properties": {
+                "rehearsal_learning": {
+                    "type": "object",
+                    "properties": {
+                        "strategy_effectiveness": {
+                            "type": "number"
+                        },
+                        "timing_optimization": {
+                            "type": "number"
+                        },
+                        "resource_efficiency": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "content_strengthening": {
+                    "type": "object",
+                    "properties": {
+                        "associative_strengthening": {
+                            "type": "number"
+                        },
+                        "retrieval_path_strengthening": {
+                            "type": "number"
+                        },
+                        "contextual_binding": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "meta_rehearsal_learning": {
+                    "type": "object",
+                    "properties": {
+                        "rehearsal_monitoring_accuracy": {
+                            "type": "number"
+                        },
+                        "strategy_selection_optimization": {
+                            "type": "number"
+                        },
+                        "adaptive_control_improvement": {
+                            "type": "number"
+                        }
+                    }
+                }
+            },
+            "description": "Learning from rehearsal experience"
+        },
+        "performance_metrics": {
+            "type": "object",
+            "properties": {
+                "rehearsal_accuracy": {
+                    "type": "number"
+                },
+                "rehearsal_speed": {
+                    "type": "number"
+                },
+                "content_stability": {
+                    "type": "number"
+                },
+                "buffer_organization": {
+                    "type": "number"
+                },
+                "strategic_flexibility": {
+                    "type": "number"
+                }
+            },
+            "description": "Performance metrics for rehearsal"
+        },
+        "contextual_factors": {
+            "type": "object",
+            "properties": {
+                "task_demands": {
+                    "type": "object",
+                    "properties": {
+                        "cognitive_load": {
+                            "type": "number"
+                        },
+                        "time_pressure": {
+                            "type": "number"
+                        },
+                        "accuracy_requirements": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "individual_differences": {
+                    "type": "object",
+                    "properties": {
+                        "working_memory_capacity": {
+                            "type": "number"
+                        },
+                        "rehearsal_skill": {
+                            "type": "number"
+                        },
+                        "strategy_repertoire": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "environmental_factors": {
+                    "type": "object",
+                    "properties": {
+                        "distraction_level": {
+                            "type": "number"
+                        },
+                        "task_complexity": {
+                            "type": "number"
+                        },
+                        "support_availability": {
+                            "type": "number"
+                        }
+                    }
+                }
+            },
+            "description": "Contextual factors affecting rehearsal"
+        }
+    }
+}

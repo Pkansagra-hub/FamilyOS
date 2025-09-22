@@ -1,0 +1,6 @@
+jobs:
+  - name: prospective_tick_scanner
+    schedule: "@every 1s"
+    action: "emit REMIND_TICK for due schedules"
+    sla: { dispatch_jitter_ms: 1000 }
+    backoff: "exponential:100ms..1s"

@@ -1,0 +1,94 @@
+---
+version: "1.0.0"
+effective_date: "2025-09-10T00:00:00Z"
+
+retrieval_security_policies:
+  band_controls:
+    GREEN:
+      query_access: "full"
+      result_masking: "none" 
+      trace_storage: "full"
+      description: "Full retrieval access with complete results"
+    
+    AMBER:
+      query_access: "full"
+      result_masking: "none"
+      trace_storage: "full" 
+      description: "Full retrieval access with audit logging"
+      
+    RED:
+      query_access: "limited"
+      result_masking: "snippet_and_source"
+      trace_storage: "metadata_only"
+      description: "Limited retrieval with masked content"
+      restrictions:
+        - snippet_text: "<<REDACTED>>"
+        - source_uri: "<<REDACTED>>"
+        - query_text_in_trace: "<<REDACTED>>"
+        
+    BLACK:
+      query_access: "deny"
+      result_masking: "full"
+      trace_storage: "deny"
+      description: "Retrieval operations denied"
+      error_response: "Access denied for security classification"
+
+  space_isolation:
+    enforcement: "mandatory"
+    description: "All queries scoped to specific space_id"
+    cross_space_queries: "forbidden"
+    
+  qos_gating:
+    enabled: true
+    max_concurrent_queries: 50
+    max_query_duration_ms: 30000
+    max_results_per_query: 100
+    rate_limiting:
+      requests_per_minute: 1000
+      burst_allowance: 100
+      
+  audit_requirements:
+    log_all_queries: true
+    log_denied_access: true  
+    log_redacted_results: true
+    retention_days: 90
+    
+  data_classification:
+    pii_detection: "enabled"
+    auto_band_upgrade: true
+    content_scanning: "on_index"
+    
+threat_model:
+  stride_analysis:
+    spoofing:
+      - threat: "Unauthorized query execution"
+        mitigation: "Band-based access control with space isolation"
+    tampering:
+      - threat: "Query result manipulation"
+        mitigation: "Content hashing and integrity checks"
+    repudiation:
+      - threat: "Query denial"
+        mitigation: "Comprehensive audit logging"
+    information_disclosure:
+      - threat: "Sensitive data exposure"
+        mitigation: "Band-aware result masking and redaction"
+    denial_of_service:
+      - threat: "Resource exhaustion"
+        mitigation: "QoS gating and rate limiting"
+    elevation_of_privilege:
+      - threat: "Cross-space data access"
+        mitigation: "Mandatory space isolation enforcement"
+
+encryption:
+  at_rest:
+    index_storage: "AES-256"
+    vector_embeddings: "AES-256"
+    trace_storage: "AES-256"
+  in_transit:
+    api_communication: "TLS 1.3"
+    event_bus: "TLS 1.3"
+    
+access_controls:
+  authentication: "required"
+  authorization: "ABAC + space_id validation"
+  session_management: "JWT with 1h expiry"

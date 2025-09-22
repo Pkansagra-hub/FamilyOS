@@ -1,0 +1,7 @@
+jobs:
+  - name: log_rotation
+    schedule: "hourly"
+    sla_ms: 100
+  - name: span_compaction
+    schedule: "every_15m"
+    backoff: { initial_ms: 200, max_ms: 5000, factor: 2.0 }

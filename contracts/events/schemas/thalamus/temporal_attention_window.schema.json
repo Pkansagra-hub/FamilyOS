@@ -1,0 +1,238 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://familyos.local/contracts/events/schemas/thalamus/temporal_attention_window.schema.json",
+    "title": "Temporal Attention Window Event",
+    "description": "Event generated when temporal attention window mechanisms are adjusted within thalamic processing",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "timestamp",
+        "window_operation",
+        "temporal_window",
+        "attention_focus",
+        "trigger_context"
+    ],
+    "properties": {
+        "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Time when temporal attention window was adjusted"
+        },
+        "window_operation": {
+            "type": "string",
+            "enum": [
+                "expand",
+                "contract",
+                "shift_past",
+                "shift_future",
+                "split_window",
+                "merge_windows",
+                "create_new",
+                "close_window"
+            ],
+            "description": "Type of temporal window operation"
+        },
+        "temporal_window": {
+            "type": "object",
+            "required": [
+                "start_time",
+                "end_time",
+                "window_duration_ms"
+            ],
+            "properties": {
+                "start_time": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Start of temporal attention window"
+                },
+                "end_time": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "End of temporal attention window"
+                },
+                "window_duration_ms": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Duration of attention window in milliseconds"
+                },
+                "window_center": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Central focus point of temporal window"
+                },
+                "attention_gradient": {
+                    "type": "string",
+                    "enum": [
+                        "uniform",
+                        "gaussian",
+                        "exponential_decay",
+                        "step_function"
+                    ],
+                    "description": "How attention is distributed across the window"
+                }
+            },
+            "description": "Temporal boundaries and characteristics of attention window"
+        },
+        "attention_focus": {
+            "type": "object",
+            "required": [
+                "focus_intensity",
+                "temporal_resolution"
+            ],
+            "properties": {
+                "focus_intensity": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Intensity of temporal attention focus"
+                },
+                "temporal_resolution": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Temporal resolution in milliseconds"
+                },
+                "chronostasis_effect": {
+                    "type": "boolean",
+                    "description": "Whether time perception is altered"
+                },
+                "temporal_compression": {
+                    "type": "number",
+                    "description": "Factor of temporal compression/expansion"
+                }
+            },
+            "description": "Characteristics of temporal attention focus"
+        },
+        "trigger_context": {
+            "type": "object",
+            "required": [
+                "trigger_type"
+            ],
+            "properties": {
+                "trigger_type": {
+                    "type": "string",
+                    "enum": [
+                        "episodic_recall",
+                        "prospective_memory",
+                        "temporal_prediction",
+                        "sequence_detection",
+                        "deadline_approach",
+                        "rhythm_synchronization",
+                        "temporal_anomaly"
+                    ]
+                },
+                "trigger_content_id": {
+                    "type": "string"
+                },
+                "temporal_cues": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "cue_type": {
+                                "type": "string"
+                            },
+                            "cue_timestamp": {
+                                "type": "string"
+                            },
+                            "cue_strength": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                }
+            },
+            "description": "Context that triggered temporal window adjustment"
+        },
+        "window_relationships": {
+            "type": "object",
+            "properties": {
+                "overlapping_windows": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "IDs of overlapping temporal windows"
+                },
+                "sequential_windows": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "IDs of sequential temporal windows"
+                },
+                "hierarchical_parent": {
+                    "type": "string"
+                },
+                "hierarchical_children": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            },
+            "description": "Relationships with other temporal windows"
+        },
+        "content_mapping": {
+            "type": "object",
+            "properties": {
+                "temporal_content_ids": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Content items within temporal window"
+                },
+                "temporal_markers": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "marker_time": {
+                                "type": "string"
+                            },
+                            "marker_type": {
+                                "type": "string"
+                            },
+                            "content_id": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "sequence_patterns": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            },
+            "description": "Mapping of content to temporal positions"
+        },
+        "cognitive_effects": {
+            "type": "object",
+            "properties": {
+                "memory_consolidation": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "temporal_binding": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "sequence_learning": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "predictive_accuracy": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                }
+            },
+            "description": "Cognitive effects of temporal window operation"
+        }
+    }
+}

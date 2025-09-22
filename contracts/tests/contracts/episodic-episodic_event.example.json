@@ -1,0 +1,9 @@
+{
+  "space_id": "shared:household",
+  "event_id": "evt_123",
+  "ts": "2025-09-10T12:00:00Z",
+  "band": "GREEN",
+  "person_id": "alice",
+  "title": "Breakfast",
+  "summary": "Pancakes"
+}

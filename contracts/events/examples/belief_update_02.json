@@ -1,0 +1,54 @@
+{
+  "schema_version": "1.1.0",
+  "id": "99db4e8b-2c7e-4146-9472-ce2a14040fbf",
+  "ts": "2025-09-09T04:20:40Z",
+  "topic": "BELIEF_UPDATE",
+  "band": "AMBER",
+  "actor": {
+    "user_id": "0cac9873-277d-4ea8-bb6a-c9b5dd1f601b",
+    "agent_id": "system.v1",
+    "caps": [
+      "RECALL"
+    ]
+  },
+  "device": {
+    "device_id": "srv-safety-01",
+    "platform": "edge",
+    "app_version": "1.8.6",
+    "locale": "hi-IN"
+  },
+  "space_id": "extended:grandparents",
+  "policy_version": "1.3",
+  "abac": {
+    "role": "guest",
+    "trust": "black",
+    "geo_precision": "region"
+  },
+  "qos": {
+    "routing": "fast-path",
+    "priority": 7,
+    "latency_budget_ms": 98,
+    "retries": 2
+  },
+  "trace": {
+    "trace_id": "b22bf5cfeb3ca850caedfc7579b710d8",
+    "span_id": "ac6143a1dad3edc5",
+    "sampled": true
+  },
+  "obligations": [],
+  "redaction_applied": true,
+  "hashes": {
+    "payload_sha256": "c11da7aeb10db9214322574ca2f76f17409fadba56d903fe8cee872285342f19"
+  },
+  "payload": {
+    "note": "system-update",
+    "ts": "2025-09-09T04:20:40Z"
+  },
+  "signature": {
+    "alg": "ed25519",
+    "key_id": "key_belief_update_amber_2024",
+    "public_key": "cHVibGlj",
+    "signature": "c2ln"
+  },
+  "mls_group": "household-secure"
+}

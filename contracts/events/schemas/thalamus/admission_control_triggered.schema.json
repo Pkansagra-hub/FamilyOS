@@ -1,0 +1,176 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://familyos.local/contracts/events/schemas/thalamus/admission_control_triggered.schema.json",
+    "title": "Admission Control Triggered Event",
+    "description": "Event generated when thalamic admission control mechanisms are activated",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "timestamp",
+        "trigger_reason",
+        "cognitive_load_before",
+        "cognitive_load_after",
+        "control_action",
+        "affected_circuits"
+    ],
+    "properties": {
+        "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Time when admission control was triggered"
+        },
+        "trigger_reason": {
+            "type": "string",
+            "enum": [
+                "cognitive_overload",
+                "resource_exhaustion",
+                "priority_escalation",
+                "emergency_response",
+                "policy_enforcement",
+                "circuit_protection",
+                "quality_control"
+            ],
+            "description": "Reason for triggering admission control"
+        },
+        "cognitive_load_before": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "description": "Cognitive load before control activation"
+        },
+        "cognitive_load_after": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "description": "Target cognitive load after control"
+        },
+        "control_action": {
+            "type": "string",
+            "enum": [
+                "throttle_admission",
+                "increase_filtering",
+                "priority_rebalancing",
+                "circuit_isolation",
+                "emergency_shutdown",
+                "resource_reallocation",
+                "quality_gate_activation"
+            ],
+            "description": "Type of control action taken"
+        },
+        "affected_circuits": {
+            "type": "array",
+            "items": {
+                "type": "string",
+                "enum": [
+                    "memory",
+                    "recall",
+                    "executive",
+                    "learning"
+                ]
+            },
+            "description": "Thalamic circuits affected by control action"
+        },
+        "control_parameters": {
+            "type": "object",
+            "properties": {
+                "throttle_rate": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Rate of admission throttling (0=full block, 1=no throttle)"
+                },
+                "filter_threshold": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Adjusted salience threshold for filtering"
+                },
+                "priority_boost": {
+                    "type": "number",
+                    "description": "Priority adjustment for critical content"
+                },
+                "duration_limit_ms": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "description": "Maximum duration for control action"
+                }
+            },
+            "description": "Parameters for the control action"
+        },
+        "resource_metrics": {
+            "type": "object",
+            "required": [
+                "cpu_utilization",
+                "memory_utilization"
+            ],
+            "properties": {
+                "cpu_utilization": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "memory_utilization": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "attention_capacity": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "queue_lengths": {
+                    "type": "object",
+                    "properties": {
+                        "admit_queue": {
+                            "type": "integer"
+                        },
+                        "defer_queue": {
+                            "type": "integer"
+                        },
+                        "boost_queue": {
+                            "type": "integer"
+                        }
+                    }
+                }
+            },
+            "description": "Current resource utilization metrics"
+        },
+        "protection_strategy": {
+            "type": "object",
+            "properties": {
+                "graceful_degradation": {
+                    "type": "boolean"
+                },
+                "priority_preservation": {
+                    "type": "boolean"
+                },
+                "circuit_breaker_active": {
+                    "type": "boolean"
+                },
+                "fallback_mode": {
+                    "type": "string"
+                }
+            },
+            "description": "Strategy for protecting system function"
+        },
+        "recovery_criteria": {
+            "type": "object",
+            "properties": {
+                "target_load_threshold": {
+                    "type": "number"
+                },
+                "stability_duration_ms": {
+                    "type": "integer"
+                },
+                "recovery_conditions": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            },
+            "description": "Criteria for returning to normal operation"
+        }
+    }
+}

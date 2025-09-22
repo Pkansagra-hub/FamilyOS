@@ -1,0 +1,1504 @@
+openapi: 3.0.3
+info:
+  title: "Family AI Control Admin API"
+  description: |
+    Control Admin API for Memory-Centric Family AI
+
+    This API provides comprehensive family administration, governance, and
+    emergency protocol management for the Control Plane. It enables family
+    administrators to manage family structure, emergency protocols, privacy
+    settings, and system governance while maintaining memory-centric intelligence.
+
+    **Control Admin Mission:**
+    The Control Admin API manages family governance, emergency coordination,
+    privacy administration, and system oversight for Family AI deployments.
+    All operations respect family autonomy while providing necessary administrative
+    controls and emergency response capabilities.
+
+    **Administration Categories:**
+    - `/governance` - Family governance and decision-making management
+    - `/emergency` - Emergency protocols and family safety coordination
+    - `/privacy` - Family privacy settings and data governance
+    - `/security` - Family security policies and access management
+    - `/compliance` - Family compliance and audit management
+
+    **Memory-Centric Administration:**
+    - Admin decisions integrate with family memory patterns
+    - Governance settings influence memory sharing and AI behavior
+    - Emergency protocols leverage family memory for rapid response
+    - Privacy administration protects family memory boundaries
+  version: "1.0.0"
+  contact:
+    name: "Family AI Development Team"
+    url: "https://github.com/pkansagra99/family_os"
+  license:
+    name: "MIT"
+    url: "https://opensource.org/licenses/MIT"
+
+servers:
+  - url: "http://localhost:8000/v1/control/admin"
+    description: "Local development server"
+  - url: "https://api.familyos.local/v1/control/admin"
+    description: "Production Family AI instance"
+
+security:
+  - FamilyAdminAuth: []
+  - EmergencyAuth: []
+
+paths:
+  # =============================================================================
+  # FAMILY GOVERNANCE
+  # =============================================================================
+
+  /governance:
+    get:
+      summary: "Get family governance settings"
+      description: |
+        Retrieve current family governance configuration including decision-making
+        models, administrative roles, and family policy frameworks.
+      operationId: "getFamilyGovernance"
+      tags: ["Family Governance"]
+      parameters:
+        - name: include_history
+          in: query
+          schema:
+            type: boolean
+            default: false
+          description: "Include governance change history"
+        - name: include_policies
+          in: query
+          schema:
+            type: boolean
+            default: true
+          description: "Include detailed family policies"
+      responses:
+        "200":
+          description: "Family governance retrieved successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FamilyGovernanceResponse"
+              examples:
+                nuclear_family_governance:
+                  summary: "Nuclear family democratic governance"
+                  value:
+                    governance_model:
+                      decision_making_type: "democratic_with_parent_oversight"
+                      primary_administrators: ["mom_001", "dad_001"]
+                      decision_quorum: 2
+                      child_participation_age: 12
+                      emergency_decision_authority: ["mom_001", "dad_001"]
+                    administrative_roles:
+                      family_administrator: "mom_001"
+                      privacy_officer: "dad_001"
+                      child_advocate: "mom_001"
+                      emergency_coordinator: "dad_001"
+                      technology_manager: "dad_001"
+                    family_policies:
+                      privacy_policy:
+                        default_sharing_level: "family_only"
+                        child_data_protection: "strict"
+                        external_sharing_consent: "required"
+                        memory_retention_period: "indefinite_with_review"
+                      decision_making_policy:
+                        major_decisions_require: "both_parents"
+                        routine_decisions_allow: "any_parent"
+                        child_input_required_for: ["activities", "technology", "personal_choices"]
+                        emergency_decisions_authority: "any_parent"
+                      technology_policy:
+                        device_usage_rules: "age_appropriate"
+                        content_filtering: "moderate"
+                        bedtime_restrictions: "enforced"
+                        educational_priority: "high"
+                    governance_effectiveness:
+                      family_satisfaction: 0.87
+                      decision_speed: "moderate"
+                      conflict_resolution_success: 0.92
+                      child_engagement_level: "high"
+
+    put:
+      summary: "Update family governance"
+      description: |
+        Update family governance configuration including decision-making models,
+        administrative roles, and family policy frameworks with proper authorization.
+      operationId: "updateFamilyGovernance"
+      tags: ["Family Governance"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateGovernanceRequest"
+      responses:
+        "200":
+          description: "Family governance updated successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FamilyGovernanceResponse"
+        "403":
+          description: "Insufficient administrative privileges"
+
+  /governance/roles:
+    get:
+      summary: "List administrative roles"
+      description: |
+        List all family administrative roles including responsibilities,
+        current assignments, and role-based permissions.
+      operationId: "listAdministrativeRoles"
+      tags: ["Family Governance"]
+      responses:
+        "200":
+          description: "Administrative roles listed successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AdministrativeRolesResponse"
+
+    post:
+      summary: "Assign administrative role"
+      description: |
+        Assign administrative role to family member with appropriate
+        permissions and responsibilities validation.
+      operationId: "assignAdministrativeRole"
+      tags: ["Family Governance"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AssignRoleRequest"
+      responses:
+        "201":
+          description: "Administrative role assigned successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RoleAssignmentResponse"
+
+  /governance/policies:
+    get:
+      summary: "List family policies"
+      description: |
+        List all family policies including privacy, decision-making,
+        technology usage, and child protection policies.
+      operationId: "listFamilyPolicies"
+      tags: ["Family Governance"]
+      parameters:
+        - name: policy_category
+          in: query
+          schema:
+            type: string
+            enum: ["privacy", "decision_making", "technology", "child_protection", "emergency", "all"]
+          description: "Filter by policy category"
+        - name: include_templates
+          in: query
+          schema:
+            type: boolean
+            default: false
+          description: "Include policy templates for reference"
+      responses:
+        "200":
+          description: "Family policies listed successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FamilyPoliciesResponse"
+
+    put:
+      summary: "Update family policies"
+      description: |
+        Update family policies with governance approval workflow
+        and family impact assessment.
+      operationId: "updateFamilyPolicies"
+      tags: ["Family Governance"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdatePoliciesRequest"
+      responses:
+        "200":
+          description: "Family policies updated successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PolicyUpdateResponse"
+
+  # =============================================================================
+  # EMERGENCY PROTOCOLS
+  # =============================================================================
+
+  /emergency:
+    get:
+      summary: "Get emergency protocols"
+      description: |
+        Retrieve family emergency protocols including escalation procedures,
+        emergency contacts, and family safety coordination plans.
+      operationId: "getEmergencyProtocols"
+      tags: ["Emergency Management"]
+      parameters:
+        - name: protocol_type
+          in: query
+          schema:
+            type: string
+            enum: ["medical", "safety", "security", "natural_disaster", "family_crisis", "all"]
+          description: "Filter by emergency protocol type"
+        - name: include_test_results
+          in: query
+          schema:
+            type: boolean
+            default: false
+          description: "Include recent emergency protocol test results"
+      responses:
+        "200":
+          description: "Emergency protocols retrieved successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EmergencyProtocolsResponse"
+
+    put:
+      summary: "Update emergency protocols"
+      description: |
+        Update family emergency protocols including escalation procedures,
+        emergency contacts, and coordination plans with family approval.
+      operationId: "updateEmergencyProtocols"
+      tags: ["Emergency Management"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateEmergencyProtocolsRequest"
+      responses:
+        "200":
+          description: "Emergency protocols updated successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EmergencyProtocolsResponse"
+
+  /emergency/test:
+    post:
+      summary: "Test emergency protocols"
+      description: |
+        Execute emergency protocol test to verify family communication,
+        device connectivity, and emergency response coordination.
+      operationId: "testEmergencyProtocols"
+      tags: ["Emergency Management"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/EmergencyTestRequest"
+      responses:
+        "200":
+          description: "Emergency protocol test completed"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EmergencyTestResponse"
+
+  /emergency/activate:
+    post:
+      summary: "Activate emergency protocol"
+      description: |
+        Activate specific emergency protocol for real emergency situations
+        with immediate family coordination and external contact notification.
+      operationId: "activateEmergencyProtocol"
+      tags: ["Emergency Management"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ActivateEmergencyRequest"
+      responses:
+        "200":
+          description: "Emergency protocol activated successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EmergencyActivationResponse"
+
+  /emergency/status:
+    get:
+      summary: "Get emergency status"
+      description: |
+        Retrieve current emergency status including active emergencies,
+        family member safety status, and emergency response coordination.
+      operationId: "getEmergencyStatus"
+      tags: ["Emergency Management"]
+      responses:
+        "200":
+          description: "Emergency status retrieved successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EmergencyStatusResponse"
+
+  /emergency/deactivate:
+    post:
+      summary: "Deactivate emergency protocol"
+      description: |
+        Deactivate active emergency protocol with family safety confirmation
+        and incident documentation for future reference.
+      operationId: "deactivateEmergencyProtocol"
+      tags: ["Emergency Management"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DeactivateEmergencyRequest"
+      responses:
+        "200":
+          description: "Emergency protocol deactivated successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EmergencyDeactivationResponse"
+
+  # =============================================================================
+  # PRIVACY ADMINISTRATION
+  # =============================================================================
+
+  /privacy:
+    get:
+      summary: "Get family privacy settings"
+      description: |
+        Retrieve comprehensive family privacy configuration including
+        data governance, memory sharing policies, and external access controls.
+      operationId: "getFamilyPrivacySettings"
+      tags: ["Privacy Administration"]
+      parameters:
+        - name: include_audit_log
+          in: query
+          schema:
+            type: boolean
+            default: false
+          description: "Include privacy setting change audit log"
+        - name: include_compliance_status
+          in: query
+          schema:
+            type: boolean
+            default: true
+          description: "Include privacy compliance status"
+      responses:
+        "200":
+          description: "Family privacy settings retrieved successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FamilyPrivacyResponse"
+
+    put:
+      summary: "Update family privacy settings"
+      description: |
+        Update family privacy configuration with governance approval
+        and family impact assessment for privacy changes.
+      operationId: "updateFamilyPrivacySettings"
+      tags: ["Privacy Administration"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdatePrivacySettingsRequest"
+      responses:
+        "200":
+          description: "Family privacy settings updated successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FamilyPrivacyResponse"
+
+  /privacy/audit:
+    get:
+      summary: "Get privacy audit report"
+      description: |
+        Generate comprehensive privacy audit report including data access logs,
+        sharing activities, and compliance verification for family review.
+      operationId: "getPrivacyAuditReport"
+      tags: ["Privacy Administration"]
+      parameters:
+        - name: date_range
+          in: query
+          schema:
+            type: string
+            enum: ["week", "month", "quarter", "year", "custom"]
+          description: "Audit report date range"
+        - name: start_date
+          in: query
+          schema:
+            type: string
+            format: date-time
+          description: "Start date for custom range"
+        - name: end_date
+          in: query
+          schema:
+            type: string
+            format: date-time
+          description: "End date for custom range"
+        - name: include_member_details
+          in: query
+          schema:
+            type: boolean
+            default: false
+          description: "Include individual family member privacy details"
+      responses:
+        "200":
+          description: "Privacy audit report generated successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PrivacyAuditResponse"
+
+  /privacy/data-export:
+    post:
+      summary: "Request family data export"
+      description: |
+        Request comprehensive family data export including all family
+        memories, preferences, and system data with privacy protection.
+      operationId: "requestFamilyDataExport"
+      tags: ["Privacy Administration"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DataExportRequest"
+      responses:
+        "202":
+          description: "Data export request queued for processing"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DataExportResponse"
+
+  /privacy/data-deletion:
+    post:
+      summary: "Request family data deletion"
+      description: |
+        Request family data deletion with proper verification, backup,
+        and family member notification before permanent removal.
+      operationId: "requestFamilyDataDeletion"
+      tags: ["Privacy Administration"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/DataDeletionRequest"
+      responses:
+        "202":
+          description: "Data deletion request queued for processing"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/DataDeletionResponse"
+
+  # =============================================================================
+  # SECURITY MANAGEMENT
+  # =============================================================================
+
+  /security:
+    get:
+      summary: "Get family security settings"
+      description: |
+        Retrieve family security configuration including access controls,
+        authentication policies, and family device security status.
+      operationId: "getFamilySecuritySettings"
+      tags: ["Security Management"]
+      parameters:
+        - name: include_threat_assessment
+          in: query
+          schema:
+            type: boolean
+            default: false
+          description: "Include current family security threat assessment"
+        - name: include_device_security
+          in: query
+          schema:
+            type: boolean
+            default: true
+          description: "Include family device security status"
+      responses:
+        "200":
+          description: "Family security settings retrieved successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FamilySecurityResponse"
+
+    put:
+      summary: "Update family security settings"
+      description: |
+        Update family security configuration including access controls,
+        authentication policies, and device security requirements.
+      operationId: "updateFamilySecuritySettings"
+      tags: ["Security Management"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateSecuritySettingsRequest"
+      responses:
+        "200":
+          description: "Family security settings updated successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FamilySecurityResponse"
+
+  /security/audit:
+    get:
+      summary: "Get security audit report"
+      description: |
+        Generate comprehensive security audit report including access logs,
+        authentication events, and security policy compliance for family review.
+      operationId: "getSecurityAuditReport"
+      tags: ["Security Management"]
+      parameters:
+        - name: audit_scope
+          in: query
+          schema:
+            type: string
+            enum: ["authentication", "access_control", "device_security", "data_access", "comprehensive"]
+          description: "Scope of security audit"
+        - name: date_range
+          in: query
+          schema:
+            type: string
+            enum: ["day", "week", "month", "custom"]
+          description: "Audit report date range"
+        - name: include_recommendations
+          in: query
+          schema:
+            type: boolean
+            default: true
+          description: "Include security improvement recommendations"
+      responses:
+        "200":
+          description: "Security audit report generated successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SecurityAuditResponse"
+
+  /security/incidents:
+    get:
+      summary: "List security incidents"
+      description: |
+        List family security incidents including attempted breaches,
+        unauthorized access attempts, and security policy violations.
+      operationId: "listSecurityIncidents"
+      tags: ["Security Management"]
+      parameters:
+        - name: severity_filter
+          in: query
+          schema:
+            type: string
+            enum: ["low", "medium", "high", "critical", "all"]
+          description: "Filter by incident severity"
+        - name: status_filter
+          in: query
+          schema:
+            type: string
+            enum: ["open", "investigating", "resolved", "dismissed", "all"]
+          description: "Filter by incident status"
+        - name: limit
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 20
+          description: "Maximum number of incidents to return"
+      responses:
+        "200":
+          description: "Security incidents listed successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SecurityIncidentsResponse"
+
+    post:
+      summary: "Report security incident"
+      description: |
+        Report family security incident with automatic assessment,
+        family notification, and response coordination.
+      operationId: "reportSecurityIncident"
+      tags: ["Security Management"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ReportIncidentRequest"
+      responses:
+        "201":
+          description: "Security incident reported successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SecurityIncidentResponse"
+
+  # =============================================================================
+  # COMPLIANCE MANAGEMENT
+  # =============================================================================
+
+  /compliance:
+    get:
+      summary: "Get compliance status"
+      description: |
+        Retrieve family compliance status including regulatory compliance,
+        family policy adherence, and audit readiness assessment.
+      operationId: "getComplianceStatus"
+      tags: ["Compliance Management"]
+      parameters:
+        - name: compliance_framework
+          in: query
+          schema:
+            type: string
+            enum: ["coppa", "gdpr", "ccpa", "family_policy", "all"]
+          description: "Filter by compliance framework"
+        - name: include_recommendations
+          in: query
+          schema:
+            type: boolean
+            default: true
+          description: "Include compliance improvement recommendations"
+      responses:
+        "200":
+          description: "Compliance status retrieved successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ComplianceStatusResponse"
+
+  /compliance/audit:
+    post:
+      summary: "Generate compliance audit"
+      description: |
+        Generate comprehensive compliance audit report covering all
+        applicable regulations and family policy compliance verification.
+      operationId: "generateComplianceAudit"
+      tags: ["Compliance Management"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ComplianceAuditRequest"
+      responses:
+        "202":
+          description: "Compliance audit generation initiated"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ComplianceAuditResponse"
+
+  /compliance/remediation:
+    post:
+      summary: "Initiate compliance remediation"
+      description: |
+        Initiate compliance remediation plan for identified compliance
+        gaps with family-appropriate corrective actions.
+      operationId: "initiateComplianceRemediation"
+      tags: ["Compliance Management"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ComplianceRemediationRequest"
+      responses:
+        "200":
+          description: "Compliance remediation initiated successfully"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ComplianceRemediationResponse"
+
+components:
+  securitySchemes:
+    FamilyAdminAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: "Family administrator authentication token"
+    EmergencyAuth:
+      type: apiKey
+      in: header
+      name: X-Emergency-Token
+      description: "Emergency access token for critical situations"
+
+  schemas:
+    # =============================================================================
+    # FAMILY GOVERNANCE SCHEMAS
+    # =============================================================================
+
+    FamilyGovernanceResponse:
+      type: object
+      required: ["governance_model", "administrative_roles", "family_policies"]
+      properties:
+        governance_model:
+          type: object
+          properties:
+            decision_making_type:
+              type: string
+              enum: ["parent_led", "democratic", "democratic_with_parent_oversight", "consensus", "individual_autonomy"]
+            primary_administrators:
+              type: array
+              items:
+                type: string
+              description: "Family members with administrative privileges"
+            decision_quorum:
+              type: integer
+              minimum: 1
+              description: "Minimum administrators required for major decisions"
+            child_participation_age:
+              type: integer
+              minimum: 0
+              maximum: 18
+              description: "Minimum age for children to participate in family decisions"
+            emergency_decision_authority:
+              type: array
+              items:
+                type: string
+              description: "Family members authorized to make emergency decisions"
+        administrative_roles:
+          type: object
+          properties:
+            family_administrator:
+              type: string
+              description: "Primary family administrator"
+            privacy_officer:
+              type: string
+              description: "Family privacy and data protection officer"
+            child_advocate:
+              type: string
+              description: "Designated child welfare advocate"
+            emergency_coordinator:
+              type: string
+              description: "Emergency response coordinator"
+            technology_manager:
+              type: string
+              description: "Family technology and device manager"
+        family_policies:
+          type: object
+          properties:
+            privacy_policy:
+              type: object
+              properties:
+                default_sharing_level:
+                  type: string
+                  enum: ["personal_only", "family_only", "selective_sharing", "community_sharing"]
+                child_data_protection:
+                  type: string
+                  enum: ["minimal", "moderate", "strict", "maximum"]
+                external_sharing_consent:
+                  type: string
+                  enum: ["not_allowed", "admin_approval", "required", "optional"]
+                memory_retention_period:
+                  type: string
+                  enum: ["6_months", "1_year", "3_years", "indefinite_with_review", "indefinite"]
+            decision_making_policy:
+              type: object
+              properties:
+                major_decisions_require:
+                  type: string
+                  enum: ["any_admin", "primary_admin", "both_parents", "family_consensus"]
+                routine_decisions_allow:
+                  type: string
+                  enum: ["any_member", "any_adult", "any_parent", "admin_only"]
+                child_input_required_for:
+                  type: array
+                  items:
+                    type: string
+                    enum: ["activities", "technology", "personal_choices", "family_rules", "major_decisions"]
+                emergency_decisions_authority:
+                  type: string
+                  enum: ["any_adult", "any_parent", "admin_only", "emergency_coordinator"]
+            technology_policy:
+              type: object
+              properties:
+                device_usage_rules:
+                  type: string
+                  enum: ["unrestricted", "age_appropriate", "time_limited", "supervised_only"]
+                content_filtering:
+                  type: string
+                  enum: ["none", "basic", "moderate", "strict", "custom"]
+                bedtime_restrictions:
+                  type: string
+                  enum: ["none", "suggested", "enforced", "strict"]
+                educational_priority:
+                  type: string
+                  enum: ["low", "moderate", "high", "exclusive"]
+        governance_effectiveness:
+          type: object
+          properties:
+            family_satisfaction:
+              type: number
+              minimum: 0
+              maximum: 1
+              description: "Family satisfaction with governance model"
+            decision_speed:
+              type: string
+              enum: ["very_slow", "slow", "moderate", "fast", "very_fast"]
+            conflict_resolution_success:
+              type: number
+              minimum: 0
+              maximum: 1
+              description: "Success rate of conflict resolution"
+            child_engagement_level:
+              type: string
+              enum: ["none", "low", "moderate", "high", "very_high"]
+
+    UpdateGovernanceRequest:
+      type: object
+      properties:
+        governance_model_updates:
+          type: object
+        administrative_role_updates:
+          type: object
+        family_policy_updates:
+          type: object
+        change_justification:
+          type: string
+          description: "Reason for governance changes"
+        family_approval_required:
+          type: boolean
+          default: true
+
+    AdministrativeRolesResponse:
+      type: object
+      required: ["roles", "role_summary"]
+      properties:
+        roles:
+          type: array
+          items:
+            type: object
+            properties:
+              role_id:
+                type: string
+              role_name:
+                type: string
+              role_description:
+                type: string
+              assigned_member:
+                type: string
+              responsibilities:
+                type: array
+                items:
+                  type: string
+              permissions:
+                type: array
+                items:
+                  type: string
+              assignment_date:
+                type: string
+                format: date-time
+              status:
+                type: string
+                enum: ["active", "inactive", "suspended"]
+        role_summary:
+          type: object
+          properties:
+            total_roles:
+              type: integer
+            assigned_roles:
+              type: integer
+            vacant_roles:
+              type: integer
+
+    AssignRoleRequest:
+      type: object
+      required: ["role_id", "member_id"]
+      properties:
+        role_id:
+          type: string
+        member_id:
+          type: string
+        assignment_reason:
+          type: string
+        effective_date:
+          type: string
+          format: date-time
+        require_family_approval:
+          type: boolean
+          default: false
+
+    RoleAssignmentResponse:
+      type: object
+      properties:
+        assignment_id:
+          type: string
+        role_details:
+          type: object
+        member_details:
+          type: object
+        effective_permissions:
+          type: array
+          items:
+            type: string
+        family_impact:
+          type: object
+
+    FamilyPoliciesResponse:
+      type: object
+      required: ["policies", "policy_summary"]
+      properties:
+        policies:
+          type: array
+          items:
+            type: object
+            properties:
+              policy_id:
+                type: string
+              policy_name:
+                type: string
+              policy_category:
+                type: string
+              policy_content:
+                type: object
+              created_date:
+                type: string
+                format: date-time
+              last_updated:
+                type: string
+                format: date-time
+              created_by:
+                type: string
+              status:
+                type: string
+                enum: ["active", "draft", "archived", "deprecated"]
+        policy_summary:
+          type: object
+          properties:
+            total_policies:
+              type: integer
+            active_policies:
+              type: integer
+            draft_policies:
+              type: integer
+
+    UpdatePoliciesRequest:
+      type: object
+      properties:
+        policy_updates:
+          type: array
+          items:
+            type: object
+        change_summary:
+          type: string
+        impact_assessment:
+          type: object
+        family_approval_required:
+          type: boolean
+
+    PolicyUpdateResponse:
+      type: object
+      properties:
+        update_id:
+          type: string
+        updated_policies:
+          type: array
+          items:
+            type: object
+        family_impact:
+          type: object
+        approval_status:
+          type: string
+
+    # =============================================================================
+    # EMERGENCY MANAGEMENT SCHEMAS
+    # =============================================================================
+
+    EmergencyProtocolsResponse:
+      type: object
+      required: ["emergency_protocols", "protocol_summary"]
+      properties:
+        emergency_protocols:
+          type: array
+          items:
+            type: object
+            properties:
+              protocol_id:
+                type: string
+              protocol_name:
+                type: string
+              emergency_type:
+                type: string
+                enum: ["medical", "safety", "security", "natural_disaster", "family_crisis", "technology_failure"]
+              activation_criteria:
+                type: object
+              response_procedures:
+                type: object
+                properties:
+                  immediate_actions:
+                    type: array
+                    items:
+                      type: string
+                  family_notification:
+                    type: object
+                  external_contacts:
+                    type: array
+                    items:
+                      type: object
+                  escalation_timeline:
+                    type: object
+              family_roles:
+                type: object
+                description: "Specific family member responsibilities during emergency"
+              communication_plan:
+                type: object
+              resource_requirements:
+                type: array
+                items:
+                  type: string
+              last_tested:
+                type: string
+                format: date-time
+              test_results:
+                type: object
+              status:
+                type: string
+                enum: ["active", "testing", "needs_update", "inactive"]
+        protocol_summary:
+          type: object
+          properties:
+            total_protocols:
+              type: integer
+            active_protocols:
+              type: integer
+            protocols_needing_update:
+              type: integer
+            last_family_drill:
+              type: string
+              format: date-time
+
+    UpdateEmergencyProtocolsRequest:
+      type: object
+      properties:
+        protocol_updates:
+          type: array
+          items:
+            type: object
+        update_reason:
+          type: string
+        family_consultation_required:
+          type: boolean
+          default: true
+
+    EmergencyTestRequest:
+      type: object
+      required: ["test_type"]
+      properties:
+        test_type:
+          type: string
+          enum: ["communication_only", "partial_drill", "full_drill", "specific_protocol"]
+        protocol_ids:
+          type: array
+          items:
+            type: string
+          description: "Specific protocols to test (if test_type is specific_protocol)"
+        include_external_contacts:
+          type: boolean
+          default: false
+        family_members_participating:
+          type: array
+          items:
+            type: string
+        test_scenario:
+          type: string
+
+    EmergencyTestResponse:
+      type: object
+      properties:
+        test_id:
+          type: string
+        test_results:
+          type: object
+          properties:
+            overall_success:
+              type: boolean
+            communication_test_results:
+              type: object
+            family_response_times:
+              type: object
+            protocol_effectiveness:
+              type: object
+            identified_issues:
+              type: array
+              items:
+                type: string
+            improvement_recommendations:
+              type: array
+              items:
+                type: string
+
+    ActivateEmergencyRequest:
+      type: object
+      required: ["emergency_type", "initiated_by"]
+      properties:
+        emergency_type:
+          type: string
+          enum: ["medical", "safety", "security", "natural_disaster", "family_crisis"]
+        protocol_id:
+          type: string
+          description: "Specific protocol to activate (optional)"
+        initiated_by:
+          type: string
+          description: "Family member or system component initiating emergency"
+        emergency_details:
+          type: object
+          properties:
+            severity:
+              type: string
+              enum: ["low", "medium", "high", "critical"]
+            location:
+              type: string
+            affected_members:
+              type: array
+              items:
+                type: string
+            description:
+              type: string
+            immediate_needs:
+              type: array
+              items:
+                type: string
+        override_normal_protocols:
+          type: boolean
+          default: false
+
+    EmergencyActivationResponse:
+      type: object
+      properties:
+        activation_id:
+          type: string
+        activated_protocols:
+          type: array
+          items:
+            type: string
+        family_notifications_sent:
+          type: object
+        external_contacts_notified:
+          type: array
+          items:
+            type: object
+        estimated_response_timeline:
+          type: object
+        emergency_coordinator_assigned:
+          type: string
+
+    EmergencyStatusResponse:
+      type: object
+      properties:
+        emergency_status:
+          type: string
+          enum: ["normal", "alert", "active_emergency", "recovery"]
+        active_emergencies:
+          type: array
+          items:
+            type: object
+        family_safety_status:
+          type: object
+          properties:
+            all_members_accounted:
+              type: boolean
+            member_status:
+              type: array
+              items:
+                type: object
+        emergency_resources_status:
+          type: object
+        last_status_update:
+          type: string
+          format: date-time
+
+    DeactivateEmergencyRequest:
+      type: object
+      required: ["activation_id", "deactivated_by"]
+      properties:
+        activation_id:
+          type: string
+        deactivated_by:
+          type: string
+        deactivation_reason:
+          type: string
+          enum: ["resolved", "false_alarm", "transferred_to_authorities", "escalated"]
+        incident_summary:
+          type: string
+        lessons_learned:
+          type: array
+          items:
+            type: string
+        follow_up_actions_required:
+          type: array
+          items:
+            type: string
+
+    EmergencyDeactivationResponse:
+      type: object
+      properties:
+        deactivation_confirmed:
+          type: boolean
+        incident_report_id:
+          type: string
+        family_notifications_sent:
+          type: boolean
+        follow_up_scheduled:
+          type: array
+          items:
+            type: object
+        protocol_review_recommended:
+          type: boolean
+
+    # =============================================================================
+    # PRIVACY AND SECURITY SCHEMAS (Simplified for brevity)
+    # =============================================================================
+
+    FamilyPrivacyResponse:
+      type: object
+      properties:
+        privacy_settings:
+          type: object
+        data_governance:
+          type: object
+        compliance_status:
+          type: object
+
+    UpdatePrivacySettingsRequest:
+      type: object
+      properties:
+        privacy_updates:
+          type: object
+        justification:
+          type: string
+
+    PrivacyAuditResponse:
+      type: object
+      properties:
+        audit_summary:
+          type: object
+        data_access_log:
+          type: array
+          items:
+            type: object
+        privacy_violations:
+          type: array
+          items:
+            type: object
+
+    DataExportRequest:
+      type: object
+      properties:
+        export_scope:
+          type: string
+          enum: ["full_family", "specific_member", "specific_data_types"]
+        data_types:
+          type: array
+          items:
+            type: string
+        format:
+          type: string
+          enum: ["json", "csv", "xml", "portable_format"]
+
+    DataExportResponse:
+      type: object
+      properties:
+        export_request_id:
+          type: string
+        estimated_completion:
+          type: string
+          format: date-time
+        export_size_estimate:
+          type: string
+
+    DataDeletionRequest:
+      type: object
+      properties:
+        deletion_scope:
+          type: string
+          enum: ["full_family", "specific_member", "specific_data_types", "time_range"]
+        confirmation_required:
+          type: boolean
+          default: true
+
+    DataDeletionResponse:
+      type: object
+      properties:
+        deletion_request_id:
+          type: string
+        confirmation_deadline:
+          type: string
+          format: date-time
+        deletion_impact:
+          type: object
+
+    FamilySecurityResponse:
+      type: object
+      properties:
+        security_settings:
+          type: object
+        device_security_status:
+          type: array
+          items:
+            type: object
+        threat_assessment:
+          type: object
+
+    UpdateSecuritySettingsRequest:
+      type: object
+      properties:
+        security_updates:
+          type: object
+        change_reason:
+          type: string
+
+    SecurityAuditResponse:
+      type: object
+      properties:
+        audit_summary:
+          type: object
+        security_events:
+          type: array
+          items:
+            type: object
+        recommendations:
+          type: array
+          items:
+            type: string
+
+    SecurityIncidentsResponse:
+      type: object
+      properties:
+        incidents:
+          type: array
+          items:
+            type: object
+        incident_summary:
+          type: object
+
+    ReportIncidentRequest:
+      type: object
+      properties:
+        incident_type:
+          type: string
+        severity:
+          type: string
+        description:
+          type: string
+
+    SecurityIncidentResponse:
+      type: object
+      properties:
+        incident_id:
+          type: string
+        initial_assessment:
+          type: object
+        response_actions:
+          type: array
+          items:
+            type: string
+
+    ComplianceStatusResponse:
+      type: object
+      properties:
+        compliance_summary:
+          type: object
+        framework_compliance:
+          type: array
+          items:
+            type: object
+        recommendations:
+          type: array
+          items:
+            type: string
+
+    ComplianceAuditRequest:
+      type: object
+      properties:
+        audit_scope:
+          type: array
+          items:
+            type: string
+        audit_depth:
+          type: string
+
+    ComplianceAuditResponse:
+      type: object
+      properties:
+        audit_id:
+          type: string
+        estimated_completion:
+          type: string
+          format: date-time
+
+    ComplianceRemediationRequest:
+      type: object
+      properties:
+        compliance_gaps:
+          type: array
+          items:
+            type: string
+        remediation_timeline:
+          type: string
+
+    ComplianceRemediationResponse:
+      type: object
+      properties:
+        remediation_plan_id:
+          type: string
+        remediation_actions:
+          type: array
+          items:
+            type: object
+
+  responses:
+    BadRequest:
+      description: "Invalid request format or parameters"
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+              details:
+                type: string
+
+    Forbidden:
+      description: "Access denied - insufficient administrative privileges"
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+              required_role:
+                type: string
+              required_permissions:
+                type: array
+                items:
+                  type: string
+
+tags:
+  - name: "Family Governance"
+    description: "Family governance and decision-making management"
+  - name: "Emergency Management"
+    description: "Emergency protocols and family safety coordination"
+  - name: "Privacy Administration"
+    description: "Family privacy settings and data governance"
+  - name: "Security Management"
+    description: "Family security policies and access management"
+  - name: "Compliance Management"
+    description: "Family compliance and audit management"

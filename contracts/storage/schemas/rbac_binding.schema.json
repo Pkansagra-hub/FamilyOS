@@ -1,0 +1,44 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://familyos.local/contracts/storage/rbac_binding.schema.json",
+  "title": "RBAC Binding",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "binding_id",
+    "role",
+    "subject",
+    "created_ts"
+  ],
+  "properties": {
+    "binding_id": {
+      "$ref": "./common.schema.json#/$defs/ULID"
+    },
+    "role": {
+      "type": "string"
+    },
+    "subject": {
+      "type": "object",
+      "required": [
+        "type",
+        "id"
+      ],
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "user",
+            "device",
+            "agent"
+          ]
+        },
+        "id": {
+          "type": "string"
+        }
+      }
+    },
+    "created_ts": {
+      "$ref": "./common.schema.json#/$defs/Timestamp"
+    }
+  }
+}

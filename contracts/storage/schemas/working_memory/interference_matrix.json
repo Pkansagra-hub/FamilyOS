@@ -1,0 +1,32 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "$id": "interference_matrix.schema.json",
+    "title": "Working Memory Interference Matrix Storage",
+    "type": "object",
+    "required": [
+        "matrix_id",
+        "interference_scores",
+        "mitigation_strategies"
+    ],
+    "properties": {
+        "matrix_id": {
+            "type": "string"
+        },
+        "interference_scores": {
+            "type": "object"
+        },
+        "mitigation_strategies": {
+            "type": "array",
+            "items": {
+                "type": "object"
+            }
+        },
+        "update_frequency": {
+            "type": "number"
+        },
+        "last_updated": {
+            "type": "string",
+            "format": "date-time"
+        }
+    }
+}

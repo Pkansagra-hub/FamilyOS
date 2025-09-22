@@ -1,0 +1,347 @@
+# Issue #27.3: Policy conflict resolution contract
+# Contract-first approach for resolving policy conflicts in ABAC system
+
+apiVersion: policy/v1
+kind: PolicyConflictResolution
+metadata:
+  name: abac-policy-conflict-resolution
+  description: "Policy conflict detection and resolution framework for ABAC"
+  version: "1.0.0"
+
+spec:
+  # Conflict detection framework
+  conflict_detection:
+    # Types of policy conflicts
+    conflict_types:
+      decision_conflict:
+        description: "Multiple policies produce different decisions (ALLOW vs DENY)"
+        severity: "high"
+        detection_method: "decision_comparison"
+        examples:
+          - "RBAC allows access but ABAC denies due to context"
+          - "Different attribute combinations yield conflicting decisions"
+
+      band_conflict:
+        description: "Policies recommend different security bands"
+        severity: "medium"
+        detection_method: "band_comparison"
+        examples:
+          - "Actor attributes suggest GREEN but device context requires AMBER"
+          - "Environmental factors escalate to RED but role permits GREEN"
+
+      obligation_conflict:
+        description: "Conflicting or incompatible obligations"
+        severity: "medium"
+        detection_method: "obligation_analysis"
+        examples:
+          - "One policy requires content_redaction, another forbids it"
+          - "Conflicting time limits from different policies"
+
+      priority_conflict:
+        description: "Policies with equal priority but different outcomes"
+        severity: "low"
+        detection_method: "priority_analysis"
+        examples:
+          - "Multiple high-priority policies with different decisions"
+          - "Circular dependency in policy precedence"
+
+      temporal_conflict:
+        description: "Time-based policy conflicts"
+        severity: "medium"
+        detection_method: "temporal_analysis"
+        examples:
+          - "Work hours policy conflicts with family time policy"
+          - "Emergency override conflicts with scheduled maintenance"
+
+      scope_conflict:
+        description: "Overlapping policy scopes with different rules"
+        severity: "low"
+        detection_method: "scope_analysis"
+        examples:
+          - "Global policy conflicts with space-specific policy"
+          - "Module-specific policies have contradictory rules"
+
+    # Conflict detection algorithms
+    detection_algorithms:
+      decision_matrix_analysis:
+        description: "Analyze decision outcomes across policy combinations"
+        steps:
+          1. "Collect all applicable policies for the request"
+          2. "Evaluate each policy independently"
+          3. "Compare decision outcomes (ALLOW/DENY/ALLOW_REDACTED)"
+          4. "Identify conflicting decisions"
+          5. "Classify conflict severity and type"
+
+      attribute_impact_analysis:
+        description: "Analyze how different attributes affect policy outcomes"
+        steps:
+          1. "Map attributes to policy conditions"
+          2. "Identify overlapping attribute dependencies"
+          3. "Test attribute value combinations"
+          4. "Detect contradictory attribute requirements"
+          5. "Report potential conflict scenarios"
+
+      obligation_compatibility_check:
+        description: "Check compatibility of policy obligations"
+        steps:
+          1. "Extract all obligations from applicable policies"
+          2. "Analyze obligation requirements and constraints"
+          3. "Identify mutually exclusive obligations"
+          4. "Check for resource conflicts in obligations"
+          5. "Validate obligation precedence rules"
+
+  # Conflict resolution strategies
+  resolution_strategies:
+    # Priority-based resolution
+    priority_resolution:
+      description: "Resolve conflicts using policy priority hierarchy"
+      hierarchy:
+        1:
+          name: "emergency_override"
+          description: "Emergency situations override all other policies"
+          conditions: ["request.urgency == 'emergency'", "security_alert_level == 'critical'"]
+          decision_rule: "emergency_policy_wins"
+
+        2:
+          name: "safety_first"
+          description: "Safety policies take precedence over convenience"
+          conditions: ["actor.is_minor == true", "safety_pressure > 0.5"]
+          decision_rule: "most_restrictive_wins"
+
+        3:
+          name: "security_precedence"
+          description: "Security policies override functional policies"
+          conditions: ["device.trust == 'untrusted'", "behavior_pattern == 'suspicious'"]
+          decision_rule: "most_secure_wins"
+
+        4:
+          name: "context_specific"
+          description: "Context-specific policies override general policies"
+          conditions: ["location-based policies", "time-based policies"]
+          decision_rule: "most_specific_wins"
+
+        5:
+          name: "role_based"
+          description: "Role-based policies as baseline"
+          conditions: ["standard RBAC evaluation"]
+          decision_rule: "rbac_baseline"
+
+    # Decision resolution rules
+    decision_resolution_rules:
+      deny_wins:
+        description: "When in doubt, deny access (fail-safe)"
+        conditions:
+          - "conflicting ALLOW/DENY decisions"
+          - "uncertain security context"
+          - "insufficient information for safe decision"
+        outcome: "DENY"
+        reason: "Policy conflict resolved in favor of security"
+
+      most_restrictive_wins:
+        description: "Choose the most restrictive decision and band"
+        conditions:
+          - "multiple valid decisions with different restriction levels"
+          - "safety concerns present"
+        decision_logic:
+          - "DENY > ALLOW_REDACTED > ALLOW"
+          - "BLACK > RED > AMBER > GREEN (for bands)"
+        outcome: "Most restrictive option"
+
+      weighted_scoring:
+        description: "Use weighted scoring to resolve conflicts"
+        scoring_factors:
+          safety_weight: 0.4
+          security_weight: 0.3
+          usability_weight: 0.2
+          performance_weight: 0.1
+        algorithm:
+          1. "Calculate weighted scores for each conflicting policy"
+          2. "Select policy with highest weighted score"
+          3. "Apply additional safety checks"
+          4. "Generate final decision with explanation"
+
+      consensus_building:
+        description: "Find middle ground between conflicting policies"
+        approach:
+          1. "Identify common elements across conflicting policies"
+          2. "Find compromise position (e.g., ALLOW_REDACTED instead of ALLOW/DENY)"
+          3. "Combine compatible obligations from all policies"
+          4. "Select appropriate security band as compromise"
+        fallback: "most_restrictive_wins"
+
+    # Band resolution strategies
+    band_resolution:
+      escalation_priority:
+        description: "Escalate to higher band when conflicts exist"
+        rules:
+          - "Any policy requiring RED+ escalates entire decision to RED+"
+          - "Minor protection policies can escalate to AMBER minimum"
+          - "Device trust issues escalate by one band level"
+          - "Emergency situations may use any band as needed"
+
+      context_weighted_bands:
+        description: "Weight band decisions by context importance"
+        weights:
+          actor_context: 0.35
+          device_context: 0.25
+          environment_context: 0.25
+          temporal_context: 0.15
+        resolution_logic:
+          1. "Calculate weighted band scores"
+          2. "Round up to next band level for safety"
+          3. "Apply minimum band requirements"
+          4. "Validate against maximum allowed bands"
+
+    # Obligation resolution strategies
+    obligation_resolution:
+      obligation_merging:
+        description: "Combine compatible obligations from conflicting policies"
+        compatibility_rules:
+          compatible_types:
+            - ["content_redaction", "enhanced_monitoring"]
+            - ["time_limits", "activity_tracking"]
+            - ["adult_notification", "enhanced_logging"]
+          incompatible_types:
+            - ["content_redaction", "full_access_required"]
+            - ["time_limits", "unlimited_access"]
+
+        merging_logic:
+          1. "Group obligations by compatibility"
+          2. "Select most restrictive parameters for each group"
+          3. "Remove incompatible obligations (favor security)"
+          4. "Validate merged obligations don't create new conflicts"
+
+      obligation_prioritization:
+        description: "Prioritize obligations when merging is impossible"
+        priority_order:
+          1. "Safety-related obligations (minor protection, content filtering)"
+          2. "Security-related obligations (monitoring, logging)"
+          3. "Operational obligations (time limits, resource management)"
+          4. "Convenience obligations (notifications, user experience)"
+
+  # Conflict resolution execution
+  resolution_execution:
+    # Resolution workflow
+    workflow:
+      detection_phase:
+        steps:
+          1. "Collect all applicable policies for request"
+          2. "Evaluate policies independently"
+          3. "Compare outcomes and identify conflicts"
+          4. "Classify conflict types and severity"
+        timeout_ms: 500
+
+      analysis_phase:
+        steps:
+          1. "Determine applicable resolution strategies"
+          2. "Calculate priority weights and scores"
+          3. "Identify compromise positions"
+          4. "Validate resolution safety"
+        timeout_ms: 800
+
+      resolution_phase:
+        steps:
+          1. "Apply selected resolution strategy"
+          2. "Generate final decision with obligations"
+          3. "Document resolution reasoning"
+          4. "Log conflict and resolution for analysis"
+        timeout_ms: 300
+
+      fallback_phase:
+        steps:
+          1. "Apply fail-safe default (DENY with RED band)"
+          2. "Log resolution failure"
+          3. "Generate alert for policy review"
+          4. "Provide user-friendly error message"
+        timeout_ms: 100
+
+    # Decision documentation
+    resolution_documentation:
+      conflict_record:
+        timestamp: "string (ISO 8601)"
+        request_id: "string"
+        conflict_type: "string"
+        conflicting_policies: "array of policy identifiers"
+        resolution_strategy: "string"
+        final_decision: "string"
+        final_band: "string"
+        final_obligations: "array"
+        reasoning: "string"
+        confidence_score: "number (0.0-1.0)"
+
+      audit_trail:
+        policy_evaluations: "array of individual policy results"
+        conflict_detection_results: "object"
+        resolution_steps: "array of resolution actions"
+        fallback_triggers: "array of fallback conditions met"
+        performance_metrics:
+          total_resolution_time_ms: "number"
+          policies_evaluated: "number"
+          conflicts_detected: "number"
+          resolution_confidence: "number"
+
+  # Conflict prevention and optimization
+  conflict_prevention:
+    # Policy validation
+    policy_validation:
+      static_analysis:
+        description: "Analyze policies for potential conflicts during creation"
+        checks:
+          - "Decision consistency across attribute combinations"
+          - "Obligation compatibility validation"
+          - "Band escalation logic verification"
+          - "Temporal consistency checks"
+
+      runtime_monitoring:
+        description: "Monitor for emerging conflicts during operation"
+        metrics:
+          - "Conflict frequency by policy combination"
+          - "Resolution strategy effectiveness"
+          - "Performance impact of conflict resolution"
+          - "User experience impact scores"
+
+    # Policy optimization
+    optimization_strategies:
+      policy_consolidation:
+        description: "Merge compatible policies to reduce conflicts"
+        approach:
+          1. "Identify frequently conflicting policy pairs"
+          2. "Analyze common resolution patterns"
+          3. "Propose policy consolidation opportunities"
+          4. "Validate consolidated policy effectiveness"
+
+      priority_tuning:
+        description: "Adjust policy priorities based on conflict patterns"
+        approach:
+          1. "Analyze historical conflict resolutions"
+          2. "Identify suboptimal priority assignments"
+          3. "Propose priority adjustments"
+          4. "Test adjustments against historical scenarios"
+
+  # Performance and reliability
+  performance:
+    resolution_timing:
+      target_resolution_time_ms: 500
+      maximum_resolution_time_ms: 1500
+      timeout_fallback: "DENY with RED band"
+
+    caching:
+      conflict_pattern_cache_ttl: 1800  # 30 minutes
+      resolution_result_cache_ttl: 300  # 5 minutes
+      policy_evaluation_cache_ttl: 600  # 10 minutes
+
+    monitoring:
+      conflict_rate_threshold: 0.05  # 5% of requests
+      resolution_success_rate_threshold: 0.95  # 95% success
+      performance_degradation_threshold: 1.5  # 1.5x normal response time
+
+    alerting:
+      high_conflict_rate:
+        threshold: 0.1  # 10% of requests
+        action: "alert_policy_administrators"
+      resolution_failures:
+        threshold: 0.02  # 2% failure rate
+        action: "escalate_to_security_team"
+      performance_degradation:
+        threshold: 2.0  # 2x normal response time
+        action: "enable_emergency_fallback_mode"

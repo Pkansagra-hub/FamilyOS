@@ -1,0 +1,466 @@
+# Issue #27.2: Context-aware access decisions contract
+# Contract-first approach for context-aware decision making in ABAC
+
+apiVersion: policy/v1
+kind: ContextAwareDecision
+metadata:
+  name: abac-context-aware-decisions
+  description: "Context-aware access decision framework for enhanced ABAC"
+  version: "1.0.0"
+
+spec:
+  # Decision context framework
+  decision_context:
+    # Request context
+    request:
+      description: "Information about the access request"
+      properties:
+        resource_type:
+          type: "string"
+          required: true
+          enum: ["memory", "space", "episodic", "temporal", "capability", "tool", "data"]
+          description: "Type of resource being accessed"
+
+        action:
+          type: "string"
+          required: true
+          enum: ["read", "write", "delete", "execute", "share", "modify", "create"]
+          description: "Action being requested"
+
+        urgency:
+          type: "string"
+          required: false
+          enum: ["low", "normal", "high", "emergency"]
+          default: "normal"
+          description: "Urgency level of the request"
+
+        purpose:
+          type: "string"
+          required: false
+          enum: ["learning", "safety", "maintenance", "social", "work", "personal"]
+          description: "Purpose or intent of the access"
+
+        batch_size:
+          type: "integer"
+          required: false
+          minimum: 1
+          maximum: 1000
+          default: 1
+          description: "Number of items in batch request"
+
+        sensitive_level:
+          type: "string"
+          required: false
+          enum: ["public", "internal", "confidential", "secret"]
+          default: "internal"
+          description: "Sensitivity level of requested resource"
+
+        redaction_allowed:
+          type: "boolean"
+          required: false
+          default: true
+          description: "Whether redacted access is acceptable"
+
+        request_source:
+          type: "string"
+          required: false
+          enum: ["user_initiated", "system_initiated", "scheduled", "emergency"]
+          default: "user_initiated"
+          description: "Source of the access request"
+
+    # Historical context
+    history:
+      description: "Historical access patterns and behavior"
+      properties:
+        recent_access_count:
+          type: "integer"
+          required: false
+          minimum: 0
+          description: "Number of recent accesses by this actor"
+
+        recent_failures:
+          type: "integer"
+          required: false
+          minimum: 0
+          description: "Number of recent access failures"
+
+        average_session_duration:
+          type: "number"
+          required: false
+          minimum: 0.0
+          description: "Average session duration in minutes"
+
+        behavior_pattern:
+          type: "string"
+          required: false
+          enum: ["normal", "unusual", "suspicious", "malicious"]
+          default: "normal"
+          description: "Detected behavior pattern"
+
+        last_access_time:
+          type: "string"
+          required: false
+          format: "date-time"
+          description: "Timestamp of last access"
+
+        access_frequency:
+          type: "string"
+          required: false
+          enum: ["rarely", "occasionally", "regularly", "frequently"]
+          description: "How often this resource is accessed"
+
+        violation_history:
+          type: "array"
+          items:
+            type: "object"
+            properties:
+              violation_type:
+                type: "string"
+              timestamp:
+                type: "string"
+                format: "date-time"
+              severity:
+                type: "string"
+                enum: ["low", "medium", "high", "critical"]
+          required: false
+          description: "History of policy violations"
+
+    # Real-time context
+    realtime:
+      description: "Real-time environmental and system context"
+      properties:
+        system_load:
+          type: "number"
+          required: false
+          minimum: 0.0
+          maximum: 1.0
+          description: "Current system load (0.0-1.0)"
+
+        network_latency:
+          type: "number"
+          required: false
+          minimum: 0.0
+          description: "Current network latency in milliseconds"
+
+        concurrent_users:
+          type: "integer"
+          required: false
+          minimum: 0
+          description: "Number of concurrent users"
+
+        security_alert_level:
+          type: "string"
+          required: false
+          enum: ["normal", "elevated", "high", "critical"]
+          default: "normal"
+          description: "Current security alert level"
+
+        resource_availability:
+          type: "number"
+          required: false
+          minimum: 0.0
+          maximum: 1.0
+          description: "Availability of requested resource (0.0-1.0)"
+
+        maintenance_mode:
+          type: "boolean"
+          required: false
+          default: false
+          description: "Whether system is in maintenance mode"
+
+        peak_usage_hours:
+          type: "boolean"
+          required: false
+          default: false
+          description: "Whether current time is peak usage"
+
+        affect_state:
+          type: "object"
+          required: false
+          description: "Current affect state from affect-aware service"
+          properties:
+            arousal:
+              type: "number"
+              minimum: 0.0
+              maximum: 1.0
+            safety_pressure:
+              type: "number"
+              minimum: 0.0
+              maximum: 1.0
+            emotional_state:
+              type: "string"
+              enum: ["calm", "excited", "stressed", "anxious", "happy"]
+
+  # Context-aware decision engine
+  decision_engine:
+    # Decision factors and weights
+    decision_factors:
+      security_factors:
+        weight: 0.35
+        factors:
+          - name: "actor_trust"
+            weight: 0.4
+            description: "Actor trust level and authentication"
+          - name: "device_security"
+            weight: 0.3
+            description: "Device trust and security status"
+          - name: "network_security"
+            weight: 0.2
+            description: "Network security and location"
+          - name: "historical_behavior"
+            weight: 0.1
+            description: "Historical access patterns"
+
+      safety_factors:
+        weight: 0.30
+        factors:
+          - name: "minor_protection"
+            weight: 0.4
+            description: "Protection mechanisms for minors"
+          - name: "safety_pipeline"
+            weight: 0.3
+            description: "P18 safety pipeline assessment"
+          - name: "content_sensitivity"
+            weight: 0.2
+            description: "Sensitivity of requested content"
+          - name: "environmental_safety"
+            weight: 0.1
+            description: "Environmental safety factors"
+
+      operational_factors:
+        weight: 0.20
+        factors:
+          - name: "system_performance"
+            weight: 0.3
+            description: "System load and performance"
+          - name: "resource_availability"
+            weight: 0.3
+            description: "Availability of requested resources"
+          - name: "urgency_level"
+            weight: 0.25
+            description: "Urgency of the request"
+          - name: "batch_efficiency"
+            weight: 0.15
+            description: "Efficiency for batch operations"
+
+      contextual_factors:
+        weight: 0.15
+        factors:
+          - name: "temporal_context"
+            weight: 0.35
+            description: "Time-based context and restrictions"
+          - name: "location_context"
+            weight: 0.25
+            description: "Location-based factors"
+          - name: "social_context"
+            weight: 0.25
+            description: "Social and family context"
+          - name: "affect_context"
+            weight: 0.15
+            description: "Emotional and affective context"
+
+    # Decision algorithms
+    decision_algorithms:
+      # Primary decision tree
+      main_decision_tree:
+        emergency_bypass:
+          condition: "request.urgency == 'emergency'"
+          decision: "ALLOW"
+          band: "RED"
+          obligations: ["emergency_logging", "adult_notification"]
+
+        minor_protection_check:
+          condition: "actor.is_minor == true"
+          sub_decisions:
+            family_present:
+              condition: "environment.family_present == true"
+              decision: "ALLOW"
+              band: "GREEN"
+            family_absent_safe_content:
+              condition: "request.sensitive_level in ['public', 'internal']"
+              decision: "ALLOW"
+              band: "AMBER"
+              obligations: ["content_filtering", "time_limits"]
+            family_absent_sensitive:
+              condition: "request.sensitive_level in ['confidential', 'secret']"
+              decision: "DENY"
+              reason: "Sensitive content requires adult supervision"
+
+        security_assessment:
+          high_trust:
+            condition: "actor.trust_level == 'high' AND device.trust in ['trusted', 'verified']"
+            decision: "ALLOW"
+            band: "GREEN"
+          medium_trust:
+            condition: "actor.trust_level == 'normal' AND device.trust == 'trusted'"
+            decision: "ALLOW"
+            band: "AMBER"
+            obligations: ["enhanced_monitoring"]
+          low_trust:
+            condition: "actor.trust_level == 'low' OR device.trust == 'untrusted'"
+            decision: "ALLOW_REDACTED"
+            band: "RED"
+            obligations: ["content_redaction", "enhanced_logging", "time_limits"]
+
+        performance_degradation:
+          high_load:
+            condition: "realtime.system_load > 0.8"
+            effects:
+              - "defer_non_urgent_requests"
+              - "reduce_batch_sizes"
+              - "enable_priority_queuing"
+          resource_unavailable:
+            condition: "realtime.resource_availability < 0.3"
+            decision: "DENY"
+            reason: "Resource temporarily unavailable"
+            retry_after: 300  # 5 minutes
+
+    # Context adaptation rules
+    adaptation_rules:
+      temporal_adaptation:
+        night_time:
+          condition: "environment.time_of_day_hours >= 22 OR environment.time_of_day_hours <= 6"
+          adaptations:
+            - "reduce_notification_frequency"
+            - "lower_audio_volume"
+            - "dim_screen_brightness"
+            - "restrict_high_arousal_content"
+
+        work_hours:
+          condition: "environment.temporal_context == 'work_hours'"
+          adaptations:
+            - "prioritize_work_related_content"
+            - "limit_entertainment_access"
+            - "enable_focus_mode"
+
+      location_adaptation:
+        public_space:
+          condition: "environment.geofence_zone == 'public'"
+          adaptations:
+            - "enable_privacy_mode"
+            - "restrict_personal_content"
+            - "lower_audio_levels"
+            - "increase_security_band"
+
+        home_environment:
+          condition: "environment.geofence_zone == 'home'"
+          adaptations:
+            - "relax_monitoring_requirements"
+            - "enable_family_sharing"
+            - "extend_session_timeouts"
+
+      affect_adaptation:
+        high_arousal:
+          condition: "realtime.affect_state.arousal > 0.7"
+          adaptations:
+            - "enable_calming_content_filter"
+            - "suggest_break_reminders"
+            - "activate_safety_monitoring"
+
+        high_safety_pressure:
+          condition: "realtime.affect_state.safety_pressure > 0.6"
+          adaptations:
+            - "escalate_security_band"
+            - "activate_protective_measures"
+            - "notify_trusted_contacts"
+
+  # Decision outcomes and obligations
+  decision_outcomes:
+    # Standard decision types
+    decisions:
+      ALLOW:
+        description: "Full access granted"
+        requires_obligations: false
+
+      ALLOW_REDACTED:
+        description: "Access granted with content redaction"
+        requires_obligations: true
+        mandatory_obligations: ["content_redaction"]
+
+      DENY:
+        description: "Access denied"
+        requires_reason: true
+
+      DEFER:
+        description: "Decision deferred pending additional context"
+        requires_retry_after: true
+
+    # Obligations framework
+    obligations:
+      content_redaction:
+        description: "Redact sensitive portions of content"
+        parameters:
+          redaction_level:
+            type: "string"
+            enum: ["minimal", "moderate", "aggressive"]
+          redaction_markers:
+            type: "boolean"
+            default: true
+
+      enhanced_monitoring:
+        description: "Enable enhanced activity monitoring"
+        parameters:
+          monitoring_level:
+            type: "string"
+            enum: ["basic", "detailed", "comprehensive"]
+          duration_minutes:
+            type: "integer"
+            minimum: 1
+            maximum: 1440  # 24 hours
+
+      time_limits:
+        description: "Apply time-based access limits"
+        parameters:
+          max_duration_minutes:
+            type: "integer"
+            minimum: 1
+            maximum: 480  # 8 hours
+          warning_threshold_minutes:
+            type: "integer"
+            minimum: 1
+
+      content_filtering:
+        description: "Apply content filtering rules"
+        parameters:
+          filter_level:
+            type: "string"
+            enum: ["basic", "moderate", "strict"]
+          categories:
+            type: "array"
+            items:
+              type: "string"
+
+      adult_notification:
+        description: "Notify trusted adults of access"
+        parameters:
+          notification_urgency:
+            type: "string"
+            enum: ["low", "normal", "high", "immediate"]
+          notification_method:
+            type: "array"
+            items:
+              type: "string"
+              enum: ["email", "sms", "push", "in_app"]
+
+  # Performance and reliability
+  performance:
+    decision_timing:
+      target_response_time_ms: 100
+      maximum_response_time_ms: 1000
+      timeout_response: "DENY"
+
+    cache_configuration:
+      decision_cache_ttl: 300  # 5 minutes
+      context_cache_ttl: 60    # 1 minute
+      adaptation_cache_ttl: 180 # 3 minutes
+
+    reliability:
+      fallback_decisions:
+        network_failure: "ALLOW_REDACTED"
+        service_unavailable: "ALLOW_REDACTED"
+        timeout: "DENY"
+
+      circuit_breaker:
+        failure_threshold: 5
+        recovery_timeout_seconds: 30
+        half_open_max_calls: 3

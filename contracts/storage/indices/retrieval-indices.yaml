@@ -1,0 +1,47 @@
+collections:
+  query_log:
+    schema: schemas/query_log.schema.json
+    partition_by: ["space_id"]
+    sort_key: ["ts"]
+    indices:
+      - keys: ["space_id", "ts"]
+        name: "idx_query_space_time"
+      - keys: ["actor_user_id", "ts"]
+        name: "idx_query_user_time"
+      - keys: ["query_hash"]
+        name: "idx_query_hash"
+      - keys: ["correlation_id"]
+        name: "idx_correlation"
+      - keys: ["expires_at"]
+        name: "idx_query_expiry"
+    retention:
+      ttl_days: 7
+      cleanup_field: "expires_at"
+    constraints:
+      - name: unique_correlation
+        unique: ["correlation_id"]
+  cache_entry:
+    schema: schemas/cache_entry.schema.json
+    partition_by: ["space_id"]
+    indices:
+      - keys: ["space_id", "query_hash"]
+        name: "idx_cache_space_query"
+      - keys: ["expires_at"]
+        name: "idx_cache_expiry"
+      - keys: ["last_accessed"]
+        name: "idx_cache_lru"
+      - keys: ["query_type", "ts"]
+        name: "idx_cache_type_time"
+    retention:
+      ttl_hours: 24
+      cleanup_field: "expires_at"
+    constraints:
+      - name: cache_entry_unique
+        unique: ["space_id", "query_hash"]
+consistency:
+  read: "local+read-your-own-writes"
+  write: "atomic-per-record"
+performance:
+  cache_warming: true
+  background_cleanup: true
+  max_cache_size_mb: 100

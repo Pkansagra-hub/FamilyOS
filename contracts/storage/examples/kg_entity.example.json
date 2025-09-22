@@ -1,0 +1,16 @@
+{
+  "id": "01HX3V6MKGER58TK07EYYKFTDS",
+  "labels": {
+    "type": "Person"
+  },
+  "props": {
+    "name": "Alex",
+    "age": 34,
+    "country": "US"
+  },
+  "space_id": "personal:user123",
+  "created_ts": "2025-01-14T10:30:00.000Z",
+  "types": [
+    "Person"
+  ]
+}

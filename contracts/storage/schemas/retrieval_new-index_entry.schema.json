@@ -1,0 +1,118 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Retrieval Index Entry",
+  "description": "Storage schema for retrieval index entries with embeddings and metadata",
+  "type": "object",
+  "properties": {
+    "memory_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique identifier for memory item"
+    },
+    "space_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Space isolation boundary"
+    },
+    "content_hash": {
+      "type": "string",
+      "pattern": "^[a-f0-9]{64}$",
+      "description": "SHA-256 hash of original content for deduplication"
+    },
+    "text_content": {
+      "type": "string",
+      "description": "Full text content for FTS indexing"
+    },
+    "vector_embedding": {
+      "type": "array",
+      "items": {
+        "type": "number"
+      },
+      "minItems": 384,
+      "maxItems": 4096,
+      "description": "Dense vector representation (384-4096 dimensions)"
+    },
+    "embedding_model": {
+      "type": "string",
+      "enum": ["text-embedding-ada-002", "all-MiniLM-L6-v2", "sentence-transformers/all-mpnet-base-v2"],
+      "description": "Model used for vector embedding"
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Index entry creation timestamp"
+    },
+    "updated_at": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Last update timestamp"
+    },
+    "metadata": {
+      "type": "object",
+      "properties": {
+        "content_type": {
+          "type": "string",
+          "enum": ["text", "document", "conversation", "note", "email", "web", "other"]
+        },
+        "source_uri": {
+          "type": "string",
+          "description": "Original source reference"
+        },
+        "tags": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "maxLength": 64
+          },
+          "maxItems": 10
+        },
+        "band": {
+          "type": "string",
+          "enum": ["GREEN", "AMBER", "RED", "BLACK"],
+          "description": "Security classification"
+        },
+        "language": {
+          "type": "string",
+          "pattern": "^[a-z]{2}(-[A-Z]{2})?$",
+          "description": "Content language (ISO 639-1)"
+        },
+        "word_count": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Approximate word count"
+        }
+      },
+      "required": ["content_type", "band"],
+      "additionalProperties": false
+    },
+    "fts_tokens": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "description": "Preprocessed tokens for full-text search"
+    },
+    "access_count": {
+      "type": "integer",
+      "minimum": 0,
+      "default": 0,
+      "description": "Number of times this entry was retrieved"
+    },
+    "last_accessed": {
+      "type": "string",
+      "format": "date-time",
+      "description": "Last retrieval timestamp"
+    }
+  },
+  "required": [
+    "memory_id",
+    "space_id", 
+    "content_hash",
+    "text_content",
+    "vector_embedding",
+    "embedding_model",
+    "created_at",
+    "metadata"
+  ],
+  "additionalProperties": false
+}

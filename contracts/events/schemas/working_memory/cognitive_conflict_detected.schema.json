@@ -1,0 +1,500 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://familyos.local/contracts/events/schemas/working_memory/cognitive_conflict_detected.schema.json",
+    "title": "Cognitive Conflict Detected Event",
+    "description": "Event generated when cognitive conflict is detected in working memory processing",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "timestamp",
+        "conflict_type",
+        "conflicting_elements",
+        "conflict_severity"
+    ],
+    "properties": {
+        "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Time when conflict was detected"
+        },
+        "conflict_type": {
+            "type": "string",
+            "enum": [
+                "response_conflict",
+                "stimulus_conflict",
+                "task_conflict",
+                "goal_conflict",
+                "semantic_conflict",
+                "temporal_conflict",
+                "spatial_conflict",
+                "priority_conflict",
+                "resource_conflict",
+                "strategic_conflict"
+            ],
+            "description": "Type of cognitive conflict detected"
+        },
+        "conflicting_elements": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "required": [
+                    "element_id",
+                    "element_type",
+                    "conflict_contribution"
+                ],
+                "properties": {
+                    "element_id": {
+                        "type": "string"
+                    },
+                    "element_type": {
+                        "type": "string",
+                        "enum": [
+                            "response",
+                            "stimulus",
+                            "goal",
+                            "rule",
+                            "memory",
+                            "plan",
+                            "attention",
+                            "value"
+                        ]
+                    },
+                    "element_content": {
+                        "type": "string"
+                    },
+                    "activation_strength": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1
+                    },
+                    "conflict_contribution": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1
+                    },
+                    "element_priority": {
+                        "type": "string",
+                        "enum": [
+                            "low",
+                            "normal",
+                            "high",
+                            "critical"
+                        ]
+                    },
+                    "temporal_order": {
+                        "type": "integer"
+                    },
+                    "source_system": {
+                        "type": "string"
+                    },
+                    "confidence_level": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1
+                    }
+                }
+            },
+            "description": "Elements involved in the conflict"
+        },
+        "conflict_severity": {
+            "type": "object",
+            "required": [
+                "severity_level",
+                "conflict_strength"
+            ],
+            "properties": {
+                "severity_level": {
+                    "type": "string",
+                    "enum": [
+                        "minimal",
+                        "low",
+                        "moderate",
+                        "high",
+                        "severe",
+                        "critical"
+                    ]
+                },
+                "conflict_strength": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "interference_magnitude": {
+                    "type": "number",
+                    "minimum": 0
+                },
+                "resolution_urgency": {
+                    "type": "string",
+                    "enum": [
+                        "low",
+                        "normal",
+                        "high",
+                        "immediate"
+                    ]
+                },
+                "performance_impact": {
+                    "type": "object",
+                    "properties": {
+                        "accuracy_degradation": {
+                            "type": "number"
+                        },
+                        "response_time_increase": {
+                            "type": "number"
+                        },
+                        "cognitive_load_increase": {
+                            "type": "number"
+                        }
+                    }
+                }
+            },
+            "description": "Severity assessment of the conflict"
+        },
+        "conflict_detection": {
+            "type": "object",
+            "properties": {
+                "detection_mechanism": {
+                    "type": "string",
+                    "enum": [
+                        "anterior_cingulate_monitoring",
+                        "response_competition_detection",
+                        "error_likelihood_assessment",
+                        "processing_difficulty_monitoring",
+                        "goal_mismatch_detection",
+                        "interference_monitoring",
+                        "conflict_monitoring_loop"
+                    ]
+                },
+                "detection_confidence": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "detection_latency_ms": {
+                    "type": "number",
+                    "minimum": 0
+                },
+                "false_positive_probability": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "monitoring_sensitivity": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                }
+            },
+            "description": "How the conflict was detected"
+        },
+        "conflict_context": {
+            "type": "object",
+            "properties": {
+                "task_context": {
+                    "type": "object",
+                    "properties": {
+                        "current_task": {
+                            "type": "string"
+                        },
+                        "task_phase": {
+                            "type": "string"
+                        },
+                        "task_complexity": {
+                            "type": "number"
+                        },
+                        "time_pressure": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "cognitive_state": {
+                    "type": "object",
+                    "properties": {
+                        "cognitive_load": {
+                            "type": "number"
+                        },
+                        "attention_state": {
+                            "type": "string"
+                        },
+                        "arousal_level": {
+                            "type": "number"
+                        },
+                        "fatigue_level": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "system_state": {
+                    "type": "object",
+                    "properties": {
+                        "working_memory_load": {
+                            "type": "number"
+                        },
+                        "executive_control_engagement": {
+                            "type": "number"
+                        },
+                        "processing_mode": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "description": "Context in which conflict occurred"
+        },
+        "conflict_dynamics": {
+            "type": "object",
+            "properties": {
+                "conflict_evolution": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "timestamp": {
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            "conflict_strength": {
+                                "type": "number"
+                            },
+                            "dominant_element": {
+                                "type": "string"
+                            },
+                            "resolution_progress": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                },
+                "conflict_oscillations": {
+                    "type": "object",
+                    "properties": {
+                        "oscillation_frequency": {
+                            "type": "number"
+                        },
+                        "oscillation_amplitude": {
+                            "type": "number"
+                        },
+                        "stability_measure": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "resolution_trajectory": {
+                    "type": "object",
+                    "properties": {
+                        "expected_resolution_time": {
+                            "type": "number"
+                        },
+                        "resolution_probability": {
+                            "type": "number"
+                        },
+                        "intervention_needed": {
+                            "type": "boolean"
+                        }
+                    }
+                }
+            },
+            "description": "Temporal dynamics of the conflict"
+        },
+        "neural_correlates": {
+            "type": "object",
+            "properties": {
+                "conflict_monitoring_activity": {
+                    "type": "object",
+                    "properties": {
+                        "anterior_cingulate_activation": {
+                            "type": "number"
+                        },
+                        "dorsolateral_pfc_activation": {
+                            "type": "number"
+                        },
+                        "inferior_frontal_activation": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "network_coordination": {
+                    "type": "object",
+                    "properties": {
+                        "cognitive_control_network": {
+                            "type": "number"
+                        },
+                        "salience_network_activation": {
+                            "type": "number"
+                        },
+                        "default_mode_suppression": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "electrophysiological_markers": {
+                    "type": "object",
+                    "properties": {
+                        "error_related_negativity": {
+                            "type": "number"
+                        },
+                        "conflict_negativity": {
+                            "type": "number"
+                        },
+                        "theta_power": {
+                            "type": "number"
+                        }
+                    }
+                }
+            },
+            "description": "Neural correlates of conflict detection"
+        },
+        "resolution_preparation": {
+            "type": "object",
+            "properties": {
+                "control_signals": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "signal_type": {
+                                "type": "string"
+                            },
+                            "target_system": {
+                                "type": "string"
+                            },
+                            "signal_strength": {
+                                "type": "number"
+                            },
+                            "expected_effect": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "resource_mobilization": {
+                    "type": "object",
+                    "properties": {
+                        "attention_focus_adjustment": {
+                            "type": "number"
+                        },
+                        "cognitive_control_upregulation": {
+                            "type": "number"
+                        },
+                        "inhibitory_control_preparation": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "strategy_selection": {
+                    "type": "object",
+                    "properties": {
+                        "available_strategies": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "strategy_preferences": {
+                            "type": "object"
+                        },
+                        "strategy_effectiveness_estimates": {
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "description": "Preparation for conflict resolution"
+        },
+        "learning_implications": {
+            "type": "object",
+            "properties": {
+                "conflict_pattern_learning": {
+                    "type": "object",
+                    "properties": {
+                        "pattern_recognition": {
+                            "type": "number"
+                        },
+                        "prediction_accuracy": {
+                            "type": "number"
+                        },
+                        "preventive_strategy_development": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "control_adaptation": {
+                    "type": "object",
+                    "properties": {
+                        "sensitivity_adjustment": {
+                            "type": "number"
+                        },
+                        "threshold_adaptation": {
+                            "type": "number"
+                        },
+                        "resolution_strategy_refinement": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "meta_cognitive_updates": {
+                    "type": "object",
+                    "properties": {
+                        "conflict_monitoring_calibration": {
+                            "type": "number"
+                        },
+                        "cognitive_control_efficiency": {
+                            "type": "number"
+                        },
+                        "strategic_knowledge_update": {
+                            "type": "number"
+                        }
+                    }
+                }
+            },
+            "description": "Learning implications of conflict detection"
+        },
+        "system_adjustments": {
+            "type": "object",
+            "properties": {
+                "attention_adjustments": {
+                    "type": "object",
+                    "properties": {
+                        "focus_narrowing": {
+                            "type": "number"
+                        },
+                        "distractor_filtering": {
+                            "type": "number"
+                        },
+                        "attention_switching": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "working_memory_adjustments": {
+                    "type": "object",
+                    "properties": {
+                        "capacity_reallocation": {
+                            "type": "number"
+                        },
+                        "rehearsal_strategy_change": {
+                            "type": "number"
+                        },
+                        "interference_management": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "executive_control_adjustments": {
+                    "type": "object",
+                    "properties": {
+                        "monitoring_intensification": {
+                            "type": "number"
+                        },
+                        "cognitive_flexibility_increase": {
+                            "type": "number"
+                        },
+                        "inhibitory_control_strengthening": {
+                            "type": "number"
+                        }
+                    }
+                }
+            },
+            "description": "System adjustments triggered by conflict"
+        }
+    }
+}

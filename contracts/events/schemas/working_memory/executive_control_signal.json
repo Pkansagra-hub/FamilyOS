@@ -1,0 +1,49 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "$id": "executive_control_signal.schema.json",
+    "title": "Executive Control Signal Event",
+    "description": "Event for executive control operations in working memory",
+    "type": "object",
+    "required": [
+        "timestamp",
+        "control_type",
+        "target_buffer",
+        "operation"
+    ],
+    "properties": {
+        "timestamp": {
+            "type": "string",
+            "format": "date-time"
+        },
+        "control_type": {
+            "type": "string",
+            "enum": [
+                "inhibition",
+                "updating",
+                "switching",
+                "monitoring"
+            ]
+        },
+        "target_buffer": {
+            "type": "string"
+        },
+        "operation": {
+            "type": "string",
+            "enum": [
+                "maintain",
+                "update",
+                "clear",
+                "refresh"
+            ]
+        },
+        "strength": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+        },
+        "duration_ms": {
+            "type": "number",
+            "minimum": 0
+        }
+    }
+}

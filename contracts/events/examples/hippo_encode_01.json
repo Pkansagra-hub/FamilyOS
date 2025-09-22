@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.1.0",
+  "id": "3a8d0207-6f00-4ad5-839f-e652be7b4b0b",
+  "ts": "2025-09-09T04:20:40Z",
+  "topic": "HIPPO_ENCODE",
+  "band": "GREEN",
+  "actor": {
+    "user_id": "8bb52239-cd0e-43f8-9a6b-b22b70bdd010",
+    "agent_id": "retriever.v1",
+    "caps": [
+      "RECALL"
+    ]
+  },
+  "device": {
+    "device_id": "ios-iphone15",
+    "platform": "android",
+    "app_version": "1.1.8",
+    "locale": "en-US"
+  },
+  "space_id": "interfamily:link",
+  "policy_version": "1.3",
+  "abac": {
+    "role": "system",
+    "trust": "green",
+    "geo_precision": "city"
+  },
+  "qos": {
+    "routing": "fast-path",
+    "priority": 9,
+    "latency_budget_ms": 117,
+    "retries": 0
+  },
+  "trace": {
+    "trace_id": "4b6d0cb91a72003e58ef8c81fea131e4",
+    "span_id": "78d58e84a064a476",
+    "sampled": true
+  },
+  "obligations": [],
+  "redaction_applied": false,
+  "hashes": {
+    "payload_sha256": "6ab69aeeca71b4b7888912aef7e960b08feb1dc03462ceb90a399a331a6516d2"
+  },
+  "payload": {
+    "text": "Photo metadata",
+    "tokens": 292
+  },
+  "signature": {
+    "alg": "ed25519",
+    "key_id": "key_hippo_encode_green_2024",
+    "public_key": "cHVibGlj",
+    "signature": "c2ln"
+  }
+}

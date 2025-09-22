@@ -1,0 +1,53 @@
+openapi: 3.0.3
+info: { title: Prospective Internal API, version: 1.0.0 }
+paths:
+  /__internal/prospective/schedule:
+    post:
+      summary: Create or replace a schedule
+      parameters:
+        - name: Idempotency-Key
+          in: header
+          required: true
+          schema: { type: string, maxLength: 128 }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ScheduleRequest'
+      responses:
+        "202": { description: Accepted; `prospective_schedule` will be emitted }
+        "200": { description: Replaced existing schedule }
+        "400": { description: Invalid; see errors.md }
+  /__internal/prospective/ack:
+    post:
+      summary: Acknowledge a reminder tick
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AckRequest'
+      responses:
+        "200": { description: Acked }
+        "409": { description: Already acked }
+components:
+  schemas:
+    ScheduleRequest:
+      type: object
+      required: [schedule_id, due_at, subject, actor, space_id]
+      properties:
+        schedule_id: { type: string }
+        due_at: { type: string, format: date-time }
+        subject: { type: string, maxLength: 256 }
+        payload: { type: object, additionalProperties: true }
+        actor: { type: object, additionalProperties: true }
+        space_id: { type: string }
+        policy_band: { type: string, enum: ["GREEN","AMBER","RED","BLACK"] }
+    AckRequest:
+      type: object
+      required: [schedule_id, tick_at]
+      properties:
+        schedule_id: { type: string }
+        tick_at: { type: string, format: date-time }
+security: [{ internal_service_token: [] }]

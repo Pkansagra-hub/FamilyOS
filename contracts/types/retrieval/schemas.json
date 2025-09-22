@@ -1,0 +1,895 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "title": "Retrieval Service Type Schemas",
+    "description": "Comprehensive type definitions for retrieval service operations",
+    "$defs": {
+        "SecurityBand": {
+            "type": "string",
+            "enum": [
+                "GREEN",
+                "AMBER",
+                "RED",
+                "BLACK"
+            ],
+            "description": "Security classification levels for memory items"
+        },
+        "SpaceType": {
+            "type": "string",
+            "enum": [
+                "personal",
+                "selective",
+                "shared",
+                "extended",
+                "interfamily"
+            ],
+            "description": "Space type classifications"
+        },
+        "SensitivityLevel": {
+            "type": "string",
+            "enum": [
+                "public",
+                "internal",
+                "confidential",
+                "restricted"
+            ],
+            "description": "Data sensitivity classification levels"
+        },
+        "RetrievalOperation": {
+            "type": "string",
+            "enum": [
+                "recall:read",
+                "recall:trace",
+                "recall:debug"
+            ],
+            "description": "Types of retrieval operations"
+        },
+        "TemporalFilter": {
+            "type": "object",
+            "description": "Time-based filtering constraints",
+            "properties": {
+                "after": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Include items after this timestamp"
+                },
+                "before": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Include items before this timestamp"
+                },
+                "within_days": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 3650,
+                    "description": "Include items from last N days"
+                }
+            },
+            "not": {
+                "allOf": [
+                    {
+                        "required": [
+                            "within_days"
+                        ]
+                    },
+                    {
+                        "anyOf": [
+                            {
+                                "required": [
+                                    "after"
+                                ]
+                            },
+                            {
+                                "required": [
+                                    "before"
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            },
+            "if": {
+                "allOf": [
+                    {
+                        "required": [
+                            "after"
+                        ]
+                    },
+                    {
+                        "required": [
+                            "before"
+                        ]
+                    }
+                ]
+            },
+            "then": {
+                "description": "When both after and before are specified, after must be earlier",
+                "properties": {
+                    "after": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "before": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                }
+            },
+            "additionalProperties": false
+        },
+        "RetrievalFilters": {
+            "type": "object",
+            "description": "Comprehensive filter specification",
+            "properties": {
+                "after": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "before": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "topics": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "pattern": "^[a-z][a-z0-9_]*$",
+                        "maxLength": 50
+                    },
+                    "maxItems": 10,
+                    "uniqueItems": true,
+                    "description": "Include items with these topics"
+                },
+                "exclude_topics": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "pattern": "^[a-z][a-z0-9_]*$",
+                        "maxLength": 50
+                    },
+                    "maxItems": 10,
+                    "uniqueItems": true,
+                    "description": "Exclude items with these topics"
+                },
+                "bands": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/$defs/SecurityBand"
+                    },
+                    "minItems": 1,
+                    "maxItems": 4,
+                    "uniqueItems": true,
+                    "description": "Allowed security bands"
+                },
+                "max_sensitivity": {
+                    "$ref": "#/$defs/SensitivityLevel"
+                },
+                "space_types": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/$defs/SpaceType"
+                    },
+                    "uniqueItems": true
+                },
+                "allow_shared": {
+                    "type": "boolean",
+                    "default": true
+                },
+                "allow_cross_space": {
+                    "type": "boolean",
+                    "default": false
+                },
+                "owner_only": {
+                    "type": "boolean",
+                    "default": false
+                },
+                "include_owners": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "exclude_owners": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            },
+            "allOf": [
+                {
+                    "description": "Topics and exclude_topics cannot overlap",
+                    "not": {
+                        "allOf": [
+                            {
+                                "required": [
+                                    "topics"
+                                ]
+                            },
+                            {
+                                "required": [
+                                    "exclude_topics"
+                                ]
+                            },
+                            {
+                                "properties": {
+                                    "topics": {
+                                        "type": "array"
+                                    },
+                                    "exclude_topics": {
+                                        "type": "array"
+                                    }
+                                }
+                            }
+                        ]
+                    }
+                },
+                {
+                    "description": "Cannot specify both owner_only and include_owners",
+                    "not": {
+                        "allOf": [
+                            {
+                                "properties": {
+                                    "owner_only": {
+                                        "const": true
+                                    }
+                                }
+                            },
+                            {
+                                "required": [
+                                    "include_owners"
+                                ]
+                            }
+                        ]
+                    }
+                }
+            ],
+            "additionalProperties": false
+        },
+        "QoSBudget": {
+            "type": "object",
+            "description": "Quality of Service constraints",
+            "properties": {
+                "latency_budget_ms": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 1000,
+                    "default": 100,
+                    "description": "Maximum latency in milliseconds"
+                },
+                "priority": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 10,
+                    "default": 5,
+                    "description": "Request priority (1=highest, 10=lowest)"
+                },
+                "max_results": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 1000,
+                    "default": 50,
+                    "description": "Maximum number of results"
+                },
+                "allow_partial": {
+                    "type": "boolean",
+                    "default": true,
+                    "description": "Allow partial results if budget exceeded"
+                },
+                "timeout_behavior": {
+                    "type": "string",
+                    "enum": [
+                        "graceful",
+                        "strict"
+                    ],
+                    "default": "graceful",
+                    "description": "How to handle timeout scenarios"
+                }
+            },
+            "required": [
+                "latency_budget_ms"
+            ],
+            "additionalProperties": false
+        },
+        "RetrievalRequest": {
+            "type": "object",
+            "description": "Complete retrieval request specification",
+            "properties": {
+                "query": {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 1000,
+                    "description": "Search query text"
+                },
+                "space_id": {
+                    "type": "string",
+                    "pattern": "^(personal|selective|shared|extended|interfamily):[a-zA-Z0-9_.-]+$",
+                    "description": "Target space identifier"
+                },
+                "k": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 200,
+                    "default": 10,
+                    "description": "Number of results to return"
+                },
+                "filters": {
+                    "$ref": "#/$defs/RetrievalFilters"
+                },
+                "return_trace": {
+                    "type": "boolean",
+                    "default": false,
+                    "description": "Include processing trace in response"
+                },
+                "qos": {
+                    "$ref": "#/$defs/QoSBudget"
+                },
+                "trace_id": {
+                    "type": "string",
+                    "pattern": "^[a-f0-9]{32}$",
+                    "description": "Request trace identifier"
+                },
+                "user_id": {
+                    "type": "string",
+                    "description": "Requesting user identifier"
+                },
+                "operation": {
+                    "$ref": "#/$defs/RetrievalOperation"
+                }
+            },
+            "required": [
+                "query"
+            ],
+            "additionalProperties": false
+        },
+        "FeatureVector": {
+            "type": "object",
+            "description": "Feature scores for ranking algorithms",
+            "properties": {
+                "bm25": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "BM25 lexical similarity score"
+                },
+                "tfidf_cosine": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "TF-IDF cosine similarity score"
+                },
+                "recency": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Recency boost factor"
+                },
+                "personalization": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Personalization score"
+                },
+                "affect_compat": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Affective compatibility score"
+                },
+                "tom_alignment": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Theory of Mind alignment score"
+                },
+                "length_penalty": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Length normalization penalty"
+                },
+                "source_prior": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Source type prior probability"
+                },
+                "rrf_boost": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Reciprocal Rank Fusion boost"
+                }
+            },
+            "additionalProperties": false
+        },
+        "RetrievalCandidate": {
+            "type": "object",
+            "description": "Internal candidate during processing",
+            "properties": {
+                "doc_id": {
+                    "type": "string",
+                    "description": "Document identifier"
+                },
+                "content": {
+                    "type": "string",
+                    "description": "Document content"
+                },
+                "source": {
+                    "type": "string",
+                    "enum": [
+                        "fts",
+                        "vector",
+                        "kg"
+                    ],
+                    "description": "Source index type"
+                },
+                "raw_score": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Raw relevance score"
+                },
+                "features": {
+                    "$ref": "#/$defs/FeatureVector"
+                },
+                "metadata": {
+                    "type": "object",
+                    "description": "Additional metadata",
+                    "additionalProperties": true
+                }
+            },
+            "required": [
+                "doc_id",
+                "content",
+                "source",
+                "raw_score"
+            ],
+            "additionalProperties": false
+        },
+        "RetrievalItem": {
+            "type": "object",
+            "description": "Final retrieval result item",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "Item identifier"
+                },
+                "score": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Final relevance score"
+                },
+                "topic": {
+                    "type": "string",
+                    "description": "Primary topic classification"
+                },
+                "band": {
+                    "$ref": "#/$defs/SecurityBand"
+                },
+                "snippet": {
+                    "type": "string",
+                    "maxLength": 500,
+                    "description": "Content excerpt"
+                },
+                "space_id": {
+                    "type": "string",
+                    "description": "Source space identifier"
+                },
+                "payload": {
+                    "type": "object",
+                    "description": "Additional item data",
+                    "additionalProperties": true
+                },
+                "features": {
+                    "$ref": "#/$defs/FeatureVector"
+                },
+                "reasons": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Explanations for ranking"
+                },
+                "confidence": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Confidence in relevance"
+                }
+            },
+            "required": [
+                "id",
+                "score"
+            ],
+            "additionalProperties": false
+        },
+        "RetrievalTrace": {
+            "type": "object",
+            "description": "Processing trace information",
+            "properties": {
+                "stage": {
+                    "type": "string",
+                    "description": "Current processing stage"
+                },
+                "top_candidates": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "maxItems": 10,
+                    "description": "Top candidate IDs at this stage"
+                },
+                "features_used": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Features used in ranking"
+                },
+                "fusion_weights": {
+                    "type": "object",
+                    "patternProperties": {
+                        "^[a-z_]+$": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    },
+                    "description": "Fusion algorithm weights"
+                },
+                "ranker_weights": {
+                    "type": "object",
+                    "patternProperties": {
+                        "^[a-z_]+$": {
+                            "type": "number"
+                        }
+                    },
+                    "description": "Ranking algorithm weights"
+                },
+                "mmr_lambda": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "MMR diversity parameter"
+                },
+                "calibration_params": {
+                    "type": "object",
+                    "properties": {
+                        "alpha": {
+                            "type": "number"
+                        },
+                        "beta": {
+                            "type": "number"
+                        }
+                    },
+                    "description": "Score calibration parameters"
+                },
+                "processing_steps": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Detailed processing steps"
+                }
+            },
+            "required": [
+                "stage"
+            ],
+            "additionalProperties": false
+        },
+        "RetrievalResponse": {
+            "type": "object",
+            "description": "Complete retrieval response",
+            "properties": {
+                "items": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/$defs/RetrievalItem"
+                    },
+                    "maxItems": 1000,
+                    "description": "Retrieved items"
+                },
+                "used_time_ms": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Processing time in milliseconds"
+                },
+                "trace": {
+                    "$ref": "#/$defs/RetrievalTrace"
+                },
+                "total_candidates": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "description": "Total candidates considered"
+                },
+                "query_id": {
+                    "type": "string",
+                    "description": "Query identifier for tracking"
+                },
+                "warnings": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Warning messages"
+                }
+            },
+            "required": [
+                "items"
+            ],
+            "additionalProperties": false
+        },
+        "PolicyContext": {
+            "type": "object",
+            "description": "Context for policy evaluation",
+            "properties": {
+                "user_id": {
+                    "type": "string",
+                    "description": "User identifier"
+                },
+                "role": {
+                    "type": "string",
+                    "enum": [
+                        "memory_reader",
+                        "memory_analyst",
+                        "memory_admin"
+                    ],
+                    "description": "User role"
+                },
+                "operation": {
+                    "$ref": "#/$defs/RetrievalOperation"
+                },
+                "space_id": {
+                    "type": "string",
+                    "description": "Target space"
+                },
+                "clearance_level": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 5,
+                    "description": "Security clearance level"
+                },
+                "department": {
+                    "type": "string",
+                    "description": "User department"
+                },
+                "requested_bands": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/$defs/SecurityBand"
+                    },
+                    "description": "Requested security bands"
+                },
+                "timestamp": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Request timestamp"
+                },
+                "qos_budget": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 1000,
+                    "description": "QoS budget in milliseconds"
+                }
+            },
+            "required": [
+                "user_id",
+                "role",
+                "operation",
+                "clearance_level",
+                "department",
+                "timestamp"
+            ],
+            "additionalProperties": false
+        },
+        "PolicyDecision": {
+            "type": "object",
+            "description": "Policy evaluation result",
+            "properties": {
+                "decision": {
+                    "type": "string",
+                    "enum": [
+                        "PERMIT",
+                        "DENY",
+                        "INDETERMINATE"
+                    ],
+                    "description": "Access decision"
+                },
+                "reasons": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "minItems": 1,
+                    "description": "Decision reasoning"
+                },
+                "constraints": {
+                    "type": "object",
+                    "properties": {
+                        "max_results": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "maximum": 1000
+                        },
+                        "allowed_bands": {
+                            "type": "array",
+                            "items": {
+                                "$ref": "#/$defs/SecurityBand"
+                            }
+                        },
+                        "allowed_spaces": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "redaction_required": {
+                            "type": "boolean"
+                        },
+                        "redaction_fields": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "audit_required": {
+                            "type": "boolean"
+                        }
+                    },
+                    "additionalProperties": false
+                },
+                "errors": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "code": {
+                                "type": "string"
+                            },
+                            "message": {
+                                "type": "string"
+                            },
+                            "field": {
+                                "type": "string"
+                            }
+                        },
+                        "required": [
+                            "code",
+                            "message"
+                        ]
+                    }
+                }
+            },
+            "required": [
+                "decision",
+                "reasons"
+            ],
+            "additionalProperties": false
+        },
+        "RetrievalError": {
+            "type": "object",
+            "description": "Retrieval operation error",
+            "properties": {
+                "code": {
+                    "type": "string",
+                    "enum": [
+                        "QUERY_VALIDATION_ERROR",
+                        "POLICY_DENIED",
+                        "QOS_BUDGET_EXCEEDED",
+                        "INDEX_UNAVAILABLE",
+                        "INTERNAL_ERROR"
+                    ],
+                    "description": "Error code"
+                },
+                "message": {
+                    "type": "string",
+                    "description": "Human-readable error message"
+                },
+                "details": {
+                    "type": "object",
+                    "description": "Additional error details",
+                    "additionalProperties": true
+                },
+                "timestamp": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Error occurrence time"
+                },
+                "trace_id": {
+                    "type": "string",
+                    "description": "Request trace identifier"
+                }
+            },
+            "required": [
+                "code",
+                "message"
+            ],
+            "additionalProperties": false
+        }
+    },
+    "type": "object",
+    "properties": {
+        "version": {
+            "type": "string",
+            "const": "1.0.0",
+            "description": "Schema version"
+        },
+        "retrieval_request": {
+            "$ref": "#/$defs/RetrievalRequest"
+        },
+        "retrieval_response": {
+            "$ref": "#/$defs/RetrievalResponse"
+        },
+        "retrieval_filters": {
+            "$ref": "#/$defs/RetrievalFilters"
+        },
+        "qos_budget": {
+            "$ref": "#/$defs/QoSBudget"
+        },
+        "retrieval_item": {
+            "$ref": "#/$defs/RetrievalItem"
+        },
+        "feature_vector": {
+            "$ref": "#/$defs/FeatureVector"
+        },
+        "retrieval_trace": {
+            "$ref": "#/$defs/RetrievalTrace"
+        },
+        "policy_context": {
+            "$ref": "#/$defs/PolicyContext"
+        },
+        "policy_decision": {
+            "$ref": "#/$defs/PolicyDecision"
+        },
+        "retrieval_error": {
+            "$ref": "#/$defs/RetrievalError"
+        }
+    },
+    "examples": [
+        {
+            "version": "1.0.0",
+            "retrieval_request": {
+                "query": "machine learning cognitive architecture research",
+                "space_id": "shared:research_team",
+                "k": 15,
+                "filters": {
+                    "topics": [
+                        "machine_learning",
+                        "cognitive_architecture"
+                    ],
+                    "bands": [
+                        "GREEN",
+                        "AMBER"
+                    ],
+                    "space_types": [
+                        "shared"
+                    ],
+                    "max_sensitivity": "internal"
+                },
+                "return_trace": true,
+                "qos": {
+                    "latency_budget_ms": 150,
+                    "priority": 3,
+                    "max_results": 50
+                },
+                "trace_id": "a1b2c3d4e5f6789012345678deadbeef",
+                "user_id": "alice_researcher",
+                "operation": "recall:read"
+            },
+            "retrieval_response": {
+                "items": [
+                    {
+                        "id": "doc_12345",
+                        "score": 0.87,
+                        "topic": "machine_learning",
+                        "band": "AMBER",
+                        "snippet": "Recent advances in cognitive architecture for ML systems...",
+                        "space_id": "shared:research_team",
+                        "confidence": 0.82
+                    }
+                ],
+                "used_time_ms": 23.5,
+                "total_candidates": 156,
+                "query_id": "q_789",
+                "warnings": []
+            }
+        }
+    ]
+}

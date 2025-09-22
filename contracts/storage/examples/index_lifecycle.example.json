@@ -1,0 +1,27 @@
+{
+  "operation": "create",
+  "index_name": "family_photos_embeddings",
+  "space_id": "shared:household",
+  "config": {
+    "index_name": "family_photos_embeddings",
+    "type": "embeddings",
+    "space_id": "shared:household",
+    "band_min": "GREEN",
+    "embeddings_config": {
+      "model_id": "clip-ViT-B-32",
+      "dimensions": 512,
+      "similarity_metric": "cosine", 
+      "quantization": true
+    },
+    "refresh_interval": 1800,
+    "max_size_mb": 5000,
+    "metadata": {
+      "domain": "visual",
+      "created_by": "media_processor"
+    }
+  },
+  "reason": "Create visual embeddings index for family photo search",
+  "trigger_event_id": "evt-01JAB2CDEF0123456789ABCDEF",
+  "expected_duration": 600,
+  "rollback_plan": "Delete index and restore from checkpoint if creation fails"
+}

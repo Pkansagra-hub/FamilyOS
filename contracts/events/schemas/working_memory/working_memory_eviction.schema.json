@@ -1,0 +1,390 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://familyos.local/contracts/events/schemas/working_memory/working_memory_eviction.schema.json",
+    "title": "Working Memory Eviction Event",
+    "description": "Event generated when content is evicted from working memory buffers",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "timestamp",
+        "eviction_type",
+        "evicted_content",
+        "eviction_trigger",
+        "buffer_state_after"
+    ],
+    "properties": {
+        "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Time when eviction occurred"
+        },
+        "eviction_type": {
+            "type": "string",
+            "enum": [
+                "capacity_overflow",
+                "interference_resolution",
+                "executive_eviction",
+                "decay_timeout",
+                "task_completion",
+                "priority_displacement",
+                "goal_irrelevance",
+                "strategic_clearing"
+            ],
+            "description": "Type of eviction mechanism"
+        },
+        "evicted_content": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "required": [
+                    "content_id",
+                    "content_type",
+                    "eviction_reason"
+                ],
+                "properties": {
+                    "content_id": {
+                        "type": "string"
+                    },
+                    "content_type": {
+                        "type": "string",
+                        "enum": [
+                            "verbal",
+                            "visuospatial",
+                            "episodic",
+                            "semantic",
+                            "procedural",
+                            "affective"
+                        ]
+                    },
+                    "eviction_reason": {
+                        "type": "string",
+                        "enum": [
+                            "low_activation",
+                            "high_interference",
+                            "capacity_pressure",
+                            "executive_decision",
+                            "temporal_decay",
+                            "goal_mismatch",
+                            "distractor_displacement"
+                        ]
+                    },
+                    "final_activation": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1
+                    },
+                    "maintenance_duration_ms": {
+                        "type": "number",
+                        "minimum": 0
+                    },
+                    "rehearsal_count": {
+                        "type": "integer",
+                        "minimum": 0
+                    },
+                    "interference_accumulated": {
+                        "type": "number",
+                        "minimum": 0
+                    },
+                    "priority_at_eviction": {
+                        "type": "string",
+                        "enum": [
+                            "low",
+                            "normal",
+                            "high",
+                            "critical"
+                        ]
+                    }
+                }
+            },
+            "description": "Content that was evicted from working memory"
+        },
+        "eviction_trigger": {
+            "type": "object",
+            "required": [
+                "trigger_type",
+                "trigger_severity"
+            ],
+            "properties": {
+                "trigger_type": {
+                    "type": "string",
+                    "enum": [
+                        "new_content_admission",
+                        "capacity_threshold_reached",
+                        "interference_threshold_exceeded",
+                        "executive_command",
+                        "task_switch",
+                        "goal_change",
+                        "attention_shift"
+                    ]
+                },
+                "trigger_severity": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "triggering_content_id": {
+                    "type": "string"
+                },
+                "system_pressure": {
+                    "type": "object",
+                    "properties": {
+                        "capacity_pressure": {
+                            "type": "number"
+                        },
+                        "interference_pressure": {
+                            "type": "number"
+                        },
+                        "executive_pressure": {
+                            "type": "number"
+                        }
+                    }
+                }
+            },
+            "description": "What triggered the eviction"
+        },
+        "buffer_state_after": {
+            "type": "object",
+            "required": [
+                "remaining_items",
+                "capacity_utilization",
+                "total_activation"
+            ],
+            "properties": {
+                "remaining_items": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "content_id": {
+                                "type": "string"
+                            },
+                            "activation_level": {
+                                "type": "number"
+                            },
+                            "priority": {
+                                "type": "string"
+                            },
+                            "maintenance_quality": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                },
+                "capacity_utilization": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "total_activation": {
+                    "type": "number",
+                    "minimum": 0
+                },
+                "interference_level": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "buffer_coherence": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "available_capacity": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                }
+            },
+            "description": "State of buffer after eviction"
+        },
+        "eviction_strategy": {
+            "type": "object",
+            "properties": {
+                "selection_algorithm": {
+                    "type": "string",
+                    "enum": [
+                        "least_recently_used",
+                        "lowest_activation",
+                        "highest_interference",
+                        "priority_based",
+                        "hybrid"
+                    ]
+                },
+                "selection_criteria": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "criterion": {
+                                "type": "string"
+                            },
+                            "weight": {
+                                "type": "number"
+                            },
+                            "threshold": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                },
+                "protection_mechanisms": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "protection_type": {
+                                "type": "string"
+                            },
+                            "protected_content": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "protection_strength": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                }
+            },
+            "description": "Strategy used for content eviction"
+        },
+        "impact_assessment": {
+            "type": "object",
+            "properties": {
+                "performance_impact": {
+                    "type": "object",
+                    "properties": {
+                        "expected_accuracy_change": {
+                            "type": "number"
+                        },
+                        "expected_latency_change": {
+                            "type": "number"
+                        },
+                        "expected_error_rate_change": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "cognitive_cost": {
+                    "type": "object",
+                    "properties": {
+                        "eviction_cost": {
+                            "type": "number"
+                        },
+                        "reactivation_cost": {
+                            "type": "number"
+                        },
+                        "interference_reduction_benefit": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "recovery_potential": {
+                    "type": "object",
+                    "properties": {
+                        "reactivation_probability": {
+                            "type": "number"
+                        },
+                        "retrieval_cue_strength": {
+                            "type": "number"
+                        },
+                        "long_term_storage_quality": {
+                            "type": "number"
+                        }
+                    }
+                }
+            },
+            "description": "Assessment of eviction impact"
+        },
+        "compensatory_mechanisms": {
+            "type": "object",
+            "properties": {
+                "chunking_opportunities": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "chunk_type": {
+                                "type": "string"
+                            },
+                            "items_to_chunk": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "chunking_strength": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                },
+                "external_storage_use": {
+                    "type": "object",
+                    "properties": {
+                        "storage_type": {
+                            "type": "string"
+                        },
+                        "storage_quality": {
+                            "type": "number"
+                        },
+                        "retrieval_accessibility": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "strategy_adjustments": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "strategy_type": {
+                                "type": "string"
+                            },
+                            "adjustment_magnitude": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                }
+            },
+            "description": "Compensatory mechanisms activated after eviction"
+        },
+        "learning_updates": {
+            "type": "object",
+            "properties": {
+                "eviction_learning": {
+                    "type": "object",
+                    "properties": {
+                        "strategy_effectiveness": {
+                            "type": "number"
+                        },
+                        "parameter_adjustments": {
+                            "type": "object"
+                        },
+                        "threshold_updates": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "capacity_management_learning": {
+                    "type": "object",
+                    "properties": {
+                        "optimal_capacity_estimate": {
+                            "type": "number"
+                        },
+                        "interference_prediction_accuracy": {
+                            "type": "number"
+                        },
+                        "eviction_timing_optimization": {
+                            "type": "number"
+                        }
+                    }
+                }
+            },
+            "description": "Learning updates from eviction experience"
+        }
+    }
+}

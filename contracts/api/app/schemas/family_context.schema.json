@@ -1,0 +1,353 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://familyos.local/schemas/app/family_context.schema.json",
+  "title": "Family Context Schema",
+  "description": "Comprehensive family member, relationship, and context schemas for Memory-Centric Family AI App Plane",
+  "type": "object",
+  "$defs": {
+    "FamilyMember": {
+      "type": "object",
+      "title": "Family Member Definition",
+      "description": "Core family member information with privacy-aware attributes",
+      "required": ["user_id", "display_name", "family_role"],
+      "properties": {
+        "user_id": {
+          "type": "string",
+          "pattern": "^[a-zA-Z0-9_-]{8,64}$",
+          "description": "Unique family member identifier"
+        },
+        "display_name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 50,
+          "description": "Family-friendly display name"
+        },
+        "family_role": {
+          "type": "string",
+          "enum": ["parent", "child", "teen", "guest", "caregiver", "grandparent"],
+          "description": "Primary family role for permission and interaction patterns"
+        },
+        "age_group": {
+          "type": "string",
+          "enum": ["toddler", "preschool", "elementary", "middle_school", "high_school", "adult", "senior"],
+          "description": "Age group for appropriate content and interaction patterns"
+        },
+        "status": {
+          "type": "string",
+          "enum": ["active", "inactive", "invited", "suspended"],
+          "default": "active",
+          "description": "Current family membership status"
+        },
+        "privacy_level": {
+          "type": "string",
+          "enum": ["child_safe", "teen_appropriate", "adult_full", "guest_limited"],
+          "description": "Privacy and content access level"
+        },
+        "parental_supervision": {
+          "type": "boolean",
+          "default": false,
+          "description": "Whether this member requires parental supervision"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Family membership creation timestamp"
+        },
+        "last_active": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Last activity timestamp"
+        }
+      }
+    },
+
+    "FamilyRelationship": {
+      "type": "object",
+      "title": "Family Relationship Definition",
+      "description": "Relationship mapping between family members for contextual AI understanding",
+      "required": ["member_a", "member_b", "relationship_type"],
+      "properties": {
+        "member_a": {
+          "type": "string",
+          "description": "First family member user_id"
+        },
+        "member_b": {
+          "type": "string",
+          "description": "Second family member user_id"
+        },
+        "relationship_type": {
+          "type": "string",
+          "enum": ["spouse", "parent_child", "siblings", "grandparent_grandchild", "caregiver_ward", "family_friend"],
+          "description": "Type of family relationship"
+        },
+        "relationship_strength": {
+          "type": "string",
+          "enum": ["primary", "secondary", "extended"],
+          "default": "primary",
+          "description": "Strength/closeness of relationship for AI context"
+        },
+        "interaction_permissions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["full_access", "supervised_access", "limited_access", "emergency_only"]
+          },
+          "description": "Allowed interaction types between these family members"
+        },
+        "memory_sharing_level": {
+          "type": "string",
+          "enum": ["full_sharing", "selective_sharing", "supervised_sharing", "no_sharing"],
+          "default": "selective_sharing",
+          "description": "Level of memory sharing between family members"
+        }
+      }
+    },
+
+    "FamilyStructure": {
+      "type": "object",
+      "title": "Family Structure Definition",
+      "description": "Overall family organization and governance for AI behavior",
+      "required": ["family_id", "family_type", "decision_making_model"],
+      "properties": {
+        "family_id": {
+          "type": "string",
+          "pattern": "^family_[a-zA-Z0-9_-]{8,32}$",
+          "description": "Unique family identifier"
+        },
+        "family_name": {
+          "type": "string",
+          "maxLength": 100,
+          "description": "Family name or identifier"
+        },
+        "family_type": {
+          "type": "string",
+          "enum": ["nuclear_family", "extended_family", "single_parent", "blended_family", "multi_generational", "custom"],
+          "description": "Type of family structure"
+        },
+        "decision_making_model": {
+          "type": "string",
+          "enum": ["parent_led", "democratic", "consensus", "individual_autonomy"],
+          "description": "How family decisions are made - affects AI suggestions"
+        },
+        "privacy_model": {
+          "type": "string",
+          "enum": ["open_family", "parent_supervised", "individual_privacy", "custom"],
+          "description": "Family privacy approach"
+        },
+        "supervision_model": {
+          "type": "string",
+          "enum": ["strict_supervision", "moderate_supervision", "minimal_supervision", "self_managed"],
+          "description": "Level of parental supervision for children"
+        },
+        "total_members": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 20,
+          "description": "Total number of family members"
+        },
+        "active_members": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of currently active family members"
+        },
+        "created_at": {
+          "type": "string",
+          "format": "date-time",
+          "description": "Family creation timestamp"
+        }
+      }
+    },
+
+    "FamilyPermissions": {
+      "type": "object",
+      "title": "Family Permission System",
+      "description": "Role-based permissions for family member capabilities",
+      "properties": {
+        "family_permissions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": [
+              "personal_memory",
+              "family_activities",
+              "family_coordination",
+              "child_supervision",
+              "memory_management",
+              "device_management",
+              "privacy_management",
+              "emergency_protocols",
+              "external_integrations",
+              "family_structure_management"
+            ]
+          },
+          "description": "Family-level permissions for this member"
+        },
+        "device_permissions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["full_access", "supervised_access", "limited_access", "guest_access", "emergency_only"]
+          },
+          "description": "Device access permissions"
+        },
+        "interaction_permissions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["family_chat", "external_contact", "supervised_external", "emergency_only", "ai_interaction"]
+          },
+          "description": "Interaction and communication permissions"
+        },
+        "memory_space_permissions": {
+          "type": "object",
+          "properties": {
+            "personal_spaces": {
+              "type": "string",
+              "enum": ["full_control", "supervised", "read_only", "none"]
+            },
+            "family_spaces": {
+              "type": "string",
+              "enum": ["full_access", "read_write", "read_only", "none"]
+            },
+            "shared_spaces": {
+              "type": "string",
+              "enum": ["create_manage", "participate", "read_only", "none"]
+            }
+          },
+          "description": "Memory space access permissions"
+        }
+      }
+    },
+
+    "FamilyContext": {
+      "type": "object",
+      "title": "Family Context Information",
+      "description": "Rich family context for memory-driven AI processing",
+      "properties": {
+        "current_family_activity": {
+          "type": "string",
+          "enum": ["meals", "homework", "leisure", "chores", "family_time", "individual_time", "sleep", "travel"],
+          "description": "Current primary family activity"
+        },
+        "family_mood": {
+          "type": "string",
+          "enum": ["harmonious", "busy", "stressed", "celebratory", "quiet", "energetic"],
+          "description": "Overall family emotional state"
+        },
+        "home_occupancy": {
+          "type": "object",
+          "properties": {
+            "members_home": {
+              "type": "array",
+              "items": {"type": "string"},
+              "description": "Family members currently at home"
+            },
+            "members_away": {
+              "type": "array",
+              "items": {"type": "string"},
+              "description": "Family members currently away"
+            },
+            "occupancy_level": {
+              "type": "string",
+              "enum": ["empty", "minimal", "partial", "full"],
+              "description": "Current home occupancy level"
+            }
+          }
+        },
+        "family_routines": {
+          "type": "object",
+          "properties": {
+            "morning_routine": {"type": "boolean"},
+            "evening_routine": {"type": "boolean"},
+            "meal_time": {"type": "boolean"},
+            "bedtime_routine": {"type": "boolean"},
+            "weekend_mode": {"type": "boolean"}
+          },
+          "description": "Active family routine states"
+        },
+        "coordination_needs": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["schedule_sync", "location_coordination", "task_assignment", "communication", "resource_sharing"]
+          },
+          "description": "Current family coordination requirements"
+        },
+        "privacy_context": {
+          "type": "object",
+          "properties": {
+            "sensitive_period": {
+              "type": "boolean",
+              "description": "Whether family is in sensitive/private time"
+            },
+            "guest_present": {
+              "type": "boolean",
+              "description": "Whether non-family guests are present"
+            },
+            "privacy_mode": {
+              "type": "string",
+              "enum": ["normal", "heightened", "minimal", "emergency_override"],
+              "description": "Current family privacy mode"
+            }
+          }
+        }
+      }
+    },
+
+    "FamilyMemorySpaceReference": {
+      "type": "object",
+      "title": "Family Memory Space Reference",
+      "description": "Reference to family memory spaces for context integration",
+      "required": ["space_id", "space_type"],
+      "properties": {
+        "space_id": {
+          "type": "string",
+          "pattern": "^(personal|selective|shared|extended|interfamily):[a-zA-Z0-9_-]+$",
+          "description": "Memory space identifier with type prefix"
+        },
+        "space_type": {
+          "type": "string",
+          "enum": ["personal", "selective", "shared", "extended", "interfamily"],
+          "description": "Type of memory space"
+        },
+        "access_level": {
+          "type": "string",
+          "enum": ["owner", "read_write", "read_only", "invited"],
+          "description": "Access level for this family member"
+        },
+        "family_visibility": {
+          "type": "boolean",
+          "description": "Whether this space is visible to family coordination"
+        },
+        "memory_categories": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Categories of memories in this space"
+        }
+      }
+    }
+  },
+
+  "properties": {
+    "family_member": {
+      "$ref": "#/$defs/FamilyMember"
+    },
+    "family_relationship": {
+      "$ref": "#/$defs/FamilyRelationship"
+    },
+    "family_structure": {
+      "$ref": "#/$defs/FamilyStructure"
+    },
+    "family_permissions": {
+      "$ref": "#/$defs/FamilyPermissions"
+    },
+    "family_context": {
+      "$ref": "#/$defs/FamilyContext"
+    },
+    "memory_space_reference": {
+      "$ref": "#/$defs/FamilyMemorySpaceReference"
+    }
+  }
+}

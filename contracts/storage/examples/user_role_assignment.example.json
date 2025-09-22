@@ -1,0 +1,26 @@
+{
+    "assignment_id": "01HF8M9K8QRST7VW2XYZ789ABC",
+    "user_id": "01234567-89ab-cdef-0123-456789abcdef",
+    "role_name": "guardian",
+    "scope": {
+        "type": "global"
+    },
+    "capabilities": [
+        "memory:read",
+        "memory:write",
+        "memory:project",
+        "memory:share",
+        "admin:user_mgmt",
+        "admin:space_mgmt"
+    ],
+    "conditions": {
+        "time_limited": false,
+        "require_mfa": true
+    },
+    "assigned_ts": "2025-09-18T14:30:00Z",
+    "assigned_by": "fedcba98-7654-3210-fedc-ba9876543210",
+    "assignment_reason": "Initial guardian role assignment for user creation",
+    "last_used_ts": "2025-09-18T12:15:00Z",
+    "usage_count": 23,
+    "status": "active"
+}

@@ -1,0 +1,624 @@
+---
+title: "Storage Service - Service Level Agreement (SLA) Contracts"
+version: "1.0.0"
+updated: "2025-09-16T00:00:00Z"
+service: "storage"
+category: "ops/sla"
+description: |
+  Comprehensive Service Level Agreement contracts for MemoryOS Storage Service.
+  Defines store-specific performance targets, availability guarantees, throughput
+  requirements, and data consistency SLAs based on operational criticality and
+  business requirements.
+
+# =============================================================================
+# SLA FRAMEWORK OVERVIEW
+# =============================================================================
+
+sla_framework:
+  principles:
+    - "Performance targets aligned with business criticality"
+    - "Measurable and observable service levels"
+    - "Graceful degradation under load"
+    - "Proactive monitoring and alerting"
+    - "Clear escalation and remediation procedures"
+
+  measurement_methodology:
+    collection_frequency: "Real-time with 1-second granularity"
+    aggregation_windows: ["1m", "5m", "15m", "1h", "24h"]
+    percentile_tracking: ["p50", "p95", "p99", "p99.9"]
+    error_budget_period: "30 days rolling"
+
+  compliance_reporting:
+    report_frequency: "Daily operational, Weekly business"
+    breach_notification: "Real-time alerts + 24hr summary"
+    historical_analysis: "Monthly trends + Quarterly reviews"
+    capacity_planning: "Quarterly projections based on SLA data"
+
+# =============================================================================
+# STORE CRITICALITY CLASSIFICATION
+# =============================================================================
+
+criticality_tiers:
+  tier_1_critical:
+    description: "Mission-critical system infrastructure stores"
+    business_impact: "System failure if unavailable"
+    stores:
+      - "ReceiptsStore" # Audit trail and compliance
+      - "IdempotencyStore" # Transaction safety
+      - "PrivacyStore" # Data protection compliance
+      - "SecureStore" # Security-critical data
+
+    base_sla_requirements:
+      availability: 99.99 # 99.99% uptime (4.32 min/month downtime)
+      max_error_rate: 0.01 # 0.01% maximum error rate
+      recovery_time: 30 # 30 seconds maximum recovery time
+      data_durability: 99.999999 # 99.999999% (8 nines)
+
+  tier_2_high:
+    description: "High-priority operational and memory stores"
+    business_impact: "Significant degradation if unavailable"
+    stores:
+      - "OutboxStore" # Event delivery reliability
+      - "WorkspaceStore" # User workspace state
+      - "EpisodicStore" # Core memory functionality
+      - "SemanticStore" # Knowledge relationships
+      - "EmbeddingsStore" # AI/ML operations
+      - "VectorStore" # Similarity search
+
+    base_sla_requirements:
+      availability: 99.9 # 99.9% uptime (43.2 min/month downtime)
+      max_error_rate: 0.1 # 0.1% maximum error rate
+      recovery_time: 60 # 1 minute maximum recovery time
+      data_durability: 99.99999 # 99.99999% (7 nines)
+
+  tier_3_standard:
+    description: "Standard priority cognitive and specialized stores"
+    business_impact: "Functional limitation if unavailable"
+    stores:
+      - "FTSStore" # Text search functionality
+      - "AffectStore" # Emotional processing
+      - "HippocampusStore" # Memory consolidation
+      - "ImaginationStore" # Scenario simulation
+      - "MetacogStore" # Self-reflection
+      - "SocialCognitionStore" # Social interaction
+      - "DrivesStore" # Motivational drives
+      - "BlobStore" # Large object storage
+      - "CRDTStore" # Conflict-free replication
+      - "KGStore" # Knowledge graph
+      - "MLStore" # ML model artifacts
+      - "ProspectiveStore" # Future planning
+
+    base_sla_requirements:
+      availability: 99.5 # 99.5% uptime (3.6 hours/month downtime)
+      max_error_rate: 0.5 # 0.5% maximum error rate
+      recovery_time: 300 # 5 minutes maximum recovery time
+      data_durability: 99.999 # 99.999% (5 nines)
+
+# =============================================================================
+# PERFORMANCE SLA CONTRACTS
+# =============================================================================
+
+performance_slas:
+  # =========================================================================
+  # TIER 1 CRITICAL STORES
+  # =========================================================================
+
+  ReceiptsStore:
+    description: "Transaction receipts and audit trail"
+    criticality: "tier_1_critical"
+
+    latency_targets:
+      write_operations:
+        p95: "5ms" # 95th percentile write latency
+        p99: "10ms" # 99th percentile write latency
+        p99_9: "20ms" # 99.9th percentile write latency
+        timeout: "50ms" # Hard timeout for writes
+
+      read_operations:
+        p95: "2ms" # 95th percentile read latency
+        p99: "5ms" # 99th percentile read latency
+        p99_9: "10ms" # 99.9th percentile read latency
+        timeout: "25ms" # Hard timeout for reads
+
+      query_operations:
+        p95: "10ms" # 95th percentile query latency
+        p99: "25ms" # 99th percentile query latency
+        p99_9: "50ms" # 99.9th percentile query latency
+        timeout: "100ms" # Hard timeout for queries
+
+    throughput_targets:
+      peak_writes_per_second: 1000 # Peak write capacity
+      sustained_writes_per_second: 500 # Sustained write capacity
+      peak_reads_per_second: 5000 # Peak read capacity
+      concurrent_connections: 100 # Maximum concurrent connections
+
+    consistency_guarantees:
+      write_consistency: "strong" # Strong consistency for audit trail
+      read_consistency: "strong" # Strong consistency for compliance
+      durability: "synchronous" # Synchronous durability to disk
+      isolation_level: "serializable" # Highest isolation for audit data
+
+    resource_limits:
+      max_memory_usage_mb: 500 # Maximum memory usage
+      max_disk_usage_growth_daily_gb: 1 # Daily disk growth limit
+      max_connection_pool_size: 50 # Connection pool limit
+      vacuum_frequency_hours: 6 # Database maintenance frequency
+
+  IdempotencyStore:
+    description: "Idempotency key tracking and duplicate detection"
+    criticality: "tier_1_critical"
+
+    latency_targets:
+      key_check_operations:
+        p95: "1ms" # Ultra-fast duplicate detection
+        p99: "2ms" # 99th percentile check latency
+        p99_9: "5ms" # 99.9th percentile check latency
+        timeout: "10ms" # Hard timeout for key checks
+
+      key_insertion_operations:
+        p95: "3ms" # 95th percentile key insertion
+        p99: "6ms" # 99th percentile insertion
+        p99_9: "12ms" # 99.9th percentile insertion
+        timeout: "25ms" # Hard timeout for insertion
+
+    throughput_targets:
+      peak_key_checks_per_second: 10000 # High-throughput key checking
+      sustained_key_checks_per_second: 5000 # Sustained check capacity
+      peak_insertions_per_second: 2000 # Peak insertion capacity
+      cache_hit_rate_minimum: 95 # 95% minimum cache hit rate
+
+    consistency_guarantees:
+      write_consistency: "strong" # Strong consistency for idempotency
+      read_consistency: "eventual" # Eventual consistency acceptable for reads
+      durability: "asynchronous" # Async durability for performance
+      isolation_level: "read_committed" # Read committed sufficient
+
+    resource_limits:
+      max_memory_usage_mb: 1000 # Large cache for performance
+      key_expiration_hours: 24 # Automatic key cleanup
+      max_concurrent_operations: 1000 # High concurrency support
+      cache_eviction_policy: "lru" # Least recently used eviction
+
+  PrivacyStore:
+    description: "Privacy policies and data protection"
+    criticality: "tier_1_critical"
+
+    latency_targets:
+      policy_evaluation:
+        p95: "3ms" # Fast policy decisions
+        p99: "8ms" # 99th percentile evaluation
+        p99_9: "15ms" # 99.9th percentile evaluation
+        timeout: "30ms" # Hard timeout for policy evaluation
+
+      compliance_checks:
+        p95: "5ms" # Compliance validation
+        p99: "12ms" # 99th percentile compliance
+        p99_9: "25ms" # 99.9th percentile compliance
+        timeout: "50ms" # Hard timeout for compliance
+
+    consistency_guarantees:
+      write_consistency: "strong" # Strong consistency for privacy policies
+      read_consistency: "strong" # Strong consistency for compliance
+      durability: "synchronous" # Synchronous durability for privacy
+      isolation_level: "serializable" # Highest isolation for privacy data
+
+    compliance_requirements:
+      audit_trail_retention_years: 7 # Legal requirement compliance
+      policy_change_notification_ms: 100 # Real-time policy updates
+      data_breach_detection_ms: 1000 # 1 second breach detection
+      gdpr_compliance_level: "strict" # Strict GDPR compliance
+
+  SecureStore:
+    description: "Encrypted secure data storage"
+    criticality: "tier_1_critical"
+
+    latency_targets:
+      encrypted_write_operations:
+        p95: "8ms" # Encryption overhead considered
+        p99: "15ms" # 99th percentile encrypted writes
+        p99_9: "30ms" # 99.9th percentile encrypted writes
+        timeout: "60ms" # Hard timeout including encryption
+
+      encrypted_read_operations:
+        p95: "5ms" # Decryption overhead considered
+        p99: "10ms" # 99th percentile encrypted reads
+        p99_9: "20ms" # 99.9th percentile encrypted reads
+        timeout: "40ms" # Hard timeout including decryption
+
+    security_guarantees:
+      encryption_algorithm: "AES-256-GCM" # Industry standard encryption
+      key_rotation_frequency_days: 90 # Regular key rotation
+      encryption_at_rest: "required" # All data encrypted at rest
+      encryption_in_transit: "required" # All data encrypted in transit
+      access_audit_completeness: 100 # 100% access logging
+
+    resource_limits:
+      max_memory_usage_mb: 200 # Limited for security
+      encryption_cache_size_mb: 50 # Encrypted key cache
+      max_concurrent_decrypt: 100 # Concurrent decryption limit
+
+  # =========================================================================
+  # TIER 2 HIGH PRIORITY STORES
+  # =========================================================================
+
+  OutboxStore:
+    description: "Event outbox pattern for reliable messaging"
+    criticality: "tier_2_high"
+
+    latency_targets:
+      event_insertion:
+        p95: "5ms" # Event insertion latency
+        p99: "12ms" # 99th percentile insertion
+        p99_9: "25ms" # 99.9th percentile insertion
+        timeout: "50ms" # Hard timeout for event insertion
+
+      event_processing:
+        p95: "20ms" # Event processing latency
+        p99: "50ms" # 99th percentile processing
+        p99_9: "100ms" # 99.9th percentile processing
+        timeout: "200ms" # Hard timeout for processing
+
+    throughput_targets:
+      peak_events_per_second: 2000 # Peak event ingestion
+      sustained_events_per_second: 1000 # Sustained event capacity
+      event_processing_rate: 1500 # Events processed per second
+      max_pending_events: 10000 # Maximum pending event queue
+
+    reliability_guarantees:
+      event_delivery_guarantee: "at_least_once" # Delivery semantics
+      max_event_age_minutes: 5 # Maximum event age before alert
+      dead_letter_queue_threshold: 3 # Retries before DLQ
+      event_ordering: "per_partition" # Ordering guarantee scope
+
+  EpisodicStore:
+    description: "Sequential memory records with temporal ordering"
+    criticality: "tier_2_high"
+
+    latency_targets:
+      episode_write:
+        p95: "8ms" # Episode write latency
+        p99: "18ms" # 99th percentile writes
+        p99_9: "35ms" # 99.9th percentile writes
+        timeout: "75ms" # Hard timeout for episode writes
+
+      episode_read:
+        p95: "4ms" # Episode read latency
+        p99: "10ms" # 99th percentile reads
+        p99_9: "20ms" # 99.9th percentile reads
+        timeout: "40ms" # Hard timeout for reads
+
+      sequence_queries:
+        p95: "15ms" # Temporal sequence queries
+        p99: "40ms" # 99th percentile sequence queries
+        p99_9: "80ms" # 99.9th percentile sequence queries
+        timeout: "150ms" # Hard timeout for sequence queries
+
+    throughput_targets:
+      peak_episodes_per_second: 500 # Peak episode creation
+      sustained_episodes_per_second: 200 # Sustained episode capacity
+      max_episode_size_mb: 10 # Maximum single episode size
+      concurrent_sequence_queries: 50 # Concurrent temporal queries
+
+    data_integrity_guarantees:
+      temporal_ordering: "strict" # Strict temporal ordering
+      episode_immutability: "enforced" # Episodes cannot be modified
+      sequence_consistency: "strong" # Strong consistency for sequences
+      backup_frequency_hours: 2 # Frequent backups for memory data
+
+  EmbeddingsStore:
+    description: "High-dimensional vector embeddings"
+    criticality: "tier_2_high"
+
+    latency_targets:
+      embedding_storage:
+        p95: "12ms" # Vector storage latency
+        p99: "25ms" # 99th percentile storage
+        p99_9: "50ms" # 99.9th percentile storage
+        timeout: "100ms" # Hard timeout for storage
+
+      similarity_search:
+        p95: "20ms" # Vector similarity search
+        p99: "45ms" # 99th percentile search
+        p99_9: "90ms" # 99.9th percentile search
+        timeout: "200ms" # Hard timeout for search
+
+    throughput_targets:
+      peak_embeddings_per_second: 200 # Peak embedding storage
+      sustained_embeddings_per_second: 100 # Sustained capacity
+      similarity_searches_per_second: 500 # Similarity search capacity
+      max_embedding_dimensions: 1536 # Maximum vector dimensions
+
+    performance_guarantees:
+      search_accuracy: 95 # 95% minimum search accuracy
+      index_update_lag_seconds: 30 # Maximum index update lag
+      memory_efficiency: 80 # 80% memory utilization target
+      vector_compression_ratio: 4 # 4:1 compression ratio target
+
+  # =========================================================================
+  # TIER 3 STANDARD STORES (Selected Examples)
+  # =========================================================================
+
+  FTSStore:
+    description: "Full-text search with indexed content"
+    criticality: "tier_3_standard"
+
+    latency_targets:
+      text_indexing:
+        p95: "25ms" # Text indexing latency
+        p99: "60ms" # 99th percentile indexing
+        p99_9: "120ms" # 99.9th percentile indexing
+        timeout: "250ms" # Hard timeout for indexing
+
+      search_queries:
+        p95: "30ms" # Text search latency
+        p99: "75ms" # 99th percentile search
+        p99_9: "150ms" # 99.9th percentile search
+        timeout: "300ms" # Hard timeout for search
+
+    throughput_targets:
+      peak_indexing_ops_per_second: 100 # Peak text indexing
+      sustained_indexing_ops_per_second: 50 # Sustained indexing
+      search_queries_per_second: 200 # Search query capacity
+      max_document_size_mb: 50 # Maximum document size
+
+    search_quality_guarantees:
+      search_relevance_score: 85 # 85% minimum relevance
+      index_freshness_seconds: 300 # 5 minute maximum index lag
+      search_recall: 90 # 90% minimum search recall
+      query_language_support: ["en", "es", "fr", "de"] # Language support
+
+# =============================================================================
+# AVAILABILITY AND UPTIME CONTRACTS
+# =============================================================================
+
+availability_contracts:
+  measurement_methodology:
+    uptime_calculation: "Total operational time / Total time * 100"
+    downtime_definition: "Service unavailable or error rate > SLA threshold"
+    planned_maintenance_exclusion: true
+    measurement_period: "30 days rolling window"
+
+  tier_1_critical_availability:
+    target_uptime: 99.99 # 99.99% availability target
+    max_downtime_per_month_minutes: 4.32 # Maximum monthly downtime
+    max_downtime_per_incident_minutes: 2 # Maximum single incident downtime
+
+    planned_maintenance:
+      max_monthly_hours: 2 # Maximum planned maintenance
+      advance_notice_days: 7 # Advance maintenance notice
+      maintenance_window: "02:00-04:00 UTC Sunday" # Preferred window
+
+    incident_response:
+      detection_time_seconds: 30 # Maximum detection time
+      response_time_minutes: 5 # Maximum response time
+      resolution_time_minutes: 15 # Maximum resolution time
+      escalation_after_minutes: 10 # Escalation trigger
+
+  tier_2_high_availability:
+    target_uptime: 99.9 # 99.9% availability target
+    max_downtime_per_month_minutes: 43.2 # Maximum monthly downtime
+    max_downtime_per_incident_minutes: 10 # Maximum single incident downtime
+
+    planned_maintenance:
+      max_monthly_hours: 4 # Maximum planned maintenance
+      advance_notice_days: 3 # Advance maintenance notice
+      maintenance_window: "01:00-05:00 UTC Sunday" # Preferred window
+
+    incident_response:
+      detection_time_seconds: 60 # Maximum detection time
+      response_time_minutes: 10 # Maximum response time
+      resolution_time_minutes: 30 # Maximum resolution time
+      escalation_after_minutes: 20 # Escalation trigger
+
+  tier_3_standard_availability:
+    target_uptime: 99.5 # 99.5% availability target
+    max_downtime_per_month_minutes: 216 # Maximum monthly downtime
+    max_downtime_per_incident_minutes: 30 # Maximum single incident downtime
+
+    planned_maintenance:
+      max_monthly_hours: 8 # Maximum planned maintenance
+      advance_notice_days: 1 # Advance maintenance notice
+      maintenance_window: "00:00-06:00 UTC Sunday" # Preferred window
+
+    incident_response:
+      detection_time_seconds: 300 # Maximum detection time
+      response_time_minutes: 30 # Maximum response time
+      resolution_time_minutes: 120 # Maximum resolution time
+      escalation_after_minutes: 60 # Escalation trigger
+
+# =============================================================================
+# DATA CONSISTENCY AND DURABILITY CONTRACTS
+# =============================================================================
+
+data_consistency_contracts:
+  consistency_models:
+    strong_consistency:
+      description: "All reads receive the most recent write"
+      applicable_stores:
+        ["ReceiptsStore", "IdempotencyStore", "PrivacyStore", "SecureStore"]
+      guarantees:
+        - "Linearizability for all operations"
+        - "ACID transaction properties"
+        - "Immediate consistency across all replicas"
+
+      performance_impact:
+        latency_overhead: "10-20%"
+        throughput_reduction: "15-25%"
+        availability_impact: "Network partition sensitivity"
+
+    eventual_consistency:
+      description: "System will become consistent over time"
+      applicable_stores: ["Most tier_2 and tier_3 stores"]
+      guarantees:
+        - "Monotonic read consistency"
+        - "Read-your-writes consistency"
+        - "Session consistency"
+        - "Convergence within 100ms under normal conditions"
+
+      performance_impact:
+        latency_overhead: "0-5%"
+        throughput_improvement: "20-30%"
+        availability_improvement: "Partition tolerant"
+
+durability_contracts:
+  tier_1_critical_durability:
+    target_durability: 99.999999 # 8 nines durability
+    data_loss_tolerance: "Zero data loss acceptable"
+    backup_requirements:
+      frequency: "Continuous replication + hourly snapshots"
+      retention: "7 years full backups"
+      geographic_distribution: "Multi-region required"
+      recovery_time_objective_hours: 1
+      recovery_point_objective_minutes: 0
+
+    verification_requirements:
+      integrity_check_frequency: "Continuous"
+      backup_verification_frequency: "Daily"
+      disaster_recovery_test_frequency: "Monthly"
+
+  tier_2_high_durability:
+    target_durability: 99.99999 # 7 nines durability
+    data_loss_tolerance: "< 1 minute of data"
+    backup_requirements:
+      frequency: "Hourly incremental + daily full"
+      retention: "1 year full backups"
+      geographic_distribution: "Single region with cross-AZ"
+      recovery_time_objective_hours: 4
+      recovery_point_objective_minutes: 60
+
+    verification_requirements:
+      integrity_check_frequency: "Daily"
+      backup_verification_frequency: "Weekly"
+      disaster_recovery_test_frequency: "Quarterly"
+
+  tier_3_standard_durability:
+    target_durability: 99.999 # 5 nines durability
+    data_loss_tolerance: "< 1 hour of data"
+    backup_requirements:
+      frequency: "Daily full backups"
+      retention: "90 days full backups"
+      geographic_distribution: "Single AZ with local redundancy"
+      recovery_time_objective_hours: 24
+      recovery_point_objective_hours: 24
+
+    verification_requirements:
+      integrity_check_frequency: "Weekly"
+      backup_verification_frequency: "Monthly"
+      disaster_recovery_test_frequency: "Annually"
+
+# =============================================================================
+# ERROR BUDGET AND BREACH HANDLING
+# =============================================================================
+
+error_budget_management:
+  budget_calculation:
+    method: "Error budget = (1 - SLA target) * Total requests"
+    tracking_period: "30 days rolling"
+    budget_reset: "Monthly on calendar month boundary"
+
+  budget_allocation:
+    tier_1_critical:
+      monthly_error_budget: 0.01 # 0.01% error budget
+      budget_burn_alerts: [25, 50, 75, 90, 100] # Alert thresholds
+      budget_exhaustion_response: "Emergency incident, halt deployments"
+
+    tier_2_high:
+      monthly_error_budget: 0.1 # 0.1% error budget
+      budget_burn_alerts: [50, 75, 90, 100] # Alert thresholds
+      budget_exhaustion_response: "High priority incident, review deployments"
+
+    tier_3_standard:
+      monthly_error_budget: 0.5 # 0.5% error budget
+      budget_burn_alerts: [75, 90, 100] # Alert thresholds
+      budget_exhaustion_response: "Standard incident, continue operations"
+
+sla_breach_procedures:
+  breach_classification:
+    minor_breach: "< 25% of error budget consumed in 1 hour"
+    major_breach: "25-75% of error budget consumed in 1 hour"
+    critical_breach: "> 75% of error budget consumed in 1 hour"
+
+  response_procedures:
+    minor_breach:
+      notification: "Team slack channel"
+      response_time: "1 hour"
+      investigation_required: false
+      documentation: "Automated ticket"
+
+    major_breach:
+      notification: "Team + manager escalation"
+      response_time: "15 minutes"
+      investigation_required: true
+      documentation: "Incident report required"
+
+    critical_breach:
+      notification: "All hands + executive escalation"
+      response_time: "5 minutes"
+      investigation_required: true
+      documentation: "Post-mortem required"
+      remediation_plan: "48 hours"
+
+# =============================================================================
+# CAPACITY PLANNING AND SCALING
+# =============================================================================
+
+capacity_planning:
+  growth_projections:
+    data_growth_monthly: 15 # 15% monthly data growth expected
+    operation_growth_monthly: 20 # 20% monthly operation growth
+    user_growth_monthly: 10 # 10% monthly user growth
+
+  scaling_triggers:
+    tier_1_critical:
+      scale_up_threshold: 70 # Scale at 70% capacity
+      scale_down_threshold: 30 # Scale down at 30% capacity
+      scaling_increment: 25 # Scale by 25% increments
+
+    tier_2_high:
+      scale_up_threshold: 80 # Scale at 80% capacity
+      scale_down_threshold: 20 # Scale down at 20% capacity
+      scaling_increment: 50 # Scale by 50% increments
+
+    tier_3_standard:
+      scale_up_threshold: 90 # Scale at 90% capacity
+      scale_down_threshold: 10 # Scale down at 10% capacity
+      scaling_increment: 100 # Scale by 100% increments
+
+  resource_planning:
+    hardware_refresh_cycle_years: 3 # Hardware refresh cycle
+    capacity_buffer_percentage: 25 # Capacity buffer for spikes
+    disaster_recovery_capacity: 100 # 100% DR capacity
+    testing_environment_capacity: 25 # 25% capacity for testing
+
+# =============================================================================
+# CONTRACT METADATA AND VALIDATION
+# =============================================================================
+
+contract_metadata:
+  sla_definitions_count: 22 # One SLA per store
+  performance_metrics_count: 180 # Comprehensive metric coverage
+  availability_targets_count: 3 # Per tier
+  durability_contracts_count: 3 # Per tier
+
+  validation_requirements:
+    sla_measurability: "100% metrics must be automatically collectible"
+    baseline_establishment: "30 days of baseline data required"
+    historical_analysis: "6 months of trend data for target validation"
+    business_alignment: "SLAs must align with business requirements"
+
+  compliance_frameworks:
+    - "ITIL v4 Service Level Management"
+    - "SRE Best Practices (Google SRE Book)"
+    - "ISO/IEC 20000 Service Management"
+    - "SOC 2 Type II Availability Controls"
+
+  review_schedule:
+    sla_review_frequency: "Quarterly"
+    performance_target_adjustment: "Based on 90 days of data"
+    business_requirement_alignment: "Annual review"
+    emergency_adjustment_procedure: "Within 48 hours for critical issues"
+
+  last_updated: "2025-09-16T00:00:00Z"
+  version: "1.0.0"
+  implementation_status: "contract_complete"
+  next_milestone: "storage_monitoring_contracts"

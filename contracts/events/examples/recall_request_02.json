@@ -1,0 +1,54 @@
+{
+  "schema_version": "1.1.0",
+  "id": "473809b8-533f-4a24-9753-579218ed9697",
+  "ts": "2025-09-09T04:20:40Z",
+  "topic": "RECALL_REQUEST",
+  "band": "AMBER",
+  "actor": {
+    "user_id": "808466c0-b88e-4eee-bb3a-490d791fcf38",
+    "agent_id": "privacy.v1",
+    "caps": [
+      "WRITE"
+    ]
+  },
+  "device": {
+    "device_id": "ios-iphone15",
+    "platform": "android",
+    "app_version": "1.3.3",
+    "locale": "hi-IN"
+  },
+  "space_id": "shared:household",
+  "policy_version": "1.3",
+  "abac": {
+    "role": "system",
+    "trust": "amber",
+    "geo_precision": "region"
+  },
+  "qos": {
+    "routing": "gate-path",
+    "priority": 4,
+    "latency_budget_ms": 85,
+    "retries": 0
+  },
+  "trace": {
+    "trace_id": "4ab33d3ca89949b8ce208d4c00af189f",
+    "span_id": "d8a965b4c5a4a05c",
+    "sampled": true
+  },
+  "obligations": [],
+  "redaction_applied": true,
+  "hashes": {
+    "payload_sha256": "e5a91cff2c74f061bfa99c04061c1213e9b1beea6af61665ea0b735233cc9ecb"
+  },
+  "payload": {
+    "query": "ssn appointment",
+    "k": 5
+  },
+  "signature": {
+    "alg": "ed25519",
+    "key_id": "key_recall_request_amber_2024",
+    "public_key": "cHVibGlj",
+    "signature": "c2ln"
+  },
+  "mls_group": "household-secure"
+}

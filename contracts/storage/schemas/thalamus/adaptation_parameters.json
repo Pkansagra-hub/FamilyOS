@@ -1,0 +1,152 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "$id": "adaptation_parameters.schema.json",
+    "title": "Adaptation Parameters Storage",
+    "description": "Storage schema for thalamic circuit adaptation and learning parameters.",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "circuit_id",
+        "learning_parameters",
+        "adaptation_strategy",
+        "experience_weighting",
+        "plasticity_settings"
+    ],
+    "properties": {
+        "circuit_id": {
+            "type": "string",
+            "description": "Identifier for the thalamic circuit"
+        },
+        "learning_parameters": {
+            "type": "object",
+            "properties": {
+                "learning_rate": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "forgetting_rate": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "exploration_rate": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "exploitation_bias": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "meta_learning_rate": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                }
+            }
+        },
+        "adaptation_strategy": {
+            "type": "object",
+            "properties": {
+                "strategy_type": {
+                    "type": "string",
+                    "enum": [
+                        "gradual",
+                        "step",
+                        "oscillatory",
+                        "guided",
+                        "meta"
+                    ]
+                },
+                "adaptation_triggers": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "adaptation_constraints": {
+                    "type": "object"
+                },
+                "rollback_conditions": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "experience_weighting": {
+            "type": "object",
+            "properties": {
+                "recent_experience_weight": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "success_experience_weight": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "error_experience_weight": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "novelty_experience_weight": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                }
+            }
+        },
+        "plasticity_settings": {
+            "type": "object",
+            "properties": {
+                "plasticity_enabled": {
+                    "type": "boolean"
+                },
+                "plasticity_window_ms": {
+                    "type": "number",
+                    "minimum": 0
+                },
+                "consolidation_threshold": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "stability_requirement": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                }
+            }
+        },
+        "adaptation_history": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "adaptation_type": {
+                        "type": "string"
+                    },
+                    "parameter_changes": {
+                        "type": "object"
+                    },
+                    "trigger_event": {
+                        "type": "string"
+                    },
+                    "outcome": {
+                        "type": "string"
+                    },
+                    "timestamp": {
+                        "type": "string",
+                        "format": "date-time"
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,3 @@
+- OBS-UNAVAILABLE (503): Metrics endpoint disabled.
+- OBS-CARDINALITY-REJECT (400): Label budget exceeded.
+- OBS-UNAUTHORIZED (401/403): Missing/invalid internal token.

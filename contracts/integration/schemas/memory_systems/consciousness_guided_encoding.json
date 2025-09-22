@@ -1,0 +1,615 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "consciousness_guided_encoding.schema.json",
+    "title": "Consciousness-Guided Memory Encoding Contract",
+    "description": "Defines memory encoding guided by global workspace consciousness, prioritizing conscious content for hippocampal consolidation based on attention allocation and conscious access.",
+    "type": "object",
+    "required": [
+        "encoding_session_id",
+        "consciousness_state",
+        "conscious_content",
+        "attention_modulation",
+        "encoding_parameters",
+        "hippocampal_targeting",
+        "timestamp"
+    ],
+    "properties": {
+        "encoding_session_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Unique identifier for the consciousness-guided encoding session"
+        },
+        "consciousness_state": {
+            "type": "object",
+            "required": [
+                "consciousness_level",
+                "workspace_state",
+                "coalition_dynamics"
+            ],
+            "properties": {
+                "consciousness_level": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Current level of consciousness (0=unconscious, 1=fully conscious)"
+                },
+                "workspace_state": {
+                    "type": "object",
+                    "properties": {
+                        "workspace_capacity": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "content_richness": {
+                            "type": "number"
+                        },
+                        "integration_level": {
+                            "type": "number"
+                        },
+                        "broadcasting_strength": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "coalition_dynamics": {
+                    "type": "object",
+                    "properties": {
+                        "dominant_coalition": {
+                            "type": "object",
+                            "properties": {
+                                "coalition_id": {
+                                    "type": "string"
+                                },
+                                "coalition_strength": {
+                                    "type": "number"
+                                },
+                                "content_type": {
+                                    "type": "string"
+                                },
+                                "stability": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "competing_coalitions": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "coalition_id": {
+                                        "type": "string"
+                                    },
+                                    "coalition_strength": {
+                                        "type": "number"
+                                    },
+                                    "interference_level": {
+                                        "type": "number"
+                                    }
+                                }
+                            }
+                        },
+                        "coalition_turnover_rate": {
+                            "type": "number",
+                            "description": "Rate of coalition changes in consciousness"
+                        }
+                    }
+                },
+                "conscious_access_quality": {
+                    "type": "object",
+                    "properties": {
+                        "clarity": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "vividness": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "reportability": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "subjective_experience_strength": {
+                            "type": "number"
+                        }
+                    }
+                }
+            }
+        },
+        "conscious_content": {
+            "type": "object",
+            "required": [
+                "content_items",
+                "content_integration"
+            ],
+            "properties": {
+                "content_items": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "required": [
+                            "content_id",
+                            "content_type",
+                            "conscious_accessibility"
+                        ],
+                        "properties": {
+                            "content_id": {
+                                "type": "string",
+                                "description": "Unique identifier for the conscious content item"
+                            },
+                            "content_type": {
+                                "type": "string",
+                                "enum": [
+                                    "perceptual",
+                                    "conceptual",
+                                    "emotional",
+                                    "memorial",
+                                    "motor",
+                                    "linguistic",
+                                    "spatial",
+                                    "temporal"
+                                ],
+                                "description": "Type of conscious content"
+                            },
+                            "conscious_accessibility": {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 1,
+                                "description": "Level of conscious accessibility for this content"
+                            },
+                            "content_data": {
+                                "type": "object",
+                                "description": "Actual content data structure"
+                            },
+                            "phenomenological_properties": {
+                                "type": "object",
+                                "properties": {
+                                    "subjective_intensity": {
+                                        "type": "number"
+                                    },
+                                    "emotional_valence": {
+                                        "type": "number"
+                                    },
+                                    "personal_significance": {
+                                        "type": "number"
+                                    },
+                                    "narrative_coherence": {
+                                        "type": "number"
+                                    }
+                                }
+                            },
+                            "temporal_dynamics": {
+                                "type": "object",
+                                "properties": {
+                                    "conscious_duration": {
+                                        "type": "number"
+                                    },
+                                    "stability_across_time": {
+                                        "type": "number"
+                                    },
+                                    "recency_of_access": {
+                                        "type": "number"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "content_integration": {
+                    "type": "object",
+                    "properties": {
+                        "cross_modal_binding": {
+                            "type": "object",
+                            "properties": {
+                                "visual_auditory_binding": {
+                                    "type": "number"
+                                },
+                                "sensory_conceptual_binding": {
+                                    "type": "number"
+                                },
+                                "emotional_cognitive_binding": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "narrative_structure": {
+                            "type": "object",
+                            "properties": {
+                                "causal_coherence": {
+                                    "type": "number"
+                                },
+                                "temporal_sequence_clarity": {
+                                    "type": "number"
+                                },
+                                "goal_relevance": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "semantic_coherence": {
+                            "type": "object",
+                            "properties": {
+                                "conceptual_consistency": {
+                                    "type": "number"
+                                },
+                                "associative_strength": {
+                                    "type": "number"
+                                },
+                                "contextual_appropriateness": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                },
+                "conscious_experience_metadata": {
+                    "type": "object",
+                    "properties": {
+                        "stream_of_consciousness_position": {
+                            "type": "string"
+                        },
+                        "attention_focus_history": {
+                            "type": "array"
+                        },
+                        "conscious_state_transitions": {
+                            "type": "array"
+                        }
+                    }
+                }
+            }
+        },
+        "attention_modulation": {
+            "type": "object",
+            "required": [
+                "attention_allocation",
+                "attentional_enhancement"
+            ],
+            "properties": {
+                "attention_allocation": {
+                    "type": "object",
+                    "properties": {
+                        "focused_attention_strength": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "Strength of focused attention on conscious content"
+                        },
+                        "attention_scope": {
+                            "type": "string",
+                            "enum": [
+                                "narrow_focus",
+                                "broad_focus",
+                                "divided_attention",
+                                "alternating_attention"
+                            ],
+                            "description": "Scope of attentional allocation"
+                        },
+                        "attention_stability": {
+                            "type": "number",
+                            "description": "Temporal stability of attention allocation"
+                        },
+                        "attention_effort": {
+                            "type": "number",
+                            "description": "Cognitive effort required to maintain attention"
+                        }
+                    }
+                },
+                "attentional_enhancement": {
+                    "type": "object",
+                    "properties": {
+                        "encoding_enhancement_factor": {
+                            "type": "number",
+                            "minimum": 1,
+                            "description": "Factor by which attention enhances encoding strength"
+                        },
+                        "selective_attention_benefit": {
+                            "type": "number",
+                            "description": "Benefit gained from selective attention during encoding"
+                        },
+                        "attention_guided_consolidation": {
+                            "type": "boolean",
+                            "description": "Whether attention guides consolidation priority"
+                        },
+                        "distraction_filtering": {
+                            "type": "object",
+                            "properties": {
+                                "interference_suppression": {
+                                    "type": "number"
+                                },
+                                "irrelevant_content_filtering": {
+                                    "type": "number"
+                                },
+                                "noise_reduction": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                },
+                "attention_consciousness_coupling": {
+                    "type": "object",
+                    "properties": {
+                        "attention_consciousness_correlation": {
+                            "type": "number"
+                        },
+                        "consciousness_drives_attention": {
+                            "type": "boolean"
+                        },
+                        "attention_shapes_consciousness": {
+                            "type": "boolean"
+                        },
+                        "bidirectional_influence_strength": {
+                            "type": "number"
+                        }
+                    }
+                }
+            }
+        },
+        "encoding_parameters": {
+            "type": "object",
+            "required": [
+                "encoding_strategy",
+                "consciousness_enhancement"
+            ],
+            "properties": {
+                "encoding_strategy": {
+                    "type": "string",
+                    "enum": [
+                        "consciousness_prioritized",
+                        "attention_weighted",
+                        "phenomenological_enhanced",
+                        "narrative_structured"
+                    ],
+                    "description": "Strategy for consciousness-guided encoding"
+                },
+                "consciousness_enhancement": {
+                    "type": "object",
+                    "properties": {
+                        "conscious_access_weighting": {
+                            "type": "number",
+                            "description": "Weight given to consciously accessible content"
+                        },
+                        "phenomenological_richness_bonus": {
+                            "type": "number",
+                            "description": "Encoding bonus for phenomenologically rich content"
+                        },
+                        "subjective_significance_multiplier": {
+                            "type": "number",
+                            "description": "Multiplier based on subjective significance"
+                        },
+                        "narrative_coherence_enhancement": {
+                            "type": "number",
+                            "description": "Enhancement for narratively coherent content"
+                        }
+                    }
+                },
+                "encoding_depth": {
+                    "type": "object",
+                    "properties": {
+                        "shallow_perceptual_encoding": {
+                            "type": "number"
+                        },
+                        "semantic_elaborative_encoding": {
+                            "type": "number"
+                        },
+                        "episodic_contextual_encoding": {
+                            "type": "number"
+                        },
+                        "self_referential_encoding": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "consolidation_guidance": {
+                    "type": "object",
+                    "properties": {
+                        "consciousness_guided_replay": {
+                            "type": "boolean"
+                        },
+                        "phenomenological_preservation": {
+                            "type": "boolean"
+                        },
+                        "subjective_experience_maintenance": {
+                            "type": "boolean"
+                        }
+                    }
+                }
+            }
+        },
+        "hippocampal_targeting": {
+            "type": "object",
+            "required": [
+                "encoding_pathway",
+                "subregion_activation"
+            ],
+            "properties": {
+                "encoding_pathway": {
+                    "type": "string",
+                    "enum": [
+                        "entorhinal_consciousness_pathway",
+                        "direct_conscious_access",
+                        "attention_mediated_encoding"
+                    ],
+                    "description": "Hippocampal pathway for consciousness-guided encoding"
+                },
+                "subregion_activation": {
+                    "type": "object",
+                    "properties": {
+                        "ca1_conscious_binding": {
+                            "type": "number",
+                            "description": "CA1 activation for conscious content binding"
+                        },
+                        "ca3_pattern_completion_consciousness": {
+                            "type": "number",
+                            "description": "CA3 pattern completion for conscious memories"
+                        },
+                        "dentate_gyrus_conscious_separation": {
+                            "type": "number",
+                            "description": "Dentate gyrus pattern separation for conscious content"
+                        },
+                        "subiculum_consciousness_output": {
+                            "type": "number",
+                            "description": "Subiculum processing of conscious memory output"
+                        }
+                    }
+                },
+                "consciousness_memory_binding": {
+                    "type": "object",
+                    "properties": {
+                        "phenomenological_encoding": {
+                            "type": "number",
+                            "description": "Strength of phenomenological aspect encoding"
+                        },
+                        "subjective_state_preservation": {
+                            "type": "number",
+                            "description": "Preservation of subjective conscious state"
+                        },
+                        "first_person_perspective_encoding": {
+                            "type": "number",
+                            "description": "Encoding strength for first-person perspective"
+                        },
+                        "conscious_context_binding": {
+                            "type": "number",
+                            "description": "Binding of conscious context to memory content"
+                        }
+                    }
+                }
+            }
+        },
+        "system_coordination": {
+            "type": "object",
+            "properties": {
+                "global_workspace_coordination": {
+                    "type": "object",
+                    "properties": {
+                        "workspace_hippocampus_synchrony": {
+                            "type": "number"
+                        },
+                        "conscious_content_transfer_efficiency": {
+                            "type": "number"
+                        },
+                        "bidirectional_information_flow": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "prefrontal_coordination": {
+                    "type": "object",
+                    "properties": {
+                        "executive_control_influence": {
+                            "type": "number"
+                        },
+                        "working_memory_consciousness_interface": {
+                            "type": "object"
+                        },
+                        "cognitive_control_of_encoding": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "thalamic_coordination": {
+                    "type": "object",
+                    "properties": {
+                        "thalamic_consciousness_gating": {
+                            "type": "number"
+                        },
+                        "attention_consciousness_routing": {
+                            "type": "object"
+                        },
+                        "consciousness_modulated_salience": {
+                            "type": "number"
+                        }
+                    }
+                }
+            }
+        },
+        "encoding_outcomes": {
+            "type": "object",
+            "properties": {
+                "consciousness_encoding_success": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Success rate of consciousness-guided encoding"
+                },
+                "phenomenological_preservation_quality": {
+                    "type": "number",
+                    "description": "Quality of phenomenological aspect preservation"
+                },
+                "subjective_experience_encoding_fidelity": {
+                    "type": "number",
+                    "description": "Fidelity of subjective experience encoding"
+                },
+                "consciousness_enhanced_consolidation_prediction": {
+                    "type": "object",
+                    "properties": {
+                        "predicted_memory_strength": {
+                            "type": "number"
+                        },
+                        "predicted_conscious_retrievability": {
+                            "type": "number"
+                        },
+                        "predicted_phenomenological_persistence": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "encoding_efficiency_metrics": {
+                    "type": "object",
+                    "properties": {
+                        "consciousness_encoding_speed": {
+                            "type": "number"
+                        },
+                        "attention_guided_efficiency": {
+                            "type": "number"
+                        },
+                        "phenomenological_encoding_cost": {
+                            "type": "number"
+                        }
+                    }
+                }
+            }
+        },
+        "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when consciousness-guided encoding was initiated"
+        },
+        "metacognitive_awareness": {
+            "type": "object",
+            "properties": {
+                "encoding_awareness": {
+                    "type": "number",
+                    "description": "Level of metacognitive awareness during encoding"
+                },
+                "consciousness_of_consciousness": {
+                    "type": "number",
+                    "description": "Higher-order consciousness during encoding"
+                },
+                "subjective_encoding_quality_assessment": {
+                    "type": "number",
+                    "description": "Subjective assessment of encoding quality"
+                },
+                "metamemory_predictions": {
+                    "type": "object",
+                    "properties": {
+                        "predicted_retrievability": {
+                            "type": "number"
+                        },
+                        "confidence_in_encoding": {
+                            "type": "number"
+                        },
+                        "subjective_memorability": {
+                            "type": "number"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "additionalProperties": false
+}

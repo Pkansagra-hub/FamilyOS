@@ -1,0 +1,10 @@
+{
+  "__inputs": [],
+  "title": "Retrieval SLO",
+  "panels": [
+    { "type": "timeseries", "title": "p95 latency (ms)", "targets": [{"expr":"histogram_quantile(0.95, sum(rate(retrieval_e2e_ms_bucket[5m])) by (le))"}]},
+    { "type": "timeseries", "title": "QPS", "targets": [{"expr":"sum(rate(recall_qps[5m]))"}]},
+    { "type": "gauge", "title": "Cache hit %", "targets": [{"expr":"avg(retrieval_cache_hit_ratio)"}]}
+  ],
+  "schemaVersion": 38
+}

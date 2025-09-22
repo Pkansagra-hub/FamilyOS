@@ -1,0 +1,466 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://familyos.local/contracts/events/schemas/global_workspace/workspace_competition.schema.json",
+    "title": "Workspace Competition Event",
+    "description": "Event triggered during active competition between coalitions for global workspace access, capturing the dynamics of consciousness competition.",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "timestamp",
+        "competition_id",
+        "competition_phase",
+        "competing_coalitions",
+        "current_leader",
+        "competition_metrics"
+    ],
+    "properties": {
+        "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "When this competition state was captured"
+        },
+        "competition_id": {
+            "type": "string",
+            "pattern": "^comp_[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+            "description": "Unique identifier for this competition instance"
+        },
+        "competition_phase": {
+            "type": "string",
+            "enum": [
+                "initiation",
+                "coalition_formation",
+                "active_competition",
+                "elimination",
+                "resolution",
+                "aftermath"
+            ],
+            "description": "Current phase of the competition process"
+        },
+        "competing_coalitions": {
+            "type": "array",
+            "minItems": 2,
+            "items": {
+                "type": "object",
+                "required": [
+                    "coalition_id",
+                    "current_strength",
+                    "competitive_position",
+                    "strategy"
+                ],
+                "properties": {
+                    "coalition_id": {
+                        "type": "string",
+                        "description": "Identifier of competing coalition"
+                    },
+                    "current_strength": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1,
+                        "description": "Current competitive strength of this coalition"
+                    },
+                    "competitive_position": {
+                        "type": "object",
+                        "properties": {
+                            "ranking": {
+                                "type": "integer",
+                                "minimum": 1
+                            },
+                            "strength_percentile": {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 1
+                            },
+                            "distance_from_leader": {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 1
+                            },
+                            "elimination_risk": {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 1
+                            }
+                        },
+                        "description": "Current position in competition"
+                    },
+                    "strategy": {
+                        "type": "object",
+                        "properties": {
+                            "strategy_type": {
+                                "type": "string",
+                                "enum": [
+                                    "aggressive",
+                                    "defensive",
+                                    "collaborative",
+                                    "opportunistic",
+                                    "adaptive"
+                                ]
+                            },
+                            "resource_allocation": {
+                                "type": "object"
+                            },
+                            "alliance_seeking": {
+                                "type": "boolean"
+                            },
+                            "timing_approach": {
+                                "type": "string"
+                            }
+                        },
+                        "description": "Competitive strategy being employed"
+                    },
+                    "performance_trend": {
+                        "type": "object",
+                        "properties": {
+                            "strength_trajectory": {
+                                "type": "string",
+                                "enum": [
+                                    "increasing",
+                                    "decreasing",
+                                    "stable",
+                                    "volatile"
+                                ]
+                            },
+                            "momentum": {
+                                "type": "number",
+                                "minimum": -1,
+                                "maximum": 1
+                            },
+                            "adaptation_rate": {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 1
+                            }
+                        },
+                        "description": "Performance trends for this coalition"
+                    }
+                }
+            },
+            "description": "All coalitions currently competing for workspace access"
+        },
+        "current_leader": {
+            "type": "object",
+            "required": [
+                "coalition_id",
+                "leadership_strength",
+                "leadership_stability"
+            ],
+            "properties": {
+                "coalition_id": {
+                    "type": "string",
+                    "description": "Coalition currently leading the competition"
+                },
+                "leadership_strength": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "How strong the current leader's position is"
+                },
+                "leadership_stability": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "How stable the current leadership is"
+                },
+                "leadership_duration_ms": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "How long this coalition has been leading"
+                },
+                "challenges_faced": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "challenger_id": {
+                                "type": "string"
+                            },
+                            "challenge_strength": {
+                                "type": "number"
+                            },
+                            "challenge_outcome": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "description": "Challenges to current leadership"
+                }
+            },
+            "description": "Current leader in the competition"
+        },
+        "competition_metrics": {
+            "type": "object",
+            "required": [
+                "intensity_level",
+                "volatility",
+                "resource_consumption"
+            ],
+            "properties": {
+                "intensity_level": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Overall intensity of the competition"
+                },
+                "volatility": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "How rapidly competitive positions are changing"
+                },
+                "resource_consumption": {
+                    "type": "object",
+                    "properties": {
+                        "attention_resources": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "processing_resources": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "energy_expenditure": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    },
+                    "description": "Resources being consumed by competition"
+                },
+                "convergence_indicators": {
+                    "type": "object",
+                    "properties": {
+                        "strength_gap_narrowing": {
+                            "type": "boolean"
+                        },
+                        "leader_stabilizing": {
+                            "type": "boolean"
+                        },
+                        "elimination_threshold_reached": {
+                            "type": "boolean"
+                        },
+                        "stalemate_detected": {
+                            "type": "boolean"
+                        }
+                    },
+                    "description": "Indicators of competition convergence"
+                }
+            },
+            "description": "Quantitative metrics of competition dynamics"
+        },
+        "workspace_state": {
+            "type": "object",
+            "properties": {
+                "availability_level": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Current availability of workspace resources"
+                },
+                "competition_load": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Load on workspace from competition activity"
+                },
+                "access_threshold": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Current threshold for gaining workspace access"
+                },
+                "decision_imminence": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "How close competition is to resolution"
+                }
+            },
+            "description": "Current state of the global workspace during competition"
+        },
+        "environmental_factors": {
+            "type": "object",
+            "properties": {
+                "external_pressures": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "pressure_type": {
+                                "type": "string"
+                            },
+                            "pressure_strength": {
+                                "type": "number"
+                            },
+                            "pressure_source": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "description": "External pressures affecting competition"
+                },
+                "cognitive_context": {
+                    "type": "object",
+                    "properties": {
+                        "attention_state": {
+                            "type": "object"
+                        },
+                        "arousal_level": {
+                            "type": "number"
+                        },
+                        "cognitive_load": {
+                            "type": "number"
+                        },
+                        "emotional_state": {
+                            "type": "object"
+                        }
+                    },
+                    "description": "Broader cognitive context of competition"
+                },
+                "temporal_constraints": {
+                    "type": "object",
+                    "properties": {
+                        "urgency_level": {
+                            "type": "number"
+                        },
+                        "time_pressure": {
+                            "type": "number"
+                        },
+                        "deadline_proximity": {
+                            "type": "number"
+                        }
+                    },
+                    "description": "Temporal pressures on competition resolution"
+                }
+            },
+            "description": "Environmental factors influencing competition"
+        },
+        "competition_dynamics": {
+            "type": "object",
+            "properties": {
+                "interaction_patterns": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "interaction_type": {
+                                "type": "string"
+                            },
+                            "participants": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "interaction_strength": {
+                                "type": "number"
+                            },
+                            "outcome": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "description": "Patterns of interaction between competing coalitions"
+                },
+                "alliance_formations": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "alliance_members": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "alliance_strength": {
+                                "type": "number"
+                            },
+                            "alliance_purpose": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "description": "Alliances formed during competition"
+                },
+                "strategic_shifts": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "coalition_id": {
+                                "type": "string"
+                            },
+                            "old_strategy": {
+                                "type": "string"
+                            },
+                            "new_strategy": {
+                                "type": "string"
+                            },
+                            "shift_trigger": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "description": "Strategic changes made during competition"
+                }
+            },
+            "description": "Dynamic patterns within the competition"
+        },
+        "predicted_outcomes": {
+            "type": "object",
+            "properties": {
+                "likely_winner": {
+                    "type": "object",
+                    "properties": {
+                        "coalition_id": {
+                            "type": "string"
+                        },
+                        "win_probability": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "expected_margin": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "resolution_timeline": {
+                    "type": "object",
+                    "properties": {
+                        "estimated_duration_ms": {
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "confidence_interval": {
+                            "type": "array",
+                            "items": {
+                                "type": "number"
+                            }
+                        },
+                        "key_decision_points": {
+                            "type": "array"
+                        }
+                    }
+                },
+                "resource_impact": {
+                    "type": "object",
+                    "properties": {
+                        "total_resource_cost": {
+                            "type": "number"
+                        },
+                        "efficiency_impact": {
+                            "type": "number"
+                        },
+                        "recovery_time_estimate": {
+                            "type": "number"
+                        }
+                    }
+                }
+            },
+            "description": "Predicted outcomes of the competition"
+        }
+    }
+}

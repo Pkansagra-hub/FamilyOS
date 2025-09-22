@@ -1,0 +1,692 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://familyos.local/contracts/storage/schemas/working_memory/attention_state.schema.json",
+    "title": "Attention State Schema",
+    "description": "Schema for persistent storage of attention system state in working memory context",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "attention_id",
+        "timestamp",
+        "focus_state",
+        "control_state",
+        "resource_state"
+    ],
+    "properties": {
+        "attention_id": {
+            "type": "string",
+            "description": "Unique identifier for attention state instance"
+        },
+        "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Last update timestamp"
+        },
+        "focus_state": {
+            "type": "object",
+            "required": [
+                "current_focus",
+                "focus_stability",
+                "focus_targets"
+            ],
+            "properties": {
+                "current_focus": {
+                    "type": "object",
+                    "properties": {
+                        "focus_target_id": {
+                            "type": "string"
+                        },
+                        "focus_type": {
+                            "type": "string",
+                            "enum": [
+                                "selective_attention",
+                                "sustained_attention",
+                                "divided_attention",
+                                "executive_attention",
+                                "spatial_attention",
+                                "temporal_attention",
+                                "feature_attention",
+                                "object_attention"
+                            ]
+                        },
+                        "focus_intensity": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "focus_scope": {
+                            "type": "string",
+                            "enum": [
+                                "narrow",
+                                "moderate",
+                                "broad",
+                                "global"
+                            ]
+                        },
+                        "focus_duration": {
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "focus_quality": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    }
+                },
+                "focus_stability": {
+                    "type": "object",
+                    "properties": {
+                        "stability_measure": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "fluctuation_rate": {
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "drift_tendency": {
+                            "type": "number"
+                        },
+                        "maintenance_effort": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    }
+                },
+                "focus_targets": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "target_id": {
+                                "type": "string"
+                            },
+                            "target_type": {
+                                "type": "string"
+                            },
+                            "salience": {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 1
+                            },
+                            "relevance": {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 1
+                            },
+                            "priority": {
+                                "type": "string",
+                                "enum": [
+                                    "low",
+                                    "normal",
+                                    "high",
+                                    "critical"
+                                ]
+                            },
+                            "attention_weight": {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 1
+                            },
+                            "competition_strength": {
+                                "type": "number",
+                                "minimum": 0
+                            }
+                        }
+                    }
+                },
+                "focus_history": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "timestamp": {
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            "target_id": {
+                                "type": "string"
+                            },
+                            "focus_duration": {
+                                "type": "number"
+                            },
+                            "switch_reason": {
+                                "type": "string"
+                            },
+                            "switch_cost": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                }
+            },
+            "description": "Current focus and attention target state"
+        },
+        "control_state": {
+            "type": "object",
+            "required": [
+                "control_mode",
+                "control_mechanisms"
+            ],
+            "properties": {
+                "control_mode": {
+                    "type": "string",
+                    "enum": [
+                        "automatic",
+                        "controlled",
+                        "top_down",
+                        "bottom_up",
+                        "mixed",
+                        "adaptive",
+                        "goal_driven",
+                        "stimulus_driven"
+                    ]
+                },
+                "control_mechanisms": {
+                    "type": "object",
+                    "properties": {
+                        "endogenous_control": {
+                            "type": "object",
+                            "properties": {
+                                "goal_driven_bias": {
+                                    "type": "number"
+                                },
+                                "expectation_bias": {
+                                    "type": "number"
+                                },
+                                "strategic_control": {
+                                    "type": "number"
+                                },
+                                "voluntary_orienting": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "exogenous_control": {
+                            "type": "object",
+                            "properties": {
+                                "stimulus_driven_capture": {
+                                    "type": "number"
+                                },
+                                "salience_bias": {
+                                    "type": "number"
+                                },
+                                "automatic_orienting": {
+                                    "type": "number"
+                                },
+                                "alerting_effects": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "inhibitory_control": {
+                            "type": "object",
+                            "properties": {
+                                "distractor_suppression": {
+                                    "type": "number"
+                                },
+                                "return_inhibition": {
+                                    "type": "number"
+                                },
+                                "negative_priming": {
+                                    "type": "number"
+                                },
+                                "interference_resolution": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                },
+                "control_parameters": {
+                    "type": "object",
+                    "properties": {
+                        "attention_span": {
+                            "type": "number"
+                        },
+                        "switching_threshold": {
+                            "type": "number"
+                        },
+                        "filtering_strength": {
+                            "type": "number"
+                        },
+                        "alertness_level": {
+                            "type": "number"
+                        },
+                        "vigilance_capacity": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "control_conflicts": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "conflict_type": {
+                                "type": "string"
+                            },
+                            "conflicting_signals": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "resolution_strategy": {
+                                "type": "string"
+                            },
+                            "resolution_time": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                }
+            },
+            "description": "Attention control mechanisms and parameters"
+        },
+        "resource_state": {
+            "type": "object",
+            "required": [
+                "available_resources",
+                "resource_allocation"
+            ],
+            "properties": {
+                "available_resources": {
+                    "type": "object",
+                    "properties": {
+                        "total_capacity": {
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "available_capacity": {
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "reserved_capacity": {
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "depleted_capacity": {
+                            "type": "number",
+                            "minimum": 0
+                        }
+                    }
+                },
+                "resource_allocation": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "allocation_target": {
+                                "type": "string"
+                            },
+                            "allocated_amount": {
+                                "type": "number"
+                            },
+                            "allocation_efficiency": {
+                                "type": "number"
+                            },
+                            "allocation_stability": {
+                                "type": "number"
+                            },
+                            "reallocation_frequency": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                },
+                "resource_competition": {
+                    "type": "object",
+                    "properties": {
+                        "competing_demands": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "demand_source": {
+                                        "type": "string"
+                                    },
+                                    "demand_strength": {
+                                        "type": "number"
+                                    },
+                                    "competition_resolution": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        },
+                        "bottleneck_locations": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "resource_conflicts": {
+                            "type": "array",
+                            "items": {
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "fatigue_state": {
+                    "type": "object",
+                    "properties": {
+                        "mental_fatigue": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "attention_fatigue": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "sustained_attention_decrement": {
+                            "type": "number"
+                        },
+                        "recovery_rate": {
+                            "type": "number"
+                        },
+                        "fatigue_resistance": {
+                            "type": "number"
+                        }
+                    }
+                }
+            },
+            "description": "Attention resource availability and allocation"
+        },
+        "network_coordination": {
+            "type": "object",
+            "properties": {
+                "attention_networks": {
+                    "type": "object",
+                    "properties": {
+                        "alerting_network": {
+                            "type": "object",
+                            "properties": {
+                                "activation_level": {
+                                    "type": "number"
+                                },
+                                "efficiency": {
+                                    "type": "number"
+                                },
+                                "response_time": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "orienting_network": {
+                            "type": "object",
+                            "properties": {
+                                "activation_level": {
+                                    "type": "number"
+                                },
+                                "spatial_bias": {
+                                    "type": "object"
+                                },
+                                "orienting_efficiency": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "executive_network": {
+                            "type": "object",
+                            "properties": {
+                                "activation_level": {
+                                    "type": "number"
+                                },
+                                "conflict_monitoring": {
+                                    "type": "number"
+                                },
+                                "cognitive_control": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                },
+                "network_interactions": {
+                    "type": "object",
+                    "properties": {
+                        "network_coordination": {
+                            "type": "number"
+                        },
+                        "cross_network_interference": {
+                            "type": "number"
+                        },
+                        "network_switching_cost": {
+                            "type": "number"
+                        },
+                        "integration_efficiency": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "dynamic_coordination": {
+                    "type": "object",
+                    "properties": {
+                        "real_time_coordination": {
+                            "type": "number"
+                        },
+                        "adaptive_coordination": {
+                            "type": "number"
+                        },
+                        "coordination_stability": {
+                            "type": "number"
+                        }
+                    }
+                }
+            },
+            "description": "Coordination between attention networks"
+        },
+        "spatial_attention": {
+            "type": "object",
+            "properties": {
+                "spatial_focus": {
+                    "type": "object",
+                    "properties": {
+                        "focus_location": {
+                            "type": "object"
+                        },
+                        "focus_size": {
+                            "type": "number"
+                        },
+                        "focus_shape": {
+                            "type": "string"
+                        },
+                        "focus_resolution": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "spatial_biases": {
+                    "type": "object",
+                    "properties": {
+                        "location_biases": {
+                            "type": "object"
+                        },
+                        "hemisphere_biases": {
+                            "type": "object"
+                        },
+                        "egocentric_biases": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "spatial_dynamics": {
+                    "type": "object",
+                    "properties": {
+                        "movement_patterns": {
+                            "type": "array",
+                            "items": {
+                                "type": "object"
+                            }
+                        },
+                        "scanning_strategies": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "spatial_memory_integration": {
+                            "type": "number"
+                        }
+                    }
+                }
+            },
+            "description": "Spatial attention mechanisms and state"
+        },
+        "temporal_attention": {
+            "type": "object",
+            "properties": {
+                "temporal_focus": {
+                    "type": "object",
+                    "properties": {
+                        "temporal_window": {
+                            "type": "number"
+                        },
+                        "temporal_resolution": {
+                            "type": "number"
+                        },
+                        "temporal_expectation": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "temporal_dynamics": {
+                    "type": "object",
+                    "properties": {
+                        "rhythm_entrainment": {
+                            "type": "number"
+                        },
+                        "temporal_prediction": {
+                            "type": "number"
+                        },
+                        "temporal_orienting": {
+                            "type": "number"
+                        }
+                    }
+                }
+            },
+            "description": "Temporal attention mechanisms"
+        },
+        "adaptation_state": {
+            "type": "object",
+            "properties": {
+                "adaptive_mechanisms": {
+                    "type": "object",
+                    "properties": {
+                        "context_adaptation": {
+                            "type": "number"
+                        },
+                        "task_adaptation": {
+                            "type": "number"
+                        },
+                        "strategy_adaptation": {
+                            "type": "number"
+                        },
+                        "difficulty_adaptation": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "learning_history": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "adaptation_type": {
+                                "type": "string"
+                            },
+                            "context": {
+                                "type": "object"
+                            },
+                            "effectiveness": {
+                                "type": "number"
+                            },
+                            "retention": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                },
+                "plasticity_state": {
+                    "type": "object",
+                    "properties": {
+                        "short_term_plasticity": {
+                            "type": "number"
+                        },
+                        "long_term_plasticity": {
+                            "type": "number"
+                        },
+                        "plasticity_constraints": {
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "description": "Adaptive mechanisms and learning state"
+        },
+        "performance_metrics": {
+            "type": "object",
+            "properties": {
+                "attention_performance": {
+                    "type": "object",
+                    "properties": {
+                        "focus_accuracy": {
+                            "type": "number"
+                        },
+                        "switching_efficiency": {
+                            "type": "number"
+                        },
+                        "distraction_resistance": {
+                            "type": "number"
+                        },
+                        "sustained_performance": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "error_tracking": {
+                    "type": "object",
+                    "properties": {
+                        "attention_lapses": {
+                            "type": "number"
+                        },
+                        "misdirected_attention": {
+                            "type": "number"
+                        },
+                        "attention_capture_errors": {
+                            "type": "number"
+                        },
+                        "switching_errors": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "efficiency_metrics": {
+                    "type": "object",
+                    "properties": {
+                        "resource_efficiency": {
+                            "type": "number"
+                        },
+                        "temporal_efficiency": {
+                            "type": "number"
+                        },
+                        "spatial_efficiency": {
+                            "type": "number"
+                        },
+                        "overall_efficiency": {
+                            "type": "number"
+                        }
+                    }
+                }
+            },
+            "description": "Attention performance metrics and tracking"
+        }
+    }
+}

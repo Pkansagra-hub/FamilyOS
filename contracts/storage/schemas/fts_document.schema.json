@@ -1,0 +1,76 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://familyos.local/contracts/storage/fts_document.schema.json",
+  "title": "Full\u2011Text Document",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "doc_id",
+    "space_id",
+    "text",
+    "lang",
+    "ts",
+    "band"
+  ],
+  "properties": {
+    "doc_id": {
+      "$ref": "./common.schema.json#/$defs/ULID"
+    },
+    "space_id": {
+      "$ref": "./common.schema.json#/$defs/SpaceId"
+    },
+    "ts": {
+      "$ref": "./common.schema.json#/$defs/Timestamp"
+    },
+    "band": {
+      "$ref": "./common.schema.json#/$defs/Band"
+    },
+    "lang": {
+      "$ref": "./common.schema.json#/$defs/LanguageCode"
+    },
+    "source": {
+      "type": "string",
+      "enum": [
+        "episodic",
+        "tool",
+        "import",
+        "action",
+        "kg",
+        "other"
+      ]
+    },
+    "text": {
+      "type": "string"
+    },
+    "tokens_count": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "payload_ref": {
+      "$ref": "./common.schema.json#/$defs/EnvelopeId"
+    },
+    "segments": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "offset",
+          "length"
+        ],
+        "properties": {
+          "offset": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "length": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "section": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+}

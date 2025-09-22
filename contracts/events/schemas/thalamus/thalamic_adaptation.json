@@ -1,0 +1,88 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "$id": "thalamic_adaptation.schema.json",
+    "title": "Thalamic Adaptation Event",
+    "description": "Event generated when thalamic circuits adapt their behavior based on experience and changing conditions.",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "timestamp",
+        "adaptation_trigger",
+        "adaptation_type",
+        "learning_signal",
+        "adaptation_strength"
+    ],
+    "properties": {
+        "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timing of adaptation event"
+        },
+        "adaptation_trigger": {
+            "type": "string",
+            "enum": [
+                "performance_feedback",
+                "environmental_change",
+                "task_switch",
+                "error_signal",
+                "reward_signal"
+            ],
+            "description": "What triggered the adaptation"
+        },
+        "adaptation_type": {
+            "type": "string",
+            "enum": [
+                "threshold_learning",
+                "weight_adjustment",
+                "timing_optimization",
+                "strategy_update"
+            ],
+            "description": "Type of adaptation being performed"
+        },
+        "learning_signal": {
+            "type": "object",
+            "required": [
+                "signal_type",
+                "signal_strength"
+            ],
+            "properties": {
+                "signal_type": {
+                    "type": "string",
+                    "enum": [
+                        "reward",
+                        "punishment",
+                        "prediction_error",
+                        "surprise"
+                    ]
+                },
+                "signal_strength": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                }
+            }
+        },
+        "adaptation_strength": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "description": "Strength of adaptation (learning rate)"
+        },
+        "parameter_changes": {
+            "type": "object",
+            "properties": {
+                "changed_parameters": {
+                    "type": "array"
+                },
+                "change_magnitude": {
+                    "type": "number"
+                }
+            }
+        },
+        "predicted_improvement": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Predicted performance improvement from adaptation"
+        }
+    }
+}

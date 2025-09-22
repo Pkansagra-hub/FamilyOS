@@ -1,0 +1,18 @@
+{
+  "op_id": "crdt_01HX3V6OP",
+  "object_type": "episodic",
+  "object_id": "2D41303SREQ12Q348NT9ZPG3WK",
+  "site_id": "site_A",
+  "lamport": 1024,
+  "vector": {
+    "site_A": 1024,
+    "site_B": 512
+  },
+  "op": {
+    "type": "upsert",
+    "fields": {
+      "privacy_band": "AMBER"
+    }
+  },
+  "ts": "2025-09-09T12:34:56Z"
+}

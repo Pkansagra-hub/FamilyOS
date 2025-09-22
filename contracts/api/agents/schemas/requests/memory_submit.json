@@ -1,0 +1,135 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "MemorySubmitRequest",
+  "description": "Schema for submitting memory content to the memory backbone",
+  "type": "object",
+  "required": ["content", "context"],
+  "properties": {
+    "content": {
+      "description": "The memory content to be stored",
+      "type": "object",
+      "required": ["text"],
+      "properties": {
+        "text": {
+          "type": "string",
+          "description": "Primary text content of the memory",
+          "minLength": 1,
+          "maxLength": 10000
+        },
+        "metadata": {
+          "type": "object",
+          "description": "Additional metadata about the content",
+          "properties": {
+            "content_type": {
+              "type": "string",
+              "enum": ["conversation", "observation", "instruction", "reflection", "goal"]
+            },
+            "importance": {
+              "type": "number",
+              "minimum": 0.0,
+              "maximum": 1.0,
+              "description": "Importance score from 0.0 to 1.0"
+            },
+            "tags": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "pattern": "^[a-zA-Z0-9_-]+$"
+              },
+              "maxItems": 10
+            }
+          }
+        }
+      }
+    },
+    "context": {
+      "description": "Contextual information for memory placement",
+      "type": "object",
+      "required": ["space_id"],
+      "properties": {
+        "space_id": {
+          "type": "string",
+          "pattern": "^(personal|selective|shared|extended|interfamily):[a-zA-Z0-9_-]+$",
+          "description": "Memory space identifier following family privacy boundaries"
+        },
+        "family_context": {
+          "type": "object",
+          "description": "Family relationship context",
+          "properties": {
+            "participants": {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "description": "Family member identifiers"
+              }
+            },
+            "relationship_type": {
+              "type": "string",
+              "enum": ["parent-child", "spouse", "sibling", "extended", "family-group"]
+            }
+          }
+        },
+        "temporal_context": {
+          "type": "object",
+          "description": "Time-based context information",
+          "properties": {
+            "timestamp": {
+              "type": "string",
+              "format": "date-time",
+              "description": "ISO 8601 timestamp"
+            },
+            "event_duration": {
+              "type": "integer",
+              "description": "Duration in seconds"
+            },
+            "recurrence": {
+              "type": "string",
+              "enum": ["none", "daily", "weekly", "monthly", "yearly"]
+            }
+          }
+        },
+        "emotional_context": {
+          "type": "object",
+          "description": "Emotional state and affect",
+          "properties": {
+            "valence": {
+              "type": "number",
+              "minimum": -1.0,
+              "maximum": 1.0,
+              "description": "Emotional valence from -1.0 (negative) to 1.0 (positive)"
+            },
+            "arousal": {
+              "type": "number",
+              "minimum": 0.0,
+              "maximum": 1.0,
+              "description": "Emotional arousal from 0.0 (calm) to 1.0 (excited)"
+            },
+            "dominant_emotion": {
+              "type": "string",
+              "enum": ["joy", "sadness", "anger", "fear", "surprise", "disgust", "neutral"]
+            }
+          }
+        }
+      }
+    },
+    "options": {
+      "type": "object",
+      "description": "Optional processing directives",
+      "properties": {
+        "force_consolidation": {
+          "type": "boolean",
+          "description": "Force immediate consolidation to long-term memory"
+        },
+        "privacy_level": {
+          "type": "string",
+          "enum": ["GREEN", "AMBER", "RED", "BLACK"],
+          "description": "Privacy band classification"
+        },
+        "retention_policy": {
+          "type": "string",
+          "enum": ["standard", "extended", "permanent", "ephemeral"]
+        }
+      }
+    }
+  }
+}

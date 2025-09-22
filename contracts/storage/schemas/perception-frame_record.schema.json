@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://familyos.local/contracts/perception/frame_record.schema.json",
+  "title": "Perception Frame Record (Ephemeral)",
+  "type": "object",
+  "properties": {
+    "frame_id": { "type": "string", "format": "uuid" },
+    "space_id": { "type": "string" },
+    "kind": { "type": "string" },
+    "ts": { "type": "string", "format": "date-time" },
+    "meta": { "type": "object" },
+    "data_path": { "type": "string" },
+    "expires_at": { "type": "string", "format": "date-time" },
+    "band": { "type": "string", "enum": ["GREEN","AMBER","RED","BLACK"] },
+    "policy_version": { "type": "string" }
+  },
+  "required": ["frame_id","space_id","kind","ts","expires_at","band","policy_version"]
+}

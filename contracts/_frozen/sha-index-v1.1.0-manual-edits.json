@@ -1,0 +1,2116 @@
+{
+  "version": "v1.1.0-manual-edits",
+  "created_at": "2025-09-12T22:58:46.082505+00:00",
+  "index": {
+    "ac713bfbf42388f61c5f90df57368adc5fb3da85b1d9c7c65fa4fc685328eda7": {
+      "path": "api\\openapi\\common.yaml",
+      "size": 6834,
+      "frozen_at": "2025-09-12T22:58:45.847986+00:00"
+    },
+    "f2fee9cec62cae1aec8afc90e6442450b0d134b919624b1bd09ae6fff2b63931": {
+      "path": "api\\openapi\\main.yaml",
+      "size": 51804,
+      "frozen_at": "2025-09-12T22:58:45.849988+00:00"
+    },
+    "f100ca525b7b6864ce814f9533ecdf22e93a2c4b287aba16572ee0d806217514": {
+      "path": "api\\openapi\\middleware.schema.json",
+      "size": 3286,
+      "frozen_at": "2025-09-12T22:58:45.849988+00:00"
+    },
+    "b0585e1beda7f76acab62726dc41cdebd0e08c6ba8109da26b5cb4da52b603a2": {
+      "path": "modules\\observability\\api\\errors.md",
+      "size": 172,
+      "frozen_at": "2025-09-12T22:58:45.932378+00:00"
+    },
+    "35cf690c283cdf52d7115a54c696b799ccaf8048eb5c9b87b36b62c25ae2926f": {
+      "path": "modules\\observability\\api\\openapi.yaml",
+      "size": 729,
+      "frozen_at": "2025-09-12T22:58:45.932378+00:00"
+    },
+    "e4b23f22e3db58ef32f18c53d6425a33640622bcfa269eb709374b6c7cc426d3": {
+      "path": "api\\openapi\\modules\\perception-errors.md",
+      "size": 320,
+      "frozen_at": "2025-09-12T22:58:45.852503+00:00"
+    },
+    "5c83c5250a419e136211824aa0b4fd9b78441f7ca0721133cd35915a17f529e9": {
+      "path": "api\\openapi\\modules\\perception-openapi.yaml",
+      "size": 3237,
+      "frozen_at": "2025-09-12T22:58:45.853592+00:00"
+    },
+    "f2db58adc1100575928a35eca3c49d56e20bc6bbdde5ed31b63381d29eeaccaf": {
+      "path": "api\\openapi\\modules\\policy_new-openapi.yaml",
+      "size": 8944,
+      "frozen_at": "2025-09-12T22:58:45.854589+00:00"
+    },
+    "5291424398cc31301a17ecb9c2e3be8f8265b0f39e6c0833addb67985543e5a5": {
+      "path": "modules\\prospective\\api\\errors.md",
+      "size": 193,
+      "frozen_at": "2025-09-12T22:58:45.941768+00:00"
+    },
+    "fb9d3f1fa786bca03c48b29a2bf94485b1d1337c1e3d06c3101b60058aa2a8a6": {
+      "path": "api\\openapi\\modules\\prospective-openapi.yaml",
+      "size": 5610,
+      "frozen_at": "2025-09-12T22:58:45.855588+00:00"
+    },
+    "d56737f2ad4ea955241e77151b808d2efa69c49848f6121a370dbb5d6f4fee11": {
+      "path": "api\\openapi\\modules\\retrieval-errors.md",
+      "size": 164,
+      "frozen_at": "2025-09-12T22:58:45.855588+00:00"
+    },
+    "c6ccf90796de93b4c675967539e019a911222e52013f65a7f97300d8bb2045a8": {
+      "path": "api\\openapi\\modules\\retrieval-openapi.yaml",
+      "size": 1097,
+      "frozen_at": "2025-09-12T22:58:45.855588+00:00"
+    },
+    "26149f04088a7863bdbe642a7bd507e4023bb7ac5a1bf3c2e180821450dcd9d3": {
+      "path": "api\\openapi\\modules\\retrieval-README.md",
+      "size": 180,
+      "frozen_at": "2025-09-12T22:58:45.856587+00:00"
+    },
+    "756aa4de3886c267fdb9b0176ca7a4a8921f9a5d443a55da8bc1705367911566": {
+      "path": "modules\\retrieval_new\\api\\openapi.yaml",
+      "size": 1460,
+      "frozen_at": "2025-09-12T22:58:45.948296+00:00"
+    },
+    "0a33de51c1254e09f2c80e31d06d0a1da5ea0a13614bddbaadbb295e50ecc382": {
+      "path": "api\\openapi\\modules\\sync-openapi.yaml",
+      "size": 2818,
+      "frozen_at": "2025-09-12T22:58:45.856587+00:00"
+    },
+    "de916020b7786a87e413977f41173a35713806a4b3808289b2284991126520b0": {
+      "path": "CHANGELOG.md",
+      "size": 14171,
+      "frozen_at": "2025-09-12T22:58:45.857587+00:00"
+    },
+    "7edf8d7654f56a9b45985996ce1f3be898f83d9e844a101b72c71be9e0fb8e8f": {
+      "path": "ci\\contracts.yml",
+      "size": 7243,
+      "frozen_at": "2025-09-12T22:58:45.857587+00:00"
+    },
+    "0e67f3162d485bc51d449b22ee4afa3872bf83f3ba8a389479e63481117a43ca": {
+      "path": "events\\envelope.examples.json",
+      "size": 12332,
+      "frozen_at": "2025-09-12T22:58:45.857587+00:00"
+    },
+    "8a7ecd9fa94656ae53525fb44684cf30612af96aaa38770dc095dc29b6756c0d": {
+      "path": "events\\envelope.md",
+      "size": 5180,
+      "frozen_at": "2025-09-12T22:58:45.858587+00:00"
+    },
+    "41a64f06f267f0f20f351f1cbabfe30a1334cdc19e2677fb0f61ef42fff0ac01": {
+      "path": "events\\envelope.schema.json",
+      "size": 10256,
+      "frozen_at": "2025-09-12T22:58:45.858587+00:00"
+    },
+    "dc5fa63db065555132304da0a8c366be0a5583e5b561468b7e103b8cb12339ec": {
+      "path": "events\\examples\\action_decision_01.json",
+      "size": 1253,
+      "frozen_at": "2025-09-12T22:58:45.859588+00:00"
+    },
+    "c924baa51fbf69f45a09ddcad5f5ad678d18fe637aa7bc2bacc97518b0e45ef6": {
+      "path": "events\\examples\\action_decision_02.json",
+      "size": 1321,
+      "frozen_at": "2025-09-12T22:58:45.859588+00:00"
+    },
+    "538c6677b4830b85a327735eba784ae44737d429b2634ccdbe2daf45a78e1bf8": {
+      "path": "events\\examples\\action_decision_03.json",
+      "size": 1305,
+      "frozen_at": "2025-09-12T22:58:45.860095+00:00"
+    },
+    "543a244bf5cf34cebc1ffd9708643da076d87f4d6e6903c6d86e14020c1cf593": {
+      "path": "events\\examples\\action_executed_01.json",
+      "size": 1237,
+      "frozen_at": "2025-09-12T22:58:45.860095+00:00"
+    },
+    "15bef60cd5ffde925093f14c2a64102c9317724102c1163e1d33225ca30c2bf9": {
+      "path": "events\\examples\\action_executed_02.json",
+      "size": 1320,
+      "frozen_at": "2025-09-12T22:58:45.861104+00:00"
+    },
+    "7c7a5d4a1d18ef82f7a695851cfff3639debc987122cb2d8b86d6be38e5e4fd4": {
+      "path": "events\\examples\\action_executed_03.json",
+      "size": 1273,
+      "frozen_at": "2025-09-12T22:58:45.861104+00:00"
+    },
+    "191a12bfa5c8e67a2ce9ad26b566ceb286f4ee7976d7f5f4e180ac5983badcd2": {
+      "path": "events\\examples\\affect_analyze_01.json",
+      "size": 1233,
+      "frozen_at": "2025-09-12T22:58:45.862113+00:00"
+    },
+    "8e91aa38cda887f8f6e20b581672287fb288bcb8eb27ee7dc4905f0bba2e0aa2": {
+      "path": "events\\examples\\affect_analyze_02.json",
+      "size": 1285,
+      "frozen_at": "2025-09-12T22:58:45.862113+00:00"
+    },
+    "78f6305c3066c00e07f7afac05edde070b335272a87b3428052f30cf45334ed3": {
+      "path": "events\\examples\\affect_analyze_03.json",
+      "size": 1257,
+      "frozen_at": "2025-09-12T22:58:45.863113+00:00"
+    },
+    "dac24ff4803ff7e7174e601e8881afdfc9c8821378e2bcf76c9b9c5ff9278fb2": {
+      "path": "events\\examples\\affect_update_01.json",
+      "size": 1228,
+      "frozen_at": "2025-09-12T22:58:45.863113+00:00"
+    },
+    "1efd469b247777969c891d54ad293c7e10fd8c7a1453612099628eed8f3b3089": {
+      "path": "events\\examples\\affect_update_02.json",
+      "size": 1255,
+      "frozen_at": "2025-09-12T22:58:45.864115+00:00"
+    },
+    "ed339e057ecd496e1fee51346da1a064864f18e2ab74464157a9f1401e6fddca": {
+      "path": "events\\examples\\affect_update_03.json",
+      "size": 1304,
+      "frozen_at": "2025-09-12T22:58:45.872534+00:00"
+    },
+    "18ff7c14388c7327c52937c35dbd4276fa5d0981720e01cd0d2059b8328c33b3": {
+      "path": "events\\examples\\belief_update_01.json",
+      "size": 1259,
+      "frozen_at": "2025-09-12T22:58:45.873523+00:00"
+    },
+    "e39efe25824609f887cbe4ebd5964ae21806caa82f97c46b49eba440d1296781": {
+      "path": "events\\examples\\belief_update_02.json",
+      "size": 1284,
+      "frozen_at": "2025-09-12T22:58:45.874522+00:00"
+    },
+    "44189f53500b9f10f67f33f0455bd5a6f99c104b4939925fedce18346b8e51b6": {
+      "path": "events\\examples\\belief_update_03.json",
+      "size": 1301,
+      "frozen_at": "2025-09-12T22:58:45.874522+00:00"
+    },
+    "1dac40ac4cb286356eda25e01aef4f2b619a1cba86e09a774b75c8237cbf5aa1": {
+      "path": "events\\examples\\drive_tick_01.json",
+      "size": 1258,
+      "frozen_at": "2025-09-12T22:58:45.875525+00:00"
+    },
+    "6db8fd788dde205280f66325f3de0a4c8a4577ea1934cd34ea0d827e545d547f": {
+      "path": "events\\examples\\drive_tick_02.json",
+      "size": 1279,
+      "frozen_at": "2025-09-12T22:58:45.875525+00:00"
+    },
+    "3462d1f593aacba5750c10fa90f6cb362a3696feeaf87f25b98585f858e4ed9e": {
+      "path": "events\\examples\\drive_tick_03.json",
+      "size": 1270,
+      "frozen_at": "2025-09-12T22:58:45.876525+00:00"
+    },
+    "e32ce977c5fa07df04001bb5955f5dd044c5b120efd8ceaaebd8a811e26c8389": {
+      "path": "events\\examples\\dsar_export_01.json",
+      "size": 1308,
+      "frozen_at": "2025-09-12T22:58:45.876525+00:00"
+    },
+    "94cfd829bb3e7b43af6e71a9b926fcf187292cebbc6824df3f87cc98d4bd5238": {
+      "path": "events\\examples\\dsar_export_02.json",
+      "size": 1341,
+      "frozen_at": "2025-09-12T22:58:45.876525+00:00"
+    },
+    "4bb149ac8b4fc2cff61c8483b6d21c8bb6560fcdf0810c10279cb7e1ab95ad54": {
+      "path": "events\\examples\\dsar_export_03.json",
+      "size": 1356,
+      "frozen_at": "2025-09-12T22:58:45.877966+00:00"
+    },
+    "7e33f63dcb4b143472762b15cf7356c9422e3e50951d69ec5907e62b71a67f28": {
+      "path": "events\\examples\\hippo_encode_01.json",
+      "size": 1233,
+      "frozen_at": "2025-09-12T22:58:45.878976+00:00"
+    },
+    "054c8c8730b978b05be7e263e46bfa9191235d8c44d0ae3e71ecc93671f583e7": {
+      "path": "events\\examples\\hippo_encode_02.json",
+      "size": 1338,
+      "frozen_at": "2025-09-12T22:58:45.879977+00:00"
+    },
+    "6b386f79d72ee784784951a48cf2f904845a5c2a8a18d852702f59586af01481": {
+      "path": "events\\examples\\hippo_encode_03.json",
+      "size": 1262,
+      "frozen_at": "2025-09-12T22:58:45.879977+00:00"
+    },
+    "29e958f40d298999ac039c6c91f80027fa3f68b9c43d11f0cd819e5b2a372a75": {
+      "path": "events\\examples\\hippo_encoded_01.json",
+      "size": 1261,
+      "frozen_at": "2025-09-12T22:58:45.880974+00:00"
+    },
+    "4e9c579a1805c38e98e3e3139443683991707f2246859942a20cdd6d0d82dd67": {
+      "path": "events\\examples\\hippo_encoded_02.json",
+      "size": 1274,
+      "frozen_at": "2025-09-12T22:58:45.880974+00:00"
+    },
+    "65bc3a8763d7448097257b1ef506a4d8a37f1c65cc5737a608e331004854b70e": {
+      "path": "events\\examples\\hippo_encoded_03.json",
+      "size": 1261,
+      "frozen_at": "2025-09-12T22:58:45.881976+00:00"
+    },
+    "adc2b7059cb9f709b1260f66eff9d403bf97acb5c7e90b278e596308814d61c5": {
+      "path": "events\\examples\\learning_tick_01.json",
+      "size": 1248,
+      "frozen_at": "2025-09-12T22:58:45.881976+00:00"
+    },
+    "c6a3530c6af4ad993fff0a9509fb64ac0359f6e42056e80e45d1640388f74eda": {
+      "path": "events\\examples\\learning_tick_02.json",
+      "size": 1289,
+      "frozen_at": "2025-09-12T22:58:45.881976+00:00"
+    },
+    "4de527d47b13e2c732fc714b1f2f3e5d788b6e1ccbb9f15e82863306714b8207": {
+      "path": "events\\examples\\learning_tick_03.json",
+      "size": 1300,
+      "frozen_at": "2025-09-12T22:58:45.882977+00:00"
+    },
+    "600109f36a26bf9ba8735ed529cf16e97084becef927725f67ff76a8d345fec7": {
+      "path": "events\\examples\\metacog_report_01.json",
+      "size": 1244,
+      "frozen_at": "2025-09-12T22:58:45.883978+00:00"
+    },
+    "0a7d17674325b5a3f71622f61dae1604b5b21c8918596ca8471f77b87ccf0c60": {
+      "path": "events\\examples\\metacog_report_02.json",
+      "size": 1304,
+      "frozen_at": "2025-09-12T22:58:45.884981+00:00"
+    },
+    "3f2d7464ec3b40c879b081268911ff32a822aa529a45d1ad0b55f0d3cf7a2d54": {
+      "path": "events\\examples\\metacog_report_03.json",
+      "size": 1324,
+      "frozen_at": "2025-09-12T22:58:45.885523+00:00"
+    },
+    "d239034877427a117bb50652174e919f70b8b9df05e5152aa6be53cc3146682f": {
+      "path": "events\\examples\\ml_run_event_01.json",
+      "size": 1246,
+      "frozen_at": "2025-09-12T22:58:45.886532+00:00"
+    },
+    "a9691d0916056ba592c24cc3f7a7c4d8295c9f213f74180ff39c8ce884b2d9da": {
+      "path": "events\\examples\\ml_run_event_02.json",
+      "size": 1321,
+      "frozen_at": "2025-09-12T22:58:45.886532+00:00"
+    },
+    "efbc71927316c69e266c50d62a2e19c81a9ab51f01bcf30729aea55e2f0c1e26": {
+      "path": "events\\examples\\ml_run_event_03.json",
+      "size": 1305,
+      "frozen_at": "2025-09-12T22:58:45.887530+00:00"
+    },
+    "4450014d54cf516a2474771798572d7cb4146cb03fb9634bdc1e1d79b4181acf": {
+      "path": "events\\examples\\pii_minimized_01.json",
+      "size": 1263,
+      "frozen_at": "2025-09-12T22:58:45.887530+00:00"
+    },
+    "b6360147711fd6772ffb3ae3c744158525b9b685b837e038683c47fcc2e66b8b": {
+      "path": "events\\examples\\pii_minimized_02.json",
+      "size": 1299,
+      "frozen_at": "2025-09-12T22:58:45.887530+00:00"
+    },
+    "7cd3aaff4d167dc57909cbd61c351099e88fff054d0974b7c012f2366dad8588": {
+      "path": "events\\examples\\pii_minimized_03.json",
+      "size": 1334,
+      "frozen_at": "2025-09-12T22:58:45.888530+00:00"
+    },
+    "a0f2a49ab7791fcf650c27c0a4443ea1ecf70fcd768aa4e3848732eecf73e766": {
+      "path": "events\\examples\\prospective_schedule_01.json",
+      "size": 1307,
+      "frozen_at": "2025-09-12T22:58:45.888530+00:00"
+    },
+    "57b15f90b08b4ca63ae4777588fe5fed3808d3f5db40340c1119edc29e43a1cf": {
+      "path": "events\\examples\\prospective_schedule_02.json",
+      "size": 1334,
+      "frozen_at": "2025-09-12T22:58:45.888530+00:00"
+    },
+    "343240a84c69fa5afb65045434939fc23da54a490696e75c98021eea6957aca4": {
+      "path": "events\\examples\\prospective_schedule_03.json",
+      "size": 1337,
+      "frozen_at": "2025-09-12T22:58:45.889532+00:00"
+    },
+    "6b8f9a66c16234a06ce28cc96db1d0d3d5fe196e1fab360e4552b60b62d639e4": {
+      "path": "events\\examples\\recall_request_01.json",
+      "size": 1282,
+      "frozen_at": "2025-09-12T22:58:45.889532+00:00"
+    },
+    "8998d126cb33f606195f3e1d96842de03594670cd089af0f42d108a5ebbf2004": {
+      "path": "events\\examples\\recall_request_02.json",
+      "size": 1265,
+      "frozen_at": "2025-09-12T22:58:45.889532+00:00"
+    },
+    "aef3bd8c08044e1c520bd58f3d3f0d7af40468dc97bc696135297c8ca6a61fbe": {
+      "path": "events\\examples\\recall_request_03.json",
+      "size": 1280,
+      "frozen_at": "2025-09-12T22:58:45.890532+00:00"
+    },
+    "5c10bb30f94dacc12d54c880e80c9b4b7a884f2bd943868a141768d3d60be960": {
+      "path": "events\\examples\\recall_result_01.json",
+      "size": 1705,
+      "frozen_at": "2025-09-12T22:58:45.890532+00:00"
+    },
+    "450b667aae542818237e9e2f04fec639280d61bc06a1c6fd612e332f86bbda30": {
+      "path": "events\\examples\\recall_result_02.json",
+      "size": 1855,
+      "frozen_at": "2025-09-12T22:58:45.891530+00:00"
+    },
+    "15ed7994c38a8133e8213e9c2c02e8f95e8afb2c96d7e6c1afa926d263a644f3": {
+      "path": "events\\examples\\recall_result_03.json",
+      "size": 1660,
+      "frozen_at": "2025-09-12T22:58:45.891530+00:00"
+    },
+    "2528c916cf0ff03850737337a45363333fd18dc1d00a2921c4ab0709d7d17846": {
+      "path": "events\\examples\\reindex_request_01.json",
+      "size": 1258,
+      "frozen_at": "2025-09-12T22:58:45.891530+00:00"
+    },
+    "34b87f6eb5c08e779a9c2000c7a4252e7e535bdcf41c273d9967fd43d3b852ea": {
+      "path": "events\\examples\\reindex_request_02.json",
+      "size": 1329,
+      "frozen_at": "2025-09-12T22:58:45.891530+00:00"
+    },
+    "faa6f9a45534389e274c9e296c474d9ca06eb23141873afc46a1ff66accaa9d8": {
+      "path": "events\\examples\\reindex_request_03.json",
+      "size": 1303,
+      "frozen_at": "2025-09-12T22:58:45.891530+00:00"
+    },
+    "f63164fba2ece74fa52ef3de69b8d51f0efaec3ca8a6eadcc8f455b8724c450c": {
+      "path": "events\\examples\\remind_tick_01.json",
+      "size": 1262,
+      "frozen_at": "2025-09-12T22:58:45.893035+00:00"
+    },
+    "7a5e1960ea22c0f7340182d4527ab9930e38c52d5511974ae394e7749e38d52f": {
+      "path": "events\\examples\\remind_tick_02.json",
+      "size": 1298,
+      "frozen_at": "2025-09-12T22:58:45.893035+00:00"
+    },
+    "0abc026574affbda7ab63a284d5ad45c256d55e6d7f4a088bcd585948c416d55": {
+      "path": "events\\examples\\remind_tick_03.json",
+      "size": 1314,
+      "frozen_at": "2025-09-12T22:58:45.893035+00:00"
+    },
+    "f981715c01e0965ddf906991f904aa2537d3476947f72c09d57bbdf3c1185918": {
+      "path": "events\\examples\\safety_alert_01.json",
+      "size": 1304,
+      "frozen_at": "2025-09-12T22:58:45.894043+00:00"
+    },
+    "02c4864bc74ace994aec4ddc653cdce521bab31b47ac9fcd7135f86ce1c3291e": {
+      "path": "events\\examples\\safety_alert_02.json",
+      "size": 1277,
+      "frozen_at": "2025-09-12T22:58:45.894043+00:00"
+    },
+    "58e3ba55813a80348dec7ea64a03173395a135dd40d58a7ff042c00b5ba9ba3f": {
+      "path": "events\\examples\\safety_alert_03.json",
+      "size": 1310,
+      "frozen_at": "2025-09-12T22:58:45.894043+00:00"
+    },
+    "69ef86390d34dc9d27baaf0a73727ac8ee15554c37e8a67df420fbf969a43907": {
+      "path": "events\\examples\\sensory_frame_01.json",
+      "size": 1276,
+      "frozen_at": "2025-09-12T22:58:45.895048+00:00"
+    },
+    "d4cb608fef34f9229e6545791b93276389a18c92288bb8b86fe6870f9ee8ea42": {
+      "path": "events\\examples\\sensory_frame_02.json",
+      "size": 1327,
+      "frozen_at": "2025-09-12T22:58:45.895048+00:00"
+    },
+    "1019009bfd2d4349fb81746fd0de9a53f6c27a27aff9564b6cb3405339f242fb": {
+      "path": "events\\examples\\sensory_frame_03.json",
+      "size": 1304,
+      "frozen_at": "2025-09-12T22:58:45.896051+00:00"
+    },
+    "3c109ce174f6244ef3481ce6f7706f03e75db998d929ae382b13c5838eb5246f": {
+      "path": "events\\examples\\tombstone_applied_01.json",
+      "size": 1407,
+      "frozen_at": "2025-09-12T22:58:45.896051+00:00"
+    },
+    "f5cc2a7c53ce7e23bf343b89c1c00ac405c52bf434432d51ae9d9b1304c2b9cd": {
+      "path": "events\\examples\\tombstone_applied_02.json",
+      "size": 1407,
+      "frozen_at": "2025-09-12T22:58:45.896051+00:00"
+    },
+    "6eec4c20d492b0c3f252b4b69d2cfb013fc2089220e457ba023fd98a57387461": {
+      "path": "events\\examples\\tombstone_applied_03.json",
+      "size": 1424,
+      "frozen_at": "2025-09-12T22:58:45.897049+00:00"
+    },
+    "2421cf34055040b03a057566c3d6fb5e270865d57089d036bdf24fdd45e10b5a": {
+      "path": "events\\examples\\workflow_update_01.json",
+      "size": 1265,
+      "frozen_at": "2025-09-12T22:58:45.897049+00:00"
+    },
+    "b28a7cfbffb69b6af34d842651f7877d1fe7621f865633b7e93941c34100b65e": {
+      "path": "events\\examples\\workflow_update_02.json",
+      "size": 1338,
+      "frozen_at": "2025-09-12T22:58:45.898052+00:00"
+    },
+    "175dbdac3aba1ba5f884478681949eafeb96f8f8a97a42e45637e321921785ef": {
+      "path": "events\\examples\\workflow_update_03.json",
+      "size": 1308,
+      "frozen_at": "2025-09-12T22:58:45.898052+00:00"
+    },
+    "35ba6b0e766b96865cc6b85f2ae63cf8ad66c560b423525960ca93ada8131ae5": {
+      "path": "events\\examples\\workspace_broadcast_01.json",
+      "size": 1292,
+      "frozen_at": "2025-09-12T22:58:45.898052+00:00"
+    },
+    "a6c9bf11eddec62e7e58535d15e7523ef998e242f37263619c945dc60686a892": {
+      "path": "events\\examples\\workspace_broadcast_02.json",
+      "size": 1322,
+      "frozen_at": "2025-09-12T22:58:45.899051+00:00"
+    },
+    "8347741132768571768b55e32f8928f90c32daa6524b1e357729761882171003": {
+      "path": "events\\examples\\workspace_broadcast_03.json",
+      "size": 1306,
+      "frozen_at": "2025-09-12T22:58:45.899051+00:00"
+    },
+    "264cbee81476ecf877b1f47d7316f9c867e660242e34ab79ca0d5f807b90ca72": {
+      "path": "events\\modules\\affect-catalog.json",
+      "size": 2971,
+      "frozen_at": "2025-09-12T22:58:45.900056+00:00"
+    },
+    "4eab24ddafbdbca8bedfad0152ca5a4e6e284ca880430a5b6a911a8ecbe9b0b2": {
+      "path": "events\\modules\\arbitration-catalog.json",
+      "size": 1967,
+      "frozen_at": "2025-09-12T22:58:45.900056+00:00"
+    },
+    "a34d486dfbbf492d778f7c4361a6d6c06773919db66a3b790a860d84c4fb39ac": {
+      "path": "events\\modules\\arbitration-envelope.ref.md",
+      "size": 154,
+      "frozen_at": "2025-09-12T22:58:45.901076+00:00"
+    },
+    "ed7c66dd711d5659cb7d3a8d13b318509b6f7c9186770dec76f6d0b6d2b5e36e": {
+      "path": "events\\modules\\cortex-catalog.json",
+      "size": 3774,
+      "frozen_at": "2025-09-12T22:58:45.902086+00:00"
+    },
+    "427a34604d2feb824fb15135bd5a9faca8dd685bd4ed79f95b2145a596f49c7d": {
+      "path": "events\\modules\\drives-catalog.json",
+      "size": 4379,
+      "frozen_at": "2025-09-12T22:58:45.902086+00:00"
+    },
+    "546bc6b4cdbdd17d69f63d496e625e1ed828a3c2a6080429ce49280263a82773": {
+      "path": "modules\\episodic\\events\\catalog.json",
+      "size": 1157,
+      "frozen_at": "2025-09-12T22:58:45.922851+00:00"
+    },
+    "59f02bcc68f1d30bcfb3bad7dcb0139e4b198247e768cc9548f2df71aa8e6ddb": {
+      "path": "events\\modules\\episodic-envelope.ref.md",
+      "size": 475,
+      "frozen_at": "2025-09-12T22:58:45.903214+00:00"
+    },
+    "6eba8ed8e08d9775e8e4c0483559771f9676c50cd8cb9a8e75ad1123675863a7": {
+      "path": "events\\modules\\imagination-catalog.json",
+      "size": 3828,
+      "frozen_at": "2025-09-12T22:58:45.904211+00:00"
+    },
+    "ae72ecc000df3a9a8d61258e76d99b29e6d1f6fbd96a9735d50e2ee7c4a61902": {
+      "path": "events\\modules\\learning-catalog.json",
+      "size": 3328,
+      "frozen_at": "2025-09-12T22:58:45.904211+00:00"
+    },
+    "48e766235a29c6fd0cf09c765ddf2c0c8d822ec915dc0eb9ff76d61332e8a807": {
+      "path": "events\\modules\\metacognition-catalog.json",
+      "size": 2520,
+      "frozen_at": "2025-09-12T22:58:45.904211+00:00"
+    },
+    "6b68d77503869a43411c59fdf7d14af0ee81f18c241236ef0effe7de1c2f557c": {
+      "path": "events\\modules\\perception-catalog.json",
+      "size": 617,
+      "frozen_at": "2025-09-12T22:58:45.905216+00:00"
+    },
+    "5f1d58e2757327481a5b8f0070620979ed02cb7e4b1181375370cd283cd03cad": {
+      "path": "events\\modules\\perception-envelope.ref.md",
+      "size": 420,
+      "frozen_at": "2025-09-12T22:58:45.905216+00:00"
+    },
+    "95fa3a27ea928e7385976909efbc02ae71aff049c3a710dfbceb4eb4df2701f9": {
+      "path": "modules\\policy_new\\events\\catalog.json",
+      "size": 10240,
+      "frozen_at": "2025-09-12T22:58:45.940768+00:00"
+    },
+    "6d7330a63d6ce98196bb7d1ea05e1c9cd27a29f5a634abee0ca825c26d041b29": {
+      "path": "modules\\prospective\\events\\catalog.json",
+      "size": 1233,
+      "frozen_at": "2025-09-12T22:58:45.943276+00:00"
+    },
+    "2f6a0a0a912f3b18d07785ba13dbca9be16a2c37bca33182789d85323c51f56b": {
+      "path": "modules\\prospective\\events\\envelope.ref.md",
+      "size": 305,
+      "frozen_at": "2025-09-12T22:58:45.943276+00:00"
+    },
+    "27917205aef3caea7ab6f5a4bfe19faba80d7dfee6aba57d84e962b35d642b4b": {
+      "path": "modules\\retrieval\\events\\catalog.json",
+      "size": 639,
+      "frozen_at": "2025-09-12T22:58:45.947298+00:00"
+    },
+    "fb88827e19f8bd30e1e607bce22b49eb9a04e08ee9cc539f9cd0bae4a81e81d6": {
+      "path": "events\\modules\\retrieval-envelope.ref.md",
+      "size": 223,
+      "frozen_at": "2025-09-12T22:58:45.907217+00:00"
+    },
+    "fa5c6133356f09d1d624a27fb048e6a7e53784e6b0e9c46834e9c3d46180100f": {
+      "path": "events\\modules\\retrieval_new-catalog.json",
+      "size": 5401,
+      "frozen_at": "2025-09-12T22:58:45.907217+00:00"
+    },
+    "984c5b76629fbbf5db960ae9c59b6dd16500c584376e7b4827ded310837a2eb0": {
+      "path": "modules\\services\\events\\catalog.json",
+      "size": 1585,
+      "frozen_at": "2025-09-12T22:58:45.954297+00:00"
+    },
+    "d55c7bf2591a354a93d13ee4be625800feff353eb5f1e287008c2749226ccb75": {
+      "path": "modules\\services\\events\\envelope.ref.md",
+      "size": 437,
+      "frozen_at": "2025-09-12T22:58:45.954297+00:00"
+    },
+    "5c71c6add9e7593aed667cb79817faad922bc32a1b29e350236160c54d5be245": {
+      "path": "modules\\social_cognition\\events\\schemas\\belief_update.schema.json",
+      "size": 739,
+      "frozen_at": "2025-09-12T22:58:45.959806+00:00"
+    },
+    "16e9e7364e38aecce830f6b56193e2b6e654c43e581fe26d9ff890a8347b34bb": {
+      "path": "modules\\social_cognition\\events\\catalog.json",
+      "size": 722,
+      "frozen_at": "2025-09-12T22:58:45.959806+00:00"
+    },
+    "f005b9e26042e257ea75cc30a443d8549cd2fb3624efad572509350c26c04fad": {
+      "path": "modules\\social_cognition\\events\\schemas\\intent_inferred.schema.json",
+      "size": 701,
+      "frozen_at": "2025-09-12T22:58:45.960818+00:00"
+    },
+    "14bff39b5bd6cdc180a90d23e3cd8c845555915429370edd3469acb841dc3493": {
+      "path": "modules\\sync\\events\\catalog.json",
+      "size": 1841,
+      "frozen_at": "2025-09-12T22:58:45.961827+00:00"
+    },
+    "9048af47697933d852f8da122769b20db6e80ab036283306cf1185c7144e1e8e": {
+      "path": "modules\\temporal\\events\\catalog.json",
+      "size": 2827,
+      "frozen_at": "2025-09-12T22:58:45.962827+00:00"
+    },
+    "2c09a5b5240b6fd54e2fe325b27f0339f32cf608b627350794bc734983ba428a": {
+      "path": "modules\\temporal\\events\\envelope.ref.md",
+      "size": 482,
+      "frozen_at": "2025-09-12T22:58:45.963826+00:00"
+    },
+    "3f5c84da88b8cdc5d7860fa2033e2a89b7e6c1e3ad45059765c9c59ebf9abadb": {
+      "path": "modules\\workflows\\events\\catalog.json",
+      "size": 1674,
+      "frozen_at": "2025-09-12T22:58:45.971939+00:00"
+    },
+    "4ee6cfc433527e438744b5cc62797ece604fffad60b64a7eb5c34278ecb7fa79": {
+      "path": "modules\\workflows\\events\\envelope.ref.md",
+      "size": 113,
+      "frozen_at": "2025-09-12T22:58:45.971939+00:00"
+    },
+    "0400dbaf61128afe4f79711353cda368b8bc1972962b43e2cfbdf67aaa4c039b": {
+      "path": "events\\schemas\\action_decision.schema.json",
+      "size": 1617,
+      "frozen_at": "2025-09-12T22:58:45.910731+00:00"
+    },
+    "7d294053a63cd5c6c9fac30c792c49d14fd0d33e930ce9b70e54ced2df058412": {
+      "path": "events\\schemas\\action_executed.schema.json",
+      "size": 910,
+      "frozen_at": "2025-09-12T22:58:45.911737+00:00"
+    },
+    "bcbfa5806cac33f72042751c13f9117689dfd92cdff5887ce3647f812d74ffec": {
+      "path": "events\\schemas\\dsar_export.schema.json",
+      "size": 846,
+      "frozen_at": "2025-09-12T22:58:45.911737+00:00"
+    },
+    "d6453a64530c52777e87cfa0867626536d3a84fdd283c69fdd79ad81ffa2d36c": {
+      "path": "events\\schemas\\hippo_encode.schema.json",
+      "size": 849,
+      "frozen_at": "2025-09-12T22:58:45.912737+00:00"
+    },
+    "224a66ab59b73c53acd33c65e603a41d6d60d8a773fd905d840b138f8065b8ec": {
+      "path": "events\\schemas\\integration_thing_changed.schema.json",
+      "size": 886,
+      "frozen_at": "2025-09-12T22:58:45.912737+00:00"
+    },
+    "0e02b01b1c36e6faeb6191f74f43c5a8dd537ac26e1836ce116424db068dcad6": {
+      "path": "events\\schemas\\job_status_changed.schema.json",
+      "size": 998,
+      "frozen_at": "2025-09-12T22:58:45.912737+00:00"
+    },
+    "d6052f81bf107ba5cead5616a37fe6c45167d4739525e36812fcf4e06a648d88": {
+      "path": "events\\schemas\\learning_tick.schema.json",
+      "size": 859,
+      "frozen_at": "2025-09-12T22:58:45.913736+00:00"
+    },
+    "dff2b6151de895ff133bf0b15b3625031f09421b64c1f1c449f9ce8e2bc2eb21": {
+      "path": "events\\schemas\\memory_receipt_created.schema.json",
+      "size": 875,
+      "frozen_at": "2025-09-12T22:58:45.913736+00:00"
+    },
+    "318df8958d672330ea3303067ea9187c2087acf9be0d75cdeb48b5f58a798edd": {
+      "path": "events\\schemas\\ml_run_event.schema.json",
+      "size": 864,
+      "frozen_at": "2025-09-12T22:58:45.913736+00:00"
+    },
+    "7fd4e9332dcaf86cbc0d4f4bc0e441fd57f8a12082f87ce3d67da7a30cc6b951": {
+      "path": "events\\schemas\\presence_device_changed.schema.json",
+      "size": 672,
+      "frozen_at": "2025-09-12T22:58:45.914736+00:00"
+    },
+    "7a0bbf48bfc76bf2459dc0dff6d6cb14e49e80a3276f41668a5819c1c0893e23": {
+      "path": "events\\schemas\\prospective_remind_tick.schema.json",
+      "size": 710,
+      "frozen_at": "2025-09-12T22:58:45.914736+00:00"
+    },
+    "53e2638ebb18cd1b708f4ee1634e2443aebd1da3aa2c193a5d1ae461e86ee501": {
+      "path": "events\\schemas\\prospective_schedule.schema.json",
+      "size": 1349,
+      "frozen_at": "2025-09-12T22:58:45.914736+00:00"
+    },
+    "b6683125cfd409b91001b218169bc275bc5c7fa895a364ae462d9eae6ae3aab0": {
+      "path": "events\\schemas\\reindex_request.schema.json",
+      "size": 642,
+      "frozen_at": "2025-09-12T22:58:45.915737+00:00"
+    },
+    "115fb0bbae3e575f9ab32336ad96c370dfb00707ceac93b84765913d191d2ca1": {
+      "path": "events\\schemas\\safety_band_changed.schema.json",
+      "size": 714,
+      "frozen_at": "2025-09-12T22:58:45.915737+00:00"
+    },
+    "79a8373831f73736151a05a7960dbee5d9247717c69af115b421dcb1fee24c07": {
+      "path": "events\\schemas\\sensory_frame.schema.json",
+      "size": 954,
+      "frozen_at": "2025-09-12T22:58:45.915737+00:00"
+    },
+    "71aaacc2db7299ed7377b94248f7fe710c4311d19ce15bb658e384d50e4ba737": {
+      "path": "events\\schemas\\tombstone_propagate.schema.json",
+      "size": 875,
+      "frozen_at": "2025-09-12T22:58:45.916743+00:00"
+    },
+    "8233917f764455a5717a1a9959a543690da9f7992230ec092f34c847949d9b92": {
+      "path": "events\\schemas\\workspace_broadcast.schema.json",
+      "size": 785,
+      "frozen_at": "2025-09-12T22:58:45.917742+00:00"
+    },
+    "0fe2c78078cddfa4d1383c2b1b81a50b568443ac510352e7cdee7e98fb65a86a": {
+      "path": "events\\topics.yaml",
+      "size": 4641,
+      "frozen_at": "2025-09-12T22:58:45.917742+00:00"
+    },
+    "1036aea1527f904fbd8225354cd1f38fae872bb5f29dfbfa3b22774af5c98631": {
+      "path": "modules\\episodic\\jobs\\jobs.yaml",
+      "size": 249,
+      "frozen_at": "2025-09-12T22:58:45.923851+00:00"
+    },
+    "e316c5806f841bc752b3b43827f87eb5ecb636515359e94c6308f72cf41c823c": {
+      "path": "modules\\observability\\jobs\\jobs.yaml",
+      "size": 187,
+      "frozen_at": "2025-09-12T22:58:45.932378+00:00"
+    },
+    "a50ab958b511f46a5d57552bdf37709b525a121f9df2a2e43b565f8417a1aca4": {
+      "path": "jobs\\modules\\perception-jobs.yaml",
+      "size": 203,
+      "frozen_at": "2025-09-12T22:58:45.919852+00:00"
+    },
+    "22c8c6dad1234f1206a8fa733a1e37274e8e63ee6301bdeea11334c7201fa8b2": {
+      "path": "jobs\\modules\\prospective-jobs.yaml",
+      "size": 197,
+      "frozen_at": "2025-09-12T22:58:45.919852+00:00"
+    },
+    "ab45a3bebae2205fd2dc04debe2e97b546998b73803f6491f1a7708462e783d7": {
+      "path": "jobs\\modules\\retrieval-jobs.yaml",
+      "size": 3416,
+      "frozen_at": "2025-09-12T22:58:45.919852+00:00"
+    },
+    "6729f89a726c363ff43d201c3296c4cea0586a01eba984b130d94f185b355ce1": {
+      "path": "jobs\\modules\\retrieval_new-background.yaml",
+      "size": 2238,
+      "frozen_at": "2025-09-12T22:58:45.920851+00:00"
+    },
+    "06cbe525766df959aa37e4f78f0bba7268d08f72885c446a6d394c30643f443f": {
+      "path": "modules\\temporal\\jobs\\jobs.yaml",
+      "size": 303,
+      "frozen_at": "2025-09-12T22:58:45.963826+00:00"
+    },
+    "5d0c2bdcb8a2e14baf6b5c18e78483ecb3a4459d7f633b7b963c79582295491b": {
+      "path": "modules\\workflows\\jobs\\jobs.yaml",
+      "size": 147,
+      "frozen_at": "2025-09-12T22:58:45.972940+00:00"
+    },
+    "84fac810f0aee6e4305a20e0055d89f2bdc5c07889b625f9e4bcf1b4a58a4ce7": {
+      "path": "modules\\action-README.md",
+      "size": 319,
+      "frozen_at": "2025-09-12T22:58:45.920851+00:00"
+    },
+    "4eda1284a1c37d679ec7798c2a0989b5d9d73a8508baca896ff207246d2210ad": {
+      "path": "modules\\affect-README.md",
+      "size": 829,
+      "frozen_at": "2025-09-12T22:58:45.921851+00:00"
+    },
+    "1a29eda3ff13e38eaf69c682c1a1be9ba17b6473722ba7e75270596f7c21eb97": {
+      "path": "modules\\arbitration-README.md",
+      "size": 407,
+      "frozen_at": "2025-09-12T22:58:45.921851+00:00"
+    },
+    "183aaa6f3b0cce4a69662271aa20bbac969dbb35b9f8de18ebcc0790490568be": {
+      "path": "modules\\consolidation-README.md",
+      "size": 394,
+      "frozen_at": "2025-09-12T22:58:45.921851+00:00"
+    },
+    "2606a2ad95fc4db4340c38b53f7175759fc9f1a000dede8c413f154ffc14ae0f": {
+      "path": "modules\\cortex-README.md",
+      "size": 5692,
+      "frozen_at": "2025-09-12T22:58:45.922851+00:00"
+    },
+    "d14a6227c078d4f99df7005f7ad697c009e5f08145c2115863ffe14b3554a5af": {
+      "path": "modules\\drives-README.md",
+      "size": 7708,
+      "frozen_at": "2025-09-12T22:58:45.922851+00:00"
+    },
+    "2685eb46d5c939066b066f459bfeb2952b45c758bb4cba020adfa963cbfbb216": {
+      "path": "modules\\episodic\\events\\envelope.ref.md",
+      "size": 474,
+      "frozen_at": "2025-09-12T22:58:45.922851+00:00"
+    },
+    "67757e80bc447aecfe784a1fbb50e7b6a3f467cb025f9c2938875df861419343": {
+      "path": "observability\\dashboards\\episodic-grafana.json",
+      "size": 60,
+      "frozen_at": "2025-09-12T22:58:45.977452+00:00"
+    },
+    "5fce612b98c3921e56becae80f2349dd8e5133f33249a6158bc06644d173862e": {
+      "path": "observability\\logs\\episodic-logs.md",
+      "size": 143,
+      "frozen_at": "2025-09-12T22:58:45.980460+00:00"
+    },
+    "20346ae4047af670f845bdaa2a988f5006bceeed9da7c65ad9bb367b05734205": {
+      "path": "observability\\metrics\\episodic-metrics.yaml",
+      "size": 487,
+      "frozen_at": "2025-09-12T22:58:45.985538+00:00"
+    },
+    "f8b294c9b15fe438468543a5117445d552c01defbd80c5feda757ebfd1d4bf47": {
+      "path": "observability\\traces\\episodic-traces.md",
+      "size": 264,
+      "frozen_at": "2025-09-12T22:58:45.989556+00:00"
+    },
+    "7e32ae2dab80d8dc37b3c74e5199051d0de9a9fc36c53bb163a2bafd2db01454": {
+      "path": "policy\\modules\\episodic-abac_rbac.yaml",
+      "size": 861,
+      "frozen_at": "2025-09-12T22:58:45.995074+00:00"
+    },
+    "eea7b2f9d622421031284de6b26bf207dfbb2ea4f950918923ce631bc7eac3d8": {
+      "path": "policy\\modules\\episodic-pii_redaction.yaml",
+      "size": 281,
+      "frozen_at": "2025-09-12T22:58:45.995074+00:00"
+    },
+    "76a7f567213db325ec898e27e0f003611ef7c087a403b0e5ce6316a60d8366af": {
+      "path": "security\\modules\\episodic-authz_hooks.md",
+      "size": 209,
+      "frozen_at": "2025-09-12T22:58:46.013940+00:00"
+    },
+    "5a5d2606971f133b37311efcf4a9a51872ca2e49a8fbbcaf62396b61560b89c4": {
+      "path": "security\\modules\\episodic-threat_model.md",
+      "size": 478,
+      "frozen_at": "2025-09-12T22:58:46.013940+00:00"
+    },
+    "0651954e6769a8e09a2620010ab8f3f82a8e4dee8fac7cb9dcaae60650b3df80": {
+      "path": "storage\\indices\\episodic-indices.yaml",
+      "size": 663,
+      "frozen_at": "2025-09-12T22:58:46.040193+00:00"
+    },
+    "829d161c99e1009cccb20fb26e0a170de784a4e9a0568943d24f5002e6a48e93": {
+      "path": "storage\\migrations\\episodic-v1_to_v1.md",
+      "size": 219,
+      "frozen_at": "2025-09-12T22:58:46.043192+00:00"
+    },
+    "4fbc07b5c3a7ab5257509670f473fc53b93d04277bc1bfd3389c8da9996ec117": {
+      "path": "storage\\schemas\\episodic-episodic_event.schema.json",
+      "size": 880,
+      "frozen_at": "2025-09-12T22:58:46.051723+00:00"
+    },
+    "340c980130ab224c52101adce40368264ba357a94942910ef9d1775a15f8d350": {
+      "path": "storage\\schemas\\episodic-episodic_link.schema.json",
+      "size": 612,
+      "frozen_at": "2025-09-12T22:58:46.052183+00:00"
+    },
+    "3f86f0163cc80e4624f1e35ea5ff271fa939f7697cc39c7ae0eea1ae4c383713": {
+      "path": "storage\\schemas\\episodic-episodic_segment.schema.json",
+      "size": 650,
+      "frozen_at": "2025-09-12T22:58:46.052183+00:00"
+    },
+    "38da0a3e96bc28a49d1294605ac906e0f3c503f7571473a1ca390c711d661dc6": {
+      "path": "storage\\schemas\\episodic-episodic_segment_event.schema.json",
+      "size": 460,
+      "frozen_at": "2025-09-12T22:58:46.053461+00:00"
+    },
+    "ac9d5333893a6ad90572e1dc42fa5071f16a7a522150e137746dee73125d82d8": {
+      "path": "tests\\contracts\\episodic-contract-tests.md",
+      "size": 265,
+      "frozen_at": "2025-09-12T22:58:46.076488+00:00"
+    },
+    "6f0e3fba98ca6e8e0d8cd44493b946f327ece32ffed8d1380d2c42897359c53f": {
+      "path": "tests\\contracts\\episodic-episodic_event.example.json",
+      "size": 195,
+      "frozen_at": "2025-09-12T22:58:46.076488+00:00"
+    },
+    "9e6c1b993b76f184381962ec43e8bfb8f958910d9ec2b90861e1e9655b36b27e": {
+      "path": "tests\\contracts\\episodic-episodic_segment.example.json",
+      "size": 143,
+      "frozen_at": "2025-09-12T22:58:46.076488+00:00"
+    },
+    "f06cefc79856aae8f7ea9a45e81063bd7812fe2fdaa6271c034d9cc09a5a309c": {
+      "path": "tests\\schemas\\episodic-schema-index.json",
+      "size": 282,
+      "frozen_at": "2025-09-12T22:58:46.079500+00:00"
+    },
+    "2279ffe41e557e807f2bd0f67f5fcc9e8c839bb138c2976f825ec161e2faf8e7": {
+      "path": "policy\\versions\\episodic-versions.yaml",
+      "size": 336,
+      "frozen_at": "2025-09-12T22:58:46.008860+00:00"
+    },
+    "18ae02d342ff7a2ac5b33c018d6306f9fd428c8631122e68051154de590bfcf9": {
+      "path": "modules\\episodic-README.md",
+      "size": 1203,
+      "frozen_at": "2025-09-12T22:58:45.930380+00:00"
+    },
+    "762199165ceb541187af345f7e3610fc72f12af30c27a3f8781903105ef0dad3": {
+      "path": "modules\\imagination-README.md",
+      "size": 7278,
+      "frozen_at": "2025-09-12T22:58:45.930380+00:00"
+    },
+    "9f278f3dbbde0320bee5de2ded7bbf880f802565356624e40ab9108e42ec0ceb": {
+      "path": "modules\\learning-README.md",
+      "size": 4231,
+      "frozen_at": "2025-09-12T22:58:45.931380+00:00"
+    },
+    "9fc32b8438e7211aad0aee372816f9d07718767c72dd48ac63432dd0cd35e6dd": {
+      "path": "modules\\metacognition-README.md",
+      "size": 6727,
+      "frozen_at": "2025-09-12T22:58:45.931380+00:00"
+    },
+    "c464fda6eed5f7bebf3ea9ef689768dd598d6df329a31ea6c7b84f04944313a1": {
+      "path": "observability\\dashboards\\observability-grafana.json",
+      "size": 71,
+      "frozen_at": "2025-09-12T22:58:45.978457+00:00"
+    },
+    "897606a93aaedef58ffc8c01d0337b7f77dd0a55b59a32081578f0841648506b": {
+      "path": "observability\\logs\\observability-logs.md",
+      "size": 187,
+      "frozen_at": "2025-09-12T22:58:45.980460+00:00"
+    },
+    "0eefb36ac4403d5a21d6cf8e13d149bf24b245b11b791bf99cf81c2645ad615b": {
+      "path": "observability\\metrics\\observability-metrics.yaml",
+      "size": 398,
+      "frozen_at": "2025-09-12T22:58:45.985538+00:00"
+    },
+    "60f16510530c8e1fdc5418668ed75f1c196fda00970ea91a83c757ee112cc313": {
+      "path": "observability\\traces\\observability-traces.md",
+      "size": 234,
+      "frozen_at": "2025-09-12T22:58:45.989556+00:00"
+    },
+    "b363f14525fac95485add27cb35dcfa610be7f15b2d24ce378a751d23cd1d6a2": {
+      "path": "policy\\modules\\observability-abac_rbac.yaml",
+      "size": 570,
+      "frozen_at": "2025-09-12T22:58:45.996074+00:00"
+    },
+    "8fd25636ac1f1772ea173fe2785b6b6633817f62c37b8d802d18b93bcb49b187": {
+      "path": "policy\\modules\\observability-pii_redaction.yaml",
+      "size": 248,
+      "frozen_at": "2025-09-12T22:58:45.996074+00:00"
+    },
+    "d7955048112dcfedbd871dd8dfcb6ee0ef3283b6651dbb90abc671ad96b62dde": {
+      "path": "security\\modules\\observability-authz_hooks.md",
+      "size": 229,
+      "frozen_at": "2025-09-12T22:58:46.014942+00:00"
+    },
+    "a52f6a3a7dce0b517cf250a9261bcc45115dac125f6e4600aad9894149c9aeb4": {
+      "path": "security\\modules\\observability-threat_model.md",
+      "size": 534,
+      "frozen_at": "2025-09-12T22:58:46.014942+00:00"
+    },
+    "b11eda99858546fa1940d415dc9ba37905d201c5c23e82e3f5c4e392f05faab5": {
+      "path": "storage\\indices\\observability-indices.yaml",
+      "size": 376,
+      "frozen_at": "2025-09-12T22:58:46.040193+00:00"
+    },
+    "5ec1be5e50bc79959c6daeda6afeccb0d75d8c29d77f1f15514ad6038e4372c7": {
+      "path": "storage\\migrations\\observability-v1_to_v1.md",
+      "size": 71,
+      "frozen_at": "2025-09-12T22:58:46.043192+00:00"
+    },
+    "1ed685a0fd6f6b5b7aadf1be27c6818c46a135f2c6b4ea5bfa2a4ff4446657cd": {
+      "path": "storage\\schemas\\observability-log_record.schema.json",
+      "size": 844,
+      "frozen_at": "2025-09-12T22:58:46.058463+00:00"
+    },
+    "3edcaa591bf57a8bd4988d6d61936f73d52f3ad2456fdcd2bc760415027e426d": {
+      "path": "storage\\schemas\\observability-metric_point.schema.json",
+      "size": 670,
+      "frozen_at": "2025-09-12T22:58:46.058463+00:00"
+    },
+    "f0164190ccbb145292cade2ecac6d58aa17a3851aee1335ad749d445e01fc200": {
+      "path": "storage\\schemas\\observability-span_record.schema.json",
+      "size": 757,
+      "frozen_at": "2025-09-12T22:58:46.058463+00:00"
+    },
+    "1a4709ccb2bdaeab929e7ca78d018db229762982b15c21ee019e84aaeb8f3bbb": {
+      "path": "tests\\contracts\\observability-contract-tests.md",
+      "size": 143,
+      "frozen_at": "2025-09-12T22:58:46.077496+00:00"
+    },
+    "9991b807a942890f9e64f9bc3042d4fad3a14c8367868bd11279b0490db78614": {
+      "path": "tests\\schemas\\observability-schema-index.json",
+      "size": 230,
+      "frozen_at": "2025-09-12T22:58:46.080501+00:00"
+    },
+    "badb0061e356cd025c4f1aea4da74cdad78bbb74dcbf600f3b92c44485aa447a": {
+      "path": "policy\\versions\\observability-versions.yaml",
+      "size": 276,
+      "frozen_at": "2025-09-12T22:58:46.008860+00:00"
+    },
+    "d23d897f6fb36f21c26d6b5347d855eed84298f2ef6a038f9699b1db38ab7606": {
+      "path": "modules\\observability-README.md",
+      "size": 943,
+      "frozen_at": "2025-09-12T22:58:45.939768+00:00"
+    },
+    "60151097048beb67d208943e98ddec3dfae4b97236ea0210c0197d370f9b1e75": {
+      "path": "modules\\perception-README.md",
+      "size": 819,
+      "frozen_at": "2025-09-12T22:58:45.939768+00:00"
+    },
+    "529174797ba939314d76b43ed152559b0d8133e218b12887590a35121464926f": {
+      "path": "modules\\policy_new\\api\\openapi.yaml",
+      "size": 15447,
+      "frozen_at": "2025-09-12T22:58:45.939768+00:00"
+    },
+    "648e0bb6dd398da28f2369635f5163eba83730ca1cf5bdd3e2f0070d69eaf3ff": {
+      "path": "modules\\policy_new\\storage\\policy_decision.schema.json",
+      "size": 7872,
+      "frozen_at": "2025-09-12T22:58:45.940768+00:00"
+    },
+    "7e0b9713ab0d2254a49cd71fe9a8fc43befd58f3ea6f340cde0f6bc7a03ebcec": {
+      "path": "storage\\schemas\\policy_new-policy_document.schema.json",
+      "size": 10777,
+      "frozen_at": "2025-09-12T22:58:46.060977+00:00"
+    },
+    "44d0005d305a5531d581387426592a9b541baf02f74b87d4abaa10b680f3adb2": {
+      "path": "modules\\policy_new\\versions.yaml",
+      "size": 358,
+      "frozen_at": "2025-09-12T22:58:45.941768+00:00"
+    },
+    "9f4e8400b1e271106c033fef6198f097babd8491159b305993148cb20f221ef0": {
+      "path": "modules\\policy_new-README.md",
+      "size": 6840,
+      "frozen_at": "2025-09-12T22:58:45.941768+00:00"
+    },
+    "ded8454c3a6e871db032f77563977e80de51c8e2971aed2338da4958144d29e3": {
+      "path": "modules\\prospective\\api\\openapi.yaml",
+      "size": 5952,
+      "frozen_at": "2025-09-12T22:58:45.941768+00:00"
+    },
+    "581699b735849ebb8818848423dd8c16e7abaeb73b5e06e84b5adadee5dfef1d": {
+      "path": "modules\\prospective\\api\\openapi_new.yaml",
+      "size": 1839,
+      "frozen_at": "2025-09-12T22:58:45.941768+00:00"
+    },
+    "6b32f9bde062391d536ad43c6186981d1f6f29a014e7f2020bd7893f1b4f9d5e": {
+      "path": "storage\\indices\\prospective-indices.yaml",
+      "size": 304,
+      "frozen_at": "2025-09-12T22:58:46.041193+00:00"
+    },
+    "306776fb047eb0798f46db3753c538c552582313840f7007fa4fdab436563f06": {
+      "path": "storage\\schemas\\prospective-occurrence.schema.json",
+      "size": 756,
+      "frozen_at": "2025-09-12T22:58:46.062985+00:00"
+    },
+    "aa2db9595dada418ddb07d5d33c25ce2fb517a689114a797be04a8efabe2b202": {
+      "path": "storage\\schemas\\prospective-schedule.schema.json",
+      "size": 679,
+      "frozen_at": "2025-09-12T22:58:46.062985+00:00"
+    },
+    "6d9ae414931f2ed116d792a33b792102064732e0fe88f5c5e43b7cce0a1251fd": {
+      "path": "storage\\schemas\\prospective-tick_delivery.schema.json",
+      "size": 452,
+      "frozen_at": "2025-09-12T22:58:46.063983+00:00"
+    },
+    "6cd96bcdded5f56e119bd4891223911b570aef57f797900c6b8f0d7559986b07": {
+      "path": "storage\\schemas\\prospective-trigger.schema.json",
+      "size": 1351,
+      "frozen_at": "2025-09-12T22:58:46.063983+00:00"
+    },
+    "88255dbd6574e66d5b418d3a1a0ebad174ce2934e796161806d467e3486b7579": {
+      "path": "policy\\versions\\prospective-versions.yaml",
+      "size": 282,
+      "frozen_at": "2025-09-12T22:58:46.009859+00:00"
+    },
+    "cad5975a4dd8070abddd8d05b1fc227f1e0cf6f114d270b5ebae4c000a519fa9": {
+      "path": "modules\\prospective-README.md",
+      "size": 424,
+      "frozen_at": "2025-09-12T22:58:45.946298+00:00"
+    },
+    "98c36484f584ab489ff31e7cc9585dd63cfcd4bb402678fca965d8e3daf05790": {
+      "path": "modules\\retrieval\\api\\openapi.yaml",
+      "size": 4306,
+      "frozen_at": "2025-09-12T22:58:45.946298+00:00"
+    },
+    "32c99bb3f332e379dae7d8f375ea179d2357482463ecdd9bd8821310f3f929b0": {
+      "path": "storage\\schemas\\retrieval-trace_log.schema.json",
+      "size": 937,
+      "frozen_at": "2025-09-12T22:58:46.068985+00:00"
+    },
+    "83ac2b31f7b597fbd329b7d6f08ed82ffafa6df668d7f7e325643c0fc4f3981f": {
+      "path": "policy\\versions\\retrieval-versions.yaml",
+      "size": 215,
+      "frozen_at": "2025-09-12T22:58:46.009859+00:00"
+    },
+    "9011aefb95aea1323dd84a17d7c94a725428b281b893aeef2f0efdbceea201ef": {
+      "path": "modules\\retrieval-README.md",
+      "size": 528,
+      "frozen_at": "2025-09-12T22:58:45.948296+00:00"
+    },
+    "8136af2528019099621b2ba2dfac4b44c2c40239b74eb467884aa92d1d860489": {
+      "path": "modules\\retrieval_new\\events\\catalog.json",
+      "size": 5400,
+      "frozen_at": "2025-09-12T22:58:45.949296+00:00"
+    },
+    "f14fff329a591d3fccf532f23eb6a60ee71d2e7a7ff7824bbf66d3ffafa71c16": {
+      "path": "modules\\retrieval_new\\jobs\\background.yaml",
+      "size": 2214,
+      "frozen_at": "2025-09-12T22:58:45.949296+00:00"
+    },
+    "54d85a8b8b8f80e6ea962ec9df7c800971fdf1f3864d10fd72a361625be2da14": {
+      "path": "modules\\retrieval_new\\policy\\security.yaml",
+      "size": 2724,
+      "frozen_at": "2025-09-12T22:58:45.950298+00:00"
+    },
+    "e026f0d14ada23e4465b60d4dd3559cbedfc5471525434e8f070540592e77ba4": {
+      "path": "modules\\retrieval_new\\storage\\index_entry.schema.json",
+      "size": 3300,
+      "frozen_at": "2025-09-12T22:58:45.950298+00:00"
+    },
+    "f5861583200498898d42a4cdc4200f9d26e40fadf7d81b9b862d8c05abdb4a44": {
+      "path": "modules\\retrieval_new\\storage\\query_trace.schema.json",
+      "size": 2923,
+      "frozen_at": "2025-09-12T22:58:45.951309+00:00"
+    },
+    "3c8b8254ddcceed83af5478ee7ac24291afe0dfca604a7719b9789cb980aeb21": {
+      "path": "storage\\schemas\\retrieval_new-retrieval_result.schema.json",
+      "size": 2522,
+      "frozen_at": "2025-09-12T22:58:46.070983+00:00"
+    },
+    "769522598686ef016ac99da682e3ec37454a7cfce82623ad5640bdcb56fa851b": {
+      "path": "policy\\versions\\retrieval_new-versions.yaml",
+      "size": 159,
+      "frozen_at": "2025-09-12T22:58:46.010932+00:00"
+    },
+    "47d9afe1c03e0b8ba49a5ebe221bbe27ab4a71222197d9df3a3025c12d7ab87f": {
+      "path": "modules\\retrieval_new-README.md",
+      "size": 563,
+      "frozen_at": "2025-09-12T22:58:45.953297+00:00"
+    },
+    "f6fda22bc849dc346406573abba4d533412891adca0125baf6957ec6281dcbad": {
+      "path": "observability\\logs\\services-logs.md",
+      "size": 106,
+      "frozen_at": "2025-09-12T22:58:45.982461+00:00"
+    },
+    "469e04b0cc158090cef4017c9b90083a1f1510fc9a8a985356446c12cf0d4472": {
+      "path": "observability\\metrics\\services-metrics.yaml",
+      "size": 404,
+      "frozen_at": "2025-09-12T22:58:45.987548+00:00"
+    },
+    "21e4d0bff7e2f6c287819ab62d56186c380c0de8a826301d30b36ca9381378dc": {
+      "path": "observability\\traces\\services-traces.md",
+      "size": 195,
+      "frozen_at": "2025-09-12T22:58:45.991554+00:00"
+    },
+    "136ddfc83cc81bbf8de424da71cb608b9322789ea0d26851e6192ed2591bc3d7": {
+      "path": "policy\\modules\\services-abac_rbac.yaml",
+      "size": 503,
+      "frozen_at": "2025-09-12T22:58:46.001083+00:00"
+    },
+    "4d498b97fe0f96dc17de4183cb97aaf1e3545aa1aed9f2b218c1f51f7ec90e4a": {
+      "path": "policy\\modules\\services-pii_redaction.yaml",
+      "size": 185,
+      "frozen_at": "2025-09-12T22:58:46.002713+00:00"
+    },
+    "ae1a476a53f6df3667e0bbb608f3078e3f867c26429cfe4edb7d1b612e7affc6": {
+      "path": "security\\modules\\services-authz_hooks.md",
+      "size": 208,
+      "frozen_at": "2025-09-12T22:58:46.020564+00:00"
+    },
+    "9c4ad076baf8165cd53d8217a74aba648a19c9661d99a1cae1881c8c85a90032": {
+      "path": "security\\modules\\services-threat_model.md",
+      "size": 482,
+      "frozen_at": "2025-09-12T22:58:46.021564+00:00"
+    },
+    "8b55dfa90cce29ecf81c2960bf9e4f8af93c0d32894fed8e2d806827868b1c13": {
+      "path": "storage\\indices\\services-indices.yaml",
+      "size": 535,
+      "frozen_at": "2025-09-12T22:58:46.041193+00:00"
+    },
+    "02b3a4c0c6e88c5ef75dff81c71f1fe55b25c2c851309f0f03e8d80cceada4ee": {
+      "path": "storage\\migrations\\services-v0_to_v1.md",
+      "size": 170,
+      "frozen_at": "2025-09-12T22:58:46.044712+00:00"
+    },
+    "ab1543503bc02935fa58e62b56ac8d3a00a9b7a5aa3b9c82495050857f6bdf4b": {
+      "path": "storage\\schemas\\services-service_receipt.schema.json",
+      "size": 927,
+      "frozen_at": "2025-09-12T22:58:46.071988+00:00"
+    },
+    "541f48269e8b915d0ffe92832759be114cbf0612445a99f7162da54a0ba7b01d": {
+      "path": "storage\\schemas\\services-service_registry.schema.json",
+      "size": 946,
+      "frozen_at": "2025-09-12T22:58:46.071988+00:00"
+    },
+    "a3bd7f2d016fb4d6d55c5c0df71d304f151d8ec1496241a2bd438804f2410a3e": {
+      "path": "storage\\schemas\\services-service_status.schema.json",
+      "size": 742,
+      "frozen_at": "2025-09-12T22:58:46.072983+00:00"
+    },
+    "27593f00790ea62791385a21795adaed308999ce286fcc52c7fd77fca756a535": {
+      "path": "tests\\contracts\\services-contract-tests.md",
+      "size": 178,
+      "frozen_at": "2025-09-12T22:58:46.078501+00:00"
+    },
+    "458905e074432ba4a501e31f0d13b14cd129cc20cfa22b7cb5fc7b6db314904e": {
+      "path": "tests\\schemas\\services-schema-index.json",
+      "size": 212,
+      "frozen_at": "2025-09-12T22:58:46.081500+00:00"
+    },
+    "4d5c15b0060f34a71c86d9dcf614cd0f28cf1a7ee07b3cedccb142c19d26aef6": {
+      "path": "policy\\versions\\services-versions.yaml",
+      "size": 367,
+      "frozen_at": "2025-09-12T22:58:46.010932+00:00"
+    },
+    "83503398d099e2a43b98371c9507ef2131de3f64a3b1b358939a3988a28f8f00": {
+      "path": "modules\\services-README.md",
+      "size": 779,
+      "frozen_at": "2025-09-12T22:58:45.959806+00:00"
+    },
+    "1759c16190b667e2f1d6851f9d0798ec3c5547c4f885ace4355e8cdb433a080f": {
+      "path": "policy\\versions\\social_cognition-versions.yaml",
+      "size": 269,
+      "frozen_at": "2025-09-12T22:58:46.011939+00:00"
+    },
+    "a9b29fb6a72d89937fd1cd8c6f7acf4f036496ff8f8e2bdfeb3b8a24d202ad9a": {
+      "path": "modules\\social_cognition-README.md",
+      "size": 327,
+      "frozen_at": "2025-09-12T22:58:45.960818+00:00"
+    },
+    "a78ce6768855a118364082978b3f18d0a54cd0d15269a2b0b0877c38e0f9f5c0": {
+      "path": "modules\\sync\\api\\openapi.yaml",
+      "size": 4292,
+      "frozen_at": "2025-09-12T22:58:45.961827+00:00"
+    },
+    "10d1d0e155c5f5333b3981d6cc2bc82c091feef164fe9a54d186a24a981f0fb9": {
+      "path": "policy\\versions\\sync-versions.yaml",
+      "size": 271,
+      "frozen_at": "2025-09-12T22:58:46.011939+00:00"
+    },
+    "67409075b90f281e7fcf763455ab341ab91fcbbdd9004879bbc0ce64093c25d8": {
+      "path": "modules\\sync-README.md",
+      "size": 287,
+      "frozen_at": "2025-09-12T22:58:45.962827+00:00"
+    },
+    "abd1174fb952b7ca5a5f1594ece735f4a9e8148030a194f78b19eccdc7f4dafe": {
+      "path": "observability\\dashboards\\temporal-grafana.json",
+      "size": 331,
+      "frozen_at": "2025-09-12T22:58:45.979457+00:00"
+    },
+    "c0a088fc83fdf8b3a0df1cf350bfcbb69ae924e8014116654d73c547d07e3f59": {
+      "path": "observability\\logs\\temporal-logs.md",
+      "size": 138,
+      "frozen_at": "2025-09-12T22:58:45.982461+00:00"
+    },
+    "11315b985b2c8ec09395f23e26a38e96de339860ac35f75e74600311e050579b": {
+      "path": "observability\\metrics\\temporal-metrics.yaml",
+      "size": 294,
+      "frozen_at": "2025-09-12T22:58:45.988556+00:00"
+    },
+    "48b13fd9ed7534b00140d23199247c5738afe3edaadaf5cf7fccfbe8810a740f": {
+      "path": "observability\\traces\\temporal-traces.md",
+      "size": 168,
+      "frozen_at": "2025-09-12T22:58:45.991554+00:00"
+    },
+    "e7d74fe0a3e71a88060bfc0fabd32b24cf32860aaebfdbd1243f68969ed6d749": {
+      "path": "policy\\modules\\temporal-abac_rbac.yaml",
+      "size": 347,
+      "frozen_at": "2025-09-12T22:58:46.002713+00:00"
+    },
+    "3ebe431b9e9be4658f563d902ab47329b940cfd6f8ba7db8b4642ab30f479a54": {
+      "path": "policy\\modules\\temporal-pii_redaction.yaml",
+      "size": 237,
+      "frozen_at": "2025-09-12T22:58:46.003864+00:00"
+    },
+    "75f13409e46016c39961f4bf19e31d8be1023162f00da17ca05c3442bde5d372": {
+      "path": "security\\modules\\temporal-authz_hooks.md",
+      "size": 220,
+      "frozen_at": "2025-09-12T22:58:46.022571+00:00"
+    },
+    "a100496f6ae691af33b50eff6b920abdb053bd1409ff30e23a0aed56f3b7f7cb": {
+      "path": "security\\modules\\temporal-threat_model.md",
+      "size": 409,
+      "frozen_at": "2025-09-12T22:58:46.023571+00:00"
+    },
+    "c27d9e6869344f7730f883c4552d796071507d3382ccc85ed9436fb3d9b4de48": {
+      "path": "storage\\indices\\temporal-indices.yaml",
+      "size": 306,
+      "frozen_at": "2025-09-12T22:58:46.042193+00:00"
+    },
+    "e407b4eac96476c5c83d5aaf05d07d0db183624fe374af3e808a36a91848abe1": {
+      "path": "storage\\migrations\\temporal-v0_to_v1.md",
+      "size": 237,
+      "frozen_at": "2025-09-12T22:58:46.044712+00:00"
+    },
+    "b4dd60e73d356ef06a4813c8f304a62f038ea94d22ba583ce2e2fee19cf50118": {
+      "path": "storage\\schemas\\temporal-time_index.schema.json",
+      "size": 799,
+      "frozen_at": "2025-09-12T22:58:46.072983+00:00"
+    },
+    "6fdb13a1eb25a7ba1a00e80436d3bc4822eb8b4b938cce48801b467df409f549": {
+      "path": "tests\\contracts\\temporal-contract-tests.md",
+      "size": 235,
+      "frozen_at": "2025-09-12T22:58:46.078501+00:00"
+    },
+    "970ce30959573ee042635e5c6d07f3e4fae0643bd10e621b0a2aba66247ed423": {
+      "path": "tests\\schemas\\temporal-schema-index.json",
+      "size": 57,
+      "frozen_at": "2025-09-12T22:58:46.082505+00:00"
+    },
+    "19918cfb69257661998942324245742c29e5dabcc369681c9230728eb5049b5c": {
+      "path": "policy\\versions\\temporal-versions.yaml",
+      "size": 228,
+      "frozen_at": "2025-09-12T22:58:46.011939+00:00"
+    },
+    "89c22bdfa0b46592237d059ad0bb70cea0432ea5a40aa7a965e73888aa24e19f": {
+      "path": "modules\\temporal-README.md",
+      "size": 1009,
+      "frozen_at": "2025-09-12T22:58:45.971939+00:00"
+    },
+    "1cd59e57742bbd2250484b3ebbaf128ecb297d99f1b78fb2ffb391649c70a527": {
+      "path": "observability\\logs\\workflows-logs.md",
+      "size": 68,
+      "frozen_at": "2025-09-12T22:58:45.984486+00:00"
+    },
+    "ff68aa7583a5fc1868793f78069e12c3e7bd767c64431892db09d0ef08919289": {
+      "path": "observability\\metrics\\workflows-metrics.yaml",
+      "size": 172,
+      "frozen_at": "2025-09-12T22:58:45.988556+00:00"
+    },
+    "6ebff3888fe1337a2827ddcb2c6a69a72df6db4963aa544af726d8bc01a6e0ee": {
+      "path": "observability\\traces\\workflows-traces.md",
+      "size": 88,
+      "frozen_at": "2025-09-12T22:58:45.991554+00:00"
+    },
+    "208d75ff9c576d44fa263c6ceb9b65a70131cc278c2dd809bdc8a501dae2defa": {
+      "path": "policy\\modules\\workflows-abac_rbac.yaml",
+      "size": 50,
+      "frozen_at": "2025-09-12T22:58:46.004862+00:00"
+    },
+    "3c95980c6360c22001cea24816f8c5bee4a7f667ee7becf7389d166eea0eb2a8": {
+      "path": "security\\modules\\workflows-authz_hooks.md",
+      "size": 109,
+      "frozen_at": "2025-09-12T22:58:46.023571+00:00"
+    },
+    "d6e6bd5824e4c0b0ced90ca5e1f46a64898c41dc9f4d58656ccb146a921d29b2": {
+      "path": "security\\modules\\workflows-threat_model.md",
+      "size": 137,
+      "frozen_at": "2025-09-12T22:58:46.023571+00:00"
+    },
+    "0dc10f65b388f0ac43fd1d18732bb18ee8c68e3753399041678de902730e49f4": {
+      "path": "storage\\indices\\workflows-indices.yaml",
+      "size": 234,
+      "frozen_at": "2025-09-12T22:58:46.042193+00:00"
+    },
+    "457ffa47c3e47198b8c592e53a192f3ab45e4ed0f46663ea6e6e2c7e54ca1288": {
+      "path": "storage\\migrations\\workflows-v0_to_v1.md",
+      "size": 86,
+      "frozen_at": "2025-09-12T22:58:46.045717+00:00"
+    },
+    "b6b9021c7b66218897dd1da971b8c93234cda5f0a47ef7f768475e76962b21fb": {
+      "path": "storage\\schemas\\workflows-workflow_state.schema.json",
+      "size": 670,
+      "frozen_at": "2025-09-12T22:58:46.074983+00:00"
+    },
+    "c521e196c86d68cf20a6599ab716fd140f83f5673edbd16a2a72572bfd942ede": {
+      "path": "tests\\contracts\\workflows-contract-tests.md",
+      "size": 133,
+      "frozen_at": "2025-09-12T22:58:46.079500+00:00"
+    },
+    "1e7e4a389a523209e5b4aba4b7d7edf7fed7356eb60458f5c152d4f991bc991c": {
+      "path": "tests\\schemas\\workflows-schema-index.json",
+      "size": 65,
+      "frozen_at": "2025-09-12T22:58:46.082505+00:00"
+    },
+    "ff4a56eb4305b41863a52330f1eea1c5ed3147b41d1308f478a25ef247ce568d": {
+      "path": "policy\\versions\\workflows-versions.yaml",
+      "size": 167,
+      "frozen_at": "2025-09-12T22:58:46.012941+00:00"
+    },
+    "88114e2f4158b2094a501c89cffbb4e041ea9883909d332375ad3b13e78dcb49": {
+      "path": "modules\\workflows-README.md",
+      "size": 369,
+      "frozen_at": "2025-09-12T22:58:45.977452+00:00"
+    },
+    "fcc0714f836168177facdbfb922244547226798abcc0a3ac2a7b5319323f180a": {
+      "path": "observability\\dashboards\\arbitration-grafana.json",
+      "size": 362,
+      "frozen_at": "2025-09-12T22:58:45.977452+00:00"
+    },
+    "5efbc7b4a02dd0c55294281ff6f81ee5a382858860c1e779c8984af168f4cfc5": {
+      "path": "observability\\dashboards\\perception-grafana.json",
+      "size": 203,
+      "frozen_at": "2025-09-12T22:58:45.978457+00:00"
+    },
+    "34b88c4007bad3a6084e7b136df89e2361f521b06f4f167640d530dc8de79b8c": {
+      "path": "observability\\dashboards\\prospective-grafana.json",
+      "size": 367,
+      "frozen_at": "2025-09-12T22:58:45.979457+00:00"
+    },
+    "d206cfc34e25e04303beb7d81cb66f72bef2d54a682667f6bec4d1196bfcd910": {
+      "path": "observability\\dashboards\\retrieval-grafana.json",
+      "size": 456,
+      "frozen_at": "2025-09-12T22:58:45.979457+00:00"
+    },
+    "448a020cf526ae13e77811bf6496ba6aac8d28e10d9961245fbe881eb8e64b78": {
+      "path": "observability\\logs\\arbitration-logs.md",
+      "size": 113,
+      "frozen_at": "2025-09-12T22:58:45.980460+00:00"
+    },
+    "23f425e86de4d0d7e79c78386f3151119e84ac97acc7584a26d5009573f6a411": {
+      "path": "observability\\logs\\perception-logs.md",
+      "size": 94,
+      "frozen_at": "2025-09-12T22:58:45.981459+00:00"
+    },
+    "da1ab5b0394d5b545ac5d66550658b88c430417e0652d4dcf0d545f40304c5e7": {
+      "path": "observability\\logs\\prospective-logs.md",
+      "size": 57,
+      "frozen_at": "2025-09-12T22:58:45.981459+00:00"
+    },
+    "ac2241ed059b2a664ef8eb1743aa2b86d455ba699d8d06f4632afdaa07a9394b": {
+      "path": "observability\\logs\\retrieval-logs.md",
+      "size": 153,
+      "frozen_at": "2025-09-12T22:58:45.982461+00:00"
+    },
+    "e6f9e4016fedd0f3fc378941035d9ddf77cbd0fff993a8d25c2beb889f2b3b5a": {
+      "path": "observability\\metrics\\arbitration-metrics.yaml",
+      "size": 315,
+      "frozen_at": "2025-09-12T22:58:45.984486+00:00"
+    },
+    "ae245d920e7a89e5155dbfad5c33f99aa6e66028b71726a76c328f65f1226bbc": {
+      "path": "observability\\metrics\\perception-metrics.yaml",
+      "size": 331,
+      "frozen_at": "2025-09-12T22:58:45.986549+00:00"
+    },
+    "51f1ceeb80965395495e44bbb5fef1547161c83d4d6c72a0f693c990d368e6cf": {
+      "path": "observability\\metrics\\prospective-metrics.yaml",
+      "size": 231,
+      "frozen_at": "2025-09-12T22:58:45.986549+00:00"
+    },
+    "0d549b988321c1e405bbc387725e1a446505fb820b95cefa2ca788f47fbb528e": {
+      "path": "observability\\metrics\\retrieval-metrics.yaml",
+      "size": 1797,
+      "frozen_at": "2025-09-12T22:58:45.987548+00:00"
+    },
+    "223498cab5d2cb05c50f93b3485f8433ab33ea5e9468d7e9a06450e5793c1616": {
+      "path": "observability\\traces\\arbitration-traces.md",
+      "size": 86,
+      "frozen_at": "2025-09-12T22:58:45.988556+00:00"
+    },
+    "34e834c173b9f9e43563973057b41795421455d51e5477b1301ada5b1835c584": {
+      "path": "observability\\traces\\perception-traces.md",
+      "size": 125,
+      "frozen_at": "2025-09-12T22:58:45.989556+00:00"
+    },
+    "ff1ef22bb4b7ff808e27c1da1560b076b59b6743c9d3cbb6e831ddb75acd62b9": {
+      "path": "observability\\traces\\prospective-traces.md",
+      "size": 109,
+      "frozen_at": "2025-09-12T22:58:45.990556+00:00"
+    },
+    "7ad5480868ddd0c7025a2b008493badf0fdba1512068a4fc32cf9fe6f20161e0": {
+      "path": "observability\\traces\\retrieval-traces.md",
+      "size": 224,
+      "frozen_at": "2025-09-12T22:58:45.990556+00:00"
+    },
+    "907dd83416bce8f482c1a9133d1aff96142bf2c3c2a231cc57b9776fff27778c": {
+      "path": "policy\\abac\\abac-enhancement.yaml",
+      "size": 10945,
+      "frozen_at": "2025-09-12T22:58:45.991554+00:00"
+    },
+    "e279d5aaac4841f5cb9ebfa6c3588e0fdc26746fc3fd5739ec3adfdf295ba471": {
+      "path": "policy\\abac\\attribute-evaluation.yaml",
+      "size": 10482,
+      "frozen_at": "2025-09-12T22:58:45.993059+00:00"
+    },
+    "7009f70614f0fd0628304c1817b3400cc7274e3a92802e8c77d57bfce6b6426f": {
+      "path": "policy\\abac\\context-aware-decisions.yaml",
+      "size": 15078,
+      "frozen_at": "2025-09-12T22:58:45.993059+00:00"
+    },
+    "1a7c0628a5464d0d957cf3a0572ebb83adf11f4d0600a40e13579e112bb7e00f": {
+      "path": "policy\\abac\\policy-conflict-resolution.yaml",
+      "size": 13713,
+      "frozen_at": "2025-09-12T22:58:45.994066+00:00"
+    },
+    "544f7403dffad7a00609b97d7b7d44285764d8d1feeee5cd0a748abbf8d543bb": {
+      "path": "policy\\modules\\arbitration-abac_rbac.yaml",
+      "size": 403,
+      "frozen_at": "2025-09-12T22:58:45.994066+00:00"
+    },
+    "748fbda13866674e0b16eb5090ed18527b13fa70fb633d9f174bfb371886fd6b": {
+      "path": "policy\\modules\\arbitration-pii_redaction.yaml",
+      "size": 110,
+      "frozen_at": "2025-09-12T22:58:45.994066+00:00"
+    },
+    "9008902eb3f1e63bcf473069fe24b9287fe3aaef14cc0be5cfeefcea118a7ef5": {
+      "path": "policy\\modules\\perception-abac_rbac.yaml",
+      "size": 525,
+      "frozen_at": "2025-09-12T22:58:45.997075+00:00"
+    },
+    "7bc4c63d1225d4ded4abbebf3bde4f17efeeb84991d745e3d4e328a0d8efd81e": {
+      "path": "policy\\modules\\perception-pii_redaction.yaml",
+      "size": 195,
+      "frozen_at": "2025-09-12T22:58:45.997075+00:00"
+    },
+    "adb70a253e9408cc73849cd10d151ddd2b88e9ac3e9ad0af746a348937c68348": {
+      "path": "policy\\modules\\prospective-abac_rbac.yaml",
+      "size": 369,
+      "frozen_at": "2025-09-12T22:58:45.998075+00:00"
+    },
+    "cc552f07d711c76470ac153a961ab4cc099005ac7033752bb3ed787857e0bc7e": {
+      "path": "policy\\modules\\prospective-pii_redaction.yaml",
+      "size": 59,
+      "frozen_at": "2025-09-12T22:58:45.998075+00:00"
+    },
+    "a697c564c7306aac54cb14ebc1b3f2f5a3a23b868daac46ec49b170abf719fcd": {
+      "path": "policy\\modules\\retrieval-abac_rbac.yaml",
+      "size": 2409,
+      "frozen_at": "2025-09-12T22:58:45.999077+00:00"
+    },
+    "9f36246ffe859ecf2000e4d9dc6d5551804d765b4347bb41c60518cd9ff8b455": {
+      "path": "policy\\modules\\retrieval-pii_redaction.yaml",
+      "size": 2259,
+      "frozen_at": "2025-09-12T22:58:45.999077+00:00"
+    },
+    "49c45fbb00a8f9d9272f8163feafaf92f2d5fc59c2dcb3b049c1b0e27e8f4795": {
+      "path": "policy\\modules\\retrieval_new-security.yaml",
+      "size": 2768,
+      "frozen_at": "2025-09-12T22:58:46.000073+00:00"
+    },
+    "478095c02dab3f650449cc7d600e83c6d769cf5468fc11fdb46dbcd681d02187": {
+      "path": "policy\\POLICY_VERSIONING.md",
+      "size": 8653,
+      "frozen_at": "2025-09-12T22:58:46.004862+00:00"
+    },
+    "0fc498e50ca73a3a7806e03478db43c9a9ab315fe525a507fe9e17e843bad4fe": {
+      "path": "policy\\rbac\\dynamic-assignment.yaml",
+      "size": 4113,
+      "frozen_at": "2025-09-12T22:58:46.004862+00:00"
+    },
+    "e0fce0d65bd83df5285fbeac4644c34b7aee18a00fd7fac325ff0791c1b8b871": {
+      "path": "policy\\rbac\\endpoint-access.yaml",
+      "size": 6633,
+      "frozen_at": "2025-09-12T22:58:46.005862+00:00"
+    },
+    "7a9a48d1a3b4f6b50dbea9c90c7941418009fee1bfb7eb94d56b26eaed5a38b9": {
+      "path": "policy\\rbac\\role-hierarchy.yaml",
+      "size": 3390,
+      "frozen_at": "2025-09-12T22:58:46.005862+00:00"
+    },
+    "f3130f3ee94e82af7178733a81b665c4d6f58b29327adf42481b740c4af0fc4b": {
+      "path": "policy\\versions\\action-versions.yaml",
+      "size": 253,
+      "frozen_at": "2025-09-12T22:58:46.006861+00:00"
+    },
+    "368b47b9bee8ba7b0f068510964ef222f3a4e257157cf7cec93331dcc56b12dd": {
+      "path": "policy\\versions\\affect-versions.yaml",
+      "size": 253,
+      "frozen_at": "2025-09-12T22:58:46.006861+00:00"
+    },
+    "8f7b44cf1c05741795a44c396805a36b777de09f837d7bc130b76feea25445a5": {
+      "path": "policy\\versions\\arbitration-versions.yaml",
+      "size": 231,
+      "frozen_at": "2025-09-12T22:58:46.006861+00:00"
+    },
+    "5db305046994f615c2099353d31ab873bfd7865f0efd91e41cefaf8bb75c542f": {
+      "path": "policy\\versions\\consolidation-versions.yaml",
+      "size": 260,
+      "frozen_at": "2025-09-12T22:58:46.007860+00:00"
+    },
+    "13860a0fec84ff74534b61e65b1afb4d4551a6309c355976066a1cece09d26d0": {
+      "path": "policy\\versions\\core-versions.yaml",
+      "size": 353,
+      "frozen_at": "2025-09-12T22:58:46.007860+00:00"
+    },
+    "09189d68596b73ac61434d9853eaa56b631e9f1d1753bd2fca1795b3c9fd7303": {
+      "path": "policy\\versions\\memory-versions.yaml",
+      "size": 355,
+      "frozen_at": "2025-09-12T22:58:46.008860+00:00"
+    },
+    "d662acde188fbce5398f6cd4e35ad845bb83efeea803184ad225d1505894b935": {
+      "path": "policy\\versions\\perception-versions.yaml",
+      "size": 360,
+      "frozen_at": "2025-09-12T22:58:46.009859+00:00"
+    },
+    "04675f7c29226dcd992de41df1f173b58d32232638d165f19dab8bb3b53ad73d": {
+      "path": "security\\modules\\arbitration-authz_hooks.md",
+      "size": 110,
+      "frozen_at": "2025-09-12T22:58:46.012941+00:00"
+    },
+    "81f8b7927f4081d48ea1a0d46e427ac94ec130e388c5903740516ff6e20f248c": {
+      "path": "security\\modules\\arbitration-threat_model.md",
+      "size": 254,
+      "frozen_at": "2025-09-12T22:58:46.012941+00:00"
+    },
+    "605d6e354ea3427b3b631c9a817b2959dc3d2f52c5c03d124f1030bfb6e99073": {
+      "path": "security\\modules\\perception-authz_hooks.md",
+      "size": 202,
+      "frozen_at": "2025-09-12T22:58:46.015943+00:00"
+    },
+    "45a3c763d500cd7feaed4f970773d740a9ae1e975aad59b1f4714d1515cdf8c6": {
+      "path": "security\\modules\\perception-threat_model.md",
+      "size": 476,
+      "frozen_at": "2025-09-12T22:58:46.015943+00:00"
+    },
+    "2e00164638c11f339dd227eca8d4480d6a7a8b314edba82d9403855cfcce6e72": {
+      "path": "security\\modules\\prospective-authz_hooks.md",
+      "size": 142,
+      "frozen_at": "2025-09-12T22:58:46.015943+00:00"
+    },
+    "ac854ebbf45f62193969b3fbf662e3b14cb15149ad9e55f02be7ac57f8ee267f": {
+      "path": "security\\modules\\prospective-threat_model.md",
+      "size": 254,
+      "frozen_at": "2025-09-12T22:58:46.016942+00:00"
+    },
+    "da30e2434fc67e472d68d9977df0501161dfeef043119e772217365743d0a544": {
+      "path": "security\\modules\\retrieval-authz_hooks.md",
+      "size": 254,
+      "frozen_at": "2025-09-12T22:58:46.016942+00:00"
+    },
+    "d8b2432a3b2c44d47e3b6a7bc62d4489186f90ed58596c963401bd81c0890ab8": {
+      "path": "security\\modules\\retrieval-threat_model.md",
+      "size": 2261,
+      "frozen_at": "2025-09-12T22:58:46.020564+00:00"
+    },
+    "96d53f4e6eb162d2f1db1a53e73f2ebd1f62415d12e0625e8d838d6d57f39e66": {
+      "path": "security\\modules\\storage-authz_hooks.md",
+      "size": 12007,
+      "frozen_at": "2025-09-12T22:58:46.021564+00:00"
+    },
+    "d3a8e8384648ff24d3ef93b67d92482b9ff031776e59725e1c1172700bc8db64": {
+      "path": "security\\modules\\storage-threat_model.md",
+      "size": 11753,
+      "frozen_at": "2025-09-12T22:58:46.022571+00:00"
+    },
+    "7fa6095ff04bdefaa29e71988949f637c2c81766fcfa2d835bb4525a46dea922": {
+      "path": "storage\\audit_integration.md",
+      "size": 7710,
+      "frozen_at": "2025-09-12T22:58:46.024570+00:00"
+    },
+    "c9ba54102aa731a3581ed183074f105006f8914b475171d30b45db7c702987f4": {
+      "path": "storage\\common.schema.json",
+      "size": 2956,
+      "frozen_at": "2025-09-12T22:58:46.024570+00:00"
+    },
+    "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855": {
+      "path": "storage\\crdt.schema.json",
+      "size": 0,
+      "frozen_at": "2025-09-12T22:58:46.025571+00:00"
+    },
+    "60de92460f08fccbb30559d67e8bdbc0cb62b865e3962e3da4e51f435f64de29": {
+      "path": "storage\\examples\\affect_state.example.json",
+      "size": 277,
+      "frozen_at": "2025-09-12T22:58:46.025571+00:00"
+    },
+    "b320826da4e1147eaf2858ce5f8cb4edc9030f6d3983be68e993fcbd2f61eea2": {
+      "path": "storage\\examples\\blob_manifest.example.json",
+      "size": 408,
+      "frozen_at": "2025-09-12T22:58:46.025571+00:00"
+    },
+    "f584828e79ecd0f5fa87069ef6e0f35e8d8af2a0805e87586603ba09ab27b66c": {
+      "path": "storage\\examples\\crdt_log_entry.example.json",
+      "size": 344,
+      "frozen_at": "2025-09-12T22:58:46.026572+00:00"
+    },
+    "f6e0fef1f7c7ab5ab229da93c556d632fcc97231bd4c2859968d5b9f7c095a08": {
+      "path": "storage\\examples\\drives_state.example.json",
+      "size": 157,
+      "frozen_at": "2025-09-12T22:58:46.027079+00:00"
+    },
+    "62a70e7da1b15798d1f30ff7824b3af18248d5523b6094fbc75f9e2342fc0ede": {
+      "path": "storage\\examples\\embedding_record.example.json",
+      "size": 292,
+      "frozen_at": "2025-09-12T22:58:46.027079+00:00"
+    },
+    "0c4a1a12633421c7780c01cca30574d0ad3da80a1daec8982f487b0bb3b303b3": {
+      "path": "storage\\examples\\episodic_item.example.json",
+      "size": 376,
+      "frozen_at": "2025-09-12T22:58:46.027079+00:00"
+    },
+    "d2618b12f5ec8ed2d02f39611fbc8b9670b696ae0b4c46652c944d1d8c997e96": {
+      "path": "storage\\examples\\episodic_sequence.example.json",
+      "size": 175,
+      "frozen_at": "2025-09-12T22:58:46.028085+00:00"
+    },
+    "6ee02ac3825a86ed8c27e93a8cc66578f73550885b38dcf340d634f36b4182dd": {
+      "path": "storage\\examples\\fts_document.example.json",
+      "size": 357,
+      "frozen_at": "2025-09-12T22:58:46.028085+00:00"
+    },
+    "e879d3ef3556bab016bbb8590085973786d144c18eee2b55fa8d7c7f5676c6d5": {
+      "path": "storage\\examples\\hippocampus_trace.example.json",
+      "size": 200,
+      "frozen_at": "2025-09-12T22:58:46.029091+00:00"
+    },
+    "9c4e44c692e6af6e44127b611769c7924309910630ed1fdcfb9fde61c6b03e56": {
+      "path": "storage\\examples\\imagination_snapshot.example.json",
+      "size": 208,
+      "frozen_at": "2025-09-12T22:58:46.029091+00:00"
+    },
+    "9a226ed82ef0ec64d7883ac36511ea2c05459cc711d06592bd19482843a90cdf": {
+      "path": "storage\\examples\\index_checkpoint.example.json",
+      "size": 240,
+      "frozen_at": "2025-09-12T22:58:46.029091+00:00"
+    },
+    "c3741dd52b0daf5ff0a1fc564f59b256e1a5502a3c172e07dbd12cac81aad42f": {
+      "path": "storage\\examples\\kg_edge.example.json",
+      "size": 243,
+      "frozen_at": "2025-09-12T22:58:46.030092+00:00"
+    },
+    "8d75de437fa9fd830923aa84263cd0ffe8a1a6a3a1e890d579d4cd344d109ac1": {
+      "path": "storage\\examples\\kg_entity.example.json",
+      "size": 229,
+      "frozen_at": "2025-09-12T22:58:46.030092+00:00"
+    },
+    "e4554132df3b3b5d85292ae85782a68bc6ad5c4295af832e6a5eb4fcedc324bf": {
+      "path": "storage\\examples\\metacog_report.example.json",
+      "size": 261,
+      "frozen_at": "2025-09-12T22:58:46.031092+00:00"
+    },
+    "188a4d7e19e0c7fe79a3d71c1ce0573ce58d425cfb96697c10ab9a6c2cf680b8": {
+      "path": "storage\\examples\\metric_point.example.json",
+      "size": 122,
+      "frozen_at": "2025-09-12T22:58:46.031092+00:00"
+    },
+    "5670c0cda99473c00e6127e21f665619853e4730d4ac62925ce346cf6ce60fac": {
+      "path": "storage\\examples\\ml_run.example.json",
+      "size": 234,
+      "frozen_at": "2025-09-12T22:58:46.031092+00:00"
+    },
+    "1c74244a07c4abe7800d8cf2ff7b7307270a8cf77b43cf26741f2e1a486b57c2": {
+      "path": "storage\\examples\\pattern_detection.example.json",
+      "size": 247,
+      "frozen_at": "2025-09-12T22:58:46.032094+00:00"
+    },
+    "611268a7aa90cd5f7084b0e5c540931290f6b543e8d0358a9fdb61d1fe1d720b": {
+      "path": "storage\\examples\\privacy_request.example.json",
+      "size": 341,
+      "frozen_at": "2025-09-12T22:58:46.032094+00:00"
+    },
+    "11074e550ae8ee2493ba2247eaf2d26187cf9b45e23d435c381180792ce88337": {
+      "path": "storage\\examples\\prospective_task.example.json",
+      "size": 263,
+      "frozen_at": "2025-09-12T22:58:46.033091+00:00"
+    },
+    "2c05e3959e1f381d329ac2d94632e8295701aa0fa5c72039256088983a021b6d": {
+      "path": "storage\\examples\\rbac_binding.example.json",
+      "size": 250,
+      "frozen_at": "2025-09-12T22:58:46.033091+00:00"
+    },
+    "ac731d36e0d63c6ebf4cabf3513781ebcc673b76028f285293833d18957c637f": {
+      "path": "storage\\examples\\rbac_role.example.json",
+      "size": 171,
+      "frozen_at": "2025-09-12T22:58:46.033091+00:00"
+    },
+    "dfafa054cc6e1d51280b1f515bf2aa53ce632eb1b3d871882297d315f31c499a": {
+      "path": "storage\\examples\\registry_prompt.example.json",
+      "size": 221,
+      "frozen_at": "2025-09-12T22:58:46.034098+00:00"
+    },
+    "1e00b6d11b5bfc745a922b650b0f13c4ae9d062e8532bd359e0b502c20fc5ff5": {
+      "path": "storage\\examples\\registry_tool.example.json",
+      "size": 216,
+      "frozen_at": "2025-09-12T22:58:46.035617+00:00"
+    },
+    "4faf825c51c269467df450259b218999b067fffa03795a098991b6187060a89d": {
+      "path": "storage\\examples\\reward_event.example.json",
+      "size": 154,
+      "frozen_at": "2025-09-12T22:58:46.036142+00:00"
+    },
+    "d1b55e207597a7b1339b43c65c3fe472468ecb79b15adc9a4065d45f52f4bc49": {
+      "path": "storage\\examples\\semantic_item.example.json",
+      "size": 223,
+      "frozen_at": "2025-09-12T22:58:46.036142+00:00"
+    },
+    "4b9921984c6f4f7bdc0cf02049edbac4cb6a7207b3fda0d587584a67df032573": {
+      "path": "storage\\examples\\tiered_locator.example.json",
+      "size": 391,
+      "frozen_at": "2025-09-12T22:58:46.037194+00:00"
+    },
+    "ae1d4009a25188365df358d16259548072d669531eccd03060aa30b363753575": {
+      "path": "storage\\examples\\tombstone_record.example.json",
+      "size": 290,
+      "frozen_at": "2025-09-12T22:58:46.037194+00:00"
+    },
+    "4581b310d704e5fd9c230e7029cfce9c3ca3fa65949fc7c9aaf2d1f42f98b4a9": {
+      "path": "storage\\examples\\unit_of_work.example.json",
+      "size": 419,
+      "frozen_at": "2025-09-12T22:58:46.037194+00:00"
+    },
+    "711eb1026dbf4f24a9705a8006c9dcb07fce7d005d2670bf30392fe7cb221499": {
+      "path": "storage\\examples\\vector_row.example.json",
+      "size": 336,
+      "frozen_at": "2025-09-12T22:58:46.038194+00:00"
+    },
+    "787f4c601f871d3bf0defe6f23c6c749f049bce6e5bacbd702cad19b118625c1": {
+      "path": "storage\\examples\\workspace_state.example.json",
+      "size": 238,
+      "frozen_at": "2025-09-12T22:58:46.038194+00:00"
+    },
+    "da6ee37ebe4518c48cc6a11a07cbc3a4ff705c30dee78887f7218d0a2b20b55d": {
+      "path": "storage\\examples\\write_receipt.example.json",
+      "size": 595,
+      "frozen_at": "2025-09-12T22:58:46.039192+00:00"
+    },
+    "e11b4f60e2a24614df616aead259b861978ea8faa4cd7f4f9e89f8aa38384bcc": {
+      "path": "storage\\harness\\schema-index.json",
+      "size": 3851,
+      "frozen_at": "2025-09-12T22:58:46.039192+00:00"
+    },
+    "6ae06385fd634ca54e6b24243ff2639a56ad772129e52ba775d580123b702e59": {
+      "path": "storage\\indices\\arbitration-indices.yaml",
+      "size": 432,
+      "frozen_at": "2025-09-12T22:58:46.039192+00:00"
+    },
+    "2d7529caff92066addc20f2e59f148eb1b5b2f0503e634746078dfd076a20068": {
+      "path": "storage\\indices\\perception-indices.yaml",
+      "size": 321,
+      "frozen_at": "2025-09-12T22:58:46.040193+00:00"
+    },
+    "1031d808b16116627df900d63097c6d594a8a91ad9c4b865003b0aeb6e7e0a72": {
+      "path": "storage\\indices\\retrieval-indices.yaml",
+      "size": 1368,
+      "frozen_at": "2025-09-12T22:58:46.041193+00:00"
+    },
+    "1fcf8117a76df13e55bb50b77de9b61889d7bbc8306d37c0077f055871eac030": {
+      "path": "storage\\interfaces.md",
+      "size": 7133,
+      "frozen_at": "2025-09-12T22:58:46.042193+00:00"
+    },
+    "32f14b2f3fb4499c914f6834e99f02072db504f5e11068a967ef72286b498275": {
+      "path": "storage\\migrations\\arbitration-v0_to_v1.md",
+      "size": 110,
+      "frozen_at": "2025-09-12T22:58:46.042193+00:00"
+    },
+    "1ada0538f8955f1e9dcd4cd498eff530a44d71053c7833ecd6a3cbd8457b1927": {
+      "path": "storage\\migrations\\perception-v0_to_v1.md",
+      "size": 160,
+      "frozen_at": "2025-09-12T22:58:46.043701+00:00"
+    },
+    "259277d1a9eafd64f2e2d3e7cb03c624f43e0893903625971cdcf89bb4f9a774": {
+      "path": "storage\\migrations\\prospective-v0_to_v1.md",
+      "size": 123,
+      "frozen_at": "2025-09-12T22:58:46.043701+00:00"
+    },
+    "4428c8812e0ef84b3f24e966c2cbfe75a6874624c15d646a70bb992690a596d6": {
+      "path": "storage\\migrations\\retrieval-v0_to_v1.md",
+      "size": 219,
+      "frozen_at": "2025-09-12T22:58:46.044712+00:00"
+    },
+    "192fba84356dfd1b85e56be8bcef97928ff5bbb42a138e496f9c98aa3df2f539": {
+      "path": "storage\\schemas\\action-action.receipt.v1.schema.json",
+      "size": 719,
+      "frozen_at": "2025-09-12T22:58:46.045717+00:00"
+    },
+    "e801f8ce6a48f442fd9a968bd573328464710b3855be3d5003f73fa9e772e741": {
+      "path": "storage\\schemas\\affect-affect.state.v1.schema.json",
+      "size": 931,
+      "frozen_at": "2025-09-12T22:58:46.046722+00:00"
+    },
+    "fc61ff7b2833c21724d5c6011f39634f4727b6e8baf88c81dc368016c251bf50": {
+      "path": "storage\\schemas\\affect_state.schema.json",
+      "size": 809,
+      "frozen_at": "2025-09-12T22:58:46.046722+00:00"
+    },
+    "8d07d0a1c21fa6721a5b060124e263851d850284a8db9b7b09164fbbef637925": {
+      "path": "storage\\schemas\\arbitration-decision_log.schema.json",
+      "size": 626,
+      "frozen_at": "2025-09-12T22:58:46.046722+00:00"
+    },
+    "10f040fa789fa6dd42ec7064ebaf77922c575bc5970581ca29582cadace8e6ee": {
+      "path": "storage\\schemas\\arbitration-risk_assessment.schema.json",
+      "size": 477,
+      "frozen_at": "2025-09-12T22:58:46.047722+00:00"
+    },
+    "b8f7a72c0387f86c28574b5064ff365e79f588f1433a8f43767225181c7c18f7": {
+      "path": "storage\\schemas\\blob_manifest.schema.json",
+      "size": 1266,
+      "frozen_at": "2025-09-12T22:58:46.047722+00:00"
+    },
+    "e370f5550cb06b5cd2a9c577cafc5bf8577ca7230856e20e11ca27187a574b90": {
+      "path": "storage\\schemas\\common.schema.json",
+      "size": 3220,
+      "frozen_at": "2025-09-12T22:58:46.048722+00:00"
+    },
+    "dcfc1fb16413b303845cf603d9345e5535d0b0b1862ae4e229382f57a84b48f0": {
+      "path": "storage\\schemas\\crdt.schema.json",
+      "size": 2313,
+      "frozen_at": "2025-09-12T22:58:46.048722+00:00"
+    },
+    "94873b090f0d9d11f61b94ffdc1749018dfdd2b93d902d24dbba19ab4640b5e1": {
+      "path": "storage\\schemas\\crdt_log_entry.schema.json",
+      "size": 938,
+      "frozen_at": "2025-09-12T22:58:46.048722+00:00"
+    },
+    "80dd59cb71503b34b31b37c768ae60f860d8856d4a96fa90d52b9e1e0a2c7ef5": {
+      "path": "storage\\schemas\\drive-state.schema.json",
+      "size": 3263,
+      "frozen_at": "2025-09-12T22:58:46.049721+00:00"
+    },
+    "3ad82c9b4974e9a13da6394b3826c1c5fdf3fd81164838f1317c12e4d1d4c3cd": {
+      "path": "storage\\schemas\\drives_state.schema.json",
+      "size": 1013,
+      "frozen_at": "2025-09-12T22:58:46.049721+00:00"
+    },
+    "daa65c7426b21556f0922fc07f0ccbd36af19e8c98f44432f7e5a309bb257fcf": {
+      "path": "storage\\schemas\\embedding_record.schema.json",
+      "size": 977,
+      "frozen_at": "2025-09-12T22:58:46.050737+00:00"
+    },
+    "87cac1e2d50f2ff32e7822f78826886dd18072a618e05d682aa17838694955a8": {
+      "path": "storage\\schemas\\episodic_record.schema.json",
+      "size": 2740,
+      "frozen_at": "2025-09-12T22:58:46.053461+00:00"
+    },
+    "841b4d985f08161bc5848b4e7cfda2af3b828f4ee618e437edd715137632194b": {
+      "path": "storage\\schemas\\episodic_sequence.schema.json",
+      "size": 1108,
+      "frozen_at": "2025-09-12T22:58:46.054461+00:00"
+    },
+    "266a0305cd981705e431ee7159a9b43805f07ed9cc4d4ca7493aa25c98e1b770": {
+      "path": "storage\\schemas\\fts_document.schema.json",
+      "size": 1544,
+      "frozen_at": "2025-09-12T22:58:46.054461+00:00"
+    },
+    "6a6ef12f762a12c09688d9a5e055fe0c53e42d6306b77b764d9c97cb6560023b": {
+      "path": "storage\\schemas\\hippocampus_trace.schema.json",
+      "size": 1075,
+      "frozen_at": "2025-09-12T22:58:46.054461+00:00"
+    },
+    "aed74268aa6fdf278fd27175287cdf1de4902d67ea8336220065d20d86f17df4": {
+      "path": "storage\\schemas\\imagination_snapshot.schema.json",
+      "size": 792,
+      "frozen_at": "2025-09-12T22:58:46.055462+00:00"
+    },
+    "dffdb89eeafc110bf43a8cf18376b5c4e20d9dcdb78bd791a1bc9e1c071a8bb3": {
+      "path": "storage\\schemas\\index_checkpoint.schema.json",
+      "size": 667,
+      "frozen_at": "2025-09-12T22:58:46.055462+00:00"
+    },
+    "20a61058b9dcdc4c76f4418e02febac1a50b36a62e3441d8f68e266016093021": {
+      "path": "storage\\schemas\\kg_edge.schema.json",
+      "size": 811,
+      "frozen_at": "2025-09-12T22:58:46.055462+00:00"
+    },
+    "5af8a182a2df6fc69721f9c1af7436fcb0698a3353444f87af425f161d1cd425": {
+      "path": "storage\\schemas\\kg_entity.schema.json",
+      "size": 842,
+      "frozen_at": "2025-09-12T22:58:46.056462+00:00"
+    },
+    "e8da3c250f2682aa29f42f4d0d557e665776d6b35792e00fee9a7cc60e65a070": {
+      "path": "storage\\schemas\\learning-session.schema.json",
+      "size": 1992,
+      "frozen_at": "2025-09-12T22:58:46.056462+00:00"
+    },
+    "d1cd44a10fd170da7b180af8c4f1b2b4f85790bf1d3aa5c5c6c50ccad33fe891": {
+      "path": "storage\\schemas\\metacog-session.schema.json",
+      "size": 2690,
+      "frozen_at": "2025-09-12T22:58:46.056462+00:00"
+    },
+    "ec2b2b353f81844e6b3bb19e786d48125833c3beee4b4f0ee9f3a24b26107c54": {
+      "path": "storage\\schemas\\metacog_report.schema.json",
+      "size": 808,
+      "frozen_at": "2025-09-12T22:58:46.057460+00:00"
+    },
+    "597b38837e28a81ab5ab5caa9599108cab772e184869b189208a5d42b70ac2db": {
+      "path": "storage\\schemas\\metric_point.schema.json",
+      "size": 626,
+      "frozen_at": "2025-09-12T22:58:46.057460+00:00"
+    },
+    "a37395a8292b7af32055bb7c1f5f836f1b73de454faefcf45aab602aaab6c2a5": {
+      "path": "storage\\schemas\\ml_run.schema.json",
+      "size": 803,
+      "frozen_at": "2025-09-12T22:58:46.057460+00:00"
+    },
+    "098160b9025e1dbb0b4bc623240aa1237a305cda9f12dd7d859a796a04128209": {
+      "path": "storage\\schemas\\pattern_detection.schema.json",
+      "size": 771,
+      "frozen_at": "2025-09-12T22:58:46.058463+00:00"
+    },
+    "384f1912b47ffeaadb767328037c12e5f0902790cf7fce6e1f66657a0e88fd7c": {
+      "path": "storage\\schemas\\perception-frame_record.schema.json",
+      "size": 781,
+      "frozen_at": "2025-09-12T22:58:46.059968+00:00"
+    },
+    "7dd4a2ac4cc06f611570da534efd66eb238830b0b1097b0c354d23850fb21850": {
+      "path": "storage\\schemas\\perception-sensory_frame.schema.json",
+      "size": 675,
+      "frozen_at": "2025-09-12T22:58:46.059968+00:00"
+    },
+    "c4aed978b342c001fc709658a80e1e72e98b84c1de30da416c4d4faff8ba1d0f": {
+      "path": "storage\\schemas\\policy_new-policy_decision.schema.json",
+      "size": 7873,
+      "frozen_at": "2025-09-12T22:58:46.060977+00:00"
+    },
+    "f7c0ea8cc1dc2aa61a09b41dcec8a7587d41f3025eed7f343c8ebc16e7a57a66": {
+      "path": "storage\\schemas\\prediction-model.schema.json",
+      "size": 2249,
+      "frozen_at": "2025-09-12T22:58:46.061987+00:00"
+    },
+    "efc5525a349ed0e66872fa858b8d4daba7e87f75c588c0381abbf6c420cc2961": {
+      "path": "storage\\schemas\\privacy_request.schema.json",
+      "size": 1022,
+      "frozen_at": "2025-09-12T22:58:46.061987+00:00"
+    },
+    "2fec3dc2663f51ccf2389f5ea85b03abaeb68c8f8d6f42dbffefc0b297abb5b1": {
+      "path": "storage\\schemas\\prospective-reminder_delivery.schema.json",
+      "size": 516,
+      "frozen_at": "2025-09-12T22:58:46.062985+00:00"
+    },
+    "75698c1b1f847d2c925fef5ae9170532872d25b1b2b70b3d7a8d40c534b7e54b": {
+      "path": "storage\\schemas\\prospective-schedule_entry.schema.json",
+      "size": 989,
+      "frozen_at": "2025-09-12T22:58:46.063983+00:00"
+    },
+    "0082bb8d9a40d30f3f754104cfeb427c2c6c76654fae3d5636da877a7d0cd793": {
+      "path": "storage\\schemas\\prospective_task.schema.json",
+      "size": 1091,
+      "frozen_at": "2025-09-12T22:58:46.064985+00:00"
+    },
+    "8bd8b90a10c12761e566d7f776a8be3ee19cd690c042f05c8ca428f2c3b6f944": {
+      "path": "storage\\schemas\\rbac_binding.schema.json",
+      "size": 867,
+      "frozen_at": "2025-09-12T22:58:46.064985+00:00"
+    },
+    "3583d86a1bad96e1a0e81673bd1861fa84453a3479e1fbefe53647c55a73a049": {
+      "path": "storage\\schemas\\rbac_role.schema.json",
+      "size": 500,
+      "frozen_at": "2025-09-12T22:58:46.065986+00:00"
+    },
+    "41182f9dfd8030d446856effae65f814c183e9a4d8d6bc3bc36c4468566db41b": {
+      "path": "storage\\schemas\\registry_prompt.schema.json",
+      "size": 644,
+      "frozen_at": "2025-09-12T22:58:46.065986+00:00"
+    },
+    "c5afcb65a2c477c55cc3bd82ab491d4937a713d1777818b14160d1ab7d6025b3": {
+      "path": "storage\\schemas\\registry_tool.schema.json",
+      "size": 684,
+      "frozen_at": "2025-09-12T22:58:46.066988+00:00"
+    },
+    "961e0fcaa395a392dcbe0b423a48265cb3bdce9616c2bd2163147bb11fb12559": {
+      "path": "storage\\schemas\\retrieval-cache_entry.schema.json",
+      "size": 2713,
+      "frozen_at": "2025-09-12T22:58:46.066988+00:00"
+    },
+    "7b584e71ea3ff322c497b9fb26304211eaa4c4f16fd82a6d5adf08f29fe94899": {
+      "path": "storage\\schemas\\retrieval-query_log.schema.json",
+      "size": 2507,
+      "frozen_at": "2025-09-12T22:58:46.067988+00:00"
+    },
+    "a5cbcbc7b271845aeb02da51ba5657279f361cb4a09f992a4a8b0a86f1eec9b5": {
+      "path": "storage\\schemas\\retrieval-retrieval_cache_entry.schema.json",
+      "size": 736,
+      "frozen_at": "2025-09-12T22:58:46.067988+00:00"
+    },
+    "967a7feffa82fbade6d92aca9b36e99a901c326212ca752d58958124ec7c3db9": {
+      "path": "storage\\schemas\\retrieval-retrieval_trace.schema.json",
+      "size": 643,
+      "frozen_at": "2025-09-12T22:58:46.068985+00:00"
+    },
+    "b329f2871808efe17be0f0cea80fb49ed2a206402b3197d3aac5a22b19211c35": {
+      "path": "storage\\schemas\\retrieval_new-index_entry.schema.json",
+      "size": 3301,
+      "frozen_at": "2025-09-12T22:58:46.069985+00:00"
+    },
+    "c48144a58f8f6d0804533faadfb38e23a2fa818cf11c7a2d1edb8d2c7901860a": {
+      "path": "storage\\schemas\\retrieval_new-query_trace.schema.json",
+      "size": 2926,
+      "frozen_at": "2025-09-12T22:58:46.069985+00:00"
+    },
+    "831e13fcc78c5fff62e742695d71f9f23ffea9809384cbc145cbb2d63ffa32cd": {
+      "path": "storage\\schemas\\reward_event.schema.json",
+      "size": 786,
+      "frozen_at": "2025-09-12T22:58:46.070983+00:00"
+    },
+    "19f309a2bb74c5e0fb1a891e37caa836cc91436618b684f0eee477418e64f325": {
+      "path": "storage\\schemas\\secure_item.schema.json",
+      "size": 979,
+      "frozen_at": "2025-09-12T22:58:46.070983+00:00"
+    },
+    "e15f8677997d149462a71fb5736d6f678fbf6dcf58b5c290dba120054a899fef": {
+      "path": "storage\\schemas\\semantic_item.schema.json",
+      "size": 1073,
+      "frozen_at": "2025-09-12T22:58:46.071988+00:00"
+    },
+    "be5bb7170263e81ee746838b2a6eab09cb427c72e26a682821587159eb7e95a0": {
+      "path": "storage\\schemas\\simulation-request.schema.json",
+      "size": 2392,
+      "frozen_at": "2025-09-12T22:58:46.072983+00:00"
+    },
+    "492f31917e3e8b7b78ae986f69c60a0e71355d143046f7384ee61a3f45fbb34b": {
+      "path": "storage\\schemas\\tiered_locator.schema.json",
+      "size": 810,
+      "frozen_at": "2025-09-12T22:58:46.073982+00:00"
+    },
+    "a5b00029480f2e9e2640ae8b2a47c7beae9619768749b23799d862c9ef8bce2e": {
+      "path": "storage\\schemas\\tombstone_record.schema.json",
+      "size": 987,
+      "frozen_at": "2025-09-12T22:58:46.073982+00:00"
+    },
+    "35575981cc2525a295b8c4e10ca9ff9992f087f9a1820be5424c605614ec467c": {
+      "path": "storage\\schemas\\unit_of_work.schema.json",
+      "size": 1140,
+      "frozen_at": "2025-09-12T22:58:46.073982+00:00"
+    },
+    "8784d9eb72eb5807a89cc1fc83354ba022b92be1968c0c6e65df1406b9634dd0": {
+      "path": "storage\\schemas\\vector_row.schema.json",
+      "size": 1198,
+      "frozen_at": "2025-09-12T22:58:46.073982+00:00"
+    },
+    "d0d0301781f01928b16396b1d80eb2b7c970890a1bb77cc168fb47351792cb07": {
+      "path": "storage\\schemas\\workspace_state.schema.json",
+      "size": 1137,
+      "frozen_at": "2025-09-12T22:58:46.074983+00:00"
+    },
+    "845f083e90da533b12bb2c3e6fd642918fd760c7fe202e4e6b16bde4f4a6c484": {
+      "path": "storage\\schemas\\write_receipt.schema.json",
+      "size": 1451,
+      "frozen_at": "2025-09-12T22:58:46.074983+00:00"
+    },
+    "db320607231be296b4900c76081c8831193a7bad787e5fc5e0f6166857c47f23": {
+      "path": "tests\\contracts\\arbitration-contract-tests.md",
+      "size": 117,
+      "frozen_at": "2025-09-12T22:58:46.074983+00:00"
+    },
+    "0860358d5b3950504d3f146bb5a4f9b143366d9f9fe746d260af5b1f4065728a": {
+      "path": "tests\\contracts\\perception-contract-tests.md",
+      "size": 250,
+      "frozen_at": "2025-09-12T22:58:46.077496+00:00"
+    },
+    "9da5713977122b75fdea0eb5973072b47a8eed66d95304ea16ceef6d202e539e": {
+      "path": "tests\\contracts\\prospective-contract-tests.md",
+      "size": 185,
+      "frozen_at": "2025-09-12T22:58:46.077496+00:00"
+    },
+    "b0b63604edd0008cc1d91f9a85e37034d0e95111c0aea601e6f17e08fba653e3": {
+      "path": "tests\\contracts\\retrieval-contract-tests.md",
+      "size": 4371,
+      "frozen_at": "2025-09-12T22:58:46.078501+00:00"
+    },
+    "f6c5bb1921f6bcf463f399c270cb97388456f1babcaffa9cc73a56925f52dc5d": {
+      "path": "tests\\schemas\\arbitration-schema-index.json",
+      "size": 175,
+      "frozen_at": "2025-09-12T22:58:46.079500+00:00"
+    },
+    "46cf4ed00098b9a59f69fc6acee5dc0d0c8023d018f7ba9815a2ed2462683ddb": {
+      "path": "tests\\schemas\\perception-schema-index.json",
+      "size": 182,
+      "frozen_at": "2025-09-12T22:58:46.080501+00:00"
+    },
+    "ef83688c56b93693d5720dbb9b2f4610b2b00146f0addf738070e0590f0c544c": {
+      "path": "tests\\schemas\\prospective-schema-index.json",
+      "size": 164,
+      "frozen_at": "2025-09-12T22:58:46.080501+00:00"
+    },
+    "35b0b43fe166f3398863771b8959b5838ccb27b9af383558ee1f8ac5a394adcb": {
+      "path": "tests\\schemas\\retrieval-schema-index.json",
+      "size": 1773,
+      "frozen_at": "2025-09-12T22:58:46.081500+00:00"
+    },
+    "6a309624b8ee476963e05c8aa04d062a6b23a2e247e71e060a04a01d9d6cfbc3": {
+      "path": "tooling\\spectral.config.yaml",
+      "size": 3515,
+      "frozen_at": "2025-09-12T22:58:46.082505+00:00"
+    }
+  }
+}

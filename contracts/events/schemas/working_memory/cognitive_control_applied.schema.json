@@ -1,0 +1,528 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://familyos.local/contracts/events/schemas/working_memory/cognitive_control_applied.schema.json",
+    "title": "Cognitive Control Applied Event",
+    "description": "Event generated when cognitive control mechanisms are applied to resolve conflicts or manage processing",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "timestamp",
+        "control_type",
+        "control_target",
+        "control_outcome"
+    ],
+    "properties": {
+        "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Time when cognitive control was applied"
+        },
+        "control_type": {
+            "type": "string",
+            "enum": [
+                "inhibitory_control",
+                "cognitive_flexibility",
+                "working_memory_updating",
+                "attention_control",
+                "interference_resolution",
+                "goal_management",
+                "strategy_selection",
+                "monitoring_control",
+                "conflict_resolution",
+                "performance_adjustment"
+            ],
+            "description": "Type of cognitive control applied"
+        },
+        "control_target": {
+            "type": "object",
+            "required": [
+                "target_type",
+                "target_elements"
+            ],
+            "properties": {
+                "target_type": {
+                    "type": "string",
+                    "enum": [
+                        "response_inhibition",
+                        "attention_shifting",
+                        "working_memory_content",
+                        "processing_strategy",
+                        "goal_prioritization",
+                        "interference_source",
+                        "cognitive_process",
+                        "behavioral_output"
+                    ]
+                },
+                "target_elements": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "element_id": {
+                                "type": "string"
+                            },
+                            "element_type": {
+                                "type": "string"
+                            },
+                            "control_strength_applied": {
+                                "type": "number"
+                            },
+                            "baseline_activation": {
+                                "type": "number"
+                            },
+                            "target_activation": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                },
+                "control_scope": {
+                    "type": "string",
+                    "enum": [
+                        "local",
+                        "global",
+                        "network-wide",
+                        "system-wide"
+                    ]
+                },
+                "temporal_extent": {
+                    "type": "object",
+                    "properties": {
+                        "control_duration_ms": {
+                            "type": "number"
+                        },
+                        "onset_latency_ms": {
+                            "type": "number"
+                        },
+                        "peak_effect_time_ms": {
+                            "type": "number"
+                        }
+                    }
+                }
+            },
+            "description": "Target of cognitive control application"
+        },
+        "control_outcome": {
+            "type": "object",
+            "required": [
+                "success_level",
+                "effectiveness_metrics"
+            ],
+            "properties": {
+                "success_level": {
+                    "type": "string",
+                    "enum": [
+                        "failed",
+                        "partial",
+                        "successful",
+                        "highly_effective"
+                    ]
+                },
+                "effectiveness_metrics": {
+                    "type": "object",
+                    "properties": {
+                        "conflict_reduction": {
+                            "type": "number"
+                        },
+                        "performance_improvement": {
+                            "type": "number"
+                        },
+                        "interference_suppression": {
+                            "type": "number"
+                        },
+                        "goal_achievement": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "side_effects": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "effect_type": {
+                                "type": "string"
+                            },
+                            "effect_magnitude": {
+                                "type": "number"
+                            },
+                            "effect_duration": {
+                                "type": "number"
+                            },
+                            "effect_valence": {
+                                "type": "string",
+                                "enum": [
+                                    "positive",
+                                    "negative",
+                                    "neutral"
+                                ]
+                            }
+                        }
+                    }
+                },
+                "resource_cost": {
+                    "type": "object",
+                    "properties": {
+                        "cognitive_effort": {
+                            "type": "number"
+                        },
+                        "metabolic_cost": {
+                            "type": "number"
+                        },
+                        "time_cost": {
+                            "type": "number"
+                        },
+                        "opportunity_cost": {
+                            "type": "number"
+                        }
+                    }
+                }
+            },
+            "description": "Outcome of control application"
+        },
+        "control_mechanisms": {
+            "type": "object",
+            "properties": {
+                "inhibitory_mechanisms": {
+                    "type": "object",
+                    "properties": {
+                        "response_inhibition": {
+                            "type": "number"
+                        },
+                        "interference_suppression": {
+                            "type": "number"
+                        },
+                        "prepotent_response_override": {
+                            "type": "number"
+                        },
+                        "distractor_filtering": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "updating_mechanisms": {
+                    "type": "object",
+                    "properties": {
+                        "content_updating": {
+                            "type": "number"
+                        },
+                        "goal_updating": {
+                            "type": "number"
+                        },
+                        "strategy_updating": {
+                            "type": "number"
+                        },
+                        "priority_updating": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "shifting_mechanisms": {
+                    "type": "object",
+                    "properties": {
+                        "attention_shifting": {
+                            "type": "number"
+                        },
+                        "task_switching": {
+                            "type": "number"
+                        },
+                        "mental_set_shifting": {
+                            "type": "number"
+                        },
+                        "perspective_shifting": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "monitoring_mechanisms": {
+                    "type": "object",
+                    "properties": {
+                        "performance_monitoring": {
+                            "type": "number"
+                        },
+                        "conflict_monitoring": {
+                            "type": "number"
+                        },
+                        "error_monitoring": {
+                            "type": "number"
+                        },
+                        "progress_monitoring": {
+                            "type": "number"
+                        }
+                    }
+                }
+            },
+            "description": "Specific control mechanisms engaged"
+        },
+        "neural_implementation": {
+            "type": "object",
+            "properties": {
+                "prefrontal_engagement": {
+                    "type": "object",
+                    "properties": {
+                        "dorsolateral_pfc": {
+                            "type": "number"
+                        },
+                        "ventrolateral_pfc": {
+                            "type": "number"
+                        },
+                        "anterior_cingulate": {
+                            "type": "number"
+                        },
+                        "medial_pfc": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "network_coordination": {
+                    "type": "object",
+                    "properties": {
+                        "fronto_parietal_network": {
+                            "type": "number"
+                        },
+                        "cognitive_control_network": {
+                            "type": "number"
+                        },
+                        "salience_network": {
+                            "type": "number"
+                        },
+                        "default_mode_suppression": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "neurotransmitter_systems": {
+                    "type": "object",
+                    "properties": {
+                        "dopamine_modulation": {
+                            "type": "number"
+                        },
+                        "norepinephrine_modulation": {
+                            "type": "number"
+                        },
+                        "acetylcholine_modulation": {
+                            "type": "number"
+                        },
+                        "gaba_inhibition": {
+                            "type": "number"
+                        }
+                    }
+                }
+            },
+            "description": "Neural implementation of cognitive control"
+        },
+        "adaptive_adjustments": {
+            "type": "object",
+            "properties": {
+                "control_strength_adjustment": {
+                    "type": "object",
+                    "properties": {
+                        "strength_increase": {
+                            "type": "number"
+                        },
+                        "strength_decrease": {
+                            "type": "number"
+                        },
+                        "adjustment_trigger": {
+                            "type": "string"
+                        },
+                        "adjustment_magnitude": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "strategy_refinement": {
+                    "type": "object",
+                    "properties": {
+                        "strategy_effectiveness": {
+                            "type": "number"
+                        },
+                        "strategy_modifications": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "alternative_strategies": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "threshold_adjustments": {
+                    "type": "object",
+                    "properties": {
+                        "control_threshold": {
+                            "type": "number"
+                        },
+                        "monitoring_threshold": {
+                            "type": "number"
+                        },
+                        "intervention_threshold": {
+                            "type": "number"
+                        }
+                    }
+                }
+            },
+            "description": "Adaptive adjustments based on control outcomes"
+        },
+        "context_sensitivity": {
+            "type": "object",
+            "properties": {
+                "task_context": {
+                    "type": "object",
+                    "properties": {
+                        "task_demands": {
+                            "type": "number"
+                        },
+                        "performance_standards": {
+                            "type": "number"
+                        },
+                        "time_constraints": {
+                            "type": "number"
+                        },
+                        "error_tolerance": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "individual_factors": {
+                    "type": "object",
+                    "properties": {
+                        "cognitive_capacity": {
+                            "type": "number"
+                        },
+                        "control_skill": {
+                            "type": "number"
+                        },
+                        "motivation_level": {
+                            "type": "number"
+                        },
+                        "fatigue_level": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "environmental_context": {
+                    "type": "object",
+                    "properties": {
+                        "distraction_level": {
+                            "type": "number"
+                        },
+                        "support_availability": {
+                            "type": "number"
+                        },
+                        "pressure_level": {
+                            "type": "number"
+                        }
+                    }
+                }
+            },
+            "description": "Context sensitivity of control application"
+        },
+        "learning_updates": {
+            "type": "object",
+            "properties": {
+                "control_skill_learning": {
+                    "type": "object",
+                    "properties": {
+                        "skill_improvement": {
+                            "type": "number"
+                        },
+                        "efficiency_gains": {
+                            "type": "number"
+                        },
+                        "automatization_progress": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "strategy_learning": {
+                    "type": "object",
+                    "properties": {
+                        "strategy_effectiveness_update": {
+                            "type": "object"
+                        },
+                        "new_strategy_discovery": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "strategy_selection_optimization": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "meta_control_learning": {
+                    "type": "object",
+                    "properties": {
+                        "when_to_control_learning": {
+                            "type": "number"
+                        },
+                        "how_much_control_learning": {
+                            "type": "number"
+                        },
+                        "control_cost_estimation": {
+                            "type": "number"
+                        }
+                    }
+                }
+            },
+            "description": "Learning updates from control experience"
+        },
+        "performance_impact": {
+            "type": "object",
+            "properties": {
+                "immediate_effects": {
+                    "type": "object",
+                    "properties": {
+                        "accuracy_change": {
+                            "type": "number"
+                        },
+                        "response_time_change": {
+                            "type": "number"
+                        },
+                        "error_rate_change": {
+                            "type": "number"
+                        },
+                        "cognitive_load_change": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "sustained_effects": {
+                    "type": "object",
+                    "properties": {
+                        "performance_stabilization": {
+                            "type": "number"
+                        },
+                        "strategy_persistence": {
+                            "type": "number"
+                        },
+                        "transfer_potential": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "efficiency_metrics": {
+                    "type": "object",
+                    "properties": {
+                        "cost_benefit_ratio": {
+                            "type": "number"
+                        },
+                        "control_efficiency": {
+                            "type": "number"
+                        },
+                        "adaptive_value": {
+                            "type": "number"
+                        }
+                    }
+                }
+            },
+            "description": "Impact on cognitive performance"
+        }
+    }
+}

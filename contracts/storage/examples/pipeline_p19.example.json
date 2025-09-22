@@ -1,0 +1,39 @@
+{
+  "id": "01JA9X6MXXXXXXXXXXXXXXXXXX",
+  "created_ts": "2025-09-16T10:30:00.000Z",
+  "cognitive_trace_id": "01JA9X6NYYYYYYYYYYYYYYYYYY",
+  "band": "GREEN",
+  "space_id": "shared:household",
+  "pipeline_id": "P19",
+  "input_events": [
+    "attention_request",
+    "stimulus_info"
+  ],
+  "output_events": [
+    "attention_response",
+    "focus_updated"
+  ],
+  "processing_stage": "cognitive_processing",
+  "performance_sla": {
+    "max_latency_ms": 120,
+    "throughput_per_sec": 100,
+    "accuracy_threshold": 0.95
+  },
+  "neural_substrate": {
+    "brain_region": "thalamus",
+    "neural_circuit": "arousal regulation circuit",
+    "neurotransmitter_systems": [
+      "norepinephrine",
+      "acetylcholine"
+    ],
+    "oscillatory_patterns": {
+      "frequency_band": "beta",
+      "amplitude": 0.77,
+      "phase_coherence": 0.84
+    }
+  },
+  "cognitive_functions": [
+    "attention",
+    "executive_control"
+  ]
+}

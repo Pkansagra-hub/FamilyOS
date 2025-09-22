@@ -1,0 +1,299 @@
+# Issue #27: Complete ABAC Implementation Contract
+# Master contract defining the complete ABAC enhancement architecture
+
+apiVersion: policy/v1
+kind: AbacEnhancement
+metadata:
+  name: abac-complete-implementation
+  description: "Complete ABAC implementation with attribute evaluation, context-aware decisions, and conflict resolution"
+  version: "1.0.0"
+  labels:
+    issue: "27"
+    epic: "3.1"
+    milestone: "3"
+    priority: "critical-path"
+
+spec:
+  # Implementation overview
+  implementation:
+    description: "Enhanced ABAC system building on existing policy/abac.py foundation"
+    scope:
+      - "Attribute-based policy evaluation (Sub-issue #27.1)"
+      - "Context-aware access decisions (Sub-issue #27.2)"
+      - "Policy conflict resolution (Sub-issue #27.3)"
+
+    # Integration with existing systems
+    integration_points:
+      existing_abac_engine:
+        file: "policy/abac.py"
+        description: "Existing AbacEngine with SafetyPipeline integration"
+        enhancements:
+          - "Enhanced attribute evaluation using new contracts"
+          - "Context-aware decision engine integration"
+          - "Conflict resolution capabilities"
+
+      safety_pipeline:
+        description: "P18 safety pipeline integration maintained"
+        enhancements:
+          - "Affect-aware context integration"
+          - "Enhanced safety pressure evaluation"
+          - "Context-sensitive band escalation"
+
+      rbac_integration:
+        description: "Seamless RBAC/ABAC hybrid operation"
+        enhancements:
+          - "Unified policy conflict resolution"
+          - "Role-based baseline with attribute enhancement"
+          - "Context-aware role evaluation"
+
+  # Component architecture
+  components:
+    # Enhanced Attribute Engine
+    attribute_engine:
+      contract: "attribute-evaluation.yaml"
+      implementation_target: "policy/abac/attribute_engine.py"
+      description: "Enhanced attribute collection and evaluation"
+      capabilities:
+        - "Multi-category attribute evaluation (actor/device/environment)"
+        - "Context-sensitive attribute weighting"
+        - "Performance-optimized attribute caching"
+        - "Band-aware attribute assessment"
+
+      integration:
+        existing_code: "AbacEngine.evaluate_attributes()"
+        enhancement_approach: "Extend existing method with contract-driven evaluation"
+        backward_compatibility: true
+
+    # Context-Aware Decision Engine
+    decision_engine:
+      contract: "context-aware-decisions.yaml"
+      implementation_target: "policy/abac/context_engine.py"
+      description: "Context-aware access decision making"
+      capabilities:
+        - "Multi-factor context evaluation"
+        - "Temporal and environmental adaptation"
+        - "Affect-aware decision adjustment"
+        - "Obligation-rich decision outcomes"
+
+      integration:
+        existing_code: "AbacEngine.evaluate_decision()"
+        enhancement_approach: "Add context layer to existing decision logic"
+        backward_compatibility: true
+
+    # Conflict Resolution Engine
+    conflict_engine:
+      contract: "policy-conflict-resolution.yaml"
+      implementation_target: "policy/abac/conflict_resolver.py"
+      description: "Policy conflict detection and resolution"
+      capabilities:
+        - "Multi-policy conflict detection"
+        - "Priority-based resolution strategies"
+        - "Obligation merging and prioritization"
+        - "Audit trail and conflict analytics"
+
+      integration:
+        existing_code: "New component integrating with AbacEngine"
+        enhancement_approach: "Add as policy evaluation middleware"
+        backward_compatibility: true
+
+  # Enhancement roadmap
+  enhancement_roadmap:
+    phase_1_foundation:
+      description: "Core attribute evaluation enhancement"
+      tasks:
+        - "Implement enhanced attribute collection (Sub-issue #27.1)"
+        - "Add multi-category attribute support"
+        - "Integrate with existing AbacEngine.evaluate_attributes()"
+        - "Add performance caching layer"
+      dependencies: ["existing policy/abac.py"]
+      deliverables: ["Enhanced attribute evaluation system"]
+
+    phase_2_context:
+      description: "Context-aware decision implementation"
+      tasks:
+        - "Implement context-aware decision engine (Sub-issue #27.2)"
+        - "Add temporal and environmental adapters"
+        - "Integrate affect-aware decision making"
+        - "Enhance obligation framework"
+      dependencies: ["Phase 1", "affect/affect_aware_service.py"]
+      deliverables: ["Context-aware decision system"]
+
+    phase_3_conflicts:
+      description: "Conflict resolution implementation"
+      tasks:
+        - "Implement conflict detection algorithms (Sub-issue #27.3)"
+        - "Add resolution strategy engine"
+        - "Create audit trail system"
+        - "Integrate with existing RBAC"
+      dependencies: ["Phase 1", "Phase 2", "RBAC implementation"]
+      deliverables: ["Complete conflict resolution system"]
+
+    phase_4_integration:
+      description: "Full system integration and optimization"
+      tasks:
+        - "Integrate all components with existing AbacEngine"
+        - "Performance optimization and caching"
+        - "Comprehensive testing and validation"
+        - "Documentation and monitoring setup"
+      dependencies: ["Phase 1", "Phase 2", "Phase 3"]
+      deliverables: ["Production-ready ABAC enhancement"]
+
+  # Implementation specifications
+  implementation_specs:
+    # File structure
+    file_organization:
+      new_files:
+        - "policy/abac/attribute_engine.py"
+        - "policy/abac/context_engine.py"
+        - "policy/abac/conflict_resolver.py"
+        - "policy/abac/types.py"
+        - "policy/abac/__init__.py"
+
+      enhanced_files:
+        - "policy/abac.py"  # Core AbacEngine enhancements
+
+      test_files:
+        - "tests/policy/test_abac_enhancement.py"
+        - "tests/policy/test_attribute_engine.py"
+        - "tests/policy/test_context_engine.py"
+        - "tests/policy/test_conflict_resolver.py"
+
+    # API compatibility
+    api_compatibility:
+      existing_methods:
+        "AbacEngine.evaluate()":
+          compatibility: "maintained"
+          enhancements: "Added context and conflict resolution"
+
+        "AbacEngine.evaluate_attributes()":
+          compatibility: "maintained"
+          enhancements: "Enhanced multi-category support"
+
+        "AbacEngine.evaluate_decision()":
+          compatibility: "maintained"
+          enhancements: "Added context-aware logic"
+
+      new_methods:
+        "AbacEngine.evaluate_with_context()":
+          description: "Full context-aware evaluation"
+
+        "AbacEngine.resolve_conflicts()":
+          description: "Explicit conflict resolution"
+
+        "AbacEngine.get_decision_explanation()":
+          description: "Detailed decision reasoning"
+
+    # Configuration integration
+    configuration:
+      contract_integration:
+        - "Load attribute evaluation contracts from contracts/policy/abac/"
+        - "Merge with module-specific contracts from contracts/modules/"
+        - "Support runtime contract updates"
+
+      performance_tuning:
+        - "Configurable cache TTL values"
+        - "Adjustable timeout limits"
+        - "Performance monitoring thresholds"
+
+      safety_integration:
+        - "P18 safety pipeline configuration"
+        - "Affect-aware service integration"
+        - "Emergency override procedures"
+
+  # Validation and testing
+  validation:
+    # Contract validation
+    contract_validation:
+      schema_validation: "Validate all contracts against policy/v1 schema"
+      compatibility_testing: "Test contract integration with existing modules"
+      performance_testing: "Validate contract-driven performance meets targets"
+
+    # Integration testing
+    integration_testing:
+      rbac_abac_hybrid: "Test seamless RBAC/ABAC operation"
+      safety_pipeline: "Validate P18 safety pipeline integration"
+      affect_awareness: "Test affect-aware decision making"
+      module_compatibility: "Validate all module-specific contracts"
+
+    # Performance validation
+    performance_validation:
+      response_time_targets:
+        attribute_evaluation: "< 100ms"
+        context_assessment: "< 200ms"
+        conflict_resolution: "< 500ms"
+        full_evaluation: "< 1000ms"
+
+      throughput_targets:
+        concurrent_evaluations: "> 1000/second"
+        batch_processing: "> 100 items/batch"
+        cache_hit_rate: "> 80%"
+
+  # Monitoring and observability
+  observability:
+    metrics:
+      attribute_evaluation:
+        - "attribute_collection_time_ms"
+        - "attribute_cache_hit_rate"
+        - "attribute_evaluation_errors"
+
+      context_decisions:
+        - "context_evaluation_time_ms"
+        - "context_adaptation_frequency"
+        - "obligation_complexity_score"
+
+      conflict_resolution:
+        - "conflict_detection_rate"
+        - "resolution_success_rate"
+        - "resolution_strategy_distribution"
+
+    alerts:
+      performance_degradation:
+        condition: "evaluation_time > 1000ms"
+        severity: "warning"
+
+      high_conflict_rate:
+        condition: "conflict_rate > 5%"
+        severity: "critical"
+
+      safety_escalations:
+        condition: "band_escalation_rate > 10%"
+        severity: "info"
+
+  # Documentation requirements
+  documentation:
+    technical_docs:
+      - "ABAC Enhancement Architecture Guide"
+      - "Attribute Evaluation Developer Guide"
+      - "Context-Aware Decision Making Guide"
+      - "Conflict Resolution Strategies Guide"
+
+    operational_docs:
+      - "ABAC Configuration Manual"
+      - "Performance Tuning Guide"
+      - "Troubleshooting Guide"
+      - "Monitoring and Alerting Setup"
+
+    integration_docs:
+      - "Module Integration Guidelines"
+      - "Contract Development Best Practices"
+      - "RBAC/ABAC Hybrid Operation Guide"
+      - "Safety Pipeline Integration Guide"
+
+# Success criteria for Issue #27 completion
+success_criteria:
+  functional_requirements:
+    - "✅ Enhanced attribute evaluation with multi-category support"
+    - "✅ Context-aware decision making with temporal/environmental adaptation"
+    - "✅ Comprehensive conflict resolution with audit trails"
+    - "✅ Seamless integration with existing RBAC and safety systems"
+
+  performance_requirements:
+    - "✅ Sub-second response times for all evaluations"
+    - "✅ Support for 1000+ concurrent evaluations"
+    - "✅ Cache hit rate > 80% for attribute evaluations"
+
+  quality_requirements:
+    - "✅ Comprehensive test coverage > 95%"
+    - "✅ Zero breaking changes to existing API"
+    - "✅ Production-ready monitoring and alerting"
+    - "✅ Complete documentation and guides"

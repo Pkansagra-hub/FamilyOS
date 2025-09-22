@@ -1,0 +1,108 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://familyos.local/contracts/storage/crdt_conflict_resolution.schema.json",
+  "title": "CRDT Conflict Resolution",
+  "description": "Conflict resolution metadata and strategies for CRDT operations",
+  "type": "object",
+  "properties": {
+    "conflict_id": {
+      "type": "string",
+      "description": "Unique conflict identifier (ULID)"
+    },
+    "space_id": {
+      "type": "string",
+      "description": "Memory space where conflict occurred"
+    },
+    "object_id": {
+      "type": "string",
+      "description": "Object identifier that had conflicting operations"
+    },
+    "conflicting_operations": {
+      "type": "array",
+      "description": "Operation IDs that were in conflict",
+      "items": {
+        "type": "string"
+      },
+      "minItems": 2
+    },
+    "resolution_strategy": {
+      "type": "string",
+      "enum": ["last_writer_wins", "add_wins", "delete_wins", "merge_values", "custom"],
+      "description": "Strategy used to resolve the conflict"
+    },
+    "resolution_data": {
+      "type": "object",
+      "description": "Data specific to the resolution strategy",
+      "properties": {
+        "winning_operation": {
+          "type": "string",
+          "description": "Operation ID that won the conflict (for LWW)"
+        },
+        "merged_value": {
+          "description": "Result of merging conflicting values"
+        },
+        "custom_resolution": {
+          "type": "object",
+          "description": "Custom resolution metadata"
+        }
+      }
+    },
+    "vector_clocks": {
+      "type": "object",
+      "description": "Vector clocks of conflicting operations",
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": {
+          "type": "integer",
+          "minimum": 0
+        }
+      }
+    },
+    "resolved_at": {
+      "type": "number",
+      "description": "Unix timestamp when conflict was resolved"
+    },
+    "resolved_by": {
+      "type": "string",
+      "description": "Replica ID that resolved the conflict"
+    },
+    "resolution_confidence": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "description": "Confidence in the resolution decision"
+    },
+    "manual_intervention": {
+      "type": "boolean",
+      "description": "Whether manual intervention was required"
+    },
+    "conflict_metadata": {
+      "type": "object",
+      "description": "Additional metadata about the conflict",
+      "properties": {
+        "conflict_detected_at": {
+          "type": "number",
+          "description": "When the conflict was first detected"
+        },
+        "conflict_type": {
+          "type": "string",
+          "enum": ["concurrent_updates", "add_remove", "semantic_conflict"]
+        },
+        "replica_divergence": {
+          "type": "object",
+          "description": "How much replicas diverged"
+        }
+      }
+    }
+  },
+  "required": [
+    "conflict_id",
+    "space_id",
+    "object_id",
+    "conflicting_operations",
+    "resolution_strategy",
+    "resolved_at",
+    "resolved_by"
+  ],
+  "additionalProperties": false
+}

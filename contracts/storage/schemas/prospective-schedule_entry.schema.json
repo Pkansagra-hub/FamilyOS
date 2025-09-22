@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://familyos.local/contracts/prospective/schedule.schema.json",
+  "type": "object",
+  "properties": {
+    "id": { "type": "string", "format": "uuid" },
+    "space_id": { "type": "string" },
+    "due_ts": { "type": "string", "format": "date-time" },
+    "window_start_ts": { "type": "string", "format": "date-time" },
+    "window_end_ts": { "type": "string", "format": "date-time" },
+    "rrule": { "type": "string" },
+    "payload": { "type": "object" },
+    "status": { "type": "string", "enum": ["scheduled","canceled","completed"] },
+    "band": { "type": "string", "enum": ["GREEN","AMBER"] },
+    "create_ts": { "type": "string", "format": "date-time" },
+    "update_ts": { "type": "string", "format": "date-time" },
+    "policy_version": { "type": "string" }
+  },
+  "required": ["id","space_id","due_ts","status","band","create_ts","policy_version"],
+  "additionalProperties": false
+}

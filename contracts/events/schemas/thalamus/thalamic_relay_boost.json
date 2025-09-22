@@ -1,0 +1,442 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "$id": "thalamic_relay_boost.schema.json",
+    "title": "Thalamic Relay BOOST Priority Signal Event",
+    "description": "Event generated when thalamic relay circuits decide to BOOST the priority of cognitive processing requests due to urgency, novelty, or goal relevance. This implements dynamic priority adjustment mechanisms.",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "timestamp",
+        "relay_circuit",
+        "boost_reason",
+        "priority_increase",
+        "urgency_factor",
+        "resource_override"
+    ],
+    "properties": {
+        "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Precise timing of thalamic relay BOOST decision"
+        },
+        "relay_circuit": {
+            "type": "string",
+            "enum": [
+                "memory",
+                "recall",
+                "executive",
+                "learning",
+                "perception",
+                "motor"
+            ],
+            "description": "Which thalamic relay circuit initiated the BOOST"
+        },
+        "boost_reason": {
+            "type": "object",
+            "required": [
+                "primary_trigger",
+                "urgency_assessment"
+            ],
+            "properties": {
+                "primary_trigger": {
+                    "type": "string",
+                    "enum": [
+                        "temporal_urgency",
+                        "novelty_detection",
+                        "goal_critical",
+                        "threat_detection",
+                        "opportunity_window",
+                        "context_switch",
+                        "error_correction"
+                    ],
+                    "description": "Primary reason for priority boost"
+                },
+                "urgency_assessment": {
+                    "type": "object",
+                    "properties": {
+                        "urgency_level": {
+                            "type": "string",
+                            "enum": [
+                                "critical",
+                                "high",
+                                "moderate",
+                                "low"
+                            ],
+                            "description": "Assessed urgency level"
+                        },
+                        "time_sensitivity": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "Degree of time sensitivity (1=immediate, 0=no time pressure)"
+                        },
+                        "consequence_severity": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "Severity of consequences if processing is delayed"
+                        }
+                    },
+                    "description": "Detailed urgency assessment"
+                },
+                "novelty_factors": {
+                    "type": "object",
+                    "properties": {
+                        "novelty_score": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "Computed novelty score"
+                        },
+                        "pattern_deviation": {
+                            "type": "number",
+                            "minimum": 0,
+                            "description": "Degree of deviation from expected patterns"
+                        },
+                        "learning_opportunity": {
+                            "type": "boolean",
+                            "description": "Whether this represents a significant learning opportunity"
+                        }
+                    },
+                    "description": "Novelty-related factors contributing to boost"
+                },
+                "goal_relevance": {
+                    "type": "object",
+                    "properties": {
+                        "current_goal_alignment": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "Alignment with current active goals"
+                        },
+                        "long_term_goal_impact": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "Impact on long-term goals"
+                        },
+                        "goal_hierarchy_level": {
+                            "type": "string",
+                            "enum": [
+                                "primary",
+                                "secondary",
+                                "tertiary",
+                                "maintenance"
+                            ],
+                            "description": "Level in goal hierarchy"
+                        }
+                    },
+                    "description": "Goal relevance factors"
+                }
+            },
+            "description": "Detailed reasoning for the BOOST decision"
+        },
+        "priority_increase": {
+            "type": "object",
+            "required": [
+                "boost_magnitude",
+                "new_priority_level"
+            ],
+            "properties": {
+                "boost_magnitude": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Magnitude of priority increase (0=no change, 1=maximum boost)"
+                },
+                "new_priority_level": {
+                    "type": "string",
+                    "enum": [
+                        "critical",
+                        "urgent",
+                        "high",
+                        "elevated",
+                        "normal"
+                    ],
+                    "description": "New priority level after boost"
+                },
+                "previous_priority_level": {
+                    "type": "string",
+                    "enum": [
+                        "background",
+                        "low",
+                        "normal",
+                        "high",
+                        "urgent"
+                    ],
+                    "description": "Priority level before boost"
+                },
+                "boost_duration": {
+                    "type": "object",
+                    "properties": {
+                        "duration_ms": {
+                            "type": "number",
+                            "minimum": 0,
+                            "description": "Duration of priority boost in milliseconds"
+                        },
+                        "decay_function": {
+                            "type": "string",
+                            "enum": [
+                                "exponential",
+                                "linear",
+                                "step",
+                                "sustained"
+                            ],
+                            "description": "How the boost decays over time"
+                        },
+                        "permanent_increase": {
+                            "type": "boolean",
+                            "description": "Whether the boost results in permanent priority increase"
+                        }
+                    },
+                    "description": "Duration and decay characteristics of the boost"
+                }
+            },
+            "description": "Priority increase parameters"
+        },
+        "urgency_factor": {
+            "type": "object",
+            "required": [
+                "temporal_urgency",
+                "contextual_urgency"
+            ],
+            "properties": {
+                "temporal_urgency": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Time-based urgency factor"
+                },
+                "contextual_urgency": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Context-based urgency factor"
+                },
+                "deadline_proximity": {
+                    "type": "object",
+                    "properties": {
+                        "deadline": {
+                            "type": "string",
+                            "format": "date-time",
+                            "description": "Processing deadline"
+                        },
+                        "time_remaining_ms": {
+                            "type": "number",
+                            "minimum": 0,
+                            "description": "Time remaining until deadline in milliseconds"
+                        },
+                        "criticality_curve": {
+                            "type": "string",
+                            "enum": [
+                                "linear",
+                                "exponential",
+                                "step",
+                                "logarithmic"
+                            ],
+                            "description": "How urgency increases as deadline approaches"
+                        }
+                    },
+                    "description": "Deadline-based urgency factors"
+                },
+                "opportunity_window": {
+                    "type": "object",
+                    "properties": {
+                        "window_duration_ms": {
+                            "type": "number",
+                            "minimum": 0,
+                            "description": "Duration of opportunity window"
+                        },
+                        "window_closing_rate": {
+                            "type": "number",
+                            "minimum": 0,
+                            "description": "Rate at which opportunity window is closing"
+                        },
+                        "opportunity_value": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "Value of the opportunity"
+                        }
+                    },
+                    "description": "Opportunity window parameters"
+                }
+            },
+            "description": "Comprehensive urgency factor assessment"
+        },
+        "resource_override": {
+            "type": "object",
+            "required": [
+                "override_active",
+                "resource_reallocation"
+            ],
+            "properties": {
+                "override_active": {
+                    "type": "boolean",
+                    "description": "Whether resource constraints are being overridden"
+                },
+                "resource_reallocation": {
+                    "type": "object",
+                    "properties": {
+                        "attention_reallocation": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "Proportion of attention resources reallocated"
+                        },
+                        "working_memory_preemption": {
+                            "type": "boolean",
+                            "description": "Whether working memory resources are preempted"
+                        },
+                        "processing_interruption": {
+                            "type": "boolean",
+                            "description": "Whether current processing is interrupted"
+                        },
+                        "energy_budget_override": {
+                            "type": "boolean",
+                            "description": "Whether energy budget constraints are overridden"
+                        }
+                    },
+                    "description": "Resource reallocation details"
+                },
+                "override_justification": {
+                    "type": "object",
+                    "properties": {
+                        "cost_benefit_ratio": {
+                            "type": "number",
+                            "minimum": 0,
+                            "description": "Computed cost-benefit ratio for override"
+                        },
+                        "strategic_importance": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "Strategic importance justifying override"
+                        },
+                        "risk_assessment": {
+                            "type": "object",
+                            "properties": {
+                                "override_risk": {
+                                    "type": "number"
+                                },
+                                "delay_risk": {
+                                    "type": "number"
+                                },
+                                "net_risk": {
+                                    "type": "number"
+                                }
+                            },
+                            "description": "Risk assessment for resource override"
+                        }
+                    },
+                    "description": "Justification for resource override"
+                }
+            },
+            "description": "Resource override and reallocation parameters"
+        },
+        "boost_effects": {
+            "type": "object",
+            "properties": {
+                "immediate_effects": {
+                    "type": "object",
+                    "properties": {
+                        "processing_acceleration": {
+                            "type": "number",
+                            "minimum": 1,
+                            "description": "Processing speed multiplier"
+                        },
+                        "resource_access_improvement": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "Improvement in resource access"
+                        },
+                        "queue_position_advance": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "description": "Number of positions advanced in processing queue"
+                        }
+                    },
+                    "description": "Immediate effects of the priority boost"
+                },
+                "downstream_effects": {
+                    "type": "object",
+                    "properties": {
+                        "attention_focus_enhancement": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "Enhancement in attention focus"
+                        },
+                        "memory_consolidation_priority": {
+                            "type": "boolean",
+                            "description": "Whether memory consolidation receives priority"
+                        },
+                        "learning_rate_increase": {
+                            "type": "number",
+                            "minimum": 1,
+                            "description": "Learning rate multiplier"
+                        }
+                    },
+                    "description": "Downstream cognitive effects of the boost"
+                }
+            },
+            "description": "Effects and consequences of the priority boost"
+        },
+        "request_metadata": {
+            "type": "object",
+            "properties": {
+                "request_id": {
+                    "type": "string",
+                    "description": "Unique identifier for the processing request"
+                },
+                "request_type": {
+                    "type": "string",
+                    "enum": [
+                        "memory_encoding",
+                        "memory_retrieval",
+                        "executive_control",
+                        "learning_update",
+                        "perceptual_processing",
+                        "motor_planning"
+                    ],
+                    "description": "Type of cognitive processing request"
+                },
+                "boost_count": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "description": "Number of times this request has been boosted"
+                },
+                "cumulative_boost": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Cumulative boost effect applied to this request"
+                }
+            },
+            "description": "Metadata about the boosted processing request"
+        },
+        "performance_metrics": {
+            "type": "object",
+            "properties": {
+                "boost_decision_latency_ms": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Time taken to make the BOOST decision in milliseconds"
+                },
+                "boost_effectiveness": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Predicted effectiveness of the priority boost"
+                },
+                "resource_utilization_efficiency": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Efficiency of resource utilization after boost"
+                }
+            },
+            "description": "Performance metrics for the BOOST decision"
+        }
+    }
+}

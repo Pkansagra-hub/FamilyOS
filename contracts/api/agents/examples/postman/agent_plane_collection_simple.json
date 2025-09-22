@@ -1,0 +1,182 @@
+{
+  "info": {
+    "name": "Family AI - Agent Plane API",
+    "description": "Memory-Centric Family AI - Agent Plane endpoints for family memory and intelligence operations",
+    "version": "1.0.0",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8000",
+      "type": "string"
+    },
+    {
+      "key": "api_token",
+      "value": "{{$guid}}",
+      "type": "string"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{api_token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "item": [
+    {
+      "name": "Memory Operations",
+      "item": [
+        {
+          "name": "Submit Family Memory",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"content\": {\n    \"text\": \"Emma has soccer practice every Wednesday at 4 PM. She needs cleats, water bottle, and shin guards.\",\n    \"metadata\": {\n      \"content_type\": \"observation\",\n      \"importance\": 0.8,\n      \"tags\": [\"soccer\", \"emma\", \"schedule\", \"sports\"]\n    }\n  },\n  \"context\": {\n    \"space_id\": \"shared:household\",\n    \"family_context\": {\n      \"participants\": [\"fam_emma_003\"],\n      \"relationship_type\": \"parent-child\"\n    },\n    \"temporal_context\": {\n      \"timestamp\": \"{{$isoTimestamp}}\"\n    }\n  },\n  \"options\": {\n    \"enable_cognitive_processing\": true,\n    \"privacy_level\": \"GREEN\",\n    \"trigger_sync\": false\n  }\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/memory/submit",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "memory", "submit"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Recall Soccer Schedule",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": {\n    \"text\": \"When is Emma's soccer practice this week? What does she need?\",\n    \"query_type\": \"semantic\",\n    \"filters\": {\n      \"tags\": [\"soccer\", \"emma\"],\n      \"content_types\": [\"observation\", \"goal\"]\n    }\n  },\n  \"context\": {\n    \"space_id\": \"shared:household\",\n    \"requester_id\": \"fam_dad_002\"\n  },\n  \"options\": {\n    \"max_results\": 5,\n    \"privacy_mode\": \"full\",\n    \"include_cognitive_insights\": true\n  }\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/memory/recall",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "memory", "recall"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Chat Completions",
+      "item": [
+        {
+          "name": "Family-Aware Chat",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"messages\": [\n    {\n      \"role\": \"user\",\n      \"content\": \"Help me prepare Emma for soccer practice today\"\n    }\n  ],\n  \"memory_context\": {\n    \"include_family_memories\": true,\n    \"space_ids\": [\"shared:household\"],\n    \"max_context_memories\": 10,\n    \"memory_query\": \"soccer emma preparation equipment\"\n  },\n  \"family_context\": {\n    \"requester_id\": \"fam_dad_002\",\n    \"participants\": [\"fam_emma_003\"]\n  },\n  \"options\": {\n    \"temperature\": 0.7,\n    \"max_tokens\": 500,\n    \"stream\": false\n  }\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/chat/completions",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "chat", "completions"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Affect Analysis",
+      "item": [
+        {
+          "name": "Analyze Frustration",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"content\": {\n    \"text\": \"I'm so frustrated! Emma forgot her soccer cleats again and now we're running late!\",\n    \"content_type\": \"conversation\"\n  },\n  \"context\": {\n    \"family_member_id\": \"fam_mom_001\",\n    \"participants\": [\"fam_mom_001\", \"fam_emma_003\"]\n  },\n  \"analysis_options\": {\n    \"include_family_impact\": true,\n    \"suggest_responses\": true,\n    \"emotional_regulation\": true,\n    \"de_escalation\": true\n  }\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/affect/analyze",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "affect", "analyze"]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "// Set dynamic timestamp",
+          "pm.globals.set('timestamp', new Date().toISOString());",
+          "",
+          "// Generate request ID",
+          "pm.globals.set('request_id', pm.variables.replaceIn('{{$guid}}'));"
+        ]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [
+          "// Validate response structure",
+          "pm.test('Response is JSON', function () {",
+          "    pm.response.to.be.json;",
+          "});",
+          "",
+          "pm.test('Response time is acceptable', function () {",
+          "    pm.expect(pm.response.responseTime).to.be.below(5000);",
+          "});",
+          "",
+          "// Check for required fields based on endpoint",
+          "if (pm.request.url.toString().includes('/memory/submit')) {",
+          "    pm.test('Memory submit response has memory_id', function () {",
+          "        const response = pm.response.json();",
+          "        pm.expect(response).to.have.property('memory_id');",
+          "    });",
+          "}",
+          "",
+          "if (pm.request.url.toString().includes('/memory/recall')) {",
+          "    pm.test('Memory recall response has memories array', function () {",
+          "        const response = pm.response.json();",
+          "        pm.expect(response).to.have.property('memories');",
+          "        pm.expect(response.memories).to.be.an('array');",
+          "    });",
+          "}"
+        ]
+      }
+    }
+  ]
+}

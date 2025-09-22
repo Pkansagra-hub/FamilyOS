@@ -1,0 +1,486 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "$id": "theory_of_mind.schema.json",
+    "title": "Theory of Mind Event",
+    "description": "Event for understanding and modeling mental states of self and others with temporoparietal junction and superior temporal sulcus modeling",
+    "type": "object",
+    "required": [
+        "timestamp",
+        "tom_operation",
+        "mental_state_modeling",
+        "perspective_taking",
+        "neural_implementation",
+        "social_cognitive_integration"
+    ],
+    "properties": {
+        "timestamp": {
+            "type": "string",
+            "format": "date-time"
+        },
+        "tom_operation": {
+            "type": "string",
+            "enum": [
+                "belief_attribution",
+                "intention_inference",
+                "emotion_recognition",
+                "desire_understanding",
+                "false_belief_reasoning",
+                "recursive_mental_state_modeling"
+            ]
+        },
+        "mental_state_modeling": {
+            "type": "object",
+            "properties": {
+                "target_agent": {
+                    "type": "object",
+                    "properties": {
+                        "agent_id": {
+                            "type": "string"
+                        },
+                        "agent_type": {
+                            "type": "string",
+                            "enum": [
+                                "self",
+                                "other_human",
+                                "artificial_agent",
+                                "group"
+                            ]
+                        },
+                        "familiarity_level": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "interaction_history": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "mental_state_representation": {
+                    "type": "object",
+                    "properties": {
+                        "beliefs": {
+                            "type": "object",
+                            "properties": {
+                                "core_beliefs": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "belief_content": {
+                                                "type": "string"
+                                            },
+                                            "belief_strength": {
+                                                "type": "number"
+                                            },
+                                            "confidence_in_attribution": {
+                                                "type": "number"
+                                            },
+                                            "belief_category": {
+                                                "type": "string"
+                                            }
+                                        }
+                                    }
+                                },
+                                "situational_beliefs": {
+                                    "type": "array"
+                                },
+                                "meta_beliefs": {
+                                    "type": "array"
+                                },
+                                "false_beliefs_tracked": {
+                                    "type": "array"
+                                }
+                            }
+                        },
+                        "intentions": {
+                            "type": "object",
+                            "properties": {
+                                "immediate_intentions": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "object",
+                                        "properties": {
+                                            "intention_description": {
+                                                "type": "string"
+                                            },
+                                            "intention_strength": {
+                                                "type": "number"
+                                            },
+                                            "temporal_scope": {
+                                                "type": "string"
+                                            },
+                                            "confidence_in_inference": {
+                                                "type": "number"
+                                            }
+                                        }
+                                    }
+                                },
+                                "long_term_goals": {
+                                    "type": "array"
+                                },
+                                "hidden_agendas": {
+                                    "type": "array"
+                                },
+                                "intention_hierarchy": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "emotions": {
+                            "type": "object",
+                            "properties": {
+                                "current_emotional_state": {
+                                    "type": "object",
+                                    "properties": {
+                                        "primary_emotion": {
+                                            "type": "string"
+                                        },
+                                        "emotion_intensity": {
+                                            "type": "number"
+                                        },
+                                        "emotion_valence": {
+                                            "type": "number"
+                                        },
+                                        "emotion_arousal": {
+                                            "type": "number"
+                                        }
+                                    }
+                                },
+                                "emotional_tendencies": {
+                                    "type": "array"
+                                },
+                                "emotional_triggers": {
+                                    "type": "array"
+                                },
+                                "emotion_regulation_patterns": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "desires_and_preferences": {
+                            "type": "object",
+                            "properties": {
+                                "immediate_desires": {
+                                    "type": "array"
+                                },
+                                "value_system": {
+                                    "type": "object"
+                                },
+                                "preference_hierarchy": {
+                                    "type": "array"
+                                },
+                                "motivational_drivers": {
+                                    "type": "array"
+                                }
+                            }
+                        },
+                        "knowledge_state": {
+                            "type": "object",
+                            "properties": {
+                                "known_information": {
+                                    "type": "array"
+                                },
+                                "unknown_information": {
+                                    "type": "array"
+                                },
+                                "knowledge_confidence": {
+                                    "type": "object"
+                                },
+                                "learning_state": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "recursive_modeling": {
+                    "type": "object",
+                    "properties": {
+                        "first_order_tom": {
+                            "type": "object"
+                        },
+                        "second_order_tom": {
+                            "type": "object",
+                            "properties": {
+                                "what_they_think_i_think": {
+                                    "type": "object"
+                                },
+                                "recursive_depth": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "higher_order_recursion": {
+                            "type": "array"
+                        }
+                    }
+                }
+            }
+        },
+        "perspective_taking": {
+            "type": "object",
+            "properties": {
+                "cognitive_perspective_taking": {
+                    "type": "object",
+                    "properties": {
+                        "viewpoint_shift_quality": {
+                            "type": "number"
+                        },
+                        "perspective_maintenance": {
+                            "type": "number"
+                        },
+                        "egocentric_bias_suppression": {
+                            "type": "number"
+                        },
+                        "alternative_viewpoint_generation": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "emotional_perspective_taking": {
+                    "type": "object",
+                    "properties": {
+                        "empathic_accuracy": {
+                            "type": "number"
+                        },
+                        "emotional_resonance": {
+                            "type": "number"
+                        },
+                        "affective_theory_of_mind": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "situational_perspective_taking": {
+                    "type": "object",
+                    "properties": {
+                        "contextual_understanding": {
+                            "type": "number"
+                        },
+                        "situational_constraint_awareness": {
+                            "type": "number"
+                        },
+                        "environmental_factor_consideration": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "perspective_integration": {
+                    "type": "object",
+                    "properties": {
+                        "multiple_perspective_synthesis": {
+                            "type": "number"
+                        },
+                        "perspective_conflict_resolution": {
+                            "type": "number"
+                        },
+                        "shared_mental_model_construction": {
+                            "type": "number"
+                        }
+                    }
+                }
+            }
+        },
+        "neural_implementation": {
+            "type": "object",
+            "properties": {
+                "temporoparietal_junction": {
+                    "type": "object",
+                    "properties": {
+                        "belief_reasoning_activity": {
+                            "type": "number"
+                        },
+                        "intention_inference_activity": {
+                            "type": "number"
+                        },
+                        "perspective_taking_activity": {
+                            "type": "number"
+                        },
+                        "attention_reorienting": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "superior_temporal_sulcus": {
+                    "type": "object",
+                    "properties": {
+                        "biological_motion_processing": {
+                            "type": "number"
+                        },
+                        "social_perception_activity": {
+                            "type": "number"
+                        },
+                        "intention_from_action_inference": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "medial_prefrontal_cortex": {
+                    "type": "object",
+                    "properties": {
+                        "mentalizing_activity": {
+                            "type": "number"
+                        },
+                        "social_cognitive_control": {
+                            "type": "number"
+                        },
+                        "person_knowledge_access": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "temporal_poles": {
+                    "type": "object",
+                    "properties": {
+                        "social_semantic_knowledge": {
+                            "type": "number"
+                        },
+                        "person_specific_knowledge": {
+                            "type": "number"
+                        },
+                        "social_concept_processing": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "mirror_neuron_system": {
+                    "type": "object",
+                    "properties": {
+                        "action_understanding": {
+                            "type": "number"
+                        },
+                        "motor_simulation": {
+                            "type": "number"
+                        },
+                        "intention_mirroring": {
+                            "type": "number"
+                        }
+                    }
+                }
+            }
+        },
+        "social_cognitive_integration": {
+            "type": "object",
+            "properties": {
+                "social_context_integration": {
+                    "type": "object",
+                    "properties": {
+                        "social_norms_consideration": {
+                            "type": "number"
+                        },
+                        "cultural_context_awareness": {
+                            "type": "number"
+                        },
+                        "social_hierarchy_understanding": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "communication_integration": {
+                    "type": "object",
+                    "properties": {
+                        "pragmatic_inference": {
+                            "type": "number"
+                        },
+                        "implicit_communication_understanding": {
+                            "type": "number"
+                        },
+                        "conversational_implicature": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "behavioral_prediction": {
+                    "type": "object",
+                    "properties": {
+                        "action_prediction_accuracy": {
+                            "type": "number"
+                        },
+                        "behavioral_pattern_recognition": {
+                            "type": "number"
+                        },
+                        "decision_prediction": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "social_learning_integration": {
+                    "type": "object",
+                    "properties": {
+                        "observational_learning": {
+                            "type": "number"
+                        },
+                        "social_model_updating": {
+                            "type": "number"
+                        },
+                        "cultural_transmission": {
+                            "type": "number"
+                        }
+                    }
+                }
+            }
+        },
+        "tom_applications": {
+            "type": "object",
+            "properties": {
+                "social_interaction_optimization": {
+                    "type": "object",
+                    "properties": {
+                        "interaction_strategy_selection": {
+                            "type": "string"
+                        },
+                        "communication_adaptation": {
+                            "type": "object"
+                        },
+                        "conflict_resolution_approach": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "collaborative_reasoning": {
+                    "type": "object",
+                    "properties": {
+                        "shared_problem_solving": {
+                            "type": "number"
+                        },
+                        "knowledge_integration": {
+                            "type": "number"
+                        },
+                        "complementary_skill_utilization": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "deception_detection": {
+                    "type": "object",
+                    "properties": {
+                        "inconsistency_detection": {
+                            "type": "number"
+                        },
+                        "motive_analysis": {
+                            "type": "number"
+                        },
+                        "truthfulness_assessment": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "moral_reasoning_integration": {
+                    "type": "object",
+                    "properties": {
+                        "moral_agent_assessment": {
+                            "type": "number"
+                        },
+                        "intention_based_moral_judgment": {
+                            "type": "number"
+                        },
+                        "harm_assessment": {
+                            "type": "number"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,218 @@
+name: contracts-validate
+
+on:
+  push:
+    branches: [ main, develop ]
+    paths: [ 'contracts/**' ]
+  pull_request:
+    branches: [ main, develop ]
+    paths: [ 'contracts/**' ]
+
+jobs:
+  validate-schemas:
+    runs-on: ubuntu-latest
+    name: Validate Contract Schemas
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install Python dependencies
+        run: |
+          pip install jsonschema pyyaml openapi-spec-validator
+
+      - name: Install Node.js dependencies
+        run: |
+          npm install -g @redocly/cli @stoplight/spectral-cli
+
+      - name: Validate JSON Schemas
+        working-directory: contracts
+        run: |
+          python tooling/validate_all.py
+
+      - name: Bundle OpenAPI Specs
+        working-directory: contracts
+        run: |
+          for spec in modules/*/api/openapi.yaml; do
+            if [ -f "$spec" ]; then
+              echo "Bundling $spec"
+              npx @redocly/cli bundle "$spec" -o /dev/null
+            fi
+          done
+
+      - name: Lint OpenAPI Specs
+        working-directory: contracts
+        run: |
+          for spec in modules/*/api/openapi.yaml; do
+            if [ -f "$spec" ]; then
+              echo "Linting $spec"
+              npx spectral lint "$spec" -r tooling/spectral.config.yaml
+            fi
+          done
+
+  check-versions:
+    runs-on: ubuntu-latest
+    name: Check Version Consistency
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install pyyaml
+
+      - name: Check version formats
+        working-directory: contracts
+        run: |
+          python3 -c "
+          import yaml
+          import re
+          import sys
+          from pathlib import Path
+
+          errors = []
+          semver_pattern = r'^(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)(?:-((?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)))*(?:\+([0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$'
+
+          for versions_file in Path('modules').glob('*/versions.yaml'):
+              if versions_file.exists():
+                  with open(versions_file) as f:
+                      data = yaml.safe_load(f)
+                      if 'current' in data:
+                          version = data['current']
+                          if not re.match(semver_pattern, version):
+                              errors.append(f'{versions_file}: Invalid SemVer format: {version}')
+                      else:
+                          errors.append(f'{versions_file}: Missing current version')
+
+          if errors:
+              for error in errors:
+                  print(f'❌ {error}')
+              sys.exit(1)
+          else:
+              print('✅ All versions are valid SemVer format')
+          "
+
+  contract-impact-analysis:
+    runs-on: ubuntu-latest
+    name: Contract Impact Analysis
+    if: github.event_name == 'pull_request'
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Need full history for diff
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install pyyaml
+
+      - name: Analyze contract changes
+        working-directory: contracts
+        run: |
+          python3 -c "
+          import subprocess
+          import json
+          import yaml
+
+          # Get list of changed contract files
+          result = subprocess.run(['git', 'diff', '--name-only', 'origin/main', 'HEAD'],
+                                capture_output=True, text=True)
+          changed_files = [f for f in result.stdout.strip().split('\n') if f.startswith('contracts/')]
+
+          if not changed_files:
+              print('No contract changes detected')
+              exit(0)
+
+          print('📋 Contract Impact Analysis')
+          print('=' * 30)
+
+          breaking_changes = []
+          version_bumps = []
+
+          for file in changed_files:
+              print(f'📄 Changed: {file}')
+
+              if 'versions.yaml' in file:
+                  # Check if this is a major version bump
+                  try:
+                      result = subprocess.run(['git', 'show', f'origin/main:{file}'],
+                                            capture_output=True, text=True)
+                      if result.returncode == 0:
+                          old_data = yaml.safe_load(result.stdout)
+                          with open(file) as f:
+                              new_data = yaml.safe_load(f)
+
+                          old_version = old_data.get('current', '0.0.0')
+                          new_version = new_data.get('current', '0.0.0')
+
+                          if old_version != new_version:
+                              version_bumps.append(f'{file}: {old_version} → {new_version}')
+
+                              # Check for major version bump (breaking change)
+                              old_major = int(old_version.split('.')[0])
+                              new_major = int(new_version.split('.')[0])
+                              if new_major > old_major:
+                                  breaking_changes.append(f'{file}: Major version bump detected')
+                  except Exception as e:
+                      print(f'⚠️  Could not analyze {file}: {e}')
+
+          if version_bumps:
+              print('\n📈 Version Changes:')
+              for bump in version_bumps:
+                  print(f'  {bump}')
+
+          if breaking_changes:
+              print('\n⚠️  Breaking Changes Detected:')
+              for change in breaking_changes:
+                  print(f'  {change}')
+              print('\n🚨 Please ensure:')
+              print('  1. Migration documentation is updated')
+              print('  2. Deprecation notices are in place')
+              print('  3. Backward compatibility is considered')
+          else:
+              print('\n✅ No breaking changes detected')
+          "
+
+  security-scan:
+    runs-on: ubuntu-latest
+    name: Security Scan
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Scan for secrets
+        uses: trufflesecurity/trufflehog@main
+        with:
+          path: contracts/
+
+      - name: Check for sensitive patterns
+        run: |
+          # Check for potential sensitive information in contracts
+          if grep -r -i "password\|secret\|key\|token" contracts/ --exclude-dir=.git; then
+            echo "⚠️  Potential sensitive information found in contracts"
+            echo "Please review and remove any secrets"
+            exit 1
+          else
+            echo "✅ No sensitive patterns detected"
+          fi

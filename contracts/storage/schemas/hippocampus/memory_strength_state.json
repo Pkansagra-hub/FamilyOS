@@ -1,0 +1,348 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://familyos.local/schemas/storage/hippocampus/memory_strength_state.json",
+    "title": "Memory Strength State",
+    "description": "Storage schema for tracking memory strength, decay, stability, and factors affecting memory persistence",
+    "type": "object",
+    "required": [
+        "strength_id",
+        "memory_id",
+        "hippocampus_id",
+        "strength_metrics",
+        "decay_dynamics",
+        "stability_factors",
+        "strength_history"
+    ],
+    "properties": {
+        "strength_id": {
+            "type": "string",
+            "pattern": "^strength_[a-zA-Z0-9_-]+$",
+            "description": "Unique identifier for memory strength tracking"
+        },
+        "memory_id": {
+            "type": "string",
+            "pattern": "^mem_[a-zA-Z0-9_-]+$",
+            "description": "Memory being tracked for strength"
+        },
+        "hippocampus_id": {
+            "type": "string",
+            "pattern": "^hippocampus_[a-zA-Z0-9_-]+$",
+            "description": "Hippocampus instance tracking strength"
+        },
+        "strength_metrics": {
+            "type": "object",
+            "required": [
+                "current_strength",
+                "maximum_strength",
+                "baseline_strength"
+            ],
+            "properties": {
+                "current_strength": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "maximum_strength": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "baseline_strength": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "initial_encoding_strength": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "post_consolidation_strength": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "retrieval_dependent_strength": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "effective_strength": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                }
+            }
+        },
+        "decay_dynamics": {
+            "type": "object",
+            "required": [
+                "decay_rate",
+                "decay_function",
+                "half_life"
+            ],
+            "properties": {
+                "decay_rate": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "decay_function": {
+                    "type": "string",
+                    "enum": [
+                        "exponential",
+                        "power_law",
+                        "logarithmic",
+                        "linear"
+                    ]
+                },
+                "half_life": {
+                    "type": "number",
+                    "minimum": 0
+                },
+                "decay_acceleration": {
+                    "type": "number"
+                },
+                "forgetting_curve": {
+                    "type": "object",
+                    "properties": {
+                        "retention_at_1h": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "retention_at_24h": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "retention_at_1week": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "retention_at_1month": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    }
+                }
+            }
+        },
+        "stability_factors": {
+            "type": "object",
+            "required": [
+                "intrinsic_stability",
+                "contextual_stability",
+                "interference_resistance"
+            ],
+            "properties": {
+                "intrinsic_stability": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "contextual_stability": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "interference_resistance": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "consolidation_level": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "rehearsal_benefit": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "emotional_enhancement": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "semantic_integration": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "distinctiveness": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                }
+            }
+        },
+        "strength_modulation": {
+            "type": "object",
+            "properties": {
+                "retrieval_effects": {
+                    "type": "object",
+                    "properties": {
+                        "retrieval_count": {
+                            "type": "integer",
+                            "minimum": 0
+                        },
+                        "successful_retrievals": {
+                            "type": "integer",
+                            "minimum": 0
+                        },
+                        "retrieval_strengthening": {
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "testing_effect": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    }
+                },
+                "interference_effects": {
+                    "type": "object",
+                    "properties": {
+                        "proactive_interference": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "retroactive_interference": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "similarity_interference": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "interference_resolution": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    }
+                },
+                "contextual_effects": {
+                    "type": "object",
+                    "properties": {
+                        "encoding_context_strength": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "retrieval_context_match": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "state_dependent_learning": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "mood_congruence": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    }
+                }
+            }
+        },
+        "strength_history": {
+            "type": "object",
+            "required": [
+                "strength_timeline",
+                "critical_events"
+            ],
+            "properties": {
+                "strength_timeline": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "timestamp": {
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            "strength_value": {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 1
+                            },
+                            "change_trigger": {
+                                "type": "string"
+                            },
+                            "change_magnitude": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                },
+                "critical_events": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "event_type": {
+                                "type": "string",
+                                "enum": [
+                                    "encoding",
+                                    "first_retrieval",
+                                    "consolidation",
+                                    "reactivation",
+                                    "interference",
+                                    "strengthening"
+                                ]
+                            },
+                            "event_timestamp": {
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            "strength_impact": {
+                                "type": "number"
+                            },
+                            "event_description": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "strength_predictions": {
+                    "type": "object",
+                    "properties": {
+                        "predicted_strength_24h": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "predicted_strength_1week": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "predicted_strength_1month": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "prediction_confidence": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "additionalProperties": false
+}

@@ -1,0 +1,84 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "drive-state.schema.json",
+  "title": "Drive State",
+  "description": "Current motivational drive activation levels",
+  "type": "object",
+  "properties": {
+    "state_id": {
+      "type": "string",
+      "format": "ulid",
+      "description": "Unique drive state identifier"
+    },
+    "space_id": {
+      "type": "string",
+      "format": "ulid",
+      "description": "Memory space context"
+    },
+    "drive_levels": {
+      "type": "object",
+      "properties": {
+        "survival": { "type": "number", "minimum": 0, "maximum": 1 },
+        "social": { "type": "number", "minimum": 0, "maximum": 1 },
+        "achievement": { "type": "number", "minimum": 0, "maximum": 1 },
+        "exploration": { "type": "number", "minimum": 0, "maximum": 1 },
+        "aesthetic": { "type": "number", "minimum": 0, "maximum": 1 },
+        "autonomy": { "type": "number", "minimum": 0, "maximum": 1 }
+      },
+      "required": ["survival", "social", "achievement", "exploration", "aesthetic", "autonomy"]
+    },
+    "activation_context": {
+      "type": "object",
+      "properties": {
+        "environmental_factors": { "type": "object" },
+        "recent_actions": { "type": "array", "items": { "type": "string" } },
+        "social_context": { "type": "object" },
+        "resource_status": { "type": "object" }
+      }
+    },
+    "satisfaction_scores": {
+      "type": "object",
+      "properties": {
+        "survival_satisfaction": { "type": "number", "minimum": 0, "maximum": 1 },
+        "social_satisfaction": { "type": "number", "minimum": 0, "maximum": 1 },
+        "achievement_satisfaction": { "type": "number", "minimum": 0, "maximum": 1 },
+        "exploration_satisfaction": { "type": "number", "minimum": 0, "maximum": 1 },
+        "aesthetic_satisfaction": { "type": "number", "minimum": 0, "maximum": 1 },
+        "autonomy_satisfaction": { "type": "number", "minimum": 0, "maximum": 1 }
+      }
+    },
+    "homeostatic_balance": {
+      "type": "object",
+      "properties": {
+        "cognitive_load": { "type": "number", "minimum": 0, "maximum": 1 },
+        "emotional_state": { "type": "number", "minimum": 0, "maximum": 1 },
+        "social_connection": { "type": "number", "minimum": 0, "maximum": 1 },
+        "physical_resources": { "type": "number", "minimum": 0, "maximum": 1 },
+        "information_flow": { "type": "number", "minimum": 0, "maximum": 1 },
+        "security_status": { "type": "number", "minimum": 0, "maximum": 1 }
+      }
+    },
+    "goal_priorities": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "goal_id": { "type": "string", "format": "ulid" },
+          "priority_score": { "type": "number", "minimum": 0, "maximum": 1 },
+          "drive_contribution": { "type": "object" }
+        }
+      }
+    },
+    "computed_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "retention_policy": {
+      "type": "string",
+      "enum": ["P30D", "P90D", "P180D"],
+      "default": "P90D"
+    }
+  },
+  "required": ["state_id", "space_id", "drive_levels", "computed_at"],
+  "additionalProperties": false
+}

@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.1.0",
+  "id": "0a8dfe6f-e7b8-4dcf-97a2-01d13a2df25b",
+  "ts": "2025-09-09T04:20:40Z",
+  "topic": "ACTION_EXECUTED",
+  "band": "GREEN",
+  "actor": {
+    "user_id": "1e752c2f-cc3b-4692-9941-06c1f9411a2d",
+    "agent_id": "privacy.v1",
+    "caps": [
+      "PROJECT"
+    ]
+  },
+  "device": {
+    "device_id": "android-pixel8",
+    "platform": "ios",
+    "app_version": "1.3.4",
+    "locale": "en-GB"
+  },
+  "space_id": "shared:household",
+  "policy_version": "1.3",
+  "abac": {
+    "role": "child",
+    "trust": "green",
+    "geo_precision": "city"
+  },
+  "qos": {
+    "routing": "fast-path",
+    "priority": 9,
+    "latency_budget_ms": 105,
+    "retries": 1
+  },
+  "trace": {
+    "trace_id": "99a89c6e265ad9fbf61a5e3b864d1191",
+    "span_id": "bb39688c9071eb86",
+    "sampled": true
+  },
+  "obligations": [],
+  "redaction_applied": false,
+  "hashes": {
+    "payload_sha256": "3db3b4a4e6b3d6db38dc9c6498039f32a94506c80d18f0d8c1360b1d99db1370"
+  },
+  "payload": {
+    "action": "device_notify",
+    "status": "ok"
+  },
+  "signature": {
+    "alg": "ed25519",
+    "key_id": "key_action_executed_green_2024",
+    "public_key": "cHVibGlj",
+    "signature": "c2ln"
+  }
+}

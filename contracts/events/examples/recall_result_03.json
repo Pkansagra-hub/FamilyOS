@@ -1,0 +1,70 @@
+{
+  "schema_version": "1.1.0",
+  "id": "9fb2e6d8-0f4c-45bf-b09c-d69283da6813",
+  "ts": "2025-09-09T04:20:40Z",
+  "topic": "RECALL_RESULT",
+  "band": "RED",
+  "actor": {
+    "user_id": "a7bc63a1-aadd-46e6-812b-bb70f4b63358",
+    "agent_id": "encoder.v1",
+    "caps": [
+      "RECALL"
+    ]
+  },
+  "device": {
+    "device_id": "srv-safety-01",
+    "platform": "windows",
+    "app_version": "1.4.2",
+    "locale": "de-DE"
+  },
+  "space_id": "personal:e204d3d4-0086-4f17-83ba-fcc979422de7",
+  "policy_version": "1.3",
+  "abac": {
+    "role": "child",
+    "trust": "red",
+    "geo_precision": "region"
+  },
+  "qos": {
+    "routing": "fast-path",
+    "priority": 8,
+    "latency_budget_ms": 236,
+    "retries": 1
+  },
+  "trace": {
+    "trace_id": "c3352b7b4d9dbd4a5d2f04b759b38c79",
+    "span_id": "49c0a3d468bbabac",
+    "sampled": true
+  },
+  "obligations": [],
+  "redaction_applied": true,
+  "hashes": {
+    "payload_sha256": "1cdfd1274dcffd87a650bd23a33f5732082c7e0957419c43c6f93b0f5c86082a"
+  },
+  "payload": {
+    "items": [
+      {
+        "id": "e1f74b09-8d4a-403a-b597-50c237fbb792",
+        "score": 0.4572
+      },
+      {
+        "id": "8ddf2f1d-06ea-48ea-95af-1847a6a95566",
+        "score": 0.929
+      },
+      {
+        "id": "cb3d75c7-d781-434d-9865-0ed0cccbc550",
+        "score": 0.9357
+      },
+      {
+        "id": "83f8d07f-5f2e-4c92-844e-23f7fefdf4cb",
+        "score": 0.0093
+      }
+    ]
+  },
+  "signature": {
+    "alg": "ed25519",
+    "key_id": "key_recall_result_red_2024",
+    "public_key": "cHVibGlj",
+    "signature": "c2ln"
+  },
+  "mls_group": "household-secure"
+}

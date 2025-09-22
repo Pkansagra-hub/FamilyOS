@@ -1,0 +1,616 @@
+# Retrieval Service Operational Excellence Contracts
+# Defines comprehensive monitoring, health checks, SLAs, and observability
+# Version: 2.0.0 - Complete operational contracts for 95% coverage
+
+metadata:
+  version: "2.0.0"
+  title: "Retrieval Service Operational Excellence"
+  description: "Comprehensive operational contracts for monitoring, health, SLAs, and observability"
+  created: "2025-09-16"
+  contract_type: "operational_specification"
+
+# =============================================================================
+# Service Level Agreements (SLAs)
+# =============================================================================
+
+sla_specifications:
+  availability:
+    target: "99.9%"
+    measurement_period: "monthly"
+    exclusions:
+      - "planned_maintenance"
+      - "force_majeure"
+    penalties:
+      below_99_5: "service_credits_10_percent"
+      below_99_0: "service_credits_25_percent"
+
+  performance:
+    latency:
+      p50: "50ms"
+      p95: "120ms"
+      p99: "200ms"
+      p99_9: "500ms"
+
+    throughput:
+      requests_per_second: 1000
+      concurrent_requests: 500
+
+    error_rate:
+      target: "< 0.1%"
+      warning_threshold: "0.05%"
+      critical_threshold: "0.1%"
+
+  recovery:
+    rto: "PT5M" # Recovery Time Objective: 5 minutes
+    rpo: "PT1M" # Recovery Point Objective: 1 minute
+    mttr: "PT15M" # Mean Time To Repair: 15 minutes
+    mtbf: "P30D" # Mean Time Between Failures: 30 days
+
+# =============================================================================
+# Health Check Contracts
+# =============================================================================
+
+health_checks:
+  service_health:
+    endpoint: "/health"
+    method: "GET"
+    timeout: "PT5S"
+    interval: "PT30S"
+
+    response_format:
+      healthy:
+        status_code: 200
+        body:
+          status: "healthy"
+          timestamp: "2025-09-16T10:30:00Z"
+          version: "2.0.0"
+          uptime: "PT24H15M"
+
+      unhealthy:
+        status_code: 503
+        body:
+          status: "unhealthy"
+          timestamp: "2025-09-16T10:30:00Z"
+          errors: ["database_connection_failed"]
+
+    health_indicators:
+      database_connectivity:
+        weight: 30
+        check: "database.ping()"
+        timeout: "PT2S"
+
+      search_indices:
+        weight: 25
+        check: "elasticsearch.cluster_health()"
+        timeout: "PT3S"
+
+      policy_engine:
+        weight: 20
+        check: "policy_service.health()"
+        timeout: "PT2S"
+
+      memory_usage:
+        weight: 15
+        check: "system.memory_usage < 0.85"
+
+      cpu_usage:
+        weight: 10
+        check: "system.cpu_usage < 0.80"
+
+  detailed_health:
+    endpoint: "/health/detailed"
+    method: "GET"
+    timeout: "PT10S"
+    requires_auth: true
+
+    response_schema:
+      type: "object"
+      required: ["status", "timestamp", "components"]
+      properties:
+        status:
+          type: "string"
+          enum: ["healthy", "degraded", "unhealthy"]
+        timestamp:
+          type: "string"
+          format: "date-time"
+        components:
+          type: "object"
+          properties:
+            database:
+              $ref: "#/schemas/ComponentHealth"
+            search_engine:
+              $ref: "#/schemas/ComponentHealth"
+            policy_engine:
+              $ref: "#/schemas/ComponentHealth"
+            cache:
+              $ref: "#/schemas/ComponentHealth"
+
+  readiness_check:
+    endpoint: "/ready"
+    method: "GET"
+    timeout: "PT3S"
+    interval: "PT10S"
+
+    criteria:
+      - "database.connected"
+      - "search_indices.available"
+      - "policy_engine.responsive"
+      - "cache.warmed"
+
+  liveness_check:
+    endpoint: "/live"
+    method: "GET"
+    timeout: "PT2S"
+    interval: "PT5S"
+
+    criteria:
+      - "service.responding"
+      - "memory.not_exhausted"
+      - "deadlock.not_detected"
+
+# =============================================================================
+# Monitoring and Metrics
+# =============================================================================
+
+monitoring:
+  business_metrics:
+    request_volume:
+      name: "retrieval_requests_total"
+      type: "counter"
+      description: "Total number of retrieval requests"
+      labels: ["method", "space_type", "user_role"]
+
+    request_latency:
+      name: "retrieval_request_duration_seconds"
+      type: "histogram"
+      description: "Request processing latency"
+      buckets: [0.01, 0.05, 0.1, 0.2, 0.5, 1.0, 2.0, 5.0]
+      labels: ["method", "status", "pipeline"]
+
+    result_count:
+      name: "retrieval_results_count"
+      type: "histogram"
+      description: "Number of results returned"
+      buckets: [0, 1, 5, 10, 25, 50, 100, 200]
+      labels: ["space_type", "security_band"]
+
+    user_satisfaction:
+      name: "retrieval_user_satisfaction"
+      type: "gauge"
+      description: "User satisfaction score"
+      labels: ["user_segment", "query_type"]
+
+  technical_metrics:
+    cache_hit_ratio:
+      name: "retrieval_cache_hit_ratio"
+      type: "gauge"
+      description: "Cache hit ratio"
+      labels: ["cache_type", "layer"]
+
+    index_utilization:
+      name: "retrieval_index_utilization"
+      type: "gauge"
+      description: "Search index utilization"
+      labels: ["index_name", "shard"]
+
+    pipeline_performance:
+      name: "retrieval_pipeline_duration_seconds"
+      type: "histogram"
+      description: "Pipeline stage performance"
+      buckets: [0.001, 0.005, 0.01, 0.05, 0.1, 0.5, 1.0]
+      labels: ["pipeline", "stage", "status"]
+
+    resource_usage:
+      cpu_usage:
+        name: "retrieval_cpu_usage_ratio"
+        type: "gauge"
+        description: "CPU usage ratio"
+
+      memory_usage:
+        name: "retrieval_memory_usage_bytes"
+        type: "gauge"
+        description: "Memory usage in bytes"
+
+      network_io:
+        name: "retrieval_network_io_bytes_total"
+        type: "counter"
+        description: "Network I/O bytes"
+        labels: ["direction"]
+
+  error_metrics:
+    error_rate:
+      name: "retrieval_errors_total"
+      type: "counter"
+      description: "Total number of errors"
+      labels: ["error_type", "error_code", "component"]
+
+    policy_denials:
+      name: "retrieval_policy_denials_total"
+      type: "counter"
+      description: "Policy denial count"
+      labels: ["denial_reason", "user_role", "clearance_level"]
+
+    qos_violations:
+      name: "retrieval_qos_violations_total"
+      type: "counter"
+      description: "QoS budget violations"
+      labels: ["violation_type", "stage"]
+
+    retry_attempts:
+      name: "retrieval_retries_total"
+      type: "counter"
+      description: "Retry attempts"
+      labels: ["retry_reason", "attempt_number"]
+
+# =============================================================================
+# Alerting Rules
+# =============================================================================
+
+alerting:
+  critical_alerts:
+    service_down:
+      condition: "up{job='retrieval-service'} == 0"
+      duration: "PT1M"
+      severity: "critical"
+      summary: "Retrieval service is down"
+      description: "Retrieval service has been down for more than 1 minute"
+      runbook: "https://docs.familyos.com/runbooks/service-down"
+
+    high_error_rate:
+      condition: "rate(retrieval_errors_total[5m]) / rate(retrieval_requests_total[5m]) > 0.05"
+      duration: "PT2M"
+      severity: "critical"
+      summary: "High error rate detected"
+      description: "Error rate is above 5% for more than 2 minutes"
+
+    latency_sla_breach:
+      condition: "histogram_quantile(0.95, retrieval_request_duration_seconds_bucket) > 0.12"
+      duration: "PT5M"
+      severity: "critical"
+      summary: "P95 latency SLA breach"
+      description: "P95 latency exceeds 120ms SLA for more than 5 minutes"
+
+  warning_alerts:
+    degraded_performance:
+      condition: "histogram_quantile(0.95, retrieval_request_duration_seconds_bucket) > 0.08"
+      duration: "PT10M"
+      severity: "warning"
+      summary: "Degraded performance detected"
+      description: "P95 latency above 80ms for more than 10 minutes"
+
+    low_cache_hit_ratio:
+      condition: "retrieval_cache_hit_ratio < 0.7"
+      duration: "PT15M"
+      severity: "warning"
+      summary: "Low cache hit ratio"
+      description: "Cache hit ratio below 70% for more than 15 minutes"
+
+    high_policy_denials:
+      condition: "rate(retrieval_policy_denials_total[10m]) > 10"
+      duration: "PT5M"
+      severity: "warning"
+      summary: "High policy denial rate"
+      description: "Policy denials exceeding 10/minute for more than 5 minutes"
+
+  informational_alerts:
+    unusual_traffic_pattern:
+      condition: "rate(retrieval_requests_total[1h]) > 1.5 * rate(retrieval_requests_total[1h] offset 1d)"
+      duration: "PT30M"
+      severity: "info"
+      summary: "Unusual traffic pattern detected"
+      description: "Request rate 50% higher than same time yesterday"
+
+# =============================================================================
+# Observability and Tracing
+# =============================================================================
+
+observability:
+  distributed_tracing:
+    service_name: "retrieval-service"
+    trace_sampling_rate: 0.1 # 10% sampling
+
+    trace_attributes:
+      required:
+        - "request.id"
+        - "user.id"
+        - "query.sanitized"
+        - "space.id"
+        - "qos.budget_ms"
+
+      optional:
+        - "policy.decision"
+        - "pipeline.stages"
+        - "cache.hit"
+        - "results.count"
+
+    span_definitions:
+      request_validation:
+        operation_name: "validate-request"
+        tags: ["validation.status", "validation.errors"]
+
+      policy_evaluation:
+        operation_name: "evaluate-policy"
+        tags: ["policy.decision", "policy.constraints"]
+
+      search_execution:
+        operation_name: "execute-search"
+        tags: ["search.type", "search.duration_ms", "search.results"]
+
+      result_ranking:
+        operation_name: "rank-results"
+        tags: ["ranking.algorithm", "ranking.features"]
+
+      response_preparation:
+        operation_name: "prepare-response"
+        tags: ["response.size", "response.trace_included"]
+
+  structured_logging:
+    log_level: "INFO"
+    log_format: "json"
+
+    required_fields:
+      - "timestamp"
+      - "level"
+      - "service"
+      - "version"
+      - "request_id"
+      - "user_id"
+      - "message"
+
+    contextual_fields:
+      - "trace_id"
+      - "span_id"
+      - "component"
+      - "operation"
+      - "duration_ms"
+      - "error_code"
+
+    log_aggregation:
+      retention: "P30D"
+      indexing: ["timestamp", "level", "request_id", "user_id", "error_code"]
+
+  performance_profiling:
+    cpu_profiling:
+      enabled: true
+      sampling_rate: 0.01 # 1% sampling
+
+    memory_profiling:
+      enabled: true
+      heap_dumps: "on_oom"
+
+    custom_profiling:
+      query_analysis:
+        enabled: true
+        slow_query_threshold: "PT1S"
+
+      cache_analysis:
+        enabled: true
+        track_evictions: true
+
+# =============================================================================
+# Capacity Planning
+# =============================================================================
+
+capacity_planning:
+  resource_requirements:
+    cpu:
+      baseline: "2 cores"
+      peak: "8 cores"
+      scaling_threshold: "70%"
+
+    memory:
+      baseline: "4GB"
+      peak: "16GB"
+      scaling_threshold: "80%"
+
+    storage:
+      logs: "100GB/month"
+      metrics: "50GB/month"
+      traces: "200GB/month"
+
+    network:
+      ingress: "100Mbps baseline, 1Gbps peak"
+      egress: "500Mbps baseline, 2Gbps peak"
+
+  scaling_policies:
+    horizontal_scaling:
+      min_instances: 2
+      max_instances: 20
+
+      scale_out_triggers:
+        - "cpu_usage > 70% for PT5M"
+        - "memory_usage > 80% for PT5M"
+        - "request_rate > 800/s for PT3M"
+
+      scale_in_triggers:
+        - "cpu_usage < 30% for PT15M"
+        - "memory_usage < 40% for PT15M"
+        - "request_rate < 200/s for PT10M"
+
+    vertical_scaling:
+      enabled: false
+      reason: "Horizontal scaling preferred for stateless service"
+
+  traffic_patterns:
+    daily_pattern:
+      description: "Higher usage during business hours"
+      peak_hours: ["09:00-11:00", "14:00-16:00"]
+      peak_multiplier: 3.0
+
+    weekly_pattern:
+      description: "Lower usage on weekends"
+      weekday_multiplier: 1.0
+      weekend_multiplier: 0.3
+
+    seasonal_pattern:
+      description: "Increased usage during Q4"
+      q1_multiplier: 0.8
+      q2_multiplier: 0.9
+      q3_multiplier: 1.0
+      q4_multiplier: 1.4
+
+# =============================================================================
+# Incident Response
+# =============================================================================
+
+incident_response:
+  severity_levels:
+    critical:
+      description: "Service completely unavailable or major data loss"
+      response_time: "PT5M"
+      escalation_time: "PT15M"
+      communication_frequency: "PT15M"
+
+    high:
+      description: "Significant service degradation or security breach"
+      response_time: "PT15M"
+      escalation_time: "PT1H"
+      communication_frequency: "PT30M"
+
+    medium:
+      description: "Minor service degradation or performance issues"
+      response_time: "PT1H"
+      escalation_time: "PT4H"
+      communication_frequency: "PT2H"
+
+    low:
+      description: "Minor issues with workarounds available"
+      response_time: "PT4H"
+      escalation_time: "P1D"
+      communication_frequency: "P1D"
+
+  escalation_matrix:
+    primary_oncall:
+      role: "Site Reliability Engineer"
+      contact_methods: ["pager", "phone", "email"]
+
+    secondary_oncall:
+      role: "Senior SRE"
+      escalation_delay: "PT15M"
+
+    engineering_manager:
+      escalation_delay: "PT1H"
+
+    service_owner:
+      escalation_delay: "PT2H"
+
+  communication_channels:
+    internal:
+      - "incident-response-slack"
+      - "engineering-alerts-email"
+
+    external:
+      - "status-page"
+      - "customer-notifications"
+
+  runbooks:
+    service_down:
+      url: "https://docs.familyos.com/runbooks/retrieval-service-down"
+      steps:
+        - "Check service health endpoints"
+        - "Verify infrastructure status"
+        - "Check recent deployments"
+        - "Restart service if needed"
+        - "Escalate if unresolved"
+
+    high_latency:
+      url: "https://docs.familyos.com/runbooks/retrieval-high-latency"
+      steps:
+        - "Check P95 latency metrics"
+        - "Identify slow components"
+        - "Check database performance"
+        - "Review recent queries"
+        - "Scale resources if needed"
+
+    memory_leak:
+      url: "https://docs.familyos.com/runbooks/retrieval-memory-leak"
+      steps:
+        - "Capture heap dump"
+        - "Analyze memory usage patterns"
+        - "Identify leak source"
+        - "Apply temporary mitigation"
+        - "Plan code fix"
+
+# =============================================================================
+# Security Operations
+# =============================================================================
+
+security_operations:
+  security_monitoring:
+    access_patterns:
+      unusual_access:
+        description: "Detect unusual access patterns"
+        indicators:
+          - "High frequency requests from single user"
+          - "Access to multiple security bands"
+          - "Unusual query patterns"
+
+      privilege_escalation:
+        description: "Detect privilege escalation attempts"
+        indicators:
+          - "Requests above user clearance level"
+          - "Repeated policy denials"
+          - "Token manipulation attempts"
+
+    vulnerability_monitoring:
+      dependency_scanning:
+        frequency: "daily"
+        tools: ["snyk", "github_security_advisories"]
+
+      code_scanning:
+        frequency: "on_commit"
+        tools: ["sonarqube", "semgrep"]
+
+      infrastructure_scanning:
+        frequency: "weekly"
+        tools: ["nessus", "openvas"]
+
+  incident_response_security:
+    data_breach:
+      response_time: "PT1H"
+      notification_requirements:
+        - "security_team"
+        - "legal_team"
+        - "affected_users"
+
+    unauthorized_access:
+      response_time: "PT30M"
+      immediate_actions:
+        - "Revoke compromised credentials"
+        - "Block suspicious IP addresses"
+        - "Audit access logs"
+
+  compliance_monitoring:
+    audit_logging:
+      retention: "P7Y" # 7 years
+      immutability: true
+      encryption: "AES-256"
+
+    privacy_controls:
+      data_minimization: "Collect only necessary data"
+      purpose_limitation: "Use data only for stated purposes"
+      retention_limits: "Delete data after retention period"
+
+# =============================================================================
+# Data Schemas
+# =============================================================================
+
+schemas:
+  ComponentHealth:
+    type: "object"
+    required: ["status", "last_check", "response_time_ms"]
+    properties:
+      status:
+        type: "string"
+        enum: ["healthy", "degraded", "unhealthy"]
+      last_check:
+        type: "string"
+        format: "date-time"
+      response_time_ms:
+        type: "number"
+        minimum: 0
+      error_message:
+        type: "string"
+      metadata:
+        type: "object"
+        additionalProperties: true

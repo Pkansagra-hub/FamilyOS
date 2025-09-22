@@ -1,0 +1,54 @@
+{
+  "schema_version": "1.1.0",
+  "id": "85a4f3a0-1df9-4c86-ac66-afbc29b2361b",
+  "ts": "2025-09-09T04:20:40Z",
+  "topic": "LEARNING_TICK",
+  "band": "AMBER",
+  "actor": {
+    "user_id": "dfe43555-efa2-4627-8644-17c5f6dc11f6",
+    "agent_id": "retriever.v1",
+    "caps": [
+      "WRITE"
+    ]
+  },
+  "device": {
+    "device_id": "android-pixel8",
+    "platform": "macos",
+    "app_version": "1.6.5",
+    "locale": "hi-IN"
+  },
+  "space_id": "extended:grandparents",
+  "policy_version": "1.3",
+  "abac": {
+    "role": "parent",
+    "trust": "amber",
+    "geo_precision": "region"
+  },
+  "qos": {
+    "routing": "gate-path",
+    "priority": 7,
+    "latency_budget_ms": 69,
+    "retries": 2
+  },
+  "trace": {
+    "trace_id": "29b412506fea748b02eba37eea1120e0",
+    "span_id": "dcbe47bc54385923",
+    "sampled": true
+  },
+  "obligations": [],
+  "redaction_applied": true,
+  "hashes": {
+    "payload_sha256": "c11da7aeb10db9214322574ca2f76f17409fadba56d903fe8cee872285342f19"
+  },
+  "payload": {
+    "note": "system-update",
+    "ts": "2025-09-09T04:20:40Z"
+  },
+  "signature": {
+    "alg": "ed25519",
+    "key_id": "key_learning_tick_amber_2024",
+    "public_key": "cHVibGlj",
+    "signature": "c2ln"
+  },
+  "mls_group": "household-secure"
+}

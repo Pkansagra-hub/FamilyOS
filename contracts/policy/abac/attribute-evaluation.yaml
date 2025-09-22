@@ -1,0 +1,348 @@
+# Issue #27.1: Attribute-based policy evaluation contract
+# Contract-first approach for ABAC attribute evaluation system
+
+apiVersion: policy/v1
+kind: AttributeEvaluation
+metadata:
+  name: abac-attribute-evaluation
+  description: "Attribute-based policy evaluation framework for ABAC system"
+  version: "1.0.0"
+
+spec:
+  # Attribute categories and evaluation rules
+  attribute_categories:
+    # Actor (User) Attributes
+    actor:
+      description: "User/agent attributes for access decisions"
+      attributes:
+        actor_id:
+          type: "string"
+          required: true
+          description: "Unique identifier for the actor"
+          validation: "^[a-zA-Z0-9_-]+$"
+
+        is_minor:
+          type: "boolean"
+          required: false
+          default: false
+          description: "Whether the actor is a minor (affects content access)"
+
+        relation:
+          type: "string"
+          required: false
+          enum: ["family", "guardian", "friend", "colleague", "unknown"]
+          description: "Relationship type for space access"
+
+        trust_level:
+          type: "string"
+          required: true
+          enum: ["low", "normal", "high", "verified"]
+          default: "normal"
+          description: "Trust level of the actor"
+
+        role:
+          type: "string"
+          required: false
+          description: "RBAC role for the actor"
+
+        capabilities:
+          type: "array"
+          items:
+            type: "string"
+          required: false
+          description: "List of capabilities assigned to actor"
+
+        space_access:
+          type: "array"
+          items:
+            type: "string"
+          required: false
+          description: "List of spaces actor has access to"
+
+        auth_method:
+          type: "string"
+          required: false
+          enum: ["mtls", "jwt", "api_key", "device_cert"]
+          description: "Authentication method used"
+
+        session_id:
+          type: "string"
+          required: false
+          description: "Current session identifier"
+
+    # Device Attributes
+    device:
+      description: "Device attributes for security and trust evaluation"
+      attributes:
+        device_id:
+          type: "string"
+          required: true
+          description: "Unique device identifier"
+          validation: "^[a-zA-Z0-9_-]+$"
+
+        trust:
+          type: "string"
+          required: true
+          enum: ["untrusted", "trusted", "hardened", "verified"]
+          default: "trusted"
+          description: "Device trust level"
+
+        battery_low:
+          type: "boolean"
+          required: false
+          default: false
+          description: "Whether device battery is low (affects processing)"
+
+        cpu_throttled:
+          type: "boolean"
+          required: false
+          default: false
+          description: "Whether device CPU is throttled"
+
+        screen_locked:
+          type: "boolean"
+          required: false
+          default: false
+          description: "Whether device screen is locked"
+
+        location_verified:
+          type: "boolean"
+          required: false
+          default: true
+          description: "Whether device location is verified"
+
+        network_type:
+          type: "string"
+          required: false
+          enum: ["trusted", "untrusted", "cellular", "vpn"]
+          default: "trusted"
+          description: "Type of network connection"
+
+        mls_group:
+          type: "string"
+          required: false
+          description: "Message Layer Security group membership"
+
+        device_fingerprint:
+          type: "string"
+          required: false
+          description: "Device fingerprint for identification"
+
+        os_version:
+          type: "string"
+          required: false
+          description: "Operating system version"
+
+        app_version:
+          type: "string"
+          required: false
+          description: "Application version"
+
+        rooted_jailbroken:
+          type: "boolean"
+          required: false
+          default: false
+          description: "Whether device is rooted or jailbroken"
+
+    # Environmental Attributes
+    environment:
+      description: "Environmental and contextual attributes"
+      attributes:
+        time_of_day_hours:
+          type: "number"
+          required: false
+          minimum: 0.0
+          maximum: 24.0
+          default: 12.0
+          description: "Time of day in hours (0-24)"
+
+        location:
+          type: "string"
+          required: false
+          description: "Current location context"
+
+        space_band_min:
+          type: "string"
+          required: false
+          enum: ["GREEN", "AMBER", "RED", "BLACK"]
+          description: "Minimum security band required for space"
+
+        arousal:
+          type: "number"
+          required: false
+          minimum: 0.0
+          maximum: 1.0
+          description: "Emotional arousal level (0.0-1.0)"
+
+        safety_pressure:
+          type: "number"
+          required: false
+          minimum: 0.0
+          maximum: 1.0
+          description: "Safety concern level (0.0-1.0)"
+
+        curfew_hours:
+          type: "array"
+          items:
+            type: "integer"
+            minimum: 0
+            maximum: 23
+          required: false
+          description: "Hours during which access is restricted"
+
+        risk_assessment:
+          type: "object"
+          required: false
+          description: "P18 safety pipeline risk scores"
+          additionalProperties:
+            type: "number"
+            minimum: 0.0
+            maximum: 1.0
+
+        temporal_context:
+          type: "string"
+          required: false
+          enum: ["work_hours", "family_time", "sleep_time", "emergency"]
+          description: "Current temporal context"
+
+        ip_address:
+          type: "string"
+          required: false
+          description: "Request IP address"
+          format: "ipv4"
+
+        request_id:
+          type: "string"
+          required: false
+          description: "Unique request identifier"
+
+        geofence_zone:
+          type: "string"
+          required: false
+          enum: ["home", "school", "work", "public", "unknown"]
+          description: "Current geofence zone"
+
+        ambient_noise_level:
+          type: "number"
+          required: false
+          minimum: 0.0
+          maximum: 1.0
+          description: "Ambient noise level (0.0-1.0)"
+
+        family_present:
+          type: "boolean"
+          required: false
+          default: true
+          description: "Whether family members are present"
+
+  # Evaluation rules and policies
+  evaluation_rules:
+    # Attribute combination rules
+    attribute_combinations:
+      - name: "minor_protection"
+        description: "Enhanced protection for minors"
+        condition: "actor.is_minor == true"
+        effects:
+          - "require_family_present == true"
+          - "restrict_to_green_band"
+          - "enable_enhanced_monitoring"
+
+      - name: "low_trust_device"
+        description: "Restrictions for low trust devices"
+        condition: "device.trust in ['untrusted', 'low']"
+        effects:
+          - "require_additional_auth"
+          - "limit_access_scope"
+          - "enable_enhanced_logging"
+
+      - name: "high_risk_environment"
+        description: "Restrictions for high-risk environments"
+        condition: "environment.safety_pressure > 0.7"
+        effects:
+          - "escalate_to_amber_band"
+          - "require_adult_supervision"
+          - "enable_content_filtering"
+
+    # Band escalation rules
+    band_escalation:
+      green_to_amber:
+        conditions:
+          - "device.trust == 'untrusted'"
+          - "environment.safety_pressure > 0.3"
+          - "actor.trust_level == 'low'"
+        description: "Escalate to AMBER for increased monitoring"
+
+      amber_to_red:
+        conditions:
+          - "device.rooted_jailbroken == true"
+          - "environment.safety_pressure > 0.6"
+          - "actor.is_minor == true AND environment.family_present == false"
+        description: "Escalate to RED for enhanced protection"
+
+      red_to_black:
+        conditions:
+          - "environment.safety_pressure > 0.9"
+          - "device.trust == 'untrusted' AND actor.is_minor == true"
+          - "environment.temporal_context == 'emergency'"
+        description: "Escalate to BLACK for maximum protection"
+
+    # Context evaluation rules
+    context_rules:
+      temporal_restrictions:
+        work_hours:
+          description: "Restrictions during work hours"
+          time_range: "09:00-17:00"
+          effects:
+            - "limit_personal_content"
+            - "prioritize_work_capabilities"
+
+        family_time:
+          description: "Family time restrictions"
+          time_range: "18:00-21:00"
+          effects:
+            - "require_family_appropriate_content"
+            - "enable_shared_access_mode"
+
+        sleep_time:
+          description: "Sleep time restrictions"
+          time_range: "22:00-07:00"
+          effects:
+            - "restrict_non_emergency_access"
+            - "enable_do_not_disturb"
+
+      location_based:
+        home:
+          description: "Home environment access"
+          effects:
+            - "enable_full_family_access"
+            - "relax_monitoring_requirements"
+
+        school:
+          description: "School environment access"
+          effects:
+            - "restrict_to_educational_content"
+            - "enable_enhanced_monitoring"
+
+        public:
+          description: "Public environment access"
+          effects:
+            - "restrict_sensitive_content"
+            - "require_enhanced_security"
+
+  # Performance and caching
+  performance:
+    cache_ttl:
+      attribute_evaluation: 300  # 5 minutes
+      context_assessment: 60    # 1 minute
+      band_calculation: 180     # 3 minutes
+
+    timeout_limits:
+      attribute_collection: 1000  # 1 second
+      evaluation_processing: 2000 # 2 seconds
+      policy_decision: 5000       # 5 seconds
+
+    optimization:
+      enable_attribute_caching: true
+      enable_decision_memoization: true
+      enable_context_prediction: true
+      batch_evaluation_size: 100

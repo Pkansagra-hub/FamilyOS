@@ -1,0 +1,412 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "title": "Retrieval Policy Attribute Model",
+    "description": "Defines attribute mappings for retrieval service policy decisions",
+    "type": "object",
+    "properties": {
+        "user_attributes": {
+            "type": "object",
+            "description": "User-based attributes for policy evaluation",
+            "properties": {
+                "id": {
+                    "type": "string",
+                    "description": "Unique user identifier"
+                },
+                "role": {
+                    "type": "string",
+                    "enum": [
+                        "memory_reader",
+                        "memory_analyst",
+                        "memory_admin"
+                    ],
+                    "description": "Primary role determining base permissions"
+                },
+                "clearance_level": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 5,
+                    "description": "Security clearance level (1=basic, 5=top secret)"
+                },
+                "assigned_spaces": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "pattern": "^(personal|selective|shared|extended|interfamily):"
+                    },
+                    "description": "List of spaces user has explicit access to"
+                },
+                "department": {
+                    "type": "string",
+                    "enum": [
+                        "engineering",
+                        "research",
+                        "operations",
+                        "admin",
+                        "medical",
+                        "legal"
+                    ],
+                    "description": "Department affiliation for access control"
+                },
+                "team": {
+                    "type": "string",
+                    "description": "Team membership for fine-grained access"
+                },
+                "privileges": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "enum": [
+                            "cross_space_query",
+                            "bulk_export",
+                            "admin_debug",
+                            "policy_override"
+                        ]
+                    },
+                    "description": "Special privileges beyond role-based access"
+                }
+            },
+            "required": [
+                "id",
+                "role",
+                "clearance_level",
+                "department"
+            ],
+            "additionalProperties": false
+        },
+        "resource_attributes": {
+            "type": "object",
+            "description": "Resource-based attributes for policy evaluation",
+            "properties": {
+                "space": {
+                    "type": "object",
+                    "properties": {
+                        "id": {
+                            "type": "string",
+                            "pattern": "^(personal|selective|shared|extended|interfamily):"
+                        },
+                        "type": {
+                            "type": "string",
+                            "enum": [
+                                "personal",
+                                "selective",
+                                "shared",
+                                "extended",
+                                "interfamily"
+                            ]
+                        },
+                        "sensitivity": {
+                            "type": "string",
+                            "enum": [
+                                "public",
+                                "internal",
+                                "confidential",
+                                "restricted"
+                            ],
+                            "description": "Data classification level"
+                        },
+                        "owner": {
+                            "type": "string",
+                            "description": "Space owner user ID"
+                        },
+                        "members": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "description": "List of user IDs with space access"
+                        },
+                        "created_at": {
+                            "type": "string",
+                            "format": "date-time"
+                        }
+                    },
+                    "required": [
+                        "id",
+                        "type",
+                        "sensitivity",
+                        "owner"
+                    ],
+                    "additionalProperties": false
+                },
+                "memory_item": {
+                    "type": "object",
+                    "properties": {
+                        "id": {
+                            "type": "string"
+                        },
+                        "band": {
+                            "type": "string",
+                            "enum": [
+                                "GREEN",
+                                "AMBER",
+                                "RED",
+                                "BLACK"
+                            ],
+                            "description": "Security classification band"
+                        },
+                        "topics": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "description": "Content topic categories"
+                        },
+                        "sensitivity": {
+                            "type": "string",
+                            "enum": [
+                                "public",
+                                "internal",
+                                "confidential",
+                                "restricted"
+                            ]
+                        },
+                        "owner": {
+                            "type": "string",
+                            "description": "Item owner user ID"
+                        },
+                        "created_at": {
+                            "type": "string",
+                            "format": "date-time"
+                        },
+                        "updated_at": {
+                            "type": "string",
+                            "format": "date-time"
+                        }
+                    },
+                    "required": [
+                        "id",
+                        "band",
+                        "sensitivity",
+                        "owner"
+                    ],
+                    "additionalProperties": false
+                }
+            },
+            "required": [
+                "space"
+            ],
+            "additionalProperties": false
+        },
+        "context_attributes": {
+            "type": "object",
+            "description": "Request context attributes",
+            "properties": {
+                "operation": {
+                    "type": "string",
+                    "enum": [
+                        "recall:read",
+                        "recall:trace",
+                        "recall:debug"
+                    ],
+                    "description": "Specific operation being performed"
+                },
+                "time_of_day": {
+                    "type": "string",
+                    "format": "time",
+                    "description": "Time when request was made"
+                },
+                "day_of_week": {
+                    "type": "string",
+                    "enum": [
+                        "monday",
+                        "tuesday",
+                        "wednesday",
+                        "thursday",
+                        "friday",
+                        "saturday",
+                        "sunday"
+                    ]
+                },
+                "qos_budget": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "maximum": 1000,
+                    "description": "QoS latency budget in milliseconds"
+                },
+                "query_complexity": {
+                    "type": "string",
+                    "enum": [
+                        "simple",
+                        "moderate",
+                        "complex",
+                        "bulk"
+                    ],
+                    "description": "Query complexity classification"
+                },
+                "source_system": {
+                    "type": "string",
+                    "description": "System making the request"
+                },
+                "trace_id": {
+                    "type": "string",
+                    "pattern": "^[a-f0-9]{32}$",
+                    "description": "Request trace identifier"
+                }
+            },
+            "required": [
+                "operation"
+            ],
+            "additionalProperties": false
+        },
+        "policy_evaluation": {
+            "type": "object",
+            "description": "Policy evaluation result format",
+            "properties": {
+                "decision": {
+                    "type": "string",
+                    "enum": [
+                        "PERMIT",
+                        "DENY",
+                        "INDETERMINATE"
+                    ],
+                    "description": "Final policy decision"
+                },
+                "reasons": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Human-readable reasons for the decision"
+                },
+                "constraints": {
+                    "type": "object",
+                    "description": "Constraints to apply if PERMIT",
+                    "properties": {
+                        "max_results": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "maximum": 1000
+                        },
+                        "allowed_bands": {
+                            "type": "array",
+                            "items": {
+                                "type": "string",
+                                "enum": [
+                                    "GREEN",
+                                    "AMBER",
+                                    "RED",
+                                    "BLACK"
+                                ]
+                            }
+                        },
+                        "allowed_spaces": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "redaction_required": {
+                            "type": "boolean",
+                            "description": "Whether sensitive fields should be redacted"
+                        },
+                        "redaction_fields": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "description": "Specific fields to redact if redaction_required is true"
+                        },
+                        "audit_required": {
+                            "type": "boolean",
+                            "description": "Whether this access should be audited"
+                        }
+                    },
+                    "additionalProperties": false
+                },
+                "policy_version": {
+                    "type": "string",
+                    "description": "Version of policy used for evaluation"
+                },
+                "evaluation_time": {
+                    "type": "string",
+                    "format": "date-time"
+                }
+            },
+            "required": [
+                "decision",
+                "reasons"
+            ],
+            "additionalProperties": false
+        }
+    },
+    "required": [
+        "user_attributes",
+        "resource_attributes",
+        "context_attributes"
+    ],
+    "additionalProperties": false,
+    "examples": [
+        {
+            "user_attributes": {
+                "id": "alice_researcher",
+                "role": "memory_analyst",
+                "clearance_level": 3,
+                "assigned_spaces": [
+                    "shared:research_team",
+                    "extended:project_alpha"
+                ],
+                "department": "research",
+                "team": "ml_cognition"
+            },
+            "resource_attributes": {
+                "space": {
+                    "id": "shared:research_team",
+                    "type": "shared",
+                    "sensitivity": "confidential",
+                    "owner": "team_lead_001",
+                    "members": [
+                        "alice_researcher",
+                        "bob_engineer",
+                        "carol_analyst"
+                    ],
+                    "created_at": "2025-01-15T10:30:00Z"
+                },
+                "memory_item": {
+                    "id": "mem_item_12345",
+                    "band": "AMBER",
+                    "topics": [
+                        "machine_learning",
+                        "cognitive_architecture"
+                    ],
+                    "sensitivity": "confidential",
+                    "owner": "alice_researcher",
+                    "created_at": "2025-09-10T14:22:00Z",
+                    "updated_at": "2025-09-15T09:15:00Z"
+                }
+            },
+            "context_attributes": {
+                "operation": "recall:read",
+                "time_of_day": "10:30:00",
+                "day_of_week": "tuesday",
+                "qos_budget": 150,
+                "query_complexity": "moderate",
+                "source_system": "workspace_app",
+                "trace_id": "a1b2c3d4e5f6789012345678deadbeef"
+            },
+            "policy_evaluation": {
+                "decision": "PERMIT",
+                "reasons": [
+                    "User role 'memory_analyst' permits 'recall:read'",
+                    "User is member of target space",
+                    "Clearance level 3 sufficient for AMBER band",
+                    "Within department confidentiality rules"
+                ],
+                "constraints": {
+                    "max_results": 50,
+                    "allowed_bands": [
+                        "GREEN",
+                        "AMBER",
+                        "RED"
+                    ],
+                    "allowed_spaces": [
+                        "shared:research_team"
+                    ],
+                    "redaction_required": false,
+                    "audit_required": true
+                },
+                "policy_version": "retrieval_v1.0.0",
+                "evaluation_time": "2025-09-16T10:30:15Z"
+            }
+        }
+    ]
+}

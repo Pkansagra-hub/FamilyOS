@@ -1,0 +1,344 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://familyos.local/schemas/storage/hippocampus/memory_index_state.json",
+    "title": "Memory Index State",
+    "description": "Storage schema for hippocampal memory indexing system including memory maps, associations, and retrieval pathways",
+    "type": "object",
+    "required": [
+        "index_id",
+        "hippocampus_id",
+        "memory_registry",
+        "association_network",
+        "retrieval_pathways",
+        "index_statistics"
+    ],
+    "properties": {
+        "index_id": {
+            "type": "string",
+            "pattern": "^memory_index_[a-zA-Z0-9_-]+$",
+            "description": "Unique identifier for memory index"
+        },
+        "hippocampus_id": {
+            "type": "string",
+            "pattern": "^hippocampus_[a-zA-Z0-9_-]+$",
+            "description": "Hippocampus instance managing this index"
+        },
+        "memory_registry": {
+            "type": "object",
+            "required": [
+                "total_memories",
+                "memory_categories",
+                "memory_distribution"
+            ],
+            "properties": {
+                "total_memories": {
+                    "type": "integer",
+                    "minimum": 0
+                },
+                "memory_categories": {
+                    "type": "object",
+                    "properties": {
+                        "episodic": {
+                            "type": "integer",
+                            "minimum": 0
+                        },
+                        "semantic": {
+                            "type": "integer",
+                            "minimum": 0
+                        },
+                        "spatial": {
+                            "type": "integer",
+                            "minimum": 0
+                        },
+                        "temporal": {
+                            "type": "integer",
+                            "minimum": 0
+                        },
+                        "emotional": {
+                            "type": "integer",
+                            "minimum": 0
+                        }
+                    }
+                },
+                "memory_distribution": {
+                    "type": "object",
+                    "properties": {
+                        "by_age": {
+                            "type": "object"
+                        },
+                        "by_strength": {
+                            "type": "object"
+                        },
+                        "by_consolidation_status": {
+                            "type": "object"
+                        },
+                        "by_retrieval_frequency": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "active_memories": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "memory_id": {
+                                "type": "string"
+                            },
+                            "memory_type": {
+                                "type": "string"
+                            },
+                            "strength": {
+                                "type": "number"
+                            },
+                            "last_accessed": {
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            "consolidation_status": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "association_network": {
+            "type": "object",
+            "required": [
+                "association_types",
+                "network_density",
+                "clustering_coefficient"
+            ],
+            "properties": {
+                "association_types": {
+                    "type": "object",
+                    "properties": {
+                        "temporal_associations": {
+                            "type": "integer",
+                            "minimum": 0
+                        },
+                        "spatial_associations": {
+                            "type": "integer",
+                            "minimum": 0
+                        },
+                        "semantic_associations": {
+                            "type": "integer",
+                            "minimum": 0
+                        },
+                        "causal_associations": {
+                            "type": "integer",
+                            "minimum": 0
+                        },
+                        "emotional_associations": {
+                            "type": "integer",
+                            "minimum": 0
+                        }
+                    }
+                },
+                "network_density": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "clustering_coefficient": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "association_strengths": {
+                    "type": "object",
+                    "properties": {
+                        "average_strength": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "strength_distribution": {
+                            "type": "array",
+                            "items": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                },
+                "memory_clusters": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "cluster_id": {
+                                "type": "string"
+                            },
+                            "cluster_type": {
+                                "type": "string"
+                            },
+                            "member_memories": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "cluster_coherence": {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 1
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "retrieval_pathways": {
+            "type": "object",
+            "required": [
+                "pathway_map",
+                "retrieval_efficiency",
+                "common_routes"
+            ],
+            "properties": {
+                "pathway_map": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "properties": {
+                                "target_memory": {
+                                    "type": "string"
+                                },
+                                "pathway_strength": {
+                                    "type": "number"
+                                },
+                                "pathway_efficiency": {
+                                    "type": "number"
+                                },
+                                "activation_history": {
+                                    "type": "array"
+                                }
+                            }
+                        }
+                    }
+                },
+                "retrieval_efficiency": {
+                    "type": "object",
+                    "properties": {
+                        "average_retrieval_time": {
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "success_rate": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "pathway_redundancy": {
+                            "type": "number",
+                            "minimum": 0
+                        }
+                    }
+                },
+                "common_routes": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "route_id": {
+                                "type": "string"
+                            },
+                            "start_cue": {
+                                "type": "string"
+                            },
+                            "end_memory": {
+                                "type": "string"
+                            },
+                            "route_frequency": {
+                                "type": "integer"
+                            },
+                            "route_efficiency": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "index_statistics": {
+            "type": "object",
+            "required": [
+                "index_health",
+                "performance_metrics",
+                "maintenance_status"
+            ],
+            "properties": {
+                "index_health": {
+                    "type": "object",
+                    "properties": {
+                        "overall_health": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "fragmentation_level": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "consistency_score": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "redundancy_level": {
+                            "type": "number",
+                            "minimum": 0
+                        }
+                    }
+                },
+                "performance_metrics": {
+                    "type": "object",
+                    "properties": {
+                        "average_lookup_time": {
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "cache_hit_rate": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "index_utilization": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "update_frequency": {
+                            "type": "number",
+                            "minimum": 0
+                        }
+                    }
+                },
+                "maintenance_status": {
+                    "type": "object",
+                    "properties": {
+                        "last_optimization": {
+                            "type": "string",
+                            "format": "date-time"
+                        },
+                        "next_maintenance": {
+                            "type": "string",
+                            "format": "date-time"
+                        },
+                        "cleanup_needed": {
+                            "type": "boolean"
+                        },
+                        "reorganization_needed": {
+                            "type": "boolean"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "additionalProperties": false
+}

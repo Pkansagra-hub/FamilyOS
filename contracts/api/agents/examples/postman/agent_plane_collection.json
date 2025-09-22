@@ -1,0 +1,123 @@
+{
+  "info": {
+    "name": "Family AI - Agent Plane API",
+    "description": "Memory-Centric Family AI - Agent Plane endpoints for family memory and intelligence operations",
+    "version": "1.0.0",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:8000",
+      "type": "string"
+    },
+    {
+      "key": "api_token",
+      "value": "{{$guid}}",
+      "type": "string"
+    }
+  ],
+  "auth": {
+    "type": "bearer",
+    "bearer": [
+      {
+        "key": "token",
+        "value": "{{api_token}}",
+        "type": "string"
+      }
+    ]
+  },
+  "item": [
+    {
+      "name": "Memory Operations",
+      "item": [
+        {
+          "name": "Submit Family Memory",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"content\": {\n    \"text\": \"Emma has soccer practice every Wednesday at 4 PM. She needs cleats, water bottle, and shin guards.\",\n    \"metadata\": {\n      \"content_type\": \"observation\",\n      \"importance\": 0.8,\n      \"tags\": [\"soccer\", \"emma\", \"schedule\", \"sports\"]\n    }\n  },\n  \"context\": {\n    \"space_id\": \"shared:household\",\n    \"family_context\": {\n      \"participants\": [\"fam_emma_003\"],\n      \"relationship_type\": \"parent-child\"\n    },\n    \"temporal_context\": {\n      \"timestamp\": \"{{$isoTimestamp}}\"\n    }\n  },\n  \"options\": {\n    \"enable_cognitive_processing\": true,\n    \"privacy_level\": \"GREEN\",\n    \"trigger_sync\": false\n  }\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/memory/submit",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "memory", "submit"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Recall Soccer Schedule",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": {\n    \"text\": \"When is Emma's soccer practice this week? What does she need?\",\n    \"query_type\": \"semantic\",\n    \"filters\": {\n      \"tags\": [\"soccer\", \"emma\"],\n      \"content_types\": [\"observation\", \"goal\"]\n    }\n  },\n  \"context\": {\n    \"space_id\": \"shared:household\",\n    \"requester_id\": \"fam_dad_002\"\n  },\n  \"options\": {\n    \"max_results\": 5,\n    \"privacy_mode\": \"full\",\n    \"include_cognitive_insights\": true\n  }\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/memory/recall",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "memory", "recall"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Submit Emotional Context",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"content\": {\n    \"text\": \"I'm worried about Emma's mood lately. She seems withdrawn.\",\n    \"metadata\": {\n      \"content_type\": \"reflection\",\n      \"importance\": 0.7,\n      \"tags\": [\"emma\", \"mood\", \"concern\", \"parenting\"]\n    }\n  },\n  \"context\": {\n    \"space_id\": \"personal:mom_private\",\n    \"emotional_context\": {\n      \"valence\": -0.6,\n      \"arousal\": 0.4,\n      \"dominant_emotion\": \"concern\"\n    },\n    \"temporal_context\": {\n      \"timestamp\": \"{{$isoTimestamp}}\"\n    }\n  },\n  \"options\": {\n    \"privacy_level\": \"AMBER\",\n    \"retention_policy\": \"extended\",\n    \"enable_cognitive_processing\": true\n  }\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/memory/submit",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "memory", "submit"]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Query Family Patterns",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"query\": {\n    \"text\": \"What patterns do you see in our family coordination this week?\",\n    \"query_type\": \"pattern_analysis\",\n    \"filters\": {\n      \"time_range\": {\n        \"start\": \"2025-09-14T00:00:00Z\",\n        \"end\": \"2025-09-21T23:59:59Z\"\n      },\n      \"tags\": [\"coordination\", \"schedule\", \"activities\"]\n    }\n  },\n  \"context\": {\n    \"space_id\": \"shared:household\",\n    \"requester_id\": \"fam_mom_001\"\n  },\n  \"options\": {\n    \"max_results\": 20,\n    \"privacy_mode\": \"summary\",\n    \"include_cognitive_insights\": true,\n    \"pattern_analysis\": true\n  }\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/v1/memory/recall",
+              "host": ["{{base_url}}"],
+              "path": ["v1", "memory", "recall"]
+            }
+          },
+          "response": []
+        }
+      ]
+    },\n    {\n      \"name\": \"Chat Completions\",\n      \"item\": [\n        {\n          \"name\": \"Family-Aware Chat\",\n          \"request\": {\n            \"method\": \"POST\",\n            \"header\": [\n              {\n                \"key\": \"Content-Type\",\n                \"value\": \"application/json\"\n              }\n            ],\n            \"body\": {\n              \"mode\": \"raw\",\n              \"raw\": \"{\\n  \\\"messages\\\": [\\n    {\\n      \\\"role\\\": \\\"user\\\",\\n      \\\"content\\\": \\\"Help me prepare Emma for soccer practice today\\\"\\n    }\\n  ],\\n  \\\"memory_context\\\": {\\n    \\\"include_family_memories\\\": true,\\n    \\\"space_ids\\\": [\\\"shared:household\\\"],\\n    \\\"max_context_memories\\\": 10,\\n    \\\"memory_query\\\": \\\"soccer emma preparation equipment\\\"\\n  },\\n  \\\"family_context\\\": {\\n    \\\"requester_id\\\": \\\"fam_dad_002\\\",\\n    \\\"participants\\\": [\\\"fam_emma_003\\\"]\\n  },\\n  \\\"options\\\": {\\n    \\\"temperature\\\": 0.7,\\n    \\\"max_tokens\\\": 500,\\n    \\\"stream\\\": false\\n  }\\n}\"\n            },\n            \"url\": {\n              \"raw\": \"{{base_url}}/v1/chat/completions\",\n              \"host\": [\"{{base_url}}\"],\n              \"path\": [\"v1\", \"chat\", \"completions\"]\n            }\n          },\n          \"response\": []\n        },\n        {\n          \"name\": \"Emotional Support Chat\",\n          \"request\": {\n            \"method\": \"POST\",\n            \"header\": [\n              {\n                \"key\": \"Content-Type\",\n                \"value\": \"application/json\"\n              }\n            ],\n            \"body\": {\n              \"mode\": \"raw\",\n              \"raw\": \"{\\n  \\\"messages\\\": [\\n    {\\n      \\\"role\\\": \\\"user\\\",\\n      \\\"content\\\": \\\"I'm feeling overwhelmed with family coordination lately\\\"\\n    }\\n  ],\\n  \\\"memory_context\\\": {\\n    \\\"include_family_memories\\\": true,\\n    \\\"space_ids\\\": [\\\"personal:mom_private\\\", \\\"selective:parents\\\"],\\n    \\\"max_context_memories\\\": 15,\\n    \\\"emotional_context\\\": true\\n  },\\n  \\\"family_context\\\": {\\n    \\\"requester_id\\\": \\\"fam_mom_001\\\"\\n  },\\n  \\\"options\\\": {\\n    \\\"temperature\\\": 0.8,\\n    \\\"max_tokens\\\": 600,\\n    \\\"empathy_mode\\\": true\\n  }\\n}\"\n            },\n            \"url\": {\n              \"raw\": \"{{base_url}}/v1/chat/completions\",\n              \"host\": [\"{{base_url}}\"],\n              \"path\": [\"v1\", \"chat\", \"completions\"]\n            }\n          },\n          \"response\": []\n        },\n        {\n          \"name\": \"Family Planning Chat\",\n          \"request\": {\n            \"method\": \"POST\",\n            \"header\": [\n              {\n                \"key\": \"Content-Type\",\n                \"value\": \"application/json\"\n              }\n            ],\n            \"body\": {\n              \"mode\": \"raw\",\n              \"raw\": \"{\\n  \\\"messages\\\": [\\n    {\\n      \\\"role\\\": \\\"user\\\",\\n      \\\"content\\\": \\\"What should we plan for this weekend considering everyone's schedules?\\\"\\n    }\\n  ],\\n  \\\"memory_context\\\": {\\n    \\\"include_family_memories\\\": true,\\n    \\\"space_ids\\\": [\\\"shared:household\\\"],\\n    \\\"max_context_memories\\\": 20,\\n    \\\"pattern_analysis\\\": true,\\n    \\\"time_range\\\": {\\n      \\\"start\\\": \\\"2025-09-20T00:00:00Z\\\",\\n      \\\"end\\\": \\\"2025-09-22T23:59:59Z\\\"\\n    }\\n  },\\n  \\\"family_context\\\": {\\n    \\\"requester_id\\\": \\\"fam_mom_001\\\",\\n    \\\"participants\\\": [\\\"fam_dad_002\\\", \\\"fam_emma_003\\\", \\\"fam_tommy_004\\\"]\\n  },\\n  \\\"options\\\": {\\n    \\\"temperature\\\": 0.6,\\n    \\\"max_tokens\\\": 800,\\n    \\\"coordination_mode\\\": true\\n  }\\n}\"\n            },\n            \"url\": {\n              \"raw\": \"{{base_url}}/v1/chat/completions\",\n              \"host\": [\"{{base_url}}\"],\n              \"path\": [\"v1\", \"chat\", \"completions\"]\n            }\n          },\n          \"response\": []\n        }\n      ]\n    },\n    {\n      \"name\": \"Affect Analysis\",\n      \"item\": [\n        {\n          \"name\": \"Analyze Frustration\",\n          \"request\": {\n            \"method\": \"POST\",\n            \"header\": [\n              {\n                \"key\": \"Content-Type\",\n                \"value\": \"application/json\"\n              }\n            ],\n            \"body\": {\n              \"mode\": \"raw\",\n              \"raw\": \"{\\n  \\\"content\\\": {\\n    \\\"text\\\": \\\"I'm so frustrated! Emma forgot her soccer cleats again and now we're running late!\\\",\\n    \\\"content_type\\\": \\\"conversation\\\"\\n  },\\n  \\\"context\\\": {\\n    \\\"family_member_id\\\": \\\"fam_mom_001\\\",\\n    \\\"participants\\\": [\\\"fam_mom_001\\\", \\\"fam_emma_003\\\"]\\n  },\\n  \\\"analysis_options\\\": {\\n    \\\"include_family_impact\\\": true,\\n    \\\"suggest_responses\\\": true,\\n    \\\"emotional_regulation\\\": true,\\n    \\\"de_escalation\\\": true\\n  }\\n}\"\n            },\n            \"url\": {\n              \"raw\": \"{{base_url}}/v1/affect/analyze\",\n              \"host\": [\"{{base_url}}\"],\n              \"path\": [\"v1\", \"affect\", \"analyze\"]\n            }\n          },\n          \"response\": []\n        },\n        {\n          \"name\": \"Analyze Child Emotion\",\n          \"request\": {\n            \"method\": \"POST\",\n            \"header\": [\n              {\n                \"key\": \"Content-Type\",\n                \"value\": \"application/json\"\n              }\n            ],\n            \"body\": {\n              \"mode\": \"raw\",\n              \"raw\": \"{\\n  \\\"content\\\": {\\n    \\\"text\\\": \\\"I don't want to go to school today. My stomach hurts.\\\",\\n    \\\"content_type\\\": \\\"conversation\\\"\\n  },\\n  \\\"context\\\": {\\n    \\\"family_member_id\\\": \\\"fam_emma_003\\\",\\n    \\\"participants\\\": [\\\"fam_emma_003\\\"],\\n    \\\"child_safety_mode\\\": true\\n  },\\n  \\\"analysis_options\\\": {\\n    \\\"include_family_impact\\\": true,\\n    \\\"suggest_responses\\\": true,\\n    \\\"developmental_context\\\": true,\\n    \\\"parental_alert\\\": true\\n  }\\n}\"\n            },\n            \"url\": {\n              \"raw\": \"{{base_url}}/v1/affect/analyze\",\n              \"host\": [\"{{base_url}}\"],\n              \"path\": [\"v1\", \"affect\", \"analyze\"]\n            }\n          },\n          \"response\": []\n        },\n        {\n          \"name\": \"Analyze Family Celebration\",\n          \"request\": {\n            \"method\": \"POST\",\n            \"header\": [\n              {\n                \"key\": \"Content-Type\",\n                \"value\": \"application/json\"\n              }\n            ],\n            \"body\": {\n              \"mode\": \"raw\",\n              \"raw\": \"{\\n  \\\"content\\\": {\\n    \\\"text\\\": \\\"Emma scored the winning goal! The whole team was cheering!\\\",\\n    \\\"content_type\\\": \\\"celebration\\\"\\n  },\\n  \\\"context\\\": {\\n    \\\"family_member_id\\\": \\\"fam_dad_002\\\",\\n    \\\"participants\\\": [\\\"fam_dad_002\\\", \\\"fam_emma_003\\\"]\\n  },\\n  \\\"analysis_options\\\": {\\n    \\\"include_family_impact\\\": true,\\n    \\\"positive_reinforcement\\\": true,\\n    \\\"memory_enhancement\\\": true,\\n    \\\"celebration_suggestions\\\": true\\n  }\\n}\"\n            },\n            \"url\": {\n              \"raw\": \"{{base_url}}/v1/affect/analyze\",\n              \"host\": [\"{{base_url}}\"],\n              \"path\": [\"v1\", \"affect\", \"analyze\"]\n            }\n          },\n          \"response\": []\n        }\n      ]\n    },\n    {\n      \"name\": \"Knowledge Operations\",\n      \"item\": [\n        {\n          \"name\": \"Query Family Knowledge\",\n          \"request\": {\n            \"method\": \"POST\",\n            \"header\": [\n              {\n                \"key\": \"Content-Type\",\n                \"value\": \"application/json\"\n              }\n            ],\n            \"body\": {\n              \"mode\": \"raw\",\n              \"raw\": \"{\\n  \\\"query\\\": {\\n    \\\"text\\\": \\\"What are Emma's dietary preferences and restrictions?\\\",\\n    \\\"knowledge_domains\\\": [\\\"health\\\", \\\"nutrition\\\", \\\"preferences\\\"]\\n  },\\n  \\\"context\\\": {\\n    \\\"space_id\\\": \\\"shared:household\\\",\\n    \\\"requester_id\\\": \\\"fam_mom_001\\\"\\n  },\\n  \\\"options\\\": {\\n    \\\"include_reasoning\\\": true,\\n    \\\"confidence_threshold\\\": 0.7\\n  }\\n}\"\n            },\n            \"url\": {\n              \"raw\": \"{{base_url}}/v1/knowledge/query\",\n              \"host\": [\"{{base_url}}\"],\n              \"path\": [\"v1\", \"knowledge\", \"query\"]\n            }\n          },\n          \"response\": []\n        },\n        {\n          \"name\": \"Update Family Knowledge\",\n          \"request\": {\n            \"method\": \"POST\",\n            \"header\": [\n              {\n                \"key\": \"Content-Type\",\n                \"value\": \"application/json\"\n              }\n            ],\n            \"body\": {\n              \"mode\": \"raw\",\n              \"raw\": \"{\\n  \\\"knowledge\\\": {\\n    \\\"subject\\\": \\\"fam_emma_003\\\",\\n    \\\"predicate\\\": \\\"dietary_restriction\\\",\\n    \\\"object\\\": \\\"lactose_intolerant\\\",\\n    \\\"confidence\\\": 0.9,\\n    \\\"source\\\": \\\"doctor_visit\\\",\\n    \\\"domain\\\": \\\"health\\\"\\n  },\\n  \\\"context\\\": {\\n    \\\"space_id\\\": \\\"shared:household\\\",\\n    \\\"submitter_id\\\": \\\"fam_mom_001\\\",\\n    \\\"verification_required\\\": true\\n  }\\n}\"\n            },\n            \"url\": {\n              \"raw\": \"{{base_url}}/v1/knowledge/update\",\n              \"host\": [\"{{base_url}}\"],\n              \"path\": [\"v1\", \"knowledge\", \"update\"]\n            }\n          },\n          \"response\": []\n        }\n      ]\n    },\n    {\n      \"name\": \"Intent Understanding\",\n      \"item\": [\n        {\n          \"name\": \"Classify Family Intent\",\n          \"request\": {\n            \"method\": \"POST\",\n            \"header\": [\n              {\n                \"key\": \"Content-Type\",\n                \"value\": \"application/json\"\n              }\n            ],\n            \"body\": {\n              \"mode\": \"raw\",\n              \"raw\": \"{\\n  \\\"text\\\": \\\"Can you remind me about Emma's soccer practice tomorrow?\\\",\\n  \\\"context\\\": {\\n    \\\"family_member_id\\\": \\\"fam_dad_002\\\",\\n    \\\"conversation_history\\\": [\\n      \\\"Let me check the calendar\\\",\\n      \\\"I think there's something happening Wednesday\\\"\\n    ]\\n  },\\n  \\\"options\\\": {\\n    \\\"include_confidence\\\": true,\\n    \\\"extract_entities\\\": true,\\n    \\\"suggest_actions\\\": true\\n  }\\n}\"\n            },\n            \"url\": {\n              \"raw\": \"{{base_url}}/v1/intent/classify\",\n              \"host\": [\"{{base_url}}\"],\n              \"path\": [\"v1\", \"intent\", \"classify\"]\n            }\n          },\n          \"response\": []\n        }\n      ]\n    }\n  ],\n  \"event\": [\n    {\n      \"listen\": \"prerequest\",\n      \"script\": {\n        \"type\": \"text/javascript\",\n        \"exec\": [\n          \"// Set dynamic timestamp\",\n          \"pm.globals.set('timestamp', new Date().toISOString());\",\n          \"\",\n          \"// Generate request ID\",\n          \"pm.globals.set('request_id', pm.variables.replaceIn('{{$guid}}'));\"\n        ]\n      }\n    },\n    {\n      \"listen\": \"test\",\n      \"script\": {\n        \"type\": \"text/javascript\",\n        \"exec\": [\n          \"// Validate response structure\",\n          \"pm.test('Response is JSON', function () {\",\n          \"    pm.response.to.be.json;\",\n          \"});\",\n          \"\",\n          \"pm.test('Response time is acceptable', function () {\",\n          \"    pm.expect(pm.response.responseTime).to.be.below(5000);\",\n          \"});\",\n          \"\",\n          \"// Check for required fields based on endpoint\",\n          \"if (pm.request.url.toString().includes('/memory/submit')) {\",\n          \"    pm.test('Memory submit response has memory_id', function () {\",\n          \"        const response = pm.response.json();\",\n          \"        pm.expect(response).to.have.property('memory_id');\",\n          \"    });\",\n          \"}\",\n          \"\",\n          \"if (pm.request.url.toString().includes('/memory/recall')) {\",\n          \"    pm.test('Memory recall response has memories array', function () {\",\n          \"        const response = pm.response.json();\",\n          \"        pm.expect(response).to.have.property('memories');\",\n          \"        pm.expect(response.memories).to.be.an('array');\",\n          \"    });\",\n          \"}\",\n          \"\",\n          \"if (pm.request.url.toString().includes('/chat/completions')) {\",\n          \"    pm.test('Chat completion has choices', function () {\",\n          \"        const response = pm.response.json();\",\n          \"        pm.expect(response).to.have.property('choices');\",\n          \"        pm.expect(response.choices).to.be.an('array');\",\n          \"        pm.expect(response.choices.length).to.be.greaterThan(0);\",\n          \"    });\",\n          \"}\"\n        ]\n      }\n    }\n  ]\n}

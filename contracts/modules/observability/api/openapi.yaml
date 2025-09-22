@@ -1,0 +1,31 @@
+openapi: 3.0.3
+info:
+  title: Observability Internal API
+  version: 1.0.0
+servers:
+  - url: http://localhost
+paths:
+  /health:
+    get:
+      summary: Liveness probe
+      responses:
+        "200": { description: OK }
+  /ready:
+    get:
+      summary: Readiness probe
+      responses:
+        "200": { description: Ready }
+        "503": { description: Not Ready }
+  /metrics:
+    get:
+      summary: Prometheus metrics
+      responses:
+        "200":
+          description: Metrics
+          content:
+            text/plain:
+              schema: { type: string }
+components:
+  securitySchemes:
+    internal_service_token: { type: http, scheme: bearer }
+security: [{ internal_service_token: [] }]

@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://familyos.local/contracts/storage/blob_manifest.schema.json",
+  "title": "Blob Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "blob_id",
+    "sha256",
+    "size_bytes",
+    "content_type",
+    "created_ts"
+  ],
+  "properties": {
+    "blob_id": {
+      "$ref": "./common.schema.json#/$defs/ULID"
+    },
+    "sha256": {
+      "$ref": "./common.schema.json#/$defs/Hash256"
+    },
+    "size_bytes": {
+      "type": "integer",
+      "minimum": 0
+    },
+    "content_type": {
+      "type": "string"
+    },
+    "created_ts": {
+      "$ref": "./common.schema.json#/$defs/Timestamp"
+    },
+    "space_id": {
+      "$ref": "./common.schema.json#/$defs/SpaceId"
+    },
+    "mls_group": {
+      "$ref": "./common.schema.json#/$defs/MLSGroup"
+    },
+    "encryption": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "alg": {
+          "type": "string"
+        },
+        "key_ref": {
+          "type": "string"
+        },
+        "iv": {
+          "type": "string",
+          "contentEncoding": "base64"
+        }
+      }
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": true
+    }
+  }
+}

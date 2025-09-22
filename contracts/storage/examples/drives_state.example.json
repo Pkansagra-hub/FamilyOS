@@ -1,0 +1,9 @@
+{
+  "space_id": "shared:household",
+  "homeostasis": 0.4000000000000001,
+  "ts": "2025-09-09T12:34:56Z",
+  "id": "0968CYBNGMVM2P3T4031FSFVJF",
+  "hunger": 0.3,
+  "fatigue": 0.4,
+  "novelty_drive": 0.6
+}

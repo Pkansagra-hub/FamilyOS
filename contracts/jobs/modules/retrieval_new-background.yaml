@@ -1,0 +1,84 @@
+---
+version: "1.0.0"
+
+background_jobs:
+  index_maintenance:
+    name: "retrieval-index-gc"
+    schedule: "0 2 * * *"  # Daily at 2 AM
+    description: "Clean up stale index entries and optimize storage"
+    operations:
+      - remove_orphaned_entries
+      - compact_vector_storage
+      - update_access_statistics
+    timeout_minutes: 120
+    
+  index_rebuild:
+    name: "retrieval-index-rebuild"
+    schedule: "0 3 * * 0"  # Weekly on Sunday at 3 AM
+    description: "Full index rebuild for consistency"
+    operations:
+      - backup_current_index
+      - rebuild_fts_index
+      - rebuild_vector_index
+      - validate_index_integrity
+    timeout_minutes: 360
+    
+  trace_cleanup:
+    name: "retrieval-trace-cleanup"
+    schedule: "0 1 * * *"  # Daily at 1 AM
+    description: "Clean up old query traces beyond retention period"
+    operations:
+      - delete_expired_traces
+      - compress_recent_traces
+    retention_days: 90
+    timeout_minutes: 30
+    
+  embedding_update:
+    name: "retrieval-embedding-update"
+    schedule: "manual"  # Triggered by events only
+    description: "Update embeddings when model changes"
+    operations:
+      - identify_outdated_embeddings
+      - regenerate_embeddings
+      - update_index_entries
+    batch_size: 1000
+    timeout_minutes: 480
+
+reactive_jobs:
+  content_indexing:
+    trigger_events:
+      - "MEMORY_CREATED"
+      - "MEMORY_UPDATED"
+    description: "Index new or updated memory content"
+    operations:
+      - extract_text_content
+      - generate_vector_embedding
+      - update_fts_tokens
+      - store_index_entry
+    max_concurrency: 10
+    
+  content_deletion:
+    trigger_events:
+      - "MEMORY_DELETED"
+    description: "Remove content from indexes"
+    operations:
+      - remove_fts_entries
+      - remove_vector_entries
+      - cleanup_traces
+    max_concurrency: 5
+
+job_configuration:
+  error_handling:
+    max_retries: 3
+    retry_backoff: "exponential"
+    dead_letter_queue: true
+    
+  monitoring:
+    metrics_enabled: true
+    alerting_enabled: true
+    health_checks: true
+    
+  resource_limits:
+    max_memory_mb: 2048
+    max_cpu_percent: 50
+    max_io_operations: 10000

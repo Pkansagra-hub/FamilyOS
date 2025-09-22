@@ -1,0 +1,24 @@
+{
+  "$schema":"http://json-schema.org/draft-07/schema#",
+  "$id":"https://familyos/contracts/episodic/episodic_event.schema.json",
+  "title":"EpisodicEvent",
+  "type":"object",
+  "additionalProperties": false,
+  "required":["space_id","event_id","ts","band"],
+  "properties":{
+    "space_id":{"type":"string", "minLength":1},
+    "event_id":{"type":"string", "minLength":1},
+    "ts":{"type":"string","format":"date-time"},
+    "band":{"type":"string","enum":["GREEN","AMBER","RED","BLACK"]},
+    "person_id":{"type":"string"},
+    "title":{"type":"string"},
+    "summary":{"type":"string"},
+    "tags_json":{"type":"string"},
+    "affect_json":{"type":"string"},
+    "attachments_json":{"type":"string"},
+    "salience":{"type":"number"},
+    "redaction_json":{"type":"string"},
+    "origin_json":{"type":"string"},
+    "trace_id":{"type":"string"}
+  }
+}

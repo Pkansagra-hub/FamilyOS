@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.1.0",
+  "id": "b481c3f4-142c-4ad5-8ae6-c0d7ee57c888",
+  "ts": "2025-09-09T04:20:40Z",
+  "topic": "BELIEF_UPDATE",
+  "band": "RED",
+  "actor": {
+    "user_id": "ef5a2274-d3bf-461e-bdd7-50f6a3d9bfb5",
+    "agent_id": "retriever.v1",
+    "caps": [
+      "PROJECT"
+    ]
+  },
+  "device": {
+    "device_id": "ios-iphone15",
+    "platform": "web",
+    "app_version": "1.1.2",
+    "locale": "en-GB"
+  },
+  "space_id": "shared:household",
+  "policy_version": "1.3",
+  "abac": {
+    "role": "service",
+    "trust": "green",
+    "geo_precision": "city"
+  },
+  "qos": {
+    "routing": "fast-path",
+    "priority": 5,
+    "latency_budget_ms": 270,
+    "retries": 1
+  },
+  "trace": {
+    "trace_id": "13518734b89c3fbbb3a0288750e94cd9",
+    "span_id": "f5c62b31ffdb8b42",
+    "sampled": true
+  },
+  "obligations": [
+    "REDACT_PII"
+  ],
+  "redaction_applied": false,
+  "hashes": {
+    "payload_sha256": "c11da7aeb10db9214322574ca2f76f17409fadba56d903fe8cee872285342f19"
+  },
+  "payload": {
+    "note": "system-update",
+    "ts": "2025-09-09T04:20:40Z"
+  },
+  "signature": {
+    "alg": "ed25519",
+    "key_id": "key_belief_update_red_2024",
+    "public_key": "cHVibGlj",
+    "signature": "c2ln"
+  },
+  "mls_group": "household-secure"
+}

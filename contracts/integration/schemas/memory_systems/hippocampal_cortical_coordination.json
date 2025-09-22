@@ -1,0 +1,936 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "hippocampal_cortical_coordination.schema.json",
+    "title": "Hippocampal-Cortical Memory Coordination Contract",
+    "description": "Defines comprehensive coordination between hippocampal and cortical memory systems, including systems consolidation, complementary learning, and distributed memory representation management.",
+    "type": "object",
+    "required": [
+        "coordination_session_id",
+        "systems_consolidation",
+        "complementary_learning",
+        "distributed_representation",
+        "cortical_hippocampal_dialogue",
+        "memory_lifecycle_management",
+        "timestamp"
+    ],
+    "properties": {
+        "coordination_session_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Unique identifier for the hippocampal-cortical coordination session"
+        },
+        "systems_consolidation": {
+            "type": "object",
+            "required": [
+                "consolidation_phase",
+                "memory_transfer_process",
+                "cortical_integration"
+            ],
+            "properties": {
+                "consolidation_phase": {
+                    "type": "string",
+                    "enum": [
+                        "initial_encoding",
+                        "early_consolidation",
+                        "intermediate_consolidation",
+                        "late_consolidation",
+                        "systems_consolidation",
+                        "independent_cortical_storage"
+                    ],
+                    "description": "Current phase of systems consolidation"
+                },
+                "memory_transfer_process": {
+                    "type": "object",
+                    "properties": {
+                        "hippocampal_dependency_reduction": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "Reduction in hippocampal dependency over time"
+                        },
+                        "cortical_independence_increase": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "Increase in cortical independence for memory retrieval"
+                        },
+                        "transfer_timeline": {
+                            "type": "object",
+                            "properties": {
+                                "consolidation_start_time": {
+                                    "type": "string",
+                                    "format": "date-time"
+                                },
+                                "hippocampal_dependency_end_time": {
+                                    "type": "string",
+                                    "format": "date-time"
+                                },
+                                "cortical_independence_time": {
+                                    "type": "string",
+                                    "format": "date-time"
+                                },
+                                "estimated_completion_time": {
+                                    "type": "string",
+                                    "format": "date-time"
+                                }
+                            }
+                        },
+                        "consolidation_quality_markers": {
+                            "type": "object",
+                            "properties": {
+                                "memory_stability": {
+                                    "type": "number"
+                                },
+                                "retrieval_consistency": {
+                                    "type": "number"
+                                },
+                                "interference_resistance": {
+                                    "type": "number"
+                                },
+                                "long_term_durability": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                },
+                "cortical_integration": {
+                    "type": "object",
+                    "properties": {
+                        "target_cortical_networks": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "network_id": {
+                                        "type": "string"
+                                    },
+                                    "cortical_area": {
+                                        "type": "string"
+                                    },
+                                    "integration_strength": {
+                                        "type": "number"
+                                    },
+                                    "functional_role": {
+                                        "type": "string"
+                                    },
+                                    "connectivity_pattern": {
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        },
+                        "integration_mechanisms": {
+                            "type": "object",
+                            "properties": {
+                                "synaptic_consolidation": {
+                                    "type": "number"
+                                },
+                                "systems_level_reorganization": {
+                                    "type": "number"
+                                },
+                                "network_strengthening": {
+                                    "type": "number"
+                                },
+                                "redundant_pathway_formation": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "cortical_memory_organization": {
+                            "type": "object",
+                            "properties": {
+                                "hierarchical_organization": {
+                                    "type": "object"
+                                },
+                                "distributed_storage_pattern": {
+                                    "type": "object"
+                                },
+                                "associative_connectivity": {
+                                    "type": "object"
+                                },
+                                "retrieval_pathway_formation": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "complementary_learning": {
+            "type": "object",
+            "required": [
+                "hippocampal_learning",
+                "cortical_learning",
+                "learning_coordination"
+            ],
+            "properties": {
+                "hippocampal_learning": {
+                    "type": "object",
+                    "properties": {
+                        "fast_learning_characteristics": {
+                            "type": "object",
+                            "properties": {
+                                "rapid_acquisition": {
+                                    "type": "number"
+                                },
+                                "pattern_separation_capability": {
+                                    "type": "number"
+                                },
+                                "episodic_specificity": {
+                                    "type": "number"
+                                },
+                                "contextual_binding": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "learning_capacity": {
+                            "type": "object",
+                            "properties": {
+                                "current_capacity_utilization": {
+                                    "type": "number"
+                                },
+                                "available_learning_capacity": {
+                                    "type": "number"
+                                },
+                                "capacity_management_strategy": {
+                                    "type": "string"
+                                },
+                                "interference_prevention": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "hippocampal_specializations": {
+                            "type": "object",
+                            "properties": {
+                                "arbitrary_association_learning": {
+                                    "type": "number"
+                                },
+                                "configural_learning": {
+                                    "type": "number"
+                                },
+                                "temporal_sequence_learning": {
+                                    "type": "number"
+                                },
+                                "spatial_relational_learning": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                },
+                "cortical_learning": {
+                    "type": "object",
+                    "properties": {
+                        "slow_learning_characteristics": {
+                            "type": "object",
+                            "properties": {
+                                "gradual_integration": {
+                                    "type": "number"
+                                },
+                                "statistical_learning": {
+                                    "type": "number"
+                                },
+                                "generalization_capability": {
+                                    "type": "number"
+                                },
+                                "structured_representation": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "learning_mechanisms": {
+                            "type": "object",
+                            "properties": {
+                                "experience_dependent_plasticity": {
+                                    "type": "number"
+                                },
+                                "use_dependent_strengthening": {
+                                    "type": "number"
+                                },
+                                "competitive_learning": {
+                                    "type": "number"
+                                },
+                                "cooperative_learning": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "cortical_specializations": {
+                            "type": "object",
+                            "properties": {
+                                "feature_extraction": {
+                                    "type": "number"
+                                },
+                                "category_learning": {
+                                    "type": "number"
+                                },
+                                "skill_acquisition": {
+                                    "type": "number"
+                                },
+                                "procedural_learning": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                },
+                "learning_coordination": {
+                    "type": "object",
+                    "properties": {
+                        "complementary_roles": {
+                            "type": "object",
+                            "properties": {
+                                "hippocampal_indexing_role": {
+                                    "type": "number"
+                                },
+                                "cortical_storage_role": {
+                                    "type": "number"
+                                },
+                                "temporal_coordination": {
+                                    "type": "number"
+                                },
+                                "functional_specialization": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "learning_phase_coordination": {
+                            "type": "object",
+                            "properties": {
+                                "initial_hippocampal_dominance": {
+                                    "type": "number"
+                                },
+                                "gradual_cortical_engagement": {
+                                    "type": "number"
+                                },
+                                "final_cortical_dominance": {
+                                    "type": "number"
+                                },
+                                "transition_smoothness": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "interference_management": {
+                            "type": "object",
+                            "properties": {
+                                "catastrophic_forgetting_prevention": {
+                                    "type": "number"
+                                },
+                                "selective_consolidation": {
+                                    "type": "number"
+                                },
+                                "memory_protection_mechanisms": {
+                                    "type": "number"
+                                },
+                                "interference_resolution": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "distributed_representation": {
+            "type": "object",
+            "required": [
+                "representation_architecture",
+                "binding_mechanisms",
+                "retrieval_coordination"
+            ],
+            "properties": {
+                "representation_architecture": {
+                    "type": "object",
+                    "properties": {
+                        "hippocampal_index": {
+                            "type": "object",
+                            "properties": {
+                                "index_structure": {
+                                    "type": "object"
+                                },
+                                "binding_capacity": {
+                                    "type": "number"
+                                },
+                                "retrieval_efficiency": {
+                                    "type": "number"
+                                },
+                                "index_maintenance": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "cortical_content": {
+                            "type": "object",
+                            "properties": {
+                                "distributed_content_storage": {
+                                    "type": "object"
+                                },
+                                "modality_specific_representations": {
+                                    "type": "array"
+                                },
+                                "cross_modal_integration": {
+                                    "type": "number"
+                                },
+                                "content_accessibility": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "representation_coherence": {
+                            "type": "object",
+                            "properties": {
+                                "cross_system_consistency": {
+                                    "type": "number"
+                                },
+                                "representational_stability": {
+                                    "type": "number"
+                                },
+                                "dynamic_coherence_maintenance": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                },
+                "binding_mechanisms": {
+                    "type": "object",
+                    "properties": {
+                        "hippocampal_binding": {
+                            "type": "object",
+                            "properties": {
+                                "pattern_completion_binding": {
+                                    "type": "number"
+                                },
+                                "associative_binding": {
+                                    "type": "number"
+                                },
+                                "contextual_binding": {
+                                    "type": "number"
+                                },
+                                "temporal_binding": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "cortical_binding": {
+                            "type": "object",
+                            "properties": {
+                                "feature_binding": {
+                                    "type": "number"
+                                },
+                                "conceptual_binding": {
+                                    "type": "number"
+                                },
+                                "semantic_binding": {
+                                    "type": "number"
+                                },
+                                "cross_modal_binding": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "cross_system_binding": {
+                            "type": "object",
+                            "properties": {
+                                "hippocampal_cortical_binding": {
+                                    "type": "number"
+                                },
+                                "synchronized_activation": {
+                                    "type": "number"
+                                },
+                                "coherent_representation": {
+                                    "type": "number"
+                                },
+                                "binding_strength": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                },
+                "retrieval_coordination": {
+                    "type": "object",
+                    "properties": {
+                        "retrieval_strategy": {
+                            "type": "string",
+                            "enum": [
+                                "hippocampal_guided",
+                                "cortical_direct",
+                                "cooperative_retrieval",
+                                "competitive_retrieval",
+                                "adaptive_strategy"
+                            ],
+                            "description": "Strategy for coordinated memory retrieval"
+                        },
+                        "retrieval_pathway_selection": {
+                            "type": "object",
+                            "properties": {
+                                "pathway_availability": {
+                                    "type": "object"
+                                },
+                                "pathway_efficiency": {
+                                    "type": "object"
+                                },
+                                "pathway_selection_criteria": {
+                                    "type": "object"
+                                },
+                                "dynamic_pathway_switching": {
+                                    "type": "boolean"
+                                }
+                            }
+                        },
+                        "retrieval_quality_assurance": {
+                            "type": "object",
+                            "properties": {
+                                "cross_system_verification": {
+                                    "type": "number"
+                                },
+                                "consistency_checking": {
+                                    "type": "number"
+                                },
+                                "error_detection": {
+                                    "type": "number"
+                                },
+                                "retrieval_confidence": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "cortical_hippocampal_dialogue": {
+            "type": "object",
+            "required": [
+                "communication_channels",
+                "information_exchange",
+                "coordination_dynamics"
+            ],
+            "properties": {
+                "communication_channels": {
+                    "type": "object",
+                    "properties": {
+                        "anatomical_pathways": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "pathway_id": {
+                                        "type": "string"
+                                    },
+                                    "source_region": {
+                                        "type": "string"
+                                    },
+                                    "target_region": {
+                                        "type": "string"
+                                    },
+                                    "pathway_strength": {
+                                        "type": "number"
+                                    },
+                                    "bidirectional": {
+                                        "type": "boolean"
+                                    },
+                                    "functional_role": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        },
+                        "functional_connectivity": {
+                            "type": "object",
+                            "properties": {
+                                "resting_state_connectivity": {
+                                    "type": "number"
+                                },
+                                "task_related_connectivity": {
+                                    "type": "number"
+                                },
+                                "dynamic_connectivity_modulation": {
+                                    "type": "number"
+                                },
+                                "connectivity_efficiency": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "oscillatory_coordination": {
+                            "type": "object",
+                            "properties": {
+                                "theta_gamma_coupling": {
+                                    "type": "number"
+                                },
+                                "cross_frequency_coupling": {
+                                    "type": "number"
+                                },
+                                "phase_amplitude_coupling": {
+                                    "type": "number"
+                                },
+                                "oscillatory_synchrony": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                },
+                "information_exchange": {
+                    "type": "object",
+                    "properties": {
+                        "hippocampus_to_cortex": {
+                            "type": "object",
+                            "properties": {
+                                "memory_indexing_signals": {
+                                    "type": "number"
+                                },
+                                "retrieval_cue_transmission": {
+                                    "type": "number"
+                                },
+                                "pattern_completion_output": {
+                                    "type": "number"
+                                },
+                                "novelty_detection_signals": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "cortex_to_hippocampus": {
+                            "type": "object",
+                            "properties": {
+                                "sensory_information_input": {
+                                    "type": "number"
+                                },
+                                "semantic_context_provision": {
+                                    "type": "number"
+                                },
+                                "top_down_modulation": {
+                                    "type": "number"
+                                },
+                                "expectation_signals": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "bidirectional_exchange": {
+                            "type": "object",
+                            "properties": {
+                                "mutual_constraint_satisfaction": {
+                                    "type": "number"
+                                },
+                                "iterative_refinement": {
+                                    "type": "number"
+                                },
+                                "coherence_negotiation": {
+                                    "type": "number"
+                                },
+                                "collaborative_processing": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                },
+                "coordination_dynamics": {
+                    "type": "object",
+                    "properties": {
+                        "temporal_coordination": {
+                            "type": "object",
+                            "properties": {
+                                "synchronized_processing": {
+                                    "type": "number"
+                                },
+                                "sequential_processing": {
+                                    "type": "number"
+                                },
+                                "alternating_dominance": {
+                                    "type": "number"
+                                },
+                                "temporal_binding": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "competitive_dynamics": {
+                            "type": "object",
+                            "properties": {
+                                "resource_competition": {
+                                    "type": "number"
+                                },
+                                "attention_competition": {
+                                    "type": "number"
+                                },
+                                "retrieval_competition": {
+                                    "type": "number"
+                                },
+                                "winner_selection_mechanisms": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "cooperative_dynamics": {
+                            "type": "object",
+                            "properties": {
+                                "complementary_processing": {
+                                    "type": "number"
+                                },
+                                "mutual_enhancement": {
+                                    "type": "number"
+                                },
+                                "synergistic_effects": {
+                                    "type": "number"
+                                },
+                                "collective_optimization": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "memory_lifecycle_management": {
+            "type": "object",
+            "required": [
+                "lifecycle_phases",
+                "transition_management",
+                "quality_control"
+            ],
+            "properties": {
+                "lifecycle_phases": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "required": [
+                            "phase_name",
+                            "duration",
+                            "system_dominance"
+                        ],
+                        "properties": {
+                            "phase_name": {
+                                "type": "string",
+                                "enum": [
+                                    "encoding",
+                                    "initial_consolidation",
+                                    "intermediate_storage",
+                                    "systems_consolidation",
+                                    "cortical_storage",
+                                    "retrieval",
+                                    "reconsolidation",
+                                    "forgetting"
+                                ],
+                                "description": "Name of the memory lifecycle phase"
+                            },
+                            "duration": {
+                                "type": "object",
+                                "properties": {
+                                    "typical_duration": {
+                                        "type": "string"
+                                    },
+                                    "duration_range": {
+                                        "type": "object"
+                                    },
+                                    "duration_variability_factors": {
+                                        "type": "array"
+                                    }
+                                }
+                            },
+                            "system_dominance": {
+                                "type": "object",
+                                "properties": {
+                                    "hippocampal_involvement": {
+                                        "type": "number"
+                                    },
+                                    "cortical_involvement": {
+                                        "type": "number"
+                                    },
+                                    "coordinated_involvement": {
+                                        "type": "number"
+                                    },
+                                    "dominance_transitions": {
+                                        "type": "object"
+                                    }
+                                }
+                            },
+                            "phase_characteristics": {
+                                "type": "object",
+                                "properties": {
+                                    "primary_processes": {
+                                        "type": "array"
+                                    },
+                                    "resource_requirements": {
+                                        "type": "object"
+                                    },
+                                    "quality_indicators": {
+                                        "type": "object"
+                                    },
+                                    "transition_criteria": {
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "transition_management": {
+                    "type": "object",
+                    "properties": {
+                        "phase_transitions": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "from_phase": {
+                                        "type": "string"
+                                    },
+                                    "to_phase": {
+                                        "type": "string"
+                                    },
+                                    "transition_triggers": {
+                                        "type": "array"
+                                    },
+                                    "transition_mechanisms": {
+                                        "type": "object"
+                                    },
+                                    "transition_quality": {
+                                        "type": "number"
+                                    }
+                                }
+                            }
+                        },
+                        "transition_optimization": {
+                            "type": "object",
+                            "properties": {
+                                "smooth_transitions": {
+                                    "type": "number"
+                                },
+                                "transition_efficiency": {
+                                    "type": "number"
+                                },
+                                "transition_fidelity": {
+                                    "type": "number"
+                                },
+                                "transition_adaptability": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "transition_monitoring": {
+                            "type": "object",
+                            "properties": {
+                                "transition_progress_tracking": {
+                                    "type": "number"
+                                },
+                                "quality_assessment": {
+                                    "type": "number"
+                                },
+                                "error_detection": {
+                                    "type": "number"
+                                },
+                                "corrective_mechanisms": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "quality_control": {
+                    "type": "object",
+                    "properties": {
+                        "memory_integrity_monitoring": {
+                            "type": "object",
+                            "properties": {
+                                "content_integrity": {
+                                    "type": "number"
+                                },
+                                "associative_integrity": {
+                                    "type": "number"
+                                },
+                                "temporal_integrity": {
+                                    "type": "number"
+                                },
+                                "contextual_integrity": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "error_prevention_mechanisms": {
+                            "type": "object",
+                            "properties": {
+                                "encoding_error_prevention": {
+                                    "type": "number"
+                                },
+                                "consolidation_error_prevention": {
+                                    "type": "number"
+                                },
+                                "retrieval_error_prevention": {
+                                    "type": "number"
+                                },
+                                "interference_prevention": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "quality_enhancement_mechanisms": {
+                            "type": "object",
+                            "properties": {
+                                "memory_strengthening": {
+                                    "type": "number"
+                                },
+                                "coherence_enhancement": {
+                                    "type": "number"
+                                },
+                                "accessibility_improvement": {
+                                    "type": "number"
+                                },
+                                "durability_enhancement": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "coordination_outcomes": {
+            "type": "object",
+            "properties": {
+                "coordination_effectiveness": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Overall effectiveness of hippocampal-cortical coordination"
+                },
+                "memory_system_efficiency": {
+                    "type": "number",
+                    "description": "Efficiency of the coordinated memory system"
+                },
+                "consolidation_success_rate": {
+                    "type": "number",
+                    "description": "Success rate of systems consolidation"
+                },
+                "retrieval_performance_enhancement": {
+                    "type": "number",
+                    "description": "Enhancement in retrieval performance"
+                },
+                "long_term_memory_stability": {
+                    "type": "number",
+                    "description": "Stability of long-term memory representations"
+                },
+                "adaptive_capacity": {
+                    "type": "number",
+                    "description": "Adaptive capacity of the coordinated system"
+                }
+            }
+        },
+        "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp when hippocampal-cortical coordination was initiated"
+        }
+    },
+    "additionalProperties": false
+}

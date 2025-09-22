@@ -1,0 +1,89 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Query Trace Record", 
+  "description": "Execution trace for retrieval queries with performance metrics",
+  "type": "object",
+  "properties": {
+    "trace_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Unique trace identifier"
+    },
+    "query_id": {
+      "type": "string", 
+      "format": "uuid",
+      "description": "Query correlation ID"
+    },
+    "space_id": {
+      "type": "string",
+      "format": "uuid"
+    },
+    "query_text": {
+      "type": "string",
+      "maxLength": 2048,
+      "description": "Original query (may be redacted based on band)"
+    },
+    "query_type": {
+      "enum": ["fts", "vector", "hybrid"],
+      "description": "Execution strategy used"
+    },
+    "execution_steps": {
+      "type": "array",
+      "maxItems": 64,
+      "items": {
+        "type": "object",
+        "properties": {
+          "step_name": { "type": "string" },
+          "start_time": { "type": "string", "format": "date-time" },
+          "end_time": { "type": "string", "format": "date-time" },
+          "duration_ms": { "type": "integer", "minimum": 0 },
+          "candidates_found": { "type": "integer", "minimum": 0 },
+          "memory_used_mb": { "type": "number", "minimum": 0 },
+          "cpu_used_ms": { "type": "integer", "minimum": 0 },
+          "metadata": { "type": "object", "additionalProperties": true }
+        },
+        "required": ["step_name", "start_time", "end_time", "duration_ms"],
+        "additionalProperties": false
+      }
+    },
+    "performance_metrics": {
+      "type": "object",
+      "properties": {
+        "total_duration_ms": { "type": "integer", "minimum": 0 },
+        "index_scan_time_ms": { "type": "integer", "minimum": 0 },
+        "vector_search_time_ms": { "type": "integer", "minimum": 0 },
+        "fusion_time_ms": { "type": "integer", "minimum": 0 },
+        "total_candidates": { "type": "integer", "minimum": 0 },
+        "post_filter_results": { "type": "integer", "minimum": 0 },
+        "memory_peak_mb": { "type": "number", "minimum": 0 },
+        "qos_gating_applied": { "type": "boolean", "default": false }
+      },
+      "required": ["total_duration_ms", "total_candidates", "post_filter_results"],
+      "additionalProperties": false
+    },
+    "band": {
+      "type": "string",
+      "enum": ["GREEN", "AMBER", "RED", "BLACK"]
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "compressed": {
+      "type": "boolean",
+      "default": false,
+      "description": "True if trace data was compressed for storage"
+    }
+  },
+  "required": [
+    "trace_id",
+    "query_id", 
+    "space_id",
+    "query_type",
+    "execution_steps",
+    "performance_metrics",
+    "band",
+    "created_at"
+  ],
+  "additionalProperties": false
+}

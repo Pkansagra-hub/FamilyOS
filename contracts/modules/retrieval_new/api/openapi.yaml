@@ -1,0 +1,39 @@
+openapi: 3.0.3
+info: { title: Retrieval Internal API, version: 1.0.0 }
+paths:
+  /__internal/retrieval/recall:
+    post:
+      summary: Hybrid recall (FTS+vector+fusion)
+      parameters:
+        - name: Idempotency-Key
+          in: header
+          schema: { type: string, maxLength: 128 }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: '#/components/schemas/RecallRequest' }
+      responses:
+        "200": { description: Results (sync) }
+        "202": { description: Accepted (async) }
+        "400": { description: Invalid query }
+        "403": { description: Band restriction }
+  /__internal/retrieval/index/refresh:
+    post:
+      summary: Trigger index refresh/maintenance
+      responses: { "202": { description: Accepted } }
+components:
+  schemas:
+    RecallRequest:
+      type: object
+      required: [query, space_id, top_k, mode]
+      properties:
+        query: { type: string, minLength: 1, maxLength: 2048 }
+        filters: { type: object, additionalProperties: true }
+        space_id: { type: string }
+        mode: { type: string, enum: ["sync","async"] }
+        top_k: { type: integer, minimum: 1, maximum: 200 }
+        ranking_profile: { type: string }
+        qos_target_ms: { type: integer, minimum: 10, maximum: 5000 }
+        context: { type: object, additionalProperties: true }
+security: [{ internal_service_token: [] }]

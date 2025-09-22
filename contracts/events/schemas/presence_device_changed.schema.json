@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Presence Device Changed",
+  "description": "Device/app presence and focus updates for UI.",
+  "type": "object",
+  "additionalProperties": true,
+  "properties": {
+    "device_id": {
+      "type": "string"
+    },
+    "user_id": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "online",
+        "offline",
+        "active",
+        "idle",
+        "background"
+      ]
+    },
+    "app": {
+      "type": "string"
+    },
+    "last_seen": {
+      "type": "string",
+      "format": "date-time"
+    }
+  },
+  "required": [
+    "device_id",
+    "status"
+  ]
+}

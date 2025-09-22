@@ -1,0 +1,6 @@
+jobs:
+  - name: workflows.gc
+    schedule: "0 2 * * *"
+    sla: { p95_ms: 500 }
+  - name: workflows.sla_watchdog
+    schedule: "*/5 * * * *"

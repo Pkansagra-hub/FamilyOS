@@ -13,6 +13,7 @@ Key Features:
 """
 
 import time
+import logging
 from typing import Dict, List, Optional, Any, ContextManager
 from contextlib import contextmanager
 
@@ -117,6 +118,8 @@ class MemoryTracer:
                  service_version: str = "1.0.0",
                  jaeger_endpoint: str = "http://localhost:14268/api/traces",
                  otlp_endpoint: str = "http://localhost:4317"):
+        """Initialize MemoryTracer with OpenTelemetry setup"""
+        self.logger = logging.getLogger(__name__)
         
         self.service_name = service_name
         self.service_version = service_version
@@ -137,8 +140,12 @@ class MemoryTracer:
         self._setup_exporters(jaeger_endpoint, otlp_endpoint)
         
         # Instrument FastAPI and requests
-        FastAPIInstrumentor.instrument()
-        RequestsInstrumentor.instrument()
+        try:
+            FastAPIInstrumentor().instrument()
+            RequestsInstrumentor().instrument()
+        except Exception as e:
+            self.logger.warning(f"Failed to initialize instrumentation: {e}")
+            # Continue without instrumentation in development mode
         
     def _setup_exporters(self, jaeger_endpoint: str, otlp_endpoint: str) -> None:
         """Setup multiple trace exporters for comprehensive observability"""

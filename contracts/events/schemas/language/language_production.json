@@ -1,0 +1,657 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "$id": "language_production.event.json",
+    "title": "Language Production Event",
+    "description": "Event schema for language production processing based on Broca's area, motor speech areas, and language production networks",
+    "type": "object",
+    "required": [
+        "event_id",
+        "timestamp",
+        "production_intention",
+        "production_processing",
+        "motor_speech_planning",
+        "neural_production_networks"
+    ],
+    "properties": {
+        "event_id": {
+            "type": "string",
+            "description": "Unique identifier for this language production event"
+        },
+        "timestamp": {
+            "type": "string",
+            "format": "date-time"
+        },
+        "production_intention": {
+            "type": "object",
+            "properties": {
+                "communicative_goal": {
+                    "type": "object",
+                    "properties": {
+                        "speech_act_type": {
+                            "type": "string",
+                            "enum": [
+                                "assertion",
+                                "question",
+                                "command",
+                                "request",
+                                "promise",
+                                "apology"
+                            ]
+                        },
+                        "communicative_function": {
+                            "type": "string"
+                        },
+                        "intended_effect": {
+                            "type": "string"
+                        },
+                        "discourse_context": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "message_content": {
+                    "type": "object",
+                    "properties": {
+                        "propositional_content": {
+                            "type": "object"
+                        },
+                        "conceptual_structure": {
+                            "type": "object"
+                        },
+                        "thematic_roles": {
+                            "type": "object"
+                        },
+                        "event_structure": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "pragmatic_context": {
+                    "type": "object",
+                    "properties": {
+                        "social_context": {
+                            "type": "object"
+                        },
+                        "conversational_context": {
+                            "type": "object"
+                        },
+                        "shared_knowledge": {
+                            "type": "object"
+                        },
+                        "common_ground": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "production_constraints": {
+                    "type": "object",
+                    "properties": {
+                        "time_pressure": {
+                            "type": "number"
+                        },
+                        "accuracy_requirements": {
+                            "type": "number"
+                        },
+                        "register_requirements": {
+                            "type": "string"
+                        },
+                        "politeness_constraints": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "production_processing": {
+            "type": "object",
+            "properties": {
+                "conceptual_preparation": {
+                    "type": "object",
+                    "properties": {
+                        "message_planning": {
+                            "type": "object",
+                            "properties": {
+                                "macroplanning": {
+                                    "type": "object"
+                                },
+                                "microplanning": {
+                                    "type": "object"
+                                },
+                                "content_selection": {
+                                    "type": "object"
+                                },
+                                "discourse_structuring": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "conceptual_activation": {
+                            "type": "object",
+                            "properties": {
+                                "concept_retrieval": {
+                                    "type": "object"
+                                },
+                                "semantic_network_activation": {
+                                    "type": "object"
+                                },
+                                "conceptual_combination": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "perspective_selection": {
+                            "type": "object",
+                            "properties": {
+                                "viewpoint_selection": {
+                                    "type": "object"
+                                },
+                                "focus_assignment": {
+                                    "type": "object"
+                                },
+                                "information_structuring": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "lexical_selection": {
+                    "type": "object",
+                    "properties": {
+                        "lemma_selection": {
+                            "type": "object",
+                            "properties": {
+                                "lexical_concept_mapping": {
+                                    "type": "object"
+                                },
+                                "lexical_competition": {
+                                    "type": "object"
+                                },
+                                "frequency_effects": {
+                                    "type": "object"
+                                },
+                                "semantic_similarity_effects": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "morphological_encoding": {
+                            "type": "object",
+                            "properties": {
+                                "inflectional_morphology": {
+                                    "type": "object"
+                                },
+                                "derivational_morphology": {
+                                    "type": "object"
+                                },
+                                "morphophonological_processes": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "lexical_access_dynamics": {
+                            "type": "object",
+                            "properties": {
+                                "tip_of_tongue_states": {
+                                    "type": "object"
+                                },
+                                "word_finding_difficulties": {
+                                    "type": "object"
+                                },
+                                "lexical_substitution_patterns": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "syntactic_encoding": {
+                    "type": "object",
+                    "properties": {
+                        "grammatical_encoding": {
+                            "type": "object",
+                            "properties": {
+                                "phrase_structure_building": {
+                                    "type": "object"
+                                },
+                                "syntactic_frame_selection": {
+                                    "type": "object"
+                                },
+                                "argument_structure_mapping": {
+                                    "type": "object"
+                                },
+                                "syntactic_agreement_processing": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "word_order_planning": {
+                            "type": "object",
+                            "properties": {
+                                "constituent_ordering": {
+                                    "type": "object"
+                                },
+                                "information_structure_effects": {
+                                    "type": "object"
+                                },
+                                "syntactic_priming_effects": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "syntactic_monitoring": {
+                            "type": "object",
+                            "properties": {
+                                "grammaticality_monitoring": {
+                                    "type": "object"
+                                },
+                                "syntactic_error_detection": {
+                                    "type": "object"
+                                },
+                                "self_correction_mechanisms": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "phonological_encoding": {
+                    "type": "object",
+                    "properties": {
+                        "phonological_word_form_retrieval": {
+                            "type": "object",
+                            "properties": {
+                                "syllable_structure_encoding": {
+                                    "type": "object"
+                                },
+                                "phoneme_selection": {
+                                    "type": "object"
+                                },
+                                "phonological_competition": {
+                                    "type": "object"
+                                },
+                                "phonological_priming_effects": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "prosodic_planning": {
+                            "type": "object",
+                            "properties": {
+                                "stress_assignment": {
+                                    "type": "object"
+                                },
+                                "intonational_planning": {
+                                    "type": "object"
+                                },
+                                "rhythm_planning": {
+                                    "type": "object"
+                                },
+                                "prosodic_phrasing": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "phonological_assembly": {
+                            "type": "object",
+                            "properties": {
+                                "segment_sequencing": {
+                                    "type": "object"
+                                },
+                                "coarticulation_planning": {
+                                    "type": "object"
+                                },
+                                "phonological_rule_application": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "motor_speech_planning": {
+            "type": "object",
+            "properties": {
+                "articulatory_planning": {
+                    "type": "object",
+                    "properties": {
+                        "articulatory_gesture_planning": {
+                            "type": "object",
+                            "properties": {
+                                "tongue_movement_planning": {
+                                    "type": "object"
+                                },
+                                "lip_movement_planning": {
+                                    "type": "object"
+                                },
+                                "jaw_movement_planning": {
+                                    "type": "object"
+                                },
+                                "laryngeal_control_planning": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "articulatory_coordination": {
+                            "type": "object",
+                            "properties": {
+                                "inter_articulatory_timing": {
+                                    "type": "object"
+                                },
+                                "articulatory_precision_control": {
+                                    "type": "object"
+                                },
+                                "coarticulation_coordination": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "speech_motor_programs": {
+                            "type": "object",
+                            "properties": {
+                                "syllable_motor_programs": {
+                                    "type": "object"
+                                },
+                                "phoneme_motor_programs": {
+                                    "type": "object"
+                                },
+                                "motor_program_sequencing": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "respiratory_planning": {
+                    "type": "object",
+                    "properties": {
+                        "breath_group_planning": {
+                            "type": "object",
+                            "properties": {
+                                "respiratory_cycle_coordination": {
+                                    "type": "object"
+                                },
+                                "subglottal_pressure_control": {
+                                    "type": "object"
+                                },
+                                "breathing_pattern_optimization": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "phonatory_planning": {
+                    "type": "object",
+                    "properties": {
+                        "voice_quality_control": {
+                            "type": "object",
+                            "properties": {
+                                "fundamental_frequency_control": {
+                                    "type": "object"
+                                },
+                                "voice_onset_time_control": {
+                                    "type": "object"
+                                },
+                                "vocal_fold_tension_control": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "neural_production_networks": {
+            "type": "object",
+            "properties": {
+                "broca_area_activity": {
+                    "type": "object",
+                    "properties": {
+                        "syntactic_processing_activity": {
+                            "type": "number"
+                        },
+                        "phonological_processing_activity": {
+                            "type": "number"
+                        },
+                        "motor_speech_planning_activity": {
+                            "type": "number"
+                        },
+                        "sequence_processing_activity": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "left_inferior_frontal_gyrus_activity": {
+                    "type": "object",
+                    "properties": {
+                        "lexical_selection_activity": {
+                            "type": "number"
+                        },
+                        "semantic_control_activity": {
+                            "type": "number"
+                        },
+                        "cognitive_control_activity": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "premotor_cortex_activity": {
+                    "type": "object",
+                    "properties": {
+                        "articulatory_planning_activity": {
+                            "type": "number"
+                        },
+                        "speech_motor_sequence_planning": {
+                            "type": "number"
+                        },
+                        "motor_speech_preparation": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "primary_motor_cortex_activity": {
+                    "type": "object",
+                    "properties": {
+                        "speech_motor_execution": {
+                            "type": "number"
+                        },
+                        "articulatory_control": {
+                            "type": "number"
+                        },
+                        "respiratory_control": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "supplementary_motor_area_activity": {
+                    "type": "object",
+                    "properties": {
+                        "speech_initiation_control": {
+                            "type": "number"
+                        },
+                        "speech_timing_control": {
+                            "type": "number"
+                        },
+                        "verbal_fluency_control": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "anterior_cingulate_activity": {
+                    "type": "object",
+                    "properties": {
+                        "speech_monitoring_activity": {
+                            "type": "number"
+                        },
+                        "error_detection_activity": {
+                            "type": "number"
+                        },
+                        "conflict_monitoring_activity": {
+                            "type": "number"
+                        }
+                    }
+                }
+            }
+        },
+        "production_monitoring": {
+            "type": "object",
+            "properties": {
+                "internal_monitoring": {
+                    "type": "object",
+                    "properties": {
+                        "pre_articulatory_monitoring": {
+                            "type": "object"
+                        },
+                        "phonological_monitoring": {
+                            "type": "object"
+                        },
+                        "syntactic_monitoring": {
+                            "type": "object"
+                        },
+                        "semantic_monitoring": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "external_monitoring": {
+                    "type": "object",
+                    "properties": {
+                        "auditory_feedback_monitoring": {
+                            "type": "object"
+                        },
+                        "proprioceptive_feedback_monitoring": {
+                            "type": "object"
+                        },
+                        "visual_feedback_monitoring": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "error_detection_and_correction": {
+                    "type": "object",
+                    "properties": {
+                        "error_detection_mechanisms": {
+                            "type": "object"
+                        },
+                        "self_correction_strategies": {
+                            "type": "object"
+                        },
+                        "repair_initiation": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "production_outcomes": {
+            "type": "object",
+            "properties": {
+                "linguistic_output": {
+                    "type": "object",
+                    "properties": {
+                        "phonetic_output": {
+                            "type": "object"
+                        },
+                        "prosodic_output": {
+                            "type": "object"
+                        },
+                        "lexical_output": {
+                            "type": "object"
+                        },
+                        "syntactic_output": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "motor_speech_output": {
+                    "type": "object",
+                    "properties": {
+                        "articulatory_movements": {
+                            "type": "object"
+                        },
+                        "acoustic_output": {
+                            "type": "object"
+                        },
+                        "timing_characteristics": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "production_quality": {
+                    "type": "object",
+                    "properties": {
+                        "fluency_measures": {
+                            "type": "object"
+                        },
+                        "accuracy_measures": {
+                            "type": "object"
+                        },
+                        "intelligibility_measures": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "system_integration": {
+            "type": "object",
+            "properties": {
+                "memory_integration": {
+                    "type": "object",
+                    "properties": {
+                        "lexical_memory_access": {
+                            "type": "object"
+                        },
+                        "syntactic_knowledge_access": {
+                            "type": "object"
+                        },
+                        "episodic_memory_integration": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "attention_integration": {
+                    "type": "object",
+                    "properties": {
+                        "attention_allocation_in_production": {
+                            "type": "object"
+                        },
+                        "attention_switching_during_production": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "motor_system_integration": {
+                    "type": "object",
+                    "properties": {
+                        "speech_motor_coordination": {
+                            "type": "object"
+                        },
+                        "gesture_speech_coordination": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "metadata": {
+            "type": "object",
+            "properties": {
+                "production_duration": {
+                    "type": "number"
+                },
+                "processing_complexity": {
+                    "type": "number"
+                },
+                "neural_resource_utilization": {
+                    "type": "object"
+                },
+                "production_success_level": {
+                    "type": "number"
+                }
+            }
+        }
+    }
+}

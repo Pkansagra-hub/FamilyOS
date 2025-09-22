@@ -1,0 +1,21 @@
+{
+  "version": "1.0.0",
+  "events": [
+    {
+      "name": "WORKSPACE_BROADCAST",
+      "version": "1.0",
+      "schema_ref": "contracts/events/schemas/workspace_broadcast.schema.json",
+      "role": "consume",
+      "key": ["space_id","envelope.event_id"],
+      "idempotency": { "dedupe_key": "envelope.event_id" }
+    },
+    {
+      "name": "REINDEX_REQUEST",
+      "version": "1.0",
+      "schema_ref": "contracts/events/schemas/reindex_request.schema.json",
+      "role": "consume",
+      "key": ["space_id","payload.store"],
+      "idempotency": { "dedupe_key": "concat(space_id,':',payload.store)" }
+    }
+  ]
+}

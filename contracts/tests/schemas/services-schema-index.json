@@ -1,0 +1,5 @@
+{
+  "service_registry": "storage/schemas/service_registry.schema.json",
+  "service_status": "storage/schemas/service_status.schema.json",
+  "service_receipt": "storage/schemas/service_receipt.schema.json"
+}

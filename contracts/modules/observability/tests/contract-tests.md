@@ -1,0 +1,3 @@
+- Validate schemas for sample log/metric/span.
+- Ensure band RED masks message.
+- Ensure indices.yaml validates (no duplicate index names).

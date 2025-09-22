@@ -1,0 +1,6 @@
+fields:
+  episodic_event.summary: { action: "mask", when_band: ["RED","BLACK"] }
+  episodic_event.attachments_json: { action: "strip_meta", when_band: ["RED","BLACK"] }
+  episodic_event.affect_json: { action: "coarsen", when_band: ["RED","BLACK"] }
+exports:
+  exemptions: []

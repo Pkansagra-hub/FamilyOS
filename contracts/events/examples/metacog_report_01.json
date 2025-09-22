@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.1.0",
+  "id": "78278e9a-4c59-4691-918f-136e528a12f8",
+  "ts": "2025-09-09T04:20:40Z",
+  "topic": "METACOG_REPORT",
+  "band": "GREEN",
+  "actor": {
+    "user_id": "f12b239d-1260-498d-8b10-d030c3a31011",
+    "agent_id": "retriever.v1",
+    "caps": [
+      "WRITE"
+    ]
+  },
+  "device": {
+    "device_id": "edge-jetson",
+    "platform": "web",
+    "app_version": "1.3.5",
+    "locale": "en-US"
+  },
+  "space_id": "interfamily:link",
+  "policy_version": "1.3",
+  "abac": {
+    "role": "child",
+    "trust": "amber",
+    "geo_precision": "city"
+  },
+  "qos": {
+    "routing": "gate-path",
+    "priority": 6,
+    "latency_budget_ms": 116,
+    "retries": 1
+  },
+  "trace": {
+    "trace_id": "9a5e20ffe59c5244ee00d15ea2808d9e",
+    "span_id": "27f75d68e7b8ab95",
+    "sampled": true
+  },
+  "obligations": [],
+  "redaction_applied": false,
+  "hashes": {
+    "payload_sha256": "c11da7aeb10db9214322574ca2f76f17409fadba56d903fe8cee872285342f19"
+  },
+  "payload": {
+    "note": "system-update",
+    "ts": "2025-09-09T04:20:40Z"
+  },
+  "signature": {
+    "alg": "ed25519",
+    "key_id": "key_metacog_report_green_2024",
+    "public_key": "cHVibGlj",
+    "signature": "c2ln"
+  }
+}

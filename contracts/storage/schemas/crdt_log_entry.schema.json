@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://familyos.local/contracts/storage/crdt_log_entry.schema.json",
+  "title": "CRDT Log Entry",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "op_id",
+    "space_id",
+    "object_type",
+    "object_id",
+    "op",
+    "ts",
+    "actor"
+  ],
+  "properties": {
+    "op_id": {
+      "$ref": "./common.schema.json#/$defs/ULID"
+    },
+    "space_id": {
+      "$ref": "./common.schema.json#/$defs/SpaceId"
+    },
+    "object_type": {
+      "type": "string"
+    },
+    "object_id": {
+      "$ref": "./common.schema.json#/$defs/ULID"
+    },
+    "op": {
+      "$ref": "../storage/crdt.schema.json#/definitions/CRDTOperation"
+    },
+    "ts": {
+      "$ref": "./common.schema.json#/$defs/Timestamp"
+    },
+    "actor": {
+      "$ref": "./common.schema.json#/$defs/ActorRef"
+    },
+    "sig": {
+      "type": "string",
+      "contentEncoding": "base64"
+    }
+  }
+}

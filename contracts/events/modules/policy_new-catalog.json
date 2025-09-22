@@ -1,0 +1,314 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Policy Module Event Catalog",
+  "description": "Policy evaluation and redaction events for ABAC+RBAC enforcement",
+  "type": "object",
+  "properties": {
+    "events": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "event_type": { "type": "string" },
+          "version": { "type": "string" },
+          "direction": { "enum": ["input", "output"] },
+          "envelope": { "$ref": "../../globals/envelope.schema.json" },
+          "payload": { "type": "object" },
+          "description": { "type": "string" }
+        },
+        "required": ["event_type", "version", "direction", "envelope", "payload"]
+      }
+    }
+  },
+  "required": ["events"],
+  "additionalProperties": false,
+  "events": [
+    {
+      "event_type": "POLICY_DECISION_MADE",
+      "version": "1.0.0",
+      "direction": "output",
+      "envelope": { "$ref": "../../globals/envelope.schema.json" },
+      "payload": {
+        "type": "object",
+        "properties": {
+          "decision_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "Unique decision identifier"
+          },
+          "subject_id": {
+            "type": "string",
+            "format": "uuid",
+            "description": "User/system making the request"
+          },
+          "resource_type": {
+            "type": "string",
+            "enum": ["memory", "space", "policy", "system"]
+          },
+          "resource_id": {
+            "type": "string",
+            "description": "Target resource identifier"
+          },
+          "action": {
+            "type": "string",
+            "enum": ["read", "write", "delete", "execute", "admin"]
+          },
+          "decision": {
+            "type": "string",
+            "enum": ["permit", "deny", "indeterminate"]
+          },
+          "reason": {
+            "type": "string",
+            "description": "Human-readable decision reason"
+          },
+          "applicable_policies": {
+            "type": "array",
+            "items": { "type": "string" },
+            "description": "Policy IDs that were evaluated"
+          },
+          "evaluation_time_ms": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "cached": {
+            "type": "boolean",
+            "description": "True if result was from cache"
+          }
+        },
+        "required": ["decision_id", "subject_id", "resource_type", "action", "decision", "reason"],
+        "additionalProperties": false
+      },
+      "description": "Emitted whenever a policy decision is made by the PDP"
+    },
+    {
+      "event_type": "POLICY_VIOLATION_DETECTED",
+      "version": "1.0.0",
+      "direction": "output",
+      "envelope": { "$ref": "../../globals/envelope.schema.json" },
+      "payload": {
+        "type": "object",
+        "properties": {
+          "violation_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "violation_type": {
+            "type": "string",
+            "enum": ["unauthorized_access", "policy_bypass", "data_breach", "privilege_escalation"]
+          },
+          "subject_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "resource_type": {
+            "type": "string"
+          },
+          "resource_id": {
+            "type": "string"
+          },
+          "severity": {
+            "type": "string",
+            "enum": ["low", "medium", "high", "critical"]
+          },
+          "details": {
+            "type": "string",
+            "description": "Violation details for investigation"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "context": {
+            "type": "object",
+            "properties": {
+              "ip_address": { "type": "string" },
+              "user_agent": { "type": "string" },
+              "session_id": { "type": "string" }
+            },
+            "additionalProperties": true
+          }
+        },
+        "required": ["violation_id", "violation_type", "subject_id", "severity", "timestamp"],
+        "additionalProperties": false
+      },
+      "description": "Emitted when a policy violation is detected"
+    },
+    {
+      "event_type": "REDACTION_APPLIED",
+      "version": "1.0.0",
+      "direction": "output",
+      "envelope": { "$ref": "../../globals/envelope.schema.json" },
+      "payload": {
+        "type": "object",
+        "properties": {
+          "redaction_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "content_type": {
+            "type": "string",
+            "enum": ["text", "json", "xml", "markdown"]
+          },
+          "band": {
+            "type": "string",
+            "enum": ["GREEN", "AMBER", "RED", "BLACK"]
+          },
+          "redaction_level": {
+            "type": "string",
+            "enum": ["none", "minimal", "aggressive", "total"]
+          },
+          "redaction_count": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Number of redactions applied"
+          },
+          "original_length": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Original content length in characters"
+          },
+          "redacted_length": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Redacted content length in characters"
+          },
+          "pii_detected": {
+            "type": "boolean",
+            "description": "True if PII was detected and redacted"
+          },
+          "processing_time_ms": {
+            "type": "integer",
+            "minimum": 0
+          }
+        },
+        "required": ["redaction_id", "content_type", "band", "redaction_level", "redaction_count"],
+        "additionalProperties": false
+      },
+      "description": "Emitted when content redaction is applied"
+    },
+    {
+      "event_type": "POLICY_UPDATED",
+      "version": "1.0.0",
+      "direction": "output",
+      "envelope": { "$ref": "../../globals/envelope.schema.json" },
+      "payload": {
+        "type": "object",
+        "properties": {
+          "policy_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "policy_name": {
+            "type": "string",
+            "maxLength": 255
+          },
+          "version": {
+            "type": "string",
+            "pattern": "^\\d+\\.\\d+\\.\\d+$",
+            "description": "Semantic version"
+          },
+          "operation": {
+            "type": "string",
+            "enum": ["created", "updated", "deleted", "activated", "deactivated"]
+          },
+          "effective_date": {
+            "type": "string",
+            "format": "date-time",
+            "description": "When policy becomes effective"
+          },
+          "updated_by": {
+            "type": "string",
+            "format": "uuid",
+            "description": "User who made the update"
+          },
+          "change_summary": {
+            "type": "string",
+            "description": "Summary of changes made"
+          }
+        },
+        "required": ["policy_id", "policy_name", "version", "operation", "effective_date", "updated_by"],
+        "additionalProperties": false
+      },
+      "description": "Emitted when policy documents are created, updated, or deleted"
+    },
+    {
+      "event_type": "ACCESS_REQUEST",
+      "version": "1.0.0",
+      "direction": "input",
+      "envelope": { "$ref": "../../globals/envelope.schema.json" },
+      "payload": {
+        "type": "object",
+        "properties": {
+          "request_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "subject_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "resource_type": {
+            "type": "string",
+            "enum": ["memory", "space", "policy", "system"]
+          },
+          "resource_id": {
+            "type": "string"
+          },
+          "action": {
+            "type": "string",
+            "enum": ["read", "write", "delete", "execute", "admin"]
+          },
+          "context": {
+            "type": "object",
+            "properties": {
+              "timestamp": { "type": "string", "format": "date-time" },
+              "ip_address": { "type": "string" },
+              "user_agent": { "type": "string" },
+              "session_id": { "type": "string" }
+            },
+            "additionalProperties": true
+          }
+        },
+        "required": ["request_id", "subject_id", "resource_type", "action"],
+        "additionalProperties": false
+      },
+      "description": "Access request submitted for policy evaluation"
+    },
+    {
+      "event_type": "CONTENT_CLASSIFICATION_REQUEST",
+      "version": "1.0.0",
+      "direction": "input",
+      "envelope": { "$ref": "../../globals/envelope.schema.json" },
+      "payload": {
+        "type": "object",
+        "properties": {
+          "request_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "content": {
+            "type": "string",
+            "description": "Content to classify and potentially redact"
+          },
+          "content_type": {
+            "type": "string",
+            "enum": ["text", "json", "xml", "markdown"],
+            "default": "text"
+          },
+          "suggested_band": {
+            "type": "string",
+            "enum": ["GREEN", "AMBER", "RED", "BLACK"],
+            "description": "Suggested classification band"
+          },
+          "context": {
+            "type": "object",
+            "additionalProperties": true
+          }
+        },
+        "required": ["request_id", "content"],
+        "additionalProperties": false
+      },
+      "description": "Request to classify content and determine appropriate redaction"
+    }
+  ]
+}

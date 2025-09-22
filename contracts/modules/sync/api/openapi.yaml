@@ -1,0 +1,171 @@
+openapi: 3.1.0
+info:
+  title: Sync API
+  version: 1.0.0
+  description: CRDT-based P2P replication
+servers:
+  - url: "/v1"
+security:
+  - bearer: []
+paths:
+  /sync/pull:
+    post:
+      summary: Pull ops since vector clock
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/SyncRequest"
+      responses:
+        "200":
+          description: Operations since vector clock
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SyncResponse"
+  /sync/push:
+    post:
+      summary: Push local ops
+      parameters:
+        - in: header
+          name: Idempotency-Key
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PushBatch"
+      responses:
+        "202":
+          description: Accepted
+        "409":
+          $ref: "#/components/responses/Conflict"
+  /sync/peers:
+    get:
+      summary: List peers
+      responses:
+        "200":
+          description: Peer list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Peer"
+  /sync/peers/{peer_id}/rotate-keys:
+    parameters:
+      - name: peer_id
+        in: path
+        required: true
+        schema:
+          type: string
+          format: uuid
+    post:
+      summary: Rotate MLS keys with peer
+      responses:
+        "200":
+          description: OK
+components:
+  securitySchemes:
+    bearer:
+      type: http
+      scheme: bearer
+  responses:
+    Conflict:
+      description: Duplicate batch id
+  schemas:
+    CRDTOperation:
+      type: object
+      required: ["op_type", "timestamp", "actor_id", "data"]
+      properties:
+        op_type:
+          type: string
+          enum: ["insert", "update", "delete", "tombstone"]
+        timestamp:
+          type: string
+          format: date-time
+        actor_id:
+          type: string
+          format: uuid
+        vector_clock:
+          type: object
+          additionalProperties:
+            type: integer
+            minimum: 0
+        data:
+          type: object
+        causality:
+          type: array
+          items:
+            type: string
+
+    SyncRequest:
+      type: object
+      required: ["peer_id", "since_vector", "space_id"]
+      properties:
+        peer_id:
+          type: string
+          format: uuid
+        since_vector:
+          type: object
+          additionalProperties:
+            type: integer
+            minimum: 0
+        space_id:
+          type: string
+          pattern: "^(personal|selective|shared|extended|interfamily):"
+        max_operations:
+          type: integer
+          minimum: 1
+          maximum: 1000
+
+    SyncResponse:
+      type: object
+      required: ["operations", "vector_clock", "has_more"]
+      properties:
+        operations:
+          type: array
+          items:
+            $ref: "#/components/schemas/CRDTOperation"
+        vector_clock:
+          type: object
+          additionalProperties:
+            type: integer
+            minimum: 0
+        has_more:
+          type: boolean
+        next_token:
+          type: string
+    PushBatch:
+      type: object
+      required: [batch_id, operations, vector_clock, space_id]
+      properties:
+        batch_id:
+          type: string
+        operations:
+          type: array
+          items:
+            $ref: "#/components/schemas/CRDTOperation"
+        vector_clock:
+          type: object
+          additionalProperties:
+            type: integer
+            minimum: 0
+        space_id:
+          type: string
+          pattern: "^(personal|selective|shared|extended|interfamily):"
+    Peer:
+      type: object
+      required: [id, device_id, status]
+      properties:
+        id:
+          type: string
+        device_id:
+          type: string
+        status:
+          type: string
+          enum: ["connected","disconnected","unknown"]

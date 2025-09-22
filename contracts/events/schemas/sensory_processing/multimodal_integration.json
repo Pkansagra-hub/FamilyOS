@@ -1,0 +1,684 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "$id": "multimodal_integration.event.json",
+    "title": "Multimodal Sensory Integration Event",
+    "description": "Event schema for multimodal sensory integration and cross-modal processing based on superior temporal sulcus, parietal cortex, and multisensory convergence zones",
+    "type": "object",
+    "required": [
+        "event_id",
+        "timestamp",
+        "sensory_inputs",
+        "integration_processing",
+        "convergence_outputs",
+        "neural_substrate_activity"
+    ],
+    "properties": {
+        "event_id": {
+            "type": "string",
+            "description": "Unique identifier for this multimodal integration event"
+        },
+        "timestamp": {
+            "type": "string",
+            "format": "date-time"
+        },
+        "sensory_inputs": {
+            "type": "object",
+            "properties": {
+                "visual_input": {
+                    "type": "object",
+                    "properties": {
+                        "primary_visual_features": {
+                            "type": "object",
+                            "properties": {
+                                "luminance_patterns": {
+                                    "type": "array"
+                                },
+                                "color_information": {
+                                    "type": "object"
+                                },
+                                "motion_vectors": {
+                                    "type": "array"
+                                },
+                                "spatial_frequencies": {
+                                    "type": "array"
+                                }
+                            }
+                        },
+                        "higher_visual_features": {
+                            "type": "object",
+                            "properties": {
+                                "object_shapes": {
+                                    "type": "array"
+                                },
+                                "face_features": {
+                                    "type": "object"
+                                },
+                                "scene_structure": {
+                                    "type": "object"
+                                },
+                                "depth_information": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "visual_attention_signals": {
+                            "type": "object",
+                            "properties": {
+                                "saliency_map": {
+                                    "type": "object"
+                                },
+                                "attention_focus_location": {
+                                    "type": "object"
+                                },
+                                "attention_strength": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                },
+                "auditory_input": {
+                    "type": "object",
+                    "properties": {
+                        "acoustic_features": {
+                            "type": "object",
+                            "properties": {
+                                "frequency_spectrum": {
+                                    "type": "array"
+                                },
+                                "temporal_patterns": {
+                                    "type": "array"
+                                },
+                                "intensity_levels": {
+                                    "type": "array"
+                                },
+                                "binaural_differences": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "spatial_auditory_information": {
+                            "type": "object",
+                            "properties": {
+                                "sound_localization": {
+                                    "type": "object"
+                                },
+                                "distance_estimation": {
+                                    "type": "number"
+                                },
+                                "movement_detection": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "auditory_attention_signals": {
+                            "type": "object",
+                            "properties": {
+                                "selective_attention_filter": {
+                                    "type": "object"
+                                },
+                                "auditory_focus": {
+                                    "type": "string"
+                                },
+                                "attention_modulation": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                },
+                "tactile_input": {
+                    "type": "object",
+                    "properties": {
+                        "mechanical_sensations": {
+                            "type": "object",
+                            "properties": {
+                                "pressure_patterns": {
+                                    "type": "array"
+                                },
+                                "texture_information": {
+                                    "type": "object"
+                                },
+                                "vibration_data": {
+                                    "type": "object"
+                                },
+                                "contact_locations": {
+                                    "type": "array"
+                                }
+                            }
+                        },
+                        "thermal_sensations": {
+                            "type": "object",
+                            "properties": {
+                                "temperature_data": {
+                                    "type": "object"
+                                },
+                                "thermal_gradients": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "proprioceptive_input": {
+                            "type": "object",
+                            "properties": {
+                                "joint_position_data": {
+                                    "type": "object"
+                                },
+                                "muscle_tension_data": {
+                                    "type": "object"
+                                },
+                                "body_spatial_awareness": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "vestibular_input": {
+                    "type": "object",
+                    "properties": {
+                        "balance_information": {
+                            "type": "object",
+                            "properties": {
+                                "head_orientation": {
+                                    "type": "object"
+                                },
+                                "linear_acceleration": {
+                                    "type": "object"
+                                },
+                                "angular_velocity": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "spatial_orientation_data": {
+                            "type": "object",
+                            "properties": {
+                                "gravity_vector": {
+                                    "type": "object"
+                                },
+                                "spatial_reference_frame": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "olfactory_input": {
+                    "type": "object",
+                    "properties": {
+                        "chemical_signatures": {
+                            "type": "object",
+                            "properties": {
+                                "odor_molecules": {
+                                    "type": "array"
+                                },
+                                "concentration_levels": {
+                                    "type": "object"
+                                },
+                                "temporal_dynamics": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "gustatory_input": {
+                    "type": "object",
+                    "properties": {
+                        "taste_qualities": {
+                            "type": "object",
+                            "properties": {
+                                "basic_tastes": {
+                                    "type": "object"
+                                },
+                                "taste_intensity": {
+                                    "type": "number"
+                                },
+                                "taste_combinations": {
+                                    "type": "array"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "integration_processing": {
+            "type": "object",
+            "properties": {
+                "temporal_integration": {
+                    "type": "object",
+                    "properties": {
+                        "temporal_binding_windows": {
+                            "type": "object",
+                            "properties": {
+                                "visual_auditory_window": {
+                                    "type": "number"
+                                },
+                                "auditory_tactile_window": {
+                                    "type": "number"
+                                },
+                                "visual_tactile_window": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "synchrony_detection": {
+                            "type": "object",
+                            "properties": {
+                                "cross_modal_synchrony": {
+                                    "type": "object"
+                                },
+                                "temporal_order_judgment": {
+                                    "type": "object"
+                                },
+                                "simultaneity_assessment": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "temporal_prediction": {
+                            "type": "object",
+                            "properties": {
+                                "cross_modal_prediction": {
+                                    "type": "object"
+                                },
+                                "temporal_expectation": {
+                                    "type": "object"
+                                },
+                                "prediction_error_signals": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "spatial_integration": {
+                    "type": "object",
+                    "properties": {
+                        "spatial_correspondence": {
+                            "type": "object",
+                            "properties": {
+                                "visual_auditory_spatial_mapping": {
+                                    "type": "object"
+                                },
+                                "visual_tactile_spatial_mapping": {
+                                    "type": "object"
+                                },
+                                "coordinate_frame_alignment": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "spatial_attention_integration": {
+                            "type": "object",
+                            "properties": {
+                                "cross_modal_attention_enhancement": {
+                                    "type": "object"
+                                },
+                                "spatial_cueing_effects": {
+                                    "type": "object"
+                                },
+                                "attention_capture_patterns": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "spatial_reference_frame_integration": {
+                            "type": "object",
+                            "properties": {
+                                "egocentric_coordinate_integration": {
+                                    "type": "object"
+                                },
+                                "allocentric_coordinate_integration": {
+                                    "type": "object"
+                                },
+                                "reference_frame_transformation": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "semantic_integration": {
+                    "type": "object",
+                    "properties": {
+                        "cross_modal_semantic_binding": {
+                            "type": "object",
+                            "properties": {
+                                "object_identity_integration": {
+                                    "type": "object"
+                                },
+                                "semantic_category_binding": {
+                                    "type": "object"
+                                },
+                                "conceptual_knowledge_integration": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "cross_modal_priming": {
+                            "type": "object",
+                            "properties": {
+                                "semantic_priming_effects": {
+                                    "type": "object"
+                                },
+                                "conceptual_activation_spread": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "convergence_outputs": {
+            "type": "object",
+            "properties": {
+                "unified_perceptual_representation": {
+                    "type": "object",
+                    "properties": {
+                        "integrated_object_representation": {
+                            "type": "object",
+                            "properties": {
+                                "object_identity": {
+                                    "type": "string"
+                                },
+                                "spatial_location": {
+                                    "type": "object"
+                                },
+                                "temporal_dynamics": {
+                                    "type": "object"
+                                },
+                                "semantic_properties": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "scene_understanding": {
+                            "type": "object",
+                            "properties": {
+                                "environmental_layout": {
+                                    "type": "object"
+                                },
+                                "object_relationships": {
+                                    "type": "array"
+                                },
+                                "scene_semantics": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "event_perception": {
+                            "type": "object",
+                            "properties": {
+                                "causal_relationships": {
+                                    "type": "array"
+                                },
+                                "temporal_structure": {
+                                    "type": "object"
+                                },
+                                "event_boundaries": {
+                                    "type": "array"
+                                }
+                            }
+                        }
+                    }
+                },
+                "enhanced_perception": {
+                    "type": "object",
+                    "properties": {
+                        "cross_modal_enhancement": {
+                            "type": "object",
+                            "properties": {
+                                "sensitivity_enhancement": {
+                                    "type": "number"
+                                },
+                                "detection_improvement": {
+                                    "type": "number"
+                                },
+                                "discrimination_improvement": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "perceptual_robustness": {
+                            "type": "object",
+                            "properties": {
+                                "noise_tolerance": {
+                                    "type": "number"
+                                },
+                                "degradation_resistance": {
+                                    "type": "number"
+                                },
+                                "redundancy_utilization": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                },
+                "attention_modulation": {
+                    "type": "object",
+                    "properties": {
+                        "cross_modal_attention_capture": {
+                            "type": "object"
+                        },
+                        "attention_switching_signals": {
+                            "type": "object"
+                        },
+                        "multisensory_attention_focus": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "neural_substrate_activity": {
+            "type": "object",
+            "properties": {
+                "superior_temporal_sulcus_activity": {
+                    "type": "object",
+                    "properties": {
+                        "audiovisual_integration": {
+                            "type": "number"
+                        },
+                        "temporal_binding_strength": {
+                            "type": "number"
+                        },
+                        "cross_modal_plasticity": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "posterior_parietal_cortex_activity": {
+                    "type": "object",
+                    "properties": {
+                        "spatial_integration_processing": {
+                            "type": "number"
+                        },
+                        "attention_spatial_modulation": {
+                            "type": "number"
+                        },
+                        "coordinate_transformation": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "frontal_cortex_activity": {
+                    "type": "object",
+                    "properties": {
+                        "multisensory_attention_control": {
+                            "type": "number"
+                        },
+                        "cross_modal_working_memory": {
+                            "type": "number"
+                        },
+                        "integration_rule_application": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "subcortical_integration_activity": {
+                    "type": "object",
+                    "properties": {
+                        "superior_colliculus_convergence": {
+                            "type": "number"
+                        },
+                        "thalamic_multisensory_relay": {
+                            "type": "number"
+                        },
+                        "brainstem_integration": {
+                            "type": "number"
+                        }
+                    }
+                }
+            }
+        },
+        "integration_quality_metrics": {
+            "type": "object",
+            "properties": {
+                "binding_strength": {
+                    "type": "object",
+                    "properties": {
+                        "temporal_binding_strength": {
+                            "type": "number"
+                        },
+                        "spatial_binding_strength": {
+                            "type": "number"
+                        },
+                        "semantic_binding_strength": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "integration_reliability": {
+                    "type": "object",
+                    "properties": {
+                        "cross_modal_consistency": {
+                            "type": "number"
+                        },
+                        "integration_stability": {
+                            "type": "number"
+                        },
+                        "conflict_resolution_quality": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "perceptual_benefits": {
+                    "type": "object",
+                    "properties": {
+                        "detection_enhancement": {
+                            "type": "number"
+                        },
+                        "localization_improvement": {
+                            "type": "number"
+                        },
+                        "identification_accuracy": {
+                            "type": "number"
+                        }
+                    }
+                }
+            }
+        },
+        "plasticity_and_learning": {
+            "type": "object",
+            "properties": {
+                "cross_modal_plasticity": {
+                    "type": "object",
+                    "properties": {
+                        "integration_weight_updates": {
+                            "type": "object"
+                        },
+                        "binding_rule_adaptation": {
+                            "type": "object"
+                        },
+                        "temporal_window_adjustments": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "perceptual_learning": {
+                    "type": "object",
+                    "properties": {
+                        "discrimination_improvements": {
+                            "type": "object"
+                        },
+                        "integration_efficiency_gains": {
+                            "type": "object"
+                        },
+                        "expertise_development": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "system_integration": {
+            "type": "object",
+            "properties": {
+                "attention_system_integration": {
+                    "type": "object",
+                    "properties": {
+                        "attention_capture_modulation": {
+                            "type": "object"
+                        },
+                        "attention_switching_facilitation": {
+                            "type": "object"
+                        },
+                        "sustained_attention_enhancement": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "memory_system_integration": {
+                    "type": "object",
+                    "properties": {
+                        "multisensory_memory_encoding": {
+                            "type": "object"
+                        },
+                        "cross_modal_memory_retrieval": {
+                            "type": "object"
+                        },
+                        "episodic_binding_enhancement": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "motor_system_integration": {
+                    "type": "object",
+                    "properties": {
+                        "sensorimotor_coordination": {
+                            "type": "object"
+                        },
+                        "multisensory_motor_guidance": {
+                            "type": "object"
+                        },
+                        "action_affordance_detection": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "metadata": {
+            "type": "object",
+            "properties": {
+                "integration_duration": {
+                    "type": "number"
+                },
+                "computational_complexity": {
+                    "type": "number"
+                },
+                "neural_resource_utilization": {
+                    "type": "object"
+                },
+                "integration_success_level": {
+                    "type": "number"
+                }
+            }
+        }
+    }
+}

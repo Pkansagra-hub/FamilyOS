@@ -1,0 +1,48 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "$id": "interference_detection.schema.json",
+    "title": "Working Memory Interference Detection Event",
+    "description": "Event for detecting interference in working memory",
+    "type": "object",
+    "required": [
+        "timestamp",
+        "interference_type",
+        "severity",
+        "affected_buffers"
+    ],
+    "properties": {
+        "timestamp": {
+            "type": "string",
+            "format": "date-time"
+        },
+        "interference_type": {
+            "type": "string",
+            "enum": [
+                "proactive",
+                "retroactive",
+                "similarity",
+                "capacity"
+            ]
+        },
+        "severity": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+        },
+        "affected_buffers": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        },
+        "mitigation_strategy": {
+            "type": "string",
+            "enum": [
+                "refresh",
+                "rehearsal",
+                "chunking",
+                "separation"
+            ]
+        }
+    }
+}

@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.1.0",
+  "id": "f328fc55-0ed2-481b-aa49-a948496ac0b6",
+  "ts": "2025-09-09T04:20:40Z",
+  "topic": "SENSORY_FRAME",
+  "band": "GREEN",
+  "actor": {
+    "user_id": "76300194-b03f-4bd6-8f9b-64a9eb7ef44c",
+    "agent_id": "encoder.v1",
+    "caps": [
+      "RECALL"
+    ]
+  },
+  "device": {
+    "device_id": "edge-jetson",
+    "platform": "windows",
+    "app_version": "1.1.1",
+    "locale": "hi-IN"
+  },
+  "space_id": "personal:69b2aff9-e953-46a9-a760-45578e0fcc8b",
+  "policy_version": "1.3",
+  "abac": {
+    "role": "service",
+    "trust": "amber",
+    "geo_precision": "city"
+  },
+  "qos": {
+    "routing": "gate-path",
+    "priority": 6,
+    "latency_budget_ms": 115,
+    "retries": 2
+  },
+  "trace": {
+    "trace_id": "b86f292d6e8c05633266cc0cfd539526",
+    "span_id": "5ae5d58ce5bd196e",
+    "sampled": true
+  },
+  "obligations": [],
+  "redaction_applied": false,
+  "hashes": {
+    "payload_sha256": "c11da7aeb10db9214322574ca2f76f17409fadba56d903fe8cee872285342f19"
+  },
+  "payload": {
+    "note": "system-update",
+    "ts": "2025-09-09T04:20:40Z"
+  },
+  "signature": {
+    "alg": "ed25519",
+    "key_id": "key_sensory_frame_green_2024",
+    "public_key": "cHVibGlj",
+    "signature": "c2ln"
+  }
+}

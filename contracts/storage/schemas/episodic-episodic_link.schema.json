@@ -1,0 +1,17 @@
+{
+  "$schema":"http://json-schema.org/draft-07/schema#",
+  "$id":"https://familyos/contracts/episodic/episodic_link.schema.json",
+  "title":"EpisodicLink",
+  "type":"object",
+  "additionalProperties": false,
+  "required":["space_id","link_id","src_kind","src_id","dst_kind","dst_id","rel"],
+  "properties":{
+    "space_id":{"type":"string"},
+    "link_id":{"type":"string"},
+    "src_kind":{"type":"string","enum":["event","episode"]},
+    "src_id":{"type":"string"},
+    "dst_kind":{"type":"string","enum":["event","episode"]},
+    "dst_id":{"type":"string"},
+    "rel":{"type":"string"}
+  }
+}

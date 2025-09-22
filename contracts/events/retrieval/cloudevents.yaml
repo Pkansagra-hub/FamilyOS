@@ -1,0 +1,558 @@
+# CloudEvents Integration for Retrieval Service
+# Defines comprehensive CloudEvents specifications and state transitions
+# Version: 2.0.0 - Complete state machine with error handling
+
+metadata:
+  version: "2.0.0"
+  title: "Retrieval Service CloudEvents Integration"
+  description: "Comprehensive CloudEvents specifications with state machine"
+  created: "2025-09-16"
+  contract_type: "cloudevents_specification"
+
+# =============================================================================
+# CloudEvents Type Registry
+# =============================================================================
+
+event_types:
+  # Request Lifecycle Events
+  request_lifecycle:
+    "com.familyos.retrieval.request.received":
+      description: "New retrieval request received"
+      data_schema: "RetrievalRequestData"
+      required_attributes: ["requestId", "userId", "query"]
+      source_pattern: "/retrieval/service"
+
+    "com.familyos.retrieval.request.validated":
+      description: "Request validation completed"
+      data_schema: "ValidationResultData"
+      source_pattern: "/retrieval/validator"
+
+    "com.familyos.retrieval.request.started":
+      description: "Request processing started"
+      data_schema: "ProcessingStartedData"
+      source_pattern: "/retrieval/processor"
+
+    "com.familyos.retrieval.request.completed":
+      description: "Request processing completed"
+      data_schema: "CompletionData"
+      source_pattern: "/retrieval/processor"
+
+  # Policy Events
+  policy_enforcement:
+    "com.familyos.retrieval.policy.evaluation.started":
+      description: "Policy evaluation initiated"
+      data_schema: "PolicyEvaluationData"
+      source_pattern: "/retrieval/policy"
+
+    "com.familyos.retrieval.policy.decision.made":
+      description: "Policy decision reached"
+      data_schema: "PolicyDecisionData"
+      source_pattern: "/retrieval/policy"
+
+    "com.familyos.retrieval.access.granted":
+      description: "Access permission granted"
+      data_schema: "AccessGrantedData"
+      source_pattern: "/retrieval/policy"
+
+    "com.familyos.retrieval.access.denied":
+      description: "Access permission denied"
+      data_schema: "AccessDeniedData"
+      source_pattern: "/retrieval/policy"
+
+  # QoS Events
+  quality_of_service:
+    "com.familyos.retrieval.qos.budget.started":
+      description: "QoS budget tracking initiated"
+      data_schema: "QoSBudgetData"
+      source_pattern: "/retrieval/qos"
+
+    "com.familyos.retrieval.qos.budget.warning":
+      description: "QoS budget warning threshold reached"
+      data_schema: "QoSWarningData"
+      source_pattern: "/retrieval/qos"
+
+    "com.familyos.retrieval.qos.budget.exceeded":
+      description: "QoS budget limit exceeded"
+      data_schema: "QoSViolationData"
+      source_pattern: "/retrieval/qos"
+
+  # Pipeline Events
+  pipeline_processing:
+    "com.familyos.retrieval.pipeline.stage.started":
+      description: "Pipeline stage processing started"
+      data_schema: "PipelineStageData"
+      source_pattern: "/retrieval/pipeline/{stage}"
+
+    "com.familyos.retrieval.pipeline.stage.completed":
+      description: "Pipeline stage processing completed"
+      data_schema: "PipelineStageData"
+      source_pattern: "/retrieval/pipeline/{stage}"
+
+    "com.familyos.retrieval.candidates.generated":
+      description: "Candidate set generated"
+      data_schema: "CandidateSetData"
+      source_pattern: "/retrieval/pipeline/candidates"
+
+    "com.familyos.retrieval.ranking.completed":
+      description: "Result ranking completed"
+      data_schema: "RankingData"
+      source_pattern: "/retrieval/pipeline/ranking"
+
+    "com.familyos.retrieval.fusion.completed":
+      description: "Result fusion completed"
+      data_schema: "FusionData"
+      source_pattern: "/retrieval/pipeline/fusion"
+
+  # Error and Recovery Events
+  error_handling:
+    "com.familyos.retrieval.error":
+      description: "Error occurred during processing"
+      data_schema: "ErrorData"
+      source_pattern: "/retrieval/{component}"
+
+    "com.familyos.retrieval.retry.attempted":
+      description: "Retry attempt initiated"
+      data_schema: "RetryData"
+      source_pattern: "/retrieval/retry"
+
+    "com.familyos.retrieval.circuit.breaker.tripped":
+      description: "Circuit breaker protection activated"
+      data_schema: "CircuitBreakerData"
+      source_pattern: "/retrieval/circuit-breaker"
+
+    "com.familyos.retrieval.degraded.mode.activated":
+      description: "Service degraded mode activated"
+      data_schema: "DegradedModeData"
+      source_pattern: "/retrieval/service"
+
+  # Security Events
+  security:
+    "com.familyos.retrieval.security.violation":
+      description: "Security violation detected"
+      data_schema: "SecurityViolationData"
+      source_pattern: "/retrieval/security"
+
+  # Monitoring Events
+  monitoring:
+    "com.familyos.retrieval.metrics.performance":
+      description: "Performance metrics collected"
+      data_schema: "PerformanceMetricsData"
+      source_pattern: "/retrieval/metrics"
+
+    "com.familyos.retrieval.response.ready":
+      description: "Response ready for delivery"
+      data_schema: "ResponseReadyData"
+      source_pattern: "/retrieval/processor"
+
+    "com.familyos.retrieval.response.delivered":
+      description: "Response delivered to client"
+      data_schema: "ResponseDeliveredData"
+      source_pattern: "/retrieval/delivery"
+
+# =============================================================================
+# State Machine Definition
+# =============================================================================
+
+state_machine:
+  name: "RetrievalRequestStateMachine"
+  version: "2.0.0"
+  description: "Complete state machine for retrieval request lifecycle"
+
+  initial_state: "received"
+  final_states: ["completed", "failed", "denied"]
+
+  states:
+    received:
+      description: "Request received and queued"
+      entry_event: "com.familyos.retrieval.request.received"
+      transitions:
+        - to: "validating"
+          trigger: "validate_request"
+          condition: "request_valid"
+        - to: "failed"
+          trigger: "validation_failed"
+          condition: "request_invalid"
+
+    validating:
+      description: "Request validation in progress"
+      entry_event: "com.familyos.retrieval.request.validation.started"
+      transitions:
+        - to: "policy_evaluation"
+          trigger: "validation_complete"
+          condition: "validation_passed"
+        - to: "failed"
+          trigger: "validation_failed"
+          condition: "validation_errors"
+
+    policy_evaluation:
+      description: "Policy evaluation and authorization"
+      entry_event: "com.familyos.retrieval.policy.evaluation.started"
+      transitions:
+        - to: "processing"
+          trigger: "access_granted"
+          condition: "policy_permit"
+        - to: "denied"
+          trigger: "access_denied"
+          condition: "policy_deny"
+        - to: "failed"
+          trigger: "policy_error"
+          condition: "policy_indeterminate"
+
+    processing:
+      description: "Retrieval processing in progress"
+      entry_event: "com.familyos.retrieval.request.started"
+      sub_states:
+        candidate_generation:
+          description: "Generating candidate set"
+          transitions:
+            - to: "ranking"
+              trigger: "candidates_ready"
+              condition: "candidates_available"
+            - to: "../failed"
+              trigger: "generation_failed"
+
+        ranking:
+          description: "Ranking candidates"
+          transitions:
+            - to: "fusion"
+              trigger: "ranking_complete"
+            - to: "../failed"
+              trigger: "ranking_failed"
+
+        fusion:
+          description: "Fusing and finalizing results"
+          transitions:
+            - to: "../response_ready"
+              trigger: "fusion_complete"
+            - to: "../failed"
+              trigger: "fusion_failed"
+
+      transitions:
+        - to: "response_ready"
+          trigger: "processing_complete"
+          condition: "results_available"
+        - to: "degraded_processing"
+          trigger: "qos_budget_exceeded"
+          condition: "budget_exceeded"
+        - to: "failed"
+          trigger: "processing_error"
+
+    degraded_processing:
+      description: "Processing in degraded mode"
+      entry_event: "com.familyos.retrieval.degraded.mode.activated"
+      transitions:
+        - to: "response_ready"
+          trigger: "degraded_complete"
+          condition: "partial_results_available"
+        - to: "failed"
+          trigger: "degraded_failed"
+
+    response_ready:
+      description: "Response ready for delivery"
+      entry_event: "com.familyos.retrieval.response.ready"
+      transitions:
+        - to: "delivering"
+          trigger: "start_delivery"
+        - to: "failed"
+          trigger: "delivery_error"
+
+    delivering:
+      description: "Delivering response to client"
+      transitions:
+        - to: "completed"
+          trigger: "delivery_complete"
+          condition: "response_delivered"
+        - to: "failed"
+          trigger: "delivery_failed"
+
+    completed:
+      description: "Request successfully completed"
+      entry_event: "com.familyos.retrieval.request.completed"
+      final: true
+
+    failed:
+      description: "Request failed with error"
+      entry_event: "com.familyos.retrieval.error"
+      transitions:
+        - to: "retrying"
+          trigger: "retry_attempt"
+          condition: "retryable_error"
+      final: true
+
+    denied:
+      description: "Request denied by policy"
+      entry_event: "com.familyos.retrieval.access.denied"
+      final: true
+
+    retrying:
+      description: "Retry attempt in progress"
+      entry_event: "com.familyos.retrieval.retry.attempted"
+      transitions:
+        - to: "validating"
+          trigger: "retry_validation"
+        - to: "policy_evaluation"
+          trigger: "retry_policy"
+        - to: "processing"
+          trigger: "retry_processing"
+        - to: "failed"
+          trigger: "retry_exhausted"
+          condition: "max_retries_reached"
+
+# =============================================================================
+# Event Correlation and Causality
+# =============================================================================
+
+event_correlation:
+  correlation_patterns:
+    request_lifecycle:
+      description: "Correlate events for single request"
+      correlation_key: "data.requestId"
+      event_sequence:
+        - "com.familyos.retrieval.request.received"
+        - "com.familyos.retrieval.request.validated"
+        - "com.familyos.retrieval.policy.evaluation.started"
+        - "com.familyos.retrieval.policy.decision.made"
+        - "com.familyos.retrieval.request.started"
+        - "com.familyos.retrieval.pipeline.stage.*"
+        - "com.familyos.retrieval.response.ready"
+        - "com.familyos.retrieval.response.delivered"
+        - "com.familyos.retrieval.request.completed"
+      max_duration: "PT5M" # 5 minutes
+
+    qos_monitoring:
+      description: "Correlate QoS events for budget tracking"
+      correlation_key: "data.requestId"
+      event_sequence:
+        - "com.familyos.retrieval.qos.budget.started"
+        - "com.familyos.retrieval.qos.budget.warning?"
+        - "com.familyos.retrieval.qos.budget.exceeded?"
+      max_duration: "PT1M" # 1 minute
+
+    error_handling:
+      description: "Correlate error and retry events"
+      correlation_key: "data.requestId"
+      event_sequence:
+        - "com.familyos.retrieval.error"
+        - "com.familyos.retrieval.retry.attempted*"
+      max_duration: "PT2M" # 2 minutes
+
+  causality_chains:
+    policy_to_processing:
+      cause: "com.familyos.retrieval.access.granted"
+      effect: "com.familyos.retrieval.request.started"
+      max_delay: "PT1S"
+
+    qos_to_degraded:
+      cause: "com.familyos.retrieval.qos.budget.exceeded"
+      effect: "com.familyos.retrieval.degraded.mode.activated"
+      max_delay: "PT1S"
+
+    error_to_retry:
+      cause: "com.familyos.retrieval.error"
+      effect: "com.familyos.retrieval.retry.attempted"
+      max_delay: "PT5S"
+      condition: "data.retryable == true"
+
+# =============================================================================
+# Event Validation Rules
+# =============================================================================
+
+validation_rules:
+  attribute_validation:
+    required_attributes:
+      - "specversion"
+      - "type"
+      - "source"
+      - "id"
+      - "time"
+
+    conditional_attributes:
+      subject:
+        required_for: ["com.familyos.retrieval.request.*"]
+        format: "retrieval/request/{requestId}"
+
+    custom_attributes:
+      "requestid":
+        description: "Unique request identifier"
+        type: "string"
+        pattern: "^[a-f0-9]{32}$"
+        required_for: ["com.familyos.retrieval.*"]
+
+      "userid":
+        description: "User identifier"
+        type: "string"
+        required_for:
+          [
+            "com.familyos.retrieval.request.*",
+            "com.familyos.retrieval.policy.*",
+          ]
+
+  data_validation:
+    schema_validation:
+      enabled: true
+      strict_mode: true
+
+    business_rules:
+      request_id_consistency:
+        description: "Request ID must be consistent across correlated events"
+        rule: "data.requestId must match correlation key"
+
+      timestamp_ordering:
+        description: "Event timestamps must be ordered correctly"
+        rule: "Event time must be >= previous event time in sequence"
+
+      qos_budget_consistency:
+        description: "QoS budget tracking must be consistent"
+        rule: "remainingBudgetMs must decrease monotonically"
+
+# =============================================================================
+# Event Store Configuration
+# =============================================================================
+
+event_store:
+  storage_strategy:
+    hot_storage:
+      duration: "P7D" # 7 days
+      compression: false
+      indexing:
+        - "type"
+        - "source"
+        - "data.requestId"
+        - "data.userId"
+        - "time"
+
+    warm_storage:
+      duration: "P30D" # 30 days
+      compression: true
+      indexing:
+        - "type"
+        - "data.requestId"
+        - "time"
+
+    cold_storage:
+      duration: "P1Y" # 1 year
+      compression: true
+      archival: true
+
+  partitioning:
+    strategy: "time_based"
+    partition_size: "P1D" # Daily partitions
+
+  retention:
+    default_retention: "P1Y"
+    event_specific:
+      "com.familyos.retrieval.metrics.*": "P90D"
+      "com.familyos.retrieval.security.*": "P2Y"
+      "com.familyos.retrieval.error": "P6M"
+
+# =============================================================================
+# Integration Points
+# =============================================================================
+
+integration:
+  event_bus:
+    protocol: "kafka"
+    topics:
+      "retrieval.requests": "com.familyos.retrieval.request.*"
+      "retrieval.policy": "com.familyos.retrieval.policy.*"
+      "retrieval.qos": "com.familyos.retrieval.qos.*"
+      "retrieval.pipeline": "com.familyos.retrieval.pipeline.*"
+      "retrieval.errors": "com.familyos.retrieval.error*"
+      "retrieval.security": "com.familyos.retrieval.security.*"
+      "retrieval.metrics": "com.familyos.retrieval.metrics.*"
+
+  observability:
+    tracing:
+      trace_id_header: "X-Trace-ID"
+      span_context_propagation: true
+
+    metrics:
+      event_counters: true
+      latency_histograms: true
+      error_rates: true
+
+    logging:
+      structured_logs: true
+      correlation_ids: true
+
+  external_systems:
+    policy_engine:
+      event_subscription: ["com.familyos.retrieval.policy.*"]
+
+    monitoring:
+      event_subscription:
+        ["com.familyos.retrieval.metrics.*", "com.familyos.retrieval.error*"]
+
+    audit:
+      event_subscription:
+        ["com.familyos.retrieval.security.*", "com.familyos.retrieval.access.*"]
+
+# =============================================================================
+# Event Schemas
+# =============================================================================
+
+schemas:
+  RetrievalRequestData:
+    type: "object"
+    required: ["requestId", "userId", "query"]
+    properties:
+      requestId:
+        type: "string"
+        pattern: "^[a-f0-9]{32}$"
+      userId:
+        type: "string"
+      query:
+        type: "string"
+        minLength: 1
+      spaceId:
+        type: "string"
+      filters:
+        type: "object"
+      qosBudget:
+        type: "object"
+
+  PolicyDecisionData:
+    type: "object"
+    required: ["requestId", "decision"]
+    properties:
+      requestId:
+        type: "string"
+      decision:
+        type: "string"
+        enum: ["PERMIT", "DENY", "INDETERMINATE"]
+      reasons:
+        type: "array"
+        items:
+          type: "string"
+      constraints:
+        type: "object"
+
+  QoSBudgetData:
+    type: "object"
+    required: ["requestId", "budgetMs"]
+    properties:
+      requestId:
+        type: "string"
+      budgetMs:
+        type: "integer"
+      actualMs:
+        type: "number"
+      remainingMs:
+        type: "integer"
+      stage:
+        type: "string"
+
+  ErrorData:
+    type: "object"
+    required: ["requestId", "errorCode", "errorMessage"]
+    properties:
+      requestId:
+        type: "string"
+      errorCode:
+        type: "string"
+      errorMessage:
+        type: "string"
+      retryable:
+        type: "boolean"
+      retryCount:
+        type: "integer"

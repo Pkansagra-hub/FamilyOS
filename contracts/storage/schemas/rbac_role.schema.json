@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://familyos.local/contracts/storage/rbac_role.schema.json",
+  "title": "RBAC Role",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "name",
+    "caps"
+  ],
+  "properties": {
+    "name": {
+      "type": "string"
+    },
+    "caps": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "created_ts": {
+      "$ref": "./common.schema.json#/$defs/Timestamp"
+    }
+  }
+}

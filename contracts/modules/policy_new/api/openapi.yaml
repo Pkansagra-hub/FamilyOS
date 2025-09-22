@@ -1,0 +1,504 @@
+---
+# Policy Module API Specification
+# Internal endpoints for policy evaluation and content redaction
+
+openapi: 3.0.3
+info:
+  title: "Policy Module Internal API"
+  description: "PDP/PEP with ABAC+RBAC, policy evaluation and redaction services"
+  version: "1.0.0"
+  contact:
+    name: "MemoryOS Contract Council"
+
+servers:
+  - url: "/__internal/policy"
+    description: "Internal policy evaluation service"
+
+paths:
+  /eval:
+    post:
+      summary: "Evaluate access request against policies"
+      description: "Policy Decision Point (PDP) - evaluates ABAC+RBAC rules"
+      operationId: "evaluatePolicy"
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PolicyEvaluationRequest'
+      responses:
+        '200':
+          description: "Policy evaluation result"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PolicyEvaluationResponse'
+        '400':
+          description: "Invalid request format"
+        '401':
+          description: "Authentication required"
+        '403':
+          description: "Insufficient permissions"
+        '429':
+          description: "Rate limit exceeded"
+        '500':
+          description: "Internal policy evaluation error"
+
+  /redact:
+    post:
+      summary: "Apply content redaction based on policies"
+      description: "Policy Enforcement Point (PEP) - applies band-based redaction"
+      operationId: "redactContent"
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RedactionRequest'
+      responses:
+        '200':
+          description: "Redacted content"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RedactionResponse'
+        '400':
+          description: "Invalid content format"
+        '401':
+          description: "Authentication required"
+        '403':
+          description: "Insufficient permissions"
+        '500':
+          description: "Redaction processing error"
+
+  /policies:
+    get:
+      summary: "List active policies"
+      description: "Retrieve current policy documents (admin only)"
+      operationId: "listPolicies"
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: "version"
+          in: "query"
+          description: "Policy version filter"
+          schema:
+            type: "string"
+        - name: "effective_date"
+          in: "query"
+          description: "Filter by effective date"
+          schema:
+            type: "string"
+            format: "date-time"
+      responses:
+        '200':
+          description: "Policy list"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PolicyListResponse'
+        '401':
+          description: "Authentication required"
+        '403':
+          description: "Admin access required"
+
+    post:
+      summary: "Create or update policy"
+      description: "Add new policy document (admin only)"
+      operationId: "createPolicy"
+      security:
+        - bearerAuth: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PolicyDocument'
+      responses:
+        '201':
+          description: "Policy created"
+        '400':
+          description: "Invalid policy document"
+        '401':
+          description: "Authentication required"
+        '403':
+          description: "Admin access required"
+        '409':
+          description: "Policy version conflict"
+
+  /health:
+    get:
+      summary: "Health check"
+      description: "Policy service health status"
+      operationId: "healthCheck"
+      responses:
+        '200':
+          description: "Service healthy"
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/HealthStatus'
+
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  schemas:
+    PolicyEvaluationRequest:
+      type: object
+      required: ["subject", "resource", "action", "context"]
+      properties:
+        subject:
+          $ref: '#/components/schemas/Subject'
+        resource:
+          $ref: '#/components/schemas/Resource'
+        action:
+          type: string
+          enum: ["read", "write", "delete", "execute", "admin"]
+        context:
+          $ref: '#/components/schemas/Context'
+
+    PolicyEvaluationResponse:
+      type: object
+      required: ["decision", "reason", "audit_id"]
+      properties:
+        decision:
+          type: string
+          enum: ["permit", "deny", "indeterminate"]
+        reason:
+          type: string
+          description: "Human-readable decision explanation"
+        applicable_policies:
+          type: array
+          items:
+            type: string
+          description: "Policy IDs that were evaluated"
+        audit_id:
+          type: string
+          format: uuid
+          description: "Audit trail identifier"
+        cached:
+          type: boolean
+          description: "True if result was from cache"
+        ttl_seconds:
+          type: integer
+          description: "Cache TTL for this decision"
+
+    RedactionRequest:
+      type: object
+      required: ["content", "band", "context"]
+      properties:
+        content:
+          type: string
+          description: "Content to redact"
+        content_type:
+          type: string
+          enum: ["text", "json", "xml", "markdown"]
+          default: "text"
+        band:
+          type: string
+          enum: ["GREEN", "AMBER", "RED", "BLACK"]
+        context:
+          $ref: '#/components/schemas/Context'
+        redaction_level:
+          type: string
+          enum: ["none", "minimal", "aggressive", "total"]
+          description: "Override default band redaction level"
+
+    RedactionResponse:
+      type: object
+      required: ["redacted_content", "redaction_applied", "audit_id"]
+      properties:
+        redacted_content:
+          type: string
+          description: "Content after redaction"
+        redaction_applied:
+          type: boolean
+          description: "True if any redaction was performed"
+        redaction_count:
+          type: integer
+          description: "Number of redactions applied"
+        audit_id:
+          type: string
+          format: uuid
+
+    Subject:
+      type: object
+      required: ["user_id", "space_id"]
+      properties:
+        user_id:
+          type: string
+          format: uuid
+        space_id:
+          type: string
+          format: uuid
+        roles:
+          type: array
+          items:
+            type: string
+        attributes:
+          type: object
+          additionalProperties: true
+
+    Resource:
+      type: object
+      required: ["type", "id"]
+      properties:
+        type:
+          type: string
+          enum: ["memory", "space", "policy", "system"]
+        id:
+          type: string
+        space_id:
+          type: string
+          format: uuid
+        attributes:
+          type: object
+          additionalProperties: true
+
+    Context:
+      type: object
+      properties:
+        timestamp:
+          type: string
+          format: date-time
+        ip_address:
+          type: string
+        user_agent:
+          type: string
+        session_id:
+          type: string
+        request_id:
+          type: string
+          format: uuid
+        band:
+          type: string
+          enum: ["GREEN", "AMBER", "RED", "BLACK"]
+        attributes:
+          type: object
+          additionalProperties: true
+
+    PolicyDocument:
+      type: object
+      description: "Versioned policy document with ABAC+RBAC rules and effective dates"
+      required:
+        - policy_id
+        - name
+        - version
+        - effective_date
+        - status
+        - created_by
+        - created_at
+      properties:
+        policy_id:
+          type: string
+          format: uuid
+          description: "Unique policy identifier"
+        name:
+          type: string
+          maxLength: 255
+          description: "Human-readable policy name"
+        description:
+          type: string
+          maxLength: 1024
+          description: "Policy purpose and scope description"
+        version:
+          type: string
+          pattern: "^\\d+\\.\\d+\\.\\d+$"
+          description: "Semantic version (e.g., 1.0.0)"
+        effective_date:
+          type: string
+          format: date-time
+          description: "When policy becomes active"
+        expiration_date:
+          type: string
+          format: date-time
+          description: "Optional policy expiration"
+        priority:
+          type: integer
+          minimum: 1
+          maximum: 100
+          default: 50
+          description: "Policy evaluation priority (1=highest, 100=lowest)"
+        status:
+          type: string
+          enum: ["draft", "active", "deprecated", "disabled"]
+          description: "Policy lifecycle status"
+        created_by:
+          type: string
+          format: uuid
+          description: "User who created the policy"
+        created_at:
+          type: string
+          format: date-time
+        updated_by:
+          type: string
+          format: uuid
+          description: "User who last updated the policy"
+        updated_at:
+          type: string
+          format: date-time
+        abac_rules:
+          type: array
+          description: "Attribute-Based Access Control rules"
+          items:
+            type: object
+            required: ["rule_id", "effect", "target"]
+            properties:
+              rule_id:
+                type: string
+                description: "Unique rule identifier within policy"
+              description:
+                type: string
+                description: "Human-readable rule description"
+              effect:
+                type: string
+                enum: ["permit", "deny"]
+                description: "Rule effect when conditions match"
+              target:
+                type: object
+                properties:
+                  subjects:
+                    type: array
+                    items:
+                      type: object
+                      required: ["attribute", "operator", "value"]
+                      properties:
+                        attribute:
+                          type: string
+                        operator:
+                          type: string
+                          enum: ["equals", "not_equals", "in", "not_in", "matches", "exists"]
+                        value:
+                          oneOf:
+                            - type: string
+                            - type: array
+                              items:
+                                type: string
+                  resources:
+                    type: array
+                    items:
+                      type: object
+                      required: ["attribute", "operator", "value"]
+                      properties:
+                        attribute:
+                          type: string
+                        operator:
+                          type: string
+                          enum: ["equals", "not_equals", "in", "not_in", "matches", "exists"]
+                        value:
+                          oneOf:
+                            - type: string
+                            - type: array
+                              items:
+                                type: string
+                  actions:
+                    type: array
+                    items:
+                      type: string
+                      enum: ["read", "write", "delete", "execute", "admin"]
+                  environment:
+                    type: array
+                    items:
+                      type: object
+                      required: ["attribute", "operator", "value"]
+                      properties:
+                        attribute:
+                          type: string
+                        operator:
+                          type: string
+                          enum: ["equals", "not_equals", "in", "not_in", "matches", "exists"]
+                        value:
+                          oneOf:
+                            - type: string
+                            - type: array
+                              items:
+                                type: string
+        rbac_rules:
+          type: array
+          description: "Role-Based Access Control rules"
+          items:
+            type: object
+            required: ["role", "permissions"]
+            properties:
+              role:
+                type: string
+                description: "Role name"
+              permissions:
+                type: array
+                items:
+                  type: object
+                  required: ["resource_type", "actions"]
+                  properties:
+                    resource_type:
+                      type: string
+                      enum: ["memory", "space", "policy", "system"]
+                    actions:
+                      type: array
+                      items:
+                        type: string
+                        enum: ["read", "write", "delete", "execute", "admin"]
+                    conditions:
+                      type: array
+                      items:
+                        type: string
+                      description: "Additional conditions for permission"
+        metadata:
+          type: object
+          properties:
+            tags:
+              type: array
+              maxItems: 10
+              items:
+                type: string
+                maxLength: 64
+            category:
+              type: string
+              enum: ["security", "privacy", "compliance", "operational"]
+            compliance_frameworks:
+              type: array
+              items:
+                type: string
+                enum: ["GDPR", "HIPAA", "SOX", "PCI_DSS", "CCPA"]
+            approval_required:
+              type: boolean
+              default: false
+
+    PolicyListResponse:
+      type: object
+      required: ["policies", "total"]
+      properties:
+        policies:
+          type: array
+          items:
+            $ref: '#/components/schemas/PolicyDocument'
+        total:
+          type: integer
+        page:
+          type: integer
+        per_page:
+          type: integer
+
+    HealthStatus:
+      type: object
+      required: ["status", "timestamp"]
+      properties:
+        status:
+          type: string
+          enum: ["healthy", "degraded", "unhealthy"]
+        timestamp:
+          type: string
+          format: date-time
+        policy_count:
+          type: integer
+        cache_hit_rate:
+          type: number
+        avg_evaluation_time_ms:
+          type: number

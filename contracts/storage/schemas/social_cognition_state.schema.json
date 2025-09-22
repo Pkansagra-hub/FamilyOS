@@ -1,0 +1,142 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://familyos.local/contracts/storage/social_cognition_state.schema.json",
+  "title": "Social Cognition State",
+  "description": "Mental state tracking for Theory of Mind (ToM) inference per person per space",
+  "type": "object",
+  "properties": {
+    "person_id": {
+      "type": "string",
+      "description": "Person whose mental state is being tracked"
+    },
+    "space_id": {
+      "type": "string",
+      "description": "Memory space where observations occur"
+    },
+    "beliefs": {
+      "type": "object",
+      "description": "Current beliefs with truth probabilities",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "truth_prob": {
+            "type": "number",
+            "minimum": 0.0,
+            "maximum": 1.0,
+            "description": "Probability that belief is true"
+          },
+          "confidence": {
+            "type": "number",
+            "minimum": 0.0,
+            "maximum": 1.0,
+            "description": "Confidence in the belief inference"
+          },
+          "source": {
+            "type": "string",
+            "description": "Source of belief (event_id, inference method)"
+          },
+          "updated_at": {
+            "type": "number",
+            "description": "Unix timestamp of last update"
+          }
+        },
+        "required": ["truth_prob", "confidence", "source"]
+      }
+    },
+    "desires": {
+      "type": "object",
+      "description": "Goals and desires with strength ratings",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "strength": {
+            "type": "number",
+            "minimum": 0.0,
+            "maximum": 1.0,
+            "description": "Strength of the desire"
+          },
+          "source": {
+            "type": "string",
+            "description": "Source of desire inference"
+          },
+          "updated_at": {
+            "type": "number",
+            "description": "Unix timestamp of last update"
+          }
+        },
+        "required": ["strength", "source"]
+      }
+    },
+    "intentions": {
+      "type": "object",
+      "description": "Intended plans with commitment levels",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "commitment": {
+            "type": "number",
+            "minimum": 0.0,
+            "maximum": 1.0,
+            "description": "Level of commitment to execute plan"
+          },
+          "deadline": {
+            "type": ["number", "null"],
+            "description": "Optional deadline as Unix timestamp"
+          },
+          "source": {
+            "type": "string",
+            "description": "Source event or inference method"
+          },
+          "updated_at": {
+            "type": "number",
+            "description": "Unix timestamp of last update"
+          }
+        },
+        "required": ["commitment", "source"]
+      }
+    },
+    "affect_hint": {
+      "type": ["object", "null"],
+      "description": "Optional affect state hint",
+      "properties": {
+        "valence": {
+          "type": "number",
+          "minimum": -1.0,
+          "maximum": 1.0
+        },
+        "arousal": {
+          "type": "number",
+          "minimum": 0.0,
+          "maximum": 1.0
+        }
+      }
+    },
+    "visibility": {
+      "type": "array",
+      "description": "Event IDs that this person has observed",
+      "items": {
+        "type": "string"
+      }
+    },
+    "model_version": {
+      "type": "string",
+      "description": "Version of ToM model used for inference",
+      "default": "tom-mvp"
+    },
+    "updated_at": {
+      "type": "number",
+      "description": "Unix timestamp of last state update"
+    }
+  },
+  "required": [
+    "person_id",
+    "space_id",
+    "beliefs",
+    "desires",
+    "intentions",
+    "visibility",
+    "model_version",
+    "updated_at"
+  ],
+  "additionalProperties": false
+}

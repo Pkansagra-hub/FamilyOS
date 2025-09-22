@@ -1,0 +1,263 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://familyos.local/schemas/events/hippocampus/pattern_completion_executed.json",
+    "title": "Pattern Completion Executed Event",
+    "description": "Event emitted when the hippocampus executes pattern completion to reconstruct complete memories from partial cues",
+    "type": "object",
+    "required": [
+        "event_type",
+        "timestamp",
+        "hippocampus_id",
+        "completion_session_id",
+        "partial_cues",
+        "completion_mechanism",
+        "reconstructed_memory"
+    ],
+    "properties": {
+        "event_type": {
+            "type": "string",
+            "const": "pattern_completion_executed",
+            "description": "Event type identifier for pattern completion execution"
+        },
+        "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "ISO 8601 timestamp when pattern completion was executed"
+        },
+        "hippocampus_id": {
+            "type": "string",
+            "pattern": "^hippocampus_[a-zA-Z0-9_-]+$",
+            "description": "Unique identifier for the hippocampus instance executing pattern completion"
+        },
+        "completion_session_id": {
+            "type": "string",
+            "pattern": "^completion_session_[a-zA-Z0-9_-]+$",
+            "description": "Unique identifier for this pattern completion session"
+        },
+        "partial_cues": {
+            "type": "object",
+            "required": [
+                "cue_completeness",
+                "cue_quality",
+                "available_features"
+            ],
+            "properties": {
+                "cue_completeness": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Completeness of available cues (0 = minimal, 1 = complete)"
+                },
+                "cue_quality": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Quality of available cues for pattern completion"
+                },
+                "available_features": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "feature_type": {
+                                "type": "string"
+                            },
+                            "feature_value": {
+                                "type": "number"
+                            },
+                            "confidence": {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 1
+                            },
+                            "importance": {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 1
+                            }
+                        }
+                    },
+                    "description": "Available features for pattern completion"
+                }
+            },
+            "description": "Partial cues available for pattern completion"
+        },
+        "completion_mechanism": {
+            "type": "object",
+            "required": [
+                "mechanism_type",
+                "ca3_activity",
+                "attractor_dynamics"
+            ],
+            "properties": {
+                "mechanism_type": {
+                    "type": "string",
+                    "enum": [
+                        "attractor_network",
+                        "associative_memory",
+                        "hopfield_dynamics",
+                        "recurrent_processing"
+                    ],
+                    "description": "Type of pattern completion mechanism"
+                },
+                "ca3_activity": {
+                    "type": "object",
+                    "properties": {
+                        "recurrent_connections": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "associative_strength": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "completion_threshold": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "network_stability": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    },
+                    "description": "CA3 region activity during pattern completion"
+                },
+                "attractor_dynamics": {
+                    "type": "object",
+                    "properties": {
+                        "basin_stability": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "convergence_speed": {
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "attractor_strength": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "noise_tolerance": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    },
+                    "description": "Attractor network dynamics"
+                }
+            },
+            "description": "Mechanism used for pattern completion"
+        },
+        "reconstructed_memory": {
+            "type": "object",
+            "required": [
+                "memory_id",
+                "reconstruction_fidelity",
+                "confidence_level"
+            ],
+            "properties": {
+                "memory_id": {
+                    "type": "string",
+                    "pattern": "^mem_[a-zA-Z0-9_-]+$",
+                    "description": "ID of the reconstructed memory"
+                },
+                "reconstruction_fidelity": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Fidelity of memory reconstruction compared to original"
+                },
+                "confidence_level": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Confidence in the accuracy of reconstruction"
+                },
+                "reconstructed_features": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "feature_id": {
+                                "type": "string"
+                            },
+                            "reconstructed_value": {
+                                "type": "number"
+                            },
+                            "reconstruction_confidence": {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 1
+                            },
+                            "source_type": {
+                                "type": "string",
+                                "enum": [
+                                    "direct_cue",
+                                    "completion",
+                                    "inference"
+                                ]
+                            }
+                        }
+                    },
+                    "description": "Individual features of the reconstructed memory"
+                }
+            },
+            "description": "Reconstructed memory from pattern completion"
+        }
+    },
+    "additionalProperties": false,
+    "examples": [
+        {
+            "event_type": "pattern_completion_executed",
+            "timestamp": "2025-09-16T17:22:44.123Z",
+            "hippocampus_id": "hippocampus_primary_001",
+            "completion_session_id": "completion_session_20250916_172244",
+            "partial_cues": {
+                "cue_completeness": 0.3,
+                "cue_quality": 0.8,
+                "available_features": [
+                    {
+                        "feature_type": "olfactory",
+                        "feature_value": 0.9,
+                        "confidence": 0.95,
+                        "importance": 0.8
+                    }
+                ]
+            },
+            "completion_mechanism": {
+                "mechanism_type": "attractor_network",
+                "ca3_activity": {
+                    "recurrent_connections": 0.85,
+                    "associative_strength": 0.9,
+                    "completion_threshold": 0.7,
+                    "network_stability": 0.88
+                },
+                "attractor_dynamics": {
+                    "basin_stability": 0.82,
+                    "convergence_speed": 5.2,
+                    "attractor_strength": 0.87,
+                    "noise_tolerance": 0.6
+                }
+            },
+            "reconstructed_memory": {
+                "memory_id": "mem_episode_20250916_143045",
+                "reconstruction_fidelity": 0.8,
+                "confidence_level": 0.75,
+                "reconstructed_features": [
+                    {
+                        "feature_id": "visual_scene",
+                        "reconstructed_value": 0.7,
+                        "reconstruction_confidence": 0.8,
+                        "source_type": "completion"
+                    }
+                ]
+            }
+        }
+    ]
+}

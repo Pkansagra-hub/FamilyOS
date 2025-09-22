@@ -1,0 +1,6 @@
+{
+  "EpisodicEvent": "storage/schemas/episodic_event.schema.json",
+  "EpisodicSegment": "storage/schemas/episodic_segment.schema.json",
+  "SegmentEventJoin": "storage/schemas/episodic_segment_event.schema.json",
+  "EpisodicLink": "storage/schemas/episodic_link.schema.json"
+}

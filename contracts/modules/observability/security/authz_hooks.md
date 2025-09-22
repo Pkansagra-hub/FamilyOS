@@ -1,0 +1,3 @@
+- API: middleware attaches band/space; PDP consulted when exporting metrics/logs.
+- Storage: writer validates band rules before persist.
+- Events: none new; on event processing, log correlation must NOT copy PII from payload.

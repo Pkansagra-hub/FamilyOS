@@ -1,0 +1,332 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://familyos.local/contracts/events/schemas/global_workspace/global_broadcast_initiated.schema.json",
+    "title": "Global Broadcast Initiated Event",
+    "description": "Event triggered when the global workspace initiates a consciousness-like global broadcast to all cognitive systems. This models the global availability of information in consciousness theories.",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "timestamp",
+        "broadcast_id",
+        "initiating_coalition",
+        "broadcast_content",
+        "competition_outcome",
+        "target_systems",
+        "consciousness_level",
+        "access_threshold"
+    ],
+    "properties": {
+        "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Precise timing of global broadcast initiation"
+        },
+        "broadcast_id": {
+            "type": "string",
+            "pattern": "^gwb_[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$",
+            "description": "Unique identifier for this global broadcast event"
+        },
+        "initiating_coalition": {
+            "type": "object",
+            "required": [
+                "coalition_id",
+                "member_processes",
+                "coalition_strength",
+                "dominance_score"
+            ],
+            "properties": {
+                "coalition_id": {
+                    "type": "string",
+                    "description": "Identifier of the winning coalition that triggered broadcast"
+                },
+                "member_processes": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "required": [
+                            "process_id",
+                            "process_type",
+                            "contribution_strength"
+                        ],
+                        "properties": {
+                            "process_id": {
+                                "type": "string"
+                            },
+                            "process_type": {
+                                "type": "string",
+                                "enum": [
+                                    "perception",
+                                    "memory",
+                                    "executive",
+                                    "motor",
+                                    "emotion",
+                                    "language"
+                                ]
+                            },
+                            "contribution_strength": {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 1,
+                                "description": "Strength of this process's contribution to coalition"
+                            }
+                        }
+                    },
+                    "description": "Cognitive processes that formed the winning coalition"
+                },
+                "coalition_strength": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Overall strength of the winning coalition (0-1 scale)"
+                },
+                "dominance_score": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "How decisively this coalition won over competitors"
+                }
+            },
+            "description": "Details of the coalition that won competition and initiated broadcast"
+        },
+        "broadcast_content": {
+            "type": "object",
+            "required": [
+                "content_type",
+                "semantic_content",
+                "priority_level",
+                "coherence_score"
+            ],
+            "properties": {
+                "content_type": {
+                    "type": "string",
+                    "enum": [
+                        "perceptual",
+                        "memorial",
+                        "conceptual",
+                        "emotional",
+                        "intentional",
+                        "linguistic"
+                    ],
+                    "description": "Type of content being globally broadcast"
+                },
+                "semantic_content": {
+                    "type": "object",
+                    "properties": {
+                        "primary_representation": {
+                            "type": "object"
+                        },
+                        "associated_concepts": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "emotional_valence": {
+                            "type": "number",
+                            "minimum": -1,
+                            "maximum": 1
+                        },
+                        "activation_level": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    },
+                    "description": "Semantic representation of broadcast content"
+                },
+                "priority_level": {
+                    "type": "string",
+                    "enum": [
+                        "critical",
+                        "high",
+                        "normal",
+                        "low"
+                    ],
+                    "description": "Priority level of broadcast content"
+                },
+                "coherence_score": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "How coherent/integrated the broadcast content is"
+                },
+                "consciousness_features": {
+                    "type": "object",
+                    "properties": {
+                        "reportability": {
+                            "type": "boolean"
+                        },
+                        "accessibility": {
+                            "type": "boolean"
+                        },
+                        "global_availability": {
+                            "type": "boolean"
+                        },
+                        "integration_level": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    },
+                    "description": "Consciousness-related features of the content"
+                }
+            },
+            "description": "The content being globally broadcast to all systems"
+        },
+        "competition_outcome": {
+            "type": "object",
+            "required": [
+                "total_competitors",
+                "competition_duration_ms",
+                "winning_margin"
+            ],
+            "properties": {
+                "total_competitors": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "description": "Number of coalitions that competed for global access"
+                },
+                "competition_duration_ms": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Duration of coalition competition in milliseconds"
+                },
+                "winning_margin": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Margin by which winning coalition exceeded runner-up"
+                },
+                "runner_up_coalitions": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "coalition_id": {
+                                "type": "string"
+                            },
+                            "final_strength": {
+                                "type": "number"
+                            },
+                            "failure_reason": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "description": "Coalitions that lost the competition"
+                }
+            },
+            "description": "Outcome of the coalition competition that led to this broadcast"
+        },
+        "target_systems": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "required": [
+                    "system_id",
+                    "system_type",
+                    "broadcast_relevance"
+                ],
+                "properties": {
+                    "system_id": {
+                        "type": "string",
+                        "description": "Identifier of target cognitive system"
+                    },
+                    "system_type": {
+                        "type": "string",
+                        "enum": [
+                            "thalamic_relay",
+                            "working_memory",
+                            "hippocampal",
+                            "motor",
+                            "language",
+                            "social",
+                            "emotional"
+                        ],
+                        "description": "Type of cognitive system receiving broadcast"
+                    },
+                    "broadcast_relevance": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1,
+                        "description": "Relevance of broadcast content to this system"
+                    },
+                    "expected_response": {
+                        "type": "string",
+                        "enum": [
+                            "attention_shift",
+                            "memory_encoding",
+                            "action_preparation",
+                            "integration",
+                            "modulation"
+                        ],
+                        "description": "Expected response from this system"
+                    }
+                }
+            },
+            "description": "Cognitive systems that will receive this global broadcast"
+        },
+        "consciousness_level": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "description": "Estimated consciousness level of this broadcast (0=unconscious, 1=fully conscious)"
+        },
+        "access_threshold": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "description": "Minimum activation threshold for systems to access this broadcast"
+        },
+        "workspace_state": {
+            "type": "object",
+            "properties": {
+                "global_activation_level": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "competition_intensity": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "attention_focus_strength": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "integration_coherence": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                }
+            },
+            "description": "Current state of the global workspace during broadcast"
+        },
+        "temporal_dynamics": {
+            "type": "object",
+            "properties": {
+                "broadcast_duration_ms": {
+                    "type": "number",
+                    "minimum": 0
+                },
+                "decay_rate": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "reinforcement_cycles": {
+                    "type": "integer",
+                    "minimum": 0
+                },
+                "persistence_probability": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                }
+            },
+            "description": "Temporal dynamics of the global broadcast"
+        }
+    }
+}

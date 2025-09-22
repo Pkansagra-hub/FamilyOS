@@ -1,0 +1,36 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://familyos.local/contracts/storage/imagination_snapshot.schema.json",
+  "title": "Imagination Snapshot",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "id",
+    "ts",
+    "space_id",
+    "world_state",
+    "policy_state"
+  ],
+  "properties": {
+    "id": {
+      "$ref": "./common.schema.json#/$defs/ULID"
+    },
+    "ts": {
+      "$ref": "./common.schema.json#/$defs/Timestamp"
+    },
+    "space_id": {
+      "$ref": "./common.schema.json#/$defs/SpaceId"
+    },
+    "world_state": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "policy_state": {
+      "type": "object",
+      "additionalProperties": true
+    },
+    "score": {
+      "type": "number"
+    }
+  }
+}

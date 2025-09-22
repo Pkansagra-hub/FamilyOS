@@ -1,0 +1,1056 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://familyos.local/schemas/storage/hippocampus/episodic_memory_state.json",
+    "title": "Episodic Memory State",
+    "description": "Storage schema for episodic memory state including content, context, strength, and retrieval information",
+    "type": "object",
+    "required": [
+        "memory_id",
+        "hippocampus_id",
+        "memory_type",
+        "encoding_timestamp",
+        "episodic_content",
+        "contextual_information",
+        "memory_strength",
+        "retrieval_history",
+        "consolidation_status"
+    ],
+    "properties": {
+        "memory_id": {
+            "type": "string",
+            "pattern": "^mem_[a-zA-Z0-9_-]+$",
+            "description": "Unique identifier for the episodic memory"
+        },
+        "hippocampus_id": {
+            "type": "string",
+            "pattern": "^hippocampus_[a-zA-Z0-9_-]+$",
+            "description": "Unique identifier for the hippocampus instance"
+        },
+        "memory_type": {
+            "type": "string",
+            "enum": [
+                "autobiographical",
+                "personal_event",
+                "first_person_experience",
+                "witnessed_event",
+                "learned_episode"
+            ],
+            "description": "Specific type of episodic memory"
+        },
+        "encoding_timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "When the memory was originally encoded"
+        },
+        "episodic_content": {
+            "type": "object",
+            "required": [
+                "what",
+                "when",
+                "where",
+                "content_richness"
+            ],
+            "properties": {
+                "what": {
+                    "type": "object",
+                    "properties": {
+                        "primary_event": {
+                            "type": "string"
+                        },
+                        "secondary_events": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "actions_performed": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "objects_involved": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "people_present": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "description": "What happened in the episodic memory"
+                },
+                "when": {
+                    "type": "object",
+                    "properties": {
+                        "absolute_time": {
+                            "type": "string",
+                            "format": "date-time"
+                        },
+                        "relative_time": {
+                            "type": "string"
+                        },
+                        "temporal_context": {
+                            "type": "string"
+                        },
+                        "duration": {
+                            "type": "string"
+                        },
+                        "time_of_day": {
+                            "type": "string"
+                        },
+                        "season_context": {
+                            "type": "string"
+                        }
+                    },
+                    "description": "When the episode occurred"
+                },
+                "where": {
+                    "type": "object",
+                    "properties": {
+                        "location_name": {
+                            "type": "string"
+                        },
+                        "spatial_coordinates": {
+                            "type": "array",
+                            "items": {
+                                "type": "number"
+                            }
+                        },
+                        "environmental_context": {
+                            "type": "string"
+                        },
+                        "location_type": {
+                            "type": "string"
+                        },
+                        "spatial_layout": {
+                            "type": "object"
+                        },
+                        "landmark_references": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "description": "Where the episode took place"
+                },
+                "who": {
+                    "type": "object",
+                    "properties": {
+                        "self_involvement": {
+                            "type": "boolean"
+                        },
+                        "other_people": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "social_roles": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "relationship_context": {
+                            "type": "string"
+                        },
+                        "interaction_type": {
+                            "type": "string"
+                        }
+                    },
+                    "description": "Who was involved in the episode"
+                },
+                "why": {
+                    "type": "object",
+                    "properties": {
+                        "motivation": {
+                            "type": "string"
+                        },
+                        "causal_factors": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "goals": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "intentions": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "background_context": {
+                            "type": "string"
+                        }
+                    },
+                    "description": "Why the episode occurred or motivations involved"
+                },
+                "how": {
+                    "type": "object",
+                    "properties": {
+                        "sequence_of_actions": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "methods_used": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "process_details": {
+                            "type": "string"
+                        },
+                        "approach_taken": {
+                            "type": "string"
+                        },
+                        "execution_style": {
+                            "type": "string"
+                        }
+                    },
+                    "description": "How the episode unfolded or was executed"
+                },
+                "sensory_details": {
+                    "type": "object",
+                    "properties": {
+                        "visual_details": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "auditory_details": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "tactile_details": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "olfactory_details": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "gustatory_details": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "sensory_vividness": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    },
+                    "description": "Sensory details of the episodic memory"
+                },
+                "emotional_content": {
+                    "type": "object",
+                    "properties": {
+                        "emotional_valence": {
+                            "type": "number",
+                            "minimum": -1,
+                            "maximum": 1
+                        },
+                        "emotional_arousal": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "specific_emotions": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "emotional_intensity": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "mood_context": {
+                            "type": "string"
+                        }
+                    },
+                    "description": "Emotional aspects of the episodic memory"
+                },
+                "content_richness": {
+                    "type": "object",
+                    "properties": {
+                        "detail_level": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "vividness": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "completeness": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "coherence": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "specificity": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    },
+                    "description": "Richness and quality of episodic content"
+                }
+            },
+            "description": "Rich episodic content of the memory"
+        },
+        "contextual_information": {
+            "type": "object",
+            "required": [
+                "encoding_context",
+                "retrieval_contexts"
+            ],
+            "properties": {
+                "encoding_context": {
+                    "type": "object",
+                    "properties": {
+                        "attention_state": {
+                            "type": "object"
+                        },
+                        "cognitive_state": {
+                            "type": "object"
+                        },
+                        "emotional_state": {
+                            "type": "object"
+                        },
+                        "physical_state": {
+                            "type": "object"
+                        },
+                        "social_context": {
+                            "type": "object"
+                        },
+                        "environmental_factors": {
+                            "type": "object"
+                        }
+                    },
+                    "description": "Context during memory encoding"
+                },
+                "retrieval_contexts": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "retrieval_timestamp": {
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            "retrieval_cues": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "retrieval_context": {
+                                "type": "object"
+                            },
+                            "retrieval_success": {
+                                "type": "boolean"
+                            },
+                            "retrieval_quality": {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 1
+                            }
+                        }
+                    },
+                    "description": "Contexts in which memory has been retrieved"
+                },
+                "associated_memories": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "memory_id": {
+                                "type": "string"
+                            },
+                            "association_type": {
+                                "type": "string"
+                            },
+                            "association_strength": {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 1
+                            }
+                        }
+                    },
+                    "description": "Other memories associated with this episodic memory"
+                }
+            },
+            "description": "Contextual information for encoding and retrieval"
+        },
+        "memory_strength": {
+            "type": "object",
+            "required": [
+                "current_strength",
+                "decay_rate",
+                "stability"
+            ],
+            "properties": {
+                "current_strength": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Current strength of the memory"
+                },
+                "initial_strength": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Initial encoding strength"
+                },
+                "peak_strength": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Peak strength achieved"
+                },
+                "decay_rate": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Rate of memory strength decay"
+                },
+                "stability": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Stability of memory representation"
+                },
+                "consolidation_strength": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Strength after consolidation"
+                },
+                "rehearsal_count": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "description": "Number of times memory has been rehearsed or retrieved"
+                },
+                "interference_level": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Level of interference from similar memories"
+                }
+            },
+            "description": "Memory strength and stability metrics"
+        },
+        "retrieval_history": {
+            "type": "object",
+            "required": [
+                "retrieval_attempts",
+                "successful_retrievals",
+                "retrieval_quality_history"
+            ],
+            "properties": {
+                "retrieval_attempts": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "description": "Total number of retrieval attempts"
+                },
+                "successful_retrievals": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "description": "Number of successful retrievals"
+                },
+                "last_retrieval": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "Timestamp of last retrieval"
+                },
+                "retrieval_success_rate": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Success rate of retrieval attempts"
+                },
+                "retrieval_quality_history": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "timestamp": {
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            "retrieval_quality": {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 1
+                            },
+                            "completeness": {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 1
+                            },
+                            "accuracy": {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 1
+                            },
+                            "confidence": {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 1
+                            }
+                        }
+                    },
+                    "description": "History of retrieval quality over time"
+                },
+                "common_retrieval_cues": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "cue": {
+                                "type": "string"
+                            },
+                            "effectiveness": {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 1
+                            },
+                            "usage_count": {
+                                "type": "integer",
+                                "minimum": 0
+                            }
+                        }
+                    },
+                    "description": "Common cues that lead to successful retrieval"
+                }
+            },
+            "description": "History of memory retrieval attempts and outcomes"
+        },
+        "consolidation_status": {
+            "type": "object",
+            "required": [
+                "status",
+                "consolidation_progress",
+                "hippocampal_dependency"
+            ],
+            "properties": {
+                "status": {
+                    "type": "string",
+                    "enum": [
+                        "newly_encoded",
+                        "stabilizing",
+                        "consolidating",
+                        "consolidated",
+                        "cortically_stored"
+                    ],
+                    "description": "Current consolidation status of the memory"
+                },
+                "consolidation_progress": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Progress of consolidation process (0 = not started, 1 = complete)"
+                },
+                "hippocampal_dependency": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Current dependency on hippocampus for retrieval"
+                },
+                "cortical_independence": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Level of cortical independence achieved"
+                },
+                "consolidation_sessions": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "session_id": {
+                                "type": "string"
+                            },
+                            "session_timestamp": {
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            "session_duration": {
+                                "type": "integer"
+                            },
+                            "session_quality": {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 1
+                            }
+                        }
+                    },
+                    "description": "Consolidation sessions this memory has participated in"
+                },
+                "transfer_targets": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "cortical_region": {
+                                "type": "string"
+                            },
+                            "transfer_progress": {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 1
+                            },
+                            "integration_quality": {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 1
+                            }
+                        }
+                    },
+                    "description": "Cortical regions targeted for memory transfer"
+                }
+            },
+            "description": "Status and progress of memory consolidation"
+        },
+        "neural_encoding": {
+            "type": "object",
+            "properties": {
+                "hippocampal_subregions": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Hippocampal subregions involved in encoding"
+                },
+                "place_cell_patterns": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "cell_id": {
+                                "type": "string"
+                            },
+                            "firing_pattern": {
+                                "type": "string"
+                            },
+                            "spatial_tuning": {
+                                "type": "object"
+                            }
+                        }
+                    },
+                    "description": "Place cell firing patterns associated with memory"
+                },
+                "time_cell_patterns": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "cell_id": {
+                                "type": "string"
+                            },
+                            "temporal_field": {
+                                "type": "number"
+                            },
+                            "sequence_position": {
+                                "type": "integer"
+                            }
+                        }
+                    },
+                    "description": "Time cell patterns encoding temporal aspects"
+                },
+                "theta_rhythm_phase": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 6.28318,
+                    "description": "Theta rhythm phase during encoding"
+                },
+                "gamma_oscillations": {
+                    "type": "object",
+                    "properties": {
+                        "frequency": {
+                            "type": "number"
+                        },
+                        "amplitude": {
+                            "type": "number"
+                        },
+                        "coherence": {
+                            "type": "number"
+                        }
+                    },
+                    "description": "Gamma oscillation patterns during encoding"
+                }
+            },
+            "description": "Neural encoding patterns and oscillations"
+        },
+        "metadata": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "When the memory state was created"
+                },
+                "last_updated": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "When the memory state was last updated"
+                },
+                "update_count": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "description": "Number of times the memory state has been updated"
+                },
+                "source_system": {
+                    "type": "string",
+                    "description": "System that created or manages this memory"
+                },
+                "memory_tags": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Tags for categorizing or organizing memories"
+                },
+                "importance_rating": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Subjective importance rating of the memory"
+                },
+                "privacy_level": {
+                    "type": "string",
+                    "enum": [
+                        "public",
+                        "private",
+                        "confidential",
+                        "restricted"
+                    ],
+                    "description": "Privacy level of the memory content"
+                }
+            },
+            "description": "Metadata about the memory state"
+        }
+    },
+    "additionalProperties": false,
+    "examples": [
+        {
+            "memory_id": "mem_episode_20250916_143045",
+            "hippocampus_id": "hippocampus_primary_001",
+            "memory_type": "personal_event",
+            "encoding_timestamp": "2025-09-16T14:30:45.123Z",
+            "episodic_content": {
+                "what": {
+                    "primary_event": "Making morning coffee",
+                    "secondary_events": [
+                        "Opening window",
+                        "Listening to birds"
+                    ],
+                    "actions_performed": [
+                        "Grinding beans",
+                        "Brewing coffee",
+                        "Adding cream"
+                    ],
+                    "objects_involved": [
+                        "Coffee maker",
+                        "Coffee beans",
+                        "Cream",
+                        "Mug"
+                    ],
+                    "people_present": [
+                        "self"
+                    ]
+                },
+                "when": {
+                    "absolute_time": "2025-09-16T14:30:45.123Z",
+                    "relative_time": "Monday morning",
+                    "temporal_context": "Start of work week",
+                    "duration": "5 minutes",
+                    "time_of_day": "morning",
+                    "season_context": "early autumn"
+                },
+                "where": {
+                    "location_name": "Home kitchen",
+                    "spatial_coordinates": [
+                        2.5,
+                        3.1,
+                        0.0
+                    ],
+                    "environmental_context": "Sunny kitchen with open window",
+                    "location_type": "indoor_domestic",
+                    "spatial_layout": {
+                        "room_type": "kitchen",
+                        "area_sqm": 12
+                    },
+                    "landmark_references": [
+                        "window",
+                        "kitchen_table",
+                        "coffee_maker"
+                    ]
+                },
+                "who": {
+                    "self_involvement": true,
+                    "other_people": [],
+                    "social_roles": [
+                        "homeowner"
+                    ],
+                    "relationship_context": "solo_activity",
+                    "interaction_type": "none"
+                },
+                "why": {
+                    "motivation": "Energy and alertness for work day",
+                    "causal_factors": [
+                        "Work schedule",
+                        "Morning routine"
+                    ],
+                    "goals": [
+                        "Get energized",
+                        "Enjoy peaceful moment"
+                    ],
+                    "intentions": [
+                        "Prepare for productive day"
+                    ],
+                    "background_context": "Regular morning routine"
+                },
+                "how": {
+                    "sequence_of_actions": [
+                        "Grind beans",
+                        "Add water",
+                        "Start brewing",
+                        "Wait",
+                        "Pour coffee"
+                    ],
+                    "methods_used": [
+                        "Drip coffee maker",
+                        "Fresh bean grinding"
+                    ],
+                    "process_details": "Careful attention to coffee quality",
+                    "approach_taken": "Methodical and mindful",
+                    "execution_style": "Relaxed and contemplative"
+                },
+                "sensory_details": {
+                    "visual_details": [
+                        "Sunlight streaming",
+                        "Steam rising",
+                        "Golden coffee color"
+                    ],
+                    "auditory_details": [
+                        "Coffee brewing sound",
+                        "Birds chirping",
+                        "Bean grinding"
+                    ],
+                    "tactile_details": [
+                        "Warm mug",
+                        "Smooth coffee surface"
+                    ],
+                    "olfactory_details": [
+                        "Fresh coffee aroma",
+                        "Morning air"
+                    ],
+                    "gustatory_details": [
+                        "Rich coffee taste",
+                        "Smooth texture"
+                    ],
+                    "sensory_vividness": 0.9
+                },
+                "emotional_content": {
+                    "emotional_valence": 0.8,
+                    "emotional_arousal": 0.6,
+                    "specific_emotions": [
+                        "contentment",
+                        "anticipation",
+                        "peacefulness"
+                    ],
+                    "emotional_intensity": 0.7,
+                    "mood_context": "positive_morning_mood"
+                },
+                "content_richness": {
+                    "detail_level": 0.85,
+                    "vividness": 0.9,
+                    "completeness": 0.88,
+                    "coherence": 0.92,
+                    "specificity": 0.86
+                }
+            },
+            "contextual_information": {
+                "encoding_context": {
+                    "attention_state": {
+                        "attention_level": 0.85,
+                        "focus_type": "mindful"
+                    },
+                    "cognitive_state": {
+                        "alertness": 0.8,
+                        "processing_mode": "relaxed"
+                    },
+                    "emotional_state": {
+                        "valence": 0.8,
+                        "arousal": 0.6
+                    },
+                    "physical_state": {
+                        "energy_level": 0.7,
+                        "comfort": 0.9
+                    },
+                    "social_context": {
+                        "social_presence": "alone",
+                        "interaction_level": "none"
+                    },
+                    "environmental_factors": {
+                        "lighting": "natural",
+                        "noise_level": "low",
+                        "temperature": "comfortable"
+                    }
+                },
+                "retrieval_contexts": [
+                    {
+                        "retrieval_timestamp": "2025-09-16T15:30:22.456Z",
+                        "retrieval_cues": [
+                            "coffee aroma",
+                            "kitchen"
+                        ],
+                        "retrieval_context": {
+                            "situation": "smell_triggered_recall"
+                        },
+                        "retrieval_success": true,
+                        "retrieval_quality": 0.85
+                    }
+                ],
+                "associated_memories": [
+                    {
+                        "memory_id": "mem_episode_20250915_143000",
+                        "association_type": "temporal_sequence",
+                        "association_strength": 0.7
+                    }
+                ]
+            },
+            "memory_strength": {
+                "current_strength": 0.85,
+                "initial_strength": 0.8,
+                "peak_strength": 0.9,
+                "decay_rate": 0.05,
+                "stability": 0.88,
+                "consolidation_strength": 0.82,
+                "rehearsal_count": 2,
+                "interference_level": 0.15
+            },
+            "retrieval_history": {
+                "retrieval_attempts": 3,
+                "successful_retrievals": 2,
+                "last_retrieval": "2025-09-16T15:30:22.456Z",
+                "retrieval_success_rate": 0.67,
+                "retrieval_quality_history": [
+                    {
+                        "timestamp": "2025-09-16T15:30:22.456Z",
+                        "retrieval_quality": 0.85,
+                        "completeness": 0.9,
+                        "accuracy": 0.88,
+                        "confidence": 0.8
+                    }
+                ],
+                "common_retrieval_cues": [
+                    {
+                        "cue": "coffee_aroma",
+                        "effectiveness": 0.9,
+                        "usage_count": 2
+                    }
+                ]
+            },
+            "consolidation_status": {
+                "status": "consolidating",
+                "consolidation_progress": 0.6,
+                "hippocampal_dependency": 0.7,
+                "cortical_independence": 0.4,
+                "consolidation_sessions": [
+                    {
+                        "session_id": "consol_session_20250916_2345",
+                        "session_timestamp": "2025-09-16T23:45:12.789Z",
+                        "session_duration": 28800000,
+                        "session_quality": 0.85
+                    }
+                ],
+                "transfer_targets": [
+                    {
+                        "cortical_region": "prefrontal_cortex",
+                        "transfer_progress": 0.4,
+                        "integration_quality": 0.6
+                    }
+                ]
+            },
+            "neural_encoding": {
+                "hippocampal_subregions": [
+                    "CA1",
+                    "CA3",
+                    "dentate_gyrus"
+                ],
+                "place_cell_patterns": [
+                    {
+                        "cell_id": "place_cell_001",
+                        "firing_pattern": "high_frequency_burst",
+                        "spatial_tuning": {
+                            "center": [
+                                2.5,
+                                3.1
+                            ],
+                            "size": 0.8
+                        }
+                    }
+                ],
+                "time_cell_patterns": [
+                    {
+                        "cell_id": "time_cell_007",
+                        "temporal_field": 2.5,
+                        "sequence_position": 3
+                    }
+                ],
+                "theta_rhythm_phase": 1.57,
+                "gamma_oscillations": {
+                    "frequency": 40.0,
+                    "amplitude": 0.8,
+                    "coherence": 0.75
+                }
+            },
+            "metadata": {
+                "created_at": "2025-09-16T14:30:45.123Z",
+                "last_updated": "2025-09-16T23:45:12.789Z",
+                "update_count": 2,
+                "source_system": "hippocampus_primary_001",
+                "memory_tags": [
+                    "morning_routine",
+                    "coffee",
+                    "peaceful",
+                    "personal"
+                ],
+                "importance_rating": 0.6,
+                "privacy_level": "private"
+            }
+        }
+    ]
+}

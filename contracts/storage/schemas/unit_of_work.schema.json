@@ -1,0 +1,53 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://familyos.local/contracts/storage/unit_of_work.schema.json",
+  "title": "Unit Of Work",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "uow_id",
+    "envelope_id",
+    "status",
+    "created_ts"
+  ],
+  "properties": {
+    "uow_id": {
+      "$ref": "./common.schema.json#/$defs/ULID"
+    },
+    "envelope_id": {
+      "$ref": "./common.schema.json#/$defs/EnvelopeId"
+    },
+    "created_ts": {
+      "$ref": "./common.schema.json#/$defs/Timestamp"
+    },
+    "committed_ts": {
+      "$ref": "./common.schema.json#/$defs/Timestamp"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "committed",
+        "rolled_back"
+      ]
+    },
+    "writes": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "store",
+          "record_id"
+        ],
+        "properties": {
+          "store": {
+            "type": "string"
+          },
+          "record_id": {
+            "$ref": "./common.schema.json#/$defs/ULID"
+          }
+        }
+      }
+    }
+  }
+}

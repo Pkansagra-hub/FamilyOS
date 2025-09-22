@@ -1,0 +1,74 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://memoryos.local/contracts/events/schemas/action_decision.schema.json",
+  "title": "ACTION_DECISION@1.0 payload",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "plan_id",
+    "selected_action",
+    "confidence",
+    "space_id",
+    "decided_at"
+  ],
+  "properties": {
+    "plan_id": {
+      "type": "string"
+    },
+    "selected_action": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "name",
+        "args"
+      ],
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "args": {
+          "type": "object"
+        }
+      }
+    },
+    "alternatives": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "name",
+          "score"
+        ],
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "score": {
+            "$ref": "_common.json#/definitions/Score"
+          }
+        }
+      }
+    },
+    "confidence": {
+      "$ref": "_common.json#/definitions/Score"
+    },
+    "risk_level": {
+      "type": "string",
+      "enum": [
+        "LOW",
+        "MEDIUM",
+        "HIGH"
+      ]
+    },
+    "space_id": {
+      "$ref": "_common.json#/definitions/SpaceRef"
+    },
+    "decided_at": {
+      "$ref": "_common.json#/definitions/ISOInstant"
+    },
+    "trace": {
+      "$ref": "_common.json#/definitions/TraceContext"
+    }
+  }
+}

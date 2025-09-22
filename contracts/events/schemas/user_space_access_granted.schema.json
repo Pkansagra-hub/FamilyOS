@@ -1,0 +1,93 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "User Space Access Granted Event",
+  "description": "Event fired when a user is granted access to a memory space",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "assignment_id",
+    "user_id",
+    "space_id",
+    "permissions",
+    "assigned_by",
+    "assigned_ts"
+  ],
+  "properties": {
+    "assignment_id": {
+      "type": "string",
+      "pattern": "^[0-7][0-9A-HJKMNP-TV-Z]{25}$",
+      "description": "ULID for this space assignment"
+    },
+    "user_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "User receiving space access"
+    },
+    "space_id": {
+      "type": "string",
+      "pattern": "^(personal|selective|shared|extended|interfamily):",
+      "description": "Memory space being accessed"
+    },
+    "permissions": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["READ", "WRITE", "SHARE", "ADMIN"]
+      },
+      "minItems": 1,
+      "uniqueItems": true,
+      "description": "Permissions granted in this space"
+    },
+    "role_context": {
+      "type": "string",
+      "enum": ["guardian", "member", "child", "guest"],
+      "description": "Role context for this space assignment"
+    },
+    "restrictions": {
+      "type": "object",
+      "properties": {
+        "time_limited": {
+          "type": "boolean"
+        },
+        "valid_from": {
+          "$ref": "./_common.json#/definitions/ISOInstant"
+        },
+        "valid_until": {
+          "$ref": "./_common.json#/definitions/ISOInstant"
+        },
+        "allowed_bands": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["GREEN", "AMBER", "RED", "BLACK"]
+          }
+        },
+        "device_restrictions": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "enum": ["ios", "android", "macos", "windows", "linux", "web", "edge"]
+          }
+        }
+      },
+      "description": "Access restrictions for this space assignment"
+    },
+    "assigned_by": {
+      "type": "string",
+      "format": "uuid",
+      "description": "Admin user who granted access"
+    },
+    "assignment_reason": {
+      "type": "string",
+      "description": "Reason for granting space access"
+    },
+    "assigned_ts": {
+      "$ref": "./_common.json#/definitions/ISOInstant",
+      "description": "When access was granted"
+    },
+    "trace_context": {
+      "$ref": "./_common.json#/definitions/TraceContext",
+      "description": "Distributed tracing context"
+    }
+  }
+}

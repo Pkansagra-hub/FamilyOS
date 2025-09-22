@@ -1,0 +1,9 @@
+{
+  "binding_id": "4V0VHE1NS6NSF24QDY76X5EMY3",
+  "role": "parent",
+  "subject": {
+    "type": "user",
+    "id": "11111111-2222-4333-8444-555555555555"
+  },
+  "created_ts": "2025-01-14T10:30:00.000Z"
+}

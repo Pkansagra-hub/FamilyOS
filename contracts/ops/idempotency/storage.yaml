@@ -1,0 +1,608 @@
+---
+title: "Storage Service - Idempotency and Transaction Boundary Contracts"
+version: "1.0.0"
+updated: "2025-09-16T00:00:00Z"
+service: "storage"
+category: "ops/idempotency"
+description: |
+  Comprehensive idempotency contracts for MemoryOS Storage Service.
+  Defines UnitOfWork patterns, duplicate detection strategies, transaction
+  replay mechanisms, and cross-store coordination rules for reliable operations.
+
+# =============================================================================
+# IDEMPOTENCY FRAMEWORK
+# =============================================================================
+
+idempotency_model:
+  core_principles:
+    - "Operations produce same result when repeated"
+    - "Safe to retry any operation without side effects"
+    - "Idempotency keys ensure exactly-once semantics"
+    - "State transitions are deterministic and repeatable"
+
+  scope:
+    - "UnitOfWork transaction boundaries"
+    - "Individual store operations"
+    - "Cross-store coordination"
+    - "Event publishing"
+    - "Receipt generation"
+
+  key_components:
+    - "IdempotencyStore for key tracking"
+    - "UnitOfWork transaction coordination"
+    - "Operation fingerprinting"
+    - "Result caching for repeated operations"
+    - "Timeout-based key expiration"
+
+# =============================================================================
+# IDEMPOTENCY KEY CONTRACTS
+# =============================================================================
+
+idempotency_key_format:
+  structure: "{service}:{operation}:{resource_id}:{operation_hash}"
+  examples:
+    - "storage:uow_commit:ep_001:a1b2c3d4"
+    - "storage:store_write:affect_store:x9y8z7w6"
+    - "storage:cross_store_tx:multi_store:f5e4d3c2"
+
+  components:
+    service:
+      description: "Service identifier (always 'storage')"
+      format: "string"
+      constraints: ["lowercase", "no_spaces", "alphanumeric_underscore"]
+
+    operation:
+      description: "Operation type being performed"
+      format: "string"
+      valid_values:
+        - "uow_commit" # UnitOfWork commit operation
+        - "uow_rollback" # UnitOfWork rollback operation
+        - "store_write" # Individual store write
+        - "store_read" # Individual store read (if cacheable)
+        - "cross_store_tx" # Cross-store transaction
+        - "schema_migration" # Schema migration operation
+        - "bulk_operation" # Bulk data operation
+        - "index_rebuild" # Index rebuild operation
+
+    resource_id:
+      description: "Identifier of the resource being operated on"
+      format: "string"
+      examples:
+        - "episodic_store"
+        - "multi_store"
+        - "user_12345"
+        - "workspace_abc"
+
+    operation_hash:
+      description: "Hash of operation parameters and data"
+      format: "hex_string"
+      algorithm: "SHA-256"
+      length: 8 # Truncated to 8 characters for readability
+
+# =============================================================================
+# UNITOFWORK IDEMPOTENCY PATTERNS
+# =============================================================================
+
+unitofwork_idempotency:
+  transaction_lifecycle:
+    phases:
+      1_prepare:
+        description: "Prepare phase - validate idempotency"
+        actions:
+          - "Generate or validate idempotency key"
+          - "Check for existing operation"
+          - "Lock idempotency key"
+          - "Validate transaction parameters"
+
+        idempotency_checks:
+          - "Key exists check against IdempotencyStore"
+          - "Operation status verification"
+          - "Result cache lookup"
+          - "Timeout expiration check"
+
+        outcomes:
+          duplicate_found: "Return cached result immediately"
+          in_progress: "Wait or reject based on policy"
+          new_operation: "Proceed to execute phase"
+          expired: "Clear expired key and proceed"
+
+      2_execute:
+        description: "Execution phase - perform operations"
+        actions:
+          - "Begin distributed transaction"
+          - "Execute operations on each store"
+          - "Collect operation results"
+          - "Validate cross-store consistency"
+
+        idempotency_guarantees:
+          - "Each store operation is idempotent"
+          - "Partial failures are safely retryable"
+          - "State changes are atomic per store"
+          - "No side effects on duplicate detection"
+
+        error_handling:
+          - "Rollback preserves idempotency key"
+          - "Partial success marked as failed"
+          - "Retry maintains same idempotency key"
+          - "Error details cached for duplicate requests"
+
+      3_commit:
+        description: "Commit phase - finalize and cache results"
+        actions:
+          - "Commit all store transactions"
+          - "Generate receipt"
+          - "Cache operation result"
+          - "Update idempotency key status"
+
+        result_caching:
+          cache_duration: "24 hours"
+          cache_content:
+            - "Operation success/failure status"
+            - "Generated receipt"
+            - "Store write records"
+            - "Error details (if failed)"
+
+          cache_invalidation:
+            - "Explicit key expiration"
+            - "Storage capacity pressure"
+            - "Administrative cleanup"
+
+  cross_store_coordination:
+    distributed_idempotency:
+      pattern: "Coordinator-based two-phase idempotency"
+      coordinator: "UnitOfWork instance"
+      participants: "Individual stores"
+
+      coordination_protocol:
+        1_prepare_idempotency:
+          - "Coordinator generates global idempotency key"
+          - "Each store validates local idempotency"
+          - "Store-specific operation hashes computed"
+          - "Local idempotency keys registered"
+
+        2_execute_idempotent:
+          - "Each store executes using local idempotency"
+          - "Operations are inherently idempotent"
+          - "Partial failures tracked per store"
+          - "Global state maintained by coordinator"
+
+        3_commit_idempotency:
+          - "Global result cached by coordinator"
+          - "Store-specific results cached locally"
+          - "Receipt generation includes all operations"
+          - "Idempotency keys marked complete"
+
+    store_coordination_rules:
+      operation_ordering:
+        description: "Deterministic ordering ensures idempotency"
+        ordering_strategy: "Alphabetical by store name"
+        conflict_resolution: "Coordinator retry with same order"
+
+      failure_handling:
+        partial_failure: "Mark global operation as failed"
+        retry_behavior: "Restart with same idempotency key"
+        timeout_handling: "Mark as failed, allow retry"
+        consistency_repair: "Use same idempotency for repair"
+
+# =============================================================================
+# STORE-LEVEL IDEMPOTENCY PATTERNS
+# =============================================================================
+
+store_idempotency_patterns:
+  create_operations:
+    pattern: "Insert with conflict detection"
+    implementation:
+      - "Use UNIQUE constraints for natural keys"
+      - "ON CONFLICT DO NOTHING for pure idempotency"
+      - "ON CONFLICT UPDATE for upsert semantics"
+      - "Return existing record on duplicate"
+
+    idempotency_key_usage:
+      - "Include key in record metadata"
+      - "Query by key for duplicate detection"
+      - "Link key to operation result"
+
+    examples:
+      episodic_record:
+        sql: |
+          INSERT INTO episodic_records (id, content, idempotency_key, created_at)
+          VALUES (?, ?, ?, ?)
+          ON CONFLICT (idempotency_key) DO NOTHING
+          RETURNING *
+
+      affect_state:
+        sql: |
+          INSERT OR REPLACE INTO affect_states (user_id, timestamp, values, idempotency_key)
+          VALUES (?, ?, ?, ?)
+
+  update_operations:
+    pattern: "Conditional update with version checking"
+    implementation:
+      - "Include current version in WHERE clause"
+      - "Update version atomically with data"
+      - "Return conflict error if version mismatch"
+      - "Cache result for duplicate requests"
+
+    version_strategies:
+      timestamp_based: "Use last_modified timestamp"
+      counter_based: "Use incremental version counter"
+      hash_based: "Use content hash as version"
+
+    examples:
+      workspace_config:
+        sql: |
+          UPDATE workspace_configs
+          SET config_data = ?, version = version + 1, idempotency_key = ?
+          WHERE workspace_id = ? AND version = ?
+
+  delete_operations:
+    pattern: "Soft delete with idempotency tracking"
+    implementation:
+      - "Mark records as deleted rather than removing"
+      - "Track deletion idempotency key"
+      - "Return success even if already deleted"
+      - "Prevent re-deletion with same key"
+
+    examples:
+      soft_delete:
+        sql: |
+          UPDATE records
+          SET deleted_at = ?, deleted_by_key = ?
+          WHERE id = ? AND deleted_at IS NULL
+
+  read_operations:
+    pattern: "Cached reads with cache invalidation"
+    implementation:
+      - "Cache expensive query results"
+      - "Include query parameters in cache key"
+      - "Invalidate on related data changes"
+      - "Return cached results for duplicate requests"
+
+    caching_strategy:
+      cache_ttl: "5 minutes for expensive queries"
+      cache_size: "1000 entries per store"
+      invalidation_triggers:
+        - "Related record updates"
+        - "Schema changes"
+        - "Explicit cache clear commands"
+
+# =============================================================================
+# DUPLICATE DETECTION STRATEGIES
+# =============================================================================
+
+duplicate_detection:
+  detection_levels:
+    operation_level:
+      description: "Detect duplicate operations by idempotency key"
+      method: "Direct key lookup in IdempotencyStore"
+      response_time: "<1ms"
+      accuracy: "100%"
+
+    content_level:
+      description: "Detect duplicate content by hash"
+      method: "Content fingerprinting and hash comparison"
+      response_time: "<5ms"
+      accuracy: "99.99%"
+
+    semantic_level:
+      description: "Detect semantically equivalent operations"
+      method: "Parameter normalization and comparison"
+      response_time: "<10ms"
+      accuracy: "95%"
+
+  fingerprinting_algorithms:
+    operation_fingerprint:
+      algorithm: "SHA-256"
+      inputs:
+        - "Operation type"
+        - "Resource identifiers"
+        - "Operation parameters (normalized)"
+        - "Store names (sorted)"
+        - "Timestamp (rounded to minute for near-duplicates)"
+
+      normalization_rules:
+        - "Sort dictionary keys"
+        - "Normalize whitespace"
+        - "Convert to canonical case"
+        - "Remove optional parameters with default values"
+
+    content_fingerprint:
+      algorithm: "BLAKE3"
+      inputs:
+        - "Record data (JSON serialized)"
+        - "Schema version"
+        - "Store identifier"
+
+      optimization:
+        - "Incremental hashing for large records"
+        - "Pre-computed hashes for common patterns"
+        - "Bloom filters for negative lookups"
+
+  detection_policies:
+    strict_idempotency:
+      description: "Reject any duplicate operation"
+      use_cases: ["Financial transactions", "Audit records"]
+      response: "Return original result immediately"
+
+    eventual_idempotency:
+      description: "Allow duplicates but converge to same result"
+      use_cases: ["Analytics updates", "Cache warming"]
+      response: "Process but merge results"
+
+    temporal_idempotency:
+      description: "Reject duplicates within time window"
+      use_cases: ["User interface actions", "Batch operations"]
+      time_window: "5 minutes"
+      response: "Reject if within window, allow if expired"
+
+# =============================================================================
+# TRANSACTION REPLAY MECHANISMS
+# =============================================================================
+
+transaction_replay:
+  replay_scenarios:
+    network_failure:
+      description: "Network failure during transaction"
+      detection: "Connection timeout or reset"
+      strategy: "Replay with same idempotency key"
+      safety: "Idempotency ensures no double-processing"
+
+    partial_commit:
+      description: "Some stores committed, others failed"
+      detection: "Coordinator tracks store states"
+      strategy: "Replay only failed stores"
+      safety: "Committed stores ignore replayed operations"
+
+    coordinator_failure:
+      description: "UnitOfWork coordinator process failed"
+      detection: "Health check or process monitoring"
+      strategy: "Recovery coordinator replays pending transactions"
+      safety: "All operations designed for safe replay"
+
+    timeout_recovery:
+      description: "Operation timed out but may have succeeded"
+      detection: "Client timeout or server timeout"
+      strategy: "Query operation status, replay if needed"
+      safety: "Status query is idempotent"
+
+  replay_protocol:
+    1_assess_state:
+      actions:
+        - "Query IdempotencyStore for operation status"
+        - "Check store-specific operation completion"
+        - "Identify which stores need replay"
+        - "Validate data consistency"
+
+      state_classifications:
+        not_started: "Full replay required"
+        in_progress: "Determine partial completion"
+        completed: "Return cached result"
+        failed: "Replay from beginning"
+        partial: "Replay only failed portions"
+
+    2_prepare_replay:
+      actions:
+        - "Reconstruct operation context"
+        - "Validate idempotency key still valid"
+        - "Ensure prerequisites still met"
+        - "Set up monitoring for replay"
+
+      validation_checks:
+        - "Idempotency key not expired"
+        - "Original parameters still valid"
+        - "No conflicting operations in progress"
+        - "System resources available for replay"
+
+    3_execute_replay:
+      actions:
+        - "Execute only incomplete operations"
+        - "Use original idempotency keys"
+        - "Maintain operation ordering"
+        - "Track replay progress"
+
+      safety_mechanisms:
+        - "Each operation checks completion before executing"
+        - "Committed stores ignore replay attempts"
+        - "Failed operations cleaned up before replay"
+        - "Replay operations are also idempotent"
+
+    4_verify_completion:
+      actions:
+        - "Verify all stores completed successfully"
+        - "Update operation status to completed"
+        - "Generate or update receipt"
+        - "Cache final result"
+
+  replay_safety_guarantees:
+    data_safety:
+      - "No duplicate data creation"
+      - "No data corruption from replays"
+      - "Consistent state after replay"
+      - "Referential integrity maintained"
+
+    operational_safety:
+      - "Replay cannot break system invariants"
+      - "Resources properly cleaned up"
+      - "No cascading failures from replay"
+      - "Bounded replay attempts"
+
+    temporal_safety:
+      - "Timestamps remain consistent"
+      - "Ordering preserved across replays"
+      - "No time-travel paradoxes"
+      - "Event sequences maintained"
+
+# =============================================================================
+# CROSS-STORE COORDINATION RULES
+# =============================================================================
+
+cross_store_coordination:
+  coordination_patterns:
+    two_phase_commit:
+      description: "Classic 2PC for ACID guarantees"
+      use_cases: ["Critical system operations", "Audit trail operations"]
+
+      phases:
+        prepare:
+          - "All stores validate and prepare transaction"
+          - "Each store votes commit/abort"
+          - "Coordinator collects all votes"
+          - "Decision made based on unanimous commit votes"
+
+        commit:
+          - "Coordinator broadcasts commit decision"
+          - "All stores commit their transactions"
+          - "Coordinator waits for acknowledgments"
+          - "Transaction marked complete"
+
+      failure_handling:
+        prepare_timeout: "Abort transaction"
+        prepare_failure: "Abort transaction"
+        commit_timeout: "Retry commit indefinitely"
+        coordinator_failure: "Recovery protocol initiated"
+
+    saga_pattern:
+      description: "Compensating actions for long-running transactions"
+      use_cases: ["Data migration", "Complex business processes"]
+
+      execution_model:
+        forward_execution:
+          - "Execute steps in sequence"
+          - "Each step is a separate transaction"
+          - "Steps are idempotent and compensatable"
+          - "Progress tracked in saga state"
+
+        compensation:
+          - "Execute compensating actions in reverse order"
+          - "Each compensation is idempotent"
+          - "Partial compensation allowed"
+          - "Compensation failures handled gracefully"
+
+      saga_state_management:
+        state_store: "ReceiptsStore"
+        state_schema:
+          saga_id: "Unique identifier for saga instance"
+          steps: "List of steps with status"
+          compensation_stack: "Stack of completed steps"
+          current_step: "Currently executing step"
+          saga_status: "running|completed|compensating|failed"
+
+  store_dependency_management:
+    dependency_graph:
+      critical_dependencies:
+        - "IdempotencyStore → All other stores"
+        - "ReceiptsStore → All transaction participants"
+        - "PrivacyStore → Data-containing stores"
+        - "SecureStore → Sensitive data stores"
+
+      dependency_resolution:
+        initialization_order: "Critical stores first"
+        shutdown_order: "Reverse of initialization"
+        failure_isolation: "Dependent stores fail gracefully"
+        recovery_order: "Critical stores recovered first"
+
+    coordination_state_machine:
+      states:
+        idle: "No active coordination"
+        preparing: "Coordination setup in progress"
+        executing: "Operations being executed"
+        committing: "Finalizing operations"
+        completed: "All operations successful"
+        failed: "Operations failed, cleanup needed"
+        compensating: "Running compensation actions"
+
+      transitions:
+        idle → preparing: "New coordination request"
+        preparing → executing: "All stores prepared"
+        preparing → failed: "Preparation failed"
+        executing → committing: "All operations completed"
+        executing → compensating: "Operation failed"
+        committing → completed: "All commits successful"
+        committing → compensating: "Commit failed"
+        compensating → failed: "Compensation completed"
+        failed → idle: "Cleanup completed"
+        completed → idle: "Result cached and returned"
+
+  conflict_resolution:
+    coordination_conflicts:
+      concurrent_operations:
+        detection: "Lock-based coordination"
+        resolution: "First-come-first-served with queuing"
+        timeout: "30 seconds maximum wait"
+
+      resource_contention:
+        detection: "Resource utilization monitoring"
+        resolution: "Priority-based scheduling"
+        backpressure: "Reject low-priority operations under load"
+
+      deadlock_prevention:
+        strategy: "Ordered resource acquisition"
+        order: "Alphabetical by store name"
+        timeout: "Deadlock detection after 10 seconds"
+        recovery: "Abort youngest transaction"
+
+# =============================================================================
+# PERFORMANCE AND MONITORING
+# =============================================================================
+
+performance_targets:
+  idempotency_overhead:
+    key_generation: "<1ms"
+    duplicate_detection: "<1ms"
+    result_caching: "<2ms"
+    cache_retrieval: "<1ms"
+
+  coordination_overhead:
+    two_phase_commit: "<10ms additional"
+    saga_coordination: "<5ms per step"
+    conflict_resolution: "<20ms under contention"
+
+  storage_overhead:
+    idempotency_key_storage: "<100 bytes per operation"
+    result_cache_storage: "<10KB per cached result"
+    coordination_state: "<1KB per active coordination"
+
+monitoring_metrics:
+  idempotency_metrics:
+    - "duplicate_detection_rate"
+    - "cache_hit_rate"
+    - "idempotency_key_conflicts"
+    - "expired_key_cleanup_rate"
+
+  coordination_metrics:
+    - "transaction_coordination_success_rate"
+    - "cross_store_consistency_violations"
+    - "coordination_timeout_rate"
+    - "replay_operation_count"
+
+  performance_metrics:
+    - "idempotency_check_latency"
+    - "coordination_overhead_ms"
+    - "replay_success_rate"
+    - "saga_completion_rate"
+
+# =============================================================================
+# CONTRACT METADATA
+# =============================================================================
+
+contract_metadata:
+  scope: "Storage service idempotency and transaction coordination"
+  patterns_defined: 4
+  store_coordination_rules: 22
+  replay_mechanisms: 4
+
+  compliance_standards:
+    - "ACID transaction properties"
+    - "Exactly-once semantics"
+    - "Crash-consistency guarantees"
+    - "Distributed system CAP theorem considerations"
+
+  validation_criteria:
+    idempotency_safety: "100% for all defined operations"
+    replay_safety: "100% for all coordination patterns"
+    performance_targets: "95th percentile within SLA"
+    cross_store_consistency: "99.9% success rate"
+
+  last_updated: "2025-09-16T00:00:00Z"
+  version: "1.0.0"
+  implementation_status: "contract_complete"

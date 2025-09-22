@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.1.0",
+  "id": "0af93c44-d68c-486e-82a7-90553c1f2555",
+  "ts": "2025-09-09T04:20:40Z",
+  "topic": "REINDEX_REQUEST",
+  "band": "GREEN",
+  "actor": {
+    "user_id": "1380ab2e-3884-4f4a-86ba-f4465f21ada0",
+    "agent_id": "system.v1",
+    "caps": [
+      "WRITE"
+    ]
+  },
+  "device": {
+    "device_id": "srv-safety-01",
+    "platform": "edge",
+    "app_version": "1.2.7",
+    "locale": "hi-IN"
+  },
+  "space_id": "selective:father_son",
+  "policy_version": "1.3",
+  "abac": {
+    "role": "child",
+    "trust": "black",
+    "geo_precision": "region"
+  },
+  "qos": {
+    "routing": "fast-path",
+    "priority": 4,
+    "latency_budget_ms": 117,
+    "retries": 1
+  },
+  "trace": {
+    "trace_id": "1648392a503f5f4134f3885fa0ff384c",
+    "span_id": "6d5a7d02c457d9f1",
+    "sampled": true
+  },
+  "obligations": [],
+  "redaction_applied": false,
+  "hashes": {
+    "payload_sha256": "7db1c60fee02162fa1ac2850ac428b030c792e6d2d9ba72888dff2bcb5d582b9"
+  },
+  "payload": {
+    "scope": "all",
+    "shards": [
+      "s1",
+      "s2"
+    ]
+  },
+  "signature": {
+    "alg": "ed25519",
+    "key_id": "key_reindex_request_green_2024",
+    "public_key": "cHVibGlj",
+    "signature": "c2ln"
+  }
+}

@@ -1,0 +1,226 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://familyos.local/contracts/events/schemas/thalamus/intent_analysis_complete.schema.json",
+    "title": "Intent Analysis Complete Event",
+    "description": "Event generated when thalamic intent analysis processing completes",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "timestamp",
+        "content_id",
+        "intent_classification",
+        "confidence_score",
+        "analysis_duration_ms",
+        "routing_decision"
+    ],
+    "properties": {
+        "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Time when intent analysis completed"
+        },
+        "content_id": {
+            "type": "string",
+            "description": "Unique identifier for analyzed content"
+        },
+        "intent_classification": {
+            "type": "object",
+            "required": [
+                "primary_intent",
+                "intent_categories"
+            ],
+            "properties": {
+                "primary_intent": {
+                    "type": "string",
+                    "enum": [
+                        "memory_storage",
+                        "memory_recall",
+                        "executive_control",
+                        "learning_process",
+                        "emotional_processing",
+                        "social_interaction",
+                        "problem_solving",
+                        "planning",
+                        "unknown"
+                    ]
+                },
+                "intent_categories": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "required": [
+                            "category",
+                            "probability"
+                        ],
+                        "properties": {
+                            "category": {
+                                "type": "string"
+                            },
+                            "probability": {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 1
+                            }
+                        }
+                    }
+                },
+                "complexity_level": {
+                    "type": "string",
+                    "enum": [
+                        "simple",
+                        "moderate",
+                        "complex",
+                        "multi_modal"
+                    ]
+                }
+            },
+            "description": "Classified intent with confidence probabilities"
+        },
+        "confidence_score": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "description": "Overall confidence in intent classification"
+        },
+        "analysis_duration_ms": {
+            "type": "number",
+            "minimum": 0,
+            "description": "Time taken for intent analysis"
+        },
+        "routing_decision": {
+            "type": "object",
+            "required": [
+                "target_circuits",
+                "processing_priority"
+            ],
+            "properties": {
+                "target_circuits": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "enum": [
+                            "memory",
+                            "recall",
+                            "executive",
+                            "learning"
+                        ]
+                    }
+                },
+                "processing_priority": {
+                    "type": "string",
+                    "enum": [
+                        "low",
+                        "normal",
+                        "high",
+                        "critical"
+                    ]
+                },
+                "parallel_processing": {
+                    "type": "boolean"
+                },
+                "resource_requirements": {
+                    "type": "object",
+                    "properties": {
+                        "cpu_weight": {
+                            "type": "number"
+                        },
+                        "memory_weight": {
+                            "type": "number"
+                        },
+                        "attention_weight": {
+                            "type": "number"
+                        }
+                    }
+                }
+            },
+            "description": "Routing decision based on intent analysis"
+        },
+        "feature_analysis": {
+            "type": "object",
+            "properties": {
+                "semantic_features": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "temporal_features": {
+                    "type": "object",
+                    "properties": {
+                        "urgency_indicators": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "temporal_scope": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "contextual_features": {
+                    "type": "object",
+                    "properties": {
+                        "domain_context": {
+                            "type": "string"
+                        },
+                        "user_context": {
+                            "type": "string"
+                        },
+                        "session_context": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "description": "Detailed feature analysis supporting intent classification"
+        },
+        "uncertainty_factors": {
+            "type": "object",
+            "properties": {
+                "ambiguous_signals": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "conflicting_indicators": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "missing_context": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "novelty_score": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                }
+            },
+            "description": "Factors contributing to uncertainty in analysis"
+        },
+        "model_metadata": {
+            "type": "object",
+            "properties": {
+                "model_version": {
+                    "type": "string"
+                },
+                "training_data_version": {
+                    "type": "string"
+                },
+                "feature_extraction_method": {
+                    "type": "string"
+                },
+                "classification_algorithm": {
+                    "type": "string"
+                }
+            },
+            "description": "Metadata about the analysis model used"
+        }
+    }
+}

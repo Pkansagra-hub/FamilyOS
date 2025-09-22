@@ -1,0 +1,74 @@
+{
+  "schema_version": "1.2.0",
+  "id": "01HF8M9K8QRST7VW2XYZ123456",
+  "ts": "2025-09-18T14:30:00Z",
+  "topic": "USER_CREATED",
+  "band": "AMBER",
+  "actor": {
+    "user_id": "fedcba98-7654-3210-fedc-ba9876543210",
+    "caps": ["WRITE", "RECALL", "PROJECT", "SCHEDULE"]
+  },
+  "device": {
+    "device_id": "admin-console-001",
+    "platform": "web",
+    "app_version": "1.2.0",
+    "locale": "en-US"
+  },
+  "space_id": "shared:household",
+  "policy_version": "1.2",
+  "abac": {
+    "role": "parent",
+    "trust": "green"
+  },
+  "mls_group": "family_primary",
+  "qos": {
+    "routing": "gate-path",
+    "priority": 8,
+    "latency_budget_ms": 250,
+    "retries": 1
+  },
+  "trace": {
+    "trace_id": "abc123def456789012345678901234ab",
+    "span_id": "def456789012345",
+    "sampled": true
+  },
+  "obligations": ["AUDIT_ACCESS", "SYNC_REQUIRED"],
+  "redaction_applied": false,
+  "hashes": {
+    "payload_sha256": "a1b2c3d4e5f6789012345678901234567890123456789012345678901234567"
+  },
+  "payload": {
+    "user_id": "01234567-89ab-cdef-0123-456789abcdef",
+    "email": "alice@family.com",
+    "name": "Alice Johnson",
+    "status": "active",
+    "initial_role": "guardian",
+    "created_by": "fedcba98-7654-3210-fedc-ba9876543210",
+    "space_assignments": [
+      {
+        "space_id": "shared:household",
+        "permissions": ["READ", "WRITE", "SHARE", "ADMIN"]
+      }
+    ],
+    "device_registration": {
+      "token_expires": "2025-09-25T14:30:00Z",
+      "registration_url": "https://app.familyos.local/setup?token=dGVzdF9yZWdpc3RyYXRpb25fdG9rZW5fZXhhbXBsZQ=="
+    },
+    "security_settings": {
+      "trust_level": "green",
+      "mfa_required": true,
+      "security_band": "GREEN"
+    },
+    "created_ts": "2025-09-18T14:30:00Z",
+    "trace_context": {
+      "trace_id": "abc123def456789012345678901234ab",
+      "span_id": "def456789012345"
+    }
+  },
+  "signature": {
+    "alg": "ed25519",
+    "key_id": "key_user_mgmt_amber_2025",
+    "public_key": "dXNlcl9jcmVhdGVkX3B1YmxpY19rZXk=",
+    "signature": "dXNlcl9jcmVhdGVkX3NpZ25hdHVyZQ=="
+  }
+}

@@ -1,0 +1,33 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "$id": "control_parameters.schema.json",
+    "title": "Working Memory Control Parameters Storage",
+    "type": "object",
+    "required": [
+        "parameter_set_id",
+        "attention_weights",
+        "inhibition_strength",
+        "update_thresholds"
+    ],
+    "properties": {
+        "parameter_set_id": {
+            "type": "string"
+        },
+        "attention_weights": {
+            "type": "object"
+        },
+        "inhibition_strength": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+        },
+        "update_thresholds": {
+            "type": "object"
+        },
+        "adaptation_rate": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+        }
+    }
+}

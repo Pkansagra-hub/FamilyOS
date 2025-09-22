@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://memoryos.local/contracts/events/schemas/prospective_schedule.schema.json",
+  "title": "PROSPECTIVE_SCHEDULE@1.0 payload",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "space_id",
+    "what",
+    "when"
+  ],
+  "properties": {
+    "space_id": {
+      "$ref": "_common.json#/definitions/SpaceRef"
+    },
+    "what": {
+      "type": "string"
+    },
+    "when": {
+      "type": "object",
+      "additionalProperties": false,
+      "oneOf": [
+        {
+          "required": [
+            "at"
+          ],
+          "properties": {
+            "at": {
+              "$ref": "_common.json#/definitions/ISOInstant"
+            }
+          }
+        },
+        {
+          "required": [
+            "in"
+          ],
+          "properties": {
+            "in": {
+              "$ref": "_common.json#/definitions/ISODuration"
+            }
+          }
+        },
+        {
+          "required": [
+            "cron"
+          ],
+          "properties": {
+            "cron": {
+              "type": "string"
+            }
+          }
+        }
+      ]
+    },
+    "metadata": {
+      "type": "object"
+    },
+    "trace": {
+      "$ref": "_common.json#/definitions/TraceContext"
+    }
+  }
+}

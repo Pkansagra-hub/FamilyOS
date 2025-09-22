@@ -1,0 +1,758 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://familyos.local/contracts/storage/schemas/global_workspace/attention_routing_weights.schema.json",
+    "title": "Attention Routing Weights",
+    "description": "Storage schema for attention routing weights and preferences that determine how attention is allocated across different cognitive systems and processes.",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "id",
+        "created_at",
+        "updated_at",
+        "routing_context",
+        "system_weights",
+        "process_weights",
+        "dynamic_adjustments"
+    ],
+    "properties": {
+        "id": {
+            "oneOf": [
+                {
+                    "type": "string",
+                    "format": "uuid"
+                },
+                {
+                    "type": "string",
+                    "pattern": "^[0-7][0-9A-HJKMNP-TV-Z]{25}$"
+                }
+            ],
+            "description": "Unique identifier for this attention routing weights configuration"
+        },
+        "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "When this routing configuration was created"
+        },
+        "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "When this routing configuration was last updated"
+        },
+        "routing_context": {
+            "type": "object",
+            "required": [
+                "context_type",
+                "context_description",
+                "activation_conditions"
+            ],
+            "properties": {
+                "context_type": {
+                    "type": "string",
+                    "enum": [
+                        "default",
+                        "task_specific",
+                        "emergency",
+                        "learning",
+                        "social",
+                        "creative",
+                        "analytical"
+                    ],
+                    "description": "Type of context these routing weights apply to"
+                },
+                "context_description": {
+                    "type": "string",
+                    "description": "Detailed description of when these weights should be used"
+                },
+                "activation_conditions": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "condition_type": {
+                                "type": "string"
+                            },
+                            "condition_parameters": {
+                                "type": "object"
+                            },
+                            "activation_threshold": {
+                                "type": "number"
+                            },
+                            "priority": {
+                                "type": "integer"
+                            }
+                        }
+                    },
+                    "description": "Conditions that activate this routing configuration"
+                },
+                "context_priority": {
+                    "type": "integer",
+                    "minimum": 1,
+                    "description": "Priority of this context relative to others"
+                }
+            },
+            "description": "Context in which these routing weights apply"
+        },
+        "system_weights": {
+            "type": "object",
+            "required": [
+                "weight_assignments",
+                "weight_rationale",
+                "adjustment_sensitivity"
+            ],
+            "properties": {
+                "weight_assignments": {
+                    "type": "object",
+                    "properties": {
+                        "thalamic_system": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "Attention weight for thalamic relay system"
+                        },
+                        "working_memory_system": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "Attention weight for working memory system"
+                        },
+                        "hippocampal_system": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "Attention weight for hippocampal memory system"
+                        },
+                        "motor_system": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "Attention weight for motor planning and execution"
+                        },
+                        "perceptual_system": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "Attention weight for perceptual processing"
+                        },
+                        "language_system": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "Attention weight for language processing"
+                        },
+                        "emotional_system": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "Attention weight for emotional processing"
+                        },
+                        "social_system": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "Attention weight for social cognition"
+                        }
+                    },
+                    "description": "Attention weights assigned to different cognitive systems"
+                },
+                "weight_rationale": {
+                    "type": "object",
+                    "properties": {
+                        "optimization_criteria": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "performance_goals": {
+                            "type": "object"
+                        },
+                        "resource_constraints": {
+                            "type": "object"
+                        },
+                        "strategic_priorities": {
+                            "type": "array"
+                        }
+                    },
+                    "description": "Rationale behind the weight assignments"
+                },
+                "adjustment_sensitivity": {
+                    "type": "object",
+                    "properties": {
+                        "learning_rate": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "adaptation_threshold": {
+                            "type": "number"
+                        },
+                        "stability_factor": {
+                            "type": "number"
+                        },
+                        "responsiveness": {
+                            "type": "number"
+                        }
+                    },
+                    "description": "Sensitivity parameters for weight adjustments"
+                }
+            },
+            "description": "Attention weights for different cognitive systems"
+        },
+        "process_weights": {
+            "type": "object",
+            "properties": {
+                "cognitive_processes": {
+                    "type": "object",
+                    "properties": {
+                        "attention_control": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "memory_encoding": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "memory_retrieval": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "executive_control": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "conflict_monitoring": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "error_detection": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "strategy_selection": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "performance_monitoring": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    },
+                    "description": "Weights for specific cognitive processes"
+                },
+                "perceptual_processes": {
+                    "type": "object",
+                    "properties": {
+                        "visual_processing": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "auditory_processing": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "tactile_processing": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "multimodal_integration": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "feature_detection": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "object_recognition": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    },
+                    "description": "Weights for perceptual processing components"
+                },
+                "motor_processes": {
+                    "type": "object",
+                    "properties": {
+                        "action_planning": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "movement_execution": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "motor_learning": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "motor_adaptation": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "coordination": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    },
+                    "description": "Weights for motor processing components"
+                },
+                "social_processes": {
+                    "type": "object",
+                    "properties": {
+                        "theory_of_mind": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "emotion_recognition": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "social_attention": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "communication": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "empathy": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    },
+                    "description": "Weights for social cognitive processes"
+                }
+            },
+            "description": "Attention weights for specific cognitive processes"
+        },
+        "dynamic_adjustments": {
+            "type": "object",
+            "required": [
+                "adjustment_rules",
+                "adaptation_mechanisms",
+                "learning_parameters"
+            ],
+            "properties": {
+                "adjustment_rules": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "rule_id": {
+                                "type": "string"
+                            },
+                            "rule_description": {
+                                "type": "string"
+                            },
+                            "trigger_conditions": {
+                                "type": "object"
+                            },
+                            "adjustment_function": {
+                                "type": "string"
+                            },
+                            "adjustment_magnitude": {
+                                "type": "number"
+                            },
+                            "rule_priority": {
+                                "type": "integer"
+                            }
+                        }
+                    },
+                    "description": "Rules governing dynamic weight adjustments"
+                },
+                "adaptation_mechanisms": {
+                    "type": "object",
+                    "properties": {
+                        "performance_based": {
+                            "type": "object",
+                            "properties": {
+                                "performance_metrics": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                },
+                                "improvement_threshold": {
+                                    "type": "number"
+                                },
+                                "adaptation_rate": {
+                                    "type": "number"
+                                },
+                                "decay_factor": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "resource_based": {
+                            "type": "object",
+                            "properties": {
+                                "resource_utilization": {
+                                    "type": "object"
+                                },
+                                "efficiency_targets": {
+                                    "type": "object"
+                                },
+                                "load_balancing": {
+                                    "type": "boolean"
+                                },
+                                "capacity_constraints": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "context_based": {
+                            "type": "object",
+                            "properties": {
+                                "context_sensitivity": {
+                                    "type": "number"
+                                },
+                                "context_switching": {
+                                    "type": "boolean"
+                                },
+                                "context_memory": {
+                                    "type": "number"
+                                },
+                                "adaptation_speed": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    },
+                    "description": "Mechanisms for adapting attention weights"
+                },
+                "learning_parameters": {
+                    "type": "object",
+                    "properties": {
+                        "learning_algorithms": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "description": "Algorithms used for learning optimal weights"
+                        },
+                        "experience_weighting": {
+                            "type": "object",
+                            "properties": {
+                                "recent_experience_weight": {
+                                    "type": "number"
+                                },
+                                "historical_experience_weight": {
+                                    "type": "number"
+                                },
+                                "decay_rate": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "exploration_parameters": {
+                            "type": "object",
+                            "properties": {
+                                "exploration_rate": {
+                                    "type": "number"
+                                },
+                                "exploration_decay": {
+                                    "type": "number"
+                                },
+                                "novelty_bonus": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    },
+                    "description": "Parameters governing learning of routing weights"
+                }
+            },
+            "description": "Dynamic adjustment mechanisms for routing weights"
+        },
+        "performance_history": {
+            "type": "object",
+            "properties": {
+                "performance_metrics": {
+                    "type": "object",
+                    "properties": {
+                        "routing_accuracy": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "allocation_efficiency": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "response_quality": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "resource_utilization": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "adaptation_speed": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    },
+                    "description": "Performance metrics for this routing configuration"
+                },
+                "usage_statistics": {
+                    "type": "object",
+                    "properties": {
+                        "activation_frequency": {
+                            "type": "number"
+                        },
+                        "average_duration": {
+                            "type": "number"
+                        },
+                        "success_rate": {
+                            "type": "number"
+                        },
+                        "user_satisfaction": {
+                            "type": "number"
+                        }
+                    },
+                    "description": "Statistics on usage of this routing configuration"
+                },
+                "improvement_trends": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "metric_name": {
+                                "type": "string"
+                            },
+                            "trend_direction": {
+                                "type": "string",
+                                "enum": [
+                                    "improving",
+                                    "stable",
+                                    "declining"
+                                ]
+                            },
+                            "trend_strength": {
+                                "type": "number"
+                            },
+                            "trend_confidence": {
+                                "type": "number"
+                            }
+                        }
+                    },
+                    "description": "Trends in performance metrics over time"
+                }
+            },
+            "description": "Historical performance data for this routing configuration"
+        },
+        "constraint_specifications": {
+            "type": "object",
+            "properties": {
+                "hard_constraints": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "constraint_type": {
+                                "type": "string"
+                            },
+                            "constraint_description": {
+                                "type": "string"
+                            },
+                            "constraint_parameters": {
+                                "type": "object"
+                            },
+                            "violation_consequences": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "description": "Hard constraints that must not be violated"
+                },
+                "soft_constraints": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "constraint_type": {
+                                "type": "string"
+                            },
+                            "constraint_description": {
+                                "type": "string"
+                            },
+                            "constraint_weight": {
+                                "type": "number"
+                            },
+                            "tolerance_level": {
+                                "type": "number"
+                            }
+                        }
+                    },
+                    "description": "Soft constraints that should be satisfied when possible"
+                },
+                "resource_constraints": {
+                    "type": "object",
+                    "properties": {
+                        "total_attention_budget": {
+                            "type": "number"
+                        },
+                        "minimum_allocations": {
+                            "type": "object"
+                        },
+                        "maximum_allocations": {
+                            "type": "object"
+                        },
+                        "temporal_constraints": {
+                            "type": "object"
+                        }
+                    },
+                    "description": "Resource-based constraints on attention allocation"
+                }
+            },
+            "description": "Constraints governing attention routing decisions"
+        },
+        "optimization_targets": {
+            "type": "object",
+            "properties": {
+                "primary_objectives": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "objective_type": {
+                                "type": "string"
+                            },
+                            "objective_description": {
+                                "type": "string"
+                            },
+                            "objective_weight": {
+                                "type": "number"
+                            },
+                            "success_criteria": {
+                                "type": "object"
+                            }
+                        }
+                    },
+                    "description": "Primary optimization objectives for routing"
+                },
+                "secondary_objectives": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "objective_type": {
+                                "type": "string"
+                            },
+                            "objective_description": {
+                                "type": "string"
+                            },
+                            "objective_weight": {
+                                "type": "number"
+                            },
+                            "trade_off_tolerance": {
+                                "type": "number"
+                            }
+                        }
+                    },
+                    "description": "Secondary objectives that can be traded off"
+                },
+                "optimization_strategy": {
+                    "type": "object",
+                    "properties": {
+                        "strategy_type": {
+                            "type": "string"
+                        },
+                        "optimization_horizon": {
+                            "type": "string"
+                        },
+                        "risk_tolerance": {
+                            "type": "number"
+                        },
+                        "exploration_balance": {
+                            "type": "number"
+                        }
+                    },
+                    "description": "Overall optimization strategy"
+                }
+            },
+            "description": "Optimization targets and objectives for routing"
+        },
+        "coordination_requirements": {
+            "type": "object",
+            "properties": {
+                "system_coordination": {
+                    "type": "object",
+                    "properties": {
+                        "thalamic_coordination": {
+                            "type": "object"
+                        },
+                        "working_memory_coordination": {
+                            "type": "object"
+                        },
+                        "hippocampal_coordination": {
+                            "type": "object"
+                        },
+                        "motor_coordination": {
+                            "type": "object"
+                        }
+                    },
+                    "description": "Coordination requirements with other systems"
+                },
+                "temporal_coordination": {
+                    "type": "object",
+                    "properties": {
+                        "synchronization_requirements": {
+                            "type": "object"
+                        },
+                        "timing_constraints": {
+                            "type": "object"
+                        },
+                        "phase_relationships": {
+                            "type": "object"
+                        }
+                    },
+                    "description": "Temporal coordination requirements"
+                },
+                "information_flow_requirements": {
+                    "type": "object",
+                    "properties": {
+                        "bidirectional_channels": {
+                            "type": "array"
+                        },
+                        "information_priorities": {
+                            "type": "object"
+                        },
+                        "bandwidth_requirements": {
+                            "type": "object"
+                        }
+                    },
+                    "description": "Information flow coordination requirements"
+                }
+            },
+            "description": "Requirements for coordinating with other cognitive systems"
+        }
+    }
+}

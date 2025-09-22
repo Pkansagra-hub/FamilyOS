@@ -1,0 +1,41 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "$id": "cognitive_control.schema.json",
+    "title": "Working Memory Cognitive Control Event",
+    "description": "Event for cognitive control in working memory",
+    "type": "object",
+    "required": [
+        "timestamp",
+        "control_function",
+        "target",
+        "effectiveness"
+    ],
+    "properties": {
+        "timestamp": {
+            "type": "string",
+            "format": "date-time"
+        },
+        "control_function": {
+            "type": "string",
+            "enum": [
+                "attention_control",
+                "interference_resolution",
+                "goal_management",
+                "conflict_monitoring"
+            ]
+        },
+        "target": {
+            "type": "string"
+        },
+        "effectiveness": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+        },
+        "resource_cost": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+        }
+    }
+}

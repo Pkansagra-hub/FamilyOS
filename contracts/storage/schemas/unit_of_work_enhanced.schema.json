@@ -1,0 +1,206 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://familyos.local/contracts/storage/unit_of_work_enhanced.schema.json",
+  "title": "Enhanced Unit Of Work",
+  "description": "Enhanced Unit of Work contract with performance monitoring, receipts, and error handling",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "uow_id",
+    "envelope_id",
+    "status",
+    "created_ts",
+    "contract_version"
+  ],
+  "properties": {
+    "uow_id": {
+      "$ref": "./common.schema.json#/$defs/ULID",
+      "description": "Unique identifier for this unit of work"
+    },
+    "envelope_id": {
+      "$ref": "./common.schema.json#/$defs/EnvelopeId",
+      "description": "Associated event envelope ID"
+    },
+    "created_ts": {
+      "$ref": "./common.schema.json#/$defs/Timestamp",
+      "description": "When the unit of work was created"
+    },
+    "committed_ts": {
+      "$ref": "./common.schema.json#/$defs/Timestamp",
+      "description": "When the unit of work was committed (null if not committed)"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "pending",
+        "committed",
+        "rolled_back",
+        "failed"
+      ],
+      "description": "Current status of the unit of work"
+    },
+    "contract_version": {
+      "type": "string",
+      "pattern": "^\\d+\\.\\d+\\.\\d+$",
+      "description": "Version of the unit of work contract being used",
+      "default": "1.0.0"
+    },
+    "writes": {
+      "type": "array",
+      "description": "List of write operations in this unit of work",
+      "items": {
+        "type": "object",
+        "required": [
+          "store",
+          "record_id",
+          "operation_type"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "store": {
+            "type": "string",
+            "description": "Name of the store being written to"
+          },
+          "record_id": {
+            "$ref": "./common.schema.json#/$defs/ULID",
+            "description": "ID of the record being written"
+          },
+          "operation_type": {
+            "type": "string",
+            "enum": [
+              "create",
+              "update",
+              "delete",
+              "upsert"
+            ],
+            "description": "Type of operation being performed"
+          },
+          "bytes_written": {
+            "type": "integer",
+            "minimum": 0,
+            "description": "Number of bytes written in this operation"
+          },
+          "checksum": {
+            "type": "string",
+            "pattern": "^[a-fA-F0-9]{64}$",
+            "description": "SHA-256 checksum of the written data"
+          }
+        }
+      }
+    },
+    "metrics": {
+      "type": "object",
+      "description": "Performance metrics for this unit of work",
+      "additionalProperties": false,
+      "properties": {
+        "total_execution_time_ms": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Total execution time in milliseconds"
+        },
+        "commit_time_ms": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Time taken to commit in milliseconds"
+        },
+        "store_count": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of stores involved in this transaction"
+        },
+        "total_bytes_written": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Total bytes written across all stores"
+        },
+        "retry_count": {
+          "type": "integer",
+          "minimum": 0,
+          "description": "Number of retries attempted"
+        }
+      }
+    },
+    "error_info": {
+      "type": "object",
+      "description": "Error information if the unit of work failed",
+      "additionalProperties": false,
+      "properties": {
+        "error_type": {
+          "type": "string",
+          "description": "Type of error that occurred"
+        },
+        "error_message": {
+          "type": "string",
+          "description": "Human-readable error message"
+        },
+        "failed_store": {
+          "type": "string",
+          "description": "Name of the store where the error occurred"
+        },
+        "error_ts": {
+          "$ref": "./common.schema.json#/$defs/Timestamp",
+          "description": "When the error occurred"
+        },
+        "recovery_attempted": {
+          "type": "boolean",
+          "description": "Whether recovery was attempted"
+        }
+      }
+    },
+    "receipt": {
+      "type": "object",
+      "description": "Transaction receipt for audit and verification",
+      "additionalProperties": false,
+      "properties": {
+        "receipt_hash": {
+          "type": "string",
+          "pattern": "^[a-fA-F0-9]{64}$",
+          "description": "SHA-256 hash of the receipt data for integrity verification"
+        },
+        "generated_ts": {
+          "$ref": "./common.schema.json#/$defs/Timestamp",
+          "description": "When the receipt was generated"
+        },
+        "signature": {
+          "type": "string",
+          "description": "Cryptographic signature of the receipt"
+        },
+        "stores_involved": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "List of store names involved in this transaction"
+        }
+      }
+    },
+    "context": {
+      "type": "object",
+      "description": "Additional context for the unit of work",
+      "additionalProperties": false,
+      "properties": {
+        "space_id": {
+          "$ref": "./common.schema.json#/$defs/SpaceId",
+          "description": "Memory space where this transaction occurred"
+        },
+        "actor_ref": {
+          "$ref": "./common.schema.json#/$defs/ActorRef",
+          "description": "Actor who initiated this transaction"
+        },
+        "device_ref": {
+          "$ref": "./common.schema.json#/$defs/DeviceRef",
+          "description": "Device where this transaction was initiated"
+        },
+        "correlation_id": {
+          "type": "string",
+          "description": "Correlation ID for tracing across system boundaries"
+        },
+        "band": {
+          "type": "string",
+          "enum": ["GREEN", "AMBER", "RED", "BLACK"],
+          "description": "Security band for this transaction"
+        }
+      }
+    }
+  }
+}

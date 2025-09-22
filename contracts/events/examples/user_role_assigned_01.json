@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.2.0",
+  "id": "01HF8N1M5QRST7VW2XYZ789ABC",
+  "ts": "2025-09-18T14:31:00Z",
+  "topic": "USER_ROLE_ASSIGNED",
+  "band": "GREEN",
+  "actor": {
+    "user_id": "fedcba98-7654-3210-fedc-ba9876543210",
+    "caps": ["WRITE", "RECALL", "PROJECT", "SCHEDULE"]
+  },
+  "device": {
+    "device_id": "admin-console-001",
+    "platform": "web",
+    "app_version": "1.2.0",
+    "locale": "en-US"
+  },
+  "space_id": "shared:household",
+  "policy_version": "1.2",
+  "abac": {
+    "role": "parent",
+    "trust": "green"
+  },
+  "qos": {
+    "routing": "fast-path",
+    "priority": 6,
+    "latency_budget_ms": 100,
+    "retries": 1
+  },
+  "trace": {
+    "trace_id": "abc123def456789012345678901234ab",
+    "span_id": "789012345def456",
+    "parent_span_id": "def456789012345",
+    "sampled": true
+  },
+  "obligations": ["AUDIT_ACCESS"],
+  "redaction_applied": false,
+  "hashes": {
+    "payload_sha256": "b2c3d4e5f6789012345678901234567890123456789012345678901234567a"
+  },
+  "payload": {
+    "assignment_id": "01HF8M9K8QRST7VW2XYZ789ABC",
+    "user_id": "01234567-89ab-cdef-0123-456789abcdef",
+    "role_name": "guardian",
+    "scope": {
+      "type": "global"
+    },
+    "capabilities": [
+      "memory:read",
+      "memory:write",
+      "memory:project",
+      "memory:share",
+      "admin:user_mgmt",
+      "admin:space_mgmt"
+    ],
+    "conditions": {
+      "time_limited": false,
+      "require_mfa": true
+    },
+    "assigned_by": "fedcba98-7654-3210-fedc-ba9876543210",
+    "assignment_reason": "Initial guardian role assignment for new user",
+    "assigned_ts": "2025-09-18T14:31:00Z",
+    "trace_context": {
+      "trace_id": "abc123def456789012345678901234ab",
+      "span_id": "789012345def456"
+    }
+  },
+  "signature": {
+    "alg": "ed25519",
+    "key_id": "key_user_mgmt_green_2025",
+    "public_key": "cm9sZV9hc3NpZ25lZF9wdWJsaWNfa2V5",
+    "signature": "cm9sZV9hc3NpZ25lZF9zaWduYXR1cmU="
+  }
+}

@@ -1,0 +1,85 @@
+roles:
+  agent:
+    can: ["recall", "cache_read"]
+    restrictions: ["space_scoped"]
+  app:
+    can: ["recall", "cache_read"]
+    restrictions: ["space_scoped", "rate_limited"]
+  supervisor:
+    can: ["recall", "read_traces", "cache_admin", "cross_space_read"]
+    restrictions: []
+  system:
+    can: ["cache_evict", "log_cleanup", "metrics_read"]
+    restrictions: []
+
+attributes:
+  actor:
+    caps: ["WRITE", "RECALL", "PROJECT", "SCHEDULE"]
+    trust_level: ["low", "medium", "high"]
+  device:
+    platform: ["ios", "android", "web", "edge", "linux", "macos", "windows"]
+    trust_level: ["untrusted", "known", "verified"]
+  query:
+    type: ["episodic", "semantic", "vector", "hybrid"]
+    sensitivity: ["public", "private", "confidential"]
+
+bands:
+  GREEN:
+    obligations: []
+    storage: "allow_raw_query"
+    cache_ttl: "24h"
+    logging: "full"
+  AMBER:
+    obligations: ["mls_required", "audit_log", "redact_pii_in_logs"]
+    storage: "hash_query_only"
+    cache_ttl: "1h"
+    logging: "metadata_only"
+  RED:
+    obligations: ["mls_required", "audit_log", "redact_pii_in_logs", "mask_all_snippets"]
+    storage: "hash_query_only"
+    cache_ttl: "10m"
+    logging: "correlation_only"
+  BLACK:
+    obligations: ["drop_event", "audit_log"]
+    storage: "denied"
+    cache_ttl: "0"
+    logging: "audit_only"
+
+authorization:
+  recall:
+    allow_if:
+      - "actor.caps contains 'RECALL'"
+      - "space_id in actor.accessible_spaces"
+      - "device.trust_level != 'untrusted' OR band == 'GREEN'"
+    rate_limits:
+      - "100 requests per minute per actor"
+      - "1000 requests per hour per space"
+
+  read_traces:
+    allow_if:
+      - "role in ['supervisor', 'system']"
+      - "space_id in actor.administered_spaces OR role == 'system'"
+
+  cache_admin:
+    allow_if:
+      - "role == 'supervisor'"
+      - "action in ['evict', 'clear', 'stats']"
+
+  cross_space_read:
+    allow_if:
+      - "role == 'supervisor'"
+      - "explicit_permission_granted"
+      - "band in ['GREEN', 'AMBER']"
+
+dynamic_policies:
+  high_load:
+    condition: "system.load > 0.8"
+    actions:
+      - "reduce_cache_ttl by 50%"
+      - "increase_rate_limits by 0.5"
+
+  security_incident:
+    condition: "security.alert_level == 'high'"
+    actions:
+      - "disable_cross_space_queries"
+      - "require_supervisor_approval for RED queries"

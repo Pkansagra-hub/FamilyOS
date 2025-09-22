@@ -1,0 +1,23 @@
+target: "services"
+tables:
+  service_registry:
+    pk: ["id"]
+    uniques: ["name"]
+    partitions: ["space_id"]
+    indices:
+      - ["status"]
+      - ["updated_at"]
+  service_status:
+    pk: ["id"]
+    partitions: ["service_id","space_id"]
+    indices:
+      - ["status","ts"]
+  service_receipt:
+    pk: ["id"]
+    partitions: ["space_id"]
+    indices:
+      - ["service","op","ts"]
+retention:
+  service_status: "P90D"
+  service_receipt: "P365D"
+consistency: "append-only (status), read-committed (registry)"

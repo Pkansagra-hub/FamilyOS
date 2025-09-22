@@ -1,0 +1,9 @@
+fields:
+  time_index:
+    - path: $.attributes
+      action: "drop"  # index stores time metadata only
+responses:
+  TEMPORAL_RANGE_RESPONSE:
+    - path: $.buckets[*].doc_ids
+      action: "hash-prefix"
+      params: { keep: 8 }

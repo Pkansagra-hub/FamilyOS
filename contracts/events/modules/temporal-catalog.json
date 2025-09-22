@@ -1,0 +1,73 @@
+{
+  "version": "1.0.0",
+  "envelope_ref": "../../contracts/events/envelope.schema.json",
+  "topics": [
+    {
+      "name": "TEMPORAL_RANGE_REQUEST@1.0",
+      "subject": "temporal",
+      "schema": {
+        "$id": "https://familyos.local/contracts/temporal/events/temporal_range_request.schema.json",
+        "type": "object",
+        "required": ["space_id", "range"],
+        "properties": {
+          "space_id": { "type": "string" },
+          "phrase":   { "type": "string", "description": "e.g., 'yesterday morning'"},
+          "range":    {
+            "type":"object",
+            "required":["start","end","tz"],
+            "properties":{
+              "start":{"type":"string","format":"date-time"},
+              "end":{"type":"string","format":"date-time"},
+              "tz":{"type":"string"}
+            }
+          }
+        }
+      },
+      "keys": {"dedupe_key": "space_id+hash(range)", "ordering": "per-space"},
+      "idempotency": "Use envelope.idempotency_key (hash of space_id+range)",
+      "retry": {"strategy":"exponential","max_attempts":5},
+      "dlq": {"topic":"JOB_STATUS_CHANGED@1.0"}
+    },
+    {
+      "name": "TEMPORAL_RANGE_RESPONSE@1.0",
+      "subject": "temporal",
+      "schema": {
+        "$id": "https://familyos.local/contracts/temporal/events/temporal_range_response.schema.json",
+        "type": "object",
+        "required": ["space_id", "range", "count"],
+        "properties": {
+          "space_id":{"type":"string"},
+          "range":{"type":"object"},
+          "count":{"type":"integer","minimum":0},
+          "buckets":{"type":"array","items":{"type":"object","properties":{
+            "g":{"type":"string","enum":["minute","hour","day","week"]},
+            "bucket":{"type":"string"},
+            "doc_ids":{"type":"array","items":{"type":"string"}}
+          }}}
+        }
+      },
+      "keys": {"ordering": "none"},
+      "idempotency": "Response correlates by envelope.trace.correlation_id"
+    },
+    {
+      "name": "TEMPORAL_INDEX_BUILT@1.0",
+      "subject": "temporal",
+      "schema": {
+        "$id":"https://familyos.local/contracts/temporal/events/temporal_index_built.schema.json",
+        "type":"object",
+        "required":["space_id","g","window","written","hashes"],
+        "properties":{
+          "space_id":{"type":"string"},
+          "g":{"type":"string","enum":["minute","hour","day","week"]},
+          "window":{"type":"object","properties":{
+            "start":{"type":"string","format":"date-time"},
+            "end":{"type":"string","format":"date-time"}
+          }},
+          "written":{"type":"integer","minimum":0},
+          "hashes":{"type":"array","items":{"type":"string"}}
+        }
+      },
+      "idempotency":"hash(window+g+space_id)"
+    }
+  ]
+}

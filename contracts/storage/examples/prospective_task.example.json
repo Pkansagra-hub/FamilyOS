@@ -1,0 +1,11 @@
+{
+  "id": "4ZQ5G84SPS6G9FXZC1RD0H7DPZ",
+  "space_id": "personal:11111111-2222-4333-8444-555555555555",
+  "state": "scheduled",
+  "due_ts": "2025-09-11T14:15:00.000Z",
+  "payload": {
+    "title": "SSA appointment",
+    "description": "Social Security Administration appointment"
+  },
+  "created_ts": "2025-01-14T10:30:00.000Z"
+}

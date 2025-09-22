@@ -1,0 +1,262 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://familyos.local/schemas/events/hippocampus/spatial_memory_updated.json",
+    "title": "Spatial Memory Updated Event",
+    "description": "Event emitted when the hippocampus updates spatial memory representations including cognitive maps and place-based information",
+    "type": "object",
+    "required": [
+        "event_type",
+        "timestamp",
+        "hippocampus_id",
+        "spatial_update_id",
+        "spatial_context",
+        "cognitive_map_changes",
+        "place_cell_activity"
+    ],
+    "properties": {
+        "event_type": {
+            "type": "string",
+            "const": "spatial_memory_updated",
+            "description": "Event type identifier for spatial memory updates"
+        },
+        "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "ISO 8601 timestamp when spatial memory was updated"
+        },
+        "hippocampus_id": {
+            "type": "string",
+            "pattern": "^hippocampus_[a-zA-Z0-9_-]+$",
+            "description": "Unique identifier for the hippocampus instance updating spatial memory"
+        },
+        "spatial_update_id": {
+            "type": "string",
+            "pattern": "^spatial_update_[a-zA-Z0-9_-]+$",
+            "description": "Unique identifier for this spatial memory update"
+        },
+        "spatial_context": {
+            "type": "object",
+            "required": [
+                "location",
+                "environment_type",
+                "navigation_mode"
+            ],
+            "properties": {
+                "location": {
+                    "type": "object",
+                    "properties": {
+                        "coordinates": {
+                            "type": "array",
+                            "items": {
+                                "type": "number"
+                            }
+                        },
+                        "reference_frame": {
+                            "type": "string"
+                        },
+                        "spatial_scale": {
+                            "type": "string",
+                            "enum": [
+                                "local",
+                                "room",
+                                "building",
+                                "neighborhood",
+                                "city"
+                            ]
+                        },
+                        "landmark_references": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "description": "Spatial location information"
+                },
+                "environment_type": {
+                    "type": "string",
+                    "enum": [
+                        "indoor",
+                        "outdoor",
+                        "virtual",
+                        "familiar",
+                        "novel"
+                    ],
+                    "description": "Type of spatial environment"
+                },
+                "navigation_mode": {
+                    "type": "string",
+                    "enum": [
+                        "exploration",
+                        "goal_directed",
+                        "route_following",
+                        "landmark_navigation"
+                    ],
+                    "description": "Mode of spatial navigation"
+                }
+            },
+            "description": "Spatial context for memory update"
+        },
+        "cognitive_map_changes": {
+            "type": "object",
+            "required": [
+                "map_region",
+                "change_type",
+                "update_strength"
+            ],
+            "properties": {
+                "map_region": {
+                    "type": "string",
+                    "description": "Region of cognitive map being updated"
+                },
+                "change_type": {
+                    "type": "string",
+                    "enum": [
+                        "new_location",
+                        "route_update",
+                        "landmark_addition",
+                        "boundary_refinement",
+                        "connectivity_change"
+                    ],
+                    "description": "Type of cognitive map change"
+                },
+                "update_strength": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Strength of the cognitive map update"
+                }
+            },
+            "description": "Changes to cognitive map representation"
+        },
+        "place_cell_activity": {
+            "type": "object",
+            "required": [
+                "active_place_cells",
+                "place_field_updates"
+            ],
+            "properties": {
+                "active_place_cells": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "cell_id": {
+                                "type": "string"
+                            },
+                            "firing_rate": {
+                                "type": "number",
+                                "minimum": 0
+                            },
+                            "place_field_center": {
+                                "type": "array",
+                                "items": {
+                                    "type": "number"
+                                }
+                            },
+                            "field_size": {
+                                "type": "number",
+                                "minimum": 0
+                            },
+                            "stability": {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 1
+                            }
+                        }
+                    },
+                    "description": "Place cells active during spatial update"
+                },
+                "place_field_updates": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "cell_id": {
+                                "type": "string"
+                            },
+                            "previous_field": {
+                                "type": "object"
+                            },
+                            "new_field": {
+                                "type": "object"
+                            },
+                            "change_magnitude": {
+                                "type": "number",
+                                "minimum": 0
+                            }
+                        }
+                    },
+                    "description": "Updates to place field representations"
+                }
+            },
+            "description": "Place cell activity during spatial memory update"
+        }
+    },
+    "additionalProperties": false,
+    "examples": [
+        {
+            "event_type": "spatial_memory_updated",
+            "timestamp": "2025-09-16T18:45:17.234Z",
+            "hippocampus_id": "hippocampus_primary_001",
+            "spatial_update_id": "spatial_update_20250916_184517",
+            "spatial_context": {
+                "location": {
+                    "coordinates": [
+                        2.5,
+                        3.1,
+                        0.0
+                    ],
+                    "reference_frame": "room_centered",
+                    "spatial_scale": "room",
+                    "landmark_references": [
+                        "kitchen_table",
+                        "window",
+                        "door"
+                    ]
+                },
+                "environment_type": "indoor",
+                "navigation_mode": "exploration"
+            },
+            "cognitive_map_changes": {
+                "map_region": "kitchen_northeast_corner",
+                "change_type": "new_location",
+                "update_strength": 0.8
+            },
+            "place_cell_activity": {
+                "active_place_cells": [
+                    {
+                        "cell_id": "place_cell_025",
+                        "firing_rate": 38.5,
+                        "place_field_center": [
+                            2.5,
+                            3.1
+                        ],
+                        "field_size": 0.6,
+                        "stability": 0.9
+                    }
+                ],
+                "place_field_updates": [
+                    {
+                        "cell_id": "place_cell_025",
+                        "previous_field": {
+                            "center": [
+                                2.3,
+                                3.0
+                            ],
+                            "size": 0.5
+                        },
+                        "new_field": {
+                            "center": [
+                                2.5,
+                                3.1
+                            ],
+                            "size": 0.6
+                        },
+                        "change_magnitude": 0.3
+                    }
+                ]
+            }
+        }
+    ]
+}

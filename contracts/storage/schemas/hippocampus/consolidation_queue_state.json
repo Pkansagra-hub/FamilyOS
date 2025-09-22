@@ -1,0 +1,422 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://familyos.local/schemas/storage/hippocampus/consolidation_queue_state.json",
+    "title": "Consolidation Queue State",
+    "description": "Storage schema for memory consolidation queue management including priority scheduling, resource allocation, and processing status",
+    "type": "object",
+    "required": [
+        "queue_id",
+        "hippocampus_id",
+        "queue_status",
+        "pending_memories",
+        "active_consolidations",
+        "completed_consolidations",
+        "queue_performance"
+    ],
+    "properties": {
+        "queue_id": {
+            "type": "string",
+            "pattern": "^consolidation_queue_[a-zA-Z0-9_-]+$",
+            "description": "Unique identifier for consolidation queue"
+        },
+        "hippocampus_id": {
+            "type": "string",
+            "pattern": "^hippocampus_[a-zA-Z0-9_-]+$",
+            "description": "Hippocampus instance managing this queue"
+        },
+        "queue_status": {
+            "type": "object",
+            "required": [
+                "status",
+                "processing_capacity",
+                "current_load"
+            ],
+            "properties": {
+                "status": {
+                    "type": "string",
+                    "enum": [
+                        "active",
+                        "paused",
+                        "maintenance",
+                        "overloaded",
+                        "idle"
+                    ]
+                },
+                "processing_capacity": {
+                    "type": "integer",
+                    "minimum": 1
+                },
+                "current_load": {
+                    "type": "integer",
+                    "minimum": 0
+                },
+                "utilization_rate": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "queue_health": {
+                    "type": "string",
+                    "enum": [
+                        "healthy",
+                        "stressed",
+                        "critical",
+                        "failing"
+                    ]
+                },
+                "last_maintenance": {
+                    "type": "string",
+                    "format": "date-time"
+                }
+            }
+        },
+        "pending_memories": {
+            "type": "object",
+            "required": [
+                "queue_items",
+                "total_pending",
+                "priority_distribution"
+            ],
+            "properties": {
+                "queue_items": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "memory_id": {
+                                "type": "string"
+                            },
+                            "queue_position": {
+                                "type": "integer",
+                                "minimum": 0
+                            },
+                            "priority_level": {
+                                "type": "string",
+                                "enum": [
+                                    "critical",
+                                    "high",
+                                    "normal",
+                                    "low",
+                                    "deferred"
+                                ]
+                            },
+                            "priority_score": {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 1
+                            },
+                            "estimated_duration": {
+                                "type": "number",
+                                "minimum": 0
+                            },
+                            "resource_requirements": {
+                                "type": "object"
+                            },
+                            "scheduling_constraints": {
+                                "type": "object"
+                            },
+                            "queue_entry_time": {
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            "estimated_start_time": {
+                                "type": "string",
+                                "format": "date-time"
+                            }
+                        }
+                    }
+                },
+                "total_pending": {
+                    "type": "integer",
+                    "minimum": 0
+                },
+                "priority_distribution": {
+                    "type": "object",
+                    "properties": {
+                        "critical": {
+                            "type": "integer",
+                            "minimum": 0
+                        },
+                        "high": {
+                            "type": "integer",
+                            "minimum": 0
+                        },
+                        "normal": {
+                            "type": "integer",
+                            "minimum": 0
+                        },
+                        "low": {
+                            "type": "integer",
+                            "minimum": 0
+                        },
+                        "deferred": {
+                            "type": "integer",
+                            "minimum": 0
+                        }
+                    }
+                },
+                "queue_metrics": {
+                    "type": "object",
+                    "properties": {
+                        "average_wait_time": {
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "longest_wait_time": {
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "queue_volatility": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "priority_inversion_count": {
+                            "type": "integer",
+                            "minimum": 0
+                        }
+                    }
+                }
+            }
+        },
+        "active_consolidations": {
+            "type": "object",
+            "required": [
+                "active_sessions",
+                "resource_allocation"
+            ],
+            "properties": {
+                "active_sessions": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "session_id": {
+                                "type": "string"
+                            },
+                            "memory_id": {
+                                "type": "string"
+                            },
+                            "session_start_time": {
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            "estimated_completion": {
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            "current_phase": {
+                                "type": "string"
+                            },
+                            "progress_percentage": {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 100
+                            },
+                            "resource_usage": {
+                                "type": "object"
+                            },
+                            "session_quality": {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 1
+                            }
+                        }
+                    }
+                },
+                "resource_allocation": {
+                    "type": "object",
+                    "properties": {
+                        "processing_power_allocated": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "memory_bandwidth_allocated": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "neural_resources_allocated": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "sleep_time_allocated": {
+                            "type": "number",
+                            "minimum": 0
+                        }
+                    }
+                },
+                "concurrent_processing": {
+                    "type": "object",
+                    "properties": {
+                        "max_concurrent_sessions": {
+                            "type": "integer",
+                            "minimum": 1
+                        },
+                        "current_concurrent_sessions": {
+                            "type": "integer",
+                            "minimum": 0
+                        },
+                        "interference_management": {
+                            "type": "string"
+                        },
+                        "session_coordination": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "completed_consolidations": {
+            "type": "object",
+            "required": [
+                "recent_completions",
+                "completion_statistics"
+            ],
+            "properties": {
+                "recent_completions": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "session_id": {
+                                "type": "string"
+                            },
+                            "memory_id": {
+                                "type": "string"
+                            },
+                            "completion_time": {
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            "session_duration": {
+                                "type": "number",
+                                "minimum": 0
+                            },
+                            "completion_quality": {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 1
+                            },
+                            "success_status": {
+                                "type": "boolean"
+                            },
+                            "transfer_success": {
+                                "type": "boolean"
+                            },
+                            "resource_efficiency": {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 1
+                            }
+                        }
+                    }
+                },
+                "completion_statistics": {
+                    "type": "object",
+                    "properties": {
+                        "total_completed": {
+                            "type": "integer",
+                            "minimum": 0
+                        },
+                        "success_rate": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "average_completion_time": {
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "quality_distribution": {
+                            "type": "object"
+                        },
+                        "throughput_rate": {
+                            "type": "number",
+                            "minimum": 0
+                        }
+                    }
+                }
+            }
+        },
+        "queue_performance": {
+            "type": "object",
+            "required": [
+                "efficiency_metrics",
+                "optimization_status"
+            ],
+            "properties": {
+                "efficiency_metrics": {
+                    "type": "object",
+                    "properties": {
+                        "overall_efficiency": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "scheduling_efficiency": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "resource_utilization": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "queue_stability": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "fairness_index": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    }
+                },
+                "optimization_status": {
+                    "type": "object",
+                    "properties": {
+                        "last_optimization": {
+                            "type": "string",
+                            "format": "date-time"
+                        },
+                        "optimization_algorithm": {
+                            "type": "string"
+                        },
+                        "optimization_parameters": {
+                            "type": "object"
+                        },
+                        "optimization_effectiveness": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    }
+                },
+                "adaptive_parameters": {
+                    "type": "object",
+                    "properties": {
+                        "dynamic_priority_adjustment": {
+                            "type": "boolean"
+                        },
+                        "load_balancing_strategy": {
+                            "type": "string"
+                        },
+                        "resource_scaling_rules": {
+                            "type": "object"
+                        },
+                        "interference_mitigation": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "additionalProperties": false
+}

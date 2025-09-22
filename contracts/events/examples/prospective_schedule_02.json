@@ -1,0 +1,56 @@
+{
+  "schema_version": "1.1.0",
+  "id": "de2374f8-f196-40a4-b8fd-9e59770320c6",
+  "ts": "2025-09-09T04:20:40Z",
+  "topic": "PROSPECTIVE_SCHEDULE",
+  "band": "AMBER",
+  "actor": {
+    "user_id": "7764ae13-f200-43a8-b02c-1e47da31aea0",
+    "agent_id": "privacy.v1",
+    "caps": [
+      "WRITE",
+      "RECALL"
+    ]
+  },
+  "device": {
+    "device_id": "edge-jetson",
+    "platform": "linux",
+    "app_version": "1.0.1",
+    "locale": "hi-IN"
+  },
+  "space_id": "selective:father_son",
+  "policy_version": "1.3",
+  "abac": {
+    "role": "parent",
+    "trust": "green",
+    "geo_precision": "region"
+  },
+  "qos": {
+    "routing": "fast-path",
+    "priority": 5,
+    "latency_budget_ms": 100,
+    "retries": 2
+  },
+  "trace": {
+    "trace_id": "a12bada4d9bb3ed540697665e332484a",
+    "span_id": "e60d292351f186e0",
+    "sampled": true
+  },
+  "obligations": [],
+  "redaction_applied": true,
+  "hashes": {
+    "payload_sha256": "9620025bc35675e21cbfd77c5a7d58303eb39c81ea6b0c471dbf07159add7647"
+  },
+  "payload": {
+    "when": "2025-09-09T04:20:40Z",
+    "note": "Reminder",
+    "jitter_ms": 13
+  },
+  "signature": {
+    "alg": "ed25519",
+    "key_id": "key_prospective_schedule_amber_2024",
+    "public_key": "cHVibGlj",
+    "signature": "c2ln"
+  },
+  "mls_group": "household-secure"
+}

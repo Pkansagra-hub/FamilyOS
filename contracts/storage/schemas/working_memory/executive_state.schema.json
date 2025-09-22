@@ -1,0 +1,655 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://familyos.local/contracts/storage/schemas/working_memory/executive_state.schema.json",
+    "title": "Executive Control State Schema",
+    "description": "Schema for persistent storage of executive control system state",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "executive_id",
+        "timestamp",
+        "control_state",
+        "monitoring_state",
+        "resource_allocation"
+    ],
+    "properties": {
+        "executive_id": {
+            "type": "string",
+            "description": "Unique identifier for executive control instance"
+        },
+        "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Last update timestamp"
+        },
+        "control_state": {
+            "type": "object",
+            "required": [
+                "control_mode",
+                "active_processes",
+                "control_strength"
+            ],
+            "properties": {
+                "control_mode": {
+                    "type": "string",
+                    "enum": [
+                        "automatic",
+                        "controlled",
+                        "mixed",
+                        "adaptive",
+                        "reactive",
+                        "proactive",
+                        "strategic",
+                        "tactical"
+                    ],
+                    "description": "Current control mode"
+                },
+                "active_processes": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "process_id": {
+                                "type": "string"
+                            },
+                            "process_type": {
+                                "type": "string",
+                                "enum": [
+                                    "inhibition",
+                                    "updating",
+                                    "shifting",
+                                    "monitoring",
+                                    "planning",
+                                    "decision_making",
+                                    "conflict_resolution",
+                                    "goal_management"
+                                ]
+                            },
+                            "activation_level": {
+                                "type": "number"
+                            },
+                            "resource_consumption": {
+                                "type": "number"
+                            },
+                            "efficiency": {
+                                "type": "number"
+                            },
+                            "priority": {
+                                "type": "string",
+                                "enum": [
+                                    "low",
+                                    "normal",
+                                    "high",
+                                    "critical"
+                                ]
+                            }
+                        }
+                    },
+                    "description": "Currently active executive processes"
+                },
+                "control_strength": {
+                    "type": "object",
+                    "properties": {
+                        "inhibitory_control": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "cognitive_flexibility": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "working_memory_updating": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "attention_control": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "interference_resolution": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    }
+                },
+                "control_targets": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "target_system": {
+                                "type": "string"
+                            },
+                            "control_type": {
+                                "type": "string"
+                            },
+                            "control_intensity": {
+                                "type": "number"
+                            },
+                            "control_duration": {
+                                "type": "number"
+                            },
+                            "control_effectiveness": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                }
+            },
+            "description": "Current executive control state"
+        },
+        "monitoring_state": {
+            "type": "object",
+            "required": [
+                "monitoring_active",
+                "monitoring_targets"
+            ],
+            "properties": {
+                "monitoring_active": {
+                    "type": "boolean",
+                    "description": "Whether monitoring is currently active"
+                },
+                "monitoring_targets": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "target_type": {
+                                "type": "string",
+                                "enum": [
+                                    "performance",
+                                    "conflict",
+                                    "error",
+                                    "progress",
+                                    "resource_usage",
+                                    "strategy_effectiveness",
+                                    "goal_achievement"
+                                ]
+                            },
+                            "target_id": {
+                                "type": "string"
+                            },
+                            "monitoring_frequency": {
+                                "type": "number"
+                            },
+                            "detection_threshold": {
+                                "type": "number"
+                            },
+                            "sensitivity": {
+                                "type": "number"
+                            },
+                            "alert_conditions": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "monitoring_parameters": {
+                    "type": "object",
+                    "properties": {
+                        "global_monitoring_level": {
+                            "type": "number"
+                        },
+                        "focused_monitoring_targets": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "monitoring_efficiency": {
+                            "type": "number"
+                        },
+                        "false_alarm_rate": {
+                            "type": "number"
+                        },
+                        "detection_accuracy": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "recent_detections": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "detection_time": {
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            "detection_type": {
+                                "type": "string"
+                            },
+                            "confidence": {
+                                "type": "number"
+                            },
+                            "response_triggered": {
+                                "type": "boolean"
+                            },
+                            "resolution_outcome": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            },
+            "description": "Monitoring system state"
+        },
+        "resource_allocation": {
+            "type": "object",
+            "required": [
+                "total_resources",
+                "allocation_strategy"
+            ],
+            "properties": {
+                "total_resources": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Total available executive resources"
+                },
+                "allocation_strategy": {
+                    "type": "string",
+                    "enum": [
+                        "priority_based",
+                        "equal_allocation",
+                        "demand_driven",
+                        "adaptive",
+                        "hierarchical",
+                        "competitive",
+                        "cooperative"
+                    ]
+                },
+                "current_allocations": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "process_id": {
+                                "type": "string"
+                            },
+                            "allocated_resources": {
+                                "type": "number"
+                            },
+                            "resource_efficiency": {
+                                "type": "number"
+                            },
+                            "allocation_priority": {
+                                "type": "number"
+                            },
+                            "resource_utilization": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                },
+                "resource_constraints": {
+                    "type": "object",
+                    "properties": {
+                        "capacity_limits": {
+                            "type": "number"
+                        },
+                        "temporal_constraints": {
+                            "type": "number"
+                        },
+                        "competing_demands": {
+                            "type": "number"
+                        },
+                        "fatigue_effects": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "optimization_state": {
+                    "type": "object",
+                    "properties": {
+                        "allocation_efficiency": {
+                            "type": "number"
+                        },
+                        "resource_waste": {
+                            "type": "number"
+                        },
+                        "unmet_demands": {
+                            "type": "number"
+                        },
+                        "optimization_opportunities": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            },
+            "description": "Resource allocation state"
+        },
+        "goal_management": {
+            "type": "object",
+            "properties": {
+                "active_goals": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "goal_id": {
+                                "type": "string"
+                            },
+                            "goal_type": {
+                                "type": "string"
+                            },
+                            "priority": {
+                                "type": "number"
+                            },
+                            "activation_level": {
+                                "type": "number"
+                            },
+                            "progress": {
+                                "type": "number"
+                            },
+                            "subgoals": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "goal_conflicts": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "goal_hierarchy": {
+                    "type": "object",
+                    "properties": {
+                        "primary_goals": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "secondary_goals": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "maintenance_goals": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "goal_dependencies": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "goal_switching": {
+                    "type": "object",
+                    "properties": {
+                        "switching_threshold": {
+                            "type": "number"
+                        },
+                        "switching_cost": {
+                            "type": "number"
+                        },
+                        "recent_switches": {
+                            "type": "array",
+                            "items": {
+                                "type": "object"
+                            }
+                        },
+                        "switching_patterns": {
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "description": "Goal management state"
+        },
+        "strategy_state": {
+            "type": "object",
+            "properties": {
+                "active_strategies": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "strategy_id": {
+                                "type": "string"
+                            },
+                            "strategy_type": {
+                                "type": "string"
+                            },
+                            "effectiveness": {
+                                "type": "number"
+                            },
+                            "resource_cost": {
+                                "type": "number"
+                            },
+                            "application_context": {
+                                "type": "object"
+                            },
+                            "adaptation_level": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                },
+                "strategy_selection": {
+                    "type": "object",
+                    "properties": {
+                        "selection_criteria": {
+                            "type": "object"
+                        },
+                        "available_strategies": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "strategy_preferences": {
+                            "type": "object"
+                        },
+                        "context_strategy_mapping": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "strategy_learning": {
+                    "type": "object",
+                    "properties": {
+                        "learning_rate": {
+                            "type": "number"
+                        },
+                        "strategy_effectiveness_history": {
+                            "type": "object"
+                        },
+                        "new_strategy_discoveries": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "strategy_refinements": {
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "description": "Strategy management state"
+        },
+        "adaptation_mechanisms": {
+            "type": "object",
+            "properties": {
+                "adaptive_parameters": {
+                    "type": "object",
+                    "properties": {
+                        "control_sensitivity": {
+                            "type": "number"
+                        },
+                        "monitoring_thresholds": {
+                            "type": "object"
+                        },
+                        "resource_allocation_weights": {
+                            "type": "object"
+                        },
+                        "strategy_selection_biases": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "learning_state": {
+                    "type": "object",
+                    "properties": {
+                        "skill_levels": {
+                            "type": "object"
+                        },
+                        "experience_accumulation": {
+                            "type": "object"
+                        },
+                        "meta_cognitive_knowledge": {
+                            "type": "object"
+                        },
+                        "transfer_capabilities": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "context_adaptation": {
+                    "type": "object",
+                    "properties": {
+                        "context_recognition": {
+                            "type": "number"
+                        },
+                        "context_specific_adaptations": {
+                            "type": "object"
+                        },
+                        "generalization_ability": {
+                            "type": "number"
+                        },
+                        "personalization_level": {
+                            "type": "number"
+                        }
+                    }
+                }
+            },
+            "description": "Adaptive learning and optimization mechanisms"
+        },
+        "performance_tracking": {
+            "type": "object",
+            "properties": {
+                "current_performance": {
+                    "type": "object",
+                    "properties": {
+                        "control_effectiveness": {
+                            "type": "number"
+                        },
+                        "monitoring_accuracy": {
+                            "type": "number"
+                        },
+                        "resource_efficiency": {
+                            "type": "number"
+                        },
+                        "goal_achievement_rate": {
+                            "type": "number"
+                        },
+                        "strategy_success_rate": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "performance_trends": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "timestamp": {
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            "performance_metrics": {
+                                "type": "object"
+                            },
+                            "context_factors": {
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "performance_baselines": {
+                    "type": "object",
+                    "properties": {
+                        "individual_baseline": {
+                            "type": "object"
+                        },
+                        "task_specific_baselines": {
+                            "type": "object"
+                        },
+                        "context_dependent_baselines": {
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "description": "Performance tracking and history"
+        },
+        "integration_interfaces": {
+            "type": "object",
+            "properties": {
+                "working_memory_interface": {
+                    "type": "object",
+                    "properties": {
+                        "buffer_control_state": {
+                            "type": "object"
+                        },
+                        "maintenance_oversight": {
+                            "type": "object"
+                        },
+                        "updating_coordination": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "attention_interface": {
+                    "type": "object",
+                    "properties": {
+                        "attention_control_state": {
+                            "type": "object"
+                        },
+                        "focus_management": {
+                            "type": "object"
+                        },
+                        "distraction_handling": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "long_term_memory_interface": {
+                    "type": "object",
+                    "properties": {
+                        "retrieval_control": {
+                            "type": "object"
+                        },
+                        "encoding_strategy": {
+                            "type": "object"
+                        },
+                        "consolidation_management": {
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "description": "Interfaces with other cognitive systems"
+        }
+    }
+}

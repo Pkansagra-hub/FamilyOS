@@ -1,0 +1,601 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "$id": "skill_acquisition.event.json",
+    "title": "Skill Acquisition Event",
+    "description": "Event schema for skill acquisition and motor learning based on cerebellar circuits, motor cortex plasticity, and procedural learning mechanisms",
+    "type": "object",
+    "required": [
+        "event_id",
+        "timestamp",
+        "skill_context",
+        "learning_phases",
+        "motor_adaptation",
+        "neural_plasticity_mechanisms"
+    ],
+    "properties": {
+        "event_id": {
+            "type": "string",
+            "description": "Unique identifier for this skill acquisition event"
+        },
+        "timestamp": {
+            "type": "string",
+            "format": "date-time"
+        },
+        "skill_context": {
+            "type": "object",
+            "properties": {
+                "skill_type": {
+                    "type": "string",
+                    "enum": [
+                        "motor",
+                        "cognitive",
+                        "perceptual",
+                        "social",
+                        "language",
+                        "mixed"
+                    ]
+                },
+                "skill_complexity": {
+                    "type": "object",
+                    "properties": {
+                        "motor_complexity": {
+                            "type": "number"
+                        },
+                        "cognitive_complexity": {
+                            "type": "number"
+                        },
+                        "coordination_complexity": {
+                            "type": "number"
+                        },
+                        "sequence_complexity": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "task_characteristics": {
+                    "type": "object",
+                    "properties": {
+                        "discrete_vs_continuous": {
+                            "type": "string"
+                        },
+                        "closed_vs_open_loop": {
+                            "type": "string"
+                        },
+                        "fine_vs_gross_motor": {
+                            "type": "string"
+                        },
+                        "temporal_constraints": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "performance_requirements": {
+                    "type": "object",
+                    "properties": {
+                        "accuracy_requirements": {
+                            "type": "number"
+                        },
+                        "speed_requirements": {
+                            "type": "number"
+                        },
+                        "consistency_requirements": {
+                            "type": "number"
+                        },
+                        "efficiency_requirements": {
+                            "type": "number"
+                        }
+                    }
+                }
+            }
+        },
+        "learning_phases": {
+            "type": "object",
+            "properties": {
+                "cognitive_phase": {
+                    "type": "object",
+                    "properties": {
+                        "explicit_instruction_processing": {
+                            "type": "object",
+                            "properties": {
+                                "verbal_instruction_comprehension": {
+                                    "type": "object"
+                                },
+                                "demonstration_observation": {
+                                    "type": "object"
+                                },
+                                "rule_learning": {
+                                    "type": "object"
+                                },
+                                "strategy_formation": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "declarative_knowledge_acquisition": {
+                            "type": "object",
+                            "properties": {
+                                "task_goal_understanding": {
+                                    "type": "object"
+                                },
+                                "movement_component_identification": {
+                                    "type": "object"
+                                },
+                                "error_detection_learning": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "cognitive_control_engagement": {
+                            "type": "object",
+                            "properties": {
+                                "attention_resource_allocation": {
+                                    "type": "object"
+                                },
+                                "working_memory_engagement": {
+                                    "type": "object"
+                                },
+                                "executive_monitoring": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "associative_phase": {
+                    "type": "object",
+                    "properties": {
+                        "movement_refinement": {
+                            "type": "object",
+                            "properties": {
+                                "movement_smoothing": {
+                                    "type": "object"
+                                },
+                                "timing_optimization": {
+                                    "type": "object"
+                                },
+                                "force_calibration": {
+                                    "type": "object"
+                                },
+                                "coordination_improvement": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "error_reduction_learning": {
+                            "type": "object",
+                            "properties": {
+                                "sensory_prediction_improvement": {
+                                    "type": "object"
+                                },
+                                "motor_command_optimization": {
+                                    "type": "object"
+                                },
+                                "feedback_integration_enhancement": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "pattern_formation": {
+                            "type": "object",
+                            "properties": {
+                                "movement_chunking": {
+                                    "type": "object"
+                                },
+                                "sequence_learning": {
+                                    "type": "object"
+                                },
+                                "motor_program_development": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "autonomous_phase": {
+                    "type": "object",
+                    "properties": {
+                        "automatization": {
+                            "type": "object",
+                            "properties": {
+                                "reduced_cognitive_load": {
+                                    "type": "object"
+                                },
+                                "implicit_execution": {
+                                    "type": "object"
+                                },
+                                "parallel_task_capability": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "skill_consolidation": {
+                            "type": "object",
+                            "properties": {
+                                "procedural_memory_formation": {
+                                    "type": "object"
+                                },
+                                "long_term_retention": {
+                                    "type": "object"
+                                },
+                                "resistance_to_interference": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "adaptive_expertise": {
+                            "type": "object",
+                            "properties": {
+                                "context_sensitivity": {
+                                    "type": "object"
+                                },
+                                "transfer_capability": {
+                                    "type": "object"
+                                },
+                                "creative_variation": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "motor_adaptation": {
+            "type": "object",
+            "properties": {
+                "sensorimotor_adaptation": {
+                    "type": "object",
+                    "properties": {
+                        "visuomotor_adaptation": {
+                            "type": "object",
+                            "properties": {
+                                "visual_rotation_adaptation": {
+                                    "type": "object"
+                                },
+                                "prism_adaptation": {
+                                    "type": "object"
+                                },
+                                "coordinate_transformation_learning": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "force_field_adaptation": {
+                            "type": "object",
+                            "properties": {
+                                "dynamic_adaptation": {
+                                    "type": "object"
+                                },
+                                "impedance_learning": {
+                                    "type": "object"
+                                },
+                                "force_compensation": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "sensory_reweighting": {
+                            "type": "object",
+                            "properties": {
+                                "visual_proprioceptive_reweighting": {
+                                    "type": "object"
+                                },
+                                "multimodal_calibration": {
+                                    "type": "object"
+                                },
+                                "sensory_conflict_resolution": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "motor_sequence_learning": {
+                    "type": "object",
+                    "properties": {
+                        "serial_reaction_time_learning": {
+                            "type": "object",
+                            "properties": {
+                                "sequence_detection": {
+                                    "type": "object"
+                                },
+                                "implicit_learning": {
+                                    "type": "object"
+                                },
+                                "chunk_formation": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "discrete_sequence_learning": {
+                            "type": "object",
+                            "properties": {
+                                "movement_element_learning": {
+                                    "type": "object"
+                                },
+                                "transition_learning": {
+                                    "type": "object"
+                                },
+                                "hierarchical_organization": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "motor_skill_generalization": {
+                    "type": "object",
+                    "properties": {
+                        "transfer_learning": {
+                            "type": "object",
+                            "properties": {
+                                "bilateral_transfer": {
+                                    "type": "object"
+                                },
+                                "cross_limb_transfer": {
+                                    "type": "object"
+                                },
+                                "context_generalization": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "skill_composition": {
+                            "type": "object",
+                            "properties": {
+                                "primitive_combination": {
+                                    "type": "object"
+                                },
+                                "skill_hierarchies": {
+                                    "type": "object"
+                                },
+                                "modular_skill_assembly": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "neural_plasticity_mechanisms": {
+            "type": "object",
+            "properties": {
+                "cerebellar_learning": {
+                    "type": "object",
+                    "properties": {
+                        "purkinje_cell_plasticity": {
+                            "type": "object",
+                            "properties": {
+                                "long_term_depression_ltd": {
+                                    "type": "object"
+                                },
+                                "climbing_fiber_modulation": {
+                                    "type": "object"
+                                },
+                                "parallel_fiber_plasticity": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "cerebellar_learning_rules": {
+                            "type": "object",
+                            "properties": {
+                                "error_based_learning": {
+                                    "type": "object"
+                                },
+                                "supervised_learning_mechanisms": {
+                                    "type": "object"
+                                },
+                                "temporal_difference_learning": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "motor_adaptation_circuits": {
+                            "type": "object",
+                            "properties": {
+                                "vestibulo_ocular_reflex_adaptation": {
+                                    "type": "object"
+                                },
+                                "reaching_adaptation_circuits": {
+                                    "type": "object"
+                                },
+                                "locomotion_adaptation_circuits": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "motor_cortex_plasticity": {
+                    "type": "object",
+                    "properties": {
+                        "primary_motor_cortex_changes": {
+                            "type": "object",
+                            "properties": {
+                                "motor_map_reorganization": {
+                                    "type": "object"
+                                },
+                                "synaptic_strength_changes": {
+                                    "type": "object"
+                                },
+                                "dendritic_spine_changes": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "premotor_cortex_changes": {
+                            "type": "object",
+                            "properties": {
+                                "motor_sequence_representation": {
+                                    "type": "object"
+                                },
+                                "action_selection_plasticity": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "basal_ganglia_plasticity": {
+                    "type": "object",
+                    "properties": {
+                        "striatal_plasticity": {
+                            "type": "object",
+                            "properties": {
+                                "corticostriatal_plasticity": {
+                                    "type": "object"
+                                },
+                                "dopamine_dependent_plasticity": {
+                                    "type": "object"
+                                },
+                                "habit_learning_circuits": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "spinal_plasticity": {
+                    "type": "object",
+                    "properties": {
+                        "spinal_reflex_adaptation": {
+                            "type": "object",
+                            "properties": {
+                                "stretch_reflex_modulation": {
+                                    "type": "object"
+                                },
+                                "reciprocal_inhibition_changes": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "central_pattern_generator_plasticity": {
+                            "type": "object",
+                            "properties": {
+                                "locomotor_pattern_adaptation": {
+                                    "type": "object"
+                                },
+                                "rhythmic_movement_learning": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "learning_monitoring": {
+            "type": "object",
+            "properties": {
+                "performance_tracking": {
+                    "type": "object",
+                    "properties": {
+                        "accuracy_progression": {
+                            "type": "object"
+                        },
+                        "speed_progression": {
+                            "type": "object"
+                        },
+                        "consistency_progression": {
+                            "type": "object"
+                        },
+                        "efficiency_progression": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "error_analysis": {
+                    "type": "object",
+                    "properties": {
+                        "error_types": {
+                            "type": "array"
+                        },
+                        "error_frequency": {
+                            "type": "object"
+                        },
+                        "error_patterns": {
+                            "type": "object"
+                        },
+                        "error_correction_strategies": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "learning_curves": {
+                    "type": "object",
+                    "properties": {
+                        "acquisition_curve": {
+                            "type": "object"
+                        },
+                        "retention_curve": {
+                            "type": "object"
+                        },
+                        "transfer_curve": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "system_integration": {
+            "type": "object",
+            "properties": {
+                "memory_integration": {
+                    "type": "object",
+                    "properties": {
+                        "procedural_memory_formation": {
+                            "type": "object"
+                        },
+                        "declarative_memory_integration": {
+                            "type": "object"
+                        },
+                        "motor_memory_consolidation": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "attention_integration": {
+                    "type": "object",
+                    "properties": {
+                        "selective_attention_in_learning": {
+                            "type": "object"
+                        },
+                        "divided_attention_during_skill_execution": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "sensory_integration": {
+                    "type": "object",
+                    "properties": {
+                        "multimodal_feedback_integration": {
+                            "type": "object"
+                        },
+                        "sensory_motor_calibration": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "metadata": {
+            "type": "object",
+            "properties": {
+                "learning_session_duration": {
+                    "type": "number"
+                },
+                "practice_intensity": {
+                    "type": "number"
+                },
+                "neural_resource_engagement": {
+                    "type": "object"
+                },
+                "skill_acquisition_success_level": {
+                    "type": "number"
+                }
+            }
+        }
+    }
+}

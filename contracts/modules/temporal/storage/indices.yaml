@@ -1,0 +1,13 @@
+version: 1
+tables:
+  time_index:
+    pk: ["space_id","g","time_bucket"]
+    sk: ["doc_id","ts"]
+    secondary:
+      - name: by_doc
+        pk: ["space_id","doc_id"]
+        sk: ["ts"]
+    retention:
+      default_ttl: "P180D"
+    constraints:
+      uniqueness: ["space_id","doc_id","ts","g"]

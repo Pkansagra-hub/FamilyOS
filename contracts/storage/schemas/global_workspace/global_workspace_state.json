@@ -1,0 +1,833 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://familyos.local/contracts/storage/schemas/global_workspace/global_workspace_state.schema.json",
+    "title": "Global Workspace State",
+    "description": "Storage schema for the overall state of the global workspace, including current conscious content, active coalitions, and system configuration.",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "id",
+        "created_at",
+        "updated_at",
+        "workspace_status",
+        "conscious_content",
+        "coalition_registry",
+        "attention_state",
+        "competition_state",
+        "performance_metrics"
+    ],
+    "properties": {
+        "id": {
+            "oneOf": [
+                {
+                    "type": "string",
+                    "format": "uuid"
+                },
+                {
+                    "type": "string",
+                    "pattern": "^[0-7][0-9A-HJKMNP-TV-Z]{25}$"
+                }
+            ],
+            "description": "Unique identifier for this workspace state (UUID or ULID)"
+        },
+        "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "When this workspace state was first created"
+        },
+        "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "When this workspace state was last updated"
+        },
+        "workspace_status": {
+            "type": "object",
+            "required": [
+                "operational_mode",
+                "consciousness_level",
+                "activity_state",
+                "system_health"
+            ],
+            "properties": {
+                "operational_mode": {
+                    "type": "string",
+                    "enum": [
+                        "active",
+                        "dormant",
+                        "transitioning",
+                        "maintenance",
+                        "error"
+                    ],
+                    "description": "Current operational mode of the global workspace"
+                },
+                "consciousness_level": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Current overall consciousness level (0=unconscious, 1=fully conscious)"
+                },
+                "activity_state": {
+                    "type": "string",
+                    "enum": [
+                        "quiet",
+                        "low_activity",
+                        "moderate_activity",
+                        "high_activity",
+                        "overloaded"
+                    ],
+                    "description": "Current activity level in the workspace"
+                },
+                "system_health": {
+                    "type": "object",
+                    "properties": {
+                        "health_score": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "subsystem_health": {
+                            "type": "object"
+                        },
+                        "performance_indicators": {
+                            "type": "object"
+                        },
+                        "error_conditions": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "description": "Health status of the workspace system"
+                }
+            },
+            "description": "Overall status and health of the global workspace"
+        },
+        "conscious_content": {
+            "type": "object",
+            "required": [
+                "current_content",
+                "content_history",
+                "accessibility_levels"
+            ],
+            "properties": {
+                "current_content": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "required": [
+                            "content_id",
+                            "content_type",
+                            "activation_level",
+                            "accessibility"
+                        ],
+                        "properties": {
+                            "content_id": {
+                                "type": "string"
+                            },
+                            "content_type": {
+                                "type": "string",
+                                "enum": [
+                                    "perceptual",
+                                    "memorial",
+                                    "conceptual",
+                                    "emotional",
+                                    "intentional",
+                                    "linguistic"
+                                ]
+                            },
+                            "activation_level": {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 1
+                            },
+                            "accessibility": {
+                                "type": "object",
+                                "properties": {
+                                    "reportable": {
+                                        "type": "boolean"
+                                    },
+                                    "globally_available": {
+                                        "type": "boolean"
+                                    },
+                                    "controllable": {
+                                        "type": "boolean"
+                                    },
+                                    "introspectively_accessible": {
+                                        "type": "boolean"
+                                    }
+                                }
+                            },
+                            "content_representation": {
+                                "type": "object"
+                            },
+                            "temporal_properties": {
+                                "type": "object",
+                                "properties": {
+                                    "entry_time": {
+                                        "type": "string",
+                                        "format": "date-time"
+                                    },
+                                    "duration_ms": {
+                                        "type": "number",
+                                        "minimum": 0
+                                    },
+                                    "decay_rate": {
+                                        "type": "number",
+                                        "minimum": 0,
+                                        "maximum": 1
+                                    },
+                                    "maintenance_strength": {
+                                        "type": "number",
+                                        "minimum": 0,
+                                        "maximum": 1
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "description": "Currently conscious content in the workspace"
+                },
+                "content_history": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "content_id": {
+                                "type": "string"
+                            },
+                            "entry_time": {
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            "exit_time": {
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            "peak_activation": {
+                                "type": "number"
+                            },
+                            "access_pattern": {
+                                "type": "object"
+                            }
+                        }
+                    },
+                    "maxItems": 1000,
+                    "description": "Historical record of content that has been conscious"
+                },
+                "accessibility_levels": {
+                    "type": "object",
+                    "properties": {
+                        "global_threshold": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "reportability_threshold": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "control_threshold": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "integration_threshold": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    },
+                    "description": "Current thresholds for different levels of conscious access"
+                }
+            },
+            "description": "State of conscious content in the workspace"
+        },
+        "coalition_registry": {
+            "type": "object",
+            "required": [
+                "active_coalitions",
+                "coalition_history",
+                "competition_dynamics"
+            ],
+            "properties": {
+                "active_coalitions": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "required": [
+                            "coalition_id",
+                            "formation_time",
+                            "member_processes",
+                            "current_strength"
+                        ],
+                        "properties": {
+                            "coalition_id": {
+                                "type": "string"
+                            },
+                            "formation_time": {
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            "member_processes": {
+                                "type": "array",
+                                "items": {
+                                    "type": "object",
+                                    "properties": {
+                                        "process_id": {
+                                            "type": "string"
+                                        },
+                                        "process_type": {
+                                            "type": "string"
+                                        },
+                                        "contribution_strength": {
+                                            "type": "number"
+                                        },
+                                        "role": {
+                                            "type": "string"
+                                        }
+                                    }
+                                }
+                            },
+                            "current_strength": {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 1
+                            },
+                            "competitive_position": {
+                                "type": "object",
+                                "properties": {
+                                    "ranking": {
+                                        "type": "integer",
+                                        "minimum": 1
+                                    },
+                                    "win_probability": {
+                                        "type": "number",
+                                        "minimum": 0,
+                                        "maximum": 1
+                                    },
+                                    "competitive_strategy": {
+                                        "type": "string"
+                                    }
+                                }
+                            },
+                            "coalition_dynamics": {
+                                "type": "object",
+                                "properties": {
+                                    "coherence_score": {
+                                        "type": "number"
+                                    },
+                                    "synergy_factor": {
+                                        "type": "number"
+                                    },
+                                    "stability_index": {
+                                        "type": "number"
+                                    },
+                                    "adaptation_rate": {
+                                        "type": "number"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "description": "Currently active coalitions competing for workspace access"
+                },
+                "coalition_history": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "coalition_id": {
+                                "type": "string"
+                            },
+                            "formation_time": {
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            "dissolution_time": {
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            "peak_strength": {
+                                "type": "number"
+                            },
+                            "success_record": {
+                                "type": "object"
+                            },
+                            "dissolution_reason": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "maxItems": 500,
+                    "description": "Historical record of past coalitions"
+                },
+                "competition_dynamics": {
+                    "type": "object",
+                    "properties": {
+                        "current_competitions": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "competition_id": {
+                                        "type": "string"
+                                    },
+                                    "competing_coalitions": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "competition_intensity": {
+                                        "type": "number"
+                                    },
+                                    "competition_phase": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        },
+                        "competition_metrics": {
+                            "type": "object",
+                            "properties": {
+                                "average_competition_duration": {
+                                    "type": "number"
+                                },
+                                "competition_frequency": {
+                                    "type": "number"
+                                },
+                                "winner_prediction_accuracy": {
+                                    "type": "number"
+                                },
+                                "resource_efficiency": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    },
+                    "description": "Dynamics of coalition competition"
+                }
+            },
+            "description": "Registry and state of coalitions in the workspace"
+        },
+        "attention_state": {
+            "type": "object",
+            "required": [
+                "current_allocation",
+                "routing_decisions",
+                "attention_history"
+            ],
+            "properties": {
+                "current_allocation": {
+                    "type": "object",
+                    "properties": {
+                        "total_attention_budget": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "allocated_resources": {
+                            "type": "object",
+                            "patternProperties": {
+                                "^[a-zA-Z_][a-zA-Z0-9_]*$": {
+                                    "type": "number",
+                                    "minimum": 0,
+                                    "maximum": 1
+                                }
+                            }
+                        },
+                        "unallocated_reserve": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "allocation_efficiency": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    },
+                    "description": "Current allocation of attention resources"
+                },
+                "routing_decisions": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "decision_id": {
+                                "type": "string"
+                            },
+                            "decision_time": {
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            "routing_type": {
+                                "type": "string"
+                            },
+                            "target_systems": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "allocation_amounts": {
+                                "type": "object"
+                            },
+                            "decision_confidence": {
+                                "type": "number"
+                            }
+                        }
+                    },
+                    "maxItems": 100,
+                    "description": "Recent attention routing decisions"
+                },
+                "attention_history": {
+                    "type": "object",
+                    "properties": {
+                        "allocation_trends": {
+                            "type": "object"
+                        },
+                        "routing_patterns": {
+                            "type": "object"
+                        },
+                        "efficiency_metrics": {
+                            "type": "object"
+                        },
+                        "adaptation_history": {
+                            "type": "array"
+                        }
+                    },
+                    "description": "Historical patterns of attention allocation and routing"
+                }
+            },
+            "description": "State of attention allocation and routing in the workspace"
+        },
+        "competition_state": {
+            "type": "object",
+            "properties": {
+                "active_competitions": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "competition_id": {
+                                "type": "string"
+                            },
+                            "start_time": {
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            "competition_type": {
+                                "type": "string"
+                            },
+                            "participants": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "current_leader": {
+                                "type": "string"
+                            },
+                            "competition_metrics": {
+                                "type": "object"
+                            }
+                        }
+                    },
+                    "description": "Currently active competitions for workspace access"
+                },
+                "competition_parameters": {
+                    "type": "object",
+                    "properties": {
+                        "competition_thresholds": {
+                            "type": "object"
+                        },
+                        "evaluation_criteria": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "time_limits": {
+                            "type": "object"
+                        },
+                        "resource_constraints": {
+                            "type": "object"
+                        }
+                    },
+                    "description": "Parameters governing coalition competition"
+                },
+                "resolution_mechanisms": {
+                    "type": "object",
+                    "properties": {
+                        "decision_algorithms": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "conflict_resolution": {
+                            "type": "object"
+                        },
+                        "tie_breaking_rules": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "appeal_mechanisms": {
+                            "type": "object"
+                        }
+                    },
+                    "description": "Mechanisms for resolving competition outcomes"
+                }
+            },
+            "description": "State of competition dynamics in the workspace"
+        },
+        "performance_metrics": {
+            "type": "object",
+            "properties": {
+                "consciousness_metrics": {
+                    "type": "object",
+                    "properties": {
+                        "consciousness_stability": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "content_coherence": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "access_latency": {
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "integration_quality": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    }
+                },
+                "coalition_metrics": {
+                    "type": "object",
+                    "properties": {
+                        "formation_efficiency": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "competition_fairness": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "winner_accuracy": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "resource_utilization": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    }
+                },
+                "attention_metrics": {
+                    "type": "object",
+                    "properties": {
+                        "routing_accuracy": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "allocation_efficiency": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "response_latency": {
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "adaptation_speed": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    }
+                },
+                "system_metrics": {
+                    "type": "object",
+                    "properties": {
+                        "overall_efficiency": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "stability_index": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "error_rate": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "throughput": {
+                            "type": "number",
+                            "minimum": 0
+                        }
+                    }
+                }
+            },
+            "description": "Performance metrics for the global workspace system"
+        },
+        "configuration": {
+            "type": "object",
+            "properties": {
+                "consciousness_parameters": {
+                    "type": "object",
+                    "properties": {
+                        "global_threshold": {
+                            "type": "number"
+                        },
+                        "integration_requirements": {
+                            "type": "object"
+                        },
+                        "access_criteria": {
+                            "type": "object"
+                        },
+                        "maintenance_parameters": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "coalition_parameters": {
+                    "type": "object",
+                    "properties": {
+                        "formation_rules": {
+                            "type": "object"
+                        },
+                        "competition_rules": {
+                            "type": "object"
+                        },
+                        "strength_calculation": {
+                            "type": "object"
+                        },
+                        "dissolution_criteria": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "attention_parameters": {
+                    "type": "object",
+                    "properties": {
+                        "routing_algorithms": {
+                            "type": "array"
+                        },
+                        "allocation_strategies": {
+                            "type": "object"
+                        },
+                        "resource_limits": {
+                            "type": "object"
+                        },
+                        "adaptation_rules": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "system_parameters": {
+                    "type": "object",
+                    "properties": {
+                        "update_frequencies": {
+                            "type": "object"
+                        },
+                        "optimization_settings": {
+                            "type": "object"
+                        },
+                        "monitoring_configuration": {
+                            "type": "object"
+                        },
+                        "fault_tolerance": {
+                            "type": "object"
+                        }
+                    }
+                }
+            },
+            "description": "Configuration parameters for the global workspace"
+        },
+        "integration_state": {
+            "type": "object",
+            "properties": {
+                "connected_systems": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "system_id": {
+                                "type": "string"
+                            },
+                            "system_type": {
+                                "type": "string"
+                            },
+                            "connection_strength": {
+                                "type": "number"
+                            },
+                            "integration_quality": {
+                                "type": "number"
+                            },
+                            "communication_channels": {
+                                "type": "array"
+                            }
+                        }
+                    },
+                    "description": "Other cognitive systems connected to the workspace"
+                },
+                "coordination_state": {
+                    "type": "object",
+                    "properties": {
+                        "thalamic_coordination": {
+                            "type": "object"
+                        },
+                        "working_memory_coordination": {
+                            "type": "object"
+                        },
+                        "hippocampal_coordination": {
+                            "type": "object"
+                        },
+                        "motor_coordination": {
+                            "type": "object"
+                        }
+                    },
+                    "description": "Coordination state with other brain systems"
+                },
+                "information_flow": {
+                    "type": "object",
+                    "properties": {
+                        "incoming_streams": {
+                            "type": "array"
+                        },
+                        "outgoing_broadcasts": {
+                            "type": "array"
+                        },
+                        "bidirectional_channels": {
+                            "type": "array"
+                        },
+                        "flow_metrics": {
+                            "type": "object"
+                        }
+                    },
+                    "description": "Information flow patterns with other systems"
+                }
+            },
+            "description": "Integration state with other cognitive systems"
+        }
+    }
+}

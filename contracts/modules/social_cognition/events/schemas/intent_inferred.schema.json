@@ -1,0 +1,16 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema#",
+  "$id": "https://familyos.local/contracts/social_cognition/events/intent_inferred.schema.json",
+  "title": "INTENT_INFERRED@1.0 payload",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["subject_id","intent","likelihood","ts"],
+  "properties": {
+    "subject_id": { "type": "string" },
+    "intent": { "type": "string", "pattern": "^[a-z0-9._:-]{3,64}$" },
+    "context": { "type": "object" },
+    "likelihood": { "type": "number", "minimum": 0, "maximum": 1 },
+    "explain": { "type": "string", "maxLength": 280 },
+    "ts": { "$ref": "../../events/schemas/_common.json#/definitions/ISOInstant" }
+  }
+}

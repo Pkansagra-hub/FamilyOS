@@ -1,0 +1,58 @@
+{
+  "schema_version": "1.1.0",
+  "id": "66907350-1cb7-4d0a-8cfa-66f8e2185525",
+  "ts": "2025-09-09T04:20:40Z",
+  "topic": "DSAR_EXPORT",
+  "band": "AMBER",
+  "actor": {
+    "user_id": "45d766bb-4572-4c59-b810-d04bb7f26877",
+    "agent_id": "privacy.v1",
+    "caps": [
+      "RECALL"
+    ]
+  },
+  "device": {
+    "device_id": "android-pixel8",
+    "platform": "ios",
+    "app_version": "1.0.2",
+    "locale": "de-DE"
+  },
+  "space_id": "interfamily:link",
+  "policy_version": "1.3",
+  "abac": {
+    "role": "service",
+    "trust": "red",
+    "geo_precision": "region"
+  },
+  "qos": {
+    "routing": "fast-path",
+    "priority": 9,
+    "latency_budget_ms": 69,
+    "retries": 1
+  },
+  "trace": {
+    "trace_id": "cd42473013dc8995cd1f24f1379fe01b",
+    "span_id": "dbb566cc13229b11",
+    "sampled": true
+  },
+  "obligations": [
+    "AUDIT_ACCESS"
+  ],
+  "redaction_applied": true,
+  "hashes": {
+    "payload_sha256": "9a41fa97256781bbbc4a70ea68d1806c5896f3c97433913d57e4e9d3f87c76cc"
+  },
+  "payload": {
+    "type": "export",
+    "subject": {
+      "user_id": "2f57b21e-e006-4623-8fd6-9d7db10c4259"
+    }
+  },
+  "signature": {
+    "alg": "ed25519",
+    "key_id": "key_dsar_export_amber_2024",
+    "public_key": "cHVibGlj",
+    "signature": "c2ln"
+  },
+  "mls_group": "household-secure"
+}

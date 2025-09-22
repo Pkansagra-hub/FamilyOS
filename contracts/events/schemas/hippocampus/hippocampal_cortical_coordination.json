@@ -1,0 +1,230 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "$id": "hippocampal_cortical_coordination.schema.json",
+    "title": "Hippocampal-Cortical Coordination Event",
+    "description": "Event for coordination between hippocampal and cortical memory systems during encoding, consolidation, and retrieval",
+    "type": "object",
+    "required": [
+        "timestamp",
+        "coordination_type",
+        "hippocampal_state",
+        "cortical_regions",
+        "coordination_strength",
+        "information_flow"
+    ],
+    "properties": {
+        "timestamp": {
+            "type": "string",
+            "format": "date-time"
+        },
+        "coordination_type": {
+            "type": "string",
+            "enum": [
+                "encoding_coordination",
+                "consolidation_transfer",
+                "retrieval_coordination",
+                "interference_resolution",
+                "memory_updating"
+            ]
+        },
+        "hippocampal_state": {
+            "type": "object",
+            "required": [
+                "ca1_activity",
+                "ca3_activity",
+                "dentate_gyrus_activity"
+            ],
+            "properties": {
+                "ca1_activity": {
+                    "type": "object",
+                    "properties": {
+                        "place_cell_firing": {
+                            "type": "array"
+                        },
+                        "time_cell_firing": {
+                            "type": "array"
+                        },
+                        "output_gating": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "ca3_activity": {
+                    "type": "object",
+                    "properties": {
+                        "recurrent_activity": {
+                            "type": "number"
+                        },
+                        "pattern_completion_strength": {
+                            "type": "number"
+                        },
+                        "associative_recall": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "dentate_gyrus_activity": {
+                    "type": "object",
+                    "properties": {
+                        "pattern_separation_level": {
+                            "type": "number"
+                        },
+                        "sparse_coding": {
+                            "type": "number"
+                        },
+                        "neurogenesis_activity": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "theta_rhythm": {
+                    "type": "object",
+                    "properties": {
+                        "frequency": {
+                            "type": "number"
+                        },
+                        "amplitude": {
+                            "type": "number"
+                        },
+                        "phase_coherence": {
+                            "type": "number"
+                        }
+                    }
+                }
+            }
+        },
+        "cortical_regions": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "region_name": {
+                        "type": "string"
+                    },
+                    "activity_level": {
+                        "type": "number"
+                    },
+                    "synchronization_with_hippocampus": {
+                        "type": "number"
+                    },
+                    "memory_representation": {
+                        "type": "object"
+                    },
+                    "plasticity_state": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "coordination_strength": {
+            "type": "object",
+            "properties": {
+                "overall_coordination": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "bidirectional_flow": {
+                    "type": "number"
+                },
+                "temporal_synchrony": {
+                    "type": "number"
+                },
+                "functional_connectivity": {
+                    "type": "number"
+                }
+            }
+        },
+        "information_flow": {
+            "type": "object",
+            "properties": {
+                "hippocampus_to_cortex": {
+                    "type": "object",
+                    "properties": {
+                        "flow_rate": {
+                            "type": "number"
+                        },
+                        "information_content": {
+                            "type": "object"
+                        },
+                        "target_cortical_layers": {
+                            "type": "array"
+                        }
+                    }
+                },
+                "cortex_to_hippocampus": {
+                    "type": "object",
+                    "properties": {
+                        "flow_rate": {
+                            "type": "number"
+                        },
+                        "contextual_information": {
+                            "type": "object"
+                        },
+                        "top_down_modulation": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "lateral_cortical_flow": {
+                    "type": "object",
+                    "properties": {
+                        "inter_regional_communication": {
+                            "type": "array"
+                        },
+                        "cross_modal_integration": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        },
+        "memory_operations": {
+            "type": "object",
+            "properties": {
+                "active_encoding": {
+                    "type": "object",
+                    "properties": {
+                        "encoding_strength": {
+                            "type": "number"
+                        },
+                        "multimodal_binding": {
+                            "type": "object"
+                        },
+                        "contextual_association": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "consolidation_transfer": {
+                    "type": "object",
+                    "properties": {
+                        "transfer_progress": {
+                            "type": "number"
+                        },
+                        "cortical_integration": {
+                            "type": "number"
+                        },
+                        "hippocampal_dependence_reduction": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "retrieval_coordination": {
+                    "type": "object",
+                    "properties": {
+                        "retrieval_cue_processing": {
+                            "type": "object"
+                        },
+                        "pattern_completion_cortical": {
+                            "type": "object"
+                        },
+                        "memory_reconstruction": {
+                            "type": "object"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

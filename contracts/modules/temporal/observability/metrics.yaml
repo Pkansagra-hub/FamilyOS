@@ -1,0 +1,11 @@
+metrics:
+  - name: temporal_range_queries_total
+    type: counter
+    labels: [space_id, g]
+  - name: temporal_range_latency_ms
+    type: histogram
+    buckets: [5,10,20,50,100,200,400,800]
+    labels: [g]
+  - name: time_index_records_written_total
+    type: counter
+    labels: [g]

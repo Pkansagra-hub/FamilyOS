@@ -1,0 +1,54 @@
+{
+  "schema_version": "1.1.0",
+  "id": "437be9fd-6933-458d-8f58-3c8c50821fc3",
+  "ts": "2025-09-09T04:20:40Z",
+  "topic": "ACTION_EXECUTED",
+  "band": "RED",
+  "actor": {
+    "user_id": "c3b3f3fb-2ecc-4030-8d54-3ad4e2422a48",
+    "agent_id": "safety.v1",
+    "caps": [
+      "PROJECT"
+    ]
+  },
+  "device": {
+    "device_id": "ios-iphone15",
+    "platform": "edge",
+    "app_version": "1.7.9",
+    "locale": "hi-IN"
+  },
+  "space_id": "interfamily:link",
+  "policy_version": "1.3",
+  "abac": {
+    "role": "system",
+    "trust": "amber",
+    "geo_precision": "region"
+  },
+  "qos": {
+    "routing": "gate-path",
+    "priority": 7,
+    "latency_budget_ms": 238,
+    "retries": 1
+  },
+  "trace": {
+    "trace_id": "4bc5e88ffbb40fcf4729b60a5d740095",
+    "span_id": "7e195293904a6e6a",
+    "sampled": true
+  },
+  "obligations": [],
+  "redaction_applied": true,
+  "hashes": {
+    "payload_sha256": "6b014019e998f686862e67e43fb2fb909fd18ea2488de0205a12e2bbc8c8e639"
+  },
+  "payload": {
+    "action": "device_notify",
+    "status": "queued"
+  },
+  "signature": {
+    "alg": "ed25519",
+    "key_id": "key_action_executed_red_2024",
+    "public_key": "cHVibGlj",
+    "signature": "c2ln"
+  },
+  "mls_group": "household-secure"
+}

@@ -1,0 +1,2 @@
+- ACTION_DECISION must set `band` to the max(band of inputs, module policy band).
+- `qos.routing='gate-path'` for candidates; `fast-path` for decision.

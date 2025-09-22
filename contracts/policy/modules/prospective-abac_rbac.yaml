@@ -1,0 +1,15 @@
+roles:
+  - name: user
+    caps: [CREATE_SCHEDULE, CANCEL_SCHEDULE, ACK_REMINDER]
+rules:
+  - action: CREATE_SCHEDULE
+    when: { space_role: [owner, adult] }
+    band: GREEN
+  - action: ACK_REMINDER
+    when: { user_in_space: true }
+    band: GREEN
+  - action: CREATE_SCHEDULE
+    when: { space_role: child }
+    band: AMBER
+obligations:
+  AMBER: [AUDIT]

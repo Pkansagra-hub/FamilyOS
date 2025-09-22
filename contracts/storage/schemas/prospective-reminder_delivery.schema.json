@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://familyos.local/contracts/prospective/reminder_state.schema.json",
+  "type": "object",
+  "properties": {
+    "id": { "type": "string", "format": "uuid" },
+    "tick_ts": { "type": "string", "format": "date-time" },
+    "state": { "type": "string", "enum": ["due","acked","snoozed","overdue"] },
+    "snooze_for": { "type": "string" },
+    "actor_user_id": { "type": "string" }
+  },
+  "required": ["id","tick_ts","state"]
+}

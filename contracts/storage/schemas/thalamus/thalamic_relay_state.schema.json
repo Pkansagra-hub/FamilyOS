@@ -1,0 +1,285 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://familyos.local/contracts/storage/schemas/thalamus/thalamic_relay_state.schema.json",
+    "title": "Thalamic Relay State Storage Schema",
+    "description": "Storage schema for persistent thalamic relay circuit state",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "relay_circuit_id",
+        "circuit_type",
+        "current_state",
+        "configuration",
+        "performance_metrics",
+        "last_updated"
+    ],
+    "properties": {
+        "relay_circuit_id": {
+            "type": "string",
+            "description": "Unique identifier for the relay circuit"
+        },
+        "circuit_type": {
+            "type": "string",
+            "enum": [
+                "memory",
+                "recall",
+                "executive",
+                "learning"
+            ],
+            "description": "Type of thalamic relay circuit"
+        },
+        "current_state": {
+            "type": "object",
+            "required": [
+                "activation_level",
+                "gating_threshold",
+                "cognitive_load"
+            ],
+            "properties": {
+                "activation_level": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Current activation level of relay circuit"
+                },
+                "gating_threshold": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Current threshold for gating decisions"
+                },
+                "cognitive_load": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Current cognitive load on circuit"
+                },
+                "circuit_mode": {
+                    "type": "string",
+                    "enum": [
+                        "normal",
+                        "protective",
+                        "enhanced",
+                        "maintenance"
+                    ],
+                    "description": "Current operational mode"
+                },
+                "last_decision": {
+                    "type": "string",
+                    "enum": [
+                        "ADMIT",
+                        "DEFER",
+                        "BOOST",
+                        "DROP",
+                        "NONE"
+                    ]
+                },
+                "decision_confidence": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                }
+            },
+            "description": "Current operational state of the circuit"
+        },
+        "configuration": {
+            "type": "object",
+            "required": [
+                "base_threshold",
+                "adaptation_rate"
+            ],
+            "properties": {
+                "base_threshold": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Base gating threshold"
+                },
+                "adaptation_rate": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Rate of threshold adaptation"
+                },
+                "hysteresis_width": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Width of hysteresis band for stability"
+                },
+                "max_cognitive_load": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Maximum allowed cognitive load"
+                },
+                "circuit_weights": {
+                    "type": "object",
+                    "properties": {
+                        "salience_weight": {
+                            "type": "number"
+                        },
+                        "recency_weight": {
+                            "type": "number"
+                        },
+                        "goal_relevance_weight": {
+                            "type": "number"
+                        },
+                        "emotional_weight": {
+                            "type": "number"
+                        }
+                    }
+                }
+            },
+            "description": "Configuration parameters for the circuit"
+        },
+        "performance_metrics": {
+            "type": "object",
+            "required": [
+                "decision_accuracy",
+                "throughput",
+                "latency_ms"
+            ],
+            "properties": {
+                "decision_accuracy": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Accuracy of gating decisions"
+                },
+                "throughput": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Items processed per second"
+                },
+                "latency_ms": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Average decision latency"
+                },
+                "stability_score": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Stability of decision patterns"
+                },
+                "resource_efficiency": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Efficiency of resource utilization"
+                }
+            },
+            "description": "Performance metrics for the circuit"
+        },
+        "decision_history": {
+            "type": "object",
+            "properties": {
+                "recent_decisions": {
+                    "type": "array",
+                    "maxItems": 100,
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "timestamp": {
+                                "type": "string"
+                            },
+                            "decision": {
+                                "type": "string"
+                            },
+                            "confidence": {
+                                "type": "number"
+                            },
+                            "content_id": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "decision_statistics": {
+                    "type": "object",
+                    "properties": {
+                        "admit_count": {
+                            "type": "integer"
+                        },
+                        "defer_count": {
+                            "type": "integer"
+                        },
+                        "boost_count": {
+                            "type": "integer"
+                        },
+                        "drop_count": {
+                            "type": "integer"
+                        }
+                    }
+                }
+            },
+            "description": "Historical decision data"
+        },
+        "learning_state": {
+            "type": "object",
+            "properties": {
+                "adaptation_history": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "timestamp": {
+                                "type": "string"
+                            },
+                            "parameter_name": {
+                                "type": "string"
+                            },
+                            "old_value": {
+                                "type": "number"
+                            },
+                            "new_value": {
+                                "type": "number"
+                            },
+                            "trigger_reason": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "learning_rate": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "model_version": {
+                    "type": "string"
+                }
+            },
+            "description": "Learning and adaptation state"
+        },
+        "last_updated": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp of last state update"
+        },
+        "metadata": {
+            "type": "object",
+            "properties": {
+                "creation_time": {
+                    "type": "string"
+                },
+                "update_count": {
+                    "type": "integer"
+                },
+                "version": {
+                    "type": "string"
+                },
+                "circuit_health": {
+                    "type": "string",
+                    "enum": [
+                        "healthy",
+                        "degraded",
+                        "critical",
+                        "offline"
+                    ]
+                }
+            },
+            "description": "Metadata about the stored state"
+        }
+    }
+}

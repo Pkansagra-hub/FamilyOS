@@ -1,0 +1,11 @@
+{
+  "version":"1.0.0",
+  "envelope_ref":"../../contracts/events/envelope.schema.json",
+  "topics":[
+    {"name":"WORKFLOW_STARTED@1.0","subject":"workflow","schema":{"type":"object","required":["workflow_id","space_id","type","started_at"],"properties":{"workflow_id":{"type":"string"},"space_id":{"type":"string"},"type":{"type":"string"},"started_at":{"type":"string","format":"date-time"}}},"idempotency":"workflow_id"},
+    {"name":"WORKFLOW_UPDATED@1.0","subject":"workflow","schema":{"type":"object","required":["workflow_id","space_id","step","version"],"properties":{"workflow_id":{"type":"string"},"space_id":{"type":"string"},"step":{"type":"string"},"version":{"type":"integer","minimum":1}}},"idempotency":"workflow_id+version"},
+    {"name":"WORKFLOW_COMPLETED@1.0","subject":"workflow","schema":{"type":"object","required":["workflow_id","space_id","completed_at"],"properties":{"workflow_id":{"type":"string"},"space_id":{"type":"string"},"completed_at":{"type":"string","format":"date-time"}}},"idempotency":"workflow_id"},
+    {"name":"WORKFLOW_FAILED@1.0","subject":"workflow","schema":{"type":"object","required":["workflow_id","space_id","reason","ts"],"properties":{"workflow_id":{"type":"string"},"space_id":{"type":"string"},"reason":{"type":"string"},"ts":{"type":"string","format":"date-time"}}}},
+    {"name":"WORKFLOW_RETRIED@1.0","subject":"workflow","schema":{"type":"object","required":["workflow_id","space_id","attempt","ts"],"properties":{"workflow_id":{"type":"string"},"space_id":{"type":"string"},"attempt":{"type":"integer","minimum":1},"ts":{"type":"string","format":"date-time"}}},"idempotency":"workflow_id+attempt"}
+  ]
+}

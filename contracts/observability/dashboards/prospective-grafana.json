@@ -1,0 +1,8 @@
+{
+  "title": "Prospective Scheduler",
+  "panels": [
+    { "type": "timeseries", "title": "Scheduler drift p95", "targets":[{"expr":"histogram_quantile(0.95, sum(rate(scheduler_drift_ms_bucket[5m])) by (le))"}]},
+    { "type": "stat", "title": "Reminders sent (5m)", "targets":[{"expr":"sum(increase(reminders_sent_total[5m]))"}]}
+  ],
+  "schemaVersion": 38
+}

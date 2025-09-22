@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.1.0",
+  "id": "5dea6dd4-efba-484e-a4da-5182754ccda1",
+  "ts": "2025-09-09T04:20:40Z",
+  "topic": "AFFECT_UPDATE",
+  "band": "GREEN",
+  "actor": {
+    "user_id": "aefac571-9270-4667-b481-07c00d0f84ee",
+    "agent_id": "retriever.v1",
+    "caps": [
+      "PROJECT"
+    ]
+  },
+  "device": {
+    "device_id": "srv-safety-01",
+    "platform": "ios",
+    "app_version": "1.9.0",
+    "locale": "de-DE"
+  },
+  "space_id": "interfamily:link",
+  "policy_version": "1.3",
+  "abac": {
+    "role": "system",
+    "trust": "black",
+    "geo_precision": "city"
+  },
+  "qos": {
+    "routing": "fast-path",
+    "priority": 9,
+    "latency_budget_ms": 107,
+    "retries": 2
+  },
+  "trace": {
+    "trace_id": "3e66c9ab107853ffbcda03ef3e584bef",
+    "span_id": "808d1e6260cc4a1f",
+    "sampled": true
+  },
+  "obligations": [],
+  "redaction_applied": false,
+  "hashes": {
+    "payload_sha256": "1609629fc76e04334ebbfc48edb879de003a2a22bd00ee19a436f7c7c26f7f1e"
+  },
+  "payload": {
+    "valence": 0.534,
+    "arousal": 0.168
+  },
+  "signature": {
+    "alg": "ed25519",
+    "key_id": "key_affect_update_green_2024",
+    "public_key": "cHVibGlj",
+    "signature": "c2ln"
+  }
+}

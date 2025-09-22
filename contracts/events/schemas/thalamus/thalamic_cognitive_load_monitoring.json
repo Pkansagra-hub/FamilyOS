@@ -1,0 +1,606 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "$id": "thalamic_cognitive_load_monitoring.schema.json",
+    "title": "Thalamic Cognitive Load Monitoring Event",
+    "description": "Event generated when thalamic circuits monitor and assess cognitive load across different processing systems to optimize resource allocation and prevent overload.",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "timestamp",
+        "load_assessment",
+        "resource_utilization",
+        "capacity_analysis",
+        "bottleneck_detection",
+        "load_balancing_recommendation"
+    ],
+    "properties": {
+        "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Precise timing of cognitive load assessment"
+        },
+        "load_assessment": {
+            "type": "object",
+            "required": [
+                "overall_load",
+                "load_distribution",
+                "load_trend"
+            ],
+            "properties": {
+                "overall_load": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Overall cognitive load level (0=no load, 1=maximum capacity)"
+                },
+                "load_distribution": {
+                    "type": "object",
+                    "properties": {
+                        "attention_load": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "Load on attention systems"
+                        },
+                        "working_memory_load": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "Load on working memory systems"
+                        },
+                        "executive_control_load": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "Load on executive control systems"
+                        },
+                        "perceptual_load": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "Load on perceptual processing systems"
+                        },
+                        "memory_retrieval_load": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "Load on memory retrieval systems"
+                        },
+                        "learning_load": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "Load on learning and adaptation systems"
+                        }
+                    },
+                    "description": "Distribution of load across cognitive systems"
+                },
+                "load_trend": {
+                    "type": "object",
+                    "properties": {
+                        "trend_direction": {
+                            "type": "string",
+                            "enum": [
+                                "increasing",
+                                "decreasing",
+                                "stable",
+                                "oscillating",
+                                "peaked"
+                            ],
+                            "description": "Direction of load trend"
+                        },
+                        "trend_rate": {
+                            "type": "number",
+                            "description": "Rate of load change per unit time"
+                        },
+                        "prediction_horizon": {
+                            "type": "number",
+                            "minimum": 0,
+                            "description": "Time horizon for load predictions in milliseconds"
+                        },
+                        "predicted_peak": {
+                            "type": "object",
+                            "properties": {
+                                "peak_time": {
+                                    "type": "string",
+                                    "format": "date-time"
+                                },
+                                "peak_magnitude": {
+                                    "type": "number"
+                                },
+                                "confidence": {
+                                    "type": "number"
+                                }
+                            },
+                            "description": "Predicted load peak information"
+                        }
+                    },
+                    "description": "Trend analysis of cognitive load"
+                },
+                "load_variability": {
+                    "type": "object",
+                    "properties": {
+                        "variance": {
+                            "type": "number"
+                        },
+                        "standard_deviation": {
+                            "type": "number"
+                        },
+                        "coefficient_of_variation": {
+                            "type": "number"
+                        },
+                        "temporal_patterns": {
+                            "type": "array"
+                        }
+                    },
+                    "description": "Variability analysis of cognitive load"
+                }
+            },
+            "description": "Comprehensive cognitive load assessment"
+        },
+        "resource_utilization": {
+            "type": "object",
+            "required": [
+                "current_utilization",
+                "available_capacity",
+                "resource_efficiency"
+            ],
+            "properties": {
+                "current_utilization": {
+                    "type": "object",
+                    "properties": {
+                        "processing_bandwidth": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "Utilization of processing bandwidth"
+                        },
+                        "memory_bandwidth": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "Utilization of memory bandwidth"
+                        },
+                        "attention_resources": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "Utilization of attention resources"
+                        },
+                        "executive_resources": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "Utilization of executive control resources"
+                        },
+                        "energy_budget": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "Utilization of energy budget"
+                        }
+                    },
+                    "description": "Current resource utilization levels"
+                },
+                "available_capacity": {
+                    "type": "object",
+                    "properties": {
+                        "spare_processing_capacity": {
+                            "type": "number"
+                        },
+                        "spare_memory_capacity": {
+                            "type": "number"
+                        },
+                        "spare_attention_capacity": {
+                            "type": "number"
+                        },
+                        "expandable_capacity": {
+                            "type": "number"
+                        },
+                        "emergency_reserves": {
+                            "type": "number"
+                        }
+                    },
+                    "description": "Available spare capacity across resources"
+                },
+                "resource_efficiency": {
+                    "type": "object",
+                    "properties": {
+                        "processing_efficiency": {
+                            "type": "number"
+                        },
+                        "memory_efficiency": {
+                            "type": "number"
+                        },
+                        "attention_efficiency": {
+                            "type": "number"
+                        },
+                        "overall_efficiency": {
+                            "type": "number"
+                        },
+                        "efficiency_trend": {
+                            "type": "string"
+                        }
+                    },
+                    "description": "Efficiency metrics for resource utilization"
+                },
+                "resource_conflicts": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "conflict_type": {
+                                "type": "string"
+                            },
+                            "conflicting_systems": {
+                                "type": "array"
+                            },
+                            "conflict_severity": {
+                                "type": "number"
+                            },
+                            "resolution_strategy": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "description": "Detected resource conflicts"
+                }
+            },
+            "description": "Detailed resource utilization analysis"
+        },
+        "capacity_analysis": {
+            "type": "object",
+            "required": [
+                "current_capacity",
+                "capacity_limits",
+                "capacity_adaptation"
+            ],
+            "properties": {
+                "current_capacity": {
+                    "type": "object",
+                    "properties": {
+                        "theoretical_maximum": {
+                            "type": "number"
+                        },
+                        "practical_maximum": {
+                            "type": "number"
+                        },
+                        "sustainable_capacity": {
+                            "type": "number"
+                        },
+                        "burst_capacity": {
+                            "type": "number"
+                        },
+                        "degraded_capacity": {
+                            "type": "number"
+                        }
+                    },
+                    "description": "Current capacity measurements"
+                },
+                "capacity_limits": {
+                    "type": "object",
+                    "properties": {
+                        "hard_limits": {
+                            "type": "object",
+                            "properties": {
+                                "processing_limit": {
+                                    "type": "number"
+                                },
+                                "memory_limit": {
+                                    "type": "number"
+                                },
+                                "attention_limit": {
+                                    "type": "number"
+                                },
+                                "energy_limit": {
+                                    "type": "number"
+                                }
+                            },
+                            "description": "Hard capacity limits"
+                        },
+                        "soft_limits": {
+                            "type": "object",
+                            "properties": {
+                                "comfort_zone_limit": {
+                                    "type": "number"
+                                },
+                                "efficiency_limit": {
+                                    "type": "number"
+                                },
+                                "quality_maintenance_limit": {
+                                    "type": "number"
+                                }
+                            },
+                            "description": "Soft capacity limits for optimal performance"
+                        },
+                        "adaptive_limits": {
+                            "type": "object",
+                            "properties": {
+                                "context_dependent_limits": {
+                                    "type": "array"
+                                },
+                                "task_specific_limits": {
+                                    "type": "array"
+                                },
+                                "time_varying_limits": {
+                                    "type": "array"
+                                }
+                            },
+                            "description": "Adaptive and context-dependent limits"
+                        }
+                    },
+                    "description": "Analysis of capacity limits"
+                },
+                "capacity_adaptation": {
+                    "type": "object",
+                    "properties": {
+                        "adaptation_mechanisms": {
+                            "type": "array",
+                            "items": {
+                                "type": "string",
+                                "enum": [
+                                    "resource_reallocation",
+                                    "priority_adjustment",
+                                    "quality_degradation",
+                                    "temporal_spreading",
+                                    "parallel_processing"
+                                ]
+                            },
+                            "description": "Available capacity adaptation mechanisms"
+                        },
+                        "adaptation_speed": {
+                            "type": "number",
+                            "minimum": 0,
+                            "description": "Speed of capacity adaptation"
+                        },
+                        "adaptation_cost": {
+                            "type": "number",
+                            "minimum": 0,
+                            "description": "Cost of capacity adaptation"
+                        },
+                        "adaptation_effectiveness": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "Effectiveness of capacity adaptation"
+                        }
+                    },
+                    "description": "Capacity adaptation analysis"
+                }
+            },
+            "description": "Comprehensive capacity analysis"
+        },
+        "bottleneck_detection": {
+            "type": "object",
+            "required": [
+                "bottlenecks_detected",
+                "bottleneck_analysis"
+            ],
+            "properties": {
+                "bottlenecks_detected": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "bottleneck_location": {
+                                "type": "string",
+                                "enum": [
+                                    "attention_gate",
+                                    "working_memory",
+                                    "executive_control",
+                                    "memory_retrieval",
+                                    "perceptual_processing",
+                                    "motor_output"
+                                ],
+                                "description": "Location of detected bottleneck"
+                            },
+                            "bottleneck_severity": {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 1,
+                                "description": "Severity of the bottleneck"
+                            },
+                            "bottleneck_duration": {
+                                "type": "number",
+                                "minimum": 0,
+                                "description": "Duration of bottleneck in milliseconds"
+                            },
+                            "impact_assessment": {
+                                "type": "object",
+                                "properties": {
+                                    "performance_impact": {
+                                        "type": "number"
+                                    },
+                                    "efficiency_impact": {
+                                        "type": "number"
+                                    },
+                                    "quality_impact": {
+                                        "type": "number"
+                                    },
+                                    "downstream_effects": {
+                                        "type": "array"
+                                    }
+                                },
+                                "description": "Assessment of bottleneck impact"
+                            }
+                        }
+                    },
+                    "description": "List of detected bottlenecks"
+                },
+                "bottleneck_analysis": {
+                    "type": "object",
+                    "properties": {
+                        "root_cause_analysis": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "cause_type": {
+                                        "type": "string"
+                                    },
+                                    "cause_description": {
+                                        "type": "string"
+                                    },
+                                    "confidence": {
+                                        "type": "number"
+                                    }
+                                }
+                            },
+                            "description": "Root cause analysis of bottlenecks"
+                        },
+                        "bottleneck_patterns": {
+                            "type": "object",
+                            "properties": {
+                                "recurring_patterns": {
+                                    "type": "array"
+                                },
+                                "temporal_patterns": {
+                                    "type": "array"
+                                },
+                                "task_specific_patterns": {
+                                    "type": "array"
+                                }
+                            },
+                            "description": "Patterns in bottleneck occurrence"
+                        },
+                        "prediction_model": {
+                            "type": "object",
+                            "properties": {
+                                "next_bottleneck_prediction": {
+                                    "type": "object"
+                                },
+                                "prediction_confidence": {
+                                    "type": "number"
+                                },
+                                "prevention_opportunity": {
+                                    "type": "boolean"
+                                }
+                            },
+                            "description": "Bottleneck prediction model"
+                        }
+                    },
+                    "description": "Detailed bottleneck analysis"
+                }
+            },
+            "description": "Bottleneck detection and analysis"
+        },
+        "load_balancing_recommendation": {
+            "type": "object",
+            "required": [
+                "recommendation_type",
+                "urgency_level",
+                "expected_impact"
+            ],
+            "properties": {
+                "recommendation_type": {
+                    "type": "string",
+                    "enum": [
+                        "resource_reallocation",
+                        "priority_adjustment",
+                        "task_scheduling",
+                        "parallel_processing",
+                        "load_shedding",
+                        "capacity_expansion"
+                    ],
+                    "description": "Type of load balancing recommendation"
+                },
+                "urgency_level": {
+                    "type": "string",
+                    "enum": [
+                        "immediate",
+                        "urgent",
+                        "normal",
+                        "low"
+                    ],
+                    "description": "Urgency level of the recommendation"
+                },
+                "expected_impact": {
+                    "type": "object",
+                    "properties": {
+                        "load_reduction": {
+                            "type": "number"
+                        },
+                        "performance_improvement": {
+                            "type": "number"
+                        },
+                        "efficiency_gain": {
+                            "type": "number"
+                        },
+                        "stability_improvement": {
+                            "type": "number"
+                        }
+                    },
+                    "description": "Expected impact of the recommendation"
+                },
+                "specific_actions": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "action_type": {
+                                "type": "string"
+                            },
+                            "action_parameters": {
+                                "type": "object"
+                            },
+                            "execution_priority": {
+                                "type": "number"
+                            },
+                            "expected_duration": {
+                                "type": "number"
+                            }
+                        }
+                    },
+                    "description": "Specific recommended actions"
+                },
+                "implementation_strategy": {
+                    "type": "object",
+                    "properties": {
+                        "implementation_phases": {
+                            "type": "array"
+                        },
+                        "rollback_plan": {
+                            "type": "object"
+                        },
+                        "monitoring_requirements": {
+                            "type": "array"
+                        },
+                        "success_criteria": {
+                            "type": "array"
+                        }
+                    },
+                    "description": "Strategy for implementing recommendations"
+                }
+            },
+            "description": "Load balancing recommendations"
+        },
+        "performance_metrics": {
+            "type": "object",
+            "properties": {
+                "monitoring_accuracy": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Accuracy of load monitoring"
+                },
+                "prediction_accuracy": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Accuracy of load predictions"
+                },
+                "response_time": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Response time for load assessment in milliseconds"
+                },
+                "system_overhead": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Overhead cost of load monitoring"
+                }
+            },
+            "description": "Performance metrics for load monitoring"
+        }
+    }
+}

@@ -1,0 +1,545 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "$id": "metacognitive_monitoring.schema.json",
+    "title": "Meta-Cognitive Monitoring Event",
+    "description": "Event for monitoring one's own cognitive processes with brain-inspired neural circuit modeling including mPFC, frontopolar cortex, and default mode network",
+    "type": "object",
+    "required": [
+        "timestamp",
+        "monitoring_type",
+        "cognitive_process_analysis",
+        "metacognitive_awareness",
+        "neural_circuit_state",
+        "system_integration"
+    ],
+    "properties": {
+        "timestamp": {
+            "type": "string",
+            "format": "date-time"
+        },
+        "monitoring_type": {
+            "type": "string",
+            "enum": [
+                "cognitive_strategy_monitoring",
+                "performance_awareness",
+                "knowledge_assessment",
+                "cognitive_load_monitoring",
+                "attention_monitoring",
+                "memory_monitoring"
+            ]
+        },
+        "cognitive_process_analysis": {
+            "type": "object",
+            "required": [
+                "process_identification",
+                "strategy_evaluation",
+                "effectiveness_assessment"
+            ],
+            "properties": {
+                "process_identification": {
+                    "type": "object",
+                    "properties": {
+                        "active_cognitive_processes": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "process_name": {
+                                        "type": "string"
+                                    },
+                                    "process_type": {
+                                        "type": "string",
+                                        "enum": [
+                                            "attention",
+                                            "memory",
+                                            "executive_control",
+                                            "problem_solving",
+                                            "decision_making"
+                                        ]
+                                    },
+                                    "activation_level": {
+                                        "type": "number",
+                                        "minimum": 0,
+                                        "maximum": 1
+                                    },
+                                    "resource_utilization": {
+                                        "type": "number",
+                                        "minimum": 0,
+                                        "maximum": 1
+                                    },
+                                    "efficiency_rating": {
+                                        "type": "number",
+                                        "minimum": 0,
+                                        "maximum": 1
+                                    }
+                                }
+                            }
+                        },
+                        "process_interactions": {
+                            "type": "object",
+                            "properties": {
+                                "cooperative_processes": {
+                                    "type": "array"
+                                },
+                                "competing_processes": {
+                                    "type": "array"
+                                },
+                                "sequential_dependencies": {
+                                    "type": "array"
+                                },
+                                "parallel_operations": {
+                                    "type": "array"
+                                }
+                            }
+                        },
+                        "cognitive_bottlenecks": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "bottleneck_location": {
+                                        "type": "string"
+                                    },
+                                    "severity": {
+                                        "type": "number"
+                                    },
+                                    "impact_on_performance": {
+                                        "type": "number"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "strategy_evaluation": {
+                    "type": "object",
+                    "properties": {
+                        "current_strategies": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "strategy_name": {
+                                        "type": "string"
+                                    },
+                                    "strategy_type": {
+                                        "type": "string"
+                                    },
+                                    "implementation_quality": {
+                                        "type": "number"
+                                    },
+                                    "appropriateness_rating": {
+                                        "type": "number"
+                                    },
+                                    "resource_efficiency": {
+                                        "type": "number"
+                                    }
+                                }
+                            }
+                        },
+                        "strategy_effectiveness": {
+                            "type": "object",
+                            "properties": {
+                                "accuracy_improvement": {
+                                    "type": "number"
+                                },
+                                "speed_improvement": {
+                                    "type": "number"
+                                },
+                                "resource_optimization": {
+                                    "type": "number"
+                                },
+                                "goal_achievement_contribution": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "alternative_strategies": {
+                            "type": "object",
+                            "properties": {
+                                "available_alternatives": {
+                                    "type": "array"
+                                },
+                                "switching_costs": {
+                                    "type": "array"
+                                },
+                                "predicted_improvements": {
+                                    "type": "array"
+                                }
+                            }
+                        }
+                    }
+                },
+                "effectiveness_assessment": {
+                    "type": "object",
+                    "properties": {
+                        "performance_metrics": {
+                            "type": "object",
+                            "properties": {
+                                "accuracy": {
+                                    "type": "number"
+                                },
+                                "speed": {
+                                    "type": "number"
+                                },
+                                "consistency": {
+                                    "type": "number"
+                                },
+                                "adaptability": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "confidence_ratings": {
+                            "type": "object",
+                            "properties": {
+                                "strategy_confidence": {
+                                    "type": "number"
+                                },
+                                "outcome_confidence": {
+                                    "type": "number"
+                                },
+                                "knowledge_confidence": {
+                                    "type": "number"
+                                },
+                                "meta_confidence": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "learning_indicators": {
+                            "type": "object",
+                            "properties": {
+                                "skill_improvement_rate": {
+                                    "type": "number"
+                                },
+                                "knowledge_acquisition_rate": {
+                                    "type": "number"
+                                },
+                                "strategy_refinement_rate": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "metacognitive_awareness": {
+            "type": "object",
+            "properties": {
+                "self_knowledge": {
+                    "type": "object",
+                    "properties": {
+                        "cognitive_strengths": {
+                            "type": "array"
+                        },
+                        "cognitive_weaknesses": {
+                            "type": "array"
+                        },
+                        "preferred_strategies": {
+                            "type": "array"
+                        },
+                        "learning_style_awareness": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "task_awareness": {
+                    "type": "object",
+                    "properties": {
+                        "task_difficulty_assessment": {
+                            "type": "number"
+                        },
+                        "required_resources_estimation": {
+                            "type": "object"
+                        },
+                        "success_probability_estimation": {
+                            "type": "number"
+                        },
+                        "completion_time_estimation": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "strategy_awareness": {
+                    "type": "object",
+                    "properties": {
+                        "strategy_repertoire_awareness": {
+                            "type": "array"
+                        },
+                        "strategy_selection_rationale": {
+                            "type": "string"
+                        },
+                        "strategy_modification_awareness": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "monitoring_accuracy": {
+                    "type": "object",
+                    "properties": {
+                        "self_assessment_accuracy": {
+                            "type": "number"
+                        },
+                        "metacognitive_calibration": {
+                            "type": "number"
+                        },
+                        "bias_awareness": {
+                            "type": "array"
+                        }
+                    }
+                }
+            }
+        },
+        "neural_circuit_state": {
+            "type": "object",
+            "properties": {
+                "medial_prefrontal_cortex": {
+                    "type": "object",
+                    "properties": {
+                        "self_referential_processing": {
+                            "type": "number"
+                        },
+                        "introspective_awareness": {
+                            "type": "number"
+                        },
+                        "self_monitoring_activity": {
+                            "type": "number"
+                        },
+                        "metacognitive_control": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "frontopolar_cortex": {
+                    "type": "object",
+                    "properties": {
+                        "cognitive_branching": {
+                            "type": "number"
+                        },
+                        "higher_order_planning": {
+                            "type": "number"
+                        },
+                        "meta_cognitive_control": {
+                            "type": "number"
+                        },
+                        "abstract_reasoning": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "posterior_cingulate_cortex": {
+                    "type": "object",
+                    "properties": {
+                        "self_awareness": {
+                            "type": "number"
+                        },
+                        "autobiographical_memory_access": {
+                            "type": "number"
+                        },
+                        "personal_significance_evaluation": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "default_mode_network": {
+                    "type": "object",
+                    "properties": {
+                        "self_referential_thought": {
+                            "type": "number"
+                        },
+                        "mind_wandering_monitoring": {
+                            "type": "number"
+                        },
+                        "internal_reflection": {
+                            "type": "number"
+                        },
+                        "network_connectivity": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "central_executive_network": {
+                    "type": "object",
+                    "properties": {
+                        "metacognitive_control_strength": {
+                            "type": "number"
+                        },
+                        "cognitive_monitoring_activity": {
+                            "type": "number"
+                        },
+                        "strategy_regulation": {
+                            "type": "number"
+                        }
+                    }
+                }
+            }
+        },
+        "system_integration": {
+            "type": "object",
+            "properties": {
+                "phase1_metacognitive_integration": {
+                    "type": "object",
+                    "properties": {
+                        "attention_monitoring": {
+                            "type": "object",
+                            "properties": {
+                                "attention_state_awareness": {
+                                    "type": "number"
+                                },
+                                "focus_quality_assessment": {
+                                    "type": "number"
+                                },
+                                "distraction_detection": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "working_memory_monitoring": {
+                            "type": "object",
+                            "properties": {
+                                "capacity_utilization_awareness": {
+                                    "type": "number"
+                                },
+                                "maintenance_quality_assessment": {
+                                    "type": "number"
+                                },
+                                "interference_detection": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "consciousness_monitoring": {
+                            "type": "object",
+                            "properties": {
+                                "conscious_content_awareness": {
+                                    "type": "number"
+                                },
+                                "access_consciousness_monitoring": {
+                                    "type": "number"
+                                },
+                                "phenomenal_consciousness_assessment": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                },
+                "phase2_memory_monitoring": {
+                    "type": "object",
+                    "properties": {
+                        "episodic_memory_monitoring": {
+                            "type": "object",
+                            "properties": {
+                                "encoding_quality_awareness": {
+                                    "type": "number"
+                                },
+                                "retrieval_confidence": {
+                                    "type": "number"
+                                },
+                                "memory_vividness_assessment": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "semantic_memory_monitoring": {
+                            "type": "object",
+                            "properties": {
+                                "knowledge_accessibility_awareness": {
+                                    "type": "number"
+                                },
+                                "concept_understanding_confidence": {
+                                    "type": "number"
+                                },
+                                "knowledge_network_awareness": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                },
+                "phase3_executive_monitoring": {
+                    "type": "object",
+                    "properties": {
+                        "goal_management_monitoring": {
+                            "type": "object",
+                            "properties": {
+                                "goal_clarity_assessment": {
+                                    "type": "number"
+                                },
+                                "progress_awareness": {
+                                    "type": "number"
+                                },
+                                "priority_alignment_monitoring": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "cognitive_control_monitoring": {
+                            "type": "object",
+                            "properties": {
+                                "control_effectiveness_awareness": {
+                                    "type": "number"
+                                },
+                                "flexibility_monitoring": {
+                                    "type": "number"
+                                },
+                                "inhibition_effectiveness_assessment": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "meta_learning_signals": {
+            "type": "object",
+            "properties": {
+                "strategy_learning": {
+                    "type": "object",
+                    "properties": {
+                        "new_strategy_discoveries": {
+                            "type": "array"
+                        },
+                        "strategy_refinements": {
+                            "type": "array"
+                        },
+                        "strategy_transfer_opportunities": {
+                            "type": "array"
+                        }
+                    }
+                },
+                "metacognitive_skill_development": {
+                    "type": "object",
+                    "properties": {
+                        "monitoring_skill_improvement": {
+                            "type": "number"
+                        },
+                        "evaluation_skill_improvement": {
+                            "type": "number"
+                        },
+                        "regulation_skill_improvement": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "adaptive_mechanisms": {
+                    "type": "object",
+                    "properties": {
+                        "metacognitive_adaptation_triggers": {
+                            "type": "array"
+                        },
+                        "self_regulation_adjustments": {
+                            "type": "array"
+                        },
+                        "strategy_selection_improvements": {
+                            "type": "array"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

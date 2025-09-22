@@ -1,0 +1,508 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://familyos.local/contracts/storage/schemas/thalamus/attention_gate_config.schema.json",
+    "title": "Attention Gate Configuration Storage Schema",
+    "description": "Storage schema for attention gate configuration and operational parameters",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "gate_id",
+        "gate_configuration",
+        "operational_parameters",
+        "performance_settings",
+        "last_updated"
+    ],
+    "properties": {
+        "gate_id": {
+            "type": "string",
+            "description": "Unique identifier for the attention gate"
+        },
+        "gate_configuration": {
+            "type": "object",
+            "required": [
+                "gating_mode",
+                "threshold_settings",
+                "circuit_mappings"
+            ],
+            "properties": {
+                "gating_mode": {
+                    "type": "string",
+                    "enum": [
+                        "strict",
+                        "adaptive",
+                        "learning",
+                        "permissive"
+                    ],
+                    "description": "Overall gating strategy"
+                },
+                "threshold_settings": {
+                    "type": "object",
+                    "required": [
+                        "base_admission_threshold",
+                        "salience_threshold"
+                    ],
+                    "properties": {
+                        "base_admission_threshold": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "Base threshold for content admission"
+                        },
+                        "salience_threshold": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "Minimum salience score for admission"
+                        },
+                        "urgency_threshold": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "Threshold for urgent content bypass"
+                        },
+                        "cognitive_load_threshold": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1,
+                            "description": "Load threshold for protection activation"
+                        }
+                    }
+                },
+                "circuit_mappings": {
+                    "type": "object",
+                    "required": [
+                        "memory_circuit",
+                        "recall_circuit",
+                        "executive_circuit",
+                        "learning_circuit"
+                    ],
+                    "properties": {
+                        "memory_circuit": {
+                            "type": "object",
+                            "properties": {
+                                "enabled": {
+                                    "type": "boolean"
+                                },
+                                "priority_weight": {
+                                    "type": "number"
+                                },
+                                "capacity_limit": {
+                                    "type": "number"
+                                },
+                                "specialization": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        },
+                        "recall_circuit": {
+                            "type": "object",
+                            "properties": {
+                                "enabled": {
+                                    "type": "boolean"
+                                },
+                                "priority_weight": {
+                                    "type": "number"
+                                },
+                                "capacity_limit": {
+                                    "type": "number"
+                                },
+                                "specialization": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        },
+                        "executive_circuit": {
+                            "type": "object",
+                            "properties": {
+                                "enabled": {
+                                    "type": "boolean"
+                                },
+                                "priority_weight": {
+                                    "type": "number"
+                                },
+                                "capacity_limit": {
+                                    "type": "number"
+                                },
+                                "specialization": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        },
+                        "learning_circuit": {
+                            "type": "object",
+                            "properties": {
+                                "enabled": {
+                                    "type": "boolean"
+                                },
+                                "priority_weight": {
+                                    "type": "number"
+                                },
+                                "capacity_limit": {
+                                    "type": "number"
+                                },
+                                "specialization": {
+                                    "type": "array",
+                                    "items": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "description": "Core gate configuration parameters"
+        },
+        "operational_parameters": {
+            "type": "object",
+            "required": [
+                "timing_parameters",
+                "resource_management"
+            ],
+            "properties": {
+                "timing_parameters": {
+                    "type": "object",
+                    "properties": {
+                        "decision_timeout_ms": {
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "batch_processing_interval_ms": {
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "hysteresis_delay_ms": {
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "admission_window_ms": {
+                            "type": "number",
+                            "minimum": 0
+                        }
+                    }
+                },
+                "resource_management": {
+                    "type": "object",
+                    "properties": {
+                        "max_concurrent_decisions": {
+                            "type": "integer",
+                            "minimum": 1
+                        },
+                        "memory_allocation_mb": {
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "cpu_utilization_limit": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "queue_size_limits": {
+                            "type": "object",
+                            "properties": {
+                                "admit_queue": {
+                                    "type": "integer"
+                                },
+                                "defer_queue": {
+                                    "type": "integer"
+                                },
+                                "boost_queue": {
+                                    "type": "integer"
+                                },
+                                "drop_queue": {
+                                    "type": "integer"
+                                }
+                            }
+                        }
+                    }
+                },
+                "adaptation_settings": {
+                    "type": "object",
+                    "properties": {
+                        "learning_enabled": {
+                            "type": "boolean"
+                        },
+                        "adaptation_rate": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "feedback_weight": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "stability_requirement": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    }
+                }
+            },
+            "description": "Operational parameters for gate function"
+        },
+        "performance_settings": {
+            "type": "object",
+            "properties": {
+                "optimization_targets": {
+                    "type": "object",
+                    "properties": {
+                        "target_accuracy": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "target_latency_ms": {
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "target_throughput": {
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "target_efficiency": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    }
+                },
+                "monitoring_configuration": {
+                    "type": "object",
+                    "properties": {
+                        "metrics_collection_enabled": {
+                            "type": "boolean"
+                        },
+                        "metrics_interval_ms": {
+                            "type": "number",
+                            "minimum": 0
+                        },
+                        "performance_logging": {
+                            "type": "boolean"
+                        },
+                        "detailed_tracing": {
+                            "type": "boolean"
+                        }
+                    }
+                },
+                "alert_configuration": {
+                    "type": "object",
+                    "properties": {
+                        "performance_alerts_enabled": {
+                            "type": "boolean"
+                        },
+                        "latency_alert_threshold_ms": {
+                            "type": "number"
+                        },
+                        "accuracy_alert_threshold": {
+                            "type": "number"
+                        },
+                        "overload_alert_threshold": {
+                            "type": "number"
+                        }
+                    }
+                }
+            },
+            "description": "Performance and monitoring settings"
+        },
+        "quality_assurance": {
+            "type": "object",
+            "properties": {
+                "validation_rules": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "rule_name": {
+                                "type": "string"
+                            },
+                            "rule_expression": {
+                                "type": "string"
+                            },
+                            "severity": {
+                                "type": "string",
+                                "enum": [
+                                    "warning",
+                                    "error",
+                                    "critical"
+                                ]
+                            },
+                            "enabled": {
+                                "type": "boolean"
+                            }
+                        }
+                    }
+                },
+                "circuit_breaker_settings": {
+                    "type": "object",
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean"
+                        },
+                        "failure_threshold": {
+                            "type": "integer"
+                        },
+                        "recovery_timeout_ms": {
+                            "type": "number"
+                        },
+                        "half_open_max_calls": {
+                            "type": "integer"
+                        }
+                    }
+                },
+                "fallback_configuration": {
+                    "type": "object",
+                    "properties": {
+                        "fallback_enabled": {
+                            "type": "boolean"
+                        },
+                        "fallback_mode": {
+                            "type": "string",
+                            "enum": [
+                                "bypass",
+                                "safe_mode",
+                                "minimal"
+                            ]
+                        },
+                        "fallback_threshold": {
+                            "type": "number"
+                        }
+                    }
+                }
+            },
+            "description": "Quality assurance and safety settings"
+        },
+        "feature_flags": {
+            "type": "object",
+            "properties": {
+                "experimental_features": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "feature_toggles": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "boolean"
+                    }
+                },
+                "a_b_testing": {
+                    "type": "object",
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean"
+                        },
+                        "test_configurations": {
+                            "type": "array",
+                            "items": {
+                                "type": "object"
+                            }
+                        }
+                    }
+                }
+            },
+            "description": "Feature flags and experimental settings"
+        },
+        "security_configuration": {
+            "type": "object",
+            "properties": {
+                "access_control": {
+                    "type": "object",
+                    "properties": {
+                        "authentication_required": {
+                            "type": "boolean"
+                        },
+                        "authorization_enabled": {
+                            "type": "boolean"
+                        },
+                        "allowed_origins": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "rate_limiting": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "data_protection": {
+                    "type": "object",
+                    "properties": {
+                        "encryption_enabled": {
+                            "type": "boolean"
+                        },
+                        "data_masking": {
+                            "type": "boolean"
+                        },
+                        "audit_logging": {
+                            "type": "boolean"
+                        }
+                    }
+                }
+            },
+            "description": "Security and access control settings"
+        },
+        "version_control": {
+            "type": "object",
+            "properties": {
+                "configuration_version": {
+                    "type": "string"
+                },
+                "schema_version": {
+                    "type": "string"
+                },
+                "compatibility_matrix": {
+                    "type": "object"
+                },
+                "migration_paths": {
+                    "type": "array",
+                    "items": {
+                        "type": "object"
+                    }
+                }
+            },
+            "description": "Version control and compatibility information"
+        },
+        "last_updated": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Timestamp of last configuration update"
+        },
+        "metadata": {
+            "type": "object",
+            "properties": {
+                "creation_time": {
+                    "type": "string"
+                },
+                "created_by": {
+                    "type": "string"
+                },
+                "environment": {
+                    "type": "string"
+                },
+                "deployment_stage": {
+                    "type": "string"
+                },
+                "configuration_source": {
+                    "type": "string"
+                },
+                "checksum": {
+                    "type": "string"
+                }
+            },
+            "description": "Metadata about the configuration"
+        }
+    }
+}

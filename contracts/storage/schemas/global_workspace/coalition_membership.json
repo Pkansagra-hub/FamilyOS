@@ -1,0 +1,573 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://familyos.local/contracts/storage/schemas/global_workspace/coalition_membership.schema.json",
+    "title": "Coalition Membership",
+    "description": "Storage schema for coalition membership information, tracking which cognitive processes belong to which coalitions and their roles.",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "id",
+        "created_at",
+        "updated_at",
+        "coalition_id",
+        "member_process_id",
+        "membership_role",
+        "membership_strength",
+        "membership_status"
+    ],
+    "properties": {
+        "id": {
+            "oneOf": [
+                {
+                    "type": "string",
+                    "format": "uuid"
+                },
+                {
+                    "type": "string",
+                    "pattern": "^[0-7][0-9A-HJKMNP-TV-Z]{25}$"
+                }
+            ],
+            "description": "Unique identifier for this coalition membership record"
+        },
+        "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "When this membership was established"
+        },
+        "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "When this membership was last updated"
+        },
+        "coalition_id": {
+            "type": "string",
+            "description": "Identifier of the coalition this membership belongs to"
+        },
+        "member_process_id": {
+            "type": "string",
+            "description": "Identifier of the cognitive process that is a member"
+        },
+        "membership_role": {
+            "type": "string",
+            "enum": [
+                "leader",
+                "core_member",
+                "supporting_member",
+                "auxiliary_member",
+                "temporary_ally"
+            ],
+            "description": "Role of this process within the coalition"
+        },
+        "membership_strength": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1,
+            "description": "Strength of this process's membership in the coalition"
+        },
+        "membership_status": {
+            "type": "string",
+            "enum": [
+                "active",
+                "inactive",
+                "pending",
+                "leaving",
+                "suspended"
+            ],
+            "description": "Current status of this membership"
+        },
+        "process_details": {
+            "type": "object",
+            "required": [
+                "process_type",
+                "activation_level",
+                "contribution_type"
+            ],
+            "properties": {
+                "process_type": {
+                    "type": "string",
+                    "enum": [
+                        "perceptual",
+                        "memory",
+                        "executive",
+                        "motor",
+                        "language",
+                        "emotional",
+                        "social",
+                        "attentional"
+                    ],
+                    "description": "Type of cognitive process"
+                },
+                "activation_level": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Current activation level of the process"
+                },
+                "contribution_type": {
+                    "type": "string",
+                    "enum": [
+                        "content_provision",
+                        "attention_control",
+                        "priority_signaling",
+                        "context_integration",
+                        "validation",
+                        "modulation"
+                    ],
+                    "description": "Type of contribution this process makes to the coalition"
+                },
+                "processing_capacity": {
+                    "type": "object",
+                    "properties": {
+                        "available_capacity": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "reserved_capacity": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "peak_capacity": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    },
+                    "description": "Processing capacity information for this process"
+                },
+                "specializations": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Specialized capabilities this process brings to the coalition"
+                }
+            },
+            "description": "Details about the cognitive process"
+        },
+        "contribution_metrics": {
+            "type": "object",
+            "properties": {
+                "contribution_strength": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Strength of contribution to coalition goals"
+                },
+                "contribution_consistency": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Consistency of contributions over time"
+                },
+                "synergy_factor": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 2,
+                    "description": "Synergy this process creates with others (>1 indicates positive synergy)"
+                },
+                "unique_value": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Unique value this process provides that others cannot"
+                },
+                "resource_efficiency": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Efficiency with which this process uses coalition resources"
+                }
+            },
+            "description": "Metrics quantifying the process's contribution to the coalition"
+        },
+        "membership_history": {
+            "type": "object",
+            "properties": {
+                "join_date": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "When the process first joined this coalition"
+                },
+                "join_mechanism": {
+                    "type": "string",
+                    "enum": [
+                        "recruitment",
+                        "self_joining",
+                        "merger",
+                        "assignment",
+                        "invitation"
+                    ],
+                    "description": "How the process joined the coalition"
+                },
+                "role_changes": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "change_date": {
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            "old_role": {
+                                "type": "string"
+                            },
+                            "new_role": {
+                                "type": "string"
+                            },
+                            "change_reason": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "description": "History of role changes within the coalition"
+                },
+                "strength_history": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "timestamp": {
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            "strength_value": {
+                                "type": "number"
+                            },
+                            "change_trigger": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "maxItems": 1000,
+                    "description": "History of membership strength changes"
+                },
+                "performance_record": {
+                    "type": "object",
+                    "properties": {
+                        "successful_coalitions": {
+                            "type": "integer",
+                            "minimum": 0
+                        },
+                        "failed_coalitions": {
+                            "type": "integer",
+                            "minimum": 0
+                        },
+                        "average_contribution": {
+                            "type": "number"
+                        },
+                        "peak_performance": {
+                            "type": "number"
+                        }
+                    },
+                    "description": "Performance record in coalitions"
+                }
+            },
+            "description": "Historical information about this membership"
+        },
+        "interaction_patterns": {
+            "type": "object",
+            "properties": {
+                "communication_patterns": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "target_process": {
+                                "type": "string"
+                            },
+                            "communication_type": {
+                                "type": "string"
+                            },
+                            "frequency": {
+                                "type": "number"
+                            },
+                            "strength": {
+                                "type": "number"
+                            }
+                        }
+                    },
+                    "description": "Communication patterns with other coalition members"
+                },
+                "coordination_mechanisms": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "mechanism_type": {
+                                "type": "string"
+                            },
+                            "coordination_strength": {
+                                "type": "number"
+                            },
+                            "coordination_frequency": {
+                                "type": "number"
+                            }
+                        }
+                    },
+                    "description": "Coordination mechanisms used with other members"
+                },
+                "conflict_patterns": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "conflict_type": {
+                                "type": "string"
+                            },
+                            "conflict_partner": {
+                                "type": "string"
+                            },
+                            "conflict_frequency": {
+                                "type": "number"
+                            },
+                            "resolution_pattern": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "description": "Patterns of conflicts with other members"
+                }
+            },
+            "description": "Patterns of interaction with other coalition members"
+        },
+        "coalition_context": {
+            "type": "object",
+            "properties": {
+                "coalition_purpose": {
+                    "type": "string",
+                    "description": "Purpose or goal of the coalition this process belongs to"
+                },
+                "coalition_strategy": {
+                    "type": "string",
+                    "enum": [
+                        "aggressive",
+                        "defensive",
+                        "cooperative",
+                        "opportunistic",
+                        "adaptive"
+                    ],
+                    "description": "Overall strategy of the coalition"
+                },
+                "coalition_phase": {
+                    "type": "string",
+                    "enum": [
+                        "formation",
+                        "competition",
+                        "dominance",
+                        "maintenance",
+                        "dissolution"
+                    ],
+                    "description": "Current phase of the coalition lifecycle"
+                },
+                "competitive_context": {
+                    "type": "object",
+                    "properties": {
+                        "competing_coalitions": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "competition_intensity": {
+                            "type": "number"
+                        },
+                        "winning_probability": {
+                            "type": "number"
+                        }
+                    },
+                    "description": "Context of competition this coalition faces"
+                }
+            },
+            "description": "Context about the coalition this membership belongs to"
+        },
+        "adaptation_state": {
+            "type": "object",
+            "properties": {
+                "learning_rate": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Rate at which this process adapts within the coalition"
+                },
+                "adaptation_mechanisms": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "description": "Mechanisms used for adaptation within the coalition"
+                },
+                "performance_feedback": {
+                    "type": "object",
+                    "properties": {
+                        "feedback_sources": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "feedback_integration": {
+                            "type": "number"
+                        },
+                        "improvement_trajectory": {
+                            "type": "string"
+                        }
+                    },
+                    "description": "Feedback and improvement mechanisms"
+                },
+                "strategy_adjustments": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "adjustment_date": {
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            "adjustment_type": {
+                                "type": "string"
+                            },
+                            "adjustment_reason": {
+                                "type": "string"
+                            },
+                            "effectiveness": {
+                                "type": "number"
+                            }
+                        }
+                    },
+                    "description": "History of strategy adjustments within the coalition"
+                }
+            },
+            "description": "Adaptation and learning state within the coalition"
+        },
+        "resource_utilization": {
+            "type": "object",
+            "properties": {
+                "allocated_resources": {
+                    "type": "object",
+                    "properties": {
+                        "attention_allocation": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "processing_allocation": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "memory_allocation": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "energy_allocation": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    },
+                    "description": "Resources allocated to this process within the coalition"
+                },
+                "resource_sharing": {
+                    "type": "object",
+                    "properties": {
+                        "shared_resources": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "sharing_partners": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "sharing_efficiency": {
+                            "type": "number"
+                        }
+                    },
+                    "description": "Resource sharing arrangements within the coalition"
+                },
+                "resource_constraints": {
+                    "type": "object",
+                    "properties": {
+                        "capacity_limits": {
+                            "type": "object"
+                        },
+                        "temporal_constraints": {
+                            "type": "object"
+                        },
+                        "competitive_constraints": {
+                            "type": "object"
+                        }
+                    },
+                    "description": "Resource constraints affecting this membership"
+                }
+            },
+            "description": "Resource utilization patterns for this coalition membership"
+        },
+        "termination_conditions": {
+            "type": "object",
+            "properties": {
+                "automatic_termination": {
+                    "type": "object",
+                    "properties": {
+                        "performance_threshold": {
+                            "type": "number"
+                        },
+                        "time_limit": {
+                            "type": "number"
+                        },
+                        "resource_exhaustion": {
+                            "type": "boolean"
+                        },
+                        "conflict_escalation": {
+                            "type": "boolean"
+                        }
+                    },
+                    "description": "Conditions that automatically terminate membership"
+                },
+                "voluntary_leaving": {
+                    "type": "object",
+                    "properties": {
+                        "leaving_probability": {
+                            "type": "number"
+                        },
+                        "leaving_triggers": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "alternative_coalitions": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "description": "Conditions under which process might voluntarily leave"
+                },
+                "expulsion_criteria": {
+                    "type": "object",
+                    "properties": {
+                        "performance_minimums": {
+                            "type": "object"
+                        },
+                        "behavioral_requirements": {
+                            "type": "array"
+                        },
+                        "loyalty_requirements": {
+                            "type": "object"
+                        }
+                    },
+                    "description": "Criteria that could lead to expulsion from coalition"
+                }
+            },
+            "description": "Conditions that could terminate this coalition membership"
+        }
+    }
+}

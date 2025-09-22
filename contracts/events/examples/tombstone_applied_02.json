@@ -1,0 +1,59 @@
+{
+  "schema_version": "1.1.0",
+  "id": "5777726b-29b4-4986-a201-c5500cb8dc17",
+  "ts": "2025-09-09T04:20:40Z",
+  "topic": "TOMBSTONE_APPLIED",
+  "band": "AMBER",
+  "actor": {
+    "user_id": "6d567b8b-2166-4577-8400-48e7ca260270",
+    "agent_id": "system.v1",
+    "caps": [
+      "WRITE"
+    ]
+  },
+  "device": {
+    "device_id": "srv-privacy-01",
+    "platform": "windows",
+    "app_version": "1.7.4",
+    "locale": "en-GB"
+  },
+  "space_id": "interfamily:link",
+  "policy_version": "1.3",
+  "abac": {
+    "role": "guest",
+    "trust": "amber",
+    "geo_precision": "city"
+  },
+  "qos": {
+    "routing": "gate-path",
+    "priority": 6,
+    "latency_budget_ms": 60,
+    "retries": 2
+  },
+  "trace": {
+    "trace_id": "7abf68b5ffda7addb75e035be33a63fd",
+    "span_id": "16fce44a86d974ea",
+    "sampled": true
+  },
+  "obligations": [
+    "TOMBSTONE_ON_DELETE"
+  ],
+  "redaction_applied": true,
+  "hashes": {
+    "payload_sha256": "4eca1ce239a7c7483c882f5bb39b2f76e01c27ebb9806077242445e204d87981"
+  },
+  "payload": {
+    "reason": "DSAR erasure",
+    "target_ids": [
+      "6e27295b-516d-469e-b9cc-fb329c537d91",
+      "c2e5952d-dce7-47b5-87d3-046909224db1"
+    ]
+  },
+  "signature": {
+    "alg": "ed25519",
+    "key_id": "key_tombstone_applied_amber_2024",
+    "public_key": "cHVibGlj",
+    "signature": "c2ln"
+  },
+  "mls_group": "household-secure"
+}

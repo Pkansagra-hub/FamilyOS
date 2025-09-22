@@ -1,0 +1,204 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "$id": "coordination_buffers.schema.json",
+    "title": "Coordination Buffers Storage",
+    "description": "Storage schema for thalamic coordination buffers and inter-system communication.",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "buffer_id",
+        "message_queues",
+        "coordination_state",
+        "buffer_status",
+        "communication_metrics"
+    ],
+    "properties": {
+        "buffer_id": {
+            "type": "string",
+            "description": "Unique identifier for coordination buffer"
+        },
+        "message_queues": {
+            "type": "object",
+            "properties": {
+                "incoming_queue": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "message_id": {
+                                "type": "string"
+                            },
+                            "source_system": {
+                                "type": "string"
+                            },
+                            "message_type": {
+                                "type": "string"
+                            },
+                            "priority": {
+                                "type": "number"
+                            },
+                            "timestamp": {
+                                "type": "string",
+                                "format": "date-time"
+                            },
+                            "content": {
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "outgoing_queue": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "message_id": {
+                                "type": "string"
+                            },
+                            "target_system": {
+                                "type": "string"
+                            },
+                            "message_type": {
+                                "type": "string"
+                            },
+                            "delivery_status": {
+                                "type": "string"
+                            },
+                            "retry_count": {
+                                "type": "integer"
+                            },
+                            "content": {
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "broadcast_queue": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "broadcast_id": {
+                                "type": "string"
+                            },
+                            "broadcast_type": {
+                                "type": "string"
+                            },
+                            "scope": {
+                                "type": "array"
+                            },
+                            "content": {
+                                "type": "object"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "coordination_state": {
+            "type": "object",
+            "properties": {
+                "active_coordinations": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "coordination_id": {
+                                "type": "string"
+                            },
+                            "coordination_type": {
+                                "type": "string"
+                            },
+                            "participating_systems": {
+                                "type": "array"
+                            },
+                            "coordination_strength": {
+                                "type": "number"
+                            },
+                            "status": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "global_state": {
+                    "type": "string",
+                    "enum": [
+                        "focused",
+                        "diffuse",
+                        "vigilant",
+                        "resting",
+                        "learning"
+                    ]
+                },
+                "state_transition_pending": {
+                    "type": "boolean"
+                },
+                "consensus_level": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                }
+            }
+        },
+        "buffer_status": {
+            "type": "object",
+            "properties": {
+                "buffer_utilization": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "queue_lengths": {
+                    "type": "object",
+                    "properties": {
+                        "incoming_length": {
+                            "type": "integer"
+                        },
+                        "outgoing_length": {
+                            "type": "integer"
+                        },
+                        "broadcast_length": {
+                            "type": "integer"
+                        }
+                    }
+                },
+                "processing_rate": {
+                    "type": "number",
+                    "minimum": 0
+                },
+                "error_count": {
+                    "type": "integer",
+                    "minimum": 0
+                }
+            }
+        },
+        "communication_metrics": {
+            "type": "object",
+            "properties": {
+                "message_throughput": {
+                    "type": "number",
+                    "minimum": 0
+                },
+                "average_latency_ms": {
+                    "type": "number",
+                    "minimum": 0
+                },
+                "delivery_success_rate": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "coordination_efficiency": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                }
+            }
+        },
+        "last_updated": {
+            "type": "string",
+            "format": "date-time"
+        }
+    }
+}

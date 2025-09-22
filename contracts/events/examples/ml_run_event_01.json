@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.1.0",
+  "id": "c545f6bd-1ab1-4a66-9b92-72d53dbf61d4",
+  "ts": "2025-09-09T04:20:40Z",
+  "topic": "ML_RUN_EVENT",
+  "band": "GREEN",
+  "actor": {
+    "user_id": "3a374e65-1ab9-4f06-877d-9861ff585153",
+    "agent_id": "encoder.v1",
+    "caps": [
+      "WRITE"
+    ]
+  },
+  "device": {
+    "device_id": "edge-jetson",
+    "platform": "web",
+    "app_version": "1.9.3",
+    "locale": "en-GB"
+  },
+  "space_id": "selective:father_son",
+  "policy_version": "1.3",
+  "abac": {
+    "role": "service",
+    "trust": "green",
+    "geo_precision": "region"
+  },
+  "qos": {
+    "routing": "fast-path",
+    "priority": 7,
+    "latency_budget_ms": 131,
+    "retries": 0
+  },
+  "trace": {
+    "trace_id": "0d7646caee628948a85a92b971474e16",
+    "span_id": "f9cb185c6e6caa62",
+    "sampled": true
+  },
+  "obligations": [],
+  "redaction_applied": false,
+  "hashes": {
+    "payload_sha256": "c11da7aeb10db9214322574ca2f76f17409fadba56d903fe8cee872285342f19"
+  },
+  "payload": {
+    "note": "system-update",
+    "ts": "2025-09-09T04:20:40Z"
+  },
+  "signature": {
+    "alg": "ed25519",
+    "key_id": "key_ml_run_event_green_2024",
+    "public_key": "cHVibGlj",
+    "signature": "c2ln"
+  }
+}

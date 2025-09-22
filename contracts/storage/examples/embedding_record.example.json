@@ -1,0 +1,9 @@
+{
+  "embedding_id": "01HX3V6MEMBMYK9XWGSHK4HH90",
+  "doc_id": "2D41303SREQ12Q348NT9ZPG3WK",
+  "model_id": "text-embedding-3-large",
+  "dim": 3,
+  "quantized": false,
+  "sha256": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+  "vector_ref": "4ZXVK4HY934ZPPARZ80J5KHPR8"
+}

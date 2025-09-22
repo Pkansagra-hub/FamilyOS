@@ -1,0 +1,545 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://familyos.local/contracts/events/schemas/working_memory/performance_monitoring_alert.schema.json",
+    "title": "Performance Monitoring Alert Event",
+    "description": "Event generated when performance monitoring systems detect suboptimal cognitive performance",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "timestamp",
+        "alert_type",
+        "performance_deviation",
+        "monitoring_source"
+    ],
+    "properties": {
+        "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Time when performance alert was generated"
+        },
+        "alert_type": {
+            "type": "string",
+            "enum": [
+                "accuracy_decline",
+                "response_time_increase",
+                "error_rate_spike",
+                "cognitive_load_overload",
+                "strategy_inefficiency",
+                "resource_depletion",
+                "interference_buildup",
+                "attention_lapse",
+                "working_memory_overflow",
+                "executive_control_failure"
+            ],
+            "description": "Type of performance alert"
+        },
+        "performance_deviation": {
+            "type": "object",
+            "required": [
+                "deviation_magnitude",
+                "baseline_metrics",
+                "current_metrics"
+            ],
+            "properties": {
+                "deviation_magnitude": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Magnitude of deviation from baseline"
+                },
+                "baseline_metrics": {
+                    "type": "object",
+                    "properties": {
+                        "accuracy": {
+                            "type": "number"
+                        },
+                        "response_time": {
+                            "type": "number"
+                        },
+                        "error_rate": {
+                            "type": "number"
+                        },
+                        "cognitive_load": {
+                            "type": "number"
+                        },
+                        "efficiency": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "current_metrics": {
+                    "type": "object",
+                    "properties": {
+                        "accuracy": {
+                            "type": "number"
+                        },
+                        "response_time": {
+                            "type": "number"
+                        },
+                        "error_rate": {
+                            "type": "number"
+                        },
+                        "cognitive_load": {
+                            "type": "number"
+                        },
+                        "efficiency": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "deviation_duration": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Duration of performance deviation in ms"
+                },
+                "deviation_trend": {
+                    "type": "string",
+                    "enum": [
+                        "improving",
+                        "stable",
+                        "worsening",
+                        "volatile"
+                    ]
+                }
+            },
+            "description": "Details of performance deviation"
+        },
+        "monitoring_source": {
+            "type": "object",
+            "required": [
+                "monitor_type",
+                "detection_confidence"
+            ],
+            "properties": {
+                "monitor_type": {
+                    "type": "string",
+                    "enum": [
+                        "anterior_cingulate_monitor",
+                        "meta_cognitive_monitor",
+                        "performance_tracker",
+                        "error_detection_system",
+                        "conflict_monitor",
+                        "resource_monitor",
+                        "adaptive_controller",
+                        "learning_system"
+                    ]
+                },
+                "detection_confidence": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "monitoring_threshold": {
+                    "type": "number",
+                    "minimum": 0
+                },
+                "detection_latency_ms": {
+                    "type": "number",
+                    "minimum": 0
+                },
+                "false_alarm_probability": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "sensitivity_level": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                }
+            },
+            "description": "Source and characteristics of monitoring"
+        },
+        "cognitive_state_assessment": {
+            "type": "object",
+            "properties": {
+                "attention_state": {
+                    "type": "object",
+                    "properties": {
+                        "focus_stability": {
+                            "type": "number"
+                        },
+                        "selective_attention": {
+                            "type": "number"
+                        },
+                        "divided_attention": {
+                            "type": "number"
+                        },
+                        "sustained_attention": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "working_memory_state": {
+                    "type": "object",
+                    "properties": {
+                        "capacity_utilization": {
+                            "type": "number"
+                        },
+                        "maintenance_quality": {
+                            "type": "number"
+                        },
+                        "updating_efficiency": {
+                            "type": "number"
+                        },
+                        "interference_level": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "executive_control_state": {
+                    "type": "object",
+                    "properties": {
+                        "inhibitory_control": {
+                            "type": "number"
+                        },
+                        "cognitive_flexibility": {
+                            "type": "number"
+                        },
+                        "monitoring_effectiveness": {
+                            "type": "number"
+                        },
+                        "strategic_control": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "arousal_and_effort": {
+                    "type": "object",
+                    "properties": {
+                        "arousal_level": {
+                            "type": "number"
+                        },
+                        "effort_investment": {
+                            "type": "number"
+                        },
+                        "motivation_level": {
+                            "type": "number"
+                        },
+                        "fatigue_level": {
+                            "type": "number"
+                        }
+                    }
+                }
+            },
+            "description": "Assessment of current cognitive state"
+        },
+        "error_analysis": {
+            "type": "object",
+            "properties": {
+                "error_types": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "error_type": {
+                                "type": "string"
+                            },
+                            "error_frequency": {
+                                "type": "number"
+                            },
+                            "error_severity": {
+                                "type": "number"
+                            },
+                            "error_pattern": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "error_sources": {
+                    "type": "object",
+                    "properties": {
+                        "attention_lapses": {
+                            "type": "number"
+                        },
+                        "working_memory_failures": {
+                            "type": "number"
+                        },
+                        "executive_control_failures": {
+                            "type": "number"
+                        },
+                        "interference_effects": {
+                            "type": "number"
+                        },
+                        "strategy_failures": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "error_consequences": {
+                    "type": "object",
+                    "properties": {
+                        "performance_impact": {
+                            "type": "number"
+                        },
+                        "confidence_impact": {
+                            "type": "number"
+                        },
+                        "learning_impact": {
+                            "type": "number"
+                        },
+                        "future_performance_risk": {
+                            "type": "number"
+                        }
+                    }
+                }
+            },
+            "description": "Analysis of errors contributing to alert"
+        },
+        "causal_analysis": {
+            "type": "object",
+            "properties": {
+                "primary_causes": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "cause_type": {
+                                "type": "string"
+                            },
+                            "contribution_strength": {
+                                "type": "number"
+                            },
+                            "evidence_strength": {
+                                "type": "number"
+                            },
+                            "temporal_relationship": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "contributing_factors": {
+                    "type": "object",
+                    "properties": {
+                        "task_factors": {
+                            "type": "object",
+                            "properties": {
+                                "task_complexity": {
+                                    "type": "number"
+                                },
+                                "time_pressure": {
+                                    "type": "number"
+                                },
+                                "distraction_level": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "individual_factors": {
+                            "type": "object",
+                            "properties": {
+                                "skill_level": {
+                                    "type": "number"
+                                },
+                                "experience": {
+                                    "type": "number"
+                                },
+                                "cognitive_capacity": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "system_factors": {
+                            "type": "object",
+                            "properties": {
+                                "resource_availability": {
+                                    "type": "number"
+                                },
+                                "system_load": {
+                                    "type": "number"
+                                },
+                                "interference_level": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                },
+                "interaction_effects": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "factor_combination": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string"
+                                }
+                            },
+                            "interaction_strength": {
+                                "type": "number"
+                            },
+                            "interaction_type": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            },
+            "description": "Analysis of causes for performance deviation"
+        },
+        "intervention_recommendations": {
+            "type": "object",
+            "properties": {
+                "immediate_interventions": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "intervention_type": {
+                                "type": "string"
+                            },
+                            "urgency_level": {
+                                "type": "string"
+                            },
+                            "expected_effectiveness": {
+                                "type": "number"
+                            },
+                            "implementation_cost": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                },
+                "strategic_adjustments": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "adjustment_type": {
+                                "type": "string"
+                            },
+                            "adjustment_magnitude": {
+                                "type": "number"
+                            },
+                            "expected_duration": {
+                                "type": "number"
+                            },
+                            "success_probability": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                },
+                "long_term_adaptations": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "adaptation_type": {
+                                "type": "string"
+                            },
+                            "learning_requirement": {
+                                "type": "number"
+                            },
+                            "adaptation_timeline": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                }
+            },
+            "description": "Recommended interventions for performance improvement"
+        },
+        "learning_opportunities": {
+            "type": "object",
+            "properties": {
+                "skill_development": {
+                    "type": "object",
+                    "properties": {
+                        "attention_training": {
+                            "type": "number"
+                        },
+                        "working_memory_training": {
+                            "type": "number"
+                        },
+                        "executive_control_training": {
+                            "type": "number"
+                        },
+                        "strategy_training": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "meta_cognitive_learning": {
+                    "type": "object",
+                    "properties": {
+                        "self_monitoring_improvement": {
+                            "type": "number"
+                        },
+                        "strategy_selection_learning": {
+                            "type": "number"
+                        },
+                        "performance_prediction_calibration": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "adaptive_learning": {
+                    "type": "object",
+                    "properties": {
+                        "threshold_calibration": {
+                            "type": "number"
+                        },
+                        "sensitivity_adjustment": {
+                            "type": "number"
+                        },
+                        "personalization_opportunity": {
+                            "type": "number"
+                        }
+                    }
+                }
+            },
+            "description": "Learning opportunities from performance monitoring"
+        },
+        "system_impact": {
+            "type": "object",
+            "properties": {
+                "immediate_system_effects": {
+                    "type": "object",
+                    "properties": {
+                        "cognitive_load_redistribution": {
+                            "type": "number"
+                        },
+                        "resource_reallocation": {
+                            "type": "number"
+                        },
+                        "strategy_switching": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "cascading_effects": {
+                    "type": "object",
+                    "properties": {
+                        "downstream_performance": {
+                            "type": "number"
+                        },
+                        "system_stability": {
+                            "type": "number"
+                        },
+                        "adaptation_requirements": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "recovery_projections": {
+                    "type": "object",
+                    "properties": {
+                        "natural_recovery_probability": {
+                            "type": "number"
+                        },
+                        "intervention_assisted_recovery": {
+                            "type": "number"
+                        },
+                        "recovery_timeline_estimate": {
+                            "type": "number"
+                        }
+                    }
+                }
+            },
+            "description": "Impact on overall cognitive system"
+        }
+    }
+}

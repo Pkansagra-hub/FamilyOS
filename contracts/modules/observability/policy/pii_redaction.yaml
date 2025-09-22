@@ -1,0 +1,5 @@
+masking:
+  message: { strategy: "drop_on_RED", fields: ["email","phone","token"], regexes: ["[A-F0-9]{32,}","Bearer\\s+[^\\s]+"] }
+  fields: { strategy: "hash_salted", fields: ["user_id","device_id"] }
+exports:
+  allow_if: "mls_group != null"

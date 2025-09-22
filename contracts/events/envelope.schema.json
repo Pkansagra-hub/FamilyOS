@@ -1,8 +1,8 @@
 {
-  "$schema": "https://json-schema.org/draft/2019-09/schema",
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
   "$id": "https://familyos.local/contracts/events/envelope.schema.json",
-  "title": "Memory-Centric Family AI Event Envelope",
-  "description": "Event Envelope supporting Memory Backbone operations, Family Intelligence, Brain-Inspired Cognitive Architecture, and Device Ecosystem coordination for sophisticated family AI operations.",
+  "title": "FamilyOS Event Envelope",
+  "description": "Canonical, versioned Event Envelope used by all modules and pipelines (P01–P20). Strict validation at bus ingress; non-breaking evolution via policy_version + adapters.",
   "type": "object",
   "additionalProperties": false,
 
@@ -12,6 +12,7 @@
     "ts",
     "topic",
     "actor",
+    "device",
     "space_id",
     "band",
     "policy_version",
@@ -50,7 +51,7 @@
     },
 
     "topic": {
-      "description": "Event topics supporting Memory Backbone and Family Intelligence operations.",
+      "description": "Logical event name (minimal set and core topics) or name@semver.",
       "oneOf": [
         { "$ref": "#/$defs/EventTopicEnum" },
         { "type": "string", "pattern": "^[A-Z][A-Z0-9_]+@[0-9]+\\.[0-9]+$" }
@@ -63,37 +64,27 @@
       "description": "Policy band for data sensitivity and handling."
     },
 
-    "actor": {
-      "oneOf": [
-        { "$ref": "#/$defs/Actor" },
-        { "$ref": "#/$defs/ServiceActor" }
-      ]
-    },
+    "actor": { "$ref": "#/$defs/Actor" },
 
-    "device": {
-      "oneOf": [
-        { "$ref": "#/$defs/Device" },
-        { "type": "null" }
-      ]
-    },
+    "device": { "$ref": "#/$defs/Device" },
 
     "space_id": {
       "type": "string",
-      "description": "Memory space routing key for family intelligence coordination.",
+      "description": "Logical space routing key.",
       "pattern": "^(personal|selective|shared|extended|interfamily):[A-Za-z0-9_\\-\\.]+$"
     },
 
     "policy_version": {
       "type": "string",
       "description": "SemVer of policy bundle used to evaluate this event.",
-      "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-[0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*)?(?:\\+[0-9A-Za-z-]+(?:\\.[0-9A-Za-z-]+)*)?$"
+      "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:\\.(0|[1-9]\\d*))?$"
     },
 
     "abac": { "$ref": "#/$defs/ABAC" },
 
     "mls_group": {
       "type": "string",
-      "description": "MLS group identifier for E2EE family coordination (required for AMBER/RED/BLACK).",
+      "description": "MLS group identifier for E2EE (required for AMBER/RED/BLACK).",
       "pattern": "^[A-Za-z0-9._:-]{3,64}$"
     },
 
@@ -103,7 +94,7 @@
 
     "obligations": {
       "type": "array",
-      "description": "Policy obligations attached by gate/thalamus with family-aware enforcement.",
+      "description": "Policy obligations attached by gate/thalamus.",
       "items": { "$ref": "#/$defs/Obligation" },
       "uniqueItems": true,
       "default": []
@@ -111,7 +102,7 @@
 
     "redaction_applied": {
       "type": "boolean",
-      "description": "Whether redactor already applied PII masking to payload with family-aware redaction.",
+      "description": "Whether redactor already applied PII masking to payload.",
       "default": false
     },
 
@@ -125,77 +116,10 @@
 
     "payload": {
       "type": "object",
-      "description": "Event-specific body (validated by topic-specific schema).",
-      "allOf": [
-        {
-          "if": { "properties": { "topic": { "pattern": "^MEMORY_.*$" } } },
-          "then": {
-            "properties": {
-              "memory_id": { "type": "string" },
-              "memory_space": { "type": "string" },
-              "memory_operation": { "type": "string" }
-            },
-            "required": ["memory_id", "memory_space", "memory_operation"]
-          }
-        },
-        {
-          "if": { "properties": { "topic": { "pattern": "^FAMILY_.*$" } } },
-          "then": {
-            "properties": {
-              "family_id": { "type": "string" },
-              "relationship_context": { "type": "object" }
-            },
-            "required": ["family_id", "relationship_context"]
-          }
-        },
-        {
-          "if": { "properties": { "topic": { "pattern": "^COGNITIVE_.*$" } } },
-          "then": {
-            "properties": {
-              "cognitive_trace_id": { "type": "string" },
-              "processing_stage": { "type": "string" }
-            },
-            "required": ["cognitive_trace_id", "processing_stage"]
-          }
-        },
-        {
-          "if": { "properties": { "topic": { "pattern": "^DEVICE_.*$" } } },
-          "then": {
-            "properties": {
-              "device_id": { "type": "string" },
-              "device_operation": { "type": "string" }
-            },
-            "required": ["device_id", "device_operation"]
-          }
-        },
-        {
-          "if": { "properties": { "topic": { "pattern": "^PIPELINE_.*$" } } },
-          "then": {
-            "properties": {
-              "pipeline_id": { "type": "string" },
-              "pipeline_operation": { "type": "string" }
-            },
-            "required": ["pipeline_id", "pipeline_operation"]
-          }
-        }
-      ]
+      "description": "Event-specific body (validated by topic-specific schema)."
     },
 
     "signature": { "$ref": "#/$defs/Signature" },
-
-    "memory_context": { "$ref": "#/$defs/MemoryContext" },
-
-    "family_context": { "$ref": "#/$defs/FamilyContext" },
-
-    "cognitive_context": { "$ref": "#/$defs/CognitiveContext" },
-
-    "device_ecosystem": { "$ref": "#/$defs/DeviceEcosystem" },
-
-    "pipeline_routing": { "$ref": "#/$defs/PipelineRouting" },
-
-    "intelligence_context": { "$ref": "#/$defs/IntelligenceContext" },
-
-    "subscription_context": { "$ref": "#/$defs/SubscriptionContext" },
 
     "x_extensions": {
       "type": "object",
@@ -218,45 +142,38 @@
       }
     },
     {
-      "if": { "properties": { "memory_context": { "properties": { "memory_operation": { "enum": ["formation", "consolidation"] } } } } },
+      "if": { "properties": { "topic": { "const": "TOMBSTONE_APPLIED" } }, "required": ["topic"] },
       "then": {
-        "required": ["cognitive_context"],
-        "properties": { "cognitive_context": { "required": ["hippocampus_context"] } }
+        "properties": { "obligations": { "contains": { "const": "TOMBSTONE_ON_DELETE" } } },
+        "required": ["obligations"]
       }
     },
     {
-      "if": { "properties": { "family_context": { "properties": { "family_operation": { "const": "sync_coordination" } } } } },
+      "if": { "properties": { "topic": { "const": "DSAR_EXPORT" } }, "required": ["topic"] },
       "then": {
-        "required": ["device_ecosystem"],
-        "properties": { "device_ecosystem": { "required": ["sync_coordination"] } }
+        "properties": { "obligations": { "contains": { "const": "AUDIT_ACCESS" } } },
+        "required": ["obligations"]
       }
     },
     {
-      "if": { "properties": { "topic": { "pattern": "^MEMORY_.*$" } } },
+      "if": { "properties": { "topic": { "const": "SAFETY_BAND_CHANGED" } }, "required": ["topic"] },
       "then": {
-        "required": ["memory_context"],
-        "properties": { "memory_context": { "required": ["memory_id", "memory_space", "memory_operation"] } }
+        "properties": { "obligations": { "contains": { "const": "AUDIT_ACCESS" } } },
+        "required": ["obligations"]
       }
     },
     {
-      "if": { "properties": { "topic": { "pattern": "^FAMILY_.*$" } } },
+      "if": { "properties": { "topic": { "const": "JOB_STATUS_CHANGED" } }, "required": ["topic"] },
       "then": {
-        "required": ["family_context"],
-        "properties": { "family_context": { "required": ["family_id", "relationship_context"] } }
+        "properties": { "band": { "enum": ["GREEN", "AMBER"] } },
+        "required": ["band"]
       }
     },
     {
-      "if": { "properties": { "topic": { "pattern": "^COGNITIVE_.*$" } } },
+      "if": { "properties": { "topic": { "const": "MEMORY_RECEIPT_CREATED" } }, "required": ["topic"] },
       "then": {
-        "required": ["cognitive_context"],
-        "properties": { "cognitive_context": { "required": ["cognitive_trace_id", "processing_stage"] } }
-      }
-    },
-    {
-      "if": { "properties": { "topic": { "pattern": "^PIPELINE_.*$" } } },
-      "then": {
-        "required": ["pipeline_routing"],
-        "properties": { "pipeline_routing": { "required": ["pipeline_id", "pipeline_operation"] } }
+        "properties": { "obligations": { "contains": { "const": "AUDIT_ACCESS" } } },
+        "required": ["obligations"]
       }
     }
   ],
@@ -298,81 +215,7 @@
         "USER_CREATED",
         "USER_ROLE_ASSIGNED",
         "USER_SPACE_ACCESS_GRANTED",
-        "USER_STATUS_CHANGED",
-
-        "MEMORY_FORMATION_INITIATED",
-        "MEMORY_FORMATION_COMPLETED",
-        "MEMORY_RECALL_INITIATED",
-        "MEMORY_RECALL_COMPLETED",
-        "MEMORY_CONSOLIDATION_STARTED",
-        "MEMORY_CONSOLIDATION_COMPLETED",
-        "MEMORY_SYNC_INITIATED",
-        "MEMORY_SYNC_COMPLETED",
-        "MEMORY_SPACE_MIGRATION",
-        "MEMORY_INDEX_UPDATED",
-
-        "FAMILY_MEMBER_ADDED",
-        "FAMILY_MEMBER_REMOVED",
-        "FAMILY_RELATIONSHIP_CHANGED",
-        "FAMILY_COORDINATION_REQUEST",
-        "FAMILY_COORDINATION_RESPONSE",
-        "FAMILY_EMERGENCY_ACTIVATED",
-        "FAMILY_CONSENSUS_INITIATED",
-        "FAMILY_CONSENSUS_COMPLETED",
-        "FAMILY_SUBSCRIPTION_CHANGED",
-        "FAMILY_POLICY_UPDATED",
-
-        "COGNITIVE_ATTENTION_GATE_DECISION",
-        "COGNITIVE_WORKING_MEMORY_UPDATE",
-        "COGNITIVE_GLOBAL_WORKSPACE_BROADCAST",
-        "COGNITIVE_HIPPOCAMPUS_ENCODING",
-        "COGNITIVE_HIPPOCAMPUS_RETRIEVAL",
-        "COGNITIVE_AFFECT_STATE_CHANGE",
-        "COGNITIVE_SOCIAL_CONTEXT_UPDATE",
-        "COGNITIVE_METACOGNITION_REPORT",
-        "COGNITIVE_LEARNING_ADAPTATION",
-        "COGNITIVE_DECISION_ARBITRATION",
-
-        "DEVICE_REGISTRATION_INITIATED",
-        "DEVICE_REGISTRATION_COMPLETED",
-        "DEVICE_CAPABILITY_UPDATED",
-        "DEVICE_HANDOFF_INITIATED",
-        "DEVICE_HANDOFF_COMPLETED",
-        "DEVICE_SYNC_COORDINATION",
-        "DEVICE_COMPROMISE_REPORTED",
-        "DEVICE_EMERGENCY_ACCESS",
-        "DEVICE_OFFLINE_COORDINATION",
-        "DEVICE_EDGE_COMPUTING_UPDATE",
-
-        "PIPELINE_P01_CONTEXT_RETRIEVAL",
-        "PIPELINE_P02_MEMORY_FORMATION",
-        "PIPELINE_P03_MEMORY_CONSOLIDATION",
-        "PIPELINE_P04_ACTION_ARBITRATION",
-        "PIPELINE_P05_PROSPECTIVE_MEMORY",
-        "PIPELINE_P06_LEARNING_MODULATION",
-        "PIPELINE_P07_SYNC_COORDINATION",
-        "PIPELINE_P08_EMBEDDING_LIFECYCLE",
-        "PIPELINE_P09_CONNECTOR_INTEGRATION",
-        "PIPELINE_P10_PII_MINIMIZATION",
-        "PIPELINE_P11_DSAR_COMPLIANCE",
-        "PIPELINE_P12_DEVICE_E2EE",
-        "PIPELINE_P13_INDEX_OPTIMIZATION",
-        "PIPELINE_P14_DUPLICATE_DETECTION",
-        "PIPELINE_P15_ROLLUP_SUMMARIES",
-        "PIPELINE_P16_FEATURE_FLAGS",
-        "PIPELINE_P17_QOS_GOVERNANCE",
-        "PIPELINE_P18_SAFETY_PREVENTION",
-        "PIPELINE_P19_PERSONALIZATION",
-        "PIPELINE_P20_PROCEDURE_HABITS",
-
-        "INTELLIGENCE_SOCIAL_COGNITION_UPDATE",
-        "INTELLIGENCE_EMOTIONAL_STATE_CHANGE",
-        "INTELLIGENCE_REWARD_SYSTEM_UPDATE",
-        "INTELLIGENCE_IMAGINATION_ACTIVATED",
-        "INTELLIGENCE_PROCEDURAL_LEARNING",
-        "INTELLIGENCE_KNOWLEDGE_GRAPH_UPDATE",
-        "INTELLIGENCE_PROSPECTIVE_PLANNING",
-        "INTELLIGENCE_CONSOLIDATION_REPLAY"
+        "USER_STATUS_CHANGED"
       ]
     },
 
@@ -382,23 +225,12 @@
       "required": ["user_id", "caps"],
       "properties": {
         "user_id": { "type": "string", "format": "uuid" },
-        "family_member_id": { "type": "string", "format": "uuid", "description": "Family-specific member identifier" },
         "agent_id": { "type": "string", "pattern": "^[A-Za-z0-9._:-]{3,64}$" },
-        "family_role": { "type": "string", "enum": ["family_admin", "parent", "child", "extended_family", "guest"], "description": "Family hierarchy role" },
-        "relationship_context": { "type": "string", "description": "Active relationship context (e.g., 'ab', 'abc', 'family')" },
         "caps": {
           "type": "array",
-          "items": { "type": "string", "enum": ["WRITE", "RECALL", "PROJECT", "SCHEDULE", "FAMILY_ADMIN", "MEMORY_SYNC", "EMERGENCY_ACCESS"] },
+          "items": { "type": "string", "enum": ["WRITE", "RECALL", "PROJECT", "SCHEDULE"] },
           "uniqueItems": true,
           "minItems": 1
-        },
-        "delegation_context": {
-          "type": "object",
-          "properties": {
-            "delegated_by": { "type": "string", "format": "uuid" },
-            "delegation_scope": { "type": "array", "items": { "type": "string" } },
-            "delegation_expires": { "type": "string", "format": "date-time" }
-          }
         }
       }
     },
@@ -406,25 +238,12 @@
     "Device": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["device_id", "capability_class"],
+      "required": ["device_id"],
       "properties": {
         "device_id": { "type": "string", "pattern": "^[A-Za-z0-9._:-]{3,64}$" },
-        "platform": { "type": "string", "enum": ["ios", "android", "macos", "windows", "linux", "web", "edge", "familyos_hub", "voice_assistant"] },
-        "capability_class": { "type": "string", "enum": ["full_memory_os", "limited_smart_device", "voice_assistant", "display_only", "familyos_hub"], "description": "Device capability level for memory operations" },
-        "ownership_type": { "type": "string", "enum": ["personal", "shared_family", "guest", "public"], "description": "Device ownership model" },
+        "platform": { "type": "string", "enum": ["ios", "android", "macos", "windows", "linux", "web", "edge"] },
         "app_version": { "type": "string", "pattern": "^(0|[1-9]\\d*)\\.(0|[1-9]\\d*)\\.(0|[1-9]\\d*)(?:-[0-9A-Za-z-.]+)?$" },
-        "locale": { "type": "string", "pattern": "^[A-Za-z]{2}(-[A-Za-z]{2})?$" },
-        "physical_location": { "type": "string", "enum": ["home", "bedroom", "kitchen", "living_room", "office", "public", "unknown"], "description": "Physical location for space policy" },
-        "network_capability": { "type": "string", "enum": ["online", "offline", "limited", "edge_only"], "description": "Network connectivity status" },
-        "memory_capacity": {
-          "type": "object",
-          "properties": {
-            "local_storage_available": { "type": "boolean" },
-            "vector_db_supported": { "type": "boolean" },
-            "encryption_hardware": { "type": "boolean" },
-            "sync_capability": { "type": "string", "enum": ["full", "partial", "receive_only", "none"] }
-          }
-        }
+        "locale": { "type": "string", "pattern": "^[A-Za-z]{2}(-[A-Za-z]{2})?$" }
       }
     },
 
@@ -432,13 +251,9 @@
       "type": "object",
       "additionalProperties": false,
       "properties": {
-        "role": { "type": "string", "enum": ["parent", "child", "guest", "system", "service", "family_admin", "extended_family"] },
-        "trust": { "type": "string", "enum": ["GREEN", "AMBER", "RED", "BLACK"] },
-        "geo_precision": { "type": "string", "enum": ["city", "region"] },
-        "age_group": { "type": "string", "enum": ["adult", "teenager", "child", "toddler"], "description": "Age-appropriate access control" },
-        "family_tier": { "type": "string", "enum": ["base", "child_addon", "extended_family", "premium"], "description": "Subscription tier for feature access" },
-        "supervision_required": { "type": "boolean", "description": "Whether this user requires supervision" },
-        "emergency_override": { "type": "boolean", "description": "Emergency access override active" }
+        "role": { "type": "string", "enum": ["parent", "child", "guest", "system", "service"] },
+        "trust": { "type": "string", "enum": ["green", "amber", "red", "black"] },
+        "geo_precision": { "type": "string", "enum": ["city", "region"] }
       }
     },
 
@@ -447,14 +262,11 @@
       "additionalProperties": false,
       "required": ["priority", "latency_budget_ms"],
       "properties": {
-        "routing": { "type": "string", "enum": ["fast-path", "gate-path", "memory-path", "family-path", "cognitive-path"], "default": "gate-path" },
+        "routing": { "type": "string", "enum": ["fast-path", "gate-path"], "default": "gate-path" },
         "priority": { "type": "integer", "minimum": 1, "maximum": 10 },
         "latency_budget_ms": { "type": "integer", "minimum": 1, "maximum": 1000 },
         "retries": { "type": "integer", "minimum": 0, "maximum": 3 },
-        "deadline_ms": { "type": "integer", "minimum": 1 },
-        "memory_priority": { "type": "string", "enum": ["critical", "high", "normal", "low"], "description": "Memory operation priority" },
-        "family_priority": { "type": "string", "enum": ["emergency", "high", "normal", "low"], "description": "Family coordination priority" },
-        "cognitive_budget": { "type": "integer", "minimum": 1, "maximum": 1000, "description": "Cognitive processing budget in ms" }
+        "deadline_ms": { "type": "integer", "minimum": 1 }
       }
     },
 
@@ -465,355 +277,13 @@
         "trace_id": { "type": "string", "pattern": "^[a-f0-9]{32}$" },
         "span_id": { "type": "string", "pattern": "^[a-f0-9]{16}$" },
         "parent_span_id": { "type": "string", "pattern": "^[a-f0-9]{16}$" },
-        "sampled": { "type": "boolean", "default": true },
-        "cognitive_trace_id": { "type": "string", "pattern": "^[a-f0-9]{32}$", "description": "Cognitive processing correlation ID" },
-        "family_trace_id": { "type": "string", "pattern": "^[a-f0-9]{32}$", "description": "Family operation correlation ID" },
-        "memory_trace_id": { "type": "string", "pattern": "^[a-f0-9]{32}$", "description": "Memory operation correlation ID" },
-        "pipeline_trace_id": { "type": "string", "pattern": "^[a-f0-9]{32}$", "description": "Pipeline operation correlation ID" }
+        "sampled": { "type": "boolean", "default": true }
       }
     },
 
     "Obligation": {
       "type": "string",
-      "enum": [
-        "REDACT_PII",
-        "AUDIT_ACCESS",
-        "TOMBSTONE_ON_DELETE",
-        "SYNC_REQUIRED",
-        "FAMILY_CONSENT_REQUIRED",
-        "AGE_APPROPRIATE_FILTER",
-        "EMERGENCY_ACCESS_LOG",
-        "MEMORY_CONSOLIDATION_ELIGIBLE",
-        "CROSS_DEVICE_SYNC",
-        "SUBSCRIPTION_GATE_CHECK",
-        "RELATIONSHIP_VALIDATION",
-        "EMOTIONAL_CONTEXT_PRESERVE",
-        "COGNITIVE_PROCESSING_REQUIRED",
-        "PIPELINE_COORDINATION_REQUIRED"
-      ]
-    },
-
-    "MemoryContext": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": ["memory_operation"],
-      "properties": {
-        "memory_id": { "type": "string", "format": "uuid", "description": "Unique memory identifier" },
-        "memory_space": { "type": "string", "enum": ["personal", "selective", "shared", "extended", "interfamily"], "description": "Memory accessibility scope" },
-        "memory_type": { "type": "string", "enum": ["episodic", "semantic", "procedural", "working"], "description": "Neuroscience-based memory classification" },
-        "memory_operation": {
-          "type": "string",
-          "enum": ["formation", "recall", "consolidation", "sync", "migration", "deletion", "update"],
-          "description": "Memory backbone operation type"
-        },
-        "memory_quality": {
-          "type": "object",
-          "properties": {
-            "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
-            "emotional_salience": { "type": "number", "minimum": 0, "maximum": 1 },
-            "importance_score": { "type": "number", "minimum": 0, "maximum": 1 },
-            "accuracy_estimate": { "type": "number", "minimum": 0, "maximum": 1 }
-          }
-        },
-        "temporal_context": {
-          "type": "object",
-          "properties": {
-            "event_time": { "type": "string", "format": "date-time" },
-            "memory_age": { "type": "integer", "description": "Memory age in days" },
-            "last_accessed": { "type": "string", "format": "date-time" },
-            "consolidation_status": { "type": "string", "enum": ["fresh", "consolidating", "consolidated", "forgetting"] }
-          }
-        },
-        "retrieval_context": {
-          "type": "object",
-          "properties": {
-            "query_embedding": { "type": "string", "description": "Base64 encoded query vector" },
-            "similarity_score": { "type": "number", "minimum": 0, "maximum": 1 },
-            "context_window": { "type": "integer", "description": "Context window size in tokens" },
-            "retrieval_strategy": { "type": "string", "enum": ["semantic", "temporal", "associative", "hybrid"] }
-          }
-        }
-      }
-    },
-
-    "FamilyContext": {
-      "type": "object",
-      "additionalProperties": false,
-      "required": ["family_id"],
-      "properties": {
-        "family_id": { "type": "string", "format": "uuid", "description": "Family unit identifier" },
-        "family_operation": {
-          "type": "string",
-          "enum": ["coordination", "sync_coordination", "relationship_update", "emergency", "consensus", "administration"],
-          "description": "Family-level operation type"
-        },
-        "relationship_context": {
-          "type": "string",
-          "description": "Active relationship context (e.g., 'ab', 'abc', 'family')"
-        },
-        "emotional_context": {
-          "type": "object",
-          "properties": {
-            "family_mood": { "type": "string", "enum": ["positive", "neutral", "negative", "mixed", "unknown"] },
-            "emotional_intensity": { "type": "number", "minimum": 0, "maximum": 1 },
-            "emotional_contagion": { "type": "boolean", "description": "Whether emotion is spreading across family" },
-            "emotional_regulation_needed": { "type": "boolean" }
-          }
-        },
-        "social_context": {
-          "type": "object",
-          "properties": {
-            "active_participants": { "type": "array", "items": { "type": "string", "format": "uuid" } },
-            "conversation_type": { "type": "string", "enum": ["casual", "planning", "conflict", "celebration", "emergency", "administrative"] },
-            "privacy_level": { "type": "string", "enum": ["public", "family", "parents_only", "private"] },
-            "supervision_active": { "type": "boolean" }
-          }
-        },
-        "coordination_context": {
-          "type": "object",
-          "properties": {
-            "coordination_type": { "type": "string", "enum": ["scheduling", "decision_making", "information_sharing", "emergency_response"] },
-            "consensus_required": { "type": "boolean" },
-            "voting_threshold": { "type": "number", "minimum": 0, "maximum": 1 },
-            "time_sensitive": { "type": "boolean" }
-          }
-        },
-        "lifecycle_context": {
-          "type": "object",
-          "properties": {
-            "family_stage": { "type": "string", "enum": ["formation", "expansion", "adolescent", "launching", "empty_nest", "retirement"] },
-            "recent_changes": { "type": "array", "items": { "type": "string" } },
-            "upcoming_milestones": { "type": "array", "items": { "type": "string" } }
-          }
-        }
-      }
-    },
-
-    "CognitiveContext": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "cognitive_trace_id": { "type": "string", "pattern": "^[a-f0-9]{32}$", "description": "Cognitive processing correlation ID" },
-        "processing_stage": {
-          "type": "string",
-          "enum": ["attention_gate", "working_memory", "hippocampus", "global_workspace", "retrieval", "decision", "action"],
-          "description": "Current cognitive processing stage"
-        },
-        "attention_gate_context": {
-          "type": "object",
-          "properties": {
-            "gate_decision": { "type": "string", "enum": ["ADMIT", "DEFER", "BOOST", "DROP"] },
-            "salience_score": { "type": "number", "minimum": 0, "maximum": 1 },
-            "backpressure_level": { "type": "string", "enum": ["low", "medium", "high", "critical"] },
-            "intent_classification": { "type": "string" }
-          }
-        },
-        "working_memory_context": {
-          "type": "object",
-          "properties": {
-            "cache_tier": { "type": "string", "enum": ["L1", "L2", "L3"], "description": "Working memory cache tier" },
-            "cognitive_load": { "type": "number", "minimum": 0, "maximum": 1 },
-            "context_window_size": { "type": "integer" },
-            "active_chunks": { "type": "integer" }
-          }
-        },
-        "hippocampus_context": {
-          "type": "object",
-          "properties": {
-            "hippocampal_region": { "type": "string", "enum": ["DG", "CA3", "CA1"], "description": "Hippocampal processing region" },
-            "encoding_type": { "type": "string", "enum": ["pattern_separation", "pattern_completion", "cortical_binding"] },
-            "consolidation_stage": { "type": "string", "enum": ["encoding", "storage", "retrieval", "reconsolidation"] },
-            "theta_rhythm_active": { "type": "boolean" }
-          }
-        },
-        "affect_context": {
-          "type": "object",
-          "properties": {
-            "emotional_state": { "type": "string", "enum": ["positive", "negative", "neutral", "mixed"] },
-            "emotional_intensity": { "type": "number", "minimum": 0, "maximum": 1 },
-            "threat_level": { "type": "string", "enum": ["none", "low", "medium", "high", "critical"] },
-            "emotional_regulation_active": { "type": "boolean" }
-          }
-        },
-        "global_workspace_context": {
-          "type": "object",
-          "properties": {
-            "broadcast_content": { "type": "string", "description": "Content being globally broadcast" },
-            "consciousness_level": { "type": "number", "minimum": 0, "maximum": 1 },
-            "integration_active": { "type": "boolean" }
-          }
-        }
-      }
-    },
-
-    "DeviceEcosystem": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "ecosystem_operation": {
-          "type": "string",
-          "enum": ["registration", "handoff", "sync", "capability_update", "compromise_handling", "emergency_access"],
-          "description": "Device ecosystem operation type"
-        },
-        "sync_coordination": {
-          "type": "object",
-          "properties": {
-            "sync_type": { "type": "string", "enum": ["full", "incremental", "delta", "emergency"] },
-            "target_devices": { "type": "array", "items": { "type": "string" } },
-            "sync_priority": { "type": "string", "enum": ["critical", "high", "normal", "low"] },
-            "conflict_resolution": { "type": "string", "enum": ["last_write_wins", "family_consensus", "merge", "manual"] }
-          }
-        },
-        "handoff_context": {
-          "type": "object",
-          "properties": {
-            "source_device": { "type": "string" },
-            "target_device": { "type": "string" },
-            "handoff_type": { "type": "string", "enum": ["conversation", "task", "emergency", "planned"] },
-            "context_preservation": { "type": "boolean" },
-            "authentication_required": { "type": "boolean" }
-          }
-        },
-        "capability_context": {
-          "type": "object",
-          "properties": {
-            "available_capabilities": { "type": "array", "items": { "type": "string" } },
-            "capability_limitations": { "type": "array", "items": { "type": "string" } },
-            "adaptive_behavior_required": { "type": "boolean" },
-            "offline_mode_active": { "type": "boolean" }
-          }
-        },
-        "security_context": {
-          "type": "object",
-          "properties": {
-            "device_trust_level": { "type": "string", "enum": ["trusted", "limited", "compromised", "unknown"] },
-            "encryption_status": { "type": "string", "enum": ["full", "partial", "none"] },
-            "compromise_indicators": { "type": "array", "items": { "type": "string" } },
-            "emergency_protocols_active": { "type": "boolean" }
-          }
-        }
-      }
-    },
-
-    "PipelineRouting": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "pipeline_id": { "type": "string", "pattern": "^P(0[1-9]|1[0-9]|20)$", "description": "Pipeline identifier (P01-P20)" },
-        "pipeline_operation": {
-          "type": "string",
-          "enum": ["initiate", "process", "complete", "error", "retry", "timeout"],
-          "description": "Pipeline operation status"
-        },
-        "pipeline_priority": { "type": "integer", "minimum": 1, "maximum": 10 },
-        "pipeline_budget": { "type": "integer", "description": "Processing budget in milliseconds" },
-        "pipeline_dependencies": { "type": "array", "items": { "type": "string" }, "description": "Required pipeline dependencies" },
-        "pipeline_context": {
-          "type": "object",
-          "properties": {
-            "processing_stage": { "type": "string" },
-            "checkpoint_data": { "type": "object" },
-            "error_context": { "type": "string" },
-            "retry_count": { "type": "integer", "minimum": 0 }
-          }
-        },
-        "coordination_required": { "type": "boolean", "description": "Whether pipeline coordination is required" },
-        "memory_backbone_coordination": { "type": "boolean", "description": "Whether Memory Backbone coordination is required" }
-      }
-    },
-
-    "IntelligenceContext": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "intelligence_operation": {
-          "type": "string",
-          "enum": ["learning", "adaptation", "social_cognition", "emotional_intelligence", "metacognition", "decision_support"],
-          "description": "Intelligence layer operation type"
-        },
-        "learning_context": {
-          "type": "object",
-          "properties": {
-            "learning_type": { "type": "string", "enum": ["reinforcement", "supervised", "unsupervised", "meta_learning"] },
-            "adaptation_rate": { "type": "number", "minimum": 0, "maximum": 1 },
-            "learning_objective": { "type": "string" },
-            "performance_metrics": { "type": "object" }
-          }
-        },
-        "social_cognition_context": {
-          "type": "object",
-          "properties": {
-            "social_model_active": { "type": "boolean" },
-            "relationship_inference": { "type": "boolean" },
-            "social_norms_consideration": { "type": "boolean" },
-            "cultural_adaptation": { "type": "boolean" }
-          }
-        },
-        "emotional_intelligence_context": {
-          "type": "object",
-          "properties": {
-            "emotion_recognition_active": { "type": "boolean" },
-            "empathy_modeling": { "type": "boolean" },
-            "emotional_regulation_support": { "type": "boolean" },
-            "emotional_contagion_awareness": { "type": "boolean" }
-          }
-        },
-        "metacognition_context": {
-          "type": "object",
-          "properties": {
-            "self_monitoring_active": { "type": "boolean" },
-            "confidence_calibration": { "type": "number", "minimum": 0, "maximum": 1 },
-            "uncertainty_quantification": { "type": "boolean" },
-            "meta_learning_active": { "type": "boolean" }
-          }
-        },
-        "knowledge_graph_context": {
-          "type": "object",
-          "properties": {
-            "graph_update_type": { "type": "string", "enum": ["node_addition", "edge_addition", "node_update", "edge_update", "relationship_inference"] },
-            "temporal_reasoning_active": { "type": "boolean" },
-            "causal_inference_active": { "type": "boolean" },
-            "knowledge_consolidation_needed": { "type": "boolean" }
-          }
-        }
-      }
-    },
-
-    "SubscriptionContext": {
-      "type": "object",
-      "additionalProperties": false,
-      "properties": {
-        "subscription_tier": { "type": "string", "enum": ["base", "child_addon", "extended_family", "premium"], "description": "Current subscription tier" },
-        "feature_gates": { "type": "array", "items": { "type": "string" }, "description": "Active feature gates" },
-        "usage_limits": {
-          "type": "object",
-          "properties": {
-            "family_member_limit": { "type": "integer" },
-            "memory_storage_limit": { "type": "integer" },
-            "api_rate_limit": { "type": "integer" },
-            "advanced_ai_limit": { "type": "integer" }
-          }
-        },
-        "addon_services": { "type": "array", "items": { "type": "string" }, "description": "Active addon services" },
-        "billing_context": {
-          "type": "object",
-          "properties": {
-            "billing_cycle": { "type": "string", "enum": ["monthly", "yearly"] },
-            "payment_status": { "type": "string", "enum": ["active", "past_due", "cancelled", "suspended"] },
-            "trial_active": { "type": "boolean" },
-            "trial_expires": { "type": "string", "format": "date-time" }
-          }
-        },
-        "compliance_context": {
-          "type": "object",
-          "properties": {
-            "gdpr_compliance": { "type": "boolean" },
-            "coppa_compliance": { "type": "boolean" },
-            "data_residency": { "type": "string" },
-            "audit_requirements": { "type": "array", "items": { "type": "string" } }
-          }
-        }
-      }
+      "enum": ["REDACT_PII", "AUDIT_ACCESS", "TOMBSTONE_ON_DELETE", "SYNC_REQUIRED"]
     },
 
     "Hashes": {
@@ -829,45 +299,19 @@
             { "type": "string", "pattern": "^[0-7][0-9A-HJKMNP-TV-Z]{25}$" }
           ]
         },
-        "merkle_root": { "type": "string", "pattern": "^[a-f0-9]{64}$" },
-        "memory_hash": { "type": "string", "pattern": "^[a-f0-9]{64}$", "description": "Memory content hash for deduplication" },
-        "family_context_hash": { "type": "string", "pattern": "^[a-f0-9]{64}$", "description": "Family context hash for privacy" }
+        "merkle_root": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
       }
     },
 
     "Signature": {
       "type": "object",
       "additionalProperties": false,
-      "required": ["alg", "signature", "key_id", "canonical_fields"],
+      "required": ["alg", "signature", "key_id"],
       "properties": {
         "alg": { "type": "string", "enum": ["ed25519", "ecdsa_p256"] },
         "key_id": { "type": "string", "pattern": "^[A-Za-z0-9._:-]{8,128}$" },
         "public_key": { "type": "string", "contentEncoding": "base64" },
-        "signature": { "type": "string", "contentEncoding": "base64" },
-        "canonical_fields": {
-          "type": "array",
-          "description": "Ordered list of envelope fields included in signature computation for deterministic verification",
-          "items": { "type": "string" },
-          "minItems": 1,
-          "uniqueItems": true,
-          "contains": {
-            "anyOf": [
-              { "const": "id" },
-              { "const": "timestamp" },
-              { "const": "topic" },
-              { "const": "actor" },
-              { "const": "hashes.payload_sha256" }
-            ]
-          }
-        },
-        "canonicalization_method": {
-          "type": "string",
-          "enum": ["jcs", "rfc8785"],
-          "default": "jcs",
-          "description": "JSON canonicalization method used for signature computation"
-        },
-        "family_signature": { "type": "string", "contentEncoding": "base64", "description": "Family-wide signature for consensus operations" },
-        "device_attestation": { "type": "string", "contentEncoding": "base64", "description": "Device attestation signature" }
+        "signature": { "type": "string", "contentEncoding": "base64" }
       }
     }
   }

@@ -1,0 +1,14 @@
+{
+  "$schema":"http://json-schema.org/draft-07/schema#",
+  "$id":"https://familyos/contracts/episodic/episodic_segment_event.schema.json",
+  "title":"SegmentEventJoin",
+  "type":"object",
+  "additionalProperties": false,
+  "required":["space_id","episode_id","event_id","ord"],
+  "properties":{
+    "space_id":{"type":"string"},
+    "episode_id":{"type":"string"},
+    "event_id":{"type":"string"},
+    "ord":{"type":"integer","minimum":0}
+  }
+}

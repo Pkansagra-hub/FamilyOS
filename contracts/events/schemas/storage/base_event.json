@@ -1,0 +1,200 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://schemas.memoryos.ai/storage/base_event.json",
+    "title": "Base Storage Event Schema",
+    "description": "Common schema for all MemoryOS Storage service events",
+    "type": "object",
+    "required": [
+        "event_id",
+        "timestamp",
+        "correlation_id",
+        "source_service",
+        "event_type",
+        "event_version"
+    ],
+    "properties": {
+        "event_id": {
+            "type": "string",
+            "description": "Unique identifier for this event",
+            "pattern": "^evt_[a-z0-9]{8}_[0-9]{8}_[0-9]{6}$",
+            "examples": [
+                "evt_stor001_20250916_123456",
+                "evt_stor002_20250916_123457"
+            ]
+        },
+        "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "ISO 8601 timestamp when event occurred (UTC)",
+            "examples": [
+                "2025-09-16T12:34:56.789Z",
+                "2025-09-16T12:34:57.123Z"
+            ]
+        },
+        "correlation_id": {
+            "type": "string",
+            "description": "Request correlation ID for distributed tracing",
+            "pattern": "^req_[a-zA-Z0-9]{12}$",
+            "examples": [
+                "req_abc123def456",
+                "req_xyz789uvw012"
+            ]
+        },
+        "source_service": {
+            "type": "string",
+            "description": "Service that generated this event",
+            "const": "storage",
+            "examples": [
+                "storage"
+            ]
+        },
+        "event_type": {
+            "type": "string",
+            "description": "Type of storage event",
+            "enum": [
+                "STORAGE_TRANSACTION_STARTED",
+                "STORAGE_TRANSACTION_PREPARED",
+                "STORAGE_TRANSACTION_COMMITTED",
+                "STORAGE_TRANSACTION_ROLLED_BACK",
+                "STORAGE_TRANSACTION_FAILED",
+                "STORAGE_MIGRATION_STARTED",
+                "STORAGE_MIGRATION_COMPLETED",
+                "STORAGE_MIGRATION_FAILED",
+                "STORAGE_POLICY_VIOLATION",
+                "STORAGE_POLICY_ENFORCED",
+                "STORAGE_PERFORMANCE_DEGRADED",
+                "STORAGE_PERFORMANCE_RECOVERED",
+                "STORAGE_PERFORMANCE_ALERT",
+                "STORAGE_BACKUP_STARTED",
+                "STORAGE_BACKUP_COMPLETED",
+                "STORAGE_BACKUP_FAILED",
+                "STORAGE_COORDINATION_STARTED",
+                "STORAGE_COORDINATION_COMPLETED",
+                "STORAGE_CONSISTENCY_VIOLATION"
+            ],
+            "examples": [
+                "STORAGE_TRANSACTION_COMMITTED",
+                "STORAGE_PERFORMANCE_ALERT"
+            ]
+        },
+        "event_version": {
+            "type": "string",
+            "description": "Schema version for this event type",
+            "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+            "examples": [
+                "1.0.0",
+                "1.1.0"
+            ]
+        },
+        "metadata": {
+            "type": "object",
+            "description": "Additional event metadata",
+            "properties": {
+                "environment": {
+                    "type": "string",
+                    "description": "Environment where event was generated",
+                    "enum": [
+                        "production",
+                        "staging",
+                        "development",
+                        "test"
+                    ],
+                    "examples": [
+                        "production",
+                        "staging"
+                    ]
+                },
+                "service_version": {
+                    "type": "string",
+                    "description": "Version of storage service that generated event",
+                    "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$",
+                    "examples": [
+                        "2.1.0",
+                        "2.0.5"
+                    ]
+                },
+                "host": {
+                    "type": "string",
+                    "description": "Host/instance that generated event",
+                    "examples": [
+                        "storage-pod-1",
+                        "storage-node-a"
+                    ]
+                },
+                "region": {
+                    "type": "string",
+                    "description": "Geographic region",
+                    "examples": [
+                        "us-east-1",
+                        "eu-west-1"
+                    ]
+                },
+                "trace_id": {
+                    "type": "string",
+                    "description": "Distributed trace identifier",
+                    "pattern": "^[a-f0-9]{32}$",
+                    "examples": [
+                        "1234567890abcdef1234567890abcdef"
+                    ]
+                },
+                "span_id": {
+                    "type": "string",
+                    "description": "Span identifier within trace",
+                    "pattern": "^[a-f0-9]{16}$",
+                    "examples": [
+                        "1234567890abcdef"
+                    ]
+                },
+                "user_id": {
+                    "type": "string",
+                    "description": "User associated with event (if applicable)",
+                    "examples": [
+                        "user_12345",
+                        "system"
+                    ]
+                },
+                "session_id": {
+                    "type": "string",
+                    "description": "Session identifier (if applicable)",
+                    "examples": [
+                        "session_abc123"
+                    ]
+                }
+            },
+            "additionalProperties": false
+        }
+    },
+    "additionalProperties": true,
+    "examples": [
+        {
+            "event_id": "evt_stor001_20250916_123456",
+            "timestamp": "2025-09-16T12:34:56.789Z",
+            "correlation_id": "req_abc123def456",
+            "source_service": "storage",
+            "event_type": "STORAGE_TRANSACTION_COMMITTED",
+            "event_version": "1.0.0",
+            "metadata": {
+                "environment": "production",
+                "service_version": "2.1.0",
+                "host": "storage-pod-1",
+                "region": "us-east-1",
+                "trace_id": "1234567890abcdef1234567890abcdef",
+                "span_id": "1234567890abcdef",
+                "user_id": "user_12345"
+            }
+        },
+        {
+            "event_id": "evt_stor002_20250916_123457",
+            "timestamp": "2025-09-16T12:34:57.123Z",
+            "correlation_id": "req_xyz789uvw012",
+            "source_service": "storage",
+            "event_type": "STORAGE_PERFORMANCE_ALERT",
+            "event_version": "1.0.0",
+            "metadata": {
+                "environment": "production",
+                "service_version": "2.1.0",
+                "host": "storage-pod-2"
+            }
+        }
+    ]
+}

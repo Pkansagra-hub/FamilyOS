@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://memoryos.local/contracts/events/schemas/action_executed.schema.json",
+  "title": "ACTION_EXECUTED@1.0 payload",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "plan_id",
+    "action_name",
+    "status",
+    "executed_at",
+    "receipt"
+  ],
+  "properties": {
+    "plan_id": {
+      "type": "string"
+    },
+    "action_name": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string",
+      "enum": [
+        "OK",
+        "FAILED",
+        "PARTIAL"
+      ]
+    },
+    "error": {
+      "type": "string"
+    },
+    "executed_at": {
+      "$ref": "_common.json#/definitions/ISOInstant"
+    },
+    "receipt": {
+      "$ref": "_common.json#/definitions/ReceiptRef"
+    },
+    "trace": {
+      "$ref": "_common.json#/definitions/TraceContext"
+    }
+  }
+}

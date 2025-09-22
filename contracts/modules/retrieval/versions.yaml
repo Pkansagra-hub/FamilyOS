@@ -1,0 +1,11 @@
+module: retrieval
+current: 1.0.0
+history:
+  - version: 1.0.0
+    date: 2025-09-10
+    notes: "API subset + trace storage + events"
+compatibility:
+  api: ["1.x"]
+  events: ["1.x"]
+  storage: ["1.x"]
+deprecations: []

@@ -1,0 +1,54 @@
+{
+  "schema_version": "1.1.0",
+  "id": "e1fa19da-168e-454a-8435-c362b20cabd3",
+  "ts": "2025-09-09T04:20:40Z",
+  "topic": "AFFECT_ANALYZE",
+  "band": "RED",
+  "actor": {
+    "user_id": "d78b0d5f-8238-4b2f-845b-576e9b9b2805",
+    "agent_id": "encoder.v1",
+    "caps": [
+      "RECALL"
+    ]
+  },
+  "device": {
+    "device_id": "ios-iphone15",
+    "platform": "android",
+    "app_version": "1.0.9",
+    "locale": "en-GB"
+  },
+  "space_id": "shared:household",
+  "policy_version": "1.3",
+  "abac": {
+    "role": "child",
+    "trust": "black",
+    "geo_precision": "city"
+  },
+  "qos": {
+    "routing": "fast-path",
+    "priority": 9,
+    "latency_budget_ms": 232,
+    "retries": 1
+  },
+  "trace": {
+    "trace_id": "1c94f7d55242c5a9dcd3a4d95dfb5301",
+    "span_id": "94a9ef196686595a",
+    "sampled": true
+  },
+  "obligations": [],
+  "redaction_applied": true,
+  "hashes": {
+    "payload_sha256": "efd69ba52c3d20e9a730f0ca36bfd5fdffcb1af9ade8d9f446e320ae73851d91"
+  },
+  "payload": {
+    "valence": 1.0,
+    "arousal": 0.35
+  },
+  "signature": {
+    "alg": "ed25519",
+    "key_id": "key_affect_analyze_red_2024",
+    "public_key": "cHVibGlj",
+    "signature": "c2ln"
+  },
+  "mls_group": "household-secure"
+}

@@ -1,0 +1,43 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Memory Receipt Created",
+  "description": "Receipt tick emitted when a write is committed across stores.",
+  "type": "object",
+  "additionalProperties": true,
+  "properties": {
+    "envelope_id": {
+      "type": "string"
+    },
+    "write_status": {
+      "type": "string",
+      "enum": [
+        "committed",
+        "pending",
+        "failed"
+      ]
+    },
+    "stores": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": true,
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "ts": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        "required": [
+          "name"
+        ]
+      }
+    }
+  },
+  "required": [
+    "envelope_id",
+    "write_status"
+  ]
+}

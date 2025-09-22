@@ -1,0 +1,11 @@
+{
+  "id": "6RZKHB38A1NG0QMPCTXY9QX6M6",
+  "name": "model_evaluation_run",
+  "status": "running",
+  "ts": "2025-09-09T12:34:56Z",
+  "params": {
+    "dataset": "evalset_v1",
+    "model": "reranker.v2"
+  },
+  "space_id": "personal:user123"
+}

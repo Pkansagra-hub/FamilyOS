@@ -1,0 +1,105 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://memoryos/contracts/storage/index_config.schema.json",
+  "title": "Index Configuration",
+  "description": "Configuration for search indexes (FTS or Embeddings)",
+  "type": "object",
+  "required": ["index_name", "type", "space_id", "band_min"],
+  "properties": {
+    "index_name": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9._:-]{2,64}$",
+      "description": "Unique index name"
+    },
+    "type": {
+      "enum": ["fts", "embeddings"],
+      "description": "Index type"
+    },
+    "space_id": {
+      "type": "string",
+      "description": "MemoryOS space scope (e.g., 'shared:household')"
+    },
+    "band_min": {
+      "enum": ["GREEN", "AMBER", "RED", "BLACK"],
+      "description": "Minimum band level for index access"
+    },
+    "fts_config": {
+      "type": "object",
+      "description": "FTS-specific configuration",
+      "properties": {
+        "analyzer": {
+          "type": "string",
+          "enum": ["porter", "simple", "email", "unicode61"],
+          "default": "porter"
+        },
+        "tokenizer": {
+          "type": "string",
+          "default": "unicode61"
+        },
+        "stemming": {
+          "type": "boolean",
+          "default": true
+        },
+        "languages": {
+          "type": "array",
+          "items": {"type": "string"},
+          "description": "Supported languages for stemming"
+        }
+      }
+    },
+    "embeddings_config": {
+      "type": "object",
+      "description": "Embeddings-specific configuration",
+      "properties": {
+        "model_id": {
+          "type": "string",
+          "description": "Embedding model identifier"
+        },
+        "dimensions": {
+          "type": "integer",
+          "minimum": 1,
+          "maximum": 4096
+        },
+        "similarity_metric": {
+          "enum": ["cosine", "euclidean", "dot_product"],
+          "default": "cosine"
+        },
+        "quantization": {
+          "type": "boolean",
+          "default": false
+        }
+      }
+    },
+    "refresh_interval": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Refresh interval in seconds",
+      "default": 60
+    },
+    "max_size_mb": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "Maximum index size in MB",
+      "default": 1000
+    },
+    "metadata": {
+      "type": "object",
+      "additionalProperties": true,
+      "description": "Extensible metadata"
+    }
+  },
+  "oneOf": [
+    {
+      "properties": {
+        "type": {"const": "fts"},
+        "fts_config": {"required": ["analyzer"]}
+      }
+    },
+    {
+      "properties": {
+        "type": {"const": "embeddings"},
+        "embeddings_config": {"required": ["model_id", "dimensions"]}
+      }
+    }
+  ]
+}

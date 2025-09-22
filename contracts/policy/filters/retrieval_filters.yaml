@@ -1,0 +1,441 @@
+# Retrieval Service Filter Contracts
+# Defines comprehensive ABAC (Attribute-Based Access Control) filters for memory recall operations
+# Version: 2.0.0 - Enhanced with policy integration and performance optimization
+
+metadata:
+  version: "2.0.0"
+  title: "Retrieval Service Filter Contracts"
+  description: "Comprehensive filtering specifications with RBAC/ABAC integration"
+  created: "2025-09-16"
+  last_updated: "2025-09-16"
+  contract_type: "filter_specification"
+
+filter_specifications:
+  
+  # Enhanced Temporal Filters
+  temporal:
+    description: "Time-based access control for memory items with policy integration"
+    filters:
+      after:
+        type: "datetime"
+        format: "RFC3339"
+        description: "Only return items created/updated after this timestamp"
+        validation:
+          - "Must be valid RFC3339 datetime"
+          - "Cannot be in the future"
+          - "Must be before 'before' filter if both specified"
+          - "Cannot query more than 5 years in the past"
+        policy_constraints:
+          memory_reader: "Limited to 90 days in the past"
+          memory_analyst: "Limited to 1 year in the past"
+          memory_admin: "No time restrictions"
+        examples:
+          - "2025-01-01T00:00:00Z"
+          - "2025-09-15T14:30:00-07:00"
+
+      before:
+        type: "datetime"
+        format: "RFC3339"
+        description: "Only return items created/updated before this timestamp"
+        validation:
+          - "Must be valid RFC3339 datetime"
+          - "Must be after 'after' filter if both specified"
+        examples:
+          - "2025-09-16T23:59:59Z"
+          - "2025-12-31T23:59:59+00:00"
+
+      within_days:
+        type: "integer"
+        minimum: 1
+        maximum: 365
+        description: "Return items from the last N days (mutually exclusive with after/before)"
+        validation:
+          - "Cannot be combined with after/before filters"
+          - "Value must be within policy limits for user role"
+        policy_constraints:
+          memory_reader: "Maximum 30 days"
+          memory_analyst: "Maximum 90 days"
+          memory_admin: "Maximum 365 days"
+        examples:
+          - 7
+          - 30
+          - 90
+
+  # Enhanced Topic-Based Filters
+  topic:
+    description: "Content-based filtering by topic categories with taxonomy validation"
+    filters:
+      topics:
+        type: "array"
+        items:
+          type: "string"
+          pattern: "^[a-z][a-z0-9_]*$"
+        max_items: 20
+        description: "Include items matching any of these topics (OR logic)"
+        validation:
+          - "Topics must be lowercase alphanumeric with underscores"
+          - "Maximum 20 topics per query"
+          - "Each topic max 50 characters"
+          - "Topics must exist in approved taxonomy"
+        examples:
+          - ["machine_learning", "cognitive_architecture"]
+          - ["family_events", "birthdays"]
+          - ["work_meetings", "project_planning"]
+
+      exclude_topics:
+        type: "array"
+        items:
+          type: "string"
+          pattern: "^[a-z][a-z0-9_]*$"
+        max_items: 20
+        description: "Exclude items with these topics"
+        validation:
+          - "Same format as topics filter"
+          - "Cannot overlap with 'topics' filter"
+          - "Maximum 20 topics per exclusion"
+        examples:
+          - ["sensitive_medical", "financial_private"]
+
+      topic_logic:
+        type: "string"
+        enum: ["AND", "OR"]
+        default: "OR"
+        description: "Logic for combining multiple topics"
+
+  # Enhanced Security Band Filters
+  band:
+    description: "Security classification level filtering with clearance validation"
+    filters:
+      bands:
+        type: "array"
+        items:
+          type: "string"
+          enum: ["GREEN", "AMBER", "RED", "BLACK"]
+        max_items: 4
+        description: "Allowed security bands (user clearance determines access)"
+        validation:
+          - "Must be subset of user's clearance-allowed bands"
+          - "At least one band must be specified if filter used"
+        clearance_requirements:
+          GREEN: 1
+          AMBER: 2
+          RED: 3
+          BLACK: 4
+        role_constraints:
+          memory_reader: ["GREEN", "AMBER"]
+          memory_analyst: ["GREEN", "AMBER", "RED"]
+          memory_admin: ["GREEN", "AMBER", "RED", "BLACK"]
+        examples:
+          - ["GREEN"]
+          - ["GREEN", "AMBER"]
+          - ["AMBER", "RED"] # Only for analyst+
+
+      max_band:
+        type: "string"
+        enum: ["GREEN", "AMBER", "RED", "BLACK"]
+        description: "Maximum security band to include (inclusive hierarchy)"
+        examples:
+          - "AMBER"  # Includes GREEN and AMBER
+          - "RED"    # Includes GREEN, AMBER, and RED
+
+      min_band:
+        type: "string"
+        enum: ["GREEN", "AMBER", "RED", "BLACK"]
+        description: "Minimum security band to include (inclusive hierarchy)"
+        examples:
+          - "AMBER"  # Includes AMBER, RED, BLACK
+          - "RED"    # Includes RED, BLACK
+
+  # Enhanced Space Filters
+  space:
+    description: "Space and ownership-based filtering with access control validation"
+    filters:
+      space_types:
+        type: "array"
+        items:
+          type: "string"
+          enum: ["personal", "selective", "shared", "extended", "interfamily"]
+        max_items: 5
+        description: "Include items from these space types"
+        role_constraints:
+          memory_reader: ["personal", "selective", "shared"]
+          memory_analyst: ["personal", "selective", "shared", "extended"]
+          memory_admin: ["personal", "selective", "shared", "extended", "interfamily"]
+        examples:
+          - ["personal", "shared"]
+          - ["selective", "extended"]
+
+      space_ids:
+        type: "array"
+        items:
+          type: "string"
+          pattern: "^(personal|selective|shared|extended|interfamily):[a-zA-Z0-9_-]+$"
+        max_items: 50
+        description: "Specific space IDs to include (must have access)"
+        validation:
+          - "User must have access to all specified spaces"
+          - "Space IDs must follow format: {type}:{identifier}"
+        examples:
+          - ["shared:research_team", "personal:alice_workspace"]
+
+      owner_filter:
+        type: "string"
+        enum: ["owner_only", "include_shared", "all_accessible"]
+        default: "all_accessible"
+        description: "Filter by ownership relationship"
+
+      include_owners:
+        type: "array"
+        items:
+          type: "string"
+          pattern: "^[a-zA-Z0-9_-]+$"
+        max_items: 100
+        description: "Include items owned by these users"
+
+      exclude_owners:
+        type: "array"
+        items:
+          type: "string"
+          pattern: "^[a-zA-Z0-9_-]+$"
+        max_items: 100
+        description: "Exclude items owned by these users"
+
+  # Content Filters
+  content:
+    description: "Content-type and format-based filtering"
+    filters:
+      content_types:
+        type: "array"
+        items:
+          type: "string"
+          enum: ["text", "image", "audio", "video", "document", "structured"]
+        max_items: 6
+        description: "Filter by content media type"
+        examples:
+          - ["text", "document"]
+          - ["image", "video"]
+
+      languages:
+        type: "array"
+        items:
+          type: "string"
+          pattern: "^[a-z]{2}(-[A-Z]{2})?$"
+        max_items: 10
+        description: "Filter by content language (ISO 639-1)"
+        examples:
+          - ["en", "es"]
+          - ["en-US", "fr-CA"]
+
+      content_length:
+        type: "object"
+        properties:
+          min_chars:
+            type: "integer"
+            minimum: 0
+          max_chars:
+            type: "integer"
+            minimum: 0
+        description: "Filter by content length in characters"
+        validation:
+          - "min_chars must be <= max_chars if both specified"
+
+      has_attachments:
+        type: "boolean"
+        description: "Filter items with/without attachments"
+
+  # Quality Filters (performance intensive)
+  quality:
+    description: "Quality and relevance-based filtering (may impact performance)"
+    filters:
+      min_quality_score:
+        type: "number"
+        minimum: 0.0
+        maximum: 1.0
+        description: "Minimum quality score (0.0-1.0)"
+        examples:
+          - 0.7
+          - 0.85
+
+      min_relevance_score:
+        type: "number"
+        minimum: 0.0
+        maximum: 1.0
+        description: "Minimum relevance score for query"
+        examples:
+          - 0.5
+          - 0.8
+
+      exclude_duplicates:
+        type: "boolean"
+        default: true
+        description: "Filter out duplicate or near-duplicate content"
+
+      min_engagement:
+        type: "integer"
+        minimum: 0
+        description: "Minimum engagement score (views, interactions)"
+
+# =============================================================================
+# Filter Combination and Validation Rules
+# =============================================================================
+
+combination_rules:
+  default_logic: "AND"
+  description: "All filters are combined with AND logic by default"
+  
+  mutual_exclusivity:
+    - ["temporal.within_days", ["temporal.after", "temporal.before"]]
+    - ["band.bands", ["band.max_band", "band.min_band"]]
+  
+  precedence_order:
+    - "band"       # Security first
+    - "space"      # Access control second
+    - "temporal"   # Time-based third
+    - "topic"      # Content fourth
+    - "content"    # Format fifth
+    - "quality"    # Performance-intensive last
+
+validation_rules:
+  cross_filter_validation:
+    - "topic.topics and topic.exclude_topics cannot overlap"
+    - "space.include_owners and space.exclude_owners cannot overlap"
+    - "temporal.after must be before temporal.before if both specified"
+    - "band.min_band must be <= band.max_band if both specified"
+  
+  policy_validation:
+    - "User clearance must be sufficient for requested security bands"
+    - "User role must permit requested space types"
+    - "Temporal constraints must respect role-based limits"
+    - "QoS budget must accommodate filter complexity"
+
+# =============================================================================
+# Performance and Optimization
+# =============================================================================
+
+performance_characteristics:
+  filter_complexity:
+    temporal: "low"      # Index optimized
+    topic: "medium"      # Partial index
+    band: "low"          # Index optimized
+    space: "low"         # Index optimized
+    content: "medium"    # Partial index
+    quality: "high"      # Compute intensive
+  
+  optimization_strategies:
+    - "Apply security and space filters first for early access control"
+    - "Use temporal filters to limit search scope"
+    - "Cache topic taxonomy lookups"
+    - "Defer quality scoring until final result set"
+  
+  caching:
+    topic_taxonomy: "5 minutes"
+    space_membership: "15 minutes"
+    security_mappings: "1 hour"
+
+# =============================================================================
+# Error Codes and Handling
+# =============================================================================
+
+error_codes:
+  validation_errors:
+    RET101: "Invalid filter format"
+    RET102: "Insufficient permissions for filter"
+    RET103: "Conflicting filter constraints"
+    RET104: "Filter exceeds role limits"
+    RET105: "Invalid temporal range"
+  
+  runtime_errors:
+    RET201: "Filter processing timeout"
+    RET202: "Required index unavailable"
+    RET203: "Filter result set too large"
+    RET204: "Quality scoring service unavailable"
+
+# =============================================================================
+# Integration Points
+# =============================================================================
+
+integration:
+  policy_engine:
+    validation_endpoint: "/policy/validate-filter"
+    enforcement_point: "pre-filter-application"
+  
+  search_indices:
+    temporal: "time_series_index"
+    topic: "topic_taxonomy_index"
+    band: "security_classification_index"
+    space: "space_access_index"
+  
+  monitoring:
+    metrics:
+      - "filter_application_latency"
+      - "filter_result_count"
+      - "filter_cache_hit_ratio"
+      - "filter_validation_errors"
+
+# =============================================================================
+# Examples and Test Cases
+# =============================================================================
+
+examples:
+  basic_temporal:
+    description: "Simple recent items filter"
+    filter:
+      temporal:
+        within_days: 7
+    expected: "Items from last 7 days"
+  
+  multi_constraint:
+    description: "Complex multi-filter query"
+    filter:
+      temporal:
+        after: "2025-09-01T00:00:00Z"
+        before: "2025-09-16T23:59:59Z"
+      topic:
+        topics: ["machine_learning", "research"]
+        topic_logic: "OR"
+      band:
+        max_band: "AMBER"
+      space:
+        space_types: ["shared", "extended"]
+    expected: "ML or research items from shared/extended spaces with GREEN/AMBER bands in September 2025"
+  
+  admin_debug:
+    description: "Administrative access with high security"
+    filter:
+      band:
+        bands: ["RED", "BLACK"]
+      space:
+        space_types: ["interfamily"]
+      quality:
+        min_quality_score: 0.9
+    user_role: "memory_admin"
+    expected: "High-quality items from interfamily spaces with RED/BLACK classification"
+
+test_cases:
+  - name: "empty_filters"
+    input: {}
+    expected_result: "success"
+    description: "Empty filters should be valid"
+  
+  - name: "invalid_date_format"
+    input:
+      temporal:
+        after: "not-a-date"
+    expected_result: "validation_error"
+    error_code: "RET101"
+  
+  - name: "conflicting_temporal"
+    input:
+      temporal:
+        after: "2025-09-15T00:00:00Z"
+        before: "2025-09-10T00:00:00Z"
+    expected_result: "validation_error"
+    error_code: "RET103"
+  
+  - name: "unauthorized_band"
+    input:
+      band:
+        bands: ["BLACK"]
+    user_clearance: 2
+    expected_result: "permission_error"
+    error_code: "RET102"

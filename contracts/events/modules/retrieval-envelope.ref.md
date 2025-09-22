@@ -1,0 +1,3 @@
+- Must carry `qos` with latency budget; `correlation_id` links REQUEST→RESULT.
+- RED/BLACK bands forbidden; AMBER requires strict audit.
+- `space_id` limits retrieval scope by default (no cross-space unless explicit).

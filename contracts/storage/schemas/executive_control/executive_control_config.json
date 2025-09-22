@@ -1,0 +1,531 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "$id": "executive_control_config.schema.json",
+    "title": "Executive Control Configuration Storage",
+    "description": "Storage schema for executive control system configuration including neural circuit parameters, control policies, and adaptation settings",
+    "type": "object",
+    "required": [
+        "config_id",
+        "config_version",
+        "neural_circuit_config",
+        "control_policy_config",
+        "adaptation_config",
+        "integration_config"
+    ],
+    "properties": {
+        "config_id": {
+            "type": "string",
+            "description": "Unique identifier for this configuration set"
+        },
+        "config_version": {
+            "type": "string",
+            "description": "Version identifier for configuration evolution tracking"
+        },
+        "neural_circuit_config": {
+            "type": "object",
+            "properties": {
+                "prefrontal_cortex_parameters": {
+                    "type": "object",
+                    "properties": {
+                        "dorsolateral_pfc_config": {
+                            "type": "object",
+                            "properties": {
+                                "working_memory_capacity": {
+                                    "type": "number"
+                                },
+                                "cognitive_control_strength": {
+                                    "type": "number"
+                                },
+                                "top_down_attention_gain": {
+                                    "type": "number"
+                                },
+                                "interference_resolution_threshold": {
+                                    "type": "number"
+                                },
+                                "neural_efficiency_factor": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "ventromedial_pfc_config": {
+                            "type": "object",
+                            "properties": {
+                                "value_representation_precision": {
+                                    "type": "number"
+                                },
+                                "decision_making_speed": {
+                                    "type": "number"
+                                },
+                                "emotion_regulation_strength": {
+                                    "type": "number"
+                                },
+                                "reward_sensitivity": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "anterior_cingulate_config": {
+                            "type": "object",
+                            "properties": {
+                                "conflict_detection_sensitivity": {
+                                    "type": "number"
+                                },
+                                "error_detection_threshold": {
+                                    "type": "number"
+                                },
+                                "performance_monitoring_granularity": {
+                                    "type": "number"
+                                },
+                                "control_adjustment_responsiveness": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                },
+                "subcortical_circuit_config": {
+                    "type": "object",
+                    "properties": {
+                        "basal_ganglia_config": {
+                            "type": "object",
+                            "properties": {
+                                "action_selection_threshold": {
+                                    "type": "number"
+                                },
+                                "response_inhibition_strength": {
+                                    "type": "number"
+                                },
+                                "habit_learning_rate": {
+                                    "type": "number"
+                                },
+                                "dopamine_modulation_sensitivity": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "thalamic_relay_config": {
+                            "type": "object",
+                            "properties": {
+                                "relay_gain_parameters": {
+                                    "type": "object"
+                                },
+                                "attention_modulation_strength": {
+                                    "type": "number"
+                                },
+                                "executive_bias_sensitivity": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                },
+                "network_connectivity_config": {
+                    "type": "object",
+                    "properties": {
+                        "fronto_parietal_network": {
+                            "type": "object",
+                            "properties": {
+                                "connectivity_strength": {
+                                    "type": "number"
+                                },
+                                "synchronization_frequency": {
+                                    "type": "number"
+                                },
+                                "plasticity_rate": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "cingulo_opercular_network": {
+                            "type": "object",
+                            "properties": {
+                                "sustained_attention_strength": {
+                                    "type": "number"
+                                },
+                                "error_monitoring_sensitivity": {
+                                    "type": "number"
+                                },
+                                "control_stability": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "default_mode_suppression": {
+                            "type": "object",
+                            "properties": {
+                                "suppression_strength": {
+                                    "type": "number"
+                                },
+                                "suppression_selectivity": {
+                                    "type": "number"
+                                },
+                                "reactivation_threshold": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "control_policy_config": {
+            "type": "object",
+            "properties": {
+                "goal_management_policies": {
+                    "type": "object",
+                    "properties": {
+                        "goal_prioritization_strategy": {
+                            "type": "string",
+                            "enum": [
+                                "urgency_first",
+                                "importance_first",
+                                "balanced",
+                                "dynamic_weighted"
+                            ]
+                        },
+                        "goal_decomposition_depth": {
+                            "type": "number"
+                        },
+                        "goal_switching_cost_threshold": {
+                            "type": "number"
+                        },
+                        "goal_persistence_factor": {
+                            "type": "number"
+                        },
+                        "subgoal_activation_spread": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "cognitive_flexibility_policies": {
+                    "type": "object",
+                    "properties": {
+                        "task_switching_strategy": {
+                            "type": "string",
+                            "enum": [
+                                "reactive",
+                                "proactive",
+                                "adaptive",
+                                "predictive"
+                            ]
+                        },
+                        "switch_cost_tolerance": {
+                            "type": "number"
+                        },
+                        "preparation_time_allowance": {
+                            "type": "number"
+                        },
+                        "interference_resolution_method": {
+                            "type": "string"
+                        },
+                        "mental_set_stability_bias": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "inhibitory_control_policies": {
+                    "type": "object",
+                    "properties": {
+                        "inhibition_deployment_strategy": {
+                            "type": "string",
+                            "enum": [
+                                "global",
+                                "selective",
+                                "adaptive",
+                                "context_dependent"
+                            ]
+                        },
+                        "inhibition_strength_scaling": {
+                            "type": "number"
+                        },
+                        "inhibition_duration_limits": {
+                            "type": "object"
+                        },
+                        "depletion_recovery_rate": {
+                            "type": "number"
+                        },
+                        "interference_priority_weighting": {
+                            "type": "array"
+                        }
+                    }
+                },
+                "conflict_resolution_policies": {
+                    "type": "object",
+                    "properties": {
+                        "conflict_detection_threshold": {
+                            "type": "number"
+                        },
+                        "resolution_timeout": {
+                            "type": "number"
+                        },
+                        "escalation_criteria": {
+                            "type": "object"
+                        },
+                        "resolution_preference_ordering": {
+                            "type": "array"
+                        },
+                        "meta_conflict_handling": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "adaptation_config": {
+            "type": "object",
+            "properties": {
+                "learning_parameters": {
+                    "type": "object",
+                    "properties": {
+                        "error_based_learning_rate": {
+                            "type": "number"
+                        },
+                        "reinforcement_learning_rate": {
+                            "type": "number"
+                        },
+                        "meta_learning_rate": {
+                            "type": "number"
+                        },
+                        "forgetting_rate": {
+                            "type": "number"
+                        },
+                        "plasticity_windows": {
+                            "type": "object"
+                        }
+                    }
+                },
+                "performance_monitoring_config": {
+                    "type": "object",
+                    "properties": {
+                        "monitoring_frequency": {
+                            "type": "number"
+                        },
+                        "performance_metrics_weights": {
+                            "type": "object"
+                        },
+                        "adaptation_trigger_thresholds": {
+                            "type": "object"
+                        },
+                        "feedback_integration_method": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "adaptation_strategies": {
+                    "type": "object",
+                    "properties": {
+                        "parameter_adjustment_methods": {
+                            "type": "array"
+                        },
+                        "strategy_switching_criteria": {
+                            "type": "object"
+                        },
+                        "exploration_exploitation_balance": {
+                            "type": "number"
+                        },
+                        "adaptation_momentum": {
+                            "type": "number"
+                        }
+                    }
+                }
+            }
+        },
+        "integration_config": {
+            "type": "object",
+            "properties": {
+                "phase1_system_integration": {
+                    "type": "object",
+                    "properties": {
+                        "attention_gate_integration": {
+                            "type": "object",
+                            "properties": {
+                                "executive_control_weight": {
+                                    "type": "number"
+                                },
+                                "goal_driven_biasing_strength": {
+                                    "type": "number"
+                                },
+                                "salience_override_threshold": {
+                                    "type": "number"
+                                },
+                                "attention_switching_speed": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "working_memory_integration": {
+                            "type": "object",
+                            "properties": {
+                                "executive_buffer_priority": {
+                                    "type": "number"
+                                },
+                                "goal_maintenance_strength": {
+                                    "type": "number"
+                                },
+                                "interference_protection_level": {
+                                    "type": "number"
+                                },
+                                "updating_control_strictness": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "consciousness_integration": {
+                            "type": "object",
+                            "properties": {
+                                "executive_coalition_boost": {
+                                    "type": "number"
+                                },
+                                "meta_cognitive_access_level": {
+                                    "type": "number"
+                                },
+                                "conscious_control_responsiveness": {
+                                    "type": "number"
+                                },
+                                "intentional_override_strength": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                },
+                "phase2_memory_integration": {
+                    "type": "object",
+                    "properties": {
+                        "episodic_memory_control": {
+                            "type": "object",
+                            "properties": {
+                                "retrieval_control_strength": {
+                                    "type": "number"
+                                },
+                                "encoding_control_influence": {
+                                    "type": "number"
+                                },
+                                "consolidation_prioritization": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "semantic_memory_control": {
+                            "type": "object",
+                            "properties": {
+                                "knowledge_activation_control": {
+                                    "type": "number"
+                                },
+                                "conceptual_flexibility_enhancement": {
+                                    "type": "number"
+                                },
+                                "semantic_inhibition_strength": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                },
+                "cross_system_coordination": {
+                    "type": "object",
+                    "properties": {
+                        "system_synchronization_strength": {
+                            "type": "number"
+                        },
+                        "information_integration_depth": {
+                            "type": "number"
+                        },
+                        "conflict_resolution_scope": {
+                            "type": "string"
+                        },
+                        "coordinated_adaptation_rate": {
+                            "type": "number"
+                        }
+                    }
+                }
+            }
+        },
+        "environmental_adaptations": {
+            "type": "object",
+            "properties": {
+                "task_complexity_scaling": {
+                    "type": "object",
+                    "properties": {
+                        "complexity_detection_method": {
+                            "type": "string"
+                        },
+                        "resource_scaling_function": {
+                            "type": "string"
+                        },
+                        "adaptation_speed": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "context_sensitivity": {
+                    "type": "object",
+                    "properties": {
+                        "context_detection_granularity": {
+                            "type": "number"
+                        },
+                        "context_switching_cost": {
+                            "type": "number"
+                        },
+                        "context_memory_capacity": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "resource_management": {
+                    "type": "object",
+                    "properties": {
+                        "resource_allocation_strategy": {
+                            "type": "string"
+                        },
+                        "resource_monitoring_frequency": {
+                            "type": "number"
+                        },
+                        "resource_reallocation_threshold": {
+                            "type": "number"
+                        }
+                    }
+                }
+            }
+        },
+        "validation_constraints": {
+            "type": "object",
+            "properties": {
+                "parameter_bounds": {
+                    "type": "object",
+                    "description": "Acceptable ranges for all numerical parameters"
+                },
+                "consistency_requirements": {
+                    "type": "array",
+                    "description": "Cross-parameter consistency constraints"
+                },
+                "performance_requirements": {
+                    "type": "object",
+                    "description": "Minimum performance standards for configuration"
+                }
+            }
+        },
+        "metadata": {
+            "type": "object",
+            "properties": {
+                "creation_timestamp": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "last_modified": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "configuration_author": {
+                    "type": "string"
+                },
+                "validation_status": {
+                    "type": "string"
+                },
+                "performance_history": {
+                    "type": "array"
+                }
+            }
+        }
+    }
+}

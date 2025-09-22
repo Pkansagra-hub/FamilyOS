@@ -1,0 +1,10 @@
+schedules:
+  primary_key: schedule_id
+  indices:
+    - { name: due_idx, fields: [space_id, due_at] }
+    - { name: status_idx, fields: [status, due_at] }
+  retention: { ttl_days: 30 }
+ticks:
+  indices:
+    - { name: sched_tick_idx, fields: [schedule_id, tick_at] }
+  retention: { ttl_days: 7 }

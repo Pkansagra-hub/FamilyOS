@@ -1,0 +1,12 @@
+module: episodic
+current: 1.0.0
+history:
+  - version: 1.0.0
+    date: 2025-09-10
+    notes: "Initial per-module contract bundle; aligns to episodic/README Appendix A; no API surface."
+compatibility:
+  api: ["1.x"]
+  events: ["1.x"]
+  storage: ["1.x"]
+deprecations: []
+policy: "SemVer; follow contracts/POLICY_VERSIONING.md"

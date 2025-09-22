@@ -1,0 +1,121 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://familyos.local/contracts/storage/tom_report.schema.json",
+  "title": "Theory of Mind Report",
+  "description": "ToM inference output with beliefs, intentions, norms, and confidence",
+  "type": "object",
+  "properties": {
+    "id": {
+      "type": "string",
+      "description": "Unique report identifier"
+    },
+    "event_id": {
+      "type": "string",
+      "description": "Source event that triggered inference"
+    },
+    "person_id": {
+      "type": "string",
+      "description": "Person whose mental state was inferred"
+    },
+    "space_id": {
+      "type": "string",
+      "description": "Memory space where inference occurred"
+    },
+    "inferred_beliefs": {
+      "type": "object",
+      "description": "Beliefs inferred from the observation",
+      "additionalProperties": {
+        "type": "number",
+        "minimum": 0.0,
+        "maximum": 1.0
+      }
+    },
+    "intentions": {
+      "type": "array",
+      "description": "Detected intentions with commitment levels",
+      "items": {
+        "type": "object",
+        "properties": {
+          "plan": {
+            "type": "string",
+            "description": "The intended plan or action"
+          },
+          "commitment": {
+            "type": "number",
+            "minimum": 0.0,
+            "maximum": 1.0,
+            "description": "Level of commitment to the plan"
+          }
+        },
+        "required": ["plan", "commitment"]
+      }
+    },
+    "norm_judgments": {
+      "type": "array",
+      "description": "Social norm assessments",
+      "items": {
+        "type": "object",
+        "properties": {
+          "tag": {
+            "type": "string",
+            "description": "Norm category (polite, aggressive, etc.)"
+          },
+          "pressure": {
+            "type": "number",
+            "minimum": -1.0,
+            "maximum": 1.0,
+            "description": "Strength and direction of norm pressure"
+          },
+          "confidence": {
+            "type": "number",
+            "minimum": 0.0,
+            "maximum": 1.0,
+            "description": "Confidence in the norm judgment"
+          }
+        },
+        "required": ["tag", "pressure", "confidence"]
+      }
+    },
+    "confidence": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "description": "Overall confidence in the ToM inference"
+    },
+    "false_belief_risk": {
+      "type": ["number", "null"],
+      "description": "Risk of false beliefs (divergence from truth)",
+      "minimum": 0.0,
+      "maximum": 1.0
+    },
+    "notes": {
+      "type": "array",
+      "description": "Additional inference notes and debug info",
+      "items": {
+        "type": "string"
+      }
+    },
+    "model_version": {
+      "type": "string",
+      "description": "Version of ToM model used",
+      "default": "tom-mvp"
+    },
+    "created_at": {
+      "type": "number",
+      "description": "Unix timestamp when report was created"
+    }
+  },
+  "required": [
+    "id",
+    "event_id",
+    "person_id",
+    "space_id",
+    "inferred_beliefs",
+    "intentions",
+    "norm_judgments",
+    "confidence",
+    "model_version",
+    "created_at"
+  ],
+  "additionalProperties": false
+}

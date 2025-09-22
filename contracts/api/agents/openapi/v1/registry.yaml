@@ -1,0 +1,1506 @@
+openapi: 3.0.3
+info:
+  title: "Family AI Agent Registry API"
+  description: |
+    Agent Registry API for Memory-Centric Family AI
+
+    This API provides agent discovery, tool registration, prompt template
+    management, and agent capability coordination services. The registry
+    enables dynamic agent ecosystems where LLM agents can discover available
+    tools, access family-appropriate prompt templates, and coordinate
+    capabilities across the family device network.
+
+    **Registry Categories:**
+    - `/registry/tools` - Tool discovery and capability registration
+    - `/registry/prompts` - Family-aware prompt template management
+    - `/registry/agents` - Agent capability discovery and coordination
+
+    **Memory-Centric Architecture:**
+    - Registry data stored in family memory backbone
+    - Family-aware tool and prompt filtering
+    - Cross-device agent capability synchronization
+    - Privacy-respecting agent discovery across family network
+  version: "1.0.0"
+  contact:
+    name: "Family AI Development Team"
+    url: "https://github.com/pkansagra99/family_os"
+  license:
+    name: "MIT"
+    url: "https://opensource.org/licenses/MIT"
+
+servers:
+  - url: "http://localhost:8000/v1/agent/registry"
+    description: "Local development server"
+  - url: "https://api.familyos.local/v1/agent/registry"
+    description: "Production Family AI instance"
+
+security:
+  - FamilyAuth: []
+  - AgentAuth: []
+  - DeviceAuth: []
+
+paths:
+  # =============================================================================
+  # TOOL REGISTRY - Tool discovery and capability management
+  # =============================================================================
+
+  /tools:
+    get:
+      summary: "Discover available agent tools"
+      description: |
+        Discover agent tools available in the current family context.
+        Returns tools filtered by family permissions, device capabilities,
+        and agent authorization levels. Supports capability-based discovery.
+      operationId: "discoverTools"
+      tags: ["Tool Registry"]
+      parameters:
+        - name: category
+          in: query
+          schema:
+            type: string
+            enum: ["memory", "recall", "projection", "family_coordination", "emotional_intelligence", "all"]
+          description: "Filter tools by category"
+        - name: capability_level
+          in: query
+          schema:
+            type: string
+            enum: ["basic", "intermediate", "advanced", "expert"]
+          description: "Filter by required capability level"
+        - name: family_scope
+          in: query
+          schema:
+            type: string
+            enum: ["personal", "selective", "shared", "extended", "interfamily"]
+          description: "Filter by family memory scope access"
+        - name: device_type
+          in: query
+          schema:
+            type: string
+            enum: ["phone", "shared_device", "voice_device", "laptop", "all"]
+          description: "Filter by device type compatibility"
+        - name: include_experimental
+          in: query
+          schema:
+            type: boolean
+            default: false
+          description: "Include experimental/beta tools"
+      responses:
+        "200":
+          description: "Available tools discovered"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ToolDiscoveryResponse"
+              examples:
+                memory_tools:
+                  summary: "Memory category tools"
+                  value:
+                    available_tools:
+                      - tool_id: "memory.encode.v1"
+                        tool_name: "Advanced Memory Encoder"
+                        category: "memory"
+                        capability_level: "advanced"
+                        description: "Encode memories with cognitive processing"
+                        endpoints:
+                          - "/v1/agent/tools/memory/encode"
+                        family_scope_access: ["shared", "selective", "personal"]
+                        device_compatibility: ["phone", "laptop", "shared_device"]
+                        authorization_required: ["family_member", "memory_write"]
+                        version: "1.0.0"
+                        status: "stable"
+                      - tool_id: "memory.consolidate.v1"
+                        tool_name: "Memory Consolidator"
+                        category: "memory"
+                        capability_level: "expert"
+                        description: "Consolidate related memories into semantic knowledge"
+                        endpoints:
+                          - "/v1/agent/tools/memory/consolidate"
+                        family_scope_access: ["shared"]
+                        device_compatibility: ["phone", "laptop"]
+                        authorization_required: ["family_member", "memory_write", "cognitive_processing"]
+                        version: "1.0.0"
+                        status: "stable"
+                    discovery_metadata:
+                      total_tools: 2
+                      filtered_by: ["category: memory"]
+                      family_context: "shared:household"
+                      device_context: "phone"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "403":
+          $ref: "#/components/responses/Forbidden"
+
+    post:
+      summary: "Register new agent tool"
+      description: |
+        Register a new agent tool in the family registry. Tools are
+        registered with capability metadata, family scope permissions,
+        and device compatibility information.
+      operationId: "registerTool"
+      tags: ["Tool Registry"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ToolRegistrationRequest"
+            examples:
+              custom_family_tool:
+                summary: "Register custom family coordination tool"
+                value:
+                  tool_definition:
+                    tool_id: "family.schedule_sync.v1"
+                    tool_name: "Family Schedule Synchronizer"
+                    category: "family_coordination"
+                    capability_level: "intermediate"
+                    description: "Synchronize schedules across all family members with conflict resolution"
+                    version: "1.0.0"
+                  endpoints:
+                    - endpoint_path: "/v1/agent/tools/family/schedule-sync"
+                      http_method: "POST"
+                      request_schema_ref: "#/components/schemas/ScheduleSyncRequest"
+                      response_schema_ref: "#/components/schemas/ScheduleSyncResponse"
+                  permissions:
+                    family_scope_access: ["shared", "selective"]
+                    device_compatibility: ["phone", "shared_device", "laptop"]
+                    authorization_required: ["family_member", "schedule_write"]
+                    privacy_level: "family_coordination"
+                  metadata:
+                    author: "Family AI Core Team"
+                    documentation_url: "https://docs.familyos.local/tools/schedule-sync"
+                    support_contact: "tools@familyos.local"
+                    tags: ["scheduling", "coordination", "conflict_resolution"]
+      responses:
+        "201":
+          description: "Tool successfully registered"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ToolRegistrationResponse"
+        "400":
+          $ref: "#/components/responses/BadRequest"
+        "409":
+          description: "Tool ID already exists"
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  error:
+                    type: string
+                  existing_tool_id:
+                    type: string
+                  suggested_alternatives:
+                    type: array
+                    items:
+                      type: string
+
+  /tools/{tool_id}:
+    get:
+      summary: "Get specific tool details"
+      description: |
+        Retrieve detailed information about a specific agent tool,
+        including schema definitions, usage examples, and family context.
+      operationId: "getToolDetails"
+      tags: ["Tool Registry"]
+      parameters:
+        - name: tool_id
+          in: path
+          required: true
+          schema:
+            type: string
+          description: "Unique tool identifier"
+        - name: include_examples
+          in: query
+          schema:
+            type: boolean
+            default: false
+          description: "Include usage examples in response"
+        - name: include_schema
+          in: query
+          schema:
+            type: boolean
+            default: true
+          description: "Include request/response schemas"
+      responses:
+        "200":
+          description: "Tool details retrieved"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ToolDetailsResponse"
+        "404":
+          description: "Tool not found"
+
+    put:
+      summary: "Update tool registration"
+      description: |
+        Update an existing tool registration. Supports versioning
+        and backward compatibility for family agent ecosystems.
+      operationId: "updateTool"
+      tags: ["Tool Registry"]
+      parameters:
+        - name: tool_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ToolUpdateRequest"
+      responses:
+        "200":
+          description: "Tool successfully updated"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ToolRegistrationResponse"
+        "404":
+          description: "Tool not found"
+
+    delete:
+      summary: "Unregister tool"
+      description: |
+        Remove a tool from the agent registry. Includes deprecation
+        handling for family agents that may be using the tool.
+      operationId: "unregisterTool"
+      tags: ["Tool Registry"]
+      parameters:
+        - name: tool_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: deprecation_notice
+          in: query
+          schema:
+            type: string
+          description: "Notice to send to agents using this tool"
+      responses:
+        "204":
+          description: "Tool successfully unregistered"
+        "404":
+          description: "Tool not found"
+
+  # =============================================================================
+  # PROMPT REGISTRY - Family-aware prompt template management
+  # =============================================================================
+
+  /prompts:
+    get:
+      summary: "Discover prompt templates"
+      description: |
+        Discover family-appropriate prompt templates for various family
+        scenarios, emotional contexts, and relationship dynamics.
+        Templates are filtered by family context and age appropriateness.
+      operationId: "discoverPromptTemplates"
+      tags: ["Prompt Registry"]
+      parameters:
+        - name: category
+          in: query
+          schema:
+            type: string
+            enum: ["family_coordination", "emotional_support", "conflict_resolution", "child_interaction", "planning", "celebration"]
+          description: "Filter by prompt category"
+        - name: family_context
+          in: query
+          schema:
+            type: string
+            enum: ["parent_child", "sibling", "family_meeting", "individual_support", "crisis_support"]
+          description: "Filter by family relationship context"
+        - name: emotional_tone
+          in: query
+          schema:
+            type: string
+            enum: ["supportive", "celebratory", "calming", "motivational", "informational", "playful"]
+          description: "Filter by desired emotional tone"
+        - name: age_appropriateness
+          in: query
+          schema:
+            type: string
+            enum: ["adult_only", "teen_friendly", "child_safe", "all_ages"]
+          description: "Filter by age appropriateness"
+        - name: language
+          in: query
+          schema:
+            type: string
+            default: "en"
+          description: "Language preference for prompts"
+      responses:
+        "200":
+          description: "Prompt templates discovered"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PromptDiscoveryResponse"
+              examples:
+                conflict_resolution_prompts:
+                  summary: "Conflict resolution prompt templates"
+                  value:
+                    available_prompts:
+                      - prompt_id: "conflict.sibling_mediation.v1"
+                        prompt_name: "Sibling Conflict Mediation"
+                        category: "conflict_resolution"
+                        family_context: "sibling"
+                        emotional_tone: "calming"
+                        age_appropriateness: "child_safe"
+                        description: "Help mediate conflicts between siblings with empathy and fairness"
+                        template_preview: "I understand there's a disagreement between [sibling_1] and [sibling_2]. Let's work together to find a solution that feels fair to everyone..."
+                        variables:
+                          - name: "sibling_1"
+                            type: "string"
+                            description: "First sibling's name"
+                          - name: "sibling_2"
+                            type: "string"
+                            description: "Second sibling's name"
+                          - name: "conflict_topic"
+                            type: "string"
+                            description: "What the conflict is about"
+                        version: "1.2.0"
+                        usage_guidelines: "Use when siblings are having mild to moderate conflicts. Escalate to parents for serious issues."
+                    discovery_metadata:
+                      total_prompts: 1
+                      filtered_by: ["category: conflict_resolution"]
+                      family_context_applied: true
+
+    post:
+      summary: "Register prompt template"
+      description: |
+        Register a new family-appropriate prompt template with
+        relationship context, emotional guidelines, and age safety.
+      operationId: "registerPromptTemplate"
+      tags: ["Prompt Registry"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PromptRegistrationRequest"
+      responses:
+        "201":
+          description: "Prompt template successfully registered"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PromptRegistrationResponse"
+
+  /prompts/{prompt_id}:
+    get:
+      summary: "Get prompt template details"
+      description: |
+        Retrieve complete prompt template with variables, guidelines,
+        and family context information.
+      operationId: "getPromptTemplate"
+      tags: ["Prompt Registry"]
+      parameters:
+        - name: prompt_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: include_examples
+          in: query
+          schema:
+            type: boolean
+            default: false
+          description: "Include usage examples"
+        - name: family_context
+          in: query
+          schema:
+            type: string
+          description: "Family context for personalization"
+      responses:
+        "200":
+          description: "Prompt template details"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PromptTemplateResponse"
+
+    post:
+      summary: "Render prompt template"
+      description: |
+        Render a prompt template with specific family context and variables.
+        Returns family-appropriate content with safety checks applied.
+      operationId: "renderPromptTemplate"
+      tags: ["Prompt Registry"]
+      parameters:
+        - name: prompt_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/PromptRenderRequest"
+      responses:
+        "200":
+          description: "Prompt template rendered"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PromptRenderResponse"
+
+  # =============================================================================
+  # AGENT REGISTRY - Agent capability discovery and coordination
+  # =============================================================================
+
+  /agents:
+    get:
+      summary: "Discover family agents"
+      description: |
+        Discover available family agents across the device network.
+        Returns agents filtered by capabilities, family scope access,
+        and current availability status.
+      operationId: "discoverAgents"
+      tags: ["Agent Registry"]
+      parameters:
+        - name: capability
+          in: query
+          schema:
+            type: string
+            enum: ["memory_processing", "emotional_intelligence", "family_coordination", "child_interaction", "conflict_resolution", "planning"]
+          description: "Filter by agent capabilities"
+        - name: device_scope
+          in: query
+          schema:
+            type: string
+            enum: ["current_device", "family_network", "all_devices"]
+          description: "Scope of agent discovery"
+        - name: availability_status
+          in: query
+          schema:
+            type: string
+            enum: ["available", "busy", "offline", "all"]
+          description: "Filter by current availability"
+        - name: family_scope_access
+          in: query
+          schema:
+            type: string
+            enum: ["personal", "selective", "shared", "extended", "interfamily"]
+          description: "Filter by family memory scope access"
+      responses:
+        "200":
+          description: "Family agents discovered"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AgentDiscoveryResponse"
+              examples:
+                family_network_agents:
+                  summary: "Agents available in family network"
+                  value:
+                    available_agents:
+                      - agent_id: "family_coordinator.mom_phone"
+                        agent_name: "Family Coordination Agent"
+                        capabilities: ["family_coordination", "emotional_intelligence", "planning"]
+                        device_location: "mom_phone"
+                        availability_status: "available"
+                        family_scope_access: ["shared", "selective"]
+                        specializations: ["schedule_coordination", "family_harmony"]
+                        last_seen: "2024-01-15T10:30:00Z"
+                        load_level: 0.2
+                        version: "2.1.0"
+                      - agent_id: "memory_specialist.family_hub"
+                        agent_name: "Memory Processing Specialist"
+                        capabilities: ["memory_processing", "emotional_intelligence"]
+                        device_location: "family_hub"
+                        availability_status: "busy"
+                        family_scope_access: ["shared", "extended"]
+                        specializations: ["memory_consolidation", "pattern_recognition"]
+                        last_seen: "2024-01-15T10:29:45Z"
+                        load_level: 0.8
+                        version: "1.5.2"
+                    discovery_metadata:
+                      total_agents: 2
+                      network_status: "healthy"
+                      sync_last_updated: "2024-01-15T10:30:00Z"
+
+    post:
+      summary: "Register family agent"
+      description: |
+        Register a new agent in the family network with capabilities,
+        device location, and family scope permissions.
+      operationId: "registerAgent"
+      tags: ["Agent Registry"]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AgentRegistrationRequest"
+      responses:
+        "201":
+          description: "Agent successfully registered"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AgentRegistrationResponse"
+
+  /agents/{agent_id}:
+    get:
+      summary: "Get agent details"
+      description: |
+        Retrieve detailed information about a specific family agent
+        including current status, capabilities, and communication endpoints.
+      operationId: "getAgentDetails"
+      tags: ["Agent Registry"]
+      parameters:
+        - name: agent_id
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: include_status
+          in: query
+          schema:
+            type: boolean
+            default: true
+          description: "Include current agent status"
+        - name: include_capabilities
+          in: query
+          schema:
+            type: boolean
+            default: true
+          description: "Include detailed capability information"
+      responses:
+        "200":
+          description: "Agent details retrieved"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AgentDetailsResponse"
+
+    put:
+      summary: "Update agent registration"
+      description: |
+        Update agent capabilities, status, or configuration.
+        Used for agent lifecycle management in family network.
+      operationId: "updateAgent"
+      tags: ["Agent Registry"]
+      parameters:
+        - name: agent_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AgentUpdateRequest"
+      responses:
+        "200":
+          description: "Agent successfully updated"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AgentRegistrationResponse"
+
+    post:
+      summary: "Send message to agent"
+      description: |
+        Send a direct message to a specific family agent for
+        coordination, task delegation, or information exchange.
+      operationId: "sendAgentMessage"
+      tags: ["Agent Registry"]
+      parameters:
+        - name: agent_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AgentMessageRequest"
+      responses:
+        "200":
+          description: "Message sent to agent"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AgentMessageResponse"
+
+  /agents/{agent_id}/heartbeat:
+    post:
+      summary: "Agent heartbeat"
+      description: |
+        Heartbeat endpoint for agents to report their status and
+        maintain their registration in the family network.
+      operationId: "agentHeartbeat"
+      tags: ["Agent Registry"]
+      parameters:
+        - name: agent_id
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/AgentHeartbeatRequest"
+      responses:
+        "200":
+          description: "Heartbeat acknowledged"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/AgentHeartbeatResponse"
+
+components:
+  securitySchemes:
+    FamilyAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: "Family member authentication token"
+    AgentAuth:
+      type: apiKey
+      in: header
+      name: X-Agent-ID
+      description: "Agent identification for registry access"
+    DeviceAuth:
+      type: apiKey
+      in: header
+      name: X-Device-ID
+      description: "Device identification for family ecosystem"
+
+  schemas:
+    # =============================================================================
+    # TOOL REGISTRY SCHEMAS
+    # =============================================================================
+
+    ToolDiscoveryResponse:
+      type: object
+      required: ["available_tools", "discovery_metadata"]
+      properties:
+        available_tools:
+          type: array
+          items:
+            type: object
+            properties:
+              tool_id:
+                type: string
+                description: "Unique tool identifier"
+              tool_name:
+                type: string
+                description: "Human-readable tool name"
+              category:
+                type: string
+                enum: ["memory", "recall", "projection", "family_coordination", "emotional_intelligence"]
+              capability_level:
+                type: string
+                enum: ["basic", "intermediate", "advanced", "expert"]
+              description:
+                type: string
+                description: "Tool description and use cases"
+              endpoints:
+                type: array
+                items:
+                  type: string
+                description: "API endpoints provided by this tool"
+              family_scope_access:
+                type: array
+                items:
+                  type: string
+                  enum: ["personal", "selective", "shared", "extended", "interfamily"]
+              device_compatibility:
+                type: array
+                items:
+                  type: string
+                  enum: ["phone", "shared_device", "voice_device", "laptop"]
+              authorization_required:
+                type: array
+                items:
+                  type: string
+              version:
+                type: string
+              status:
+                type: string
+                enum: ["stable", "beta", "experimental", "deprecated"]
+        discovery_metadata:
+          type: object
+          properties:
+            total_tools:
+              type: integer
+            filtered_by:
+              type: array
+              items:
+                type: string
+            family_context:
+              type: string
+            device_context:
+              type: string
+
+    ToolRegistrationRequest:
+      type: object
+      required: ["tool_definition", "endpoints", "permissions"]
+      properties:
+        tool_definition:
+          type: object
+          required: ["tool_id", "tool_name", "category", "capability_level", "description", "version"]
+          properties:
+            tool_id:
+              type: string
+              pattern: "^[a-z0-9._-]+$"
+              description: "Unique tool identifier (lowercase, dots, dashes, underscores)"
+            tool_name:
+              type: string
+              maxLength: 100
+            category:
+              type: string
+              enum: ["memory", "recall", "projection", "family_coordination", "emotional_intelligence", "custom"]
+            capability_level:
+              type: string
+              enum: ["basic", "intermediate", "advanced", "expert"]
+            description:
+              type: string
+              maxLength: 500
+            version:
+              type: string
+              pattern: "^\\d+\\.\\d+\\.\\d+$"
+        endpoints:
+          type: array
+          minItems: 1
+          items:
+            type: object
+            required: ["endpoint_path", "http_method"]
+            properties:
+              endpoint_path:
+                type: string
+                pattern: "^/v\\d+/agent/tools/"
+              http_method:
+                type: string
+                enum: ["GET", "POST", "PUT", "DELETE"]
+              request_schema_ref:
+                type: string
+              response_schema_ref:
+                type: string
+              description:
+                type: string
+        permissions:
+          type: object
+          required: ["family_scope_access", "device_compatibility"]
+          properties:
+            family_scope_access:
+              type: array
+              items:
+                type: string
+                enum: ["personal", "selective", "shared", "extended", "interfamily"]
+            device_compatibility:
+              type: array
+              items:
+                type: string
+                enum: ["phone", "shared_device", "voice_device", "laptop"]
+            authorization_required:
+              type: array
+              items:
+                type: string
+            privacy_level:
+              type: string
+              enum: ["public", "family_coordination", "family_private", "personal_private"]
+        metadata:
+          type: object
+          properties:
+            author:
+              type: string
+            documentation_url:
+              type: string
+              format: uri
+            support_contact:
+              type: string
+              format: email
+            tags:
+              type: array
+              items:
+                type: string
+
+    ToolRegistrationResponse:
+      type: object
+      required: ["success", "tool_id", "registration_details"]
+      properties:
+        success:
+          type: boolean
+        tool_id:
+          type: string
+        registration_details:
+          type: object
+          properties:
+            registered_at:
+              type: string
+              format: date-time
+            registry_version:
+              type: string
+            validation_results:
+              type: object
+              properties:
+                schema_valid:
+                  type: boolean
+                permissions_valid:
+                  type: boolean
+                compatibility_checks:
+                  type: array
+                  items:
+                    type: string
+        next_steps:
+          type: array
+          items:
+            type: string
+
+    ToolDetailsResponse:
+      type: object
+      properties:
+        tool_definition:
+          type: object
+        endpoints:
+          type: array
+          items:
+            type: object
+        permissions:
+          type: object
+        usage_statistics:
+          type: object
+          properties:
+            total_calls:
+              type: integer
+            family_usage_patterns:
+              type: object
+            device_usage_distribution:
+              type: object
+        schema_definitions:
+          type: object
+        usage_examples:
+          type: array
+          items:
+            type: object
+
+    ToolUpdateRequest:
+      type: object
+      properties:
+        version_update:
+          type: object
+          properties:
+            new_version:
+              type: string
+            change_notes:
+              type: string
+            backward_compatible:
+              type: boolean
+        permission_updates:
+          type: object
+        endpoint_updates:
+          type: array
+          items:
+            type: object
+        metadata_updates:
+          type: object
+
+    # =============================================================================
+    # PROMPT REGISTRY SCHEMAS
+    # =============================================================================
+
+    PromptDiscoveryResponse:
+      type: object
+      required: ["available_prompts", "discovery_metadata"]
+      properties:
+        available_prompts:
+          type: array
+          items:
+            type: object
+            properties:
+              prompt_id:
+                type: string
+              prompt_name:
+                type: string
+              category:
+                type: string
+              family_context:
+                type: string
+              emotional_tone:
+                type: string
+              age_appropriateness:
+                type: string
+              description:
+                type: string
+              template_preview:
+                type: string
+                maxLength: 200
+              variables:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    name:
+                      type: string
+                    type:
+                      type: string
+                    description:
+                      type: string
+                    required:
+                      type: boolean
+              version:
+                type: string
+              usage_guidelines:
+                type: string
+        discovery_metadata:
+          type: object
+          properties:
+            total_prompts:
+              type: integer
+            filtered_by:
+              type: array
+              items:
+                type: string
+            family_context_applied:
+              type: boolean
+
+    PromptRegistrationRequest:
+      type: object
+      required: ["prompt_definition", "template_content", "safety_guidelines"]
+      properties:
+        prompt_definition:
+          type: object
+          required: ["prompt_id", "prompt_name", "category", "family_context", "emotional_tone", "age_appropriateness"]
+          properties:
+            prompt_id:
+              type: string
+              pattern: "^[a-z0-9._-]+$"
+            prompt_name:
+              type: string
+            category:
+              type: string
+              enum: ["family_coordination", "emotional_support", "conflict_resolution", "child_interaction", "planning", "celebration"]
+            family_context:
+              type: string
+              enum: ["parent_child", "sibling", "family_meeting", "individual_support", "crisis_support"]
+            emotional_tone:
+              type: string
+              enum: ["supportive", "celebratory", "calming", "motivational", "informational", "playful"]
+            age_appropriateness:
+              type: string
+              enum: ["adult_only", "teen_friendly", "child_safe", "all_ages"]
+            description:
+              type: string
+            version:
+              type: string
+        template_content:
+          type: object
+          required: ["template_text", "variables"]
+          properties:
+            template_text:
+              type: string
+              maxLength: 5000
+              description: "Prompt template with variable placeholders"
+            variables:
+              type: array
+              items:
+                type: object
+                required: ["name", "type", "description"]
+                properties:
+                  name:
+                    type: string
+                  type:
+                    type: string
+                    enum: ["string", "number", "boolean", "family_member", "date", "emotion"]
+                  description:
+                    type: string
+                  required:
+                    type: boolean
+                    default: true
+                  default_value:
+                    type: string
+                  validation_rules:
+                    type: object
+        safety_guidelines:
+          type: object
+          required: ["content_safety_level", "usage_guidelines"]
+          properties:
+            content_safety_level:
+              type: string
+              enum: ["safe", "caution_advised", "supervision_required"]
+            usage_guidelines:
+              type: string
+            prohibited_contexts:
+              type: array
+              items:
+                type: string
+            escalation_triggers:
+              type: array
+              items:
+                type: string
+
+    PromptRegistrationResponse:
+      type: object
+      required: ["success", "prompt_id"]
+      properties:
+        success:
+          type: boolean
+        prompt_id:
+          type: string
+        validation_results:
+          type: object
+          properties:
+            safety_check_passed:
+              type: boolean
+            age_appropriateness_verified:
+              type: boolean
+            family_context_validated:
+              type: boolean
+        registration_details:
+          type: object
+
+    PromptTemplateResponse:
+      type: object
+      properties:
+        prompt_definition:
+          type: object
+        template_content:
+          type: object
+        safety_guidelines:
+          type: object
+        usage_statistics:
+          type: object
+        family_customizations:
+          type: array
+          items:
+            type: object
+
+    PromptRenderRequest:
+      type: object
+      required: ["variables", "family_context"]
+      properties:
+        variables:
+          type: object
+          additionalProperties: true
+          description: "Values for template variables"
+        family_context:
+          type: object
+          properties:
+            family_member:
+              type: string
+            current_situation:
+              type: string
+            emotional_state:
+              type: string
+            urgency_level:
+              type: string
+              enum: ["low", "medium", "high", "urgent"]
+        customization_preferences:
+          type: object
+          properties:
+            tone_adjustment:
+              type: string
+            length_preference:
+              type: string
+              enum: ["concise", "standard", "detailed"]
+            formality_level:
+              type: string
+              enum: ["casual", "friendly", "formal"]
+
+    PromptRenderResponse:
+      type: object
+      required: ["rendered_prompt", "safety_analysis"]
+      properties:
+        rendered_prompt:
+          type: string
+          description: "Final rendered prompt text"
+        safety_analysis:
+          type: object
+          properties:
+            safety_score:
+              type: number
+              minimum: 0
+              maximum: 1
+            age_appropriate:
+              type: boolean
+            content_warnings:
+              type: array
+              items:
+                type: string
+            family_context_validated:
+              type: boolean
+        rendering_metadata:
+          type: object
+          properties:
+            template_version:
+              type: string
+            variables_used:
+              type: array
+              items:
+                type: string
+            customizations_applied:
+              type: array
+              items:
+                type: string
+
+    # =============================================================================
+    # AGENT REGISTRY SCHEMAS
+    # =============================================================================
+
+    AgentDiscoveryResponse:
+      type: object
+      required: ["available_agents", "discovery_metadata"]
+      properties:
+        available_agents:
+          type: array
+          items:
+            type: object
+            properties:
+              agent_id:
+                type: string
+              agent_name:
+                type: string
+              capabilities:
+                type: array
+                items:
+                  type: string
+              device_location:
+                type: string
+              availability_status:
+                type: string
+                enum: ["available", "busy", "offline", "maintenance"]
+              family_scope_access:
+                type: array
+                items:
+                  type: string
+              specializations:
+                type: array
+                items:
+                  type: string
+              last_seen:
+                type: string
+                format: date-time
+              load_level:
+                type: number
+                minimum: 0
+                maximum: 1
+              version:
+                type: string
+              communication_endpoints:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    protocol:
+                      type: string
+                    endpoint:
+                      type: string
+        discovery_metadata:
+          type: object
+          properties:
+            total_agents:
+              type: integer
+            network_status:
+              type: string
+              enum: ["healthy", "degraded", "offline"]
+            sync_last_updated:
+              type: string
+              format: date-time
+
+    AgentRegistrationRequest:
+      type: object
+      required: ["agent_definition", "capabilities", "communication"]
+      properties:
+        agent_definition:
+          type: object
+          required: ["agent_id", "agent_name", "version"]
+          properties:
+            agent_id:
+              type: string
+              pattern: "^[a-z0-9._-]+$"
+            agent_name:
+              type: string
+            agent_type:
+              type: string
+              enum: ["memory_specialist", "family_coordinator", "emotional_intelligence", "child_interaction", "general_purpose"]
+            version:
+              type: string
+            description:
+              type: string
+        capabilities:
+          type: object
+          required: ["primary_capabilities", "family_scope_access"]
+          properties:
+            primary_capabilities:
+              type: array
+              items:
+                type: string
+                enum: ["memory_processing", "emotional_intelligence", "family_coordination", "child_interaction", "conflict_resolution", "planning"]
+            specializations:
+              type: array
+              items:
+                type: string
+            family_scope_access:
+              type: array
+              items:
+                type: string
+                enum: ["personal", "selective", "shared", "extended", "interfamily"]
+            device_compatibility:
+              type: array
+              items:
+                type: string
+            processing_capabilities:
+              type: object
+              properties:
+                max_concurrent_requests:
+                  type: integer
+                memory_requirements:
+                  type: string
+                cpu_requirements:
+                  type: string
+        communication:
+          type: object
+          required: ["endpoints"]
+          properties:
+            endpoints:
+              type: array
+              items:
+                type: object
+                properties:
+                  protocol:
+                    type: string
+                    enum: ["http", "websocket", "grpc", "message_queue"]
+                  endpoint:
+                    type: string
+                  purpose:
+                    type: string
+                    enum: ["primary", "heartbeat", "emergency", "coordination"]
+            heartbeat_interval:
+              type: integer
+              minimum: 10
+              maximum: 300
+              description: "Heartbeat interval in seconds"
+
+    AgentRegistrationResponse:
+      type: object
+      required: ["success", "agent_id"]
+      properties:
+        success:
+          type: boolean
+        agent_id:
+          type: string
+        registration_details:
+          type: object
+          properties:
+            registered_at:
+              type: string
+              format: date-time
+            network_position:
+              type: string
+            assigned_capabilities:
+              type: array
+              items:
+                type: string
+        coordination_info:
+          type: object
+          properties:
+            registry_sync_schedule:
+              type: string
+            family_network_status:
+              type: string
+            related_agents:
+              type: array
+              items:
+                type: string
+
+    AgentDetailsResponse:
+      type: object
+      properties:
+        agent_definition:
+          type: object
+        capabilities:
+          type: object
+        current_status:
+          type: object
+          properties:
+            availability:
+              type: string
+            load_level:
+              type: number
+            active_tasks:
+              type: integer
+            last_heartbeat:
+              type: string
+              format: date-time
+        communication:
+          type: object
+        performance_metrics:
+          type: object
+          properties:
+            uptime_percentage:
+              type: number
+            average_response_time:
+              type: number
+            total_requests_handled:
+              type: integer
+
+    AgentUpdateRequest:
+      type: object
+      properties:
+        capability_updates:
+          type: object
+        status_update:
+          type: object
+          properties:
+            availability_status:
+              type: string
+            load_level:
+              type: number
+        communication_updates:
+          type: object
+        version_update:
+          type: object
+
+    AgentMessageRequest:
+      type: object
+      required: ["message_type", "content"]
+      properties:
+        message_type:
+          type: string
+          enum: ["task_delegation", "information_request", "coordination", "status_inquiry", "emergency"]
+        content:
+          type: object
+          properties:
+            message_text:
+              type: string
+            structured_data:
+              type: object
+            priority:
+              type: string
+              enum: ["low", "medium", "high", "urgent"]
+            response_required:
+              type: boolean
+        sender_context:
+          type: object
+          properties:
+            sender_id:
+              type: string
+            sender_type:
+              type: string
+              enum: ["agent", "human", "system"]
+            family_context:
+              type: string
+
+    AgentMessageResponse:
+      type: object
+      properties:
+        message_received:
+          type: boolean
+        delivery_status:
+          type: string
+          enum: ["delivered", "queued", "failed", "agent_offline"]
+        response_timeline:
+          type: string
+        message_id:
+          type: string
+
+    AgentHeartbeatRequest:
+      type: object
+      required: ["status", "load_level"]
+      properties:
+        status:
+          type: string
+          enum: ["available", "busy", "offline", "maintenance"]
+        load_level:
+          type: number
+          minimum: 0
+          maximum: 1
+        active_tasks:
+          type: integer
+        performance_metrics:
+          type: object
+          properties:
+            memory_usage:
+              type: number
+            cpu_usage:
+              type: number
+            response_time_avg:
+              type: number
+        capability_status:
+          type: object
+          additionalProperties:
+            type: string
+            enum: ["operational", "degraded", "offline"]
+
+    AgentHeartbeatResponse:
+      type: object
+      properties:
+        heartbeat_acknowledged:
+          type: boolean
+        registry_updates:
+          type: object
+          properties:
+            new_agents:
+              type: array
+              items:
+                type: string
+            removed_agents:
+              type: array
+              items:
+                type: string
+            capability_updates:
+              type: object
+        coordination_instructions:
+          type: object
+          properties:
+            load_balancing_adjustment:
+              type: string
+            priority_tasks:
+              type: array
+              items:
+                type: object
+        next_heartbeat_interval:
+          type: integer
+
+  responses:
+    BadRequest:
+      description: "Invalid request format or parameters"
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+              details:
+                type: string
+              validation_errors:
+                type: array
+                items:
+                  type: string
+
+    Forbidden:
+      description: "Access denied - insufficient registry permissions"
+      content:
+        application/json:
+          schema:
+            type: object
+            properties:
+              error:
+                type: string
+              required_permissions:
+                type: array
+                items:
+                  type: string
+              family_policy_violation:
+                type: string
+
+tags:
+  - name: "Tool Registry"
+    description: "Agent tool discovery and registration services"
+  - name: "Prompt Registry"
+    description: "Family-aware prompt template management"
+  - name: "Agent Registry"
+    description: "Family agent discovery and coordination"

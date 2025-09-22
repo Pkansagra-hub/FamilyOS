@@ -1,0 +1,13 @@
+current: "1.0.0"
+history:
+  - version: "1.0.0"
+    date: "2025-09-10"
+    changes:
+      - "Initial per-module contract bundle."
+      - "Add service_registry/service_status/service_receipt storage schemas."
+      - "Add SERVICE_HEALTH_CHANGED@1.0 event (audit only)."
+compatibility:
+  envelope_major: 1
+  events_major: 1
+  api_major: 1
+deprecations: []

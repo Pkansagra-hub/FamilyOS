@@ -1,0 +1,487 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "$id": "self_reflection.schema.json",
+    "title": "Self-Reflection Event",
+    "description": "Event for introspective self-reflection and self-evaluation with brain-inspired modeling of medial prefrontal cortex and default mode network",
+    "type": "object",
+    "required": [
+        "timestamp",
+        "reflection_type",
+        "introspective_content",
+        "self_evaluation",
+        "neural_substrates",
+        "integration_with_systems"
+    ],
+    "properties": {
+        "timestamp": {
+            "type": "string",
+            "format": "date-time"
+        },
+        "reflection_type": {
+            "type": "string",
+            "enum": [
+                "cognitive_self_assessment",
+                "emotional_self_reflection",
+                "behavioral_self_evaluation",
+                "goal_self_alignment",
+                "values_self_examination",
+                "autobiographical_reflection"
+            ]
+        },
+        "introspective_content": {
+            "type": "object",
+            "properties": {
+                "self_concept_exploration": {
+                    "type": "object",
+                    "properties": {
+                        "cognitive_self_image": {
+                            "type": "object",
+                            "properties": {
+                                "perceived_cognitive_abilities": {
+                                    "type": "array"
+                                },
+                                "cognitive_identity_aspects": {
+                                    "type": "array"
+                                },
+                                "intellectual_self_concept": {
+                                    "type": "object"
+                                },
+                                "learning_self_concept": {
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "behavioral_self_image": {
+                            "type": "object",
+                            "properties": {
+                                "typical_behavior_patterns": {
+                                    "type": "array"
+                                },
+                                "behavioral_tendencies": {
+                                    "type": "array"
+                                },
+                                "action_predispositions": {
+                                    "type": "array"
+                                }
+                            }
+                        },
+                        "motivational_self_understanding": {
+                            "type": "object",
+                            "properties": {
+                                "core_motivations": {
+                                    "type": "array"
+                                },
+                                "value_system": {
+                                    "type": "object"
+                                },
+                                "goal_hierarchy_self_analysis": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "autobiographical_integration": {
+                    "type": "object",
+                    "properties": {
+                        "significant_experiences": {
+                            "type": "array",
+                            "items": {
+                                "type": "object",
+                                "properties": {
+                                    "experience_description": {
+                                        "type": "string"
+                                    },
+                                    "personal_significance": {
+                                        "type": "number"
+                                    },
+                                    "learning_extracted": {
+                                        "type": "string"
+                                    },
+                                    "identity_impact": {
+                                        "type": "number"
+                                    }
+                                }
+                            }
+                        },
+                        "narrative_coherence": {
+                            "type": "object",
+                            "properties": {
+                                "life_story_consistency": {
+                                    "type": "number"
+                                },
+                                "temporal_continuity": {
+                                    "type": "number"
+                                },
+                                "identity_narrative_strength": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "personal_growth_reflection": {
+                            "type": "object",
+                            "properties": {
+                                "growth_areas_identified": {
+                                    "type": "array"
+                                },
+                                "development_trajectory": {
+                                    "type": "object"
+                                },
+                                "change_awareness": {
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "current_state_analysis": {
+                    "type": "object",
+                    "properties": {
+                        "cognitive_state_assessment": {
+                            "type": "object",
+                            "properties": {
+                                "mental_clarity": {
+                                    "type": "number"
+                                },
+                                "cognitive_energy_level": {
+                                    "type": "number"
+                                },
+                                "focus_quality": {
+                                    "type": "number"
+                                },
+                                "cognitive_flexibility_state": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "emotional_state_reflection": {
+                            "type": "object",
+                            "properties": {
+                                "current_emotional_tone": {
+                                    "type": "string"
+                                },
+                                "emotional_intensity": {
+                                    "type": "number"
+                                },
+                                "emotional_regulation_effectiveness": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "motivational_state_evaluation": {
+                            "type": "object",
+                            "properties": {
+                                "motivation_level": {
+                                    "type": "number"
+                                },
+                                "goal_commitment_strength": {
+                                    "type": "number"
+                                },
+                                "engagement_quality": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "self_evaluation": {
+            "type": "object",
+            "properties": {
+                "performance_self_assessment": {
+                    "type": "object",
+                    "properties": {
+                        "recent_performance_evaluation": {
+                            "type": "object",
+                            "properties": {
+                                "strengths_demonstrated": {
+                                    "type": "array"
+                                },
+                                "areas_for_improvement": {
+                                    "type": "array"
+                                },
+                                "performance_satisfaction": {
+                                    "type": "number"
+                                },
+                                "achievement_pride": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "skill_development_assessment": {
+                            "type": "object",
+                            "properties": {
+                                "skills_improved": {
+                                    "type": "array"
+                                },
+                                "learning_effectiveness": {
+                                    "type": "number"
+                                },
+                                "skill_transfer_success": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "goal_progress_reflection": {
+                            "type": "object",
+                            "properties": {
+                                "goal_achievement_assessment": {
+                                    "type": "array"
+                                },
+                                "progress_satisfaction": {
+                                    "type": "number"
+                                },
+                                "goal_adjustment_needs": {
+                                    "type": "array"
+                                }
+                            }
+                        }
+                    }
+                },
+                "behavioral_self_evaluation": {
+                    "type": "object",
+                    "properties": {
+                        "decision_quality_assessment": {
+                            "type": "object",
+                            "properties": {
+                                "recent_decisions_evaluation": {
+                                    "type": "array"
+                                },
+                                "decision_process_effectiveness": {
+                                    "type": "number"
+                                },
+                                "outcome_satisfaction": {
+                                    "type": "number"
+                                }
+                            }
+                        },
+                        "action_consistency_evaluation": {
+                            "type": "object",
+                            "properties": {
+                                "values_action_alignment": {
+                                    "type": "number"
+                                },
+                                "goal_action_consistency": {
+                                    "type": "number"
+                                },
+                                "behavioral_integrity": {
+                                    "type": "number"
+                                }
+                            }
+                        }
+                    }
+                },
+                "growth_opportunity_identification": {
+                    "type": "object",
+                    "properties": {
+                        "development_priorities": {
+                            "type": "array"
+                        },
+                        "learning_opportunities": {
+                            "type": "array"
+                        },
+                        "change_readiness": {
+                            "type": "number"
+                        },
+                        "improvement_commitment": {
+                            "type": "number"
+                        }
+                    }
+                }
+            }
+        },
+        "neural_substrates": {
+            "type": "object",
+            "properties": {
+                "medial_prefrontal_cortex_activity": {
+                    "type": "object",
+                    "properties": {
+                        "self_referential_processing": {
+                            "type": "number"
+                        },
+                        "introspective_depth": {
+                            "type": "number"
+                        },
+                        "self_related_thought": {
+                            "type": "number"
+                        },
+                        "personal_significance_evaluation": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "posterior_cingulate_cortex_activity": {
+                    "type": "object",
+                    "properties": {
+                        "autobiographical_memory_activation": {
+                            "type": "number"
+                        },
+                        "self_awareness_intensity": {
+                            "type": "number"
+                        },
+                        "personal_meaning_processing": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "default_mode_network_state": {
+                    "type": "object",
+                    "properties": {
+                        "network_coherence": {
+                            "type": "number"
+                        },
+                        "internal_focus_strength": {
+                            "type": "number"
+                        },
+                        "self_referential_connectivity": {
+                            "type": "number"
+                        },
+                        "introspective_mode_activation": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "hippocampal_autobiographical_access": {
+                    "type": "object",
+                    "properties": {
+                        "episodic_memory_retrieval": {
+                            "type": "number"
+                        },
+                        "personal_timeline_access": {
+                            "type": "number"
+                        },
+                        "contextual_memory_integration": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "prefrontal_self_evaluation": {
+                    "type": "object",
+                    "properties": {
+                        "self_judgment_processing": {
+                            "type": "number"
+                        },
+                        "evaluative_reasoning": {
+                            "type": "number"
+                        },
+                        "self_critical_analysis": {
+                            "type": "number"
+                        }
+                    }
+                }
+            }
+        },
+        "integration_with_systems": {
+            "type": "object",
+            "properties": {
+                "memory_system_integration": {
+                    "type": "object",
+                    "properties": {
+                        "autobiographical_memory_access": {
+                            "type": "number"
+                        },
+                        "semantic_self_knowledge_retrieval": {
+                            "type": "number"
+                        },
+                        "episodic_self_reflection": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "executive_control_integration": {
+                    "type": "object",
+                    "properties": {
+                        "goal_system_reflection": {
+                            "type": "number"
+                        },
+                        "cognitive_control_self_assessment": {
+                            "type": "number"
+                        },
+                        "performance_monitoring_integration": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "attention_consciousness_integration": {
+                    "type": "object",
+                    "properties": {
+                        "conscious_self_awareness": {
+                            "type": "number"
+                        },
+                        "attentional_self_focus": {
+                            "type": "number"
+                        },
+                        "awareness_of_awareness": {
+                            "type": "number"
+                        }
+                    }
+                }
+            }
+        },
+        "reflection_outcomes": {
+            "type": "object",
+            "properties": {
+                "insights_generated": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "insight_content": {
+                                "type": "string"
+                            },
+                            "insight_importance": {
+                                "type": "number"
+                            },
+                            "actionability": {
+                                "type": "number"
+                            }
+                        }
+                    }
+                },
+                "self_understanding_updates": {
+                    "type": "object",
+                    "properties": {
+                        "self_concept_modifications": {
+                            "type": "array"
+                        },
+                        "belief_updates": {
+                            "type": "array"
+                        },
+                        "value_clarifications": {
+                            "type": "array"
+                        }
+                    }
+                },
+                "behavioral_intentions": {
+                    "type": "object",
+                    "properties": {
+                        "change_commitments": {
+                            "type": "array"
+                        },
+                        "improvement_plans": {
+                            "type": "array"
+                        },
+                        "goal_adjustments": {
+                            "type": "array"
+                        }
+                    }
+                },
+                "emotional_processing": {
+                    "type": "object",
+                    "properties": {
+                        "emotional_clarity_gained": {
+                            "type": "number"
+                        },
+                        "emotional_acceptance": {
+                            "type": "number"
+                        },
+                        "emotional_regulation_insights": {
+                            "type": "array"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,297 @@
+{
+    "$schema": "https://json-schema.org/draft/2020-12/schema",
+    "$id": "https://familyos.local/contracts/events/schemas/thalamus/cognitive_budget_exceeded.schema.json",
+    "title": "Cognitive Budget Exceeded Event",
+    "description": "Event generated when cognitive resource budget limits are exceeded within thalamic processing",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "timestamp",
+        "budget_type",
+        "resource_metrics",
+        "exceeded_limits",
+        "protective_actions"
+    ],
+    "properties": {
+        "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Time when cognitive budget was exceeded"
+        },
+        "budget_type": {
+            "type": "string",
+            "enum": [
+                "attention_budget",
+                "processing_budget",
+                "memory_budget",
+                "energy_budget",
+                "time_budget",
+                "composite_budget"
+            ],
+            "description": "Type of cognitive budget that was exceeded"
+        },
+        "resource_metrics": {
+            "type": "object",
+            "required": [
+                "current_utilization",
+                "budget_limit",
+                "utilization_rate"
+            ],
+            "properties": {
+                "current_utilization": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Current resource utilization level"
+                },
+                "budget_limit": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Maximum allowed resource utilization"
+                },
+                "utilization_rate": {
+                    "type": "number",
+                    "description": "Rate of resource consumption"
+                },
+                "peak_utilization": {
+                    "type": "number",
+                    "description": "Peak utilization in current period"
+                },
+                "average_utilization": {
+                    "type": "number",
+                    "description": "Average utilization over recent period"
+                },
+                "utilization_trend": {
+                    "type": "string",
+                    "enum": [
+                        "increasing",
+                        "decreasing",
+                        "stable",
+                        "volatile"
+                    ]
+                }
+            },
+            "description": "Detailed metrics about resource utilization"
+        },
+        "exceeded_limits": {
+            "type": "object",
+            "required": [
+                "severity_level",
+                "overage_amount"
+            ],
+            "properties": {
+                "severity_level": {
+                    "type": "string",
+                    "enum": [
+                        "minor",
+                        "moderate",
+                        "severe",
+                        "critical"
+                    ]
+                },
+                "overage_amount": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Amount by which budget was exceeded"
+                },
+                "overage_percentage": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Percentage overage relative to budget"
+                },
+                "duration_exceeded_ms": {
+                    "type": "number",
+                    "minimum": 0,
+                    "description": "Duration for which budget has been exceeded"
+                },
+                "contributing_factors": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "factor_type": {
+                                "type": "string"
+                            },
+                            "contribution_amount": {
+                                "type": "number"
+                            },
+                            "factor_id": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            },
+            "description": "Details about how limits were exceeded"
+        },
+        "protective_actions": {
+            "type": "object",
+            "required": [
+                "immediate_actions",
+                "escalation_level"
+            ],
+            "properties": {
+                "immediate_actions": {
+                    "type": "array",
+                    "items": {
+                        "type": "string",
+                        "enum": [
+                            "throttle_admission",
+                            "increase_filtering",
+                            "defer_processing",
+                            "reduce_quality",
+                            "shed_load",
+                            "emergency_cache",
+                            "priority_rebalancing"
+                        ]
+                    }
+                },
+                "escalation_level": {
+                    "type": "string",
+                    "enum": [
+                        "none",
+                        "warning",
+                        "protection",
+                        "emergency"
+                    ]
+                },
+                "resource_reallocation": {
+                    "type": "object",
+                    "properties": {
+                        "reallocated_from": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "reallocated_to": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            }
+                        },
+                        "reallocation_amount": {
+                            "type": "number"
+                        }
+                    }
+                },
+                "admission_control_adjustment": {
+                    "type": "object",
+                    "properties": {
+                        "new_admission_rate": {
+                            "type": "number"
+                        },
+                        "filter_threshold_adjustment": {
+                            "type": "number"
+                        },
+                        "priority_threshold_adjustment": {
+                            "type": "number"
+                        }
+                    }
+                }
+            },
+            "description": "Actions taken to protect system from overload"
+        },
+        "affected_operations": {
+            "type": "object",
+            "properties": {
+                "degraded_functions": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "suspended_functions": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "delayed_operations": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "properties": {
+                            "operation_id": {
+                                "type": "string"
+                            },
+                            "delay_ms": {
+                                "type": "number"
+                            },
+                            "priority_level": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "performance_impact": {
+                    "type": "object",
+                    "properties": {
+                        "latency_increase": {
+                            "type": "number"
+                        },
+                        "throughput_reduction": {
+                            "type": "number"
+                        },
+                        "accuracy_degradation": {
+                            "type": "number"
+                        }
+                    }
+                }
+            },
+            "description": "Operations affected by budget exceedance"
+        },
+        "recovery_plan": {
+            "type": "object",
+            "properties": {
+                "recovery_strategy": {
+                    "type": "string",
+                    "enum": [
+                        "gradual_recovery",
+                        "immediate_restoration",
+                        "adaptive_recovery",
+                        "circuit_breaker",
+                        "fallback_mode"
+                    ]
+                },
+                "target_utilization": {
+                    "type": "number"
+                },
+                "recovery_timeline_ms": {
+                    "type": "number"
+                },
+                "monitoring_frequency_ms": {
+                    "type": "number"
+                },
+                "recovery_triggers": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            },
+            "description": "Plan for recovering from budget exceedance"
+        },
+        "budget_adjustment": {
+            "type": "object",
+            "properties": {
+                "dynamic_adjustment": {
+                    "type": "boolean"
+                },
+                "new_budget_limit": {
+                    "type": "number"
+                },
+                "adjustment_reason": {
+                    "type": "string"
+                },
+                "adjustment_duration_ms": {
+                    "type": "number"
+                },
+                "learning_updates": {
+                    "type": "object",
+                    "description": "Updates to budget models based on this event"
+                }
+            },
+            "description": "Adjustments made to budget parameters"
+        }
+    }
+}

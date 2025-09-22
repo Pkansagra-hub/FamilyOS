@@ -1,0 +1,161 @@
+openapi: 3.0.3
+info:
+  title: FamilyOS Retrieval (module subset)
+  version: "1.0.0"
+  x-reuses: "See contracts/api/openapi.v1.yaml for canonical components and error models."
+paths:
+  /v1/tools/memory/recall:
+    post:
+      operationId: recallMemory
+      summary: Recall items via retrieval broker (P01)
+      tags: [Plane:Agents, Pipeline:P01 Recall]
+      security: [ { mtls: [] }, { bearer: [] } ]
+      parameters:
+        - name: X-Trace-Id
+          in: header
+          schema:
+            type: string
+            pattern: "^[a-f0-9]{32}$"
+        - name: X-QoS-Latency-Budget
+          in: header
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 1000
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RecallRequest"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/RecallResponse"
+        '4XX':
+          $ref: "#/components/responses/BadRequest"
+        '5XX':
+          $ref: "#/components/responses/InternalError"
+      x-slo: { p95_ms: 120 }
+
+components:
+  responses:
+    BadRequest:
+      description: Bad Request
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+    InternalError:
+      description: Internal server error
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/ErrorResponse'
+  schemas:
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: object
+          properties:
+            code:
+              type: string
+            message:
+              type: string
+            details:
+              type: array
+              items:
+                type: object
+    RecallRequest:
+      type: object
+      additionalProperties: false
+      required: [query]
+      properties:
+        query:
+          type: string
+          minLength: 1
+        space_id:
+          type: string
+          pattern: "^(personal|selective|shared|extended|interfamily):"
+        k:
+          type: integer
+          default: 10
+          minimum: 1
+          maximum: 200
+        filters:
+          type: object
+          additionalProperties: false
+          properties:
+            after:
+              type: string
+              format: date-time
+            before:
+              type: string
+              format: date-time
+            topics:
+              type: array
+              items:
+                type: string
+            bands:
+              type: array
+              items:
+                type: string
+                enum: [GREEN, AMBER, RED, BLACK]
+        return_trace:
+          type: boolean
+          default: false
+        qos:
+          type: object
+          additionalProperties: false
+          properties:
+            latency_budget_ms:
+              type: integer
+              minimum: 1
+              maximum: 1000
+            priority:
+              type: integer
+              minimum: 1
+              maximum: 10
+    RecallResponse:
+      type: object
+      required: [items]
+      properties:
+        items:
+          type: array
+          items:
+            type: object
+            required: [id, score]
+            properties:
+              id:
+                type: string
+              score:
+                type: number
+                minimum: 0
+              topic:
+                type: string
+              band:
+                type: string
+                enum: [GREEN, AMBER, RED, BLACK]
+              snippet:
+                type: string
+              space_id:
+                type: string
+              payload:
+                type: object
+        trace:
+          type: object
+          properties:
+            features:
+              type: array
+              items:
+                type: string
+            fusion:
+              type: object
+              additionalProperties: true
+            ranker:
+              type: object
+              additionalProperties: true

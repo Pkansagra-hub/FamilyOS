@@ -1,0 +1,37 @@
+{
+  "version": "1.0.0",
+  "envelope_schema_ref": "../../events/envelope.schema.json",
+  "events": [
+    {
+      "name": "SERVICE_HEALTH_CHANGED@1.0",
+      "schema": {
+        "$schema": "https://json-schema.org/draft/2020-12/schema",
+        "$id": "https://familyos.local/contracts/services/events/service_health_changed.schema.json",
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["service", "status", "ts"],
+        "properties": {
+          "service": { "type": "string", "minLength": 1 },
+          "status": { "type": "string", "enum": ["healthy","degraded","starting","stopping","down"] },
+          "reason": { "type": "string" },
+          "ts": { "$ref": "../../events/schemas/_common.json#/definitions/ISOInstant" },
+          "details": { "type": "object" }
+        }
+      },
+      "key": { "partition": "space_id", "ordering": "ts" },
+      "idempotency": { "dedupe_key": "service+status+ts", "window": "PT1M" },
+      "retries": { "policy": "at-least-once", "max_attempts": 10, "dlq": "services.health.dlq" },
+      "retention": "P30D",
+      "obligations": ["AUDIT_ACCESS"]
+    },
+    {
+      "name": "MEMORY_RECEIPT_CREATED@1.0",
+      "schema_ref": "../../events/schemas/memory_receipt_created.schema.json",
+      "key": { "partition": "space_id", "ordering": "ts" },
+      "idempotency": { "dedupe_key": "payload.receipt.id", "window": "P365D" },
+      "retries": { "policy": "at-least-once" },
+      "retention": "P365D",
+      "obligations": ["AUDIT_ACCESS","SYNC_REQUIRED"]
+    }
+  ]
+}

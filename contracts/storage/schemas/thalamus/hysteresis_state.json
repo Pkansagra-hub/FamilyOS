@@ -1,0 +1,148 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema#",
+    "$id": "hysteresis_state.schema.json",
+    "title": "Hysteresis State Storage",
+    "description": "Storage schema for hysteresis control state and anti-oscillation mechanisms.",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "circuit_id",
+        "current_hysteresis_bands",
+        "oscillation_state",
+        "stability_metrics",
+        "control_parameters"
+    ],
+    "properties": {
+        "circuit_id": {
+            "type": "string",
+            "description": "Identifier for the thalamic circuit"
+        },
+        "current_hysteresis_bands": {
+            "type": "object",
+            "properties": {
+                "admit_upper_threshold": {
+                    "type": "number"
+                },
+                "admit_lower_threshold": {
+                    "type": "number"
+                },
+                "defer_upper_threshold": {
+                    "type": "number"
+                },
+                "defer_lower_threshold": {
+                    "type": "number"
+                },
+                "boost_upper_threshold": {
+                    "type": "number"
+                },
+                "boost_lower_threshold": {
+                    "type": "number"
+                },
+                "drop_upper_threshold": {
+                    "type": "number"
+                },
+                "drop_lower_threshold": {
+                    "type": "number"
+                }
+            }
+        },
+        "oscillation_state": {
+            "type": "object",
+            "properties": {
+                "oscillation_detected": {
+                    "type": "boolean"
+                },
+                "oscillation_frequency": {
+                    "type": "number",
+                    "minimum": 0
+                },
+                "oscillation_amplitude": {
+                    "type": "number",
+                    "minimum": 0
+                },
+                "oscillation_duration": {
+                    "type": "number",
+                    "minimum": 0
+                },
+                "last_oscillation_time": {
+                    "type": "string",
+                    "format": "date-time"
+                }
+            }
+        },
+        "stability_metrics": {
+            "type": "object",
+            "properties": {
+                "current_stability": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "stability_trend": {
+                    "type": "string",
+                    "enum": [
+                        "improving",
+                        "degrading",
+                        "stable"
+                    ]
+                },
+                "decision_variance": {
+                    "type": "number",
+                    "minimum": 0
+                },
+                "consecutive_stable_decisions": {
+                    "type": "integer",
+                    "minimum": 0
+                }
+            }
+        },
+        "control_parameters": {
+            "type": "object",
+            "properties": {
+                "damping_coefficient": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "adaptation_rate": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "sensitivity_threshold": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "hysteresis_strength": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                }
+            }
+        },
+        "recent_decisions": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "decision": {
+                        "type": "string"
+                    },
+                    "timestamp": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "input_value": {
+                        "type": "number"
+                    },
+                    "threshold_used": {
+                        "type": "number"
+                    }
+                }
+            },
+            "maxItems": 100,
+            "description": "Recent decision history for oscillation detection"
+        }
+    }
+}

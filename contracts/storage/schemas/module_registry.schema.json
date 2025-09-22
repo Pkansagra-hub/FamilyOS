@@ -1,0 +1,424 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://familyos.dev/contracts/storage/schemas/module_registry.schema.json",
+  "title": "Module Registry Schema",
+  "description": "Schema for module registry storage in MemoryOS infrastructure",
+  "type": "object",
+  "properties": {
+    "module_record": {
+      "type": "object",
+      "description": "Individual module record for registration and discovery",
+      "properties": {
+        "module_id": {
+          "type": "string",
+          "pattern": "^mod-[a-f0-9]{16}$",
+          "description": "Unique module identifier"
+        },
+        "module_name": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 128,
+          "pattern": "^[a-zA-Z][a-zA-Z0-9._-]*$",
+          "description": "Human-readable module name"
+        },
+        "module_type": {
+          "type": "string",
+          "enum": [
+            "cognitive",
+            "storage",
+            "api",
+            "worker",
+            "integration",
+            "tool",
+            "middleware",
+            "extension"
+          ],
+          "description": "Type of module for categorization"
+        },
+        "module_version": {
+          "type": "string",
+          "pattern": "^\\d+\\.\\d+\\.\\d+(?:-[a-zA-Z0-9.-]+)?$",
+          "description": "Semantic version of the module"
+        },
+        "module_description": {
+          "type": "string",
+          "maxLength": 512,
+          "description": "Brief description of module functionality"
+        },
+        "module_path": {
+          "type": "string",
+          "description": "Import path or file path to the module"
+        },
+        "entry_point": {
+          "type": "string",
+          "description": "Main entry point or class name for the module"
+        },
+        "dependencies": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Dependency module name"
+              },
+              "version": {
+                "type": "string",
+                "description": "Required version or version range"
+              },
+              "optional": {
+                "type": "boolean",
+                "default": false,
+                "description": "Whether dependency is optional"
+              }
+            },
+            "required": ["name", "version"],
+            "additionalProperties": false
+          },
+          "description": "Module dependencies"
+        },
+        "capabilities": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "List of capabilities provided by the module"
+        },
+        "interfaces": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "interface_name": {
+                "type": "string",
+                "description": "Name of the interface"
+              },
+              "interface_version": {
+                "type": "string",
+                "description": "Version of the interface"
+              },
+              "methods": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "description": "Available methods in the interface"
+              }
+            },
+            "required": ["interface_name", "interface_version"],
+            "additionalProperties": false
+          },
+          "description": "Interfaces exposed by the module"
+        },
+        "configuration": {
+          "type": "object",
+          "properties": {
+            "config_schema": {
+              "type": "object",
+              "description": "JSON schema for module configuration"
+            },
+            "default_config": {
+              "type": "object",
+              "description": "Default configuration values"
+            },
+            "required_config": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Required configuration keys"
+            }
+          },
+          "additionalProperties": false,
+          "description": "Module configuration metadata"
+        },
+        "lifecycle": {
+          "type": "object",
+          "properties": {
+            "startup_order": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 1000,
+              "default": 500,
+              "description": "Order in which module should be started (lower first)"
+            },
+            "shutdown_order": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 1000,
+              "default": 500,
+              "description": "Order in which module should be shut down (higher first)"
+            },
+            "startup_timeout": {
+              "type": "number",
+              "minimum": 0,
+              "default": 30.0,
+              "description": "Maximum time to wait for module startup (seconds)"
+            },
+            "shutdown_timeout": {
+              "type": "number",
+              "minimum": 0,
+              "default": 10.0,
+              "description": "Maximum time to wait for module shutdown (seconds)"
+            },
+            "restart_policy": {
+              "type": "string",
+              "enum": ["never", "on_failure", "always"],
+              "default": "on_failure",
+              "description": "When to restart the module"
+            },
+            "max_restarts": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 3,
+              "description": "Maximum number of restart attempts"
+            }
+          },
+          "additionalProperties": false,
+          "description": "Module lifecycle management configuration"
+        },
+        "health_check": {
+          "type": "object",
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "default": true,
+              "description": "Whether health checking is enabled"
+            },
+            "method": {
+              "type": "string",
+              "enum": ["ping", "http", "custom"],
+              "default": "ping",
+              "description": "Health check method"
+            },
+            "interval": {
+              "type": "number",
+              "minimum": 1,
+              "default": 30,
+              "description": "Health check interval in seconds"
+            },
+            "timeout": {
+              "type": "number",
+              "minimum": 0.1,
+              "default": 5,
+              "description": "Health check timeout in seconds"
+            },
+            "unhealthy_threshold": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 3,
+              "description": "Number of failures before marking unhealthy"
+            },
+            "custom_check": {
+              "type": "string",
+              "description": "Custom health check method name"
+            }
+          },
+          "additionalProperties": false,
+          "description": "Health check configuration"
+        },
+        "registration_metadata": {
+          "type": "object",
+          "properties": {
+            "registered_at": {
+              "type": "number",
+              "description": "Timestamp when module was registered"
+            },
+            "registered_by": {
+              "type": "string",
+              "description": "Actor who registered the module"
+            },
+            "last_updated": {
+              "type": "number",
+              "description": "Timestamp of last update"
+            },
+            "update_count": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0,
+              "description": "Number of times module has been updated"
+            },
+            "tags": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Tags for module categorization and search"
+            },
+            "environment": {
+              "type": "string",
+              "enum": ["development", "testing", "staging", "production"],
+              "description": "Target environment for the module"
+            }
+          },
+          "required": ["registered_at", "registered_by"],
+          "additionalProperties": false,
+          "description": "Module registration metadata"
+        },
+        "status": {
+          "type": "object",
+          "properties": {
+            "state": {
+              "type": "string",
+              "enum": [
+                "registered",
+                "loading",
+                "starting",
+                "running",
+                "stopping",
+                "stopped",
+                "error",
+                "unregistered"
+              ],
+              "default": "registered",
+              "description": "Current module state"
+            },
+            "last_state_change": {
+              "type": "number",
+              "description": "Timestamp of last state change"
+            },
+            "error_message": {
+              "type": "string",
+              "description": "Error message if module is in error state"
+            },
+            "health_status": {
+              "type": "string",
+              "enum": ["healthy", "unhealthy", "unknown"],
+              "default": "unknown",
+              "description": "Current health status"
+            },
+            "last_health_check": {
+              "type": "number",
+              "description": "Timestamp of last health check"
+            },
+            "restart_count": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0,
+              "description": "Number of times module has been restarted"
+            }
+          },
+          "required": ["state"],
+          "additionalProperties": false,
+          "description": "Current module status"
+        },
+        "metrics": {
+          "type": "object",
+          "properties": {
+            "cpu_usage": {
+              "type": "number",
+              "minimum": 0,
+              "maximum": 100,
+              "description": "Current CPU usage percentage"
+            },
+            "memory_usage": {
+              "type": "integer",
+              "minimum": 0,
+              "description": "Current memory usage in bytes"
+            },
+            "uptime": {
+              "type": "number",
+              "minimum": 0,
+              "description": "Module uptime in seconds"
+            },
+            "request_count": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0,
+              "description": "Total number of requests processed"
+            },
+            "error_count": {
+              "type": "integer",
+              "minimum": 0,
+              "default": 0,
+              "description": "Total number of errors encountered"
+            },
+            "last_activity": {
+              "type": "number",
+              "description": "Timestamp of last activity"
+            }
+          },
+          "additionalProperties": false,
+          "description": "Module performance and usage metrics"
+        }
+      },
+      "required": [
+        "module_id",
+        "module_name",
+        "module_type",
+        "module_version",
+        "module_path",
+        "entry_point",
+        "registration_metadata",
+        "status"
+      ],
+      "additionalProperties": false
+    },
+    "registry_metadata": {
+      "type": "object",
+      "description": "Registry-level metadata and configuration",
+      "properties": {
+        "registry_version": {
+          "type": "string",
+          "default": "1.0.0",
+          "description": "Version of the registry schema"
+        },
+        "created_at": {
+          "type": "number",
+          "description": "Timestamp when registry was created"
+        },
+        "last_updated": {
+          "type": "number",
+          "description": "Timestamp of last registry update"
+        },
+        "total_modules": {
+          "type": "integer",
+          "minimum": 0,
+          "default": 0,
+          "description": "Total number of registered modules"
+        },
+        "active_modules": {
+          "type": "integer",
+          "minimum": 0,
+          "default": 0,
+          "description": "Number of currently active modules"
+        },
+        "configuration": {
+          "type": "object",
+          "properties": {
+            "auto_discovery": {
+              "type": "boolean",
+              "default": true,
+              "description": "Whether to enable automatic module discovery"
+            },
+            "discovery_paths": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Paths to scan for modules"
+            },
+            "isolation_level": {
+              "type": "string",
+              "enum": ["none", "process", "container"],
+              "default": "process",
+              "description": "Module isolation level"
+            },
+            "max_concurrent_loads": {
+              "type": "integer",
+              "minimum": 1,
+              "default": 5,
+              "description": "Maximum number of modules to load concurrently"
+            }
+          },
+          "additionalProperties": false,
+          "description": "Registry configuration"
+        }
+      },
+      "required": ["registry_version", "created_at"],
+      "additionalProperties": false
+    }
+  },
+  "required": ["module_record"],
+  "additionalProperties": false
+}
