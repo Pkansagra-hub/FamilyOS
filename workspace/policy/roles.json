@@ -16,7 +16,7 @@
       ],
       "inherits": [],
       "description": "",
-      "created_at": "2025-09-20T06:56:33.262061+00:00"
+      "created_at": "2025-09-22T20:58:45.218793+00:00"
     },
     "guardian": {
       "caps": [
@@ -32,7 +32,7 @@
       ],
       "inherits": [],
       "description": "",
-      "created_at": "2025-09-20T06:56:33.273621+00:00"
+      "created_at": "2025-09-22T20:58:45.226330+00:00"
     },
     "member": {
       "caps": [
@@ -42,7 +42,7 @@
       ],
       "inherits": [],
       "description": "",
-      "created_at": "2025-09-20T06:56:33.289175+00:00"
+      "created_at": "2025-09-22T20:58:45.236819+00:00"
     },
     "viewer": {
       "caps": [
@@ -50,7 +50,7 @@
       ],
       "inherits": [],
       "description": "",
-      "created_at": "2025-09-20T06:56:33.300863+00:00"
+      "created_at": "2025-09-22T20:58:45.249179+00:00"
     },
     "guest": {
       "caps": [
@@ -58,7 +58,16 @@
       ],
       "inherits": [],
       "description": "",
-      "created_at": "2025-09-20T06:56:33.312806+00:00"
+      "created_at": "2025-09-22T20:58:45.258906+00:00"
+    },
+    "child": {
+      "caps": [
+        "memory.read",
+        "memory.write"
+      ],
+      "inherits": [],
+      "description": "",
+      "created_at": "2025-09-22T20:58:45.271810+00:00"
     }
   },
   "bindings": [
@@ -97,6 +106,18 @@
       "role": "member",
       "space_id": "shared:household",
       "created_at": "2025-09-20T06:56:33+00:00"
+    },
+    {
+      "principal_id": "child123-1234-4567-8901-123456789012",
+      "role": "child",
+      "space_id": "shared:household",
+      "created_at": "2025-09-22T20:55:52+00:00"
+    },
+    {
+      "principal_id": "guest123-1234-4567-8901-123456789012",
+      "role": "guest",
+      "space_id": "shared:household",
+      "created_at": "2025-09-22T20:55:52+00:00"
     }
   ]
 }

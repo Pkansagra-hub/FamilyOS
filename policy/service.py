@@ -169,6 +169,23 @@ class PolicyService:
             self.rbac.define_role(RoleDef("admin", admin_caps))
             logger.info("Created admin role with capabilities: %s", admin_caps)
 
+        if "child" not in self.config.roles:
+            # Create child role with limited capabilities for family safety
+            child_caps = [
+                "memory.read",
+                "memory.write",
+            ]
+            self.rbac.define_role(RoleDef("child", child_caps))
+            logger.info("Created child role with capabilities: %s", child_caps)
+
+        if "guest" not in self.config.roles:
+            # Create guest role with minimal read-only access
+            guest_caps = [
+                "memory.read",
+            ]
+            self.rbac.define_role(RoleDef("guest", guest_caps))
+            logger.info("Created guest role with capabilities: %s", guest_caps)
+
         # Create default admin binding (customize as needed)
         self.rbac.bind(Binding("system_admin", "admin", "shared:household"))
 

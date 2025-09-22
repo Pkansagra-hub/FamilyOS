@@ -481,3 +481,6 @@ class MetricsCollector:
 
 # Global metrics collector instance
 metrics_collector = MetricsCollector()
+
+# Global metrics variables for easy import
+pipeline_stage_duration_ms = metrics_collector.pipeline_metrics.pipeline_duration
